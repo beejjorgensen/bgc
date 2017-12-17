@@ -1,4 +1,4 @@
-# Beej's Guide to Unix Interprocess Communication
+# Beej's Guide to C Programming
 
 This is the source for Beej's Guide to C Programming.
 
