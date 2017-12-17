@@ -3,7 +3,7 @@
 
 # Build products
 
-bgnet.valid
+bgc.valid
 build/
 builders/html/*.tgz
 builders/html/*.zip
