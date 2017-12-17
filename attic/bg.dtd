@@ -1,0 +1,82 @@
+<!ENTITY % types "com|func|statement|var|type|operator|b|emp|tt|const|file|param">
+<!ENTITY % misc "smiley|winky|evilwinky">
+<!ENTITY % links "link|ulink">
+<!ENTITY % inlines "quote|offsettext|code|screen|figure|list|numlist|deflist">
+
+<!ELEMENT guide (guideinfo,sect1+)>
+<!ATTLIST guide id CDATA "index">
+
+<!ELEMENT guideinfo (title,version,date,author,copyright)>
+<!ELEMENT title (#PCDATA|%types;)*>
+<!ELEMENT version (#PCDATA)>
+<!ELEMENT date (#PCDATA)>
+<!ELEMENT copyright (#PCDATA)>
+
+<!ELEMENT author (name,email*)>
+<!ELEMENT name (#PCDATA)>
+<!ELEMENT email (#PCDATA)>
+
+<!ELEMENT sect1 (title,(sect2|p|faq?|%inlines;|manpage)*)>
+<!ATTLIST sect1 id CDATA #IMPLIED>
+
+<!ELEMENT sect2 (title,(sect3|p|faq?|%inlines;)*)>
+<!ATTLIST sect2 id CDATA #IMPLIED>
+
+<!ELEMENT sect3 (title,(p|faq?|%inlines;)*)>
+<!ATTLIST sect3 id CDATA #IMPLIED>
+
+<!ELEMENT manpage (title,(short,prototypes,description,rvalue,example,seealso)*)>
+<!ATTLIST manpage id CDATA #IMPLIED>
+
+<!ELEMENT short (p|%inlines;)*>
+<!ELEMENT prototypes (p|%inlines;)*>
+<!ELEMENT description (p|%inlines;)*>
+<!ELEMENT rvalue (p|%inlines;)*>
+<!ELEMENT example (p|%inlines;)*>
+<!ELEMENT seealso (p|%inlines;)*>
+
+<!ELEMENT p (#PCDATA|%types;|%links;|%misc;|email|super|br)*>
+<!ELEMENT com (#PCDATA|%links;|%types;)*>
+<!ELEMENT func (#PCDATA|%links;|%types;)*>
+<!ELEMENT statement (#PCDATA|%links;|%types;)*>
+<!ELEMENT type (#PCDATA|%links;|%types;)*>
+<!ELEMENT operator (#PCDATA|%links;|%types;)*>
+<!ELEMENT var (#PCDATA|%links;|%types;)*>
+<!ELEMENT emp (#PCDATA|%links;|%types;)*>
+<!ELEMENT b (#PCDATA|%links;|%types;)*>
+<!ELEMENT const (#PCDATA|%links;|%types;)*>
+<!ELEMENT file (#PCDATA|%links;|%types;)*>
+<!ELEMENT param (#PCDATA|%links;|%types;)*>
+<!ELEMENT tt (#PCDATA|%links;|%types;)*>
+<!ELEMENT super (#PCDATA|%links;|%types;)*>
+<!ELEMENT quote (#PCDATA|%types;|%links;|%misc;|email|super|br)*>
+<!ELEMENT smiley EMPTY>
+<!ELEMENT winky EMPTY>
+<!ELEMENT evilwinky EMPTY>
+<!ELEMENT br EMPTY>
+<!ELEMENT link (#PCDATA|%types;|image)*>
+<!ATTLIST link dest CDATA #REQUIRED>
+<!ELEMENT ulink (#PCDATA|%types;|image)*>
+<!ATTLIST ulink url CDATA #REQUIRED>
+<!ELEMENT code (#PCDATA|%links;|%types;)*>
+<!ELEMENT screen (#PCDATA|%links;|%types;)*>
+<!ELEMENT offsettext (#PCDATA|%links;|%types;)*>
+
+<!ELEMENT numlist (li+)>
+<!ELEMENT list (li+)>
+<!ELEMENT li (#PCDATA|p|%types;|%misc;|%links;)*>
+<!ELEMENT deflist (def+)>
+<!ELEMENT def (deftitle,deftext)>
+<!ELEMENT deftitle (#PCDATA|%types;)*>
+<!ELEMENT deftext (p|%inlines;)*>
+
+<!ELEMENT figure (title,image)>
+<!ATTLIST figure id CDATA #IMPLIED>
+
+<!ELEMENT image (#PCDATA)>
+<!ATTLIST image file CDATA #REQUIRED>
+
+<!ELEMENT faq (faqentry+)>
+<!ELEMENT faqentry (q,a)>
+<!ELEMENT q (p|%inlines;)+>
+<!ELEMENT a (p|%inlines;)+>
