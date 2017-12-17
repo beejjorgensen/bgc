@@ -1,41 +1,63 @@
-Instructions
-==========================================================================
-Building:
+# Beej's Guide to Unix Interprocess Communication
+
+This is the source for Beej's Guide to C Programming.
+
+If you merely wish to read the guide, please visit the [Beej's Guide to
+C Programming](https://beej.us/guide/bgc/) website.
+
+> If you're looking for network programming, visit the [Beej's Guide to
+> Network Programming](https://beej.us/guide/bgnet/) website.
+
+This is here so that Beej has everything in a repo and so translators
+can easily clone it.
+
+## Build Instructions
 
 You'll need:
 
-   o  Gnu make
-   o  Python 2.4+
-   o  Apache XercesJ (for validation; see step 0, below)
-   o  Apache FOP (or hack in some other FO processor for print output)
+* [Gnu make](https://www.gnu.org/software/make/)
+* [Python 2.4+](https://www.python.org/)
+* [Apache Xerces-C](https://xerces.apache.org/xerces-c/) (for
+  validation; see step 0, below)
+* [Apache FOP](https://xmlgraphics.apache.org/fop/) (or hack in some
+  other FO processor for print output)
 
-0) Edit bin/bgvalidate to set the right path for XercesJ, or uncomment
-   the "disable=1" line to disable validation.
+0. If you don't have Xerces-C, go to `bin/bgvalidate` and uncomment the
+   `disable=1` line to disable validation.
 
-1) Type "make" from the top-level directory.
+1. Type `make` from the top-level directory.
 
    If you have Gnu Make, it should work fine.  Other makes might work as
    well.  Windows users might want to check out Cygwin.
 
-2) There is no step two.
+2. Type `make buildcp` to copy all the build products and website to the
+   `build` directory.
 
-You can also cd to anywhere in the output directory tree and "make".
+3. There is no step three.
 
-"make clean" cleans, and "make pristine" cleans to "original" state.
+You can also `cd` to anywhere in the `builders` directory tree and
+`make`.
 
-To embed your own fonts in the PDFs, see the file output/print/fop.xconf
-for instructions.
+`make clean` cleans, and `make pristine` cleans to "original" state.
 
-The "buildall" script demonstrates the build steps for a complete
-release.  You'll need to change the "upload" target in the top-level
-Makefile to point to your host if you want to use that.  You're free to
-upload whatever versions you desire individually, as well.
+To embed your own fonts in the PDFs, see the file
+`builders/print/fop.xconf` which already embeds the Liberation Fonts
+into the PDF.
 
+The `upload` target in the root `Makefile` demonstrates the build steps
+for a complete release.  You'll need to change the `UPLOADDIR` macro in
+the top-level `Makefile` to point to your host if you want to use that.
+You're free to upload whatever versions you desire individually, as
+well.
 
-TODO
-some way to make it more beginner-like, like that MIT thing?
+## Pull Requests
 
-questions for each section 
+Please keep these on the scale of typo and bug fixes. That way I don't
+have to consider any copyright issues when merging changes.
 
-And then he talks about variables on the stack and the heap.
+## TODO
+
+* Some way to make it more beginner-like, like that MIT thing?
+* Questions for each section.
+* Variables on the stack and the heap.
 
