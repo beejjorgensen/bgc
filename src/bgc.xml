@@ -934,7 +934,7 @@ if (i > 10) {
 	printf("And this will also print if i is greater than 10.\n");
 }
 
-if (i &lt;= 10) print ("i is less than or equal to 10.\n");</code>
+if (i &lt;= 10) printf("i is less than or equal to 10.\n");</code>
 
 <p>In the example code, the message will print if <var>i</var> is
 greater than 10, otherwise execution continues to the next line.  Notice
