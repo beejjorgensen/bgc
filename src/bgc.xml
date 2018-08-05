@@ -952,7 +952,6 @@ i != 10;       /* true if i is not equal to 10 */
 i &gt; 10;        /* true if i greater than 10 */
 i &lt; 10;        /* true if i less than 10 */
 i &gt;= 10;       /* true if i greater than  or equal to 10 */
-i &lt;= 10;       /* true if i less than or equal to 10 */
 i &lt;= 10;       /* true if i less than or equal to 10 */</code>
 
 <p>Guess what these all are?  No really, guess.  They're expressions!
