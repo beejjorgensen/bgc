@@ -2321,7 +2321,7 @@ struct variable {
 		int i;
 		float f;
 		char *s;
-	}
+	} data;
 };
 
 void print_variable(struct variable *v)
