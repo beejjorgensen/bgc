@@ -1160,13 +1160,13 @@ thing.  Here are two pieces of equivalent code:</p>
 // print numbers between 0 and 9, inclusive:
 i = 0;
 while (i &lt; 10) {
-	printf("i is %d\n");
+	printf("i is %d\n", i);
 	i++;
 }
 
 // do the same thing with a for-loop:
 for (i = 0; i &lt; 10; i++) {
-	printf("i is %d\n");
+	printf("i is %d\n", i);
 }</code>
 
 <p>That's right, kids&emdash;they do exactly the same thing.  But you
