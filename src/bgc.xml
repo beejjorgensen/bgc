@@ -2458,7 +2458,7 @@ int main(void)
 {
 	int mydata[10];
 
-	init_array(my_data, 10);  /* note lack of [] notation */
+	init_array(mydata, 10);  /* note lack of [] notation */
 
 	return 0;
 }</code>
