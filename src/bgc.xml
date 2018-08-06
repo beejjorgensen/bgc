@@ -2538,7 +2538,7 @@ function for each of the creatures.  But I'll leave the actual
 implementation of that function up to you, the reader. <smiley/></p>
 
 <code>for(i = 0; i &lt; 12; i++) {
-			execute_behavior(&amp;(guy[i]));
+			execute_behavior(&amp;(guys[i]));
 		}</code>
 
 <p>You notice that we did use the address-of operator there in the call.
