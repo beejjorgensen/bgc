@@ -4972,7 +4972,7 @@ closed.  Otherwise, the function behaves just like the standard
 well.</p>
 
 <p>If something goes wrong (e.g. you tried to open a file for read that
-didn't exist), <func>fopen()</func> will return <type>NULL</type>.</p>
+didn't exist), <func>freopen()</func> will return <type>NULL</type>.</p>
 </rvalue>
 
 <example>
