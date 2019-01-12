@@ -2221,7 +2221,7 @@ get at the variable it points to, then we can treat it as if it
 <p>But, syntactic sugar to the rescue, we can use the <emp>arrow
 operator</emp> (<operator>-&gt;</operator>) instead of the dot operator!
 Saves us from looking ugly in the code, doesn't?  The arrow operator has
-a build-in deference, so you don't have to mess with that syntax when
+a built-in dereference, so you don't have to mess with that syntax when
 you have a pointer to a <type>struct</type>.  So the rule is this: if
 you have a <type>struct</type>, use the dot operator; if you have a
 <emp>pointer</emp> to a <type>struct</type>, use the arrow operator
