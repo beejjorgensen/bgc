@@ -2269,7 +2269,7 @@ int main(void)
 	return 0;
 }</code>
 
-<p>Another thing to notice here: if we passed the <type>stuct</type>
+<p>Another thing to notice here: if we passed the <type>struct</type>
 instead of a pointer to the <type>struct</type>, what would happen in
 the function <func>build_beejs_frog()</func> when we changed the values?
 That's right: they'd only be changed in the local copy, and not back at
