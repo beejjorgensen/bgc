@@ -2304,7 +2304,7 @@ to munge what's in the <var>crab_name</var> field and the
 <var>cups_of_coffee</var> field.  That's because all three fields are
 stored in the same place in memory.</p>
 
-<p>The reason <type>union</type> exists is to all you to save memory in a
+<p>The reason <type>union</type> exists is to allow you to save memory in a
 <type>struct</type>-like construct when you know you won't be using the
 fields at the same time.  A more practical example might be if you
 wanted to store data and its type, you could store the type as an
