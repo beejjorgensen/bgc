@@ -1073,7 +1073,7 @@ Let's skip ahead to the <emp>incredible future</emp> where people
 commute to work on their AI-controlled rocket scooters, eat anti-gravity
 beets, and little spherical robot helicopters freely roam the skies
 making <emp>beep-beep-beep-beep</emp> noises.  And where the variable
-<var>i</var> has finally been incremented so it's value is <tt>10</tt>.
+<var>i</var> has finally been incremented so its value is <tt>10</tt>.
 Meanwhile, while we've slept in cryogenic hybernation, our program has
 been dutifully fulfilling its thousand-year mission to print things like
 "i is now 4!", "i is now 5!", and finally, "i is now 9!"</li>
@@ -2091,7 +2091,7 @@ to that later.)</p>
 
 <p>So how do you use one of these things?  First off, the
 <type>struct</type> itself is a new type.  If you make a variable that
-is a <type>struct foo</type>, it's type is "<type>struct foo</type>",
+is a <type>struct foo</type>, its type is "<type>struct foo</type>",
 just as the number 12 is of type "<type>int</type>".  This is a little
 bit spooky because this could be the first time you've created a new
 type, and it might be unclear how that works.</p>
