@@ -2648,7 +2648,7 @@ int main(void)
 }</code>
 
 <p>You've spotted the string <tt>"Hello, World!\n"</tt> in there, haven't
-you.</p>
+you?</p>
 
 <p>What type is that string, anyway?  Well, it turns out that a constant
 string (that is, one in double quotes) is of type <type>char*</type>.
@@ -2702,7 +2702,7 @@ char *p;
 p = a;  /* p now points to the first char in array a */</code>
 
 <p>One more thing: strings in C end with a NUL character.  That is, a
-zero.  It is most properly written as '\0',  You can truncate a string
+zero.  It is most properly written as '\0'.  You can truncate a string
 to zero length by assigning '\0' to the first byte in the string.  Also,
 all the standard string functions assume the string ends with a NUL
 character.</p>
