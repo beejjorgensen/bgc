@@ -426,7 +426,7 @@ bite-sized pieces stuff in mind."  Excellent!</p>
 we're going to actually implement it.  Remember that once you have the
 specification (or assignment, or whatever you're going to call it)
 broken up into handy bite-sized pieces, then you can start writing the
-instuctions to make that happen.  Some bite-sized pieces might only have
+instructions to make that happen.  Some bite-sized pieces might only have
 one statement; others might be pages of code.</p>
 
 <p>Now here we're going to cheat a little bit again, and I'm going to
@@ -2220,7 +2220,7 @@ get at the variable it points to, then we can treat it as if it
 <p>But, syntactic sugar to the rescue, we can use the <emp>arrow
 operator</emp> (<operator>-&gt;</operator>) instead of the dot operator!
 Saves us from looking ugly in the code, doesn't?  The arrow operator has
-a build-in deference, so you don't have to mess with that syntax when
+a built-in dereference, so you don't have to mess with that syntax when
 you have a pointer to a <type>struct</type>.  So the rule is this: if
 you have a <type>struct</type>, use the dot operator; if you have a
 <emp>pointer</emp> to a <type>struct</type>, use the arrow operator
@@ -2268,7 +2268,7 @@ int main(void)
 	return 0;
 }</code>
 
-<p>Another thing to notice here: if we passed the <type>stuct</type>
+<p>Another thing to notice here: if we passed the <type>struct</type>
 instead of a pointer to the <type>struct</type>, what would happen in
 the function <func>build_beejs_frog()</func> when we changed the values?
 That's right: they'd only be changed in the local copy, and not back at
@@ -2303,7 +2303,7 @@ to munge what's in the <var>crab_name</var> field and the
 <var>cups_of_coffee</var> field.  That's because all three fields are
 stored in the same place in memory.</p>
 
-<p>The reason <type>union</type> exists is to all you to save memory in a
+<p>The reason <type>union</type> exists is to allow you to save memory in a
 <type>struct</type>-like construct when you know you won't be using the
 fields at the same time.  A more practical example might be if you
 wanted to store data and its type, you could store the type as an
