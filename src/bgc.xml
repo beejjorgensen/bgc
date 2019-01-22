@@ -3126,7 +3126,7 @@ underscore before the <type>struct</type> tag name in the
 <statement>typedef</statement>.  Though technically illegal, many
 programmers like to use the same name for the <type>struct</type> as
 they do for the new type, and putting the underscore there
-differentiates the two visaully.  But you shouldn't do it.)</p>
+differentiates the two visually.  But you shouldn't do it.)</p>
 
 <p>You can also typedef "anonymous" <type>struct</type>s, like this</p>
 
@@ -3150,7 +3150,7 @@ represent those things by name instead of number.  You can use an
 that programmers can use later in their code in place of
 <type>int</type>s.</p>
 
-<p>(I should note that C is more relaxed that C++ is here about
+<p>(I should note that C is more relaxed than C++ is here about
 interchanging <type>int</type>s and <type>enum</type>s.
 We'll be all happy and C-like here, though.)</p>
 
