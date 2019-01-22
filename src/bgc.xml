@@ -753,7 +753,7 @@ a variable:</p>
 	return 0;
 }</code>
 
-<p>Killer.  We've stored a value.  But don't run off an implement a
+<p>Killer.  We've stored a value.  But don't run off and implement a
 clone of Quake III just yet; let's try to do something with that
 variable, just so we can say we did.  Let's print it out using
 <func>printf()</func>, for instance.</p>
