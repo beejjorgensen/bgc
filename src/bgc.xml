@@ -2143,7 +2143,7 @@ the <type>struct</type> itself.  Why?</p>
 <p>Don't you hate it when the professor asks you a question like that,
 but you're too tired in lecture to care to begin to think about it?
 "Just tell me and we'll get on with it," is what you're thinking, isn't
-it.</p>
+it?</p>
 
 <p>Fine!  Be that way!  Well, remember that when you pass parameters to
 functions, and I'll clear my throat here in preparation to say again,
@@ -2154,7 +2154,7 @@ you pass it.  That takes time.</p>
 
 <p>Instead, why not pass a pointer to the <type>struct</type>?  I hear
 you&emdash;doesn't the pointer have to get copied on the stack then?
-Sure does, but a pointer is, these days, only 4 or 8 bytes, so it's much
+Sure does, but a pointer is only 4 or 8 bytes these days, so it's much
 easier on the machine, and works faster.</p>
 
 <p>And there's even a little bit of <emp>syntactic sugar</emp> to help
@@ -2424,7 +2424,7 @@ age 4 is 2</screen>
 
 <p>Why does it run from 0 to 4 instead of 1 to 5?  Good question.  The
 easiest answer is that the array index numbers are <emp>zero-based</emp>
-instead of one-based.  That's not really an answer, i know...well, it
+instead of one-based.  That's not really an answer, I know...well, it
 turns out that most (if not all) processors use zero-based indexing in
 their machine code for doing memory access, so this maps very well to
 that.</p>
