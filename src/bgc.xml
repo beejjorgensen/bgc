@@ -4589,7 +4589,7 @@ Remember: <func>va_start()</func>, <func>va_arg()</func>,
 
 	va_start(args, count); // tell it the stack starts with "count"
 
-	// inside the while(), pull int args off the stack:
+	// inside the for(), pull int args off the stack:
 
 	for(i = 0; i &lt; count; i++) {
 		int val = va_arg(args, int); // get next int argument
@@ -5129,7 +5129,7 @@ way should be a <type>char*</type> or <type>char[]</type>.</p></deftext>
 <deftitle><tt>%%</tt></deftitle>
 <deftext><p>No arguments are converted, and a plain old run-of-the-mill
 percent sign is printed.  This is how you print a '%' using
-<func>printf)()</func>.</p></deftext>
+<func>printf()</func>.</p></deftext>
 </def>
 
 </deflist>
@@ -5749,7 +5749,7 @@ the keyboard or a file, and don't use <func>gets()</func>.</p>
 </description>
 
 <rvalue>
-<p>Both <func>fgets()</func> and <func>fgets()</func> return a pointer to
+<p>Both <func>gets()</func> and <func>fgets()</func> return a pointer to
 the string passed.</p>
 
 <p>On error or end-of-file, the functions return <type>NULL</type>.</p>
