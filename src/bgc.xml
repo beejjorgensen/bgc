@@ -3739,7 +3739,7 @@ Like they say, "C gives you enough rope to hang yourself."</p>
 <p><type>NULL</type> simply means a pointer to nothing.  Sometimes it's
 useful to know if the pointer is valid, or if it needs to be
 initialized, or whatever.  <type>NULL</type> can be used as a sentinel
-value for a variety of different things.  Rememeber: it means "this
+value for a variety of different things.  Remember: it means "this
 pointer points to nothing"!  Example:</p>
 
 <code>int main(void)
@@ -3865,7 +3865,7 @@ the code responsible for calculating Fast Fourier Transforms (a
 mathematical construct, for those not in the know), would be a good
 candidate for its own source file.  Or maybe all the code that controls
 a particular AI bot for a game could be in its own file.  It's more of a
-guideline than a rule, but if something's not a least in some way
+guideline than a rule, but if something's not at least in some way
 related to what you have in a particular source file already, maybe it
 should go elsewhere.  A perfect illustrative question for this scenario
 might be, "What is the 3D rendering code doing in the middle of the
@@ -3898,7 +3898,7 @@ int minusone(int a)
 <p>A couple simple functions, there.  Nothing too complex, yes?  But by
 themselves, they're not much use, and for other people to use them we
 need to distribute their prototypes in a header file.  Get ready to
-absorbe this...you should recognize the prototypes in there, but I've
+absorb this...you should recognize the prototypes in there, but I've
 added some new stuff:</p>
 
 <code>/** file simplemath.h **/
