@@ -1680,7 +1680,7 @@ than globally.  We'll talk more later about associating data with things
 <sect2 id="stclasses">
 <title>Storage Classes</title>
 
-<p>What is a storage class?  It's a class of storing variables.</p>
+<p>What is a storage class?  It's a class for storing variables.</p>
 
 <p>You're welcome.</p>
 
