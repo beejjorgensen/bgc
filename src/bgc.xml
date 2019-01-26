@@ -934,7 +934,7 @@ if (i > 10) {
 	printf("And this will also print if i is greater than 10.\n");
 }
 
-if (i &lt;= 10) print ("i is less than or equal to 10.\n");</code>
+if (i &lt;= 10) printf("i is less than or equal to 10.\n");</code>
 
 <p>In the example code, the message will print if <var>i</var> is
 greater than 10, otherwise execution continues to the next line.  Notice
@@ -952,7 +952,6 @@ i != 10;       /* true if i is not equal to 10 */
 i &gt; 10;        /* true if i greater than 10 */
 i &lt; 10;        /* true if i less than 10 */
 i &gt;= 10;       /* true if i greater than  or equal to 10 */
-i &lt;= 10;       /* true if i less than or equal to 10 */
 i &lt;= 10;       /* true if i less than or equal to 10 */</code>
 
 <p>Guess what these all are?  No really, guess.  They're expressions!
@@ -1161,13 +1160,13 @@ thing.  Here are two pieces of equivalent code:</p>
 // print numbers between 0 and 9, inclusive:
 i = 0;
 while (i &lt; 10) {
-	printf("i is %d\n");
+	printf("i is %d\n", i);
 	i++;
 }
 
 // do the same thing with a for-loop:
 for (i = 0; i &lt; 10; i++) {
-	printf("i is %d\n");
+	printf("i is %d\n", i);
 }</code>
 
 <p>That's right, kids&emdash;they do exactly the same thing.  But you
@@ -2322,7 +2321,7 @@ struct variable {
 		int i;
 		float f;
 		char *s;
-	}
+	} data;
 };
 
 void print_variable(struct variable *v)
@@ -2337,6 +2336,7 @@ void print_variable(struct variable *v)
 	case 2: // string
 		printf("%s\n", v->data.s);
 		break;
+	}
 }
 
 int main(void)
@@ -2458,7 +2458,7 @@ int main(void)
 {
 	int mydata[10];
 
-	init_array(my_data, 10);  /* note lack of [] notation */
+	init_array(mydata, 10);  /* note lack of [] notation */
 
 	return 0;
 }</code>
@@ -2538,7 +2538,7 @@ function for each of the creatures.  But I'll leave the actual
 implementation of that function up to you, the reader. <smiley/></p>
 
 <code>for(i = 0; i &lt; 12; i++) {
-			execute_behavior(&amp;(guy[i]));
+			execute_behavior(&amp;(guys[i]));
 		}</code>
 
 <p>You notice that we did use the address-of operator there in the call.
@@ -4972,7 +4972,7 @@ closed.  Otherwise, the function behaves just like the standard
 well.</p>
 
 <p>If something goes wrong (e.g. you tried to open a file for read that
-didn't exist), <func>fopen()</func> will return <type>NULL</type>.</p>
+didn't exist), <func>freopen()</func> will return <type>NULL</type>.</p>
 </rvalue>
 
 <example>
