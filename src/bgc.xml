@@ -2220,7 +2220,7 @@ get at the variable it points to, then we can treat it as if it
 <p>But, syntactic sugar to the rescue, we can use the <emp>arrow
 operator</emp> (<operator>-&gt;</operator>) instead of the dot operator!
 Saves us from looking ugly in the code, doesn't?  The arrow operator has
-a build-in deference, so you don't have to mess with that syntax when
+a built-in dereference, so you don't have to mess with that syntax when
 you have a pointer to a <type>struct</type>.  So the rule is this: if
 you have a <type>struct</type>, use the dot operator; if you have a
 <emp>pointer</emp> to a <type>struct</type>, use the arrow operator
@@ -2268,7 +2268,7 @@ int main(void)
 	return 0;
 }</code>
 
-<p>Another thing to notice here: if we passed the <type>stuct</type>
+<p>Another thing to notice here: if we passed the <type>struct</type>
 instead of a pointer to the <type>struct</type>, what would happen in
 the function <func>build_beejs_frog()</func> when we changed the values?
 That's right: they'd only be changed in the local copy, and not back at
@@ -2303,7 +2303,7 @@ to munge what's in the <var>crab_name</var> field and the
 <var>cups_of_coffee</var> field.  That's because all three fields are
 stored in the same place in memory.</p>
 
-<p>The reason <type>union</type> exists is to all you to save memory in a
+<p>The reason <type>union</type> exists is to allow you to save memory in a
 <type>struct</type>-like construct when you know you won't be using the
 fields at the same time.  A more practical example might be if you
 wanted to store data and its type, you could store the type as an
@@ -2404,14 +2404,14 @@ for(i = 0; i &lt; 5; i++) {
 	printf("age %d is %d\n", i, age[i]);
 }</code>
 
-<p>whoa&emdash;we've done a couple new things here.  for one, you'll
+<p>Whoa&emdash;we've done a couple new things here.  For one, you'll
 notice in the array definition that we've initialized the entire array
-at once.  this is allowed <emp>in the definition only</emp>.  once you
+at once.  This is allowed <emp>in the definition only</emp>.  Once you
 get down to the code, it's too late to initialize the array like this,
 and it must be done an element at a time.</p>
 
-<p>the other thing to notice is how we've accessed the array element
-inside the <statement>for</statement> loop: using <var>age[i]</var>.  so
+<p>The other thing to notice is how we've accessed the array element
+inside the <statement>for</statement> loop: using <var>age[i]</var>.  So
 what happens in this <statement>for</statement> is that <var>i</var>
 runs from 0 to 4, and so each <var>age</var> is printed out in turn,
 like so:</p>
@@ -2422,9 +2422,9 @@ age 2 is 25
 age 3 is 8
 age 4 is 2</screen>
 
-<p>why does it run from 0 to 4 instead of 1 to 5?  good question.  the
+<p>Why does it run from 0 to 4 instead of 1 to 5?  good question.  The
 easiest answer is that the array index numbers are <emp>zero-based</emp>
-instead of one-based.  that's not really an answer, i know...well, it
+instead of one-based.  That's not really an answer, I know...well, it
 turns out that most (if not all) processors use zero-based indexing in
 their machine code for doing memory access, so this maps very well to
 that.</p>
@@ -2435,14 +2435,14 @@ that.</p>
 <sect2 id="array2fun">
 <title>Passing arrays to functions</title>
 
-<p>it's pretty effortless to pass an array to a function, but things get
-a little wierd.  the weirdest part is that when you pass the "whole"
+<p>It's pretty effortless to pass an array to a function, but things get
+a little wierd.  The weirdest part is that when you pass the "whole"
 array by putting its name in as a parameter to the function, it's
 actually a <emp>pointer to the first element of the array</emp> that
 gets passed in for you.</p>
 
-<p>now, inside the function, you can still access the array using array
-notation (<tt>[]</tt>).  here's an example:</p>
+<p>Now, inside the function, you can still access the array using array
+notation (<tt>[]</tt>).  Here's an example:</p>
 
 <code>void init_array(int a[], int count)
 {
