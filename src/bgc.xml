@@ -753,7 +753,7 @@ a variable:</p>
 	return 0;
 }</code>
 
-<p>Killer.  We've stored a value.  But don't run off an implement a
+<p>Killer.  We've stored a value.  But don't run off and implement a
 clone of Quake III just yet; let's try to do something with that
 variable, just so we can say we did.  Let's print it out using
 <func>printf()</func>, for instance.</p>
@@ -830,7 +830,7 @@ here, so I'll cover it in the next section.</p>
 <title>Expressions</title>
 
 <p>This is actually one of the most important sections in the guide
-about C++.  So pay attention and be seated, you naughty children!</p>
+about C.  So pay attention and be seated, you naughty children!</p>
 
 <p>Now that everything's in order, we'll...actually, let's do the
 important part a little later.  But since you're already seated, let's
@@ -1073,7 +1073,7 @@ Let's skip ahead to the <emp>incredible future</emp> where people
 commute to work on their AI-controlled rocket scooters, eat anti-gravity
 beets, and little spherical robot helicopters freely roam the skies
 making <emp>beep-beep-beep-beep</emp> noises.  And where the variable
-<var>i</var> has finally been incremented so it's value is <tt>10</tt>.
+<var>i</var> has finally been incremented so its value is <tt>10</tt>.
 Meanwhile, while we've slept in cryogenic hybernation, our program has
 been dutifully fulfilling its thousand-year mission to print things like
 "i is now 4!", "i is now 5!", and finally, "i is now 9!"</li>
@@ -1680,7 +1680,7 @@ than globally.  We'll talk more later about associating data with things
 <sect2 id="stclasses">
 <title>Storage Classes</title>
 
-<p>What is a storage class?  It's a class of storing variables.</p>
+<p>What is a storage class?  It's a class for storing variables.</p>
 
 <p>You're welcome.</p>
 
@@ -2091,7 +2091,7 @@ to that later.)</p>
 
 <p>So how do you use one of these things?  First off, the
 <type>struct</type> itself is a new type.  If you make a variable that
-is a <type>struct foo</type>, it's type is "<type>struct foo</type>",
+is a <type>struct foo</type>, its type is "<type>struct foo</type>",
 just as the number 12 is of type "<type>int</type>".  This is a little
 bit spooky because this could be the first time you've created a new
 type, and it might be unclear how that works.</p>
@@ -2143,7 +2143,7 @@ the <type>struct</type> itself.  Why?</p>
 <p>Don't you hate it when the professor asks you a question like that,
 but you're too tired in lecture to care to begin to think about it?
 "Just tell me and we'll get on with it," is what you're thinking, isn't
-it.</p>
+it?</p>
 
 <p>Fine!  Be that way!  Well, remember that when you pass parameters to
 functions, and I'll clear my throat here in preparation to say again,
@@ -2154,7 +2154,7 @@ you pass it.  That takes time.</p>
 
 <p>Instead, why not pass a pointer to the <type>struct</type>?  I hear
 you&emdash;doesn't the pointer have to get copied on the stack then?
-Sure does, but a pointer is, these days, only 4 or 8 bytes, so it's much
+Sure does, but a pointer is only 4 or 8 bytes these days, so it's much
 easier on the machine, and works faster.</p>
 
 <p>And there's even a little bit of <emp>syntactic sugar</emp> to help
@@ -2422,7 +2422,7 @@ age 2 is 25
 age 3 is 8
 age 4 is 2</screen>
 
-<p>Why does it run from 0 to 4 instead of 1 to 5?  good question.  The
+<p>Why does it run from 0 to 4 instead of 1 to 5?  Good question.  The
 easiest answer is that the array index numbers are <emp>zero-based</emp>
 instead of one-based.  That's not really an answer, I know...well, it
 turns out that most (if not all) processors use zero-based indexing in
@@ -2648,7 +2648,7 @@ int main(void)
 }</code>
 
 <p>You've spotted the string <tt>"Hello, World!\n"</tt> in there, haven't
-you.</p>
+you?</p>
 
 <p>What type is that string, anyway?  Well, it turns out that a constant
 string (that is, one in double quotes) is of type <type>char*</type>.
@@ -2702,7 +2702,7 @@ char *p;
 p = a;  /* p now points to the first char in array a */</code>
 
 <p>One more thing: strings in C end with a NUL character.  That is, a
-zero.  It is most properly written as '\0',  You can truncate a string
+zero.  It is most properly written as '\0'.  You can truncate a string
 to zero length by assigning '\0' to the first byte in the string.  Also,
 all the standard string functions assume the string ends with a NUL
 character.</p>
@@ -3126,7 +3126,7 @@ underscore before the <type>struct</type> tag name in the
 <statement>typedef</statement>.  Though technically illegal, many
 programmers like to use the same name for the <type>struct</type> as
 they do for the new type, and putting the underscore there
-differentiates the two visaully.  But you shouldn't do it.)</p>
+differentiates the two visually.  But you shouldn't do it.)</p>
 
 <p>You can also typedef "anonymous" <type>struct</type>s, like this</p>
 
@@ -3150,7 +3150,7 @@ represent those things by name instead of number.  You can use an
 that programmers can use later in their code in place of
 <type>int</type>s.</p>
 
-<p>(I should note that C is more relaxed that C++ is here about
+<p>(I should note that C is more relaxed than C++ is here about
 interchanging <type>int</type>s and <type>enum</type>s.
 We'll be all happy and C-like here, though.)</p>
 
@@ -3739,7 +3739,7 @@ Like they say, "C gives you enough rope to hang yourself."</p>
 <p><type>NULL</type> simply means a pointer to nothing.  Sometimes it's
 useful to know if the pointer is valid, or if it needs to be
 initialized, or whatever.  <type>NULL</type> can be used as a sentinel
-value for a variety of different things.  Rememeber: it means "this
+value for a variety of different things.  Remember: it means "this
 pointer points to nothing"!  Example:</p>
 
 <code>int main(void)
@@ -3865,7 +3865,7 @@ the code responsible for calculating Fast Fourier Transforms (a
 mathematical construct, for those not in the know), would be a good
 candidate for its own source file.  Or maybe all the code that controls
 a particular AI bot for a game could be in its own file.  It's more of a
-guideline than a rule, but if something's not a least in some way
+guideline than a rule, but if something's not at least in some way
 related to what you have in a particular source file already, maybe it
 should go elsewhere.  A perfect illustrative question for this scenario
 might be, "What is the 3D rendering code doing in the middle of the
@@ -3898,7 +3898,7 @@ int minusone(int a)
 <p>A couple simple functions, there.  Nothing too complex, yes?  But by
 themselves, they're not much use, and for other people to use them we
 need to distribute their prototypes in a header file.  Get ready to
-absorbe this...you should recognize the prototypes in there, but I've
+absorb this...you should recognize the prototypes in there, but I've
 added some new stuff:</p>
 
 <code>/** file simplemath.h **/
@@ -4589,7 +4589,7 @@ Remember: <func>va_start()</func>, <func>va_arg()</func>,
 
 	va_start(args, count); // tell it the stack starts with "count"
 
-	// inside the while(), pull int args off the stack:
+	// inside the for(), pull int args off the stack:
 
 	for(i = 0; i &lt; count; i++) {
 		int val = va_arg(args, int); // get next int argument
@@ -5129,7 +5129,7 @@ way should be a <type>char*</type> or <type>char[]</type>.</p></deftext>
 <deftitle><tt>%%</tt></deftitle>
 <deftext><p>No arguments are converted, and a plain old run-of-the-mill
 percent sign is printed.  This is how you print a '%' using
-<func>printf)()</func>.</p></deftext>
+<func>printf()</func>.</p></deftext>
 </def>
 
 </deflist>
@@ -5749,7 +5749,7 @@ the keyboard or a file, and don't use <func>gets()</func>.</p>
 </description>
 
 <rvalue>
-<p>Both <func>fgets()</func> and <func>fgets()</func> return a pointer to
+<p>Both <func>gets()</func> and <func>fgets()</func> return a pointer to
 the string passed.</p>
 
 <p>On error or end-of-file, the functions return <type>NULL</type>.</p>
