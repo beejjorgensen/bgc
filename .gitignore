@@ -1,24 +1,11 @@
-.*.swp
-*.pyc
+# vim swap files
+
+.*.sw[op]
 
 # Build products
 
-bgc.valid
-build/
-builders/html/*.tgz
-builders/html/*.zip
-builders/html/multipage/*.html
-builders/html/multipage/*.css
-builders/html/multipage/*.png
-builders/html/singlepage/*.html
-builders/html/singlepage/*.css
-builders/html/singlepage/*.png
-builders/print/*.fo
-builders/print/*.pdf
-builders/print/*.ps
-builders/print/*.png
+stage/
+src/bgc.html
+src/bgc_*.pdf
 
-# Translation PDFs
-
-translations/*.pdf
-
+__pycache__

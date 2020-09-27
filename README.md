@@ -1,48 +1,51 @@
-# Beej's Guide to C Programming
+# Beej's Guide to C
 
-This is the source for Beej's Guide to C Programming.
+This is the source for Beej's Guide to C.
 
 If you merely wish to read the guide, please visit the [Beej's Guide to
-C Programming](https://beej.us/guide/bgc/) website.
-
-> If you're looking for network programming, visit the [Beej's Guide to
-> Network Programming](https://beej.us/guide/bgnet/) website.
+C](https://beej.us/guide/bgc/) website.
 
 This is here so that Beej has everything in a repo and so translators
 can easily clone it.
 
 ## Build Instructions
 
-You'll need:
+### Dependencies
 
-* [Gnu make](https://www.gnu.org/software/make/)
-* [Python 2.4+](https://www.python.org/)
-* [Apache Xerces-C](https://xerces.apache.org/xerces-c/) (for
-  validation; see step 0, below)
-* [Apache FOP](https://xmlgraphics.apache.org/fop/) (or hack in some
-  other FO processor for print output)
+* [Gnu make](https://www.gnu.org/software/make/) (XCode make works, too)
+* [Python 3+](https://www.python.org/)
+* [Pandoc 2.7.3+](https://pandoc.org/)
+* XeLaTeX (can be found in [TeX Live](https://www.tug.org/texlive/))
+* [Liberation fonts](https://en.wikipedia.org/wiki/Liberation_fonts) (sans, serif, mono)
 
-0. If you don't have Xerces-C, go to `bin/bgvalidate` and uncomment the
-   `disable=1` line to disable validation.
+Mac dependencies install (reopen terminal after doing this):
+
+```
+xcode-select --install                  # installs make
+brew install python                     # installs Python3
+brew install pandoc
+brew cask install mactex                # installs XeLaTeX
+brew tap homebrew/cask-fonts
+brew cask install font-liberation-sans  # installs sans, serif, and mono
+```
+
+### Build
 
 1. Type `make` from the top-level directory.
 
    If you have Gnu Make, it should work fine.  Other makes might work as
    well.  Windows users might want to check out Cygwin.
 
-2. Type `make buildcp` to copy all the build products and website to the
-   `build` directory.
+2. Type `make stage` to copy all the build products and website to the
+   `stage` directory.
 
 3. There is no step three.
 
-You can also `cd` to anywhere in the `builders` directory tree and
-`make`.
+You can also `cd` to the `src` directory and `make`.
 
 `make clean` cleans, and `make pristine` cleans to "original" state.
 
-To embed your own fonts in the PDFs, see the file
-`builders/print/fop.xconf` which already embeds the Liberation Fonts
-into the PDF.
+To embed your own fonts in the PDFs, see the `src/Makefile` for examples.
 
 The `upload` target in the root `Makefile` demonstrates the build steps
 for a complete release.  You'll need to change the `UPLOADDIR` macro in
@@ -57,7 +60,11 @@ have to consider any copyright issues when merging changes.
 
 ## TODO
 
-* Some way to make it more beginner-like, like that MIT thing?
-* Questions for each section.
-* Variables on the stack and the heap.
+* Change audience to more advanced
+* Exercises
+
+### Bug fixes
+
+* When pandoc 2.8 comes up, switch all man page subheaders to h3 and supress
+  them from the table of contents.
 
