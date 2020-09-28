@@ -18,6 +18,7 @@ flx = footnote link to example https://beej.us/guide/bgnet/examples/file
 flr = footnote link to redirect https://beej.us/guide/url/id
 
 [fl[link|url]] [link](url)^[url]
+[flw[link|url]] [link](https://en.wikipedia.org/wiki/url)^[https://en.wikipedia.org/wiki/url]
 [flx[link|file]] [link](https://beej.us/guide/bgnet/examples/file)^[https://beej.us/guide/bgnet/examples/file]
 [flr[link|id]] [link](https://beej.us/guide/url/id)^[https://beej.us/guide/url/id]
 [flrfc[link|num]] [link](https://tools.ietf.org/html/rfcnum)^[https://tools.ietf.org/html/rfcnum]
@@ -45,7 +46,13 @@ def nobr_replace(mo):
 for infile in infiles:
     fin = open(infile)
     filedata.append(fin.read())
+    filedata.append("\n")  # Put a blank in there in case there's no trailing newline
     fin.close()
+
+try:
+	wp_path = preproc_config.WIKIPEDIA_URL
+except AttributeError:
+	wp_path = "https://en.wikipedia.org/wiki/"
 
 filedata = '\n'.join(filedata)
 
@@ -56,6 +63,7 @@ filedata = re.sub(r'\[nh\[(.+?)\]\]', r'\\hyphenation{\1}', filedata, flags=re.D
 filedata = re.sub(r'\[ix\[(.+?)\]\]', r'\\index{\1}', filedata, flags=re.DOTALL)
 filedata = re.sub(r'\[ixtt\[(.+?)\]\]', r'\\index{\1@\\texttt{\1}}', filedata, flags=re.DOTALL)
 filedata = re.sub(r'\[fl\[(.+?)\|(.+?)\]\]', r'[\1](\2)^[\2]', filedata, flags=re.DOTALL)
+filedata = re.sub(r'\[flw\[(.+?)\|(.+?)\]\]', r'[\1](' + wp_path + r'\2)^[' + wp_path + r'\2]', filedata, flags=re.DOTALL)
 filedata = re.sub(r'\[flx\[(.+?)\|(.+?)\]\]', r'[\1](' + preproc_config.EXAMPLE_URL + r'\2)^[' + preproc_config.EXAMPLE_URL + r'\2]', filedata, flags=re.DOTALL)
 filedata = re.sub(r'\[flr\[(.+?)\|(.+?)\]\]', r'[\1](https://beej.us/guide/url/\2)^[https://beej.us/guide/url/\2]', filedata, flags=re.DOTALL)
 filedata = re.sub(r'\[flrfc\[(.+?)\|(.+?)\]\]', r'[\1](https://tools.ietf.org/html/rfc\2)^[https://tools.ietf.org/html/rfc\2]', filedata, flags=re.DOTALL)
