@@ -25,9 +25,9 @@ Obfuscated C Code Contest|http://www.ioccc.org/]], a wonderful
 competition wherein the entrants attempt to write the most unreadable C
 code possible, with often surprising results.
 
-The bad news is that if you're a beginner in this whole thing, all
-C code you see looks obfuscated!  The good news is, it's not going to be
-that way for long.
+The bad news is that if you're a beginner in this whole thing, all C
+code you see probably looks obfuscated!  The good news is, it's not
+going to be that way for long.
 
 What we'll try to do over the course of this guide is lead you from
 complete and utter sheer lost confusion on to the sort of enlightened
@@ -35,69 +35,48 @@ bliss that can only be obtained though pure C programming.  Right on.
 
 ## Audience
 
-As with most Beej's Guides, this one tries to cater to people who are
-just starting on the topic.  That's you!  If that's not you for whatever
-reason the best I can hope to provide is some pastey entertainment for
-your reading pleasure.  The only thing I can reasonably promise is that
-this guide won't end on a cliffhanger...or _will_ it?
+This guide assumes that you've already got some programming knowledge
+under your belt from another language, such as
+[flw[Python|Python_(programming_language)]],
+[flw[JavaScript|JavaScript]], [flw[Java|Java_(programming_language)]],
+[flw[Rust|Rust_(programming_language)]],
+[flw[Go|Go_(programming_language)]],
+[flw[Swift|Swift_(programming_language)]], etc.
+([flw[Objective-C|Objective-C]] devs will have a particularly easy time
+of it!)
+
+We're going to assume you know what variables are, what loops do, how
+functions work, and so on.
+
+If that's not you for whatever reason the best I can hope to provide is
+some pastey entertainment for your reading pleasure.  The only thing I
+can reasonably promise is that this guide won't end on a
+cliffhanger...or _will_ it?
 
 ## Platform and Compiler
 
-I'll try to stick to Good Ol'-Fashioned ANSI C, just like Mom used to
-bake.  Well, for the most part.  Here and there I talk about things that
-are in subsequent C standards, just to try to keep up to date.
+I'll try to stick to Plain Ol'-Fashioned [flw[ISO-standard C|ANSI_C]].
+Well, for the most part.  Here and there I might go crazy and start
+talking about [flw[POSIX|POSIX]] or something, but we'll see.
 
-My compiler of choice is GNU `gcc` since that's
-available on most systems, including the Linux systems on which I
-work.
+**Unix** users (e.g. Linux, BSD, etc.) try running `cc` or `gcc` from
+the command line--you might already have a compiler installed. If you
+don't, search your distribution for installing `gcc` or `clang`.
 
-Since the code is basically standard, it should build with virtually
-any C compiler on virtually any platform.  If you're using Windows, run
-the result in a DOS window.  All sample code will be using the console
-(that's "text window" for you kids out there), except for the sample
-code that doesn't.
+**Windows** users should check out [fl[Visual Studio
+Community|https://visualstudio.microsoft.com/vs/community/]]. Or, if
+you're looking for a more Unix-like experience (recommended!), install
+[fl[WSL|https://docs.microsoft.com/en-us/windows/wsl/install-win10]] and
+`gcc`.
+
+**Mac** users will want to install
+[fl[XCode|https://developer.apple.com/xcode/]], and in particular the
+command line tools.
 
 There are a lot of compilers out there, and virtually all of them
 will work for this book.  And for those not in the know, a C++ compiler
 will compile C most code, so it'll work for the purposes of this guide.
 Some of the compilers I am familiar with are the following:
-
-* **[fl[GCC|http://www.gnu.org/software/gcc/gcc.html]]**: GNU's C
-compiler, available for almost every platform, and popularly installed
-on Unix machines.
-
-* **[fl[Digital Mars C/C++|http://www.digitalmars.com/]]**: The
-hackers at Digital Mars have a pretty rippin' C/C++ compiler for Windows
-that you can download and use for free, and that will work wonderfully
-for all the code presented in this guide.  I highly recommend it.
-
-* **[fl[VC++|http://msdn.microsoft.com/visualc/]]**: Microsoft's Visual C++ for
-Windows.  This is the standard that most Microsoft programmers use, and
-I freaking hate it.  Nothing personal, but I'm one of those crazy people
-that still uses `vi`.
-
-* **[fl[Turbo C|http://community.borland.com/article/0,1410,20841,00.html]]**: This is a classic
-compiler for MSDOS.  It's downloadable for free, and I has a special
-place in my heart.  (It can't handle the "`//`"-style comments,
-so they should all be converted to "`/**/`"-style.)
-
-* **`cc`**: Virtually every Unix system has a C compiler
-installed, and they're typically and merely named `cc` (C
-Compiler, see?)  Just try it from the command line and see what
-happens!
-
-## Building under Unix
-
-If you have a source file called `foo.c`, it can be built
-with the following command from the shell:
-
-```shell
-gcc -o foo foo.c
-```
-
-This tells the compiler to build `foo.c`, and output an
-executable called `foo`.  If `gcc` doesn't work,
-try using just `cc` instead.
 
 ## Official Homepage
 
@@ -119,8 +98,7 @@ As a rule, the more complex the question, the less likely I am to
 respond.  If you can narrow down your question before mailing it and be
 sure to include any pertinent information (like platform, compiler,
 error messages you're getting, and anything else you think might help me
-troubleshoot), you're much more likely to get a response.  For more
-pointers, read ESR's document, [fl[How To Ask Questions The Smart Way|http://www.catb.org/~esr/faqs/smart-questions.html]].
+troubleshoot), you're much more likely to get a response.
 
 If you don't get a response, hack on it some more, try to find the
 answer, and if it's still elusive, then write me again with the
@@ -135,8 +113,8 @@ Thank you!
 
 ## Mirroring
 
-You are more than welcome to mirror this site, whether publically or
-privately.  If you publically mirror the site and want me to link to it
+You are more than welcome to mirror this site, whether publicly or
+privately.  If you publicly mirror the site and want me to link to it
 from the main page, drop me a line at [`beej@beej.us`](beej@beej.us).
 
 ## Note for Translators
@@ -155,9 +133,9 @@ Beej's Guide to Network Programming is Copyright © 2020 Brian "Beej
 Jorgensen" Hall.
 
 With specific exceptions for source code and translations, below, this
-work is licensed under the Creative Commons Attribution- Noncommercial-
-No Derivative Works 3.0 License. To view a copy of this license, visit
-`[http://creativecommons.org/licenses/by-nc-nd/3.0/](http://creativecommons.org/licenses/by-nc-nd/3.0/)`
+work is licensed under the Creative Commons Attribution-Noncommercial-No
+Derivative Works 3.0 License. To view a copy of this license, visit
+[`http://creativecommons.org/licenses/by-nc-nd/3.0/`](http://creativecommons.org/licenses/by-nc-nd/3.0/)
 or send a letter to Creative Commons, 171 Second Street, Suite 300, San
 Francisco, California, 94105, USA.
 
@@ -176,241 +154,61 @@ guide to their students.
 
 Contact [`beej@beej.us`](beej@beej.us) for more information.
 
-# Programming Building Blocks
+## What to Expect from C
 
-> _"Where do these stairs go?"_
+> _"Where do these stairs go?"_<br>
 > _"They go up."_
-> --Ray Stantz and Peter Venkman, Ghostbusters
+>
+> ---Ray Stantz and Peter Venkman, Ghostbusters
 
-What is programming, anyway?  I mean, you're learning how to do it,
-but what is it?  Well, it's, umm, kind of like, well, say you have this
-multilayered chocolate and vanilla cake sitting on top of an internal
-combustion engine and the gearbox is connected to the coil with a
-banana.  Now, if you're eating the cake a la mode, that means... Wait.
-Scratch that analogy.  I'll start again.
+C is a low-level language.
 
-What is programming, anyway?  It's telling the computer how to
-perform a task.  So you need two things (besides your own self and a
-computer) to get going.  One thing you need is the task the computer is
-to perform.  This is easy to get as a student because the teacher will
-hand you a sheet of paper with an assignment on it that describes
-exactly what the computer is to do for you to get a good grade.
+It didn't used to be. Back in the day when people carved punch cards out
+of granite, C was an incredibly way to be free of the drudgery of
+lower-level languages like [flw[assembly|Assembly_language]].
 
-If you don't want a good grade, the computer can do that without your
-intervention.  But I digress.
+But now in these modern times, current-generation languages offer all
+kinds of features that didn't exist in 1972 when C was invented. This
+means C is a pretty basic language with not a lot of features. It can do
+_anything_, but it can make you work for it.
 
-The second thing you need to get started is the knowledge of how to
-tell the computer to do these things.  It turns out there are lots of
-ways to get the computer to do a particular task...just like there are
-lots of ways to ask someone to please obtain for me my fluffy foot
-covering devices in order to prevent chilliness.  Many of these ways are
-right, and a few of them are best.
+So why would we even use it today?
 
-What you can do as a programmer, though, is get through the
-assignments doing something that works, and then look back at it and see
-how you could have made it better or faster or more concise. This is one
-thing that seriously differentiates programmers from excellent
-programmers.
+* As a learning tool: not only is C a venerable piece of computing
+  history, but it is connected to the [flw[bare metal|Bare_machine]] in
+  a way that present-day languages are not. When you learn C, you learn
+  about how software interfaces with computer memory at a low level.
+  There are no seatbelts. You'll write software that crashes, I assure
+  you. And that's all part of the fun!
 
-Eventually what you'll find is that the stuff you wrote back in
-college (e.g. The Internet Pizza Server, or, say, my entire Masters
-project) is a horridly embarrassing steaming pile of code that was quite
-possibly the worst thing you've ever written.
+* As a useful tool: C still is used for certain applications, such as
+  building [flw[operating systems|Operating_system]] or in [flw[embedded
+  systems|Embedded_system]]. (Though the
+  [flw[Rust|Rust_(programming_language)]] programming language is eyeing
+  both these fields!)
 
-The only way to go is up.
+If you're familiar with another language, a lot of things about C are
+easy. C inspired many other languages, and you'll see bits of it in Go,
+Rust, Swift, Python, JavaScript, Java, and all kinds of other languages.
+Those parts will be familiar.
 
-## The Specification
+The one thing about C that hangs people up is _pointers_. Virtually
+everything else is familiar, but pointers are the weird one. The concept
+behind pointers is likely one you already know, but C forces you to be
+explicit about it, using operators you've likely never seen before.
 
-> _In the beginning was the plan_<br>
-> _And then came the assumptions_<br>
-> _And the assumptions were without form_<br>
-> _And the plan was completely without substance_<br>
-> _And the darkness was upon the face of workers_<br>
-> --Excerpt from The Plan, early Internet folklore
+It's especially insidious because once you [flw[_grok_|Grok]] pointers,
+they're suddenly easy. But up until that moment, they're slippery eels.
 
-Ooooo!  Prostrate yourself, mortal, in the face of The
-Specification!
+Everything else in C is just memorizing another way (or sometimes the
+same way!) of doing something you've done already. Pointers are the
+weird bit.
 
-Ok, maybe I'm being a little too overdramatic here.  But I wanted to
-stress just mildly and subtly, if you might indulge me, that **_The
-Specification_** BWHAHAHA _*THUNDERCLAP*_ (Sorry!  Sorry!) is
-something you should spend time absorbing before your fingers touch the
-keyboard.  Except for checking your mail and reading Slashdot,
-obviously.  That goes without saying.
+So get ready for a rollicking adventure as close to the core of the
+computer as you can get without assembly, in the most [influential
+computer language of all time]^(I know someone will fight me on that,
+but it's gotta be at least in the top three, right?). Hang on!
 
-So what do you do with this specification?  It's a description of
-what the program is going to do, right?  But where to begin?  What you
-need to do is this: break down the design into handy bite-sized pieces
-that you can implement using techniques you know work in those
-situations.
-
-As you learn C, those bite-sized pieces will correspond to function
-calls or statements that you will have learned.  As you learn to program
-in general, those bite-sized pieces will start corresponding to larger
-algorithms that you know (or can easily look up.)
-
-Right now, you might not know any of the pieces that you have at your
-disposal.  That's ok.  The fastest way to learn them is to, right now,
-press the mouse to your forehead and say the password, "K&R2".
-
-That didn't work?  Hmmm.  There must be a problem with the system
-somewhere.  Ok, we'll do it the old-school way: learning stuff by
-hand.
-
-Let's have an example:
-
-> **Assignment:** Implement a program that will
-> calculate the sum of all numbers between 1 and the number the user
-> enters.  The program shall output the result.
-
-Ok, well, that summary is pretty high level and doesn't lend itself
-to bite-sized pieces, so it's up to us to split it up.
-
-There are several places that are good to break up pieces to be more
-bite-sized.  Input is one thing to break out, output is another.  If you
-need to input something, or output something, each of those is a handy
-bite-sized piece.  If you need to calculate something, that can be
-another bite-sized piece (though the more difficult calculations can be
-made up of many pieces themselves!)
-
-So, moving forward through a sample run of the program:
-
-1. We need the program to read a number from the keyboard.
-2. We need the program to compute a result using that number.
-3. We need the program to output the result.
-
-This is good!  We've identified the parts of the assignment that need
-to be worked on.
-
-"Wait!  Stop!"  I hear you.  You're wondering how we knew it was
-broken down into enough bite-sized pieces, and, in fact, how we even
-know those are bite-sized pieces, anyhow!  For all you know, reading a
-number from the keyboard could be a hugely involved task!
-
-The short of it is, well, you caught me trying to pull a fast one on
-you.  _I_ know these are bite-sized because in my head I can
-correspond them to simple C function calls or statements.  Outputting
-the result, for instance, is one line of code (very bite-sized).  But
-that's me and we're talking about you.  In your case, I have a little
-bit of a chicken-and-egg problem: you need to know what the bite-sized
-pieces of the program are so you can use the right functions and
-statements, and you need to know what the functions and statements are
-in order to know how to split the project up into bite-sized pieces!
-Hell's bells!
-
-So we're compromising a bit.  I agree to tell you what the statements
-and functions are if _you_ agree to keep this stuff about
-bite-sized pieces in the back of your head while we progress.  Ok?
-
-...I said, "Ok?"  And you answer... "Ok, I promise to keep this
-bite-sized pieces stuff in mind."  Excellent!
-
-## The Implementation
-
-Right!  Let's take that example from the previous section and see how
-we're going to actually implement it.  Remember that once you have the
-specification (or assignment, or whatever you're going to call it)
-broken up into handy bite-sized pieces, then you can start writing the
-instructions to make that happen.  Some bite-sized pieces might only have
-one statement; others might be pages of code.
-
-Now here we're going to cheat a little bit again, and I'm going to
-tell you what you'll need to call to implement our sample program.  I
-know this because I've done it all before and looked it all up.  You,
-too, will soon know it for the same reasons.  It just takes time and a
-lot of reading what's in the reference section of your C books.
-
-So, let's take our steps, except this time, we'll write them with a
-little more information.  Just bear with me through the syntax here and
-try to make the correlation between this and the bite-sized pieces
-mentioned earlier.  All the weird parentheses and squirrely braces will
-make sense in later sections of the guide.  Right now what's important
-is the steps and the translation of those steps to computer code.
-
-The steps, partially translated:
-
-1. Read the number from the keyboard using `scanf()`.
-2. Compute the sum of the numbers between one and the entered number
-using a `for`-loop and the addition operator.
-3. Print the result using `printf()`.
-
-Normally, this partial translation would just take place in your
-head.  You need to output to the console?  You know that the
-`printf()` function is one way to do it.
-
-And as the partial translation takes place in your head, what better
-time than that to actually code it up using your favorite editor:
-
-``` {.c}
-#include <stdio.h>
-
-int main(void)
-{
-    int num, result = 0, i;
-
-    scanf("%d", &num); // read the number from the keyboard
-
-    for(i = 1; i <= num; i++) { // compute the result
-        result += i;
-    }
-
-    printf("%d\n", result); // output the result
-
-    return 0;
-}
-```
-
-Remember how I said there were multiple ways to do things?  Well, I
-didn't have to use `scanf()`, I didn't have to use a
-`for`-loop, and I didn't have to use `printf()`.
-But they were the best for this example.  `:-)`
-
-## So Much To Do, So Little Time
-
-Another name for this section might have been, "Why can't I write
-a Photoshop clone in half an hour?"
-
-Lots of people when they first start programming become disheartened
-because they've just spent all this effort to learn this whole
-programming business and what do they have to show for it: a little
-text-based program that prints a string that looks like it's some
-prehistoric throwback to 1979.
-
-Well, I wish I could sugarcoat this a little bit more, but that is
-unfortunately the way it tends to go when you're starting out.  Your
-first assignment is unlikely to be DOOM III, and is more likely to
-be something similar to:
-
-```
-Hello, I am the computer and I know that 2+2 =   4!
-```
-
-You elite coder, you.
-
-Remember, though, how I said that eventually you'll learn to
-recognize larger and larger bite-sized pieces?  What you'll eventually
-built up is a set of _libraries_ (collections of reusable code)
-that you can use as building blocks for other programs.
-
-For example, when I want to draw a bitmap on the screen, do I write a
-system to read the bytes of the file, decode the JPEG image format,
-detect video hardware, determine video memory layout, and copy the
-results onto the display?  Well do I, punk?  No.  I call
-`loadJPEG()`.  I call `displayImage()`.  These
-are examples of functions that have already been written for my use.
-That makes it easy!
-
-So you can plan ahead and figure out which components can be built up
-and reused, or you can use components that other people have built for
-you.
-
-Examples pre-built components are: the standard C library
-(`printf()`, which we'll be using a lot of in this guide),
-the GTK+ library (a GUI library used with GNOME), the Qt toolkit (a GUI
-library used with the K Desktop), libSDL (a library for doing graphics),
-OpenGL (a library for doing 3D graphics), and so on, and so on.  You can
-use all these to your own devious ends and you don't have to write them
-again!
 
 ## Hello, World!
 
