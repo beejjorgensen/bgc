@@ -337,8 +337,9 @@ It's done and tested! Ship it!
 
 # Variables, Expressions, and Statements (Oh My)
 
-> _"It takes all kinds to make a world, does it not, Padre?"_
-> _"So it does, my son, so it does."_
+> _"It takes all kinds to make a world, does it not, Padre?"_<br>
+> _"So it does, my son, so it does."_<br>
+>
 > Pirate Captain Thomas Bartholomew Red to the Padre, Pirates
 
 There sure can be lotsa stuff in a C program.
@@ -393,7 +394,8 @@ Some example types:
 * Floating point: `3.14159`
 * [String]^(C purists will correctly point out that there's really no
   such thing as a string type in C, but we'll get to that when we get to
-  pointers.): `"Hello, world!"`
+  pointers.): `"Hello, world!"`. Constant strings in C are held in
+  double quotes.
 
 If you need to convert between the types in C, you generally have to be
 explicit about it; it won't autoconvert for you. It's C. It barely
@@ -495,6 +497,51 @@ Hello, World! The value of i is 2, okay?
 In this way, `printf()` might be similar to various types of format or
 parameterized strings in other languages you're familiar with.
 
+### Boolean Types
+
+C has Boolean types, true or false?
+
+1!
+
+Historically, C didn't have a Boolean type, and some might argue it
+still doesn't.
+
+In C, `0` means "false", and non-zero means "true".
+
+So `1` is true. And `37` is true. And `0` is false.
+
+You can just declare Boolean types as `int`s:
+
+``` {.c}
+int x = 1;
+
+if (x) {
+    printf("x is true!\n");
+}
+```
+
+If you `#include <stdbool.h>`, you also get access to some symbolic
+names that might make things look more familiar, namely a `bool` type
+and `true` and `false` values:
+
+``` {.c}
+#include <stdio.h>
+#include <stdbool.h>
+
+int main(void) {
+    bool x = true;
+
+    if (x) {
+        printf("x is true!\n");
+    }
+
+    return 0;
+}
+```
+
+But these are identical to using integer values for true and false.
+They're just a facade to make things look nice.
+
 
 ## Operators and Expressions {#operators}
 
@@ -548,11 +595,11 @@ What a mess! You'll get used to it the more you read it. To help out a
 bit, I'll rewrite the above expression using `if` statements:
 
 ``` {.c}
-// This:
+// This expression:
 
 y += x > 10? 17: 37;
 
-// is equivalent to this:
+// is equivalent to this non-expression:
 
 if (x > 10)
     y += 17;
@@ -585,9 +632,6 @@ These are the legendary post-increment and post-decrement operators:
 ``` {.c}
 i++;        // Add one to i (post-increment)
 i--;        // Subtract one from i (post-decrement)
-
-++i;        // Add one to i (pre-increment)
---i;        // Subtract one from i (pre-decrement)
 ```
 
 Very commonly, these are just used as shorter versions of:
@@ -598,6 +642,13 @@ i -= 1;        // Subtract one from i
 ```
 
 but they're more subtly different than that, the clever scoundrels.
+
+Let's take a look at this variant, pre-increment and pre-decrement:
+
+``` {.c}
+++i;        // Add one to i (pre-increment)
+--i;        // Subtract one from i (pre-decrement)
+```
 
 With pre-increment and pre-decrement, the value of the variable is
 incremented or decremented _before_ the expression is evaluated. Then
@@ -677,77 +728,140 @@ for (i = 0, j = 10; i < 100; i++, j++)
 
 We'll revisit that later.
 
-### Boolean Types
 
-C has Boolean types, true or false?
+### Conditional Operators
 
-1!
-
-Historically, C didn't have a Boolean type, and some might argue it
-still doesn't.
-
-In C, `0` means "false", and non-zero means "true".
-
-So `1` is true. And `37` is true. And `0` is false.
-
-You can just declare Boolean types as `int`s:
+For Boolean values, we have a raft of standard operators:
 
 ``` {.c}
-int x = 1;
-
-if (x) {
-    printf("x is true!\n");
-}
+a == b;  // True if a is equivalent to b
+a != b;  // True if a is not equivalent to b
+a < b;   // True if a is less than b
+a > b;   // True if a is greater than b
+a <= b;  // True if a is less than or equal to b
+a >= b;  // True if a is greater than or equal to b
 ```
 
-If you `#include <stdbool.h>`, you also get access to some symbolic
-names that might make things look more familiar, namely a `bool` type
-and `true` and `false` values:
+Don't mix up assignment `=` with comparison `==`! Use two equals to
+compare, one to assign.
+
+We can use the comparison expressions with `if` statements:
+
+```
+if (a <= 10)
+    printf("Success!\n");
+```
+
+### Boolean Operators
+
+We can chain together or alter conditional expressions with Boolean
+operators for _and_, _or_, and _not_.
+
+|Operator|Boolean meaning|
+|:------:|:-------------:|
+|`&&`|and|
+|`||`|or|
+|`!`|not|
+
+An example of Boolean "and":
 
 ``` {.c}
-#include <stdio.h>
-#include <stdbool.h>
+// Do something if x less than 10 and y greater than 20:
 
-int main(void) {
-    bool x = true;
-
-    if (x) {
-        printf("x is true!\n");
-    }
-
-    return 0;
-}
+if (x < 10 && y > 20)
+    printf("Doing something!\n");
 ```
+
+An example of Boolean "not":
+
+``` {.c}
+if (!(x < 12))
+    printf("x is not less than 12\n");
+```
+
+`!` has higher precedence than the other Boolean operators, so we have
+to use parentheses in that case.
+
+Of course, that's just the same as:
+
+``` {.c}
+if (x >= 12)
+    printf("x is not less than 12\n");
+```
+
+but I needed the example!
+
 
 ## Flow Control
 
-For the most part, you're free to make up variable names to your
-heart's content, calling them whatever you'd like. There are no
-exceptions, except for statements and other _reserved words_
-which you may not use unless you use them in the officially (by the
-compiler) prescribed manner.
+Booleans are all good, but of course we're nowhere if we can't control
+program flow. Let's take a look at a number of constructs: `if`, `for`,
+`while`, and `do-while`.
 
-That definition was rather glib. I should rewrite it. Or maybe
-we'll just sojourn bravely on! Yes!
+First, a general forward-looking note about statements and blocks of
+statements brought to you by your local friendly C developer:
 
-What are these pesky statements? Let's say, completely
-hypothetically, you want to do something more than the already amazingly
-grand example program of assigning a value to a variable and printing
-it. What if you only want to print it if the number is less than 10?
-What if you want to print all numbers between it and 10? What if you
-want to only print the number on a Thursday? All these incredible
-things and more are available to you through the magic of various
-statements.
+After something like an `if` or `while` statement, you can either put a single
+statement to be executed, or a block of statements to all be executed in
+sequence.
+
+Let's start with a single statement:
+
+``` {.c}
+if (x == 10) printf("x is 10");
+```
+
+This is also sometimes written on a separate line. (Whitespace is largely
+irrelevant in C---it's not like Python.)
+
+``` {.c}
+if (x == 10)
+    printf("x is 10\n");
+```
+
+But what if you want multiple things to happen due to the conditional?
+You can use squirrelly braces to mark a _block_ or _compound statement_.
+
+``` {.c}
+if (x == 10) {
+    printf("x is 10\n");
+    printf("And also this happens when x is 10\n");
+}
+```
+
+It's a really common style to _always_ use squirrelly braces even if
+they aren't necessary:
+
+``` {.c}
+if (x == 10) {
+    printf("x is 10\n");
+}
+```
+
+Some devs feel the code is easier to read and avoids errors like this
+where things visually look like they're in the `if` block, but actually
+they aren't.
+
+``` {.c}
+// BAD ERROR EXAMPLE
+
+if (x == 10)
+    printf("x is 10\n");
+    printf("And also this happens ALWAYS\n");  // Surprise!! Unconditional!
+```
+
+`while` and `for` and the other looping constructs work the same way as
+the examples above. If you want to do multiple things in a loop or after
+an `if`, wrap them up in squirrelly braces.
+
+In other words, the `if` is going to run the one thing after the `if`.
+And that one thing can be a single statement or a block of statements.
 
 
 ### The `if` statement {#ifstat}
 
-The easiest one to wrap your head around is the conditional
-statement, `if`. It can be used to do (or not do)
-something based on a condition.
-
-Like what kind of condition? Well, like is a number greater than
-10?
+We've already been using `if` for multiple examples, since it's likely
+you've seen it in a language before, but here's another:
 
 ``` {.c}
 int i = 10;
@@ -760,79 +874,21 @@ if (i > 10) {
 if (i <= 10) printf("i is less than or equal to 10.\n");
 ```
 
-In the example code, the message will print if `i` is
-greater than 10, otherwise execution continues to the next line. Notice
-the squirrley braces after the `if` statement; if
-the condition is true, either the first statement or expression right
-after the if will be executed, or else the collection of code in the
-squirlley braces after the `if` will be executed.
-This sort of _code block_ behavior is common to all
+In the example code, the message will print if `i` is greater than 10,
+otherwise execution continues to the next line. Notice the squirrley
+braces after the `if` statement; if the condition is true, either the
+first statement or expression right after the if will be executed, or
+else the collection of code in the squirlley braces after the `if` will
+be executed. This sort of _code block_ behavior is common to all
 statements.
-
-What are the conditions?
-
-``` {.c}
- i == 10;       /* true if i is equal to 10 */
-i != 10;       /* true if i is not equal to 10 */
-i > 10;        /* true if i greater than 10 */
-i < 10;        /* true if i less than 10 */
-i >= 10;       /* true if i greater than  or equal to 10 */
-i <= 10;       /* true if i less than or equal to 10 */
-```
-
-Guess what these all are? No really, guess. They're expressions!
-Just like before! So statements take an expression (some statements
-take multiple expressions) and evaluate them. The
-`if` statement evaluates to see if the expression
-is true, and then executes the following code if it is.
-
-What is "true" anyway? C doesn't have a "true" keyword like C++
-does. In C, any non-zero value is true, and a zero value is false. For
-instance:
-
-``` {.c}
-
-if (1)      printf("This will always print.\n");
-if (-3490)  printf("This will always print.\n");
-if (0)      printf("This will never print. Ever.\n");
-```
-
-And the following will print `1` followed by `0`:
-
-``` {.c}
-int i = 10;
-
-printf("%d\n", i == 10); /* i == 10 is true, so it's 1 */
-printf("%d\n", i > 20);  /* i is not > 20, so this is false, 0 */
-```
-
-(Hey, look! We just passed those expressions as arguments to the
-function `printf()`! Just like we said we were going to do
-before!)
-
-Now, one common pitfall here with conditionals is that you end up
-confusing the assignment operator (`=`) with the
-comparison operator (`==`). Note that the results of
-both operators is an expression, so both are valid to put inside the
-`if` statement. Except one assigns and the other
-compares! You most likely want to compare. If weird stuff is
-happening, make sure you have the two equal signs in your comparison
-operator.
 
 
 ### The `while` statement {#whilestat}
 
-Let's have another statement. Let's say you want to repeatly perform a
-task until a condition is true. This sounds like a job for the
-`while` loop. This works just like the
-`if` statement, except that it will repeately
-execute the following block of code until the statement is false, much
-like an insane android bent on killing its innocent masters.
+`while` is your average run-of-the-mill looping construct. Do a thing
+while a condition expression is true.
 
-Or something.
-
-Here's an example of a while loop that should clarify this up a bit
-and help cleanse your mind of the killing android image:
+Let's do one!
 
 ``` {.c}
 // print the following output:
@@ -853,83 +909,27 @@ while (i < 10) {
 printf("All done!\n");
 ```
 
-The easiest way to see what happens here is to mentally step through
-the code a line at a time.
+That gets you a basic loop. C also has a `for` loop which would have
+been cleaner for that example.
 
-1. First, `i` is set to zero. It's good to have these things
-initialized.
+A not-uncommon use of `while` is for infinite loops where you repeat
+while true:
 
-2. Secondly, we hit the `while` statement. It
-checks to see if the _continuation condition_ is true, and
-continues to run the following block if it is. (Remember, true is
-`1`, and so when `i` is zero, the expression `i <
-10` is `1` (true).
-
-3. Since the continuation condition was true, we get into the block of
-code. The `printf()` function executes and outputs "`i is
-now 0!`".
-
-4. Next, we get that post-increment operator! Remember what it does?
-It adds one to `i` in this case. (I'm going to tell you a
-little secret about post-increment: the increment happens _AFTER all
-of the rest of the expression has been evaluated_. That's why it's
-called "post", of course! In this case, the entire expression consists
-of simply `i`, so the result here is to simply increment
-`i`.
-
-5. Ok, now we're at the end of the basic block. Since it started with a
-`while` statement, we're going to loop back up to
-the while and then:
-
-6. We have arrived back at the start of the `while`
-statement. It seems like such a long time ago we were once here,
-doesn't it? Only this time things seem slightly different...what could
-it be? A new haircut, perhaps? No! The variable `i` is equal
-to `1` this time instead of `0`! So we have to check the
-continuation condition again. Sure enough, `1 < 10` last time I
-checked, so we enter the block of code again.
-
-7. We `printf()` "`i is now 1!`".
-
-8. We increment `i` and it goes to `2`.
-
-9. We loop back up to the `while` statement and
-check to see if the continuation condition is true.
-
-10. Yadda, yadda, yadda. I think you can see where this is going.
-Let's skip ahead to the _incredible future_ where people
-commute to work on their AI-controlled rocket scooters, eat anti-gravity
-beets, and little spherical robot helicopters freely roam the skies
-making _beep-beep-beep-beep_ noises. And where the variable
-`i` has finally been incremented so its value is `10`.
-Meanwhile, while we've slept in cryogenic hybernation, our program has
-been dutifully fulfilling its thousand-year mission to print things like
-"i is now 4!", "i is now 5!", and finally, "i is now 9!"
-
-11. So `i` has finally been incremented to `10`, and we
-check the continuation condition. It `10 < 10`? Nope, that'll
-be false and zero, so the `while` statement is
-finally completed and we continue to the next line.
-
-12. And lastly `printf` is called, and we get our parting
-message: "`All done!`".
-
-That was a lot of tracing, there, wasn't it? This kind of mentally
-running through a program is commonly called _desk-checking_
-your code, because historically you do it sitting at your desk. It's a
-powerful debugging technique you have at your disposal, as well.
+``` {.c}
+while (1) {
+    printf("1 is always true, so this repeats forever.\n");
+}
+```
 
 
 ### The `do-while` statement {#dowhilestat}
 
-So now that we've gotten the `while` statement
-under control, let's take a look at its closely related cousin,
-`do-while`.
+So now that we've gotten the `while` statement under control, let's take
+a look at its closely related cousin, `do-while`.
 
 They are basically the same, except if the continuation condition is
-false on the first pass, `do-while` will execute
-once, but `while` won't execute at all. Let's see
-by example:
+false on the first pass, `do-while` will execute once, but `while` won't
+execute at all. Let's see by example:
 
 ``` {.c}
 /* using a while statement: */
@@ -957,47 +957,65 @@ printf("All done!\n");
 ```
 
 Notice that in both cases, the continuation condition is false right
-away. So in the `while`, the condition fails, and
-the following block of code is never executed. With the
-`do-while`, however, the condition is checked
-_after_ the block of code executes, so it always executes at
-least once. In this case, it prints the message, increments
-`i`, then fails the condition, and continues to the "All done!"
-output.
+away. So in the `while`, the condition fails, and the following block of
+code is never executed. With the `do-while`, however, the condition is
+checked _after_ the block of code executes, so it always executes at
+least once. In this case, it prints the message, increments `i`, then
+fails the condition, and continues to the "All done!" output.
 
-The moral of the story is this: if you want the loop to execute at
-least once, no matter what the continuation condition, use
-`do-while`.
+The moral of the story is this: if you want the loop to execute at least
+once, no matter what the continuation condition, use `do-while`.
 
+All these examples might have been better done with a `for` loop. Let's
+do something less deterministic---repeat until a certain random number
+comes up!
+
+``` {.c}
+#include <stdio.h>   // For printf
+#include <stdlib.h>  // For rand
+
+int main(void)
+{
+    int r;
+
+    do {
+        r = rand() % 100; // Get a random number between 0 and 99
+        printf("%d\n", r);
+    } while (r != 37);    // Repeat until 37 comes up
+
+    return 0;
+}
+```
 
 ### The `for` statement {#forstat}
 
 Now you're starting to feel more comfortable with these looping
-statements, huh! Well, listen up! It's time for something a little
-more complicated: the `for` statement. This is
-another looping construct that gives you a cleaner syntax than
-`while` in many cases, but does basically the same
-thing. Here are two pieces of equivalent code:
+statements, huh! Well, listen up! It's time for something a little more
+complicated: the `for` statement. This is another looping construct that
+gives you a cleaner syntax than `while` in many cases, but does
+basically the same thing. Here are two pieces of equivalent code:
 
 ``` {.c}
-// using a while statement:
+// Using a while statement:
 
-// print numbers between 0 and 9, inclusive:
+// Print numbers between 0 and 9, inclusive:
+
 i = 0;
 while (i < 10) {
     printf("i is %d\n", i);
     i++;
 }
 
-// do the same thing with a for-loop:
+// Do the same thing with a for-loop:
+
 for (i = 0; i < 10; i++) {
     printf("i is %d\n", i);
 }
 ```
 
-That's right, kids---they do exactly the same thing. But you
-can see how the `for` statement is a little more
-compact and easy on the eyes.
+That's right, kids---they do exactly the same thing. But you can see how
+the `for` statement is a little more compact and easy on the eyes.
+(JavaScript users will fully appreciate its C origins at this point.)
 
 It's split into three parts, separated by semicolons. The first is
 the initialization, the second is the continuation condition, and the
@@ -1006,7 +1024,7 @@ condition is true. All three of these parts are optional. And empty
 `for` will run forever:
 
 ``` {.c}
-for(;;) {
+for(;;) {  // "forever"
     printf("I will print this again and again and again\n" );
     printf("for all eternity until the cold-death of the universe.\n");
 
