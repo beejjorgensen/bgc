@@ -19,6 +19,7 @@ A4_BW=$(GUIDE_ID)_a4_bw_1.pdf $(GUIDE_ID)_a4_bw_2.pdf
 BOOKS=$(USLETTER_BW) $(USLETTER_COLOR) $(A4_BW) $(A4_COLOR)
 
 HTML=$(GUIDE_ID).html
+GUIDE_MD=$(sort $(wildcard $(GUIDE_ID)_part_*.md))
 
 PREPROC=../bin/preproc
 PREPROC_MD=$(GUIDE_ID)_temp_preproc.md
@@ -43,7 +44,8 @@ PDF_OPTS= \
 	$(COMMON_OPTS)
 
 HTML_OPTS=$(COMMON_OPTS) \
-	--metadata title:$(TITLE)
+	--metadata title:$(TITLE) \
+	--mathjax
 
 ONESIDE=--variable classoption:oneside
 TWOSIDE=--variable classoption:twoside
@@ -58,15 +60,15 @@ BW=--no-highlight  # black and white options
 
 all: $(HTML) $(BOOKS)
 
-$(GUIDE_ID).html: $(GUIDE_ID).md bg-css.html
-	$(PREPROC) $< $(PREPROC_MD)
+$(GUIDE_ID).html: $(GUIDE_MD) bg-css.html
+	$(PREPROC) $(GUIDE_MD) $(PREPROC_MD)
 	pandoc $(HTML_OPTS) -s $(PREPROC_MD) -o $(GUIDE_ID).html -H bg-css.html
 	sed 's/src="\(.*\)\.pdf"/src="\1.svg"/g' $(GUIDE_ID).html > $(GUIDE_ID)_temp.html # use svg images
 	mv $(GUIDE_ID)_temp.html $(GUIDE_ID).html
 	rm -f $(GUIDE_ID)_temp*
 
-$(GUIDE_ID)_usl_c_1.pdf: $(GUIDE_ID).md
-	$(PREPROC) $< $(PREPROC_MD)
+$(GUIDE_ID)_usl_c_1.pdf: $(GUIDE_MD)
+	$(PREPROC) $^ $(PREPROC_MD)
 	pandoc $(PDF_OPTS) $(USLETTER) $(ONESIDE) $(PREPROC_MD)
 	xelatex $(GUIDE_ID)_temp.tex
 	makeindex $(GUIDE_ID)_temp.idx
@@ -75,8 +77,8 @@ $(GUIDE_ID)_usl_c_1.pdf: $(GUIDE_ID).md
 	mv $(GUIDE_ID)_temp.pdf $@
 	rm -f $(GUIDE_ID)_temp*
 
-$(GUIDE_ID)_usl_c_2.pdf: $(GUIDE_ID).md
-	$(PREPROC) $< $(PREPROC_MD)
+$(GUIDE_ID)_usl_c_2.pdf: $(GUIDE_MD)
+	$(PREPROC) $^ $(PREPROC_MD)
 	pandoc $(PDF_OPTS) $(USLETTER) $(TWOSIDE) $(PREPROC_MD)
 	xelatex $(GUIDE_ID)_temp.tex
 	makeindex $(GUIDE_ID)_temp.idx
@@ -85,8 +87,8 @@ $(GUIDE_ID)_usl_c_2.pdf: $(GUIDE_ID).md
 	mv $(GUIDE_ID)_temp.pdf $@
 	rm -f $(GUIDE_ID)_temp*
 
-$(GUIDE_ID)_a4_c_1.pdf: $(GUIDE_ID).md
-	$(PREPROC) $< $(PREPROC_MD)
+$(GUIDE_ID)_a4_c_1.pdf: $(GUIDE_MD)
+	$(PREPROC) $^ $(PREPROC_MD)
 	pandoc $(PDF_OPTS) $(A4) $(ONESIDE) $(PREPROC_MD)
 	xelatex $(GUIDE_ID)_temp.tex
 	makeindex $(GUIDE_ID)_temp.idx
@@ -95,8 +97,8 @@ $(GUIDE_ID)_a4_c_1.pdf: $(GUIDE_ID).md
 	mv $(GUIDE_ID)_temp.pdf $@
 	rm -f $(GUIDE_ID)_temp*
 
-$(GUIDE_ID)_a4_c_2.pdf: $(GUIDE_ID).md
-	$(PREPROC) $< $(PREPROC_MD)
+$(GUIDE_ID)_a4_c_2.pdf: $(GUIDE_MD)
+	$(PREPROC) $^ $(PREPROC_MD)
 	pandoc $(PDF_OPTS) $(A4) $(TWOSIDE) $(PREPROC_MD)
 	xelatex $(GUIDE_ID)_temp.tex
 	makeindex $(GUIDE_ID)_temp.idx
@@ -105,8 +107,8 @@ $(GUIDE_ID)_a4_c_2.pdf: $(GUIDE_ID).md
 	mv $(GUIDE_ID)_temp.pdf $@
 	rm -f $(GUIDE_ID)_temp*
 
-$(GUIDE_ID)_usl_bw_1.pdf: $(GUIDE_ID).md
-	$(PREPROC) $< $(PREPROC_MD)
+$(GUIDE_ID)_usl_bw_1.pdf: $(GUIDE_MD)
+	$(PREPROC) $^ $(PREPROC_MD)
 	pandoc $(PDF_OPTS) $(USLETTER) $(ONESIDE) $(BW) $(PREPROC_MD)
 	xelatex $(GUIDE_ID)_temp.tex
 	makeindex $(GUIDE_ID)_temp.idx
@@ -115,8 +117,8 @@ $(GUIDE_ID)_usl_bw_1.pdf: $(GUIDE_ID).md
 	mv $(GUIDE_ID)_temp.pdf $@
 	rm -f $(GUIDE_ID)_temp*
 
-$(GUIDE_ID)_usl_bw_2.pdf: $(GUIDE_ID).md
-	$(PREPROC) $< $(PREPROC_MD)
+$(GUIDE_ID)_usl_bw_2.pdf: $(GUIDE_MD)
+	$(PREPROC) $^ $(PREPROC_MD)
 	pandoc $(PDF_OPTS) $(USLETTER) $(TWOSIDE) $(BW) $(PREPROC_MD)
 	xelatex $(GUIDE_ID)_temp.tex
 	makeindex $(GUIDE_ID)_temp.idx
@@ -125,8 +127,8 @@ $(GUIDE_ID)_usl_bw_2.pdf: $(GUIDE_ID).md
 	mv $(GUIDE_ID)_temp.pdf $@
 	rm -f $(GUIDE_ID)_temp*
 
-$(GUIDE_ID)_a4_bw_1.pdf: $(GUIDE_ID).md
-	$(PREPROC) $< $(PREPROC_MD)
+$(GUIDE_ID)_a4_bw_1.pdf: $(GUIDE_MD)
+	$(PREPROC) $^ $(PREPROC_MD)
 	pandoc $(PDF_OPTS) $(A4) $(ONESIDE) $(BW) $(PREPROC_MD)
 	xelatex $(GUIDE_ID)_temp.tex
 	makeindex $(GUIDE_ID)_temp.idx
@@ -135,8 +137,8 @@ $(GUIDE_ID)_a4_bw_1.pdf: $(GUIDE_ID).md
 	mv $(GUIDE_ID)_temp.pdf $@
 	rm -f $(GUIDE_ID)_temp*
 
-$(GUIDE_ID)_a4_bw_2.pdf: $(GUIDE_ID).md
-	$(PREPROC) $< $(PREPROC_MD)
+$(GUIDE_ID)_a4_bw_2.pdf: $(GUIDE_MD)
+	$(PREPROC) $^ $(PREPROC_MD)
 	pandoc $(PDF_OPTS) $(A4) $(TWOSIDE) $(BW) $(PREPROC_MD)
 	xelatex $(GUIDE_ID)_temp.tex
 	makeindex $(GUIDE_ID)_temp.idx
@@ -145,8 +147,10 @@ $(GUIDE_ID)_a4_bw_2.pdf: $(GUIDE_ID).md
 	mv $(GUIDE_ID)_temp.pdf $@
 	rm -f $(GUIDE_ID)_temp*
 
+$(GUIDE_ID)_lulu.md: $(GUIDE_MD)
+	$(PREPROC) $^ $@
+
 $(GUIDE_ID)_lulu.pdf: $(GUIDE_ID)_lulu.md
-	$(PREPROC) $< $(PREPROC_MD)
 	pandoc $(PDF_OPTS) $(TWOSIDE) $(CROWNQUARTO) $(BLANKLAST) $(PREPROC_MD)
 	xelatex $(GUIDE_ID)_temp.tex
 	makeindex $(GUIDE_ID)_temp.idx
@@ -155,9 +159,11 @@ $(GUIDE_ID)_lulu.pdf: $(GUIDE_ID)_lulu.md
 	mv $(GUIDE_ID)_temp.pdf $@
 	rm -f $(GUIDE_ID)_temp*
 
+$(GUIDE_ID)_amazon.md: $(GUIDE_MD)
+	$(PREPROC) $^ $@
+
 $(GUIDE_ID)_amazon.pdf: $(GUIDE_ID)_amazon.md
-	$(PREPROC) $< $(PREPROC_MD)
-	pandoc $(PDF_OPTS) $(TWOSIDE) $(SIZE_75x925_AMAZON) $(BLANKLAST) $(PREPROC_MD)
+	pandoc $(PDF_OPTS) $(TWOSIDE) $(SIZE_75x925_AMAZON) $(BLANKLAST) $(GUIDE_ID)_amazon.md
 	xelatex $(GUIDE_ID)_temp.tex
 	makeindex $(GUIDE_ID)_temp.idx
 	xelatex $(GUIDE_ID)_temp.tex
