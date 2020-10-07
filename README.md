@@ -62,6 +62,66 @@ have to consider any copyright issues when merging changes.
 
 * Change audience to more advanced
 * Exercises
+* Outline
+  * Hello, world
+  * Variables and types
+    * Just int and float types
+  * Expressions
+  * Statements
+  * Functions
+    * Function scope vs global scope
+  * Pointers
+    * Basics
+    * Pass by reference
+  * Arrays
+    * VLAs
+    * Multi-dimensional arrays
+    * Pointer-array equivalence heads-up
+  * Structs
+    * Initializers
+    * Unions
+  * Types II
+    * Storage classes
+      * Static
+      * Register
+      * Auto
+      * Extern
+    * Signed/Unsigned
+    * Casting
+    * Standard promotions
+  * Pointers II
+    * void pointers
+    * Pointer-array equivalence
+    * Pointer arithmetic
+    * Pointer integer types
+    * Iterating through bytes of an object
+    * Const pointers
+  * Scope II
+    * Block scope
+    * Extern
+    * Static and file scope
+    * Incomplete types
+  * Preprocessor
+    * Macros
+    * Include
+    * Conditional Compilation
+    * Advanced macros
+    * Built-in macros
+  * Enum
+  * Typedef
+  * Pointers III
+    * Pointers to pointers
+    * Pointers to functions
+  * Variadic functions
+  * Bitwise operations
+  * Type qualifiers
+    * const
+    * restrict
+    * volatile
+    * _Atomic
+
+
+
 
 ### Bug fixes
 

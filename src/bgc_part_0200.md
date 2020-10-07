@@ -58,18 +58,15 @@ about them, so we should do a refresher.
 
 Some example types:
 
-* Integer: `3490`
-* Floating point: `3.14159`
-* [String]^(C purists will correctly point out that there's really no
-  such thing as a string type in C, but we'll get to that when we get to
-  pointers.): `"Hello, world!"`. Constant strings in C are held in
-  double quotes.
+|Type|Example|C Type|
+|:---|------:|:-----|
+|Integer|`3490`|`int`|
+|Floating point|`3.14159`|`float`|
+|String|`"Hello, world!"`|[`char *`]^(Read this as "pointer to a char" or "char pointer". "Char" for character. Though I can't find a study, it seems anecdotally most people pronounce this as "char", a minority say "car", and a handful say "care". We'll talk more about pointers later.)|
 
-If you need to convert between the types in C, you generally have to be
-explicit about it; it won't autoconvert for you. It's C. It barely
-auto-_anythings_ for you! (It makes a best effort converting between the
-floating point and integer types without you needing to call a
-conversion function.)
+C makes an effort to convert automatically between most numeric types
+when you ask it to. But other than that, all conversions are manual,
+notably between string and numeric.
 
 Almost all of the types in C are variants on these types.
 
@@ -139,18 +136,18 @@ second is the value to print, namely whatever is in the variable `i`.
 sequences which start with a percent sign (`%`) that tell it what to
 print. For example, if it finds a `%d`, it looks to the next parameter
 that was passed, and prints it out as an integer. If it finds a `%f`, it
-prints the value out as a float.
+prints the value out as a float. If it finds a `%s`, it prints a string.
 
-As such, we can print out the value of `i` like so:
+As such, we can print out the value of various types like so:
 
 ``` {.c}
 int main(void)
 {
-    int i;
+    int i = 2;
+    float f = 3.14;
+    char *s = "Hello, world!";  // char * ("char pointer") is the string type
 
-    i = 2; /* assign the value 2 into the variable i */
-
-    printf("Hello, World! The value of i is %d, okay?\n", i);
+    printf("%s  i = %d and f = %f!\n", s, i, f);
 
     return 0;
 }
@@ -159,7 +156,7 @@ int main(void)
 And the output will be:
 
 ```shell
-Hello, World! The value of i is 2, okay?
+Hello, world!  i = 2 and f = 3.14!
 ```
 
 In this way, `printf()` might be similar to various types of format or
@@ -595,9 +592,9 @@ while (1) {
 So now that we've gotten the `while` statement under control, let's take
 a look at its closely related cousin, `do-while`.
 
-They are basically the same, except if the continuation condition is
-false on the first pass, `do-while` will execute once, but `while` won't
-execute at all. Let's see by example:
+They are basically the same, except if the loop condition is false on
+the first pass, `do-while` will execute once, but `while` won't execute
+at all. Let's see by example:
 
 ``` {.c}
 /* using a while statement: */
@@ -614,8 +611,9 @@ while(i < 10) {
 
 i = 10;
 
-// this is executed once, because the continuation condition is
-// not checked until after the body of the loop runs:
+// this is executed once, because the loop condition is not checked until
+// after the body of the loop runs:
+
 do {
     printf("do-while: i is %d\n", i);
     i++;
@@ -624,15 +622,15 @@ do {
 printf("All done!\n");
 ```
 
-Notice that in both cases, the continuation condition is false right
-away. So in the `while`, the condition fails, and the following block of
-code is never executed. With the `do-while`, however, the condition is
-checked _after_ the block of code executes, so it always executes at
-least once. In this case, it prints the message, increments `i`, then
-fails the condition, and continues to the "All done!" output.
+Notice that in both cases, the loop condition is false right away. So in
+the `while`, the loop fails, and the following block of code is never
+executed. With the `do-while`, however, the condition is checked _after_
+the block of code executes, so it always executes at least once. In this
+case, it prints the message, increments `i`, then fails the condition,
+and continues to the "All done!" output.
 
 The moral of the story is this: if you want the loop to execute at least
-once, no matter what the continuation condition, use `do-while`.
+once, no matter what the loop condition, use `do-while`.
 
 All these examples might have been better done with a `for` loop. Let's
 do something less deterministic---repeat until a certain random number
@@ -657,16 +655,21 @@ int main(void)
 
 ### The `for` statement {#forstat}
 
-Now you're starting to feel more comfortable with these looping
-statements, huh! Well, listen up! It's time for something a little more
-complicated: the `for` statement. This is another looping construct that
-gives you a cleaner syntax than `while` in many cases, but does
-basically the same thing. Here are two pieces of equivalent code:
+Welcome to one of the most popular loops in the world! The `for` loop!
+
+This is a great loop if you know the number of times you want to loop in
+advance.
+
+You could do the same thing using just a `while` loop, but the `for`
+loop can help keep the code cleaner.
+
+Here are two pieces of equivalent code---note how the `for` loop is just
+a more compact representation:
 
 ``` {.c}
-// Using a while statement:
+// Print numbers between 0 and 9, inclusive...
 
-// Print numbers between 0 and 9, inclusive:
+// Using a while statement:
 
 i = 0;
 while (i < 10) {
@@ -674,46 +677,43 @@ while (i < 10) {
     i++;
 }
 
-// Do the same thing with a for-loop:
+// Do the exact same thing with a for-loop:
 
 for (i = 0; i < 10; i++) {
     printf("i is %d\n", i);
 }
 ```
 
-That's right, kids---they do exactly the same thing. But you can see how
-the `for` statement is a little more compact and easy on the eyes.
+That's right, folks---they do exactly the same thing. But you can see
+how the `for` statement is a little more compact and easy on the eyes.
 (JavaScript users will fully appreciate its C origins at this point.)
 
-It's split into three parts, separated by semicolons. The first is
-the initialization, the second is the continuation condition, and the
-third is what should happen at the end of the block if the contination
-condition is true. All three of these parts are optional. And empty
-`for` will run forever:
+It's split into three parts, separated by semicolons. The first is the
+initialization, the second is the loop condition, and the third is what
+should happen at the end of the block if the loop condition is true. All
+three of these parts are optional.
+
+``` {.c}
+for (initialize things; loop if this is true; do this after each loop)
+```
+
+Note that the loop will not execute even a single time if the loop
+condition starts off false.
+
+> **`for`-loop fun fact!**
+>
+> You can use the comma operator to do multiple things in each clause of
+> the `for` loop!
+>
+> for (i = 0, j = 999; i < 10; i++, j--) {
+>     printf("%d, %d\n", i, j);
+> }
+
+An empty `for` will run forever:
 
 ``` {.c}
 for(;;) {  // "forever"
     printf("I will print this again and again and again\n" );
     printf("for all eternity until the cold-death of the universe.\n");
-
 }
 ```
-
-## Types Revisited
-
-### Unsigned and Signed Integer Types
-
-Among the integers in C, there are two big classifications: _signed_
-versus _unsigned_.
-
-The basic idea here is that signed types can be both positive and
-negative, while unsigned can only be positive.
-
-Why would you ever use an unsigned number, then?
-
-### Longer Types
-
-### Types of Specific Sizes
-
-## Casting and Conversions
-
