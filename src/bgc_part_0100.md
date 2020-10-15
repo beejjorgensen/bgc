@@ -204,9 +204,9 @@ same way!) of doing something you've done already. Pointers are the
 weird bit.
 
 So get ready for a rollicking adventure as close to the core of the
-computer as you can get without assembly, in the most [influential
-computer language of all time]^(I know someone will fight me on that,
-but it's gotta be at least in the top three, right?). Hang on!
+computer as you can get without assembly, in the most influential
+computer language of all time^[I know someone will fight me on that,
+but it's gotta be at least in the top three, right?]. Hang on!
 
 
 ## Hello, World!

@@ -27,14 +27,14 @@ in memory.
 We're going to take a second here and take a peek down the rabbit hole
 that is pointers. Don't worry about it.
 
-You can think of memory as a big array of [bytes]^(A "byte" is an 8-bit
+You can think of memory as a big array of bytes^[A "byte" is an 8-bit
 binary number. Think of it as an integer that can only hold the values
-from 0 to 255, inclusive.) Data is stored in this ["array"]^(I'm
-seriously oversimplifying how modern memory works, here. But the mental
-model works, so please forgive me.). If a number is larger than a single
-byte, it is stored in multiple bytes. Because memory is like an array,
-each byte of memory can be referred to by its index. This index into
-memory is also called an _address_, or a _location_, or a _pointer_.
+from 0 to 255, inclusive.] Data is stored in this "array"^[I'm seriously
+oversimplifying how modern memory works, here. But the mental model
+works, so please forgive me.]. If a number is larger than a single byte,
+it is stored in multiple bytes. Because memory is like an array, each
+byte of memory can be referred to by its index. This index into memory
+is also called an _address_, or a _location_, or a _pointer_.
 
 When you have a variable in C, the value of that variable is in memory
 _somewhere_, at some address. Of course. After all, where else would it
@@ -62,7 +62,7 @@ Some example types:
 |:---|------:|:-----|
 |Integer|`3490`|`int`|
 |Floating point|`3.14159`|`float`|
-|String|`"Hello, world!"`|[`char *`]^(Read this as "pointer to a char" or "char pointer". "Char" for character. Though I can't find a study, it seems anecdotally most people pronounce this as "char", a minority say "car", and a handful say "care". We'll talk more about pointers later.)|
+|String|`"Hello, world!"`|`char *`^[Read this as "pointer to a char" or "char pointer". "Char" for character. Though I can't find a study, it seems anecdotally most people pronounce this as "char", a minority say "car", and a handful say "care". We'll talk more about pointers later.]|
 
 C makes an effort to convert automatically between most numeric types
 when you ask it to. But other than that, all conversions are manual,
@@ -97,9 +97,9 @@ and they're both uninitialized. One holds an integer number, and the
 other holds a floating point number (a real number, basically, if you
 have a math background).
 
-Uninitialized variables have [indeterminate value]^(Colloquially, we say
+Uninitialized variables have indeterminate value^[Colloquially, we say
 they have "random" values, but they aren't truly---or even
-pseudo-truly---random numbers.). They have to be initalized or else you
+pseudo-truly---random numbers.]. They have to be initialized or else you
 must assume they contain some nonsense number.
 
 > This is one of the places C can "get you". Much of the time, in my
@@ -705,9 +705,11 @@ condition starts off false.
 > You can use the comma operator to do multiple things in each clause of
 > the `for` loop!
 >
+> ```
 > for (i = 0, j = 999; i < 10; i++, j--) {
 >     printf("%d, %d\n", i, j);
 > }
+> ```
 
 An empty `for` will run forever:
 
