@@ -74,7 +74,6 @@ have to consider any copyright issues when merging changes.
     * Basics
     * Pass by reference
   * Arrays
-    * VLAs
     * Multi-dimensional arrays
     * Pointer-array equivalence heads-up
   * Structs
@@ -118,8 +117,11 @@ have to consider any copyright issues when merging changes.
     * const
     * restrict
     * volatile
-    * _Atomic
-
+  * Optional features
+    * Threads
+    * Complex numbers
+    * Atomic
+    * VLAs
 
 
 
