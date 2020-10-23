@@ -3,7 +3,7 @@
 # vim: ts=4:sw=4:nosi:et:tw=72
 -->
 
-# Variables, Expressions, and Statements (Oh My)
+# Variables and Statements
 
 > _"It takes all kinds to make a world, does it not, Padre?"_<br>
 > _"So it does, my son, so it does."_<br>

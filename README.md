@@ -66,7 +66,6 @@ have to consider any copyright issues when merging changes.
   * Hello, world
   * Variables and types
     * Just int and float types
-  * Expressions
   * Statements
   * Functions
     * Function scope vs global scope
