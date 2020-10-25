@@ -131,7 +131,7 @@ to `i`.
 Again, we don't really care what the number is, generally. We just care
 that it's a pointer to `i`.
 
-## Pointer Types {#pttypes}  <!-- BOOKMARK -->
+## Pointer Types {#pttypes}
 
 Well, this is all well and good. You can now successfully take the
 address of a variable and print it on the screen. There's a little
@@ -142,17 +142,14 @@ for.
 Excellent question, and we'll get to that right after these messages
 from our sponsor.
 
-> 
-`ACME ROBOTIC HOUSING UNIT CLEANING SERVICES. YOUR
-HOMESTEAD WILL BE DRAMATICALLY IMPROVED OR YOU WILL BE TERMINATED.
-MESSAGE ENDS.`
+> `ACME ROBOTIC HOUSING UNIT CLEANING SERVICES. YOUR HOMESTEAD WILL BE
+> DRAMATICALLY IMPROVED OR YOU WILL BE TERMINATED. MESSAGE ENDS.`
 
-Welcome back to another installment of Beej's Guide to Whatever.
-When we met last we were talking about how to make use of pointers.
-Well, what we're going to do is store a pointer off in a variable so
-that we can use it later. You can identify the _pointer type_
-because there's an asterisk (`*`) before the variable name
-and after its type:
+Welcome back to another installment of Beej's Guide to Whatever. When we
+met last we were talking about how to make use of pointers. Well, what
+we're going to do is store a pointer off in a variable so that we can
+use it later. You can identify the _pointer type_ because there's an
+asterisk (`*`) before the variable name and after its type:
 
 ``` {.c}
 int main(void)
@@ -165,16 +162,14 @@ int main(void)
 ```
 
 Hey, so we have here a variable that is a pointer itself, and it can
-point to other `int`s. We know it points to
-`int`s, since it's of type `int*` (read
-"int-pointer").
+point to other `int`s. We know it points to `int`s, since it's of type
+`int*` (read "int-pointer").
 
-When you do an assignment into a pointer variable, the type of the
-right hand side of the assignment has to be the same type as the
-pointer variable. Fortunately for us, when you take the
-`address-of` a variable, the resultant type is a
-pointer to that variable type, so assignments like the following are
-perfect:
+When you do an assignment into a pointer variable, the type of the right
+hand side of the assignment has to be the same type as the pointer
+variable. Fortunately for us, when you take the `address-of` a variable,
+the resultant type is a pointer to that variable type, so assignments
+like the following are perfect:
 
 ``` {.c}
 int i;
@@ -183,40 +178,50 @@ int *p; /* p is a pointer, but is uninitialized and points to garbage */
 p = &i; /* p now "points to" i */
 ```
 
-Get it? I know is still doesn't quite make much sense since you
-haven't seen an actual use for the pointer variable, but we're taking
-small steps here so that no one gets lost. So now, let's introduce you
-to the anti-address-of, operator. It's kind of like what
-`address-of` would be like in Bizarro World.
+On the left of the assignment, we have a variable of type
+pointer-to-`int` (`int*`), and on the right side, we have expression of
+type address-of-`int` (since `i` is an `int`). But remember that
+"address" and "pointer" both mean the same thing! The address of a thing
+is pointer to that thing.
+
+So effectively, both sides of the assignment are type pointer-to-`int`
+(which is the same as type "address-of-`int`", but no one says it that
+way).
+
+Get it? I know is still doesn't quite make much sense since you haven't
+seen an actual use for the pointer variable, but we're taking small
+steps here so that no one gets lost. So now, let's introduce you to the
+anti-address-of, operator. It's kind of like what `address-of` would be
+like in Bizarro World.
 
 
 ## Dereferencing {#defer}
 
-A pointer, also known as an address, is sometimes also called a
-_reference_. How in the name of all that is holy can there be
+Like we've said, a pointer, also known as an address, is sometimes also
+called a _reference_. How in the name of all that is holy can there be
 so many terms for exactly the same thing? I don't know the answer to
 that one, but these things are all equivalent, and can be used
-interchangably.
+interchangeably.
 
 The only reason I'm telling you this is so that the name of this
 operator will make any sense to you whatsoever. When you have a pointer
-to a variable (AKA "a reference to a variable"), you can use the
-original variable through the pointer by _dereferencing_ the
-pointer. (You can think of this as "de-pointering" the pointer, but no
-one ever says "de-pointering".)
+to a variable (roughly "a reference to a variable"), you can use the
+original variable through the pointer by _dereferencing_ the pointer.
+(You can think of this as "de-pointering" the pointer, but no one ever
+says "de-pointering".)
 
 What do I mean by "get access to the original variable"? Well, if you
-have a variable called `i`, and you have a pointer to
-`i` called `p`, you can use the dereferenced pointer
-`p` _exactly as if it were the original variable
-`i`_!
+have a variable called `i`, and you have a pointer to `i` called `p`,
+you can use the dereferenced pointer `p` _exactly as if it were the
+original variable `i`_!
 
-You almost have enough knowledge to handle an example. The last
-tidbit you need to know is actually this: what is the dereference
-operator? It is the asterisk, again: `*`. Now,
-don't get this confused with the asterisk you used in the pointer
-declaration, earlier. They are the same character, but they have
-different meanings in different contexts.
+You almost have enough knowledge to handle an example. The last tidbit
+you need to know is actually this: what is the dereference operator? It
+is the asterisk, again: `*`. Now, don't get this confused with the
+asterisk you used in the pointer declaration, earlier. They are the same
+character, but they have different meanings in different
+contexts^[That's not all! It's used in `/*comments*/` and
+multiplication!].
 
 Here's a full-blown example:
 
@@ -228,7 +233,7 @@ int main(void)
     int i;
     int *p;  // this is NOT a dereference--this is a type "int*"
 
-    p = &i; // p now points to i
+    p = &i;  // p now points to i, p holds address of i
 
     i = 10;  // i is now 10
     *p = 20; // i (yes i!) is now 20!!
@@ -240,20 +245,19 @@ int main(void)
 }
 ```
 
-Remember that `p` holds the address of `i`, as you
-can see where we did the assignment to `p`. What the
-dereference operator does is tells the computer to _use the variable
-the pointer points to_ instead of using the pointer itself. In
-this way, we have turned `*p` into an alias of sorts for
-`i`.
+Remember that `p` holds the address of `i`, as you can see where we did
+the assignment to `p`. What the dereference operator does is tells the
+computer to _use the variable the pointer points to_ instead of using
+the pointer itself. In this way, we have turned `*p` into an alias of
+sorts for `i`.
 
+Great, but _why_? Why do any of this?
 
 ## Passing Pointers as Parameters {#ptpass}
 
-Right about now, you're thinking that you have an awful lot of
-knowledge about pointers, but absolutely zero application, right? I
-mean, what use is `*p` if you could just simply say
-`i` instead?
+Right about now, you're thinking that you have an awful lot of knowledge
+about pointers, but absolutely zero application, right? I mean, what use
+is `*p` if you could just simply say `i` instead?
 
 Well, my feathered friend, the real power of pointers comes into play
 when you start passing them to functions. Why is this a big deal? You
@@ -262,68 +266,68 @@ functions and they'd be dutifully copied onto the stack, and then you
 could manipulate local copies of those variables from within the
 function, and then you could return a single value.
 
-What if you wanted to bring back more than one single piece of data
-from the function? What if I answered that question with another
-question, like this:
+What if you wanted to bring back more than one single piece of data from
+the function? I mean, you can only return one thing, right? What if I
+answered that question with another question, like this:
 
-What happens when you pass a pointer as a parameter to a function?
-Does a copy of the pointer get put on the stack? _You bet your
-sweet peas it does._  Remember how earlier I rambled on and on about
-how _EVERY SINGLE PARAMETER_ gets copied onto the stack and the
-function uses a copy of the parameter? Well, the same is true here.
-The function will get a copy of the pointer.
+What happens when you pass a pointer as a parameter to a function? Does
+a copy of the pointer get put on the stack? _You bet your sweet peas it
+does._  Remember how earlier I rambled on and on about how _EVERY SINGLE
+PARAMETER_ gets copied onto the stack and the function uses a copy of
+the parameter? Well, the same is true here. The function will get a copy
+of the pointer.
 
 But, and this is the clever part: we will have set up the pointer in
-advance to point at a variable...and then the function can
-dereference its copy of the pointer to get back to the original
-variable! The function can't see the variable itself, but it can
-certainly dereference a pointer to that variable! Example!
+advance to point at a variable...and then the function can dereference
+its copy of the pointer to get back to the original variable! The
+function can't see the variable itself, but it can certainly dereference
+a pointer to that variable! Example!
 
 ``` {.c}
 #include <stdio.h>
 
-void increment(int *p) /* note that it accepts a pointer to an int */
+void increment(int *p)  // note that it accepts a pointer to an int
 {
-    *p = *p + 1; /* add one to p */
+    *p = *p + 1;  // add one to the thing p points to
 }
 
 int main(void)
 {
     int i = 10;
+    int *j = &i;  // note the address-of; turns it into a pointer
 
-    printf("i is %d\n", i); /* prints "10" */
+    printf("i is %d\n", i);       // prints "10"
+    printf("i is also %d\n", *j); // prints "10"
 
-    increment(&i); /* note the address-of; turns it into a pointer */
+    increment(j);
 
-    printf("i is %d\n", i); /* prints "11"! */
+    printf("i is %d\n", i); // prints "11"!
 
     return 0;
 }
 ```
 
-Ok! There are a couple things to see here...not the least of which
-is that the `increment()` function takes an `int*`
-as a parameter. We pass it an `int*` in the call by changing
-the `int` variable `i` to an `int*` using
-the `address-of` operator. (Remember, a pointer is
-an address, so we make pointers out of variables by running them through
-the `address-of` operator.)
+Ok! There are a couple things to see here...not the least of which is
+that the `increment()` function takes an `int*` as a parameter. We pass
+it an `int*` in the call by changing the `int` variable `i` to an `int*`
+using the `address-of` operator. (Remember, a pointer is an address, so
+we make pointers out of variables by running them through the
+`address-of` operator.)
 
-The `increment()` function gets a copy of the pointer on
-the stack. Both the original pointer `&i` (in
-`main()`) and the copy of the pointer `p` (in
-`increment()`) point to the same address. So dereferencing
-either will allow you to modify the original variable `i`!
-The function can modify a variable in another scope! Rock on!
+The `increment()` function gets a copy of the pointer on the stack. Both
+the original pointer `j` (in `main()`) and the copy of that pointer `p`
+(in `increment()`) point to the same address, namely the one holding the
+value `i`. So dereferencing either will allow you to modify the original
+variable `i`! The function can modify a variable in another scope! Rock
+on!
 
 Pointer enthusiasts will recall from early on in the guide, we used a
-function to read from the keyboard, `scanf()`...and, although
-you might not have recognized it at the time, we used the
-`address-of` to pass a pointer to a value to
-`scanf()`. We had to pass a pointer, see, because
-`scanf()` reads from the keyboard and stores the result in a
-variable. The only way it can see that variable that is local to that
-calling function is if we pass a pointer to that variable:
+function to read from the keyboard, `scanf()`...and, although you might
+not have recognized it at the time, we used the `address-of` to pass a
+pointer to a value to `scanf()`. We had to pass a pointer, see, because
+`scanf()` reads from the keyboard and stores the result in a variable.
+The only way it can see that variable that is local to that calling
+function is if we pass a pointer to that variable:
 
 ``` {.c}
 int i = 0;
@@ -332,6 +336,6 @@ scanf("%d", &i);        /* pretend you typed "12" */
 printf("i is %d\n", i); /* prints "i is 12" */
 ```
 
-See, `scanf()` dereferences the pointer we pass it in
-order to modify the variable it points to. And now you know why you
-have to put that pesky ampersand in there!
+See, `scanf()` dereferences the pointer we pass it in order to modify
+the variable it points to. And now you know why you have to put that
+pesky ampersand in there!
