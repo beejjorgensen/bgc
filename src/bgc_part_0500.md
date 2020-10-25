@@ -17,7 +17,7 @@ out!_ But for now, let's just use them as arrays. _Phew_.
 
 When you declare an array, you have to give it a size. And the size has
 to be fixed^[Again, not really, but variable-length arrays---of which
-I'm not really a fan---are a story for another time.]
+I'm not really a fan---are a story for another time.].
 
 ## Easy Example
 
