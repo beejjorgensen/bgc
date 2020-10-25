@@ -15,10 +15,6 @@ But only barely! As we'll find out later, arrays are just syntactic
 sugar in C---they're actually all pointers and stuff deep down. _Freak
 out!_ But for now, let's just use them as arrays. _Phew_.
 
-When you declare an array, you have to give it a size. And the size has
-to be fixed^[Again, not really, but variable-length arrays---of which
-I'm not really a fan---are a story for another time.].
-
 ## Easy Example
 
 Let's just crank out an example:
@@ -46,6 +42,19 @@ int main(void)
 }
 ```
 
+When you declare an array, you have to give it a size. And the size has
+to be fixed^[Again, not really, but variable-length arrays---of which
+I'm not really a fan---are a story for another time.].
+
+In the above example, we made an array of 4 floats. The value in the
+square brackets in the declaration lets us know that.
+
+Later on in subsequent lines, we access the values in the array, setting
+them or getting them, again with square brackets.
+
+Hopefully this looks familiar from languages you already know!
+
+
 ## Array Initializers
 
 You can initialize an array with constants ahead of time:
@@ -56,7 +65,7 @@ You can initialize an array with constants ahead of time:
 int main(void)
 {
     int i;
-    int a[5] = {22, 37, 3490, 18, 95};
+    int a[5] = {22, 37, 3490, 18, 95};  // Initialize with these values
 
     for (i = 0; i < 5; i++) {
         printf("%d\n", a[i]);
@@ -65,6 +74,9 @@ int main(void)
     return 0;
 }
 ```
+
+Catch: initializer values must be constant terms. Can't throw variables
+in there. Sorry, Illinois!
 
 You should never have more items in your initializer than there is room
 for in the array, or the compiler will get cranky:
