@@ -108,8 +108,8 @@ set an entire array to zero:
 int a[100] = {0};
 ```
 
-Which means, "Make the first element 0, and then automatically make the
-rest 0, as well."
+Which means, "Make the first element zero, and then automatically make
+the rest zero, as well."
 
 
 ## Out of Bounds!
