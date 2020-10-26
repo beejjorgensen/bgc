@@ -54,6 +54,15 @@ them or getting them, again with square brackets.
 
 Hopefully this looks familiar from languages you already know!
 
+## Getting the Length of an Array
+
+You can't. C doesn't record this information. You have to manage it
+separately in another variable.
+
+There is a trick to get the number of elements in an array in the scope
+in which an array is declared. But, generally speaking, this won't work
+the way you want if you pass the array into a function.
+
 
 ## Array Initializers
 
@@ -111,6 +120,16 @@ int a[100] = {0};
 Which means, "Make the first element zero, and then automatically make
 the rest zero, as well."
 
+Lastly, you can also have C compute the size of the array from the
+initializer, just by leaving the size off:
+
+``` {.c}
+int a[3] = {22, 37, 3490};
+
+// is the same as:
+
+int a[] = {22, 37, 3490};  // Left the size off!
+```
 
 ## Out of Bounds!
 
@@ -224,7 +243,132 @@ For output of:
 (1,4) = 9
 ```
 
-## Arrays and Functions
+## Arrays and Pointers
 
 [_Casually_] So... I kinda might have mentioned up there that arrays
-were pointers, deep down? We should take a shallow dive into that now.
+were pointers, deep down? We should take a shallow dive into that now so
+that things aren't completely confusing. Later on, we'll look at what
+the real relationship between arrays and pointers is, but for now I just
+want to look at passing arrays to functions.
+
+### Getting a Pointer to an Array
+
+I want to tell you a secret. Generally speaking, when a C programmer
+talks about a pointer to an array, they're talking about a pointer _to
+the first element_ of the array^[This is technically incorrect, as a
+pointer to an array and a pointer to the first element of an array have
+different types. But we can burn that bridge when we get to it.].
+
+So let's get a pointer to the first element of an array.
+
+``` {.c}
+#include <stdio.h>
+
+int main(void)
+{
+    int a[5] = {11, 22, 33, 44, 55};
+    int *p;
+
+    p = &a[0];  // p points to the array
+                // Well, to the first element, actually
+
+    printf("%d\n", *p);  // Prints "11"
+
+    return 0;
+}
+```
+
+This is so common to do in C that the language allows us a shorthand:
+
+```
+p = &a[0];  // p points to the array
+
+// is the same as:
+
+p = a;      // p points to the array, but much nicer-looking!
+```
+
+Just referring to the array name in isolation is the same as getting a
+pointer to the first element of the array! We're going to use this
+extensively in the upcoming examples.
+
+But hold on a second--isn't `p` an `int*`? And `*p` gives is `11`, same
+as `a[0]`? Yessss. You're starting to get a glimpe of how arrays and
+pointers are related in C.
+
+
+### Passing Single Dimensional Arrays to Functions
+
+Let's do an example with a single dimensional array. I'm going to write
+a couple functions that we can pass the array to that do different
+things.
+
+Prepare for some mind-blowing function signatures!
+
+``` {.c}
+#include <stdio.h>
+
+// Passing as a pointer to the first element
+void times2(int *a, int len)
+{
+    for (int i = 0; i < len; i++)
+        printf("%d\n", a[i] * 2);
+}
+
+// Same thing, but using array notation
+void times3(int a[], int len)
+{
+    for (int i = 0; i < len; i++)
+        printf("%d\n", a[i] * 3);
+}
+
+// Same thing, but using array notation with size
+void times4(int a[5], int len)
+{
+    for (int i = 0; i < len; i++)
+        printf("%d\n", a[i] * 4);
+}
+
+int main(void)
+{
+    int x[5] = {11, 22, 33, 44, 55};
+
+    times2(x, 5);
+    times3(x, 5);
+    times4(x, 5);
+
+    return 0;
+}
+```
+
+All those methods of listing the array as a parameter in the function
+are identical.
+
+``` {.c}
+void times2(int *a, int len)
+void times3(int a[], int len)
+void times4(int a[5], int len)
+```
+
+In C, the first is the most common, by far.
+
+And, in fact, in the latter situation, the compiler doesn't even care
+what number you pass in (other than it has to be greater than zero^[C99
+6.7.6.2 paragraph 1 requires it be greater than zero. But you might see
+code out there with arrays declared of zero length at the end of
+`struct`s and GCC is particularly lenient about it unless you compile
+with `-pedantic`. This zero-length array was a hackish mechanism for
+making variable-length structures. Unfortunately, it's technically
+undefined behavior to access such an array even though it basically
+worked everywhere. C99 codified a well-defined replacement for it called
+_flexible array members_, which we'll chat about when we get to
+`struct`s.]). It doesn't enforce anything at all. 
+
+Now that I've said that, the size of the array in the function
+declaration actually _does_ matter when you're passing multidimensional
+arrays into functions, but let's come back to that.
+
+
+### Changing Arrays in Functions
+
+### Passing Multidimensional Arrays to Functions
