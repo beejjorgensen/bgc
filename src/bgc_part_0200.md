@@ -5,10 +5,11 @@
 
 # Variables and Statements
 
-> _"It takes all kinds to make a world, does it not, Padre?"_<br>
-> _"So it does, my son, so it does."_<br>
+> _"It takes all kinds to make a world, does it not, Padre?"_
 >
-> Pirate Captain Thomas Bartholomew Red to the Padre, Pirates
+> _"So it does, my son, so it does."_
+>
+> ---Pirate Captain Thomas Bartholomew Red to the Padre, Pirates
 
 There sure can be lotsa stuff in a C program.
 
