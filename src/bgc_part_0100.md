@@ -75,8 +75,7 @@ command line tools.
 
 There are a lot of compilers out there, and virtually all of them will
 work for this book. And for those not in the know, a C++ compiler will
-compile C most code, so it'll work for the purposes of this guide. Some
-of the compilers I am familiar with are the following:
+compile C most code, so it'll work for the purposes of this guide.
 
 ## Official Homepage
 
@@ -326,8 +325,27 @@ character. This is the character that causing further printing to
 continue on the next line instead of the current. It's like hitting
 return at the end of the line.
 
-So copy that code into a file, build it, and run it---see what
-happens:
+So copy that code into a file called `hello.c` and build it. On a
+Unix-like platform (e.g. Linux, BSD, Mac, or WSL), you'll build with a
+command like so:
+
+```
+gcc -o hello hello.c
+```
+
+(This means "compile `hello.c`, and output an executable called
+`hello`.)
+
+After that's done, you should have a file called `hello` that you can
+run with this command:
+
+```
+./hello
+```
+
+(The leading `./` tells the shell to "run from the current directory".)
+
+And see what happens:
 
 ```
 Hello, World! 
