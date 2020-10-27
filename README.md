@@ -114,6 +114,7 @@ have to consider any copyright issues when merging changes.
     * Pointers to pointers
     * Pointers to functions
     * Pointer integer types
+    * NULL is 0
   * Arrays II
     * static const
   * Variadic functions
