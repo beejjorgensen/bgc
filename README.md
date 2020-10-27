@@ -75,9 +75,19 @@ have to consider any copyright issues when merging changes.
   * Arrays
     * Multi-dimensional arrays
     * Pointer-array equivalence heads-up
+  * Pointers II
+    * void pointers
+    * Pointer-array equivalence
+    * Pointer arithmetic
+    * Iterating through bytes of an object
   * Structs
     * Initializers
     * Unions
+  * Scope
+    * Block scope
+    * Extern
+    * Static and file scope
+    * Incomplete types
   * Types II
     * Storage classes
       * Static
@@ -87,18 +97,10 @@ have to consider any copyright issues when merging changes.
     * Signed/Unsigned
     * Casting
     * Standard promotions
-  * Pointers II
-    * void pointers
-    * Pointer-array equivalence
-    * Pointer arithmetic
-    * Pointer integer types
-    * Iterating through bytes of an object
-    * Const pointers
-  * Scope II
-    * Block scope
-    * Extern
-    * Static and file scope
-    * Incomplete types
+    * Type qualifiers
+      * const
+      * restrict
+      * volatile
   * Preprocessor
     * Macros
     * Include
@@ -108,14 +110,15 @@ have to consider any copyright issues when merging changes.
   * Enum
   * Typedef
   * Pointers III
+    * const pointers
     * Pointers to pointers
     * Pointers to functions
+    * Pointer integer types
+  * Arrays II
+    * static const
   * Variadic functions
   * Bitwise operations
-  * Type qualifiers
-    * const
-    * restrict
-    * volatile
+  * More man pages
   * Optional features
     * Threads
     * Complex numbers
