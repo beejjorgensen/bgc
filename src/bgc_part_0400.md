@@ -339,3 +339,31 @@ printf("i is %d\n", i); /* prints "i is 12" */
 See, `scanf()` dereferences the pointer we pass it in order to modify
 the variable it points to. And now you know why you have to put that
 pesky ampersand in there!
+
+## The `NULL` Pointer
+
+Any pointer type can be set to a special value called `NULL`. This
+indicates that this pointer doesn't point to anything.
+
+``` {.c}
+int *p;
+
+p = NULL;
+```
+
+Since it doesn't point to a value, dereferencing it is undefined
+behavior, and probably will result in a crash:
+
+``` {.c}
+int *p = NULL;
+
+*p = 12;  // CRASH or SOMETHING PROBABLY BAD
+```
+
+Despite being called [flw[the billion dollar mistake by its
+creatorNull_pointer#History]], the `NULL` pointer is a good
+[flw[sentinel value|Sentinel_value]] and general indicator that a
+pointer hasn't yet been initialized.
+
+(Of course, the pointer points to garbage unless you explicitly assign
+it to point to an address or `NULL`.)
