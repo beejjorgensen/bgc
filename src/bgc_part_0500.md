@@ -368,7 +368,98 @@ Now that I've said that, the size of the array in the function
 declaration actually _does_ matter when you're passing multidimensional
 arrays into functions, but let's come back to that.
 
-
 ### Changing Arrays in Functions
 
+We've said that arrays are just pointers in disguise. This means that if
+you pass an array to a function, you're likely passing a pointer to the
+first element in the array.
+
+But if the function has a pointer to the data, it is able to manipulate
+that data! So changes that a function makes to an array will be visible
+back out in the caller.
+
+Here's an example where we pass a pointer to an array into a function,
+the function manipulates the values in that array, and those changes are
+visible out in the caller.
+
+``` {.c}
+#include <stdio.h>
+
+void double_array(int *a, int len)
+{
+    // Multiple each element by 2
+    //
+    // This doubles the values in x in main() since x and a both point
+    // to the same array in memory!
+
+    for (int i = 0; i < len; i++)
+        a[i] *= 2;
+}
+
+int main(void)
+{
+    int x[5] = {1, 2, 3, 4, 5};
+
+    double_array(x, 5);
+
+    for (int i = 0; i < 5; i++)
+        printf("%d\n", x[i]);  // 2, 4, 6, 8, 10!
+
+    return 0;
+}
+```
+
+Later when we talk about the equivalence between arrays and pointers,
+we'll see how this makes a lot more sense. For now, it's enough to know
+that functions can make changes to arrays that are visible out in the
+caller.
+
+
 ### Passing Multidimensional Arrays to Functions
+
+The story changes a little when we're talking about multidimensional
+arrays. C needs to know all the dimensions (except the first one) so it
+has enough information to know where in memory to look to find a value.
+
+Here's an example where we're explicit with all the dimensions:
+
+``` {.c}
+#include <stdio.h>
+
+void print_2D_array(int a[2][3])
+{
+    for (int row = 0; row < 2; row++) {
+        for (int col = 0; col < 3; col++)
+            printf("%d ", a[row][col]);
+        printf("\n");
+    }
+}
+
+int main(void)
+{
+    int x[2][3] = {
+        {1, 2, 3},
+        {4, 5, 6}
+    };
+
+    print_2D_array(x);
+
+    return 0;
+}
+```
+
+But in this case, these two^[This is also equivalent: `void
+print_2D_array(int (*a)[3])`, but that's more than I want to get into
+right now.] are equivalent:
+
+``` {.c}
+void print_2D_array(int a[2][3])
+void print_2D_array(int a[][3])
+```
+
+The compiler really only needs the second dimension so it can figure out
+how far in memory to skip for each increment of the first dimension.
+
+Also, the compiler does minimal compile-time bounds checking (if you're
+lucky), and C does zero runtime checking of bounds. No seat belts! Don't
+crash!
