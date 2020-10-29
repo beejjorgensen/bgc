@@ -209,7 +209,6 @@ int main(void) {
 But these are identical to using integer values for true and false.
 They're just a facade to make things look nice.
 
-
 ## Operators and Expressions {#operators}
 
 C operators should be familiar to you from other languages. Let's blast
@@ -217,6 +216,37 @@ through some of them here.
 
 (There are a bunch more details than this, but we're going to do enough
 in this section to get started.)
+
+### The `sizeof` Operator
+
+This operator tells you the size (in bytes) that a particular variable
+or data type uses in memory.
+
+This can be different on different systems, except for `char` (which is
+always 1 byte).
+
+And this might not seem very useful now, but we'll be making reference
+to it here and there, so it's worth covering.
+
+You can take the `sizeof` a variable or expression:
+
+``` {.c}
+int a = 999;
+
+print("%zu", sizeof a);      // Prints 8 on my system
+print("%zu", sizeof 3.14);   // Prints 8 on my system, also
+```
+
+or you can take the `sizeof` a type (note the parentheses are required
+around a type name, unlike an expression):
+
+``` {.c}
+print("%zu", sizeof(int));   // Prints 8 on my system
+print("%zu", sizeof(char));  // Prints 1 on all systems
+```
+
+We'll make use of this later on.
+
 
 ### Arithmetic
 
