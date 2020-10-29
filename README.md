@@ -81,14 +81,16 @@ have to consider any copyright issues when merging changes.
     * Arrays vs pointers
     * Length
     * Copying
+  * Structs
+    * Basic usage
+    * Initializers
+    * Pointers to structs, arrow operator
+    * Passing structs to functions
   * Pointers II
     * void pointers
     * Pointer-array equivalence
     * Pointer arithmetic
     * Iterating through bytes of an object
-  * Structs
-    * Initializers
-    * Unions
   * Scope
     * Block scope
     * Extern
@@ -107,6 +109,12 @@ have to consider any copyright issues when merging changes.
       * const
       * restrict
       * volatile
+  * Structs II
+    * Anonymous Structs
+    * Typedef
+    * Flexible array members
+    * Padding bytes
+    * Unions
   * Preprocessor
     * Macros
     * Include
@@ -123,6 +131,8 @@ have to consider any copyright issues when merging changes.
     * NULL is 0
   * Arrays II
     * static const
+    * Equivalent initializers 6.7.9p29
+    * Array of struct initializers 6.7.9p35
   * Variadic functions
   * Bitwise operations
   * More man pages
