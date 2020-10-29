@@ -10,7 +10,9 @@ Finally! Strings! What could be simpler?
 Well, turns out strings aren't actually strings in C. That's right!
 They're pointers! Of course they are!
 
-Let's check it out---it's not really such a big deal.
+Much like arrays, strings in C _barely exist_.
+
+But let's check it out---it's not really such a big deal.
 
 ## Constant Strings
 
@@ -111,11 +113,55 @@ out! This is surprising, but is still only because we haven't talked
 about array/pointer equivalence yet. But this is yet another hint that
 arrays and pointers are the same thing, deep down.
 
+## String Initializers
+
+We've already seen some examples with initializing string variables with
+constant strings:
+
+``` {.c}
+char *s = "Hello, world!";
+char t[] = "Hello, again!";
+```
+
+But these two are subtly different.
+
+This one is a pointer to a constant string (i.e. a pointer to the first
+character in a constant string):
+
+``` {.c}
+char *s = "Hello, world!";
+```
+
+If you try to mutate that string with this:
+
+```
+char *s = "Hello, world!";
+
+s[0] = 'z';  // BAD NEWS: tried to mutate a constant string!
+```
+
+The behavior is undefined. Probably, depending on your system, a crash
+will result.
+
+But declaring it as an array is different. This one is a non-constant,
+mutable _copy_ of the constant string that we can change at will
+
+``` {.c}
+char t[] = "Hello, again!";  // t is an array copy of the string 
+t[0] = 'z'; //  No problem
+
+printf("%s\n", t);  // "zello, again!"
+```
+
+So remember: if you have a pointer to a constant string, don't try to
+change it!
+
 ## Getting String Length
 
-You can't, since C doesn't track it for you. Well, that's really not
-true that you can't get it. There's a function in `<string.h>` called
-`strlen()` that can be used to compute the length of any string.
+You can't, since C doesn't track it for you. And when I say "can't", I
+actually mean "can"^[Though it is true that C doesn't track the length
+of strings.]. There's a function in `<string.h>` called `strlen()` that
+can be used to compute the length of any string.
 
 ``` {.c}
 #include <stdio.h>
@@ -140,4 +186,137 @@ The above program prints:
 The string is 13 characters long.
 ```
 
+Great! So it _is_ possible to get the string length!
+
+But... if C doesn't track the length of the string anywhere, how does it
+know how long the string is?
+
 ## String Termination
+
+C does strings a little differently than many programming languages, and
+in fact differently than almost every modern programming language.
+
+When you're making a new language, you have basically two options for
+storing a string in memory:
+
+1. Store the bytes of the string along with a number indicating the
+   length of the string.
+
+2. Store the bytes of the string, and mark the end of the string with a
+   special byte called the _terminator_.
+
+If you want strings longer than 255 characters, option 1 requires at
+least two bytes to store the length. Whereas option 2 only requires one
+byte to terminate the string. So a bit of savings there.
+
+Of course, these days is seems ridiculous to worry about saving a byte
+(or 3---lots of languages will happily let you have strings that are 4
+gigabytes in length). But back in the day, it was a bigger deal.
+
+So C took approach #2. In C, a "string" is defined by two basic
+characteristics:
+
+* A pointer to the first character in the string.
+* A zero-valued byte (or `NUL` character^[This is different than the
+  `NULL` pointer, and I'll abbreviate it `NUL` when talking about the
+  character versus `NULL` for the pointer.]) somewhere in memory after
+  the pointer that indicates the end of the string.
+
+A `NUL` character can be written in C code as `\0`, though you don't
+often have to do this.
+
+When you include a constant string in your code, the `NUL` character is
+automatically, implicitly included.
+
+``` {.c}
+char *s = "Hello!";  // Actually "Hello!\0" behind the scenes
+```
+
+So with this in mind, let's write our own `strlen()` function that
+counts characters in a string until it finds a `NUL`.
+
+The procedure is to look down the string for a single `NUL` character,
+counting as we go^[Later we'll learn a neater way to do with with
+pointer arithmetic.]:
+
+``` {.c}
+int my_strlen(char *s)
+{
+    int count = 0;
+
+    while (s[count] != '\0')  // Single quotes for single char
+        count++;
+
+    return count;
+}
+```
+
+And that's basically how the built-in `strlen()` gets the job done.
+
+## Copying a String
+
+You can't copy a string through the assignment operator (`=`). All that
+does is make a copy of the pointer to the first character... so you end
+up with two pointers to the same string:
+
+``` {.c}
+#include <stdio.h>
+
+int main(void)
+{
+    char s[] = "Hello, world!";
+    char *t;
+
+    // This makes a copy of the pointer, not a copy of the string!
+    t = s;
+
+    // We modify t
+    t[0] = 'z';
+
+    // But printing s shows the modification!
+    // Because t and s point to the same string!
+
+    printf("%s\n", s);  // "zello, world!"
+
+    return 0;
+}
+```
+
+If you want to make a copy of a string, you have to copy it a byte at a
+time---but this is made easier with the `strcpy()` function^[There's a
+safer function called `strncpy()` that you should probably use instead,
+but we'll get to that later.].
+
+Before you copy the string, make sure you have room to copy it into,
+i.e. the destination array that's going to hold the characters needs to
+be at least as long as the string you're copying.
+
+``` {.c}
+#include <stdio.h>
+#include <string.h>
+
+int main(void)
+{
+    char s[] = "Hello, world!";
+    char t[100];  // Each char is one byte, so plenty of room
+
+    // This makes a copy of the string!
+    strcpy(t, s);
+
+    // We modify t
+    t[0] = 'z';
+
+    // And s remains unaffected because it's a different string
+    printf("%s\n", s);  // "Hello, world!"
+
+    // But t has been changed
+    printf("%s\n", t);  // "zello, world!"
+
+    return 0;
+}
+```
+
+Notice with `strcpy()`, the destination pointer is the first argument,
+and the source pointer is the second. A mnemonic I use to remember this
+is that it's the order you would have put `t` and `s` if an assignment
+`=` worked for strings.
