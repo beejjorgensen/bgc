@@ -75,6 +75,12 @@ have to consider any copyright issues when merging changes.
   * Arrays
     * Multi-dimensional arrays
     * Pointer-array equivalence heads-up
+  * Strings
+    * Declaring
+    * Initializers
+    * Arrays vs pointers
+    * Length
+    * Copying
   * Pointers II
     * void pointers
     * Pointer-array equivalence
