@@ -63,6 +63,7 @@ Some example types:
 |:---|------:|:-----|
 |Integer|`3490`|`int`|
 |Floating point|`3.14159`|`float`|
+|Character (single)|`'c'`|`char`|
 |String|`"Hello, world!"`|`char *`^[Read this as "pointer to a char" or "char pointer". "Char" for character. Though I can't find a study, it seems anecdotally most people pronounce this as "char", a minority say "car", and a handful say "care". We'll talk more about pointers later.]|
 
 C makes an effort to convert automatically between most numeric types
