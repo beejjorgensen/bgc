@@ -129,6 +129,7 @@ have to consider any copyright issues when merging changes.
     * Pointers to functions
     * Pointer integer types
     * NULL is 0
+    * ptrdiff_t
   * Arrays II
     * static const
     * Equivalent initializers 6.7.9p29
