@@ -137,7 +137,7 @@ Now---let's starting _incrementing_ `p` so that it points at subsequent
 elements of the array. We'll do this until `p` points to the `999`; that
 is, we'll do it until `*p == 999`:
 
-```
+``` {.c}
 while (*p != 999) {       // While the thing p points to isn't 999
     printf("%d\n", *p);   // Print it
     p++;                  // Move p to point to the next int!
