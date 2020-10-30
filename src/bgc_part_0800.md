@@ -18,6 +18,12 @@ But what does it mean when you do that?
 In short, if you have a pointer to a type, adding one to the pointer
 moves to the next item of that type directly after it in memory.
 
+It's **important** to remember that as we move pointers around and look
+at different places in memory, we need to make sure that we're always
+pointing to a valid place in memory before we dereference. If we're off in
+the weeds and we try to see what's there, the behavior is undefined and
+a crash is a common result.
+
 This is a little chicken-and-eggy with [Array/Pointer Equivalence,
 below](#arraypointerrequiv), but we're going to give it a shot, anyway.
 
@@ -152,7 +158,57 @@ until it points to `999` and we quit.
 
 ### Subtracting Pointers
 
-TODO new strlen
+You can subtract a value from a pointer to get to earlier address, as
+well, just like we were adding to them before.
+
+But we can also subtract two pointers to find the difference between
+them, e.g. we can calculate how many `int`s there are between two
+`int*`s. The catch is that this only works within a single array^[Or
+string, which is really an array of `char`s. Somewhat peculiarly, you
+can also have a pointer that references _one past_ the end of the array
+without a problem and still do math on it. You just can't dereference it
+when it's out there.]---if the pointers point to anything else, you get
+undefined behavior.
+
+Remember how strings are `char*`s in C? Let's see if we can use this to
+write another variant of `strlen()` to compute the length of a string
+that utilizes pointer subtraction.
+
+The idea is that if we have a pointer to the beginning of the string, we
+can find a pointer to the end of the string by scanning ahead for the
+`NUL` character.
+
+And if we have a pointer to the beginning of the string, and we computed
+the pointer to the end of the string, we can just subtract the two
+pointers to come up with the length!
+
+``` {.c}
+#include <stdio.h>
+
+int my_strlen(char *s)
+{
+    // Start scanning from the beginning of the string
+    char *p = s;
+
+    // Scan until we find the NUL character
+    while (*p != '\0')
+        p++;
+
+    // Return the difference in pointers
+    return p - s;
+}
+
+int main(void)
+{
+    printf("%d\n", my_strlen("Hello, world!"));  // Prints "13"
+
+    return 0;
+}
+```
+
+Remember that you can only use pointer subtraction between two pointers
+that point to the same array!
+
 
 ## Array/Pointer Equivalence {#arraypointerequiv}
 
