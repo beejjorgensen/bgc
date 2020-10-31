@@ -263,8 +263,9 @@ int main(void)
     for (int i = 0; i < 5; i++)
         printf("%d\n", *(p + i));  // Pointer notation with p
 
-    for (int i = 0; i < 5; i++)    // This one only works with the pointer:
-        printf("%d\n", *(p++));    // Pointer arithmetic with p
+    for (int i = 0; i < 5; i++)
+        printf("%d\n", *(p++));    // Moving pointer p
+        //printf("%d\n", *(a++));    // Moving array variable a--ERROR!
 
     return 0;
 }
@@ -275,12 +276,42 @@ use pointer or array notion to access elements. Same with a pointer
 variable.
 
 The one big difference is that you can _modify_ a pointer to point to a
-different address, but you can't do that with an array variable.
+different address, but you can't do that with an array variable. <!--
+6.3.2.1p2 -->
 
-## Iterating Through Bytes of an Object
+### Array/Pointer Equivalence in Function Calls
 
-TODO
+This is where you'll encounter this concept the most, for sure.
+
+If you have a function that takes a pointer argument, e.g.:
+
+``` {.c}
+int my_strlen(char *s)
+```
+
+this means you can pass either an array or a pointer to this function
+and have it work!
+
+``` {.c}
+char s[] = "Antelopes";
+char *t = "Wombats";
+
+printf("%d\n", my_strlen(s));  // Works!
+printf("%d\n", my_strlen(t));  // Works, too!
+```
+
+And it's also why these two function signatures are equivalent:
+
+``` {.c}
+int my_strlen(char *s)    // Works!
+int my_strlen(char s[])   // Works, too!
+```
 
 ## `void` Pointers
+
+You've already seen the `void` keyword used with functions, but this is
+an entirely separate, unrelated usage.
+
+## Iterating Through Bytes of an Object
 
 TODO
