@@ -130,12 +130,16 @@ have to consider any copyright issues when merging changes.
     * Pointer integer types
     * NULL is 0
     * ptrdiff_t
+    * unnamed objects
   * Arrays II
     * static const
     * Equivalent initializers 6.7.9p29
     * Array of struct initializers 6.7.9p35
   * Variadic functions
   * Bitwise operations
+  * Preprocessor II
+  * Incomplete types
+  * lvalues
   * More man pages
   * Optional features
     * Threads
