@@ -212,7 +212,70 @@ that point to the same array!
 
 ## Array/Pointer Equivalence {#arraypointerequiv}
 
-TODO
+We're finally ready to talk about this! We've seen plenty of examples of
+places where we've intermixed array notation, but let's give out the
+_fundamental formula of array/pointer equivalence_:
+
+``` {.c}
+a[b] == *(a + b)
+```
+
+Study that! Those are equivalent and can be used interchangeably!
+
+I've oversimplified a bit, because in my above example `a` and `b` can
+both be expressions, and we might want a few more parentheses to force
+order of operations in case the expressions are complex.
+
+The spec is specific, as always, declaring (in §6.5.2.1¶2):
+
+> `E1[E2]` is identical to `(*((E1)+(E2)))`
+
+but that's a little harder to grok. Just make sure you include
+parentheses if the expressions are complicated so all your math
+happens in the right order.
+
+This means we can _decide_ if we're going to use array or pointer
+notation for any array or pointer (assuming it points to an element of
+an array).
+
+Let's use an array and pointer with both array and pointer notation:
+
+``` {.c}
+#include <stdio.h>
+
+int main(void)
+{
+    int a[] = {11, 22, 33, 44, 55};  // Add 999 here as a sentinel
+
+    int *p = a;  // p points to the first element of a, 11
+
+    // Print all elements of the array a variety of ways:
+
+    for (int i = 0; i < 5; i++)
+        printf("%d\n", a[i]);      // Array notation with a
+
+    for (int i = 0; i < 5; i++)
+        printf("%d\n", p[i]);      // Array notation with p
+
+    for (int i = 0; i < 5; i++)
+        printf("%d\n", *(a + i));  // Pointer notation with a
+
+    for (int i = 0; i < 5; i++)
+        printf("%d\n", *(p + i));  // Pointer notation with p
+
+    for (int i = 0; i < 5; i++)    // This one only works with the pointer:
+        printf("%d\n", *(p++));    // Pointer arithmetic with p
+
+    return 0;
+}
+```
+
+So you can see that in general, if you have an array variable, you can
+use pointer or array notion to access elements. Same with a pointer
+variable.
+
+The one big difference is that you can _modify_ a pointer to point to a
+different address, but you can't do that with an array variable.
 
 ## Iterating Through Bytes of an Object
 
