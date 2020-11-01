@@ -99,7 +99,7 @@ virtually all circumstances, including this one, the actual value of the
 number printed is unimportant to you, and I show it here only for
 demonstration of the `address-of` operator.
 
-``` {.c}
+``` {.c .numberLines}
 #include <stdio.h>
 
 int main(void)
@@ -151,7 +151,7 @@ we're going to do is store a pointer off in a variable so that we can
 use it later. You can identify the _pointer type_ because there's an
 asterisk (`*`) before the variable name and after its type:
 
-``` {.c}
+``` {.c .numberLines}
 int main(void)
 {
     int i;  /* i's type is "int" */
@@ -225,7 +225,7 @@ multiplication!].
 
 Here's a full-blown example:
 
-``` {.c}
+``` {.c .numberLines}
 #include <stdio.h>
 
 int main(void)
@@ -283,7 +283,7 @@ its copy of the pointer to get back to the original variable! The
 function can't see the variable itself, but it can certainly dereference
 a pointer to that variable! Example!
 
-``` {.c}
+``` {.c .numberLines}
 #include <stdio.h>
 
 void increment(int *p)  // note that it accepts a pointer to an int

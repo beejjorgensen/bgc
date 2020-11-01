@@ -134,7 +134,7 @@ For those two reasons, it's far more common to pass a pointer to a
 Let's try that, making a function that will allow you to set the
 `.price` field of the `struct car`:
 
-``` {.c}
+``` {.c .numberLines}
 struct car {
     char *name;
     float price;

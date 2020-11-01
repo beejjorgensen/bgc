@@ -74,7 +74,7 @@ This means you can use array notation to access characters in a string.
 Let's do exactly that to print all the characters in a string on the
 same line:
 
-``` {.c}
+``` {.c .numberLines}
 #include <stdio.h>
 
 int main(void)
@@ -94,7 +94,7 @@ character.
 Also, check this out. The program will still work fine if we change the
 definition of `s` to be a `char*` type:
 
-``` {.c}
+``` {.c .numberLines}
 #include <stdio.h>
 
 int main(void)
@@ -163,7 +163,7 @@ actually mean "can"^[Though it is true that C doesn't track the length
 of strings.]. There's a function in `<string.h>` called `strlen()` that
 can be used to compute the length of any string.
 
-``` {.c}
+``` {.c .numberLines}
 #include <stdio.h>
 #include <string.h>
 
@@ -259,7 +259,7 @@ You can't copy a string through the assignment operator (`=`). All that
 does is make a copy of the pointer to the first character... so you end
 up with two pointers to the same string:
 
-``` {.c}
+``` {.c .numberLines}
 #include <stdio.h>
 
 int main(void)
@@ -291,7 +291,7 @@ Before you copy the string, make sure you have room to copy it into,
 i.e. the destination array that's going to hold the characters needs to
 be at least as long as the string you're copying.
 
-``` {.c}
+``` {.c .numberLines}
 #include <stdio.h>
 #include <string.h>
 

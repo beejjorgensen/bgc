@@ -80,7 +80,7 @@ until it falls out of scope and is reabsorbed into the universe.
 Let's take our previous "Hello, world" code and add a couple variables
 to it:
 
-``` {.c}
+``` {.c .numberLines}
 #include <stdio.h>
 
 int main(void)
@@ -114,7 +114,7 @@ What's this? You want to store some numbers in those variables? Insanity!
 
 Let's go ahead and do that:
 
-``` {.c}
+``` {.c .numberLines}
 int main(void)
 {
     int i;
@@ -142,7 +142,7 @@ prints the value out as a float. If it finds a `%s`, it prints a string.
 
 As such, we can print out the value of various types like so:
 
-``` {.c}
+``` {.c .numberLines}
 int main(void)
 {
     int i = 2;
@@ -191,7 +191,7 @@ If you `#include <stdbool.h>`, you also get access to some symbolic
 names that might make things look more familiar, namely a `bool` type
 and `true` and `false` values:
 
-``` {.c}
+``` {.c .numberLines}
 #include <stdio.h>
 #include <stdbool.h>
 
@@ -668,7 +668,7 @@ All these examples might have been better done with a `for` loop. Let's
 do something less deterministic---repeat until a certain random number
 comes up!
 
-``` {.c}
+``` {.c .numberLines}
 #include <stdio.h>   // For printf
 #include <stdlib.h>  // For rand
 

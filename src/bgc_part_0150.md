@@ -65,7 +65,7 @@ but it's gotta be at least in the top three, right?]. Hang on!
 
 This is the canonical example of a C program. Everyone uses it:
 
-``` {.c}
+``` {.c .numberLines}
 /* Hello world program */
 
 #include <stdio.h>

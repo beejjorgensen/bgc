@@ -59,7 +59,7 @@ that the function accepts no arguments.
 
 You can also return `void` to indicate that you don't return a value:
 
-``` {.c}
+``` {.c .numberLines}
 // This function takes no parameters and returns no value:
 
 void hello(void)
@@ -93,7 +93,7 @@ this is that since the function is operating on a copy of the value, you
 can't affect the value back in the calling function directly. Like if
 you wanted to increment a value by one, this would NOT work:
 
-``` {.c}
+``` {.c .numberLines}
 void increment(int a)
 {
     a++;
@@ -155,7 +155,7 @@ semicolon tacked on the end for good measure. For example, this code
 calls a function that is defined later, because a prototype has been
 declared first:
 
-``` {.c}
+``` {.c .numberLines}
 int foo(void);  // This is the prototype!
 
 int main(void)

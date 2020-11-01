@@ -182,7 +182,7 @@ And if we have a pointer to the beginning of the string, and we computed
 the pointer to the end of the string, we can just subtract the two
 pointers to come up with the length!
 
-``` {.c}
+``` {.c .numberLines}
 #include <stdio.h>
 
 int my_strlen(char *s)
@@ -240,7 +240,7 @@ an array).
 
 Let's use an array and pointer with both array and pointer notation:
 
-``` {.c}
+``` {.c .numberLines}
 #include <stdio.h>
 
 int main(void)
@@ -332,7 +332,7 @@ more examples to see.
 For instance, we could copy a string with `memcpy()` (though `strcpy()`
 is more appropriate for strings):
 
-``` {.c}
+``` {.c .numberLines}
 #include <stdio.h>
 #include <string.h>
 
@@ -351,7 +351,7 @@ int main(void)
 
 Or we can copy some `int`s:
 
-``` {.c}
+``` {.c .numberLines}
 #include <stdio.h>
 #include <string.h>
 
@@ -478,6 +478,10 @@ next byte after the assignment is made.
 Lastly, most memory and string functions return a copy of a pointer to
 the destination string just in case the caller wants to use it.
 
+Now that we've done that, I just want to quickly point out that we can
+use this technique to iterate over the bytes of _any_ object in C,
+`float`s, `struct`s, or anything!
+
 Let's run one more real-world example with the built-in `qsort()`
 routine that can sort _anything_ thanks to the magic of `void*`s.
 
@@ -546,7 +550,3 @@ you have in your array to be sorted, it can sort anything. And it does
 this without needing to have the types of the items hardcoded in there
 anywhere. `qsort()` just rearranges blocks of bytes based on the results
 of the `compar()` function you passed in.
-
-## Iterating Through Bytes of an Object
-
-TODO

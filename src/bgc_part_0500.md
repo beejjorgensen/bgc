@@ -19,7 +19,7 @@ out!_ But for now, let's just use them as arrays. _Phew_.
 
 Let's just crank out an example:
 
-``` {.c}
+``` {.c .numberLines}
 #include <stdio.h>
 
 int main(void)
@@ -68,7 +68,7 @@ the way you want if you pass the array into a function.
 
 You can initialize an array with constants ahead of time:
 
-``` {.c}
+``` {.c .numberLines}
 #include <stdio.h>
 
 int main(void)
@@ -140,7 +140,7 @@ Let's steal the example from above and keep printing off the end of the
 array. It only has 5 elements, but let's try to print 10 and see what
 happens:
 
-``` {.c}
+``` {.c .numberLines}
 #include <stdio.h>
 
 int main(void)
@@ -206,7 +206,7 @@ order|Row-_and_column-major_order]].
 
 You an also use initializers on multidimensional arrays by nesting them:
 
-``` {.c}
+``` {.c .numberLines}
 #include <stdio.h>
 
 int main(void)
@@ -261,7 +261,7 @@ different types. But we can burn that bridge when we get to it.].
 
 So let's get a pointer to the first element of an array.
 
-``` {.c}
+``` {.c .numberLines}
 #include <stdio.h>
 
 int main(void)
@@ -305,7 +305,7 @@ things.
 
 Prepare for some mind-blowing function signatures!
 
-``` {.c}
+``` {.c .numberLines}
 #include <stdio.h>
 
 // Passing as a pointer to the first element
@@ -382,7 +382,7 @@ Here's an example where we pass a pointer to an array into a function,
 the function manipulates the values in that array, and those changes are
 visible out in the caller.
 
-``` {.c}
+``` {.c .numberLines}
 #include <stdio.h>
 
 void double_array(int *a, int len)
@@ -423,7 +423,7 @@ has enough information to know where in memory to look to find a value.
 
 Here's an example where we're explicit with all the dimensions:
 
-``` {.c}
+``` {.c .numberLines}
 #include <stdio.h>
 
 void print_2D_array(int a[2][3])
