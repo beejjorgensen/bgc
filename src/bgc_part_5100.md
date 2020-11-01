@@ -21,6 +21,7 @@ In this section you'll find functions for pulling substrings out of
 strings, concatenating strings together, getting the length of a string,
 and so forth and so on.
 
+[[pagebreak]]
 ## `strlen()` {#man-strlen}
 
 Returns the length of a string.
@@ -57,6 +58,7 @@ printf("The string is %d characters long.\n", strlen(s));
 
 #### See Also
 
+[[pagebreak]]
 ## `strcmp()`, `strncmp()` {#man-strcmp}
 
 Compare two strings and return a difference.
@@ -133,6 +135,7 @@ if (!strncmp(s1, s2, 6))
 [`memcmp()`](#memcmp),
 [`qsort()`](#qsort)
 
+[[pagebreak]]
 ## `strcat()`, `strncat()` {#man-strcat}
 
 Concatenate two strings into a single string.
@@ -198,6 +201,7 @@ string functions.
 
 [`strlen()`](#strlen)
 
+[[pagebreak]]
 ## `strchr()`, `strrchr()` {#man-strchr}
 
 Find a character in a string.
@@ -267,6 +271,7 @@ for(p = strchr(str, 'B'); p != NULL; p = strchr(p + 1, 'B')) {
 
 #### See Also
 
+[[pagebreak]]
 ## `strcpy()`, `strncpy()` {#man-strcpy}
 
 Copy a string
@@ -342,6 +347,7 @@ dest[sizeof(dest)-1] = '\0'; // terminate
 [`strcat()`](#strcat),
 [`strncat()`](#strcat)
 
+[[pagebreak]]
 ## `strspn()`, `strcspn()` {#man-strspn}
 
 Return the length of a string consisting entirely of a set of
@@ -398,6 +404,7 @@ n = strcspn(str2, "y"); // n = 16, "the bolivian nav"
 [`strchr()`](#strchr),
 [`strrchr()`](#strchr)
 
+[[pagebreak]]
 ## `strstr()` {#man-strstr}
 
 Find a string in another string.
@@ -443,6 +450,7 @@ p = strstr(str, "wombat");
 [`strspn()`](#strspn),
 [`strcspn()`](#strspn)
 
+[[pagebreak]]
 ## `strtok()` {#man-strtok}
 
 Tokenize a string.

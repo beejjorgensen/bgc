@@ -113,6 +113,7 @@ its errors to `stderr`, a user can redirect just
 `stderr` into a file, and just see that. It's just a nice
 thing you, as a programmer, can do.
 
+[[pagebreak]]
 ## `fopen()` {#man-fopen}
 
 Opens a file for reading or writing
@@ -208,6 +209,7 @@ int main(void)
 [`fclose()`](#fclose)<br>
 [`freopen()`](#freopen)
 
+[[pagebreak]]
 ## `freopen()` {#man-freopen}
 
 Reopen an existing `FILE*`, associating it with a
@@ -288,6 +290,7 @@ int main(void)
 [`fclose()`](#fclose)<br>
 [`fopen()`](#fopen)
 
+[[pagebreak]]
 ## `fclose()` {#man-fclose}
 
 The opposite of `fopen()`--closes a file when
@@ -339,6 +342,7 @@ fclose(fp);   // pretty simple, huh.
 
 [`fopen()`](#fopen)
 
+[[pagebreak]]
 ## `printf()`, `fprintf()` {#man-printf}
 
 Print a formatted string to the console or to a file.
@@ -657,6 +661,7 @@ int a = 100;
 [`vfprintf()`](#vfprintf),
 [`vsprintf()`](#vsprintf)
 
+[[pagebreak]]
 ## `scanf()`, `fscanf()` {#man-scanf}
 
 Read formatted string, character, or numeric data from the
@@ -894,6 +899,7 @@ scanf("%10c", s);
 [`vsscanf()`](#vsscanf),
 [`vfscanf()`](#vfscanf)
 
+[[pagebreak]]
 ## `gets()`, `fgets()` {#man-gets}
 
 Read a string from console or file
@@ -996,6 +1002,7 @@ fgets(s, 20, stdin); // read a maximum of 20 bytes from stdin
 [`fputs()`](#puts),
 [`ungetc()`](#ungetc)
 
+[[pagebreak]]
 ## `getc()`, `fgetc()`, `getchar()` {#man-getc}
 
 Get a single character from the console or from a file.
@@ -1072,6 +1079,7 @@ int main(void)
 
 #### See Also
 
+[[pagebreak]]
 ## `puts()`, `fputs()` {#man-puts}
 
 Write a string to the console or to a file.
@@ -1122,6 +1130,7 @@ int main(void)
 
 #### See Also
 
+[[pagebreak]]
 ## `putc()`, `fputc()`, `putchar()` {#man-putc}
 
 Write a single character to the console or to a file.
@@ -1176,6 +1185,7 @@ int main(void)
 
 #### See Also
 
+[[pagebreak]]
 ## `fseek()`, `rewind()` {#man-fseek}
 
 Position the file pointer in anticipition of the next read or
@@ -1270,6 +1280,7 @@ rewind(fp);               // seek to the beginning of the file
 [`fgetpos()`](#fgetpos),
 [`fsetpos()`](#fgetpos)
 
+[[pagebreak]]
 ## `ftell()` {#man-ftell}
 
 Tells you where a particular file is about to read from or
@@ -1324,6 +1335,7 @@ fseek(fp, pos, SEEK_SET);
 [`fgetpos()`](#fgetpos),
 [`fsetpos()`](#fgetpos)
 
+[[pagebreak]]
 ## `fgetpos()`, `fsetpos()` {#man-fgetpos}
 
 Get the current position in a file, or set the current position
@@ -1382,6 +1394,7 @@ fsetpos(fp, &pos);   // now restore the position to where we saved
 [`ftell()`](#ftell),
 [`rewind()`](#fseek)
 
+[[pagebreak]]
 ## `ungetc()` {#man-ungetc}
 
 Pushes a character back into the input stream.
@@ -1463,6 +1476,7 @@ char read_punctstring(FILE *fp, char *s)
 
 [`fgetc()`](#getc)
 
+[[pagebreak]]
 ## `fread()` {#man-fread}
 
 Read binary data from a file.
@@ -1550,6 +1564,7 @@ int main(void)
 [`feof()`](#feof),
 [`ferror()`](#feof)
 
+[[pagebreak]]
 ## `fwrite()` {#man-fwrite}
 
 Write binary data to a file.
@@ -1604,6 +1619,7 @@ int main(void)
 [`fopen()`](#fopen),
 [`fread()`](#fread)
 
+[[pagebreak]]
 ## `feof()`, `ferror()`, {#man-feof}
 `clearerr()`
 
@@ -1673,6 +1689,7 @@ int main(void)
 [`fopen()`](#fopen),
 [`fread()`](#fread)
 
+[[pagebreak]]
 ## `perror()` {#man-perror}
 
 Print the last error message to `stderr`
@@ -1761,6 +1778,7 @@ fseek again, EBADF: Bad file descriptor
 [`ferror()`](#feof),
 [`clearerr()`](#feof)
 
+[[pagebreak]]
 ## `remove()` {#man-remove}
 
 Delete a file
@@ -1797,6 +1815,7 @@ remove("/disks/d/Windows/system.ini");
 
 [`rename()`](#rename)
 
+[[pagebreak]]
 ## `rename()` {#man-rename}
 
 Renames a file and optionally moves it to a new location
@@ -1839,6 +1858,7 @@ rename("/tmp/evidence.txt", "/home/beej/nothing.txt");
 
 [`remove()`](#remove)
 
+[[pagebreak]]
 ## `tmpfile()` {#man-tmpfile}
 
 Create a temporary file
@@ -1899,6 +1919,7 @@ int main(void)
 [`fclose()`](#fclose)<br>
 [`tmpnam()`](#tmpnam)
 
+[[pagebreak]]
 ## `tmpnam()` {#man-tmpnam}
 
 Generate a unique name for a temporary file
@@ -1999,6 +2020,7 @@ And we didn't error check it because we're too lazy!
 [`fopen()`](#fopen)<br>
 [`tmpfile()`](#tmpfile)
 
+[[pagebreak]]
 ## `setbuf()`, `setvbuf()` {#man-setbuf}
 
 Configure buffering for standard I/O operations
@@ -2113,6 +2135,7 @@ fclose(fp);
 
 [`fflush()`](#fflush)
 
+[[pagebreak]]
 ## `fflush()` {#man-fflush}
 
 Process all buffered I/O for a stream right now
