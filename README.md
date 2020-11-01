@@ -90,7 +90,6 @@ have to consider any copyright issues when merging changes.
     * void pointers
     * Pointer-array equivalence
     * Pointer arithmetic
-    * Iterating through bytes of an object
   * Scope
     * Block scope
     * Extern
@@ -131,6 +130,7 @@ have to consider any copyright issues when merging changes.
     * NULL is 0
     * ptrdiff_t
     * unnamed objects
+    * Iterating through bytes of an object
   * Arrays II
     * static const
     * Equivalent initializers 6.7.9p29
