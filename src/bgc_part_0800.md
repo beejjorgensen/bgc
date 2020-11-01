@@ -310,7 +310,236 @@ int my_strlen(char s[])   // Works, too!
 ## `void` Pointers
 
 You've already seen the `void` keyword used with functions, but this is
-an entirely separate, unrelated usage.
+an entirely separate, unrelated animal.
+
+Sometimes it's useful to have a pointer to a thing _that you don't know
+the type of_.
+
+I know. Bear with me just a second.
+
+Let's look at an example, the built-in `memcpy()` function:
+
+``` {.c}
+void *memcpy(void *s1, void *s2, size_t n);
+```
+
+This function copies `n` bytes of memory starting from address `s1` into
+the memory starting at address `s2`.
+
+But look! `s1` and `s2` are `void*`s! Why? What does it mean? Let's run
+more examples to see.
+
+For instance, we could copy a string with `memcpy()` (though `strcpy()`
+is more appropriate for strings):
+
+``` {.c}
+#include <stdio.h>
+#include <string.h>
+
+int main(void)
+{
+    char s[] = "Goats!";
+    char t[100];
+
+    memcpy(t, s, 7);  // Copy 7 bytes--including the NUL terminator!
+
+    printf("%s\n", t);  // "Goats!"
+
+    return 0;
+}
+```
+
+Or we can copy some `int`s:
+
+``` {.c}
+#include <stdio.h>
+#include <string.h>
+
+int main(void)
+{
+    int a[] = {11, 22, 33};
+    int b[3];
+
+    memcpy(b, a, 3 * sizeof(int));  // Copy 3 ints of data
+
+    printf("%d\n", b[1]);  // 22
+
+    return 0;
+}
+```
+
+That one's a little wild---you see what we did there with `memcpy()`? We
+copied the data from `a` to `b`, but we had to specify how many _bytes_
+to copy, and an `int` is more than one byte.
+
+OK, then---how many bytes does an `int` take? Answer: depends on the
+system. But we can tell how many bytes any type takes with the `sizeof`
+operator.
+
+So there's the answer: an `int` takes `sizeof(int)` bytes of memory to
+store.
+
+And if we have 3 of them in our array, like we did in that example, the
+entire space used for the 3 `int`s must be `3 * sizeof(int)`.
+
+(In the string example, earlier, it would have been more technically
+accurate to copy `7 * sizeof(char)` bytes. But `char`s are always one
+byte large, by definition, so that just devolves into `7 * 1`.)
+
+We could even copy a `float` or a `struct` with `memcpy()`! (Though this
+is abusive---we should just use `=` for that):
+
+``` {.c}
+struct antelope my_antelope;
+struct antelopy my_clone_antelope;
+
+// ...
+
+memcpy(&my_clone, &my_antelope, sizeof my_antelope);
+```
+
+Look at how versatile `memcpy()` is! If you have a pointer to a source
+and a pointer to a destination, and you have the number of bytes you
+want to copy, you can copy _any type of data_.
+
+That's the power of `void*`. You can write code that doesn't care about
+the type and is able to do things with it.
+
+But with great power comes great responsibility. Maybe not _that_ great
+in this case, but there are some limits.
+
+1. You cannot do pointer arithmetic a `void*`.
+2. You cannot dereference a `void*`.
+3. You cannot use the arrow operator on a `void*`, since it's also a
+   deference.
+4. You cannot use array notation on a `void*`, since it's also a
+   dereference, as well^[Because remember that array notation is just a
+   dereference and some pointer math, and you can't dereference a
+   `void*`!].
+
+Wait---if you can't dereference a `void*` what good can it ever do you?
+
+Like with `memcpy()`, it helps you write generic functions that can
+handle multiple types of data. But the secret is that, deep down, _you
+convert the `void* to another type before you use it_!
+
+And conversion is easy: you can just assign into a variable of the
+desired type^[You can also _cast_ the type to another type, but we
+haven't gotten to casts yet.].
+
+``` {.c}
+char a = 'X';  // A single char
+
+void *p = &a;  // p points to the 'X'
+char *q = p;   // q also points to the 'X'
+
+printf("%c\n", *p);  // ERROR--cannot dereference void*!
+printf("%c\n", *q);  // Prints "X"
+```
+
+Let's write our own `memcpy()` to try this out. We can copy bytes
+(`char`s), and we know the number of bytes because it's passed in.
+
+``` {.c}
+void *my_memcpy(void *dest, void *src, int byte_count)
+{
+    // Convert void*s to char*s
+    char *s = src, *d = dest;
+
+    // Now that we have char*s, we can dereference and copy them
+    while (byte_count--) {
+        *d++ = *s++;
+    }
+
+    // Most of these functions return the destination, just in case
+    // that's useful to the caller.
+    return dest;
+}
+```
+
+Right there at the beginning, we copy the `void*`s into `char*`s so that
+we can use them as `char*`s. It's as easy as that.
+
+Then some fun in a while loop, where we decrement `byte_count` until it
+becomes false (`0`). Remember that with post-decrement, the value of the
+expression is computed (for `while` to use) and _then_ the variable is
+decremented.
+
+And some fun in the copy, where we assign `*d = *s` to copy the byte,
+but we do it with post-increment so that both `d` and `s` move to the
+next byte after the assignment is made.
+
+Lastly, most memory and string functions return a copy of a pointer to
+the destination string just in case the caller wants to use it.
+
+Let's run one more real-world example with the built-in `qsort()`
+routine that can sort _anything_ thanks to the magic of `void*`s.
+
+(In the following example, you can ignore the word `const`, which we
+haven't covered yet.)
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <stdlib.h>
+
+// The type of structure we're going to sort
+struct animal {
+    char *name;
+    int leg_count;
+};
+
+// This is a comparison function called by qsort() to help it determine
+// what exactly to sort by. We'll use it to sort an array of struct
+// animals by leg_count.
+int compar(const void *elem1, const void *elem2)
+{
+    // We know we're sorting struct animals, so let's make both
+    // arguments pointers to struct animals
+    const struct animal *animal1 = elem1;
+    const struct animal *animal2 = elem2;
+
+    // Return <0 =0 or >0 depending on whatever we want to sort by.
+
+    // Let's sort ascending by leg_count, so we'll return the difference
+    // in the leg_counts
+    return animal1->leg_count - animal2->leg_count;
+}
+
+int main(void)
+{
+    // Let's build an array of 4 struct animals with different
+    // characteristics. This array is out of order by leg_count, but
+    // we'll sort it in a second.
+    struct animal a[4] = {
+        {.name="Dog", .leg_count=4},
+        {.name="Monkey", .leg_count=2},
+        {.name="Antelope", .leg_count=4},
+        {.name="Snake", .leg_count=0}
+    };
+
+    // Call qsort() to sort the array. qsort() needs to be told exactly
+    // what to sort this data by, and we'll do that inside the compar()
+    // function.
+    //
+    // This call is saying: qsort array a, which has 4 elements, and
+    // each element is sizeof(struct animal) bytes big, and this is the
+    // function that will compare any two elements.
+    qsort(a, 4, sizeof(struct animal), compar);
+
+    // Print them all out
+    for (int i = 0; i < 4; i++) {
+        printf("%d: %s\n", a[i].leg_count, a[i].name);
+    }
+
+    return 0;
+}
+```
+
+As long as you give `qsort()` a function that can compare two items that
+you have in your array to be sorted, it can sort anything. And it does
+this without needing to have the types of the items hardcoded in there
+anywhere. `qsort()` just rearranges blocks of bytes based on the results
+of the `compar()` function you passed in.
 
 ## Iterating Through Bytes of an Object
 
