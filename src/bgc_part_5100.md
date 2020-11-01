@@ -26,7 +26,7 @@ and so forth and so on.
 
 Returns the length of a string.
 
-#### Synopsis
+### Synopsis {.unnumbered .unlisted}
 
 ``` {.c}
 #include <string.h>
@@ -34,7 +34,7 @@ Returns the length of a string.
 size_t strlen(const char *s);
 ```
 
-#### Description 
+### Description {.unnumbered .unlisted}
 
 This function returns the length of the passed null-terminated string
 (not counting the NUL character at the end). It does this by walking
@@ -42,13 +42,13 @@ down the string and counting the bytes until the NUL character, so it's
 a little time consuming. If you have to get the length of the same
 string repeatedly, save it off in a variable somewhere.
 
-#### Return Value
+### Return Value {.unnumbered .unlisted}
 
 Returns the number of characters in the string.
 
-#### Example
+### Example {.unnumbered .unlisted}
 
-``` {.c}
+``` {.c .numberLines}
 char *s = "Hello, world!"; // 13 characters
 
 // prints "The string is 13 characters long.":
@@ -56,14 +56,14 @@ char *s = "Hello, world!"; // 13 characters
 printf("The string is %d characters long.\n", strlen(s));
 ```
 
-#### See Also
+### See Also {.unnumbered .unlisted}
 
 [[pagebreak]]
 ## `strcmp()`, `strncmp()` {#man-strcmp}
 
 Compare two strings and return a difference.
 
-#### Synopsis
+### Synopsis {.unnumbered .unlisted}
 
 ``` {.c}
 #include <string.h>
@@ -72,7 +72,7 @@ int strcmp(const char *s1, const char *s2);
 int strncmp(const char *s1, const char *s2, size_t n);
 ```
 
-#### Description 
+### Description {.unnumbered .unlisted}
 
 Both these functions compare two strings. `strcmp()`
 compares the entire string down to the end, while `strncmp()`
@@ -94,16 +94,16 @@ strings are the same.
 These functions can be used as comparison functions for [`qsort()`](#qsort) if you have an array of
 `char*`s you want to sort.
 
-#### Return Value
+### Return Value {.unnumbered .unlisted}
 
 Returns zero if the strings are the same, less-than zero if the first
 different character in `s1` is less than that in `s2`,
 or greater-than zero if the first difference character in `s1`
 is greater than than in `s2`.
 
-#### Example
+### Example {.unnumbered .unlisted}
 
-``` {.c}
+``` {.c .numberLines}
 char *s1 = "Muffin";
 char *s2 = "Muffin Sandwich";
 char *s3 = "Muffin";
@@ -130,7 +130,7 @@ if (!strncmp(s1, s2, 6))
     printf("The first 6 characters of s1 and s2 are the same");
 ```
 
-#### See Also
+### See Also {.unnumbered .unlisted}
 
 [`memcmp()`](#memcmp),
 [`qsort()`](#qsort)
@@ -140,7 +140,7 @@ if (!strncmp(s1, s2, 6))
 
 Concatenate two strings into a single string.
 
-#### Synopsis
+### Synopsis {.unnumbered .unlisted}
 
 ``` {.c}
 #include <string.h>
@@ -149,7 +149,7 @@ int strcat(const char *dest, const char *src);
 int strncat(const char *dest, const char *src, size_t n);
 ```
 
-#### Description 
+### Description {.unnumbered .unlisted}
 
 "Concatenate", for those not in the know, means to "stick together".
 These functions take two strings, and stick them together, storing the
@@ -172,14 +172,14 @@ You can actually only concatenate the first `n` characters
 of the second string by using `strncat()` and specifying the
 maximum number of characters to copy.
 
-#### Return Value
+### Return Value {.unnumbered .unlisted}
 
 Both functions return a pointer to the destination string, like most
 of the string-oriented functions.
 
-#### Example
+### Example {.unnumbered .unlisted}
 
-``` {.c}
+``` {.c .numberLines}
 char dest[20] = "Hello";
 char *src = ", World!";
 char numbers[] = "12345678";
@@ -197,7 +197,7 @@ Notice I mixed and matched pointer and array notation there with
 `src` and `numbers`; this is just fine with
 string functions.
 
-#### See Also
+### See Also {.unnumbered .unlisted}
 
 [`strlen()`](#strlen)
 
@@ -206,7 +206,7 @@ string functions.
 
 Find a character in a string.
 
-#### Synopsis
+### Synopsis {.unnumbered .unlisted}
 
 ``` {.c}
 #include <string.h>
@@ -215,7 +215,7 @@ char *strchr(char *str, int c);
 char *strrchr(char *str, int c);
 ```
 
-#### Description 
+### Description {.unnumbered .unlisted}
 
 The functions `strchr()` and `strrchr` find the
 first or last occurance of a letter in a string, respectively. (The
@@ -232,14 +232,14 @@ previous return value plus one. (Remember pointer arithmetic?)  Or
 minus one if you're looking in reverse. Don't accidentally go off the
 end of the string!
 
-#### Return Value
+### Return Value {.unnumbered .unlisted}
 
 Returns a pointer to the occurance of the letter in the string, or
 `NULL` if the letter is not found.
 
-#### Example
+### Example {.unnumbered .unlisted}
 
-``` {.c}
+``` {.c .numberLines}
 // "Hello, world!"
 //       ^  ^   
 //       A  B
@@ -269,14 +269,14 @@ for(p = strchr(str, 'B'); p != NULL; p = strchr(p + 1, 'B')) {
 // Found a 'B' here: BEEJ
 ```
 
-#### See Also
+### See Also {.unnumbered .unlisted}
 
 [[pagebreak]]
 ## `strcpy()`, `strncpy()` {#man-strcpy}
 
 Copy a string
 
-#### Synopsis
+### Synopsis {.unnumbered .unlisted}
 
 ``` {.c}
 #include <string.h>
@@ -285,7 +285,7 @@ char *strcpy(char *dest, char *src);
 char *strncpy(char *dest, char *src, size_t n);
 ```
 
-#### Description 
+### Description {.unnumbered .unlisted}
 
 These functions copy a string from one address to another, stopping
 at the NUL terminator on the `src`string.
@@ -310,14 +310,14 @@ strncpy(s, foo, 9); // only copy 9 chars into positions 0-8
 s[9] = '\0';        // position 9 gets the terminator
 ```
 
-#### Return Value
+### Return Value {.unnumbered .unlisted}
 
 Both functions return `dest` for your convenience, at no
 extra charge.
 
-#### Example
+### Example {.unnumbered .unlisted}
 
-``` {.c}
+``` {.c .numberLines}
 char *src = "hockey hockey hockey hockey hockey hockey hockey hockey";
 char dest[20];
 
@@ -341,7 +341,7 @@ dest[sizeof(dest)-1] = '\0'; // terminate
 // 01234567890123456789012345
 ```
 
-#### See Also
+### See Also {.unnumbered .unlisted}
 
 [`memcpy()`](#memcpy),
 [`strcat()`](#strcat),
@@ -353,7 +353,7 @@ dest[sizeof(dest)-1] = '\0'; // terminate
 Return the length of a string consisting entirely of a set of
 characters, or of not a set of characters.
 
-#### Synopsis
+### Synopsis {.unnumbered .unlisted}
 
 ``` {.c}
 #include <string.h>
@@ -362,7 +362,7 @@ size_t strspn(char *str, const char *accept);
 size_t strcspn(char *str, const char *reject);
 ```
 
-#### Description 
+### Description {.unnumbered .unlisted}
 
 `strspn()` will tell you the length of a string consisting
 entirely of the set of characters in `accept`. That is, it
@@ -375,16 +375,16 @@ down `str` until it finds a character in the `reject`
 set (that is, a character that is to be rejected.)  It then returns the
 length of the string so far.
 
-#### Return Value
+### Return Value {.unnumbered .unlisted}
 
 The lenght of the string consisting of all characters in
 `accept` (for `strspn()`), or the length of the
 string consisting of all characters except `reject` (for
 `strcspn()`
 
-#### Example
+### Example {.unnumbered .unlisted}
 
-``` {.c}
+``` {.c .numberLines}
 char str1[] = "a banana";
 char str2[] = "the bolivian navy on manuvers in the south pacific";
 
@@ -399,7 +399,7 @@ n = strspn(str1, "ab "); // n == 4, "a ba"
 n = strcspn(str2, "y"); // n = 16, "the bolivian nav"
 ```
 
-#### See Also
+### See Also {.unnumbered .unlisted}
 
 [`strchr()`](#strchr),
 [`strrchr()`](#strchr)
@@ -409,7 +409,7 @@ n = strcspn(str2, "y"); // n = 16, "the bolivian nav"
 
 Find a string in another string.
 
-#### Synopsis
+### Synopsis {.unnumbered .unlisted}
 
 ``` {.c}
 #include <string.h>
@@ -417,22 +417,22 @@ Find a string in another string.
 char *strstr(const char *str, const char *substr);
 ```
 
-#### Description 
+### Description {.unnumbered .unlisted}
 
 Let's say you have a big long string, and you want to find a word, or
 whatever substring strikes your fancy, inside the first string. Then
 `strstr()` is for you! It'll return a pointer to the
 `substr` within the `str`!
 
-#### Return Value
+### Return Value {.unnumbered .unlisted}
 
 You get back a pointer to the occurance of the `substr`
 inside the `str`, or `NULL` if the substring can't be
 found.
 
-#### Example
+### Example {.unnumbered .unlisted}
 
-``` {.c}
+``` {.c .numberLines}
 char *str = "The quick brown fox jumped over the lazy dogs.";
 char *p;
 
@@ -443,7 +443,7 @@ printf("%s\n", p); // "lazy dogs."
 p = strstr(str, "wombat");
 ```
 
-#### See Also
+### See Also {.unnumbered .unlisted}
 
 [`strchr()`](#strchr),
 [`strrchr()`](#strchr),
@@ -455,7 +455,7 @@ p = strstr(str, "wombat");
 
 Tokenize a string.
 
-#### Synopsis
+### Synopsis {.unnumbered .unlisted}
 
 ``` {.c}
 #include <string.h>
@@ -463,7 +463,7 @@ Tokenize a string.
 char *strtok(char *str, const char *delim);
 ```
 
-#### Description 
+### Description {.unnumbered .unlisted}
 
 If you have a string that has a bunch of separators in it, and you
 want to break that string up into individual pieces, this function can
@@ -485,14 +485,14 @@ original string you pass in is destroyed, as it were. If you need to
 preserve the string, be sure to pass a copy of it to
 `strtok()` so the original isn't destroyed.
 
-#### Return Value
+### Return Value {.unnumbered .unlisted}
 
 A pointer to the next token. If you're out of tokens,
 `NULL` is returned.
 
-#### Example
+### Example {.unnumbered .unlisted}
 
-``` {.c}
+``` {.c .numberLines}
 // break up the string into a series of space or
 // punctuation-separated words
 char *str = "Where is my bacon, dude?";
@@ -522,7 +522,7 @@ if ((token = strtok(str, ".,?! ")) != NULL) {
 //
 ```
 
-#### See Also
+### See Also {.unnumbered .unlisted}
 
 [`strchr()`](#strchr),
 [`strrchr()`](#strchr),

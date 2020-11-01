@@ -78,7 +78,7 @@ sqrt(2)
 
 Calculate the sine of a number.
 
-#### Synopsis
+### Synopsis {.unnumbered .unlisted}
 
 ``` {.c}
 #include <math.h>
@@ -88,7 +88,7 @@ float sinf(float x);
 long double sinl(long double x);
 ```
 
-#### Description 
+### Description {.unnumbered .unlisted}
 
 Calculates the sine of the value `x`, where `x` is
 in radians.
@@ -102,14 +102,14 @@ degrees = radians * 180.0f / M_PI;
 radians = degrees * M_PI / 180;
 ```
 
-#### Return Value
+### Return Value {.unnumbered .unlisted}
 
 Returns the sine of `x`. The variants return different
 types.
 
-#### Example
+### Example {.unnumbered .unlisted}
 
-``` {.c}
+``` {.c .numberLines}
 double sinx;
 long double ldsinx;
 
@@ -117,7 +117,7 @@ sinx = sin(3490.0); // round and round we go!
 ldsinx = sinl((long double)3.490);
 ```
 
-#### See Also
+### See Also {.unnumbered .unlisted}
 
 [`cos()`](#cos),
 [`tan()`](#tan),
@@ -128,7 +128,7 @@ ldsinx = sinl((long double)3.490);
 
 Calculate the cosine of a number.
 
-#### Synopsis
+### Synopsis {.unnumbered .unlisted}
 
 ``` {.c}
 #include <math.h>
@@ -138,7 +138,7 @@ float cosf(float x)
 long double cosl(long double x)
 ```
 
-#### Description 
+### Description {.unnumbered .unlisted}
 
 Calculates the cosine of the value `x`, where `x` is
 in radians.
@@ -152,14 +152,14 @@ degrees = radians * 180.0f / M_PI;
 radians = degrees * M_PI / 180;
 ```
 
-#### Return Value
+### Return Value {.unnumbered .unlisted}
 
 Returns the cosine of `x`. The variants return different
 types.
 
-#### Example
+### Example {.unnumbered .unlisted}
 
-``` {.c}
+``` {.c .numberLines}
 double sinx;
 long double ldsinx;
 
@@ -167,7 +167,7 @@ sinx = sin(3490.0); // round and round we go!
 ldsinx = sinl((long double)3.490);
 ```
 
-#### See Also
+### See Also {.unnumbered .unlisted}
 
 [`sin()`](#sin),
 [`tan()`](#tan),
@@ -178,7 +178,7 @@ ldsinx = sinl((long double)3.490);
 
 Calculate the tangent of a number.
 
-#### Synopsis
+### Synopsis {.unnumbered .unlisted}
 
 ``` {.c}
 #include <math.h>
@@ -188,7 +188,7 @@ float tanf(float x)
 long double tanl(long double x)
 ```
 
-#### Description 
+### Description {.unnumbered .unlisted}
 
 Calculates the tangent of the value `x`, where `x` is
 in radians.
@@ -202,14 +202,14 @@ degrees = radians * 180.0f / M_PI;
 radians = degrees * M_PI / 180;
 ```
 
-#### Return Value
+### Return Value {.unnumbered .unlisted}
 
 Returns the tangent of `x`. The variants return different
 types.
 
-#### Example
+### Example {.unnumbered .unlisted}
 
-``` {.c}
+``` {.c .numberLines}
 double tanx;
 long double ldtanx;
 
@@ -217,7 +217,7 @@ tanx = tan(3490.0); // round and round we go!
 ldtanx = tanl((long double)3.490);
 ```
 
-#### See Also
+### See Also {.unnumbered .unlisted}
 
 [`sin()`](#sin),
 [`cos()`](#cos),
@@ -229,7 +229,7 @@ ldtanx = tanl((long double)3.490);
 
 Calculate the arc sine of a number.
 
-#### Synopsis
+### Synopsis {.unnumbered .unlisted}
 
 ``` {.c}
 #include <math.h>
@@ -239,7 +239,7 @@ float asinf(float x);
 long double asinl(long double x);
 ```
 
-#### Description 
+### Description {.unnumbered .unlisted}
 
 Calculates the arc sine of a number in radians. (That is, the value
 whose sine is `x`.)  The number must be in the range -1.0 to
@@ -254,15 +254,15 @@ degrees = radians * 180.0f / M_PI;
 radians = degrees * M_PI / 180;
 ```
 
-#### Return Value
+### Return Value {.unnumbered .unlisted}
 
 Returns the arc sine of `x`, unless `x` is out of
 range. In that case, `errno` will be set to EDOM and the
 return value will be NaN. The variants return different types.
 
-#### Example
+### Example {.unnumbered .unlisted}
 
-``` {.c}
+``` {.c .numberLines}
 double asinx;
 long double ldasinx;
 
@@ -270,7 +270,7 @@ asinx = asin(0.2);
 ldasinx = asinl((long double)0.3);
 ```
 
-#### See Also
+### See Also {.unnumbered .unlisted}
 
 [`acos()`](#acos),
 [`atan()`](#atan),
@@ -282,7 +282,7 @@ ldasinx = asinl((long double)0.3);
 
 Calculate the arc cosine of a number.
 
-#### Synopsis
+### Synopsis {.unnumbered .unlisted}
 
 ``` {.c}
 #include <math.h>
@@ -292,7 +292,7 @@ float acosf(float x);
 long double acosl(long double x);
 ```
 
-#### Description 
+### Description {.unnumbered .unlisted}
 
 Calculates the arc cosine of a number in radians. (That is, the value
 whose cosine is `x`.)  The number must be in the range -1.0 to
@@ -307,15 +307,15 @@ degrees = radians * 180.0f / M_PI;
 radians = degrees * M_PI / 180;
 ```
 
-#### Return Value
+### Return Value {.unnumbered .unlisted}
 
 Returns the arc cosine of `x`, unless `x` is out of
 range. In that case, `errno` will be set to EDOM and the
 return value will be NaN. The variants return different types.
 
-#### Example
+### Example {.unnumbered .unlisted}
 
-``` {.c}
+``` {.c .numberLines}
 double acosx;
 long double ldacosx;
 
@@ -323,7 +323,7 @@ acosx = acos(0.2);
 ldacosx = acosl((long double)0.3);
 ```
 
-#### See Also
+### See Also {.unnumbered .unlisted}
 
 [`asin()`](#asin),
 [`atan()`](#atan),
@@ -336,7 +336,7 @@ ldacosx = acosl((long double)0.3);
 
 Calculate the arc tangent of a number.
 
-#### Synopsis
+### Synopsis {.unnumbered .unlisted}
 
 ``` {.c}
 #include <math.h>
@@ -350,7 +350,7 @@ float atan2f(float y, float x);
 long double atan2l(long double y, long double x);
 ```
 
-#### Description 
+### Description {.unnumbered .unlisted}
 
 Calculates the arc tangent of a number in radians. (That is, the value
 whose tangent is `x`.)
@@ -369,15 +369,15 @@ degrees = radians * 180.0f / M_PI;
 radians = degrees * M_PI / 180;
 ```
 
-#### Return Value
+### Return Value {.unnumbered .unlisted}
 
 The `atan()` functions return the arc tangent of
 `x`, which will be between PI/2 and -PI/2. The
 `atan2()` functions return an angle between PI and -PI.
 
-#### Example
+### Example {.unnumbered .unlisted}
 
-``` {.c}
+``` {.c .numberLines}
 double atanx;
 long double ldatanx;
 
@@ -388,7 +388,7 @@ atanx = atan2(0.2);
 ldatanx = atan2l((long double)0.3);
 ```
 
-#### See Also
+### See Also {.unnumbered .unlisted}
 
 [`tan()`](#tan),
 [`asin()`](#asin),
@@ -399,7 +399,7 @@ ldatanx = atan2l((long double)0.3);
 
 Calculate the square root of a number
 
-#### Synopsis
+### Synopsis {.unnumbered .unlisted}
 
 ``` {.c}
 #include <math.h>
@@ -409,7 +409,7 @@ float sqrtf(float x);
 long double sqrtl(long double x);
 ```
 
-#### Description 
+### Description {.unnumbered .unlisted}
 
 Computes the square root of a number. To those of you who don't know
 what a square root is, I'm not going to explain. Suffice it to say, the
@@ -427,7 +427,7 @@ well. You can see the usual trio of functions here---they all
 compute square root, but they take different types as arguments. Pretty
 straightforward, really.
 
-#### Return Value
+### Return Value {.unnumbered .unlisted}
 
 Returns (and I know this must be something of a surprise to you) the
 square root of `x`. If you try to be smart and pass a negative
@@ -435,9 +435,9 @@ number in for `x`, the global variable `errno` will be
 set to `EDOM` (which stands for DOMain Error, not some kind of
 cheese.)
 
-#### Example
+### Example {.unnumbered .unlisted}
 
-``` {.c}
+``` {.c .numberLines}
 // example usage of sqrt()
 
 float something = 10;
@@ -461,7 +461,7 @@ square root of 10 is 3.16
 distance between points (x1, y1) and (x2, y2): 40.54
 ```
 
-#### See Also
+### See Also {.unnumbered .unlisted}
 
 [`hypot()`](#tan)
 

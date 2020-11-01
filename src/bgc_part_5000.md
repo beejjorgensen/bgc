@@ -118,7 +118,7 @@ thing you, as a programmer, can do.
 
 Opens a file for reading or writing
 
-#### Synopsis
+### Synopsis {.unnumbered .unlisted}
 
 ``` {.c}
 #include <stdio.h>
@@ -126,7 +126,7 @@ Opens a file for reading or writing
 FILE *fopen(const char *path, const char *mode);
 ```
 
-#### Description 
+### Description {.unnumbered .unlisted}
 
 The `fopen()` opens a file for reading or writing.
 
@@ -178,7 +178,7 @@ your data is binary, it doesn't hurt to throw the "`b`" in there,
 and it might help someone who is trying to port your code to another
 system.
 
-#### Return Value
+### Return Value {.unnumbered .unlisted}
 
 `fopen()` returns a `FILE*` that can be used in
 subsequent file-related calls.
@@ -186,9 +186,9 @@ subsequent file-related calls.
 If something goes wrong (e.g. you tried to open a file for read that
 didn't exist), `fopen()` will return `NULL`.
 
-#### Example
+### Example {.unnumbered .unlisted}
 
-``` {.c}
+``` {.c .numberLines}
 int main(void)
 {
     FILE *fp;
@@ -204,7 +204,7 @@ int main(void)
 }
 ```
 
-#### See Also
+### See Also {.unnumbered .unlisted}
 
 [`fclose()`](#fclose)<br>
 [`freopen()`](#freopen)
@@ -215,7 +215,7 @@ int main(void)
 Reopen an existing `FILE*`, associating it with a
 new path
 
-#### Synopsis
+### Synopsis {.unnumbered .unlisted}
 
 ``` {.c}
 #include <stdio.h>
@@ -223,7 +223,7 @@ new path
 FILE *freopen(const char *filename, const char *mode, FILE *stream);
 ```
 
-#### Description 
+### Description {.unnumbered .unlisted}
 
 Let's say you have an existing `FILE*` stream that's
 already open, but you want it to suddenly use a different file than the
@@ -247,7 +247,7 @@ When you call `freopen()`, the old `stream` is
 closed. Otherwise, the function behaves just like the standard
 `fopen()`.
 
-#### Return Value
+### Return Value {.unnumbered .unlisted}
 
 `freopen()` returns `stream` if all goes
 well.
@@ -255,9 +255,9 @@ well.
 If something goes wrong (e.g. you tried to open a file for read that
 didn't exist), `freopen()` will return `NULL`.
 
-#### Example
+### Example {.unnumbered .unlisted}
 
-``` {.c}
+``` {.c .numberLines}
 #include <stdio.h>
 
 int main(void)
@@ -285,7 +285,7 @@ int main(void)
 }
 ```
 
-#### See Also
+### See Also {.unnumbered .unlisted}
 
 [`fclose()`](#fclose)<br>
 [`fopen()`](#fopen)
@@ -296,7 +296,7 @@ int main(void)
 The opposite of `fopen()`--closes a file when
 you're done with it so that it frees system resources.
 
-#### Synopsis
+### Synopsis {.unnumbered .unlisted}
 
 ``` {.c}
 #include <stdio.h>
@@ -304,7 +304,7 @@ you're done with it so that it frees system resources.
 int fclose(FILE *stream);
 ```
 
-#### Description 
+### Description {.unnumbered .unlisted}
 
 When you open a file, the system sets aside some resources to
 maintain information about that open file. Usually it can only open so
@@ -322,15 +322,15 @@ better to close the files before then. In any case, not closing a file
 you've opened makes you look bad. So, remember to `fclose()`
 your file when you're done with it!
 
-#### Return Value
+### Return Value {.unnumbered .unlisted}
 
 On success, `0` is returned. Typically no one checks for this.
 On error `EOF` is returned. Typically no one checks for this,
 either.
 
-#### Example
+### Example {.unnumbered .unlisted}
 
-``` {.c}
+``` {.c .numberLines}
 FILE *fp;
 
 fp = fopen("spoonDB.dat", r"); // (you should error-check this)
@@ -338,7 +338,7 @@ sort_spoon_database(fp);
 fclose(fp);   // pretty simple, huh. 
 ```
 
-#### See Also
+### See Also {.unnumbered .unlisted}
 
 [`fopen()`](#fopen)
 
@@ -347,7 +347,7 @@ fclose(fp);   // pretty simple, huh.
 
 Print a formatted string to the console or to a file.
 
-#### Synopsis
+### Synopsis {.unnumbered .unlisted}
 
 ``` {.c}
 #include <stdio.h>
@@ -356,7 +356,7 @@ int printf(const char *format, ...);
 int fprintf(FILE *stream, const char *format, ...);
 ```
 
-#### Description 
+### Description {.unnumbered .unlisted}
 
 These functions print formatted strings to a file (that is, a
 `FILE*` you likely got from `fopen()`), or to the
@@ -627,11 +627,11 @@ I know it's hard to believe, but there might be _still more_
 format and length specifiers on your system. Check your manual for more
 information.
 
-#### Return Value
+### Return Value {.unnumbered .unlisted}
 
-#### Example
+### Example {.unnumbered .unlisted}
 
-``` {.c}
+``` {.c .numberLines}
 int a = 100;
     float b = 2.717;
     char *c = "beej!";
@@ -654,7 +654,7 @@ int a = 100;
     printf("%5d %5.2f %c\n", a, b, d); /* "  100  2.71 X" */
 ```
 
-#### See Also
+### See Also {.unnumbered .unlisted}
 
 [`sprintf()`](#sprintf),
 [`vprintf()`](#vprintf),
@@ -667,7 +667,7 @@ int a = 100;
 Read formatted string, character, or numeric data from the
 console or from a file.
 
-#### Synopsis
+### Synopsis {.unnumbered .unlisted}
 
 ``` {.c}
 #include <stdio.h>
@@ -676,7 +676,7 @@ int scanf(const char *format, ...);
 int fscanf(FILE *stream, const char *format, ...);
 ```
 
-#### Description 
+### Description {.unnumbered .unlisted}
 
 The `scanf()` family of functions reads data from the
 console or from a `FILE` stream, parses it, and stores the
@@ -850,7 +850,7 @@ but you don't want to store it anywhere; you don't give
 `scanf()` an argument for this conversion. Example:
 `%*d`.
 
-#### Return Value
+### Return Value {.unnumbered .unlisted}
 
 `scanf()` returns the number of items assigned into
 variables. Since assignment into variables stops when given invalid
@@ -859,9 +859,9 @@ all your data correctly.
 
 Also, `scanf()` returns `EOF` on end-of-file.
 
-#### Example
+### Example {.unnumbered .unlisted}
 
-``` {.c}
+``` {.c .numberLines}
 int a;
 long int b;
 unsigned int c;
@@ -892,7 +892,7 @@ scanf("%f %*d %lf", &d, &e);
 scanf("%10c", s);
 ```
 
-#### See Also
+### See Also {.unnumbered .unlisted}
 
 [`sscanf()`](#sscanf),
 [`vscanf()`](#vscanf),
@@ -904,7 +904,7 @@ scanf("%10c", s);
 
 Read a string from console or file
 
-#### Synopsis
+### Synopsis {.unnumbered .unlisted}
 
 ``` {.c}
 #include <stdio.h>
@@ -913,7 +913,7 @@ char *fgets(char *s, int size, FILE *stream);
 char *gets(char *s);
 ```
 
-#### Description 
+### Description {.unnumbered .unlisted}
 
 These are functions that will retrieve a newline-terminated string from
 the console or a file. In other normal words, it reads a line of text.
@@ -970,16 +970,16 @@ char *remove_newline(char *s)
 So, in summary, use `fgets()` to read a line of text from
 the keyboard or a file, and don't use `gets()`.
 
-#### Return Value
+### Return Value {.unnumbered .unlisted}
 
 Both `gets()` and `fgets()` return a pointer to
 the string passed.
 
 On error or end-of-file, the functions return `NULL`.
 
-#### Example
+### Example {.unnumbered .unlisted}
 
-``` {.c}
+``` {.c .numberLines}
 char s[100];
 
 gets(s); // read from standard input (don't use this--use fgets()!)
@@ -993,7 +993,7 @@ fclose(fp);
 fgets(s, 20, stdin); // read a maximum of 20 bytes from stdin
 ```
 
-#### See Also
+### See Also {.unnumbered .unlisted}
 
 [`getc()`](#getc),
 [`fgetc()`](#getc),
@@ -1007,7 +1007,7 @@ fgets(s, 20, stdin); // read a maximum of 20 bytes from stdin
 
 Get a single character from the console or from a file.
 
-#### Synopsis
+### Synopsis {.unnumbered .unlisted}
 
 ``` {.c}
 #include <stdio.h>
@@ -1017,7 +1017,7 @@ int fgetc(FILE *stream);
 int getchar(void);
 ```
 
-#### Description 
+### Description {.unnumbered .unlisted}
 
 All of these functions in one way or another, read a single character
 from the console or from a `FILE`. The differences are
@@ -1040,7 +1040,7 @@ Yes, I cheated and used cut-n-paste to do that last paragraph.
 `getchar()` returns a character from `stdin`. In
 fact, it's the same as calling `getc(stdin)`.
 
-#### Return Value
+### Return Value {.unnumbered .unlisted}
 
 All three functions return the `unsigned char` that they
 read, except it's cast to an `int`.
@@ -1048,9 +1048,9 @@ read, except it's cast to an `int`.
 If end-of-file or an error is encountered, all three functions return
 `EOF`.
 
-#### Example
+### Example {.unnumbered .unlisted}
 
-``` {.c}
+``` {.c .numberLines}
 // read all characters from a file, outputting only the letter 'b's
 // it finds in the file
 
@@ -1077,14 +1077,14 @@ int main(void)
 }
 ```
 
-#### See Also
+### See Also {.unnumbered .unlisted}
 
 [[pagebreak]]
 ## `puts()`, `fputs()` {#man-puts}
 
 Write a string to the console or to a file.
 
-#### Synopsis
+### Synopsis {.unnumbered .unlisted}
 
 ``` {.c}
 #include <stdio.h>
@@ -1093,20 +1093,20 @@ int puts(const char *s);
 int fputs(const char *s, FILE *stream);
 ```
 
-#### Description 
+### Description {.unnumbered .unlisted}
 
 Both these functions output a NUL-terminated string.
 `puts()` outputs to the console, while `fputs()`
 allows you to specify the file for output.
 
-#### Return Value
+### Return Value {.unnumbered .unlisted}
 
 Both functions return non-negative on success, or `EOF` on
 error.
 
-#### Example
+### Example {.unnumbered .unlisted}
 
-``` {.c}
+``` {.c .numberLines}
 // read strings from the console and save them in a file
 
 #include <stdio.h>
@@ -1128,14 +1128,14 @@ int main(void)
 }
 ```
 
-#### See Also
+### See Also {.unnumbered .unlisted}
 
 [[pagebreak]]
 ## `putc()`, `fputc()`, `putchar()` {#man-putc}
 
 Write a single character to the console or to a file.
 
-#### Synopsis
+### Synopsis {.unnumbered .unlisted}
 
 ``` {.c}
 #include <stdio.h>
@@ -1145,7 +1145,7 @@ int fputc(int c, FILE *stream);
 int putchar(int c);
 ```
 
-#### Description 
+### Description {.unnumbered .unlisted}
 
 All three functions output a single character, either to the console
 or to a `FILE`.
@@ -1158,14 +1158,14 @@ Most people use `fputc()`.
 `putchar()` writes the character to the console, and is
 the same as calling `putc(c, stdout)`.
 
-#### Return Value
+### Return Value {.unnumbered .unlisted}
 
 All three functions return the character written on success, or
 `EOF` on error.
 
-#### Example
+### Example {.unnumbered .unlisted}
 
-``` {.c}
+``` {.c .numberLines}
 // print the alphabet
 
 #include <stdio.h>
@@ -1183,7 +1183,7 @@ int main(void)
 }
 ```
 
-#### See Also
+### See Also {.unnumbered .unlisted}
 
 [[pagebreak]]
 ## `fseek()`, `rewind()` {#man-fseek}
@@ -1191,7 +1191,7 @@ int main(void)
 Position the file pointer in anticipition of the next read or
 write.
 
-#### Synopsis
+### Synopsis {.unnumbered .unlisted}
 
 ``` {.c}
 #include <stdio.h>
@@ -1200,7 +1200,7 @@ int fseek(FILE *stream, long offset, int whence);
 void rewind(FILE *stream);
 ```
 
-#### Description 
+### Description {.unnumbered .unlisted}
 
 When doing reads and writes to a file, the OS keeps track of where you
 are in the file using a counter generically known as the file pointer.
@@ -1256,16 +1256,16 @@ fseek(fp, 0, SEEK_SET); // same as rewind()
 rewind(fp);             // same as fseek(fp, 0, SEEK_SET)
 ```
 
-#### Return Value
+### Return Value {.unnumbered .unlisted}
 
 For `fseek()`, on success zero is returned; `-1` is
 returned on failure.
 
 The call to `rewind()` never fails.
 
-#### Example
+### Example {.unnumbered .unlisted}
 
-``` {.c}
+``` {.c .numberLines}
 fseek(fp, 100, SEEK_SET); // seek to the 100th byte of the file
 fseek(fp, -30, SEEK_CUR); // seek backward 30 bytes from the current pos
 fseek(fp, -10, SEEK_END); // seek to the 10th byte before the end of file
@@ -1274,7 +1274,7 @@ fseek(fp, 0, SEEK_SET);   // seek to the beginning of the file
 rewind(fp);               // seek to the beginning of the file
 ```
 
-#### See Also
+### See Also {.unnumbered .unlisted}
 
 [`ftell()`](#ftell),
 [`fgetpos()`](#fgetpos),
@@ -1286,7 +1286,7 @@ rewind(fp);               // seek to the beginning of the file
 Tells you where a particular file is about to read from or
 write to.
 
-#### Synopsis
+### Synopsis {.unnumbered .unlisted}
 
 ``` {.c}
 #include <stdio.h>
@@ -1294,7 +1294,7 @@ write to.
 long ftell(FILE *stream);
 ```
 
-#### Description 
+### Description {.unnumbered .unlisted}
 
 This function is the opposite of [`fseek()`](#fseek). It tells you where in the
 file the next file operation will occur relative to the beginning of the
@@ -1306,13 +1306,13 @@ take the return value from `ftell()` and feed it back into
 `fseek()` (with `whence` parameter set to
 `SEEK_SET`) when you want to return to your previous position.
 
-#### Return Value
+### Return Value {.unnumbered .unlisted}
 
 Returns the current offset in the file, or `-1` on error.
 
-#### Example
+### Example {.unnumbered .unlisted}
 
-``` {.c}
+``` {.c .numberLines}
 long pos;
 
 // store the current position in variable "pos":
@@ -1328,7 +1328,7 @@ do_mysterious_writes_to_file(fp);
 fseek(fp, pos, SEEK_SET);
 ```
 
-#### See Also
+### See Also {.unnumbered .unlisted}
 
 [`fseek()`](#fseek),
 [`rewind()`](#fseek),
@@ -1342,7 +1342,7 @@ Get the current position in a file, or set the current position
 in a file. Just like `ftell()` and `fseek()` for
 most systems.
 
-#### Synopsis
+### Synopsis {.unnumbered .unlisted}
 
 ``` {.c}
 #include <stdio.h>
@@ -1351,7 +1351,7 @@ int fgetpos(FILE *stream, fpos_t *pos);
 int fsetpos(FILE *stream, fpos_t *pos);
 ```
 
-#### Description 
+### Description {.unnumbered .unlisted}
 
 These functions are just like `ftell()` and
 `fseek()`, except instead of counting in bytes, they use an
@@ -1369,13 +1369,13 @@ using the `fgetpos()` call itself. Then you save the value
 for later and use it to reset the position using
 `fsetpos()`.
 
-#### Return Value
+### Return Value {.unnumbered .unlisted}
 
 Both functions return zero on success, and `-1` on error.
 
-#### Example
+### Example {.unnumbered .unlisted}
 
-``` {.c}
+``` {.c .numberLines}
 char s[100];
 fpos_t pos;
 
@@ -1388,7 +1388,7 @@ fgets(s, sizeof(s), fp); // read another line from the file
 fsetpos(fp, &pos);   // now restore the position to where we saved
 ```
 
-#### See Also
+### See Also {.unnumbered .unlisted}
 
 [`fseek()`](#fseek),
 [`ftell()`](#ftell),
@@ -1399,7 +1399,7 @@ fsetpos(fp, &pos);   // now restore the position to where we saved
 
 Pushes a character back into the input stream.
 
-#### Synopsis
+### Synopsis {.unnumbered .unlisted}
 
 ``` {.c}
 #include <stdio.h>
@@ -1407,7 +1407,7 @@ Pushes a character back into the input stream.
 int ungetc(int c, FILE *stream);
 ```
 
-#### Description 
+### Description {.unnumbered .unlisted}
 
 You know how `getc()` reads the next character from a file
 stream? Well, this is the opposite of that---it pushes a character
@@ -1430,14 +1430,14 @@ push back _one character_. Some implementations might allow
 you to push back more, but there's really no way to tell and still be
 portable.
 
-#### Return Value
+### Return Value {.unnumbered .unlisted}
 
 On success, `ungetc()` returns the character you passed to
 it. On failure, it returns `EOF`.
 
-#### Example
+### Example {.unnumbered .unlisted}
 
-``` {.c}
+``` {.c .numberLines}
 // read a piece of punctuation, then everything after it up to the next
 // piece of punctuation. return the punctuation, and store the rest
 // in a string
@@ -1472,7 +1472,7 @@ char read_punctstring(FILE *fp, char *s)
 }
 ```
 
-#### See Also
+### See Also {.unnumbered .unlisted}
 
 [`fgetc()`](#getc)
 
@@ -1481,7 +1481,7 @@ char read_punctstring(FILE *fp, char *s)
 
 Read binary data from a file.
 
-#### Synopsis
+### Synopsis {.unnumbered .unlisted}
 
 ``` {.c}
 #include <stdio.h>
@@ -1489,7 +1489,7 @@ Read binary data from a file.
 size_t fread(void *p, size_t size, size_t nmemb, FILE *stream);
 ```
 
-#### Description 
+### Description {.unnumbered .unlisted}
 
 You might remember that you can call [`fopen()`](#fopen) with the "`b`" flag in
 the open mode string to open the file in "binary" mode. Files open in
@@ -1522,7 +1522,7 @@ defined to hold the size of something. Great---would I stop
 beating around the bush already and give you the straight story?! Ok,
 `size_t` is probably an `int`.)
 
-#### Return Value
+### Return Value {.unnumbered .unlisted}
 
 This function returns the number of items successfully read. If all
 requested items are read, the return value will be equal to that of the
@@ -1534,9 +1534,9 @@ You can use the functions [`feof()`](#feof)
 or [`ferror()`](#feof) to tell which one
 really happened.
 
-#### Example
+### Example {.unnumbered .unlisted}
 
-``` {.c}
+``` {.c .numberLines}
 // read 10 numbers from a file and store them in an array
 
 int main(void)
@@ -1557,7 +1557,7 @@ int main(void)
 }
 ```
 
-#### See Also
+### See Also {.unnumbered .unlisted}
 
 [`fopen()`](#fopen),
 [`fwrite()`](#fwrite),
@@ -1569,7 +1569,7 @@ int main(void)
 
 Write binary data to a file.
 
-#### Synopsis
+### Synopsis {.unnumbered .unlisted}
 
 ``` {.c}
 #include <stdio.h>
@@ -1577,21 +1577,21 @@ Write binary data to a file.
 size_t fwrite(const void *p, size_t size, size_t nmemb, FILE *stream);
 ```
 
-#### Description 
+### Description {.unnumbered .unlisted}
 
 This is the counterpart to the [`fread()`](#fread) function. It writes blocks of
 binary data to disk. For a description of what this means, see the
 entry for [`fread()`](#fread).
 
-#### Return Value
+### Return Value {.unnumbered .unlisted}
 
 `fwrite()` returns the number of items successfully
 written, which should hopefully be `nmemb` that you passed in.
 It'll return zero on error.
 
-#### Example
+### Example {.unnumbered .unlisted}
 
-``` {.c}
+``` {.c .numberLines}
 // save 10 random numbers to a file
 
 int main(void)
@@ -1614,7 +1614,7 @@ int main(void)
 }
 ```
 
-#### See Also
+### See Also {.unnumbered .unlisted}
 
 [`fopen()`](#fopen),
 [`fread()`](#fread)
@@ -1626,7 +1626,7 @@ int main(void)
 Determine if a file has reached end-of-file or if an error has
 occurred.
 
-#### Synopsis
+### Synopsis {.unnumbered .unlisted}
 
 ``` {.c}
 #include <stdio.h>
@@ -1636,7 +1636,7 @@ int ferror(FILE *stream);
 void clearerr(FILE *stream);
 ```
 
-#### Description 
+### Description {.unnumbered .unlisted}
 
 Each `FILE*` that you use to read and write data from and
 to a file contains flags that the system sets when certain events occur.
@@ -1650,14 +1650,14 @@ they're set.
 Once the flags are set for a particular stream, they stay that way
 until you call `clearerr()` to clear them.
 
-#### Return Value
+### Return Value {.unnumbered .unlisted}
 
 `feof()` and `ferror()` return non-zero (true) if
 the file has reached EOF or there has been an error, respectively.
 
-#### Example
+### Example {.unnumbered .unlisted}
 
-``` {.c}
+``` {.c .numberLines}
 // read binary data, checking for eof or error
 int main(void)
 {
@@ -1684,7 +1684,7 @@ int main(void)
 }
 ```
 
-#### See Also
+### See Also {.unnumbered .unlisted}
 
 [`fopen()`](#fopen),
 [`fread()`](#fread)
@@ -1694,7 +1694,7 @@ int main(void)
 
 Print the last error message to `stderr`
 
-#### Synopsis
+### Synopsis {.unnumbered .unlisted}
 
 ``` {.c}
 #include <stdio.h>
@@ -1703,7 +1703,7 @@ Print the last error message to `stderr`
 void perror(const char *s);
 ```
 
-#### Description 
+### Description {.unnumbered .unlisted}
 
 Many functions, when they encounter an error condition for whatever
 reason, will set a global variable called `errno` for you.
@@ -1727,17 +1727,17 @@ The catch is that different systems define different values for
 a few math-related values, and not others. You'll have to check your
 local man-pages for what works on your system.
 
-#### Return Value
+### Return Value {.unnumbered .unlisted}
 
 Returns nothing at all! Sorry!
 
-#### Example
+### Example {.unnumbered .unlisted}
 
 [`fseek()`](#fseek) returns `-1` on error, and
 sets `errno`, so let's use it. Seeking on `stdin`
 makes no sense, so it should generate an error:
 
-``` {.c}
+``` {.c .numberLines}
 #include <stdio.h>
 #include <errno.h> // must include this to see "errno" in this example
 
@@ -1772,7 +1772,7 @@ fseek: Illegal seek
 fseek again, EBADF: Bad file descriptor
 ```
 
-#### See Also
+### See Also {.unnumbered .unlisted}
 
 [`feof()`](#feof),
 [`ferror()`](#feof),
@@ -1783,7 +1783,7 @@ fseek again, EBADF: Bad file descriptor
 
 Delete a file
 
-#### Synopsis
+### Synopsis {.unnumbered .unlisted}
 
 ``` {.c}
 #include <stdio.h>
@@ -1791,27 +1791,27 @@ Delete a file
 int remove(const char *filename);
 ```
 
-#### Description 
+### Description {.unnumbered .unlisted}
 
 Removes the specified file from the filesystem. It just deletes it.
 Nothing magical. Simply call this function and sacrifice a small
 chicken and the requested file will be deleted.
 
-#### Return Value
+### Return Value {.unnumbered .unlisted}
 
 Returns zero on success, and `-1` on error, setting
 `errno`.
 
-#### Example
+### Example {.unnumbered .unlisted}
 
-``` {.c}
+``` {.c .numberLines}
 char *filename = "/home/beej/evidence.txt";
 
 remove(filename);
 remove("/disks/d/Windows/system.ini");
 ```
 
-#### See Also
+### See Also {.unnumbered .unlisted}
 
 [`rename()`](#rename)
 
@@ -1820,7 +1820,7 @@ remove("/disks/d/Windows/system.ini");
 
 Renames a file and optionally moves it to a new location
 
-#### Synopsis
+### Synopsis {.unnumbered .unlisted}
 
 ``` {.c}
 #include <stdio.h>
@@ -1828,7 +1828,7 @@ Renames a file and optionally moves it to a new location
 int rename(const char *old, const char *new);
 ```
 
-#### Description 
+### Description {.unnumbered .unlisted}
 
 Renames the file `old` to name `new`. Use this
 function if you're tired of the old name of the file, and you are ready
@@ -1839,14 +1839,14 @@ One other cool thing you can do with this function is actually move a
 file from one directory to another by specifying a different path for
 the new name.
 
-#### Return Value
+### Return Value {.unnumbered .unlisted}
 
 Returns zero on success, and `-1` on error, setting
 `errno`.
 
-#### Example
+### Example {.unnumbered .unlisted}
 
-``` {.c}
+``` {.c .numberLines}
 rename("foo", "bar"); // changes the name of the file "foo" to "bar"
 
 // the following moves the file "evidence.txt" from "/tmp" to
@@ -1854,7 +1854,7 @@ rename("foo", "bar"); // changes the name of the file "foo" to "bar"
 rename("/tmp/evidence.txt", "/home/beej/nothing.txt");
 ```
 
-#### See Also
+### See Also {.unnumbered .unlisted}
 
 [`remove()`](#remove)
 
@@ -1863,7 +1863,7 @@ rename("/tmp/evidence.txt", "/home/beej/nothing.txt");
 
 Create a temporary file
 
-#### Synopsis
+### Synopsis {.unnumbered .unlisted}
 
 ``` {.c}
 #include <stdio.h>
@@ -1871,7 +1871,7 @@ Create a temporary file
 FILE *tmpfile(void);
 ```
 
-#### Description 
+### Description {.unnumbered .unlisted}
 
 This is a nifty little function that will create and open a temporary
 file for you, and will return a `FILE*` to it that you can
@@ -1884,14 +1884,14 @@ it is `close()`'d or when your program exits. (Specifically,
 don't know what that means, it won't affect your `tmpfile()`
 skill, but hey, be curious! It's for your own good!)
 
-#### Return Value
+### Return Value {.unnumbered .unlisted}
 
 This function returns an open `FILE*` on success, or
 `NULL` on failure.
 
-#### Example
+### Example {.unnumbered .unlisted}
 
-``` {.c}
+``` {.c .numberLines}
 #include <stdio.h>
 
 int main(void)
@@ -1913,7 +1913,7 @@ int main(void)
 }
 ```
 
-#### See Also
+### See Also {.unnumbered .unlisted}
 
 [`fopen()`](#fopen)<br>
 [`fclose()`](#fclose)<br>
@@ -1924,7 +1924,7 @@ int main(void)
 
 Generate a unique name for a temporary file
 
-#### Synopsis
+### Synopsis {.unnumbered .unlisted}
 
 ``` {.c}
 #include <stdio.h>
@@ -1932,7 +1932,7 @@ Generate a unique name for a temporary file
 char *tmpnam(char *s);
 ```
 
-#### Description 
+### Description {.unnumbered .unlisted}
 
 This function takes a good hard look at the existing files on your
 system, and comes up with a unique name for a new file that is suitable
@@ -1982,7 +1982,7 @@ I, however, am going to be a jerk and not talk about
 `mkstemp()` because it's not in the standard I'm writing
 about. Nyaah.
 
-#### Return Value
+### Return Value {.unnumbered .unlisted}
 
 Returns a pointer to the temporary file name. This is either a
 pointer to the string you passed in, or a pointer to internal static
@@ -1990,9 +1990,9 @@ storage if you passed in `NULL`. On error (like it can't
 find any temporary name that is unique), `tmpnam()` returns
 `NULL`.
 
-#### Example
+### Example {.unnumbered .unlisted}
 
-``` {.c}
+``` {.c .numberLines}
 char filename[L_tmpnam];
 char *another_filename;
 
@@ -2015,7 +2015,7 @@ And we didn't error check it because we're too lazy!
 ```
     
 
-#### See Also
+### See Also {.unnumbered .unlisted}
 
 [`fopen()`](#fopen)<br>
 [`tmpfile()`](#tmpfile)
@@ -2025,7 +2025,7 @@ And we didn't error check it because we're too lazy!
 
 Configure buffering for standard I/O operations
 
-#### Synopsis
+### Synopsis {.unnumbered .unlisted}
 
 ``` {.c}
 #include <stdio.h>
@@ -2034,7 +2034,7 @@ void setbuf(FILE *stream, char *buf);
 int setvbuf(FILE *stream, char *buf, int mode, size_t size);
 ```
 
-#### Description 
+### Description {.unnumbered .unlisted}
 
 Now brace yourself because this might come as a bit of a surprise to
 you: when you `printf()` or `fprintf()` or use any
@@ -2109,14 +2109,14 @@ setbuf(stream, NULL);
 setvbuf(stream, NULL, _IONBF, BUFSIZ); // unbuffered
 ```
 
-#### Return Value
+### Return Value {.unnumbered .unlisted}
 
 `setvbuf()` returns zero on success, and nonzero on failure.
 `setbuf()` has no return value.
 
-#### Example
+### Example {.unnumbered .unlisted}
 
-``` {.c}
+``` {.c .numberLines}
 FILE *fp;
 char lineBuf[1024];
 
@@ -2131,7 +2131,7 @@ setbuf(fp, NULL); // set to unbuffered
 fclose(fp);
 ```
 
-#### See Also
+### See Also {.unnumbered .unlisted}
 
 [`fflush()`](#fflush)
 
@@ -2140,7 +2140,7 @@ fclose(fp);
 
 Process all buffered I/O for a stream right now
 
-#### Synopsis
+### Synopsis {.unnumbered .unlisted}
 
 ``` {.c}
 #include <stdio.h>
@@ -2148,7 +2148,7 @@ Process all buffered I/O for a stream right now
 int fflush(FILE *stream);
 ```
 
-#### Description 
+### Description {.unnumbered .unlisted}
 
 When you do standard I/O, as mentioned in the section on the [`setvbuf()`](#setvbuf) function, it is usually
 stored in a buffer until a line has been entered or the buffer is full
@@ -2169,13 +2169,13 @@ Note that `fflush()` is only designed to work on output
 streams according to the spec. What will happen if you try it on an
 input stream? Use your spooky voice: _who knooooows!_
 
-#### Return Value
+### Return Value {.unnumbered .unlisted}
 
 On success, `fflush()` returns zero. If there's an error,
 it returns `EOF` and sets the error condition for the stream
 (see [`ferror()`](#feof).)
 
-#### Example
+### Example {.unnumbered .unlisted}
 
 In this example, we're going to use the carriage return, which is
 `'\r'`. This is like newline (`'\n'`), except that it
@@ -2194,7 +2194,7 @@ we're not printing newlines; we're just printing carriage returns, so we
 need a way to force the output to occur even though we're on the same
 line. Yes, it's `fflush()!`
 
-``` {.c}
+``` {.c .numberLines}
 #include <stdio.h>
 #include <unistd.h> // for prototype for sleep()
 
@@ -2222,7 +2222,7 @@ int main(void)
 }
 ```
 
-#### See Also
+### See Also {.unnumbered .unlisted}
 
 [`setbuf()`](#setvbuf),
 [`setvbuf()`](#setvbuf)
