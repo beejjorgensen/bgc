@@ -361,7 +361,7 @@ int *p = NULL;
 ```
 
 Despite being called [flw[the billion dollar mistake by its
-creatorNull_pointer#History]], the `NULL` pointer is a good
+creator|Null_pointer#History]], the `NULL` pointer is a good
 [flw[sentinel value|Sentinel_value]] and general indicator that a
 pointer hasn't yet been initialized.
 

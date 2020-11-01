@@ -417,14 +417,20 @@ in this case, but there are some limits.
    dereference and some pointer math, and you can't dereference a
    `void*`!].
 
-Wait---if you can't dereference a `void*` what good can it ever do you?
+And if you think about it, these rules make sense. All those operations
+rely on knowing the `sizeof` the type of data pointed to, and with
+`void*`, we don't know the size of the data being pointed to---it could
+be anything!
+
+But wait---if you can't dereference a `void*` what good can it ever do
+you?
 
 Like with `memcpy()`, it helps you write generic functions that can
 handle multiple types of data. But the secret is that, deep down, _you
-convert the `void* to another type before you use it_!
+convert the `void*` to another type before you use it_!
 
 And conversion is easy: you can just assign into a variable of the
-desired type^[You can also _cast_ the type to another type, but we
+desired type^[You can also _cast_ the `void*` to another type, but we
 haven't gotten to casts yet.].
 
 ``` {.c}
