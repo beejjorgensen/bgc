@@ -73,7 +73,7 @@ sqrt(2)
 **`M_SQRT1_2`**
 1/sqrt(2)
 
-## `sin()`, `sinf()`, `sinl()`
+## `sin()`, `sinf()`, `sinl()` {#man-sin}
 
 Calculate the sine of a number.
 
@@ -122,7 +122,7 @@ ldsinx = sinl((long double)3.490);
 [`tan()`](#tan),
 [`asin()`](#asin)
 
-## `cos()`, `cosf()`, `cosl()`
+## `cos()`, `cosf()`, `cosl()` {#man-cos}
 
 Calculate the cosine of a number.
 
@@ -171,7 +171,7 @@ ldsinx = sinl((long double)3.490);
 [`tan()`](#tan),
 [`acos()`](#acos)
 
-## `tan()`, `tanf()`, `tanl()`
+## `tan()`, `tanf()`, `tanl()` {#man-tan}
 
 Calculate the tangent of a number.
 
@@ -221,7 +221,7 @@ ldtanx = tanl((long double)3.490);
 [`atan()`](#atan),
 [`atan2()`](#atan)
 
-## `asin()`, `asinf()`, `asinl()`
+## `asin()`, `asinf()`, `asinl()` {#man-asin}
 
 Calculate the arc sine of a number.
 
@@ -273,7 +273,7 @@ ldasinx = asinl((long double)0.3);
 [`atan2()`](#atan),
 [`sin()`](#sin)
 
-## `acos()`, `acosf()`, `acosl()`
+## `acos()`, `acosf()`, `acosl()` {#man-acos}
 
 Calculate the arc cosine of a number.
 
@@ -325,7 +325,7 @@ ldacosx = acosl((long double)0.3);
 [`atan2()`](#atan),
 [`cos()`](#cos)
 
-## `atan()`, `atanf()`, `atanl()`,
+## `atan()`, `atanf()`, `atanl()`, {#man-atan}
 `atan2()`, `atan2f()`, `atan2l()`
 
 Calculate the arc tangent of a number.
@@ -388,7 +388,7 @@ ldatanx = atan2l((long double)0.3);
 [`asin()`](#asin),
 [`atan()`](#acos)
 
-## `sqrt()`
+## `sqrt()` {#man-sqrt}
 
 Calculate the square root of a number
 
