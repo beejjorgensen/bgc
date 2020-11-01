@@ -206,8 +206,8 @@ int main(void)
 
 ### See Also {.unnumbered .unlisted}
 
-[`fclose()`](#fclose)<br>
-[`freopen()`](#freopen)
+[`fclose()`](#man-fclose),
+[`freopen()`](#man-freopen)
 
 [[pagebreak]]
 ## `freopen()` {#man-freopen}
@@ -287,8 +287,8 @@ int main(void)
 
 ### See Also {.unnumbered .unlisted}
 
-[`fclose()`](#fclose)<br>
-[`fopen()`](#fopen)
+[`fclose()`](#man-fclose),
+[`fopen()`](#man-fopen)
 
 [[pagebreak]]
 ## `fclose()` {#man-fclose}
@@ -340,7 +340,7 @@ fclose(fp);   // pretty simple, huh.
 
 ### See Also {.unnumbered .unlisted}
 
-[`fopen()`](#fopen)
+[`fopen()`](#man-fopen)
 
 [[pagebreak]]
 ## `printf()`, `fprintf()` {#man-printf}
@@ -656,10 +656,10 @@ int a = 100;
 
 ### See Also {.unnumbered .unlisted}
 
-[`sprintf()`](#sprintf),
-[`vprintf()`](#vprintf),
-[`vfprintf()`](#vfprintf),
-[`vsprintf()`](#vsprintf)
+[`sprintf()`](#man-sprintf),
+[`vprintf()`](#man-vprintf),
+[`vfprintf()`](#man-vfprintf),
+[`vsprintf()`](#man-vsprintf)
 
 [[pagebreak]]
 ## `scanf()`, `fscanf()` {#man-scanf}
@@ -894,10 +894,10 @@ scanf("%10c", s);
 
 ### See Also {.unnumbered .unlisted}
 
-[`sscanf()`](#sscanf),
-[`vscanf()`](#vscanf),
-[`vsscanf()`](#vsscanf),
-[`vfscanf()`](#vfscanf)
+[`sscanf()`](#man-sscanf),
+[`vscanf()`](#man-vscanf),
+[`vsscanf()`](#man-vsscanf),
+[`vfscanf()`](#man-vfscanf)
 
 [[pagebreak]]
 ## `gets()`, `fgets()` {#man-gets}
@@ -995,12 +995,12 @@ fgets(s, 20, stdin); // read a maximum of 20 bytes from stdin
 
 ### See Also {.unnumbered .unlisted}
 
-[`getc()`](#getc),
-[`fgetc()`](#getc),
-[`getchar()`](#getc),
-[`puts()`](#puts),
-[`fputs()`](#puts),
-[`ungetc()`](#ungetc)
+[`getc()`](#man-getc),
+[`fgetc()`](#man-getc),
+[`getchar()`](#man-getc),
+[`puts()`](#man-puts),
+[`fputs()`](#man-puts),
+[`ungetc()`](#man-ungetc)
 
 [[pagebreak]]
 ## `getc()`, `fgetc()`, `getchar()` {#man-getc}
@@ -1276,9 +1276,9 @@ rewind(fp);               // seek to the beginning of the file
 
 ### See Also {.unnumbered .unlisted}
 
-[`ftell()`](#ftell),
-[`fgetpos()`](#fgetpos),
-[`fsetpos()`](#fgetpos)
+[`ftell()`](#man-ftell),
+[`fgetpos()`](#man-fgetpos),
+[`fsetpos()`](#man-fgetpos)
 
 [[pagebreak]]
 ## `ftell()` {#man-ftell}
@@ -1330,10 +1330,10 @@ fseek(fp, pos, SEEK_SET);
 
 ### See Also {.unnumbered .unlisted}
 
-[`fseek()`](#fseek),
-[`rewind()`](#fseek),
-[`fgetpos()`](#fgetpos),
-[`fsetpos()`](#fgetpos)
+[`fseek()`](#man-fseek),
+[`rewind()`](#man-fseek),
+[`fgetpos()`](#man-fgetpos),
+[`fsetpos()`](#man-fgetpos)
 
 [[pagebreak]]
 ## `fgetpos()`, `fsetpos()` {#man-fgetpos}
@@ -1390,9 +1390,9 @@ fsetpos(fp, &pos);   // now restore the position to where we saved
 
 ### See Also {.unnumbered .unlisted}
 
-[`fseek()`](#fseek),
-[`ftell()`](#ftell),
-[`rewind()`](#fseek)
+[`fseek()`](#man-fseek),
+[`ftell()`](#man-ftell),
+[`rewind()`](#man-fseek)
 
 [[pagebreak]]
 ## `ungetc()` {#man-ungetc}
@@ -1474,7 +1474,7 @@ char read_punctstring(FILE *fp, char *s)
 
 ### See Also {.unnumbered .unlisted}
 
-[`fgetc()`](#getc)
+[`fgetc()`](#man-getc)
 
 [[pagebreak]]
 ## `fread()` {#man-fread}
@@ -1559,10 +1559,10 @@ int main(void)
 
 ### See Also {.unnumbered .unlisted}
 
-[`fopen()`](#fopen),
-[`fwrite()`](#fwrite),
-[`feof()`](#feof),
-[`ferror()`](#feof)
+[`fopen()`](#man-fopen),
+[`fwrite()`](#man-fwrite),
+[`feof()`](#man-feof),
+[`ferror()`](#man-feof)
 
 [[pagebreak]]
 ## `fwrite()` {#man-fwrite}
@@ -1616,8 +1616,8 @@ int main(void)
 
 ### See Also {.unnumbered .unlisted}
 
-[`fopen()`](#fopen),
-[`fread()`](#fread)
+[`fopen()`](#man-fopen),
+[`fread()`](#man-fread)
 
 [[pagebreak]]
 ## `feof()`, `ferror()`, {#man-feof}
@@ -1686,8 +1686,8 @@ int main(void)
 
 ### See Also {.unnumbered .unlisted}
 
-[`fopen()`](#fopen),
-[`fread()`](#fread)
+[`fopen()`](#man-fopen),
+[`fread()`](#man-fread)
 
 [[pagebreak]]
 ## `perror()` {#man-perror}
@@ -1774,9 +1774,9 @@ fseek again, EBADF: Bad file descriptor
 
 ### See Also {.unnumbered .unlisted}
 
-[`feof()`](#feof),
-[`ferror()`](#feof),
-[`clearerr()`](#feof)
+[`feof()`](#man-feof),
+[`ferror()`](#man-feof),
+[`clearerr()`](#man-feof)
 
 [[pagebreak]]
 ## `remove()` {#man-remove}
@@ -1813,7 +1813,7 @@ remove("/disks/d/Windows/system.ini");
 
 ### See Also {.unnumbered .unlisted}
 
-[`rename()`](#rename)
+[`rename()`](#man-rename)
 
 [[pagebreak]]
 ## `rename()` {#man-rename}
@@ -1856,7 +1856,7 @@ rename("/tmp/evidence.txt", "/home/beej/nothing.txt");
 
 ### See Also {.unnumbered .unlisted}
 
-[`remove()`](#remove)
+[`remove()`](#man-remove)
 
 [[pagebreak]]
 ## `tmpfile()` {#man-tmpfile}
@@ -1915,9 +1915,9 @@ int main(void)
 
 ### See Also {.unnumbered .unlisted}
 
-[`fopen()`](#fopen)<br>
-[`fclose()`](#fclose)<br>
-[`tmpnam()`](#tmpnam)
+[`fopen()`](#man-fopen),
+[`fclose()`](#man-fclose),
+[`tmpnam()`](#man-tmpnam)
 
 [[pagebreak]]
 ## `tmpnam()` {#man-tmpnam}
@@ -2017,8 +2017,8 @@ And we didn't error check it because we're too lazy!
 
 ### See Also {.unnumbered .unlisted}
 
-[`fopen()`](#fopen)<br>
-[`tmpfile()`](#tmpfile)
+[`fopen()`](#man-fopen),
+[`tmpfile()`](#man-tmpfile)
 
 [[pagebreak]]
 ## `setbuf()`, `setvbuf()` {#man-setbuf}
@@ -2133,7 +2133,7 @@ fclose(fp);
 
 ### See Also {.unnumbered .unlisted}
 
-[`fflush()`](#fflush)
+[`fflush()`](#man-fflush)
 
 [[pagebreak]]
 ## `fflush()` {#man-fflush}
@@ -2224,7 +2224,7 @@ int main(void)
 
 ### See Also {.unnumbered .unlisted}
 
-[`setbuf()`](#setvbuf),
-[`setvbuf()`](#setvbuf)
+[`setbuf()`](#man-setvbuf),
+[`setvbuf()`](#man-setvbuf)
 
 

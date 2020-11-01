@@ -132,8 +132,8 @@ if (!strncmp(s1, s2, 6))
 
 ### See Also {.unnumbered .unlisted}
 
-[`memcmp()`](#memcmp),
-[`qsort()`](#qsort)
+[`memcmp()`](#man-memcmp),
+[`qsort()`](#man-qsort)
 
 [[pagebreak]]
 ## `strcat()`, `strncat()` {#man-strcat}
@@ -199,7 +199,7 @@ string functions.
 
 ### See Also {.unnumbered .unlisted}
 
-[`strlen()`](#strlen)
+[`strlen()`](#man-strlen)
 
 [[pagebreak]]
 ## `strchr()`, `strrchr()` {#man-strchr}
@@ -343,9 +343,9 @@ dest[sizeof(dest)-1] = '\0'; // terminate
 
 ### See Also {.unnumbered .unlisted}
 
-[`memcpy()`](#memcpy),
-[`strcat()`](#strcat),
-[`strncat()`](#strcat)
+[`memcpy()`](#man-memcpy),
+[`strcat()`](#man-strcat),
+[`strncat()`](#man-strcat)
 
 [[pagebreak]]
 ## `strspn()`, `strcspn()` {#man-strspn}
@@ -401,8 +401,8 @@ n = strcspn(str2, "y"); // n = 16, "the bolivian nav"
 
 ### See Also {.unnumbered .unlisted}
 
-[`strchr()`](#strchr),
-[`strrchr()`](#strchr)
+[`strchr()`](#man-strchr),
+[`strrchr()`](#man-strchr)
 
 [[pagebreak]]
 ## `strstr()` {#man-strstr}
@@ -445,10 +445,10 @@ p = strstr(str, "wombat");
 
 ### See Also {.unnumbered .unlisted}
 
-[`strchr()`](#strchr),
-[`strrchr()`](#strchr),
-[`strspn()`](#strspn),
-[`strcspn()`](#strspn)
+[`strchr()`](#man-strchr),
+[`strrchr()`](#man-strchr),
+[`strspn()`](#man-strspn),
+[`strcspn()`](#man-strspn)
 
 [[pagebreak]]
 ## `strtok()` {#man-strtok}
@@ -524,9 +524,9 @@ if ((token = strtok(str, ".,?! ")) != NULL) {
 
 ### See Also {.unnumbered .unlisted}
 
-[`strchr()`](#strchr),
-[`strrchr()`](#strchr),
-[`strspn()`](#strspn),
-[`strcspn()`](#strspn)
+[`strchr()`](#man-strchr),
+[`strrchr()`](#man-strchr),
+[`strspn()`](#man-strspn),
+[`strcspn()`](#man-strspn)
 
 

@@ -119,9 +119,9 @@ ldsinx = sinl((long double)3.490);
 
 ### See Also {.unnumbered .unlisted}
 
-[`cos()`](#cos),
-[`tan()`](#tan),
-[`asin()`](#asin)
+[`cos()`](#man-cos),
+[`tan()`](#man-tan),
+[`asin()`](#man-asin)
 
 [[pagebreak]]
 ## `cos()`, `cosf()`, `cosl()` {#man-cos}
@@ -169,9 +169,9 @@ ldsinx = sinl((long double)3.490);
 
 ### See Also {.unnumbered .unlisted}
 
-[`sin()`](#sin),
-[`tan()`](#tan),
-[`acos()`](#acos)
+[`sin()`](#man-sin),
+[`tan()`](#man-tan),
+[`acos()`](#man-acos)
 
 [[pagebreak]]
 ## `tan()`, `tanf()`, `tanl()` {#man-tan}
@@ -219,10 +219,10 @@ ldtanx = tanl((long double)3.490);
 
 ### See Also {.unnumbered .unlisted}
 
-[`sin()`](#sin),
-[`cos()`](#cos),
-[`atan()`](#atan),
-[`atan2()`](#atan)
+[`sin()`](#man-sin),
+[`cos()`](#man-cos),
+[`atan()`](#man-atan),
+[`atan2()`](#man-atan)
 
 [[pagebreak]]
 ## `asin()`, `asinf()`, `asinl()` {#man-asin}
@@ -272,10 +272,10 @@ ldasinx = asinl((long double)0.3);
 
 ### See Also {.unnumbered .unlisted}
 
-[`acos()`](#acos),
-[`atan()`](#atan),
-[`atan2()`](#atan),
-[`sin()`](#sin)
+[`acos()`](#man-acos),
+[`atan()`](#man-atan),
+[`atan2()`](#man-atan),
+[`sin()`](#man-sin)
 
 [[pagebreak]]
 ## `acos()`, `acosf()`, `acosl()` {#man-acos}
@@ -325,10 +325,10 @@ ldacosx = acosl((long double)0.3);
 
 ### See Also {.unnumbered .unlisted}
 
-[`asin()`](#asin),
-[`atan()`](#atan),
-[`atan2()`](#atan),
-[`cos()`](#cos)
+[`asin()`](#man-asin),
+[`atan()`](#man-atan),
+[`atan2()`](#man-atan),
+[`cos()`](#man-cos)
 
 [[pagebreak]]
 ## `atan()`, `atanf()`, `atanl()`, {#man-atan}
@@ -390,9 +390,9 @@ ldatanx = atan2l((long double)0.3);
 
 ### See Also {.unnumbered .unlisted}
 
-[`tan()`](#tan),
-[`asin()`](#asin),
-[`atan()`](#acos)
+[`tan()`](#man-tan),
+[`asin()`](#man-asin),
+[`atan()`](#man-acos)
 
 [[pagebreak]]
 ## `sqrt()` {#man-sqrt}
@@ -463,6 +463,6 @@ distance between points (x1, y1) and (x2, y2): 40.54
 
 ### See Also {.unnumbered .unlisted}
 
-[`hypot()`](#tan)
+[`hypot()`](#man-tan)
 
 
