@@ -33,7 +33,7 @@ including
 [cube root](#cbrt), and
 [power](#pow).
 
-In short, you're a fricking MATHEMATICAL GOD!
+In short, you're a fricking MATHEMATICAL DEITY!
 
 Oh wait, before then, I should tell you that the trig functions have
 three variants with different suffixes. The "f" suffix (e.g.
@@ -46,32 +46,21 @@ supported by modern compilers.
 Also, there are several values that are defined in the
 `math.h` header file.
 
-**`M_E`**
-e
-**`M_LOG2E`**
-log_2 e
-**`M_LOG10E`**
-log_10 e
-**`M_LN2`**
-log_e 2
-**`M_LN10`**
-log_e 10
-**`M_PI`**
-pi
-**`M_PI_2`**
-pi/2
-**`M_PI_4`**
-pi/4
-**`M_1_PI`**
-1/pi
-**`M_2_PI`**
-2/pi
-**`M_2_SQRTPI`**
-2/sqrt(pi)
-**`M_SQRT2`**
-sqrt(2)
-**`M_SQRT1_2`**
-1/sqrt(2)
+|Constant|C Macro Equivalent|
+|:-|:-|
+|$e$|`M_E`|
+|$\log_2 e$|`M_LOG2E`|
+|$\log_{10} e$|`M_LOG10E`|
+|$\log_e 2$|`M_LN2`||
+|$\log_e 10$|`M_LN10`|
+|$\pi$|`M_PI`|
+|$\pi/2$|`M_PI_2`|
+|$\pi/4$|`M_PI_4`|
+|$1/\pi$|`M_1_PI`|
+|$2/\pi$|`M_2_PI`|
+|$2/\sqrt\pi$|`M_2_SQRTPI`|
+|$\sqrt2$|`M_SQRT2`|
+|$1/\sqrt2$|`M_SQRT1_2`|
 
 [[pagebreak]]
 ## `sin()`, `sinf()`, `sinl()` {#man-sin}
