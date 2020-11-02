@@ -63,7 +63,9 @@ but it's gotta be at least in the top three, right?]. Hang on!
 
 ## Hello, World!
 
-This is the canonical example of a C program. Everyone uses it:
+This is the canonical example of a C program. Everyone uses it. (Note
+that the numbers to the left are for reader reference only, and are not
+part of the source code.)
 
 ``` {.c .numberLines}
 /* Hello world program */
