@@ -67,6 +67,11 @@ have to consider any copyright issues when merging changes.
   * Variables and types
     * Just int and float types
   * Statements
+    * if
+    * while
+    * for
+    * do-while
+    * switch  TODO
   * Functions
     * Function scope vs global scope
   * Pointers
@@ -92,9 +97,7 @@ have to consider any copyright issues when merging changes.
     * Pointer arithmetic
   * Scope
     * Block scope
-    * Extern
     * Static and file scope
-    * Incomplete types
   * Types II
     * Storage classes
       * Static
@@ -138,8 +141,14 @@ have to consider any copyright issues when merging changes.
   * Variadic functions
   * Bitwise operations
   * Preprocessor II
+  * Goto
+    * Labels
   * Incomplete types
   * lvalues
+  * Incomplete types
+  * The outside environment
+    * argc, argv
+    * exit values
   * More man pages
   * Optional features
     * Threads
