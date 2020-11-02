@@ -205,7 +205,7 @@ void set_price(struct car *c, float new_price) {
 }
 ```
 
-The error operator helps refer to fields in pointers to `struct`s.
+The arrow operator helps refer to fields in pointers to `struct`s.
 
 So when accessing fields. when do we use dot and when do we use arrow?
 
