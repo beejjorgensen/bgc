@@ -367,3 +367,57 @@ pointer hasn't yet been initialized.
 
 (Of course, the pointer points to garbage unless you explicitly assign
 it to point to an address or `NULL`.)
+
+## A Note on Declaring Pointers
+
+The syntax for declaring a pointer can get a little weird. Let's look at
+this example:
+
+``` {.c}
+int a;
+int b;
+```
+
+We can condense that into a single line, right?
+
+``` {.c}
+int a, b;  // Same thing
+```
+
+So `a` and `b` are both `int`s. No problem.
+
+But what about this?
+
+``` {.c}
+int a;
+int *p;
+```
+
+Can we make that into one line? We can. But where does the `*` go?
+
+The rule is that the `*` goes in front of any variable that is a pointer
+type. That is. the `*` is _not_ part of the `int` in this example. it's
+a part of variable `p`.
+
+With that in mind, we can write this:
+
+``` {.c}
+int a, *p;  // Same thing
+```
+
+It's important to note that this line does _not_ declare two pointers:
+
+``` {.c}
+int *p, q;  // p is a pointer to an int; q is just an int.
+```
+
+So take a look at this and determine which variables are pointers and
+which are not:
+
+``` {.c}
+int *a, b, c, *d, e, *f, g, h, *i;
+```
+
+I'll drop the answer in a footnote^[The pointer type variables are `a`,
+`d`, `f`, and `i`, because those are the ones with `*` in front of
+them.].
