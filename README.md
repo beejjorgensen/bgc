@@ -99,14 +99,17 @@ have to consider any copyright issues when merging changes.
     * Block scope
     * Static and file scope
   * Types II
+    * Signed/Unsigned
+      * char/unsigned char
+    * long/double
+    * Casting
+    * Standard promotions
+  * Types III
     * Storage classes
       * Static
       * Register
       * Auto
       * Extern
-    * Signed/Unsigned
-    * Casting
-    * Standard promotions
     * Type qualifiers
       * const
       * restrict
@@ -115,6 +118,7 @@ have to consider any copyright issues when merging changes.
     * Anonymous Structs
     * Typedef
     * Flexible array members
+    * Bitfields
     * Padding bytes
     * Unions
   * Preprocessor
