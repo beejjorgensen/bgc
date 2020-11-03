@@ -145,6 +145,9 @@ have to consider any copyright issues when merging changes.
   * Variadic functions
   * Bitwise operations
   * Preprocessor II
+  * Characters and Strings II
+    * Escape sequences
+    * `'abc'` integer character constants
   * Goto
     * Labels
   * Incomplete types
