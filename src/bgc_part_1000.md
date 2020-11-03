@@ -226,7 +226,7 @@ Let's run the same table on my 64-bit, two's complement system and see
 what comes out:
 
 |Type|My Bits|My Bytes|Minimum Value|Maximum Value|
-|:-|-:|-:|:-|-:|-:|
+|:-|-:|-:|-:|-:|
 |`char`|8|1|-128|127^[My `char` is signed.]|
 |`signed char`|8|1|-128|127|
 |`short`|16|2|-32768|32767|
