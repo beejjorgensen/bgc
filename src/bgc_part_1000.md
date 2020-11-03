@@ -177,3 +177,90 @@ used|List_of_information_system_character_sets]]. One of the most
 popular character sets today is [flw[Unicode|Unicode]] (which is a
 superset of ASCII), so for your basic 0-9, A-Z, a-z and punctuation,
 you'll almost certainly get the ASCII values out of them.
+
+## More Integer Types: `short`, `long`, `long long`
+
+So far we've just generally been using two integer types:
+
+* `char`
+* `int`
+
+and we recently learned about the unsigned variants of the integer
+types. And we learned that `char` was secretly a small `int` in
+disguise. So we know the `int`s can come in multiple bit sizes.
+
+But there are a couple more integer types we should look at, and the
+_minimum_ minimum and maximum values they can hold.
+
+Yes, I said "minimum" twice. The spec says that these types will hold
+numbers of _at least_ these sizes, so your implementation might be
+different. The header file `<limits.h>` defines macros that hold the
+minimum and maximum integer values; rely on that to be sure, and _never
+hardcode or assume these values_.
+
+|Type|Minimum Bits|Minimum Bytes|Minimum Value|Maximum Value|
+|:-|-:|-:|-:|-:|
+|`char`|8|1|-127 or 0|127 or 255^[Depends on if a `char` defaults to `signed char` or `unsigned char`]|
+|`signed char`|8|1|-127|127|
+|`short`|16|2|-32767|32767|
+|`int`|16|2|-32767|32767|
+|`long`|32|4|-2147483647|2147483647|
+|`long long`|64|8|-9223372036854775807|9223372036854775807|
+|`unsigned char`|8|1|0|255|
+|`unsigned short`|16|2|0|65535|
+|`unsigned int`|16|2|0|65535|
+|`unsigned long`|32|0|44294967295|
+|`unsigned long long`|64|8|0|9223372036854775807|
+
+There is no `long long long` type. You can't just keep adding `long`s
+like that. Don't be silly.
+
+> Two's complement fans might have noticed something funny about those
+> numbers. Why does, for example, the `signed char` stop at -127 instead
+> of -128? Remember: these are only the minimums required by the spec.
+> Some number representations (like [flw[sign and
+> magnitude|Signed_number_representations#Signed_magnitude_representation]])
+> top off at ±127.
+
+Let's run the same table on my 64-bit, two's complement system and see
+what comes out:
+
+|Type|My Bits|My Bytes|Minimum Value|Maximum Value|
+|:-|-:|-:|:-|-:|-:|
+|`char`|8|1|-128|127^[My `char` is signed.]|
+|`signed char`|8|1|-128|127|
+|`short`|16|2|-32768|32767|
+|`int`|32|4|-2147483648|2147483647|
+|`long`|64|8|-9223372036854775808|9223372036854775807|
+|`long long`|64|8|-9223372036854775808|9223372036854775807|
+|`unsigned char`|8|1|0|255|
+|`unsigned short`|16|2|0|65535|
+|`unsigned int`|32|4|0|4294967295|
+|`unsigned long`|64|8|0|18446744073709551615|
+|`unsigned long long`|64|8|0|18446744073709551615|
+
+That's a little more sensible, but we can see how my system has larger
+limits than the minimums in the specification.
+
+So what are the macros in `<limits.h>`?
+
+|Type|Min Macro|Max Macro|
+|:-|:-|:-|
+|`char`|`CHAR_MIN`|`CHAR_MAX`|
+|`signed char`|`SCHAR_MIN`|`SCHAR_MAX`|
+|`short`|`SHRT_MIN`|`SHRT_MAX`|
+|`int`|`INT_MIN`|`INT_MAX`|
+|`long`|`LONG_MIN`|`LONG_MAX`|
+|`long long`|`LLONG_MIN`|`LLONG_MAX`|
+|`unsigned char`|`0`|`UCHAR_MAX`|
+|`unsigned short`|`0`|`USHRT_MAX`|
+|`unsigned int`|`0`|`UINT_MAX`|
+|`unsigned long`|`0`|`ULONG_MAX`|
+|`unsigned long long`|`0`|`ULLONG_MAX`|
+
+Notice there's a way hidden in there to determine if a system uses
+signed or unsigned `char`s. If `CHAR_MAX == UCHAR_MAX`, it must be
+unsigned.
+
+Also notice there's no minimum macro for the `unsigned`
+variants---they're just `0`.
