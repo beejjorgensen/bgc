@@ -19,6 +19,8 @@ These types are prefaced by the keyword `unsigned`.
 
 ``` {.c}
 int a;           // signed
+signed int a;    // signed
+signed a;        // signed, "shorthand" for "int" or "signed int", rare
 unsigned int b;  // unsigned
 unsigned c;      // unsigned, shorthand for "unsigned int"
 ```
@@ -89,7 +91,7 @@ out of its way to say:
 Wait---what? Some of you might be used to the notion that a byte is 8
 bits, right? I mean, that's what it is, right? And the answer is,
 "Almost certainly."^[The industry term for a sequence of exactly,
-undisputably 8 bits is an _octet_.] But C is an old language, and
+indisputably 8 bits is an _octet_.] But C is an old language, and
 machines back in the day had, shall we say, a more _relaxed_ opinion
 over how many bits were in a byte. And through the years, C has retained
 this flexibility.
@@ -97,4 +99,81 @@ this flexibility.
 But assuming your bytes in C are 8 bits, like they are for virtually all
 machines in the world that you'll ever see, the range of a `char` is...
 
----So before I can tell you, [TODO signed unsigned]
+---So before I can tell you, it turns out that `char`s might be signed
+or unsigned depending on your compiler. Unless you explicitly specify.
+
+In many cases, just having `char` is fine because you don't care about
+the sign of the data. But if you need signed or unsigned `char`s, you
+_must_ be specific:
+
+``` {.c}
+char a;           // Could be signed or unsigned
+signed char ab    // Definitely signed
+unsigned char c;  // Definitely unsigned
+```
+
+OK, now, finally, we can figure out the range of numbers if we assume
+that a `char` is 8 bits and your system uses the virtually universal
+two's complement representation for signed and unsigned^[In general, f
+you have an $n$ bit two's complement number, the signed range is
+$-2^{n-1}$ to $2^{n-1}-1$. And the unsigned range is $0$ to $2^{n-1}$.].
+
+So, assuming those constraints, we can finally figure our ranges:
+
+|`char` type|Minimum|Maximum|
+|:-|-:|-:|
+|`signed char`|`-128`|`127`|
+|`unsigned char`|`0`|`255`|
+
+And the ranges for `char` are implementation-defined.
+
+Let me get this straight. `char` is actually a number, so can we do math
+on it?
+
+Yup! Just remember to keep things in the range of a `char`!
+
+``` {.c .numberLines}
+#include <stdio.h>
+
+int main(void)
+{
+    char a = 10, b = 20;
+
+    printf("%d\n", a + b);  // 30!
+
+    return 0;
+}
+```
+
+What about those constant characters in single quotes, like `'B'`? How
+does that have a numeric value?
+
+The spec is also hand-wavey here, since C isn't designed to run on a
+single type of underlying system.
+
+But let's just assume for the moment that your character set is based on
+[flw[ASCII|ASCII]] for at least the first 128 characters. In that case,
+the character constant will be converted to a `char` whose value is the
+same as the ASCII value of the character.
+
+That was a mouthful. Let's just have an example:
+
+``` {.c .numberLines}
+#include <stdio.h>
+
+int main(void)
+{
+    char a = 10;
+    char b = 'B';  // ASCII value 66
+
+    printf("%d\n", a + b);  // 76!
+
+    return 0;
+}
+```
+
+This depends on your execution environment and the [flw[character set
+used|List_of_information_system_character_sets]]. One of the most
+popular character sets today is [flw[Unicode|Unicode]] (which is a
+superset of ASCII), so for your basic 0-9, A-Z, a-z and punctuation,
+you'll almost certainly get the ASCII values out of them.
