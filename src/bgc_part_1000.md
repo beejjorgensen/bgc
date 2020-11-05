@@ -264,3 +264,66 @@ unsigned.
 
 Also notice there's no minimum macro for the `unsigned`
 variants---they're just `0`.
+
+## More Float: `double` and `long double`
+
+Let's see what the C99 spec has to say about floating point numbers in
+§5.2.4.2.2¶1-2:
+
+>The following parameters are used to define the model for each
+>floating-point type:
+>
+> |Parameter|Definition|
+> |:-|:-|
+> |$s$|sign ($\pm1$)|
+> |$b$|base or radix of exponent representation (an integer $> 1$)|
+> |$e$|exponent (an integer between a minimum $e_{min}$ and a maximum $e_{max}$)|
+> |$p$|precision (the number of base-$b$ digits in the significand)|
+> |$f_k$|nonnegative integers less than $b$ (the significand digits)|
+>
+> A _floating-point number_ ($x$) is defined by the following model:
+>
+>> $x=sb^e\sum\limits_{k=1}^p f_kb^{-k},$\ \ \ \ $e_{min}\le e\le e_{max}$
+
+I hope that cleared it right up for you.
+
+Okay, fine. Let's step back a bit and see what's practical.
+
+Note: we refer to a bunch of macros in this section. They can be found
+in the header `<float.h>`.
+
+Floating point number are encoded in a specific sequence of bits
+([flw[IEEE-754 format|IEEE_754]] is tremendously popular) in bytes.
+
+> Diving in a bit more, the number is basically represented as the
+> _significand_ (which is the number part---the digits themselves) and
+> the _exponent_, which is what power to raise the digits to. Recall
+> that a negative exponent can make a number smaller.
+>
+> Imagine we're using $10$ as a number to raise by an exponent. We could
+> represent the following numbers by using a significand of $12345$, and
+> exponents of $-3$, $4$, and $0$ to encode the following floating point
+> numbers:
+>
+> $12345\times10^{-3}=12.345$
+>
+> $12345\times10^{4}=123450000$
+>
+> $12345\times10^{0}=12345$
+>
+> For all those numbers, the significand stays the same. The only
+> difference is the exponent.
+>
+> On your machine, the base for the exponent is probably $2$, not $10$,
+> since computers like binary. You can check it by printing the
+> `FLT_RADIX` macro.
+
+So we have a number that's represented by a number of bytes, encoded in
+some way. Because there are a limited number of bit patterns, a limited
+number of floating point numbers can be represented.
+
+But more particularly, only a certain number of significant decimal
+digits can be represented.
+
+For `float`, that number is at least 6 in C, but varies based on the
+system. (There's a macro you can check: `FLT_DECIMAL_DIG` to get the answer.)
