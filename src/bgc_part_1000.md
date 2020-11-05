@@ -198,19 +198,36 @@ different. The header file `<limits.h>` defines macros that hold the
 minimum and maximum integer values; rely on that to be sure, and _never
 hardcode or assume these values_.
 
-|Type|Minimum Bits|Minimum Bytes|Minimum Value|Maximum Value|
-|:-|-:|-:|-:|-:|
-|`char`|8|1|-127 or 0|127 or 255^[Depends on if a `char` defaults to `signed char` or `unsigned char`]|
-|`signed char`|8|1|-127|127|
-|`short`|16|2|-32767|32767|
-|`int`|16|2|-32767|32767|
-|`long`|32|4|-2147483647|2147483647|
-|`long long`|64|8|-9223372036854775807|9223372036854775807|
-|`unsigned char`|8|1|0|255|
-|`unsigned short`|16|2|0|65535|
-|`unsigned int`|16|2|0|65535|
-|`unsigned long`|32|0|44294967295|
-|`unsigned long long`|64|8|0|9223372036854775807|
+These additional types are `short int`, `long int`, and `long long int`.
+Commonly, when using these types, C developers leave the `int` part off
+(e.g. `long long`), and the compiler is perfectly happy.
+
+``` {.c}
+// These two lines are equivalent:
+long long int x;
+long long x;
+
+// And so are these:
+short int x;
+short x;
+```
+
+Let's take a look at the integer data types and sizes in ascending
+order, grouped by signedness.
+
+|Type|Minimum Bytes|Minimum Value|Maximum Value|
+|:-|-:|-:|-:|
+|`char`|1|-127 or 0|127 or 255^[Depends on if a `char` defaults to `signed char` or `unsigned char`]|
+|`signed char`|1|-127|127|
+|`short`|2|-32767|32767|
+|`int`|2|-32767|32767|
+|`long`|4|-2147483647|2147483647|
+|`long long`|8|-9223372036854775807|9223372036854775807|
+|`unsigned char`|1|0|255|
+|`unsigned short`|2|0|65535|
+|`unsigned int`|2|0|65535|
+|`unsigned long`|4|0|44294967295|
+|`unsigned long long`|8|0|9223372036854775807|
 
 There is no `long long long` type. You can't just keep adding `long`s
 like that. Don't be silly.
@@ -225,19 +242,19 @@ like that. Don't be silly.
 Let's run the same table on my 64-bit, two's complement system and see
 what comes out:
 
-|Type|My Bits|My Bytes|Minimum Value|Maximum Value|
-|:-|-:|-:|-:|-:|
-|`char`|8|1|-128|127^[My `char` is signed.]|
-|`signed char`|8|1|-128|127|
-|`short`|16|2|-32768|32767|
-|`int`|32|4|-2147483648|2147483647|
-|`long`|64|8|-9223372036854775808|9223372036854775807|
-|`long long`|64|8|-9223372036854775808|9223372036854775807|
-|`unsigned char`|8|1|0|255|
-|`unsigned short`|16|2|0|65535|
-|`unsigned int`|32|4|0|4294967295|
-|`unsigned long`|64|8|0|18446744073709551615|
-|`unsigned long long`|64|8|0|18446744073709551615|
+|Type|My Bytes|Minimum Value|Maximum Value|
+|:-|-:|-:|-:|
+|`char`|1|-128|127^[My `char` is signed.]|
+|`signed char`|1|-128|127|
+|`short`|2|-32768|32767|
+|`int`|4|-2147483648|2147483647|
+|`long`|8|-9223372036854775808|9223372036854775807|
+|`long long`|8|-9223372036854775808|9223372036854775807|
+|`unsigned char`|1|0|255|
+|`unsigned short`|2|0|65535|
+|`unsigned int`|4|0|4294967295|
+|`unsigned long`|8|0|18446744073709551615|
+|`unsigned long long`|8|0|18446744073709551615|
 
 That's a little more sensible, but we can see how my system has larger
 limits than the minimums in the specification.
@@ -296,20 +313,21 @@ Floating point number are encoded in a specific sequence of bits
 ([flw[IEEE-754 format|IEEE_754]] is tremendously popular) in bytes.
 
 > Diving in a bit more, the number is basically represented as the
-> _significand_ (which is the number part---the digits themselves) and
-> the _exponent_, which is what power to raise the digits to. Recall
-> that a negative exponent can make a number smaller.
+> _significand_ (which is the number part---the digits themselves, also
+> sometimes referred to as the _mantissa_) and the _exponent_, which is
+> what power to raise the digits to. Recall that a negative exponent can
+> make a number smaller.
 >
 > Imagine we're using $10$ as a number to raise by an exponent. We could
 > represent the following numbers by using a significand of $12345$, and
 > exponents of $-3$, $4$, and $0$ to encode the following floating point
-> numbers:
+> values:
 >
 > $12345\times10^{-3}=12.345$
 >
-> $12345\times10^{4}=123450000$
+> $12345\times10^4=123450000$
 >
-> $12345\times10^{0}=12345$
+> $12345\times10^0=12345$
 >
 > For all those numbers, the significand stays the same. The only
 > difference is the exponent.
@@ -323,7 +341,22 @@ some way. Because there are a limited number of bit patterns, a limited
 number of floating point numbers can be represented.
 
 But more particularly, only a certain number of significant decimal
-digits can be represented.
+digits can be represented accurately.
 
-For `float`, that number is at least 6 in C, but varies based on the
-system. (There's a macro you can check: `FLT_DECIMAL_DIG` to get the answer.)
+How can you get more? You can use larger data types!
+
+And we have a couple of them. We know about `float` already, but for
+more precision we have `double`. And for even more precision, we have
+`long double` (unrelated to `long int` except by name).
+
+The spec doesn't go into how many bytes of storage each type should
+take, but on my system, we can see the relative size increases:
+
+|Type|`sizeof`|
+|:-|-:|
+|`float`|4|
+|`double`|8|
+|`long double`|16|
+
+So each of the types (on my system) uses those additional bits for more
+digits of precision. 
