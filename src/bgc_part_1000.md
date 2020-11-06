@@ -359,4 +359,14 @@ take, but on my system, we can see the relative size increases:
 |`long double`|16|
 
 So each of the types (on my system) uses those additional bits for more
-digits of precision. 
+digits of precision.
+
+But _how much_ precision are we talking, here?
+
+Well, C provides us with a bunch of macros in `<float.h>` to help us
+figure that out.
+
+It gets a little wonky if you are using a base-2 (binary) system for
+storing the numbers (which is virtually everyone on the planet, probably
+including you), but bear with me while we figure it out.
+
