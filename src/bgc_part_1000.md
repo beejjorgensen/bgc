@@ -9,6 +9,10 @@ We're used to `char`, `int`, and `float` types, but it's now time to
 take that stuff to the next level and see what else we have out there in
 the types department!
 
+## Constant Numeric Types
+
+TODO
+
 ## Signed and Unsigned Integers
 
 So far we've used `int` as a _signed_ type, that is, a value that can be
@@ -359,9 +363,10 @@ take, but on my system, we can see the relative size increases:
 |`long double`|16|
 
 So each of the types (on my system) uses those additional bits for more
-digits of precision.
+precision.
 
-But _how much_ precision are we talking, here?
+But _how much_ precision are we talking, here? How many decimal numbers
+can be represented by these values?
 
 Well, C provides us with a bunch of macros in `<float.h>` to help us
 figure that out.
@@ -370,3 +375,104 @@ It gets a little wonky if you are using a base-2 (binary) system for
 storing the numbers (which is virtually everyone on the planet, probably
 including you), but bear with me while we figure it out.
 
+The million dollar question is, "How many significant decimal digits can
+I store in a given floating point type before the floating point
+precision runs out?"
+
+But it's not quite so easy to answer. So we'll do it in two ways.
+
+The number of decimal digits you can store in a floating point type and
+surely get the same number back out when you print it is given by these
+macros:
+
+|Type|Decimal Digits You Can Store|Minimum|My System|
+|:-|-:|-:|
+|`float`|`FLT_DIG`|6|6|
+|`double`|`DBL_DIG`|10|15|
+|`long double`|`LDBL_DIG`|10|18|
+
+On my system, `FLT_DIG` is 6, so I can be sure that if I print out a 6
+digit `float`, I'll get the same thing back. (It could be more---some
+numbers will come back correctly with more digits. But 6 is definitely
+coming back.)
+
+For example, printing out `float`s following this pattern of increasing
+digits, we apparently make it to 8 digits before something goes wrong,
+but after that we're back to 7 correct digits.
+
+```
+0.12345
+0.123456
+0.1234567
+0.12345678
+0.123456791  <-- Things start going wrong
+0.1234567910
+```
+
+Let's do another demo. In this code we'll have two `float`s that both
+hold numbers that have `FLT_DIG` significant decimal digits^[That is,
+assuming that `FLT_DIG` is `6`. The code has an `assert()` statement at
+the beginning that causes it to crash out if that assertion is not
+true.]. Then we add those together, for what should be 12 significant
+decimal digits. But that's more than we can store in a `float` and
+correctly recover as a string---so we see when we print it out, things
+start going wrong after the 7th significant digit.
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <float.h>
+#include <assert.h>
+
+int main(void)
+{
+    assert(FLT_DIG == 6);  // This program only works if this is true
+
+    // Both these numbers have 6 significant digits, so they can be
+    // stored accurately in a float:
+
+    float f = 3.14159f;
+    float g = 0.00000265358f;
+
+    printf("%.5f\n", f);   // 3.14159       -- correct!
+    printf("%.11f\n", g);  // 0.00000265358 -- correct!
+
+    // Now add them up
+    f += g;                // 3.14159265358 is what f _should_ be
+
+    printf("%.11f\n", f);  // 3.14159274101 -- wrong!
+
+    return 0;
+}
+```
+
+Remember that `FLT_DIG` is the safe number of digits you can store in a
+`float` and retrieve correctly.
+
+Sometimes you might get one or two more out of it. But sometimes you'll
+only get `FLT_DIG` digits back. The sure thing: if you store any number
+of digits up to and including `FLT_DIG` in a `float`, you're sure to get
+them back correctly.
+
+So that's the story for most people. The End.
+
+
+But storing a base 10 number in a floating point number is only half the
+story.
+
+What about when you print out a floating point number? How many digits
+can you print?
+
+You might think it would be the same as the number you can store, but
+it's not^[Or at least, it's probably not---if you store floating point
+numbers in base 2.]!
+
+But recall that you might have more decimal digits than `FLT_DIG`
+encoded correctly in the number. In order to make sure you're printed
+them all out, you can 
+Of course, if you store the number `3.14f` in a `float`, you can't
+expect to print out more than 2 decimal places and get sensible results.
+But `FLT_DIG` (if 6) says that you can't store more digits than
+`3.14159f` and be sure of getting it stored successfully.
+
+But what if you did some math on a floating point number? Can you get
+more precision?
