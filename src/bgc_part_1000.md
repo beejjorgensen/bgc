@@ -457,7 +457,7 @@ So that's the story. `FLT_DIG`. The End.
 
 ...Or is it?
 
-### 
+### Converting to Decimal and Back
 
 But storing a base 10 number in a floating point number is only half the
 story.
