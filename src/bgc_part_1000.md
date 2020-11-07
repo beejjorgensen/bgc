@@ -736,7 +736,7 @@ produces a power of 2. That is: $2^x$.
 
 And then you use a `p` instead of an `e` when writing the number:
 
-So `0xa.1p3` is $10.1\times2^3 == 80.5$.
+So `0xa.1p3` is $10.0625\times2^3 == 80.5$.
 
 When using floating point hex constants, 
 We can print hex scientific notation with `%a`:
