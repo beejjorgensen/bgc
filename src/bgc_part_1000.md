@@ -694,6 +694,56 @@ notation", so these are equivalent:
 You can print a number in this notation with `%e`:
 
 ```
-printf("%e\n", 123456.0);  // Prints 1.23456
+printf("%e\n", 123456.0);  // Prints 1.234560e+05
+```
+
+A couple little fun facts about scientific notation:
+
+* You don't have to write them with a single leading digit before the
+  decimal point. Any number of numbers can go in front.
+
+  ``` {.c}
+  double x = 123.456e+3;  // 123456
+  ```
+
+  However, when you print it, it will change the exponent so there is
+  only one digit in front of the decimal point.
+
+* The plus can be left off the exponent, as it's default, but this is
+  uncommon in practice from what I've seen.
+
+  ``` {.c}
+  1.2345e10 == 1.2345e+10
+  ```
+* You can apply the `F` or `L` suffixes to E-notation constants:
+
+  ``` {.c}
+  1.2345e10F
+  1.2345e10L
+  ```
 
 #### Hexadecimal Floating Point Constants
+
+But wait, there's more floating to be done!
+
+Turns out there are hexadecimal floating point constants, as well!
+
+These work similar to decimal floating point numbers, but they begin
+with a `0x` just like integer numbers.
+
+The catch is that you _must_ specify an exponent, and this exponent
+produces a power of 2. That is: $2^x$.
+
+And then you use a `p` instead of an `e` when writing the number:
+
+So `0xa.1p3` is $10.1\times2^3 == 80.5$.
+
+When using floating point hex constants, 
+We can print hex scientific notation with `%a`:
+
+``` {.c}
+double x = 0xa.1p3;
+
+printf("%a\n", x);  // 0x1.42p+6
+printf("%f\n", x);  // 80.500000
+```
