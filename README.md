@@ -99,12 +99,15 @@ have to consider any copyright issues when merging changes.
     * Block scope
     * Static and file scope
   * Types II
+    * Bases
     * Signed/Unsigned
       * char/unsigned char
     * long/double
+    * Constant types
+  * Types III: Conversions
     * Casting
     * Standard promotions
-  * Types III
+  * Types IV
     * Storage classes
       * Static
       * Register
