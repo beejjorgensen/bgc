@@ -1,11 +1,8 @@
 #include <stdio.h>
 #include <float.h>
-#include <assert.h>
 
 int main(void)
 {
-    assert(FLT_DIG == 6);  // This program only works if this is true
-
     // Both these numbers have 6 significant digits, so they can be
     // stored accurately in a float:
 
