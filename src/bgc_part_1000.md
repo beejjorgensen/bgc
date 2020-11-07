@@ -630,17 +630,70 @@ And then goes on to show this table:
 |and `ll` or `LL`|                        |                         |
 +----------------+------------------------+-------------------------+
 
-
+What that's saying is that, for example, if you specify a number like
+`123456789U`, first C will see if it can be `unsigned int`. If it
+doesn't fit there, it'll try `unsigned long int`. And then `unsigned
+long long int`. It'll use the smallest type that can hold the number.
 
 ### Floating Point Constants
 
+You'd think that a floating point constant like `1.23` would have a
+default type of `float`, right?
+
+Surprise! Turns out unsuffiexed floating point numbers are type
+`double`! Happy belated birthday!
+
+You can force it to be of type `float` by appending an `f` (or
+`F`---it's case-insensitive). You can force it to be of type `long
+double` by appending `l` (or `L`).
+
+|Type|Suffix|
+|:-|:-|
+|`float`|`F`|
+|`double`|None|
+|`long double`|`L`|
+
+For example:
+
+``` {.c}
+float x       = 3.14f;
+double x      = 3.14;
+long double x = 3.14L;
+```
+
+This whole time, though, we've just been doing this, right?
+
+``` {.c}
+float x = 3.14;
+```
+
+Isn't the left a `float` and the right a `double`? Yes! But C's pretty
+good with automatic numeric conversions, so it's more common to have an
+unsuffixed floating point constant than not. More on that later.
+
 #### Scientific Notation
 
-Incidentally, writing numbers like $s\times b^e$ is called
-[flw[_scientific notation_|Scientific_notation]]. In C, these are
-written using "E notation", so these are equivalent:
+Remember earlier when we talked about how a floating point number can be
+represented by a significand, base, and exponent?
+
+Well, there's a common way of writing such a number, shown here followed
+by it's more recognizable equivalent which is what you get when you
+actually run the math:
+
+$1.2345\times10^3 = 1234.5$
+
+Writing numbers in the form $s\times b^e$ is called [flw[_scientific
+notation_|Scientific_notation]]. In C, these are written using "E
+notation", so these are equivalent:
 
 |Scientific Notation|E notation|
-|-:|-:|
-|$1.2345\times10^{-3}=12.345$|1.2345e-3|
-|$1.2345\times10^4=123450000$|1.2345e+4|
+|:-|:-|
+|$1.2345\times10^{-3}=12.345$|`1.2345e-3`|
+|$1.2345\times10^4=123450000$|`1.2345e+4`|
+
+You can print a number in this notation with `%e`:
+
+```
+printf("%e\n", 123456.0);  // Prints 1.23456
+
+#### Hexadecimal Floating Point Constants
