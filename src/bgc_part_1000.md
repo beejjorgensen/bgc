@@ -9,10 +9,6 @@ We're used to `char`, `int`, and `float` types, but it's now time to
 take that stuff to the next level and see what else we have out there in
 the types department!
 
-## Constant Numeric Types
-
-TODO
-
 ## Signed and Unsigned Integers
 
 So far we've used `int` as a _signed_ type, that is, a value that can be
@@ -316,29 +312,29 @@ in the header `<float.h>`.
 Floating point number are encoded in a specific sequence of bits
 ([flw[IEEE-754 format|IEEE_754]] is tremendously popular) in bytes.
 
-> Diving in a bit more, the number is basically represented as the
-> _significand_ (which is the number part---the digits themselves, also
-> sometimes referred to as the _mantissa_) and the _exponent_, which is
-> what power to raise the digits to. Recall that a negative exponent can
-> make a number smaller.
->
-> Imagine we're using $10$ as a number to raise by an exponent. We could
-> represent the following numbers by using a significand of $12345$, and
-> exponents of $-3$, $4$, and $0$ to encode the following floating point
-> values:
->
-> $12345\times10^{-3}=12.345$
->
-> $12345\times10^4=123450000$
->
-> $12345\times10^0=12345$
->
-> For all those numbers, the significand stays the same. The only
-> difference is the exponent.
->
-> On your machine, the base for the exponent is probably $2$, not $10$,
-> since computers like binary. You can check it by printing the
-> `FLT_RADIX` macro.
+Diving in a bit more, the number is basically represented as the
+_significand_ (which is the number part---the significant digits
+themselves, also sometimes referred to as the _mantissa_) and the
+_exponent_, which is what power to raise the digits to. Recall that a
+negative exponent can make a number smaller.
+
+Imagine we're using $10$ as a number to raise by an exponent. We could
+represent the following numbers by using a significand of $12345$, and
+exponents of $-3$, $4$, and $0$ to encode the following floating point
+values:
+
+$12345\times10^{-3}=12.345$
+
+$12345\times10^4=123450000$
+
+$12345\times10^0=12345$
+
+For all those numbers, the significand stays the same. The only
+difference is the exponent.
+
+On your machine, the base for the exponent is probably $2$, not $10$,
+since computers like binary. You can check it by printing the
+`FLT_RADIX` macro.
 
 So we have a number that's represented by a number of bytes, encoded in
 some way. Because there are a limited number of bit patterns, a limited
@@ -375,6 +371,8 @@ It gets a little wonky if you are using a base-2 (binary) system for
 storing the numbers (which is virtually everyone on the planet, probably
 including you), but bear with me while we figure it out.
 
+### How Many Decimal Digits?
+
 The million dollar question is, "How many significant decimal digits can
 I store in a given floating point type before the floating point
 precision runs out?"
@@ -410,23 +408,21 @@ but after that we're back to 7 correct digits.
 ```
 
 Let's do another demo. In this code we'll have two `float`s that both
-hold numbers that have `FLT_DIG` significant decimal digits^[That is,
-assuming that `FLT_DIG` is `6`. The code has an `assert()` statement at
-the beginning that causes it to crash out if that assertion is not
-true.]. Then we add those together, for what should be 12 significant
-decimal digits. But that's more than we can store in a `float` and
-correctly recover as a string---so we see when we print it out, things
-start going wrong after the 7th significant digit.
+hold numbers that have `FLT_DIG` significant decimal digits^[This
+program runs as its comments indicate on a system with `FLT_DIG` of `6`
+that uses IEEE-754 base-2 floating point numbers. Otherwise, you might
+get different output.]. Then we add those together, for what should be
+12 significant decimal digits. But that's more than we can store in a
+`float` and correctly recover as a string---so we see when we print it
+out, things start going wrong after the 7th significant digit.
+
 
 ``` {.c .numberLines}
 #include <stdio.h>
 #include <float.h>
-#include <assert.h>
 
 int main(void)
 {
-    assert(FLT_DIG == 6);  // This program only works if this is true
-
     // Both these numbers have 6 significant digits, so they can be
     // stored accurately in a float:
 
@@ -445,6 +441,10 @@ int main(void)
 }
 ```
 
+(The above code has an `f` after the numeric constants---this indicates
+that the constant is type `float`, as opposed to the default of
+`double`. More on this later.)
+
 Remember that `FLT_DIG` is the safe number of digits you can store in a
 `float` and retrieve correctly.
 
@@ -453,8 +453,11 @@ only get `FLT_DIG` digits back. The sure thing: if you store any number
 of digits up to and including `FLT_DIG` in a `float`, you're sure to get
 them back correctly.
 
-So that's the story for most people. The End.
+So that's the story. `FLT_DIG`. The End.
 
+...Or is it?
+
+### 
 
 But storing a base 10 number in a floating point number is only half the
 story.
@@ -476,3 +479,168 @@ But `FLT_DIG` (if 6) says that you can't store more digits than
 
 But what if you did some math on a floating point number? Can you get
 more precision?
+
+## Constant Numeric Types
+
+When you write down a constant number, like `1234`, it has a type. But
+what type is it? Let's look at the how C decides what type the constant
+is, and how to force it to choose a specific type.
+
+### Hexadecimal and Octal
+
+In addition to good ol' decimal like Grandma used to bake, C also
+supports constants of different bases.
+
+If you lead a number with `0x`, it is read as a hex number:
+
+``` {.c}
+int a = 0x1A2B;   // Hexadecimal
+int b = 0x1a2b;   // Case doesn't matter for hex digits
+
+printf("%x", a);  // Print a hex number, "1a2b"
+```
+
+If you lead a number with a `0`, it is read as an octal number:
+
+``` {.c}
+int a = 012;
+
+printf("%o\n", a);  // Print an octal number, "12"
+```
+
+This is particularly problematic for beginner programmers who try to pad
+decimal numbers on the left with `0` to line things up nice and pretty,
+inadvertently changing the base of the number:
+
+``` {.c}
+int x = 11111;  // Decimal 11111
+int y = 00111;  // Decimal 73 (Octal 111)
+int z = 01111;  // Decimal 585 (Octal 1111)
+```
+
+#### A Note on Binary
+
+An unofficial extension^[It's really surprising to me that C doesn't
+have this in the spec yet. In the C99 Rationale document, they write, "A
+proposal to add binary constants was rejected due to lack of precedent
+and insufficient utility." Which seems kind of silly in light of some of
+the other features they kitchen-sinked in there! I'll bet one of the
+next releases has it.] in many C compilers allows you to represent a
+binary number with a `0b` prefix:
+
+``` {.c}
+int x = 0b101010;    // Binary 101010
+
+printf("%d\n", x);   // Prints 42 decimal
+```
+
+There's no `printf()` format specifier for printing a binary number. You
+have to do it a character at a time with bitwise operators.
+
+### Integer Constants
+
+You can force a constant integer to be a certain type by appending a
+suffix to it that indicates the type.
+
+We'll do some assignments to demo, but most often devs leave off the
+suffixes unless needed to be precise. The compiler is pretty good at
+making sure the types are compatible.
+
+``` {.c}
+int           x = 1234;
+long int      x = 1234L;
+long long int x = 1234LL
+
+unsigned int           x = 1234U;
+unsigned long int      x = 1234UL;
+unsigned long long int x = 1234ULL;
+```
+
+The suffix can be uppercase or lowercase. And the `U` and `L` or `LL`
+can appear either one first.
+
+|Type|Suffix|
+|:-|:-|
+|`int`|None|
+|`long int`|`L`|
+|`long long int`|`LL`|
+|`unsigned int`|`U`|
+|`unsigned long int`|`UL`|
+|`unsigned long long int`|`ULL`|
+
+I mentioned in the table that "no suffix" means `int`... but it's
+actually more complex than that.
+
+So what happens when you have an unsuffixed number like:
+
+``` {.c}
+int x = 1234;
+```
+
+What type is it?
+
+What C will generally do is choose the smallest type from `int` up that
+can hold the value.
+
+But specifically, that depends on the number's base (decimal, hex, or
+octal), as well.
+
+The spec has a great table indicating which type gets used for what
+unsuffixed value. In fact, I'm just going to copy it wholesale right
+here.
+
+C99 §6.4.4.1¶5 reads, "The type of an integer constant is the first of
+the first of the corresponding list in which its value can be
+represented."
+
+And then goes on to show this table:
+
++----------------+------------------------+-------------------------+
+|Suffix          |Decimal Constant        |Octal or Hexadecimal\    |
+|                |                        |Constant                 |
++:===============+:=======================+:========================+
+|none            |`int`\                  |`int`\                   |
+|                |`long int`              |`unsigned int`\          |
+|                |                        |`long int`\              |
+|                |                        |`unsigned long int`\     |
+|                |                        |`long long int`\         |
+|                |                        |`unsigned long long int`\|
+|                |                        |                         |
++----------------+------------------------+-------------------------+
+|`u` or `U`      |`unsigned int`\         |`unsigned int`\          |
+|                |`unsigned long int`\    |`unsigned long int`\     |
+|                |`unsigned long long int`|`unsigned long long int`\|
+|                |                        |                         |
++----------------+------------------------+-------------------------+
+|`l` or `L`      |`long int`\             |`long int`\              |
+|                |`long long int`         |`unsigned long int`\     |
+|                |                        |`long long int`\         |
+|                |                        |`unsigned long long int`\|
+|                |                        |                         |
++----------------+------------------------+-------------------------+
+|Both `u` or `U`\|`unsigned long int`\    |`unsigned long int`\     |
+|and `l` or `L`  |`unsigned long long int`|`unsigned long long int`\|
+|                |                        |                         |
++----------------+------------------------+-------------------------+
+|`ll` or `LL`    |`long long int`         |`long long int`\         |
+|                |                        |`unsigned long long int`\|
+|                |                        |                         |
++----------------+------------------------+-------------------------+
+|Both `u` or `U`\|`unsigned long long int`|`unsigned long long int` |
+|and `ll` or `LL`|                        |                         |
++----------------+------------------------+-------------------------+
+
+
+
+### Floating Point Constants
+
+#### Scientific Notation
+
+Incidentally, writing numbers like $s\times b^e$ is called
+[flw[_scientific notation_|Scientific_notation]]. In C, these are
+written using "E notation", so these are equivalent:
+
+|Scientific Notation|E notation|
+|-:|-:|
+|$1.2345\times10^{-3}=12.345$|1.2345e-3|
+|$1.2345\times10^4=123450000$|1.2345e+4|
