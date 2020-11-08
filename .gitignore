@@ -9,3 +9,6 @@ src/bgc.html
 src/bgc_*.pdf
 
 __pycache__
+
+foo
+foo.c
