@@ -168,7 +168,7 @@ behavior since it has `void*`s passed into it:
 ``` {.c}
 int compar(const void *elem1, const void *elem2)
 {
-    return *((int*)elem2) - *((int*)elem1);
+    return *((const int*)elem2) - *((const int*)elem1);
 }
 ```
 
@@ -177,8 +177,8 @@ But you could also clearly write it with an assignment:
 ``` {.c}
 int compar(const void *elem1, const void *elem2)
 {
-    int *e1 = elem1;
-    int *e2 = elem2;
+    const int *e1 = elem1;
+    const int *e2 = elem2;
 
     return *e2 - *e1;
 }
