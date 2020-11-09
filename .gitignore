@@ -10,5 +10,8 @@ src/bgc_*.pdf
 
 __pycache__
 
+# Misc
+
 foo
 foo.c
+.vscode/*
