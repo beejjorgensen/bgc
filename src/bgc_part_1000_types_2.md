@@ -3,7 +3,7 @@
 # vim: ts=4:sw=4:nosi:et:tw=72
 -->
 
-# Types II
+# Types II: Way More Types!
 
 We're used to `char`, `int`, and `float` types, but it's now time to
 take that stuff to the next level and see what else we have out there in

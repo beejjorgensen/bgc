@@ -207,3 +207,73 @@ Hello, World!
 ```
 
 It's done and tested! Ship it!
+
+## Compilation
+
+Let's talk a bit more about how to build C programs, and what happens
+behind the scenes there.
+
+Like other languages, C has _source code_. But, depending on what
+language you're coming from, you might never have had to _compile_ your
+source code into an _executable_.
+
+Compilation is the process of taking your C source code and turning it
+into a program that your operating system can execute.
+
+JavaScript and Python devs aren't used to a separate compilation step at
+all--though behind the scenes it's happening! Python compiles your
+source code into something called _bytecode_ that the Python virtual
+machine can execute. Java devs are used to compilation, but that
+produces bytecode for the Java Virtual Machine.
+
+When compiling C, _machine code_ is generated. This is the 1s and 0s
+that can be executed directly by the CPU.
+
+> Languages that typically aren't compiled are called _interpreted_
+> languages. But as we mentioned with Java and Python, they also have a
+> compilation step. And there's no rule saying that C can't be
+> interpreted. (There are C interpreters out there!) In short, it's a
+> bunch of gray areas. Compilation in general is just taking source code
+> and turning it into another, more easily-executed form.
+
+The C compiler is the program that does the compilation.
+
+As we've already said, `gcc` is a compiler that's installed on a lot of
+[flw[Unix-like operating systems|Unix]]. And it's commonly run from the
+command line in a terminal, but not always. You can run it from your
+IDE, as well.
+
+But we'll do some command line examples here because there are too many
+IDEs to cover. Search the Internet for your IDE and "how to compile C"
+for more information.
+
+So how do we do command line builds?
+
+## Building with `gcc`
+
+If you have a source file called `hello.c` in the current directory, you
+can build that into a program called `hello` with this command typed in
+a terminal:
+
+```
+gcc -o hello hello.c
+```
+
+The `-o` means "output to this file"^[If you don't give it an output
+filename, it will export to a file called `a.out` by default---this
+filename has its roots deep in Unix history.]. And there's `hello.c` at
+the end, the name of the file we want to compile.
+
+If your source is broken up into multiple files, you can compile them
+all together (almost as if they were one file, but the rules are
+actually more complex than that) by putting all the `.c` files on the
+command line:
+
+```
+gcc -o awesomegame ui.c characters.c npc.c items.c
+```
+
+and they'll all get built together into a big executable.
+
+That's enough to get started---later we'll talk details about multiple
+source files, object files, and all kinds of fun stuff.

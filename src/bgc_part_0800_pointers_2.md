@@ -3,7 +3,7 @@
 # vim: ts=4:sw=4:nosi:et:tw=72
 -->
 
-# Pointers II {#pointers2}
+# Pointers II: Arithmetic {#pointers2}
 
 Time to get more into it with a number of new pointer topics! If you're
 not up to speed with pointers, [check out the first section in the guide
