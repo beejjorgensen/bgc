@@ -50,6 +50,27 @@ The reason I'm bringing all this up is twofold:
 So a variable is a name for some data that's stored in memory at some
 address.
 
+### Variable Names
+
+You can use any characters in the range 0-9, A-Z, a-z, and underscore
+for variable names, with the following rules:
+
+* You can't start a variable with a digit 0-9.
+* You can't start a variable name with two underscores.
+* You can't start a variable name with an underscore followed by a
+  capital A-Z.
+
+For Unicode, things get a little different, but the basic idea is that
+you can start or continue the variable name with one of the characters
+listed in C99 §D.1, and you can continue but _not_ start a variable name
+with any of the characters listed in C99 §D.2.
+
+Since those are just number ranges, I'm not going to reproduce them
+here. If you're in an environment that supports Unicode, just try it and
+see if it works.
+
+Just don't start a variable name with the "Combining Left Harpoon Above"
+character and you'll be fine.
 
 ### Variable Types
 
