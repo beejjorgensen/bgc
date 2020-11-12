@@ -91,6 +91,7 @@ have to consider any copyright issues when merging changes.
     * Initializers
     * Pointers to structs, arrow operator
     * Passing structs to functions
+  * Typedef
   * Pointers II
     * void pointers
     * Pointer-array equivalence
@@ -117,6 +118,17 @@ have to consider any copyright issues when merging changes.
       * const
       * restrict
       * volatile
+  * Multi-file projects
+    * static/extern
+    * include and header files
+    * compiling and linking
+      * Object files
+  * Preprocessor
+    * Macros
+    * Include
+    * Conditional Compilation
+    * Advanced macros
+    * Built-in macros
   * Structs II
     * Anonymous Structs
     * Typedef
@@ -124,14 +136,7 @@ have to consider any copyright issues when merging changes.
     * Bitfields
     * Padding bytes
     * Unions
-  * Preprocessor
-    * Macros
-    * Include
-    * Conditional Compilation
-    * Advanced macros
-    * Built-in macros
   * Enum
-  * Typedef
   * Pointers III
     * const pointers
     * Pointers to pointers

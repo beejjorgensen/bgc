@@ -121,8 +121,88 @@ typedef struct {
 } point;
 
 point p = {.x=20, .y=40};
+
+printf("%d, %d\n", p.x, p.y);  // 20, 10
 ```
 
+### `typedef` and Other Types
+
+It's not that using `typedef` with a simple type like `int` is
+completely useless... it helps you abstract the types to make it easier
+to change them later.
+
+For example, if you have `float` all over your code in 100 zillion
+places, it's going to be painful to change them all to `double` if you
+find you have to do that later for some reason.
+
+But if you prepared a little with:
+
+``` {.c}
+typedef float app_float;
+
+// and
+
+app_float f1, f2, f3;
+```
+
+Then if later you want to change to another type, like `long double`,
+you just nee to change the `typedef`:
+
+``` {.c}
+//        voila!
+//      |---------|
+typedef long double app_float;
+
+// and
+
+app_float f1, f2, f3;  // Now these are all long doubles
+```
 
 ### `typedef` and Pointers
 
+You can make a type that is a pointer.
+
+``` {.c}
+typedef int *intptr;
+
+int a = 10;
+intptr x = &a;  // "intptr" is type "int*"
+```
+
+I really don't like this practice. It hides the fact that `x` is a
+pointer type because you don't see a `*` in the declaration.
+
+IMHO, it's better to explicitly show that you're declaring a pointer
+type so that other devs can clearly see it and don't mistake `x` for
+having a non-pointer type.
+
+### `typedef` and Capitalization
+
+I've seen all kinds of capitalization on `typedef`.
+
+``` {.c}
+typedef struct {
+    int x, y;
+} my_point;          // lower snake case
+
+typedef struct {
+    int x, y;
+} MyPoint;          // CamelCase
+
+typedef struct {
+    int x, y;
+} Mypoint;          // Leading uppercase
+
+typedef struct {
+    int x, y;
+} MY_POINT;          // UPPER SNAKE CASE
+```
+
+The C99 specification doesn't dictate one way or another, and shows
+examples in all uppercase and all lowercase.
+
+K&R2 uses leading uppercase predominantly, but show some examples in
+uppercase and snake case (with `_t`).
+
+If you have a style guide in use, stick with it. If you don't, grab one
+and stick with it.
