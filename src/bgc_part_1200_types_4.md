@@ -267,12 +267,68 @@ Let's start with block scope.
 
 #### `static` in Block Scope
 
+In this case, we're basically saying, "I just want a single instance of
+this variable to exist, shared between calls."
 
+That is, its value will persist between calls.
+
+`static` in block scope with an initializer will only be initialized one
+time on program startup, not each time the function is called.
+
+Let's do an example:
+
+``` {.c. numberLines}
+#include <stdio.h>
+
+void counter(void)
+{
+    static int count = 1;  // This is initialized one time
+
+    printf("This has been called %d time(s)\n", count);
+
+    count++;
+}
+
+int main(void)
+{
+    counter();  // "This has been called 1 time(s)"
+    counter();  // "This has been called 2 time(s)"
+    counter();  // "This has been called 3 time(s)"
+    counter();  // "This has been called 4 time(s)"
+
+    return 0;
+}
+```
+
+See how the value of `count` persists between calls?
+
+One thing of note is that `static` block scope variables are initialized
+to `0` by default.
+
+``` {.c}
+static int foo;      // Default starting value is `0`...
+static int foo = 0;  // So the `0` assignment is redundant
+```
+
+Finally, be advised that if you're writing multithreaded programs, you
+have to be sure you don't let multiple threads trample the same variable.
 
 #### `static` in File Scope
 
+When you get out to file scope, outside any blocks, the meaning rather
+changes.
 
+Variables at file scope already persist between function calls, so that
+behavior is already there.
+
+Instead what `static` means in this context is that this variable isn't
+visible outside of this particular source file. Kinda like "global", but
+only in this file.
+
+More on that in the section about building with multiple source files.
 
 ### `extern`
+
+
 
 ### `register`
