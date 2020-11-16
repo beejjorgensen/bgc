@@ -13,5 +13,9 @@ __pycache__
 # Misc
 
 foo
-foo.c
+foo.[ch]
+bar
+bar.[ch]
+baz
+baz.[ch]
 .vscode/*
