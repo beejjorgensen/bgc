@@ -277,7 +277,7 @@ time on program startup, not each time the function is called.
 
 Let's do an example:
 
-``` {.c. numberLines}
+``` {.c. .numberLines}
 #include <stdio.h>
 
 void counter(void)
