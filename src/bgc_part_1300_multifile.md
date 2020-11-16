@@ -49,6 +49,8 @@ int add(int x, int y) {
 And the file `foo.c` with main in it:
 
 ``` {.c .numberLines}
+// File foo.c
+
 #include <stdio.h>
 
 int main(void)
@@ -97,6 +99,8 @@ we add one of those to `foo.c` before we make the call, everything works
 well:
 
 ``` {.c .numberLines}
+// File foo.c
+
 #include <stdio.h>
 
 int add(int, int);  // Add the prototype
@@ -140,6 +144,8 @@ same directory, we include it inside double quotes (as opposed to angle
 brackets):
 
 ``` {.c .numberLines}
+// File foo.c
+
 #include <stdio.h>
 
 #include "bar.h"  // Include from current directory
