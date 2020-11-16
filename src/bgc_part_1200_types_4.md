@@ -329,6 +329,143 @@ More on that in the section about building with multiple source files.
 
 ### `extern`
 
+The `extern` type specifier gives us a way to refer to objects in other
+source files.
 
+Let's say, for example, the file `bar.c` had the following as its entirety:
+
+``` {.c .numberLines}
+// bar.c
+
+int a = 37;
+```
+
+Just that. Declaring a new `int a` in file scope.
+
+But what if we had another source file, `foo.c`, and we wanted to refer
+to the `a` that's in `bar.c`?
+
+It's easy with the `extern` keyword:
+
+``` {.c .numberLines}
+// foo.c
+
+extern int a;
+
+int main(void)
+{
+    printf("%d\n", a);  // 37, from bar.c!
+
+    a = 99;
+
+    printf("%d\n", a);  // Same "a" from bar.c, but it's now 99
+
+    return 0;
+}
+```
+
+We could have also made the `extern int a` in block scope, and it still
+would have referred to the `a` in `bar.c`:
+
+``` {.c .numberLines}
+// foo.c
+
+int main(void)
+{
+    extern int a;
+
+    printf("%d\n", a);  // 37, from bar.c!
+
+    a = 99;
+
+    printf("%d\n", a);  // Same "a" from bar.c, but it's now 99
+
+    return 0;
+}
+```
+
+Now, if `a` in `bar.c` had been marked `static`. this wouldn't have
+worked. `static` variables at file scope are not visible outside that
+file.
+
+A final note about `extern` on functions. For functions, `extern` is the
+default, so it's redundant. You can declare a function `static` if you
+only want it visible in a single source file.
 
 ### `register`
+
+Barely anyone uses this anymore.
+
+This is a keyword to hint to the compiler that this variable is
+frequently-used, and should be made as fast as possible to access. The
+compiler is under no obligation to agree to it.
+
+Now, modern C compiler optimizers are pretty effective at figuring this
+out themselves, so it's rare to see these days.
+
+But if you must:
+
+``` {.c .numberLines}
+#include <stdio.h>
+
+int main(void)
+{
+    register int a;   // Make "a" as fast to use as possible.
+
+    for (a = 0; a < 10; a++)
+        printf("%d\n", a);
+
+    return 0;
+}
+```
+
+It does come at a price, however. You can't take the address of a
+register:
+
+``` {.c}
+register int a;
+int *p = &a;    // COMPILER ERROR! Can't take address of a register
+```
+
+The same applies to any part of an array:
+
+``` {.c}
+register int a[] = {11, 22, 33, 44, 55};
+int p = a;  // COMPILER ERROR! Can't take address of a[0]
+```
+
+Or dereferencing part of an array:
+
+``` {.c}
+register int a[] = {11, 22, 33, 44, 55};
+
+int a = *(a + 2);  // COMPILER ERROR! Address of a[0] taken
+```
+
+Interestingly, for the equivalent with array notation, gcc only warns:
+
+``` {.c}
+register int a[] = {11, 22, 33, 44, 55};
+
+int a = a[2];  // COMPILER WARNING!
+```
+
+with:
+
+```
+warning: ISO C forbids subscripting ‘register’ array
+```
+
+A bit of backstory, here: deep inside the CPU are little dedicated
+"variables" called [flw[_registers_|Processor_register]]. They are super
+fast to access compared to RAM, so using them gets you a speed boost.
+But they're not in RAM, so they don't have an associated memory address
+(which is why you can't take the address-of or get a pointer to them).
+
+But, like I said, modern compilers are really good at producing optimal
+code, using registers whenever possible regardless of whether or not you
+specified the `register` keyword. Not only that, but the spec allows
+them to just treat it as if you'd typed `auto`, if they want.
+
+In short, you probably don't want to even bother with `register`, and
+just let the compiler do what it thinks is best.
