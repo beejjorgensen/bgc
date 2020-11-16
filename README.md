@@ -138,7 +138,6 @@ have to consider any copyright issues when merging changes.
     * Unions
   * Enum
   * Pointers III
-    * const pointers
     * Pointers to pointers
     * Pointers to functions
     * Pointer integer types
@@ -170,6 +169,8 @@ have to consider any copyright issues when merging changes.
     * Complex numbers
     * Atomic
     * VLAs
+  * make primer
+
 
 
 
