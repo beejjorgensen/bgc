@@ -258,7 +258,7 @@ it.
 
 Always initialize all automatic variables before use!
 
-### `static`
+### `static` {#static}
 
 This keyword has two meanings, depending on if the variable is file
 scope or block scope.
@@ -327,7 +327,7 @@ only in this file.
 
 More on that in the section about building with multiple source files.
 
-### `extern`
+### `extern` {#extern}
 
 The `extern` type specifier gives us a way to refer to objects in other
 source files.
