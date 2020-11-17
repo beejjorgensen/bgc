@@ -12,7 +12,244 @@ little different that you're used to in other languages.
 Before we talk about how to make conversions happen, let's talk about
 how they work when they _do_ happen.
 
-## Conversion Rules
+## String Conversions
+
+Unlike many languages, C doesn't do string-to-number (and vice-versa)
+conversions in quite as streamlined a manner as it does numeric
+conversions.
+
+For these, we'll have to call functions to do the dirty work.
+
+### Numeric Value to String
+
+When we want to convert a number to a string, we can use either
+`sprintf()` (pronounced _SPRINT-f_) or `snprintf()`
+(_s-n-print-f_)^[They're the same except `snprintf()` allows you to
+specify a maximum number of bytes to output, preventing the overrunning
+of the end of your string. So it's safer.]
+
+These basically work like `printf()`, except they output to a string
+instead, and you can print that string later, or whatever.
+
+For example, turning part of the value π into a string:
+
+``` {.c .numberLines}
+#include <stdio.h>
+
+int main(void)
+{
+    char s[10];
+    float f = 3.14159;
+
+    // Convert "f" to string, storing in "s", writing at most 10 characters
+    // including the NUL terminator
+
+    snprintf(s, 10, "%f", f);
+
+    printf("String value: %s\n", s);  // String value: 3.141590
+
+    return 0;
+}
+```
+
+If we wanted to convert a `double`, we'd use `%lf`. Or a `long double`,
+`%Lf`.
+
+### String to Numeric Value
+
+There are a couple families of functions to do this in C. We'll call
+these the `atoi` (pronounced _a-to-i_) family and the `strtol`
+(_stir-to-long_) family.
+
+For basic conversion from a string to a number, try the `atoi` functions
+from `<stdlib.h>`. These have bad error-handling characteristics
+(including undefined behavior if you pass in a bad string), so use them
+carefully.
+
+|Function|Description|
+|:-|:-|
+|`atoi`|String to `int`|
+|`atof`|String to `float`|
+|`atol`|String to `long int`|
+|`atoll`|String to `long long int`|
+
+Though the spec doesn't cop to it, the `a` at the beginning of the
+function stands for [flw[ASCII|ASCII]], so really `atoi()` is
+"ASCII-to-integer", but saying so today is a bit ASCII-centric.
+
+Here's an example converting a string to a `float`:
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <stdlib.h>
+
+int main(void)
+{
+    char *pi = "3.14159";
+    float f;
+
+    f = atof(pi);
+
+    printf("%f\n", f);
+
+    return 0;
+}
+```
+
+But, like I said, we get undefined behavior from weird things like this:
+
+``` {.c}
+int x = atoi("what");  // "What" ain't no number I ever heard of
+```
+
+(When I run that, I get `0` back, but you really shouldn't count on that
+in any way. You could get something completely different.)
+
+For better error handling characteristics, let's check out all those
+`strtol` functions, also in `<stdlib.h>`. Not only that, but they
+convert to more types and more bases, too!
+
+|Function|Description|
+|:-|:-|
+|`strtol`|String to `long int`|
+|`strtoll`|String to `long long int`|
+|`strtoul`|String to `unsigned long int`|
+|`strtoull`String to `unsigned long long int`||
+|`strtof`|String to `float`|
+|`strtod`|String to `double`|
+|`strtold`|String to `long double`|
+
+These functions all follow a similar pattern of use, and are a lot of
+people's first experience with pointers to pointers! But never
+fret---it's easier than it looks.
+
+Let's do an example where we convert a string to an `unsigned long`,
+discarding error information (i.e. information about bad characters in
+the input string):
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <stdlib.h>
+
+int main(void)
+{
+    char *s = "3490";
+
+    // Convert string s, a number in base 10, to an unsigned long int.
+    // NULL means we don't care to learn about any error information.
+
+    unsigned long int x = strtoul(s, NULL, 10);
+
+    printf("%lu\n", x);  // 3490
+
+    return 0;
+}
+```
+
+Notice a couple things there. Even though we didn't deign to capture any
+information about error characters in the string, `strtoul()` won't give
+us undefined behavior; it will just return `0`.
+
+Also, we specified that this was a decimal (base 10) number.
+
+Does this mean we can convert numbers of different bases? Sure! Let's do
+binary!
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <stdlib.h>
+
+int main(void)
+{
+    char *s = "101010";  // What's the meaning of this number?
+
+    // Convert string s, a number in base 2, to an unsigned long int.
+
+    unsigned long int x = strtoul(s, NULL, 2);
+
+    printf("%lu\n", x);  // 42
+
+    return 0;
+}
+```
+
+OK, that's all fun and games, but what's with that `NULL` in there?
+What's that for?
+
+That helps us figure out if an error occurred in the processing of the
+string. It's a pointer to a pointer to a `char`, which sounds scary, but
+isn't once you wrap your head around it.
+
+Let's do an example where we feed in a deliberately bad number, and
+we'll see how `strtol()` lets us know where the first invalid digit is.
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <stdlib.h>
+
+int main(void)
+{
+    char *s = "34x90";  // "x" is not a valid digit in base 10!
+    char *badchar;
+
+    // Convert string s, a number in base 10, to an unsigned long int.
+
+    unsigned long int x = strtoul(s, &badchar, 10);
+
+    // It tries to convert as much as possible, so gets this far:
+
+    printf("%lu\n", x);  // 34
+
+    // But we can see the offending bad character because badchar
+    // points to it!
+
+    printf("Invalid character: %c\n", *badchar);  // "x"
+
+    return 0;
+}
+```
+
+So there we have `strtoul()` modifying what `badchar` points to in order
+to show us where things went wrong^[We have to pass a pointer to
+`badchar` into `strtoul()` or it won't be able to modify it in any way
+we can see, analogous to why you have to pass a pointer to an `int` to a
+function if you want that function to be able to change that value of
+that `int`.].
+
+But what if nothing goes wrong? In that case, `badchar` will point to
+the `NUL` terminator at the end of the string. So we can test for it:
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <stdlib.h>
+
+int main(void)
+{
+    char *s = "3490";  // "x" is not a valid digit in base 10!
+    char *badchar;
+
+    // Convert string s, a number in base 10, to an unsigned long int.
+
+    unsigned long int x = strtoul(s, &badchar, 10);
+
+    // Check if things went well
+
+    if (*badchar == '\0') {
+        printf("Success! %lu\n", x);
+    } else  {
+        printf("Partial conversion: %lu\n", x);
+        printf("Invalid character: %c\n", *badchar);
+    }
+
+    return 0;
+}
+```
+
+So there you have it. The `atoi()`-style functions are good in a
+controlled pinch, but the `strtol()`-style functions give you far more
+control over error handling and the base of the input.
+
+## Numeric Conversions
 
 ### Boolean
 
