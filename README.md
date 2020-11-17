@@ -108,6 +108,7 @@ have to consider any copyright issues when merging changes.
   * Types III: Conversions
     * Casting
     * Standard promotions
+    * String to
   * Types IV
     * Storage classes
       * Static
@@ -123,6 +124,9 @@ have to consider any copyright issues when merging changes.
     * include and header files
     * compiling and linking
       * Object files
+  * The outside environment
+    * argc, argv
+    * exit values
   * Preprocessor
     * Macros
     * Include
@@ -159,10 +163,6 @@ have to consider any copyright issues when merging changes.
     * Labels
   * Incomplete types
   * lvalues
-  * Incomplete types
-  * The outside environment
-    * argc, argv
-    * exit values
   * More man pages
   * Optional features
     * Threads
