@@ -99,9 +99,99 @@ including the program name, itself. If you think of all the arguments as
 an array of strings, which is exactly what they are, then you can think of
 `argc` as the length of that array, which is exactly what it is.
 
+And so what we're doing in that loop is going through all the `argv`s
+and printing them out one at a time, so for a given input:
 
+```
+./foo i like turtles
+```
+
+we get a corresponding output:
+
+```
+arg 0: ./foo
+arg 1: i
+arg 2: like
+arg 3: turtles
+```
+
+With that in mind, we should be good to go with our adder program.
+
+Our plan:
+
+* Look at all the command line arguments (past `argv[0]`, the program
+  name)
+* Convert them to integers
+* Add them to a running total
+* Print the result
+
+Let's get to it!
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <stdlib.h>
+
+int main(int argc, char **argv)
+{
+    int total = 0;
+
+    for (int i = 0; i < argc; i++) {
+        int value = atoi(argv[i]);  // Use strtol() for better error handling
+
+        total += value;
+    }
+
+    printf("%d\n", total);
+
+    return 0;
+}
+```
+
+Sample runs:
+
+```
+$ ./foo
+0
+$ ./foo 1
+1
+$ ./foo 1 2
+3
+$ ./foo 1 2 3
+6
+$ ./foo 1 2 3 4
+10
+```
+
+Of course, it might puke if you pass in a non-integer, but hardening
+against that is left as an exercise to the reader.
+
+### The Last `argv` is `NULL`
+
+One bit of fun trivia about `argv` is that after the last string is a
+pointer to `NULL`.
+
+That is:
+
+``` {.c}
 argv[argc] == NULL
+```
 
+is always true!
+
+This might seem pointless, but it turns out to be useful in a couple
+places; we'll take a look at one of those right now.
+
+### The Alternate: `char **argv`
+
+Remember that when you call a function, C doesn't differentiate between
+array notation and pointer notation in the function signature.
+
+That is, these are the same:
+
+``` {.c}
+void foo(char a[]) { ... }
+void foo(char *a)  { ... }
+```
 
 
 ## Exit Status
