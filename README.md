@@ -154,6 +154,14 @@ have to consider any copyright issues when merging changes.
     * Equivalent initializers 6.7.9p29
     * Array of struct initializers 6.7.9p35
   * Variadic functions
+  * Exiting
+    * return from main()
+    * exit()
+    * quick_exit()
+    * _Exit()
+    * atexit()
+    * at_quick_exit()
+  * Signals
   * Bitwise operations
   * Preprocessor II
   * Characters and Strings II
