@@ -177,6 +177,8 @@ have to consider any copyright issues when merging changes.
     * Complex numbers
     * Atomic
     * VLAs
+  * Extensions
+    * __STDC_WANT_LIB_EXT
   * make primer
 
 
