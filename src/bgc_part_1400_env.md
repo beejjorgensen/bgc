@@ -427,3 +427,93 @@ You can script the shell to later use these status codes to make
 decisions about what to do next.
 
 ## Environment Variables
+
+Before I get into this, I need to warn you that C doesn't specify what
+an environment variable is. So I'm going to describe the environment
+variable system that works on every major platform I'm aware of.
+
+Basically, the environment is the program that's going to run your
+program, e.g. the bash shell. And it might have some bash variables
+defined. In case you didn't know, the shell can make its own variables.
+Each shell is different, but in bash you can just type `set` and it'll
+show you all of them.
+
+Here's an except from the 61 variables that are defined in my bash shell:
+
+```
+HISTFILE=/home/beej/.bash_history
+HISTFILESIZE=500
+HISTSIZE=500
+HOME=/home/beej
+HOSTNAME=FBILAPTOP
+HOSTTYPE=x86_64
+IFS=$' \t\n'
+```
+
+Notice they are in the form of key/value pairs. For example, one key is
+`HOSTTYPE` and its value is `x86_64`. From a C perspective, all values
+are strings, even if they're numbers^[If you need a numeric value,
+convert the string with something like `atoi()` or `strtol()`.].
+
+So, _anyway_! Long story short, it's possible to get these values from
+inside your C program.
+
+Let's write a program that uses the standard `getenv()` function to look
+up a value that you set in the shell.
+
+`getenv()` will return a pointer to the value string, or else `NULL` if
+the environment variable doesn't exist.
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <stdlib.h>
+
+int main(void)
+{
+    char *val = getenv("FROTZ");  // Try to get the value
+
+    // Check to make sure it exists
+    if (val == NULL) {
+        printf("Cannot find the FROTZ environment variable\n");
+        return EXIT_FAILURE;
+    }
+
+    printf("Value: %s\n", val);
+
+    return 0;
+}
+```
+
+If I run this directly, I get this:
+
+```
+$ ./foo
+Cannot find the FROTZ environment variable
+```
+
+which makes since, since I haven't set it yet.
+
+In bash, I can set it to something with^[In Windows CMD.EXE, use `set
+FROTZ=value`. In PowerShell, use `$Env:FROTZ=value`.]:
+
+```
+$ export FROTZ="C is awesome!"
+```
+
+Then if I run it, I get:
+
+```
+$ ./foo
+Value: C is awesome!
+```
+
+In this way, you can set up data in environment variables, and you can
+get it in your C code and modify your behavior accordingly.
+
+### Setting Environment Variables
+
+This isn't standard, but a lot of systems provide ways to set
+environment variables.
+
+If on a Unix-like, look up the documentation for `putenv()`, `setenv()`,
+and `unsetenv`. On Windows, see `_putenv()`.
