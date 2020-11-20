@@ -150,15 +150,15 @@ int main(int argc, char **argv)
 Sample runs:
 
 ```
-$ ./foo
+$ ./add
 0
-$ ./foo 1
+$ ./add 1
 1
-$ ./foo 1 2
+$ ./add 1 2
 3
-$ ./foo 1 2 3
+$ ./add 1 2 3
 6
-$ ./foo 1 2 3 4
+$ ./add 1 2 3 4
 10
 ```
 
@@ -189,11 +189,241 @@ array notation and pointer notation in the function signature.
 That is, these are the same:
 
 ``` {.c}
-void foo(char a[]) { ... }
-void foo(char *a)  { ... }
+void foo(char a[])
+void foo(char *a)
 ```
 
+Now, it's been convenient to think of `argv` as an array of strings,
+i.e. an array of `char*`s, so this made sense:
+
+``` {.c}
+int main(int argc, char *argc[])
+```
+
+but because of the equivalence, you could also write:
+
+``` {.c}
+int main(int argc, char **argv)
+```
+
+Yeah, that's a pointer to a pointer, all right! If it makes it easier,
+think of it as a pointer to a string. But really, it's a pointer to a
+value that points to a `char`.
+
+Also recall that these are equivalent:
+
+``` {.c}
+argv[i]
+*(argv + i)
+```
+
+which means you can do pointer arithmetic on `argv`.
+
+So an alternate way to consume the command line arguments might be to
+just walk along the `argv` array by bumping up a pointer until we hit
+that `NULL` at the end.
+
+Let's modify our adder to do that:
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <stdlib.h>
+
+int main(int argc, char **argv)
+{
+    int total = 0;
+    
+    // Cute trick to get the compiler to stop warning about the
+    // unused variable argc:
+    (void)argc;
+
+    for (char **p = argv; *p != NULL; p++) {
+        int value = atoi(*p);  // Use strtol() for better error handling
+
+        total += value;
+    }
+
+    printf("%d\n", total);
+
+    return 0;
+}
+```
+
+Personally, I use array notation to access `argv`, but have seen this
+style floating around, as well.
+
+### Fun Facts
+
+Just a few more things about `argc` and `argv`.
+
+* Some environments might not set `argv[0]` to the program name. If it's
+  not available, `argv[0]` will be an empty string. I've never seen this
+  happen.
+
+* The spec is actually pretty liberal with what an implementation can do
+  with `argv` and where those values come from. But every system I've
+  been on works the same way, as we've discussed in this section.
+
+* You can modify `argc`, `argv`, or any of the strings that `argv`
+  points to. (Just don't make those strings longer than they already
+  are!)
+
+* On some Unix-like systems, modifying the string `argv[0]` results in
+  the output of `ps` changing^[`ps`, Process Status, is a Unix command
+  to see what processes are running at the moment.].
+
+  Normally, if you have a program called `foo` that you've run with
+  `./foo`, you might see this in the output of `ps`:
+
+  ```
+   4078 tty1     S      0:00 ./foo
+  ```
+
+  But if you modify `argv[0]` like so, being careful that the new string
+  `"Hi!  "` is the same length as the old one `"./foo"`:
+
+  ``` {.c}
+  strcpy(argv[0], "Hi!  ");
+  ```
+
+  and then run `ps` while the program `./foo` is still executing, we'll
+  see this instead:
+  
+  ```
+   4079 tty1     S      0:00 Hi!  
+  ```
+
+  This behavior is not in the spec and is highly system-dependent.
 
 ## Exit Status
+
+There are a number of ways a program can exit in C, including
+`return`ing from `main()`, or calling one of the `exit()` variants.
+
+All of these methods accept an `int` as an argument. So far, we've done
+a lot of `return 0` from `main()`, but what does the `0` mean? What
+other numbers can we put there? And how are they used?
+
+The spec is both clear and vague on the matter, as is common. Clear
+because it spells out what you can do, but vague in that it doesn't
+particularly limit it, either.
+
+Nothing for it but to _forge ahead_ and figure it out!
+
+Let's get [flw[Inception|Inception]] for a second: turns out that when
+you run your program, _you're running it from another program_.
+
+Usually this other program is some kind of
+[flw[shell|Shell_(computing)]] that doesn't do much on its own except
+launch other programs.
+
+But this is a multi-phase process, especially visible in command-line
+shells:
+
+1. The shell launches your program
+2. The shell typically goes to sleep (for command-line shells)
+3. Your program runs
+4. Your program terminates
+5. The shell wakes up and waits for another command
+
+Now, there's a little piece of communication that takes place between
+steps 4 and 5: the program can return a _status value_ that the shell
+can interrogate. Typically, this value is used to indicate the success
+or failure of your program, and, if a failure, what type of failure.
+
+This value is what we've been `return`ing from `main()`. That's the
+status.
+
+Now, the C spec allows for two different status values, which have macro
+names defined in `<stdlib.h>`:
+
+|Status|Description|
+|-|-|
+|`EXIT_SUCCESS` or `0`|Program terminated successfully.|
+|`EXIT_FAILURE`|Program terminated with an error.|
+
+Let's write a short program that multiplies two numbers from the command
+line. We'll require that you specify exactly two values. If you don't,
+we'll print an error message, and exit with an error status.
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <stdlib.h>
+
+int main(int argc, char **argv)
+{
+    if (argc != 3) {
+        printf("usage: mult x y\n");
+        return EXIT_FAILURE;   // Indicate to shell that it didn't work
+    }
+
+    printf("%d\n", atoi(argv[1]) * atoi(argv[2]));
+
+    return 0;  // same as EXIT_SUCCESS, everything was good.
+}
+```
+
+Now if we try to run this, we get the expected effect until we specify
+exactly the right number of command-line arguments:
+
+```
+$ ./mult
+usage: mult x y
+
+$ ./mult 3 4 5
+usage: mult x y
+
+$ ./mult 3 4
+12
+```
+
+But that doesn't really show the exit status that we returned, does it?
+We can get the shell to print it out, though. Assuming you're running
+Bash or another POSIX shell, you can use `echo $?` to see it^[In Windows
+`cmd.exe`, type `echo %errorlevel%`. In PowerShell, type
+`$LastExitCode`.].
+
+Let's try:
+
+```
+$ ./mult
+usage: mult x y
+$ echo $?
+1
+
+$ ./mult 3 4 5
+usage: mult x y
+$ echo $?
+1
+
+$ ./mult 3 4
+12
+$ echo $?
+0
+```
+
+Interesting! We see that on my system, `EXIT_FAILURE` is `1`. The spec
+doesn't spell this out, so it could be any number. But try it; it's
+probably `1` on your system, too.
+
+### Other Exit Status Values
+
+The status `0` most definitely means success, but what about all the
+other integers, even negative ones?
+
+Here we're going off the C spec and into Unix land. In general, while
+`0` means success, a positive non-zero number means failure. So you can
+only have one type of success, and multiple types of failure. Bash says
+the exit code should be between 0 and 255, though a number of codes are
+reserved. 
+
+In short, if you want to indicate different error exit statuses in a
+Unix environment, you can start with `1` and work your way up.
+
+On Linux, if you try any code outside the range 0-255, it will bitwise
+AND the code with `0xff`, effectively clamping it to that range.
+
+You can script the shell to later use these status codes to make
+decisions about what to do next.
 
 ## Environment Variables
