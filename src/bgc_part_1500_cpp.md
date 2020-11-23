@@ -64,12 +64,38 @@ and use double quotes (`"`) for your personal includes.
 
 ## Simple Macros
 
+Now let's check out another cool feature of the preprocessor: the
+ability to define constant values and substitute them in place.
+
+We do this with `#define` (often read "pound define"). Here's an
+example:
+
+``` {.c .numberLines}
+#include <stdio.h>
+
+#define HELLO "Hello, world"
+#define PI 3.14159
+
+int main(void)
+{
+    printf("%s, %f\n", HELLO, PI);
+
+    return 0;
+}
+```
+
+On lines 3 and 4 we defined a couple macros. Wherever these appear
+elsewhere in the code (line 8), they'll be substitu
+
+
+
 
 <!--
 TODO
 
-#ifdef, ifndef
-#if
+https://stackoverflow.com/questions/1674032/static-const-vs-define-vs-enum
+
+#ifdef, ifndef #if
 
 defined
 !defined
