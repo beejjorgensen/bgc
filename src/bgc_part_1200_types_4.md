@@ -217,7 +217,7 @@ won't be reflected in the register.
 
 By declaring something `volatile`, you're telling the compiler, "Hey,
 the thing this points at might change at any time for reasons outside
-this program code.
+this program code."
 
 ``` {.c}
 volatile int *p;
