@@ -405,6 +405,72 @@ The standard defines a lot of built-in macros that you can test and use
 for conditional compilation. Let's look at those here.
 
 
+### Mandatory Macros
+
+These are all defined:
+
+|Macro|Description|
+|-|-|
+|`__DATE__`|The date of compilation---like when you're compiling this file---in `Mmm dd yyyy` format|
+|`__TIME__`|The time of compilation in `hh:mm:ss` format|
+|`__FILE__`|A string containing this file's name|
+|`__LINE__`|The line number of the file this macro appears on|
+|`__func__`|The name of the function this appears in, as a string^[This isn't really a macro---it's technically an identifier. But it's the only predefined identifier and it feels very macro-like, so I'm including it here. Like a rebel.]|
+|`__STDC__`|Defined with `1` if this is a standard C compiler|
+|`__STDC_HOSTED__`|This will be `1` if the compiler is a _hosted implementation_^[A hosted implementation basically means you're running the full C standard, probably on an operating system of some kind. Which you probably are. If you're running on bare metal in some kind of embedded system, you're probably on a _standalone implementation_.], otherwise `0`|
+|`__STDC_VERSION__`|This version of C, a constant `long int` in the form `yyyymmL`, e.g. `201710L`|
+
+Let's put these together.
+
+``` {.c .numberLines}
+#include <stdio.h>
+
+int main(void)
+{
+    printf("This function: %s\n", __func__);
+    printf("This file: %s\n", __FILE__);
+    printf("This line: %d\n", __LINE__);
+    printf("Compiled on: %s %s\n", __DATE__, __TIME__);
+    printf("C Version: %ld\n", __STDC_VERSION__);
+
+    return 0;
+}
+```
+
+The output on my system is:
+
+```
+This function: main
+This file: foo.c
+This line: 7
+Compiled on: Nov 23 2020 17:16:27
+C Version: 201710
+```
+
+`__FILE__`, `__func__` and `__LINE__` are particularly useful to report
+error conditions in messages to developers. The `assert()` macro in
+`<assert.h>` uses these to call out where in the code the assertion
+failed.
+
+### Optional Macros
+
+Your implementation might define these, as well. Or it might not.
+
+|Macro|Description|
+|-|-|
+|`__STDC_ISO_10646__`|If defined, `wchar_t` holds Unicode values, otherwise something else|
+|`__STDC_MB_MIGHT_NEQ_WC__`|A `1` indicates that the values in multibyte characters might not map equally to values in wide characters|
+|`__STDC_UTF_16__`|A `1` indicates that the system uses UTF-16 encoding in type `char16_t`|
+|`__STDC_UTF_16__`|A `1` indicates that the system uses UTF-16 encoding in type `char16_t`|
+|`__STDC_ANALYZABLE__`|A `1` indicates the code is analyzable^[OK, I know that was a cop-out answer. Basically there's an optional extension compilers can implement wherein they agree to limit certain types of undefined behavior so that the C code is more amenable to static code analysis. It is unlikely you'll need to use this.]|
+|`__STDC_IEC_559__`|`1` if IEEE-754 (aka IEC 60559) floating point is supported|
+|`__STDC_IEC_559_COMPLEX__`|`1` if IEC 60559 complex floating point is supported|
+|`__STDC_LIB_EXT1__`|`1` if this implementation supports a variety of "safe" alternate standard library functions (they have `_s` suffixes on the name)|
+|`__STDC_NO_ATOMICS__`|`1` if this implementation does **not** support `_Atomic` or `<stdatomic.h>`|
+|`__STDC_NO_COMPLEX__`|`1` if this implementation does **not** support complex types or `<complex.h>`|
+|`__STDC_NO_THREADS__`|`1` if this implementation does **not** support `<threads.h>`|
+|`__STDC_NO_VLA__`|`1` if this implementation does **not** support variable-length arrays|
+
 
 ## The Null Directive
 
