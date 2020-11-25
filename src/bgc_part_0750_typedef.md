@@ -47,7 +47,7 @@ For this reason, it's quite common to find `typedef` at file scope
 So renaming `int` to something else isn't that exciting. Let's see where
 `typedef` commonly makes an appearance.
 
-### `typedef` and `struct`s
+### `typedef` and `struct`s {#typedef-struct}
 
 Sometimes a `struct` will be `typedef`'d to a new name so you don't have
 to type the word `struct` over and over.
