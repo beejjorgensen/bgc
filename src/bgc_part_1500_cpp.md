@@ -471,6 +471,312 @@ Your implementation might define these, as well. Or it might not.
 |`__STDC_NO_THREADS__`|`1` if this implementation does **not** support `<threads.h>`|
 |`__STDC_NO_VLA__`|`1` if this implementation does **not** support variable-length arrays|
 
+## Macros with Arguments
+
+Macros are more powerful than simple substitution, though. You can set
+them up to take arguments that are substituted in, as well.
+
+A question often arises for when to use parameterized macros versus
+functions. Short answer: use functions. But you'll see lots of macros in
+the wild and in the standard library. People tend to use them for short,
+mathy things, and also for features that might change from platform to
+platform. You can define different keywords for one platform or another.
+
+### Macros with One Argument
+
+Let's start with a simple one that squares a number:
+
+``` {.c .numberLines}
+#include <stdio.h>
+
+#define SQR(x) x * x  // Not quite right, but bear with me
+
+int main(void)
+{
+    printf("%d\n", SQR(12));  // 144
+
+    return 0;
+}
+```
+
+What that's saying is "everywhere you see `SQR` with some value, replace
+it with that value times itself".
+
+So line 7 will be changed to:
+
+``` {.c .numberLines startFrom="7"}
+    printf("%d\n", 12 * 12);  // 144
+```
+
+which C comfortably converts to 144.
+
+But we've made an elementary error in that macro, one that we need to
+avoid.
+
+Let's check it out. What if we wanted to compute `SQR(3 + 4)`? Well,
+$3+4=7$, so we must want to compute $7^2=49$. That's it; `49`---final
+answer.
+
+Let's drop it in our code and see that we get... 19?
+
+``` {.c .numberLines startFrom="7"}
+    printf("%d\n", SQR(3 + 4));  // 19!!??
+```
+
+What happened?
+
+If we follow the macro expansion, we get 
+
+``` {.c .numberLines startFrom="7"}
+    printf("%d\n", 3 + 4 * 3 + 4);  // 19!
+```
+
+Oops! Since multiplication takes precedence, we do the $4\times3=12$
+first, and get $3+12+4=19$. Not what we were after.
+
+So we have to fix this to make it right.
+
+**This is so common that you should automatically do it every time you
+make a parameterized math macro!**
+
+The fix is easy: just add some parentheses!
+
+``` {.c .numberLines startFrom="3"}
+#define SQR(x) (x) * (x)   // Better... but still not quite good enough!
+```
+
+And now our macro expands to:
+
+``` {.c .numberLines startFrom="7"}
+    printf("%d\n", (3 + 4) * (3 + 4));  // 49! Woo hoo!
+```
+
+But we actually still have the same problem which might manifest if we
+have a higher-precedence operator than multiply (`*`) nearby.
+
+So the safe, proper way to put the macro together is to wrap the whole
+thing in additional parentheses, like so:
+
+``` {.c .numberLines startFrom="3"}
+#define SQR(x) ((x) * (x))   // Good!
+```
+
+Just make it a habit to do that when you make a math macro and you can't
+go wrong.
+
+### Macros with More than One Argument
+
+You can stack these things up as much as you want:
+
+``` {.c}
+#define TRIANGLE_AREA(w, h) (0.5 * (w) * (h))
+```
+
+Let's do some macros that solve for $x$ using the quadratic formula.
+Just in case you don't have it on the top of your head, it says for
+equations of the form:
+
+$ax^2+bx+c=0$
+
+you can solve for $x$ with the quadratic formula:
+
+$x=\cfrac{-b\pm\sqrt{b^2-4ac}}{2a}$
+
+Which is crazy. Also notice the plus-or-minus ($\pm$) in there,
+indicating that there are actually two solutions.
+
+So let's make macros for both, one for $-b+\sqrt{b^2-4ac}$ and one for 
+$-b-\sqrt{b^2-4ac}$.
+
+``` {.c}
+#define QUADP(a, b, c) ((-(b) + sqrt((b) * (b) - 4 * (a) * (c))) / (2 * (a)))
+#define QUADM(a, b, c) ((-(b) - sqrt((b) * (b) - 4 * (a) * (c))) / (2 * (a)))
+```
+
+So that gets us some math. But let's define one more that we can use as
+arguments to `printf()` to print both answers.
+
+``` {.c}
+//          macro              replacement
+//      |-----------| |----------------------------|
+#define QUAD(a, b, c) QUADP(a, b, c), QUADM(a, b, c)
+```
+
+That's just a couple values separated by a comma---and we can use that
+as a "combined" argument of sorts to `printf()` like this:
+
+``` {.c}
+printf("x = %f or x = %f\n", QUAD(2, 10, 5));
+```
+
+Let's put it together into some code:
+
+``` {.c .numeberLines}
+#include <stdio.h>
+#include <math.h>  // For sqrt()
+
+#define QUADP(a, b, c) ((-(b) + sqrt((b) * (b) - 4 * (a) * (c))) / (2 * (a)))
+#define QUADM(a, b, c) ((-(b) - sqrt((b) * (b) - 4 * (a) * (c))) / (2 * (a)))
+#define QUAD(a, b, c) QUADP(a, b, c), QUADM(a, b, c)
+
+int main(void)
+{
+    printf("2*x^2 + 10*x + 5 = 0\n");
+    printf("x = %f or x = %f\n", QUAD(2, 10, 5));
+
+    return 0;
+}
+```
+
+And this gives us the output:
+
+```
+2*x^2 + 10*x + 5 = 0
+x = -0.563508 or x = -4.436492
+```
+
+Plugging in either of those values gives us roughly zero (a bit off
+because the numbers aren't exact):
+
+$2\times-0.563508^2+10\times-0.563508+5\approx0.000003$
+
+### Macros with Variable Arguments
+
+There's also a way to have a variable number of arguments passed to a
+macro, using ellipses (`...`) after the known, named arguments. When the
+macro is expanded, all of the extra arguments will be in a
+comma-separated list in the `__VA_ARGS__` macro, and can be replaced
+from there:
+
+``` {.c .numberLines}
+#include <stdio.h>
+
+// Combine the first two arguments to a single number,
+// then have a commalist of the rest of them:
+
+#define X(a, b, ...) (10*(a) + 20*(b)), __VA_ARGS__
+
+int main(void)
+{
+    printf("%d %f %s %d\n", X(5, 4, 3.14, "Hi!", 12));
+
+    return 0;
+}
+```
+
+The substitution that takes place on line 10 would be:
+
+``` {.c .numberLines startFrom="10"}
+    printf("%d %f %s %d\n", (10*(5) + 20*(4)), 3.14, "Hi!", 12);
+```
+
+for output:
+
+```
+130 3.140000 Hi! 12
+```
+
+You can also "stringify" `__VA_ARGS__` by putting a `#` in front of it:
+
+``` {.c}
+#define X(...) #__VA_ARGS__
+
+printf("%s\n", X(1,2,3));  // Prints "1, 2, 3"
+```
+
+### Stringification
+
+Already mentioned, just above, you can turn any argument into a string
+by preceding it with a `#` in the replacement text.
+
+For example, we could print anything as a string with this macro and
+`printf()`:
+
+``` {.c}
+#define STR(x) #x
+
+printf("%s\n", STR(3.14159));
+```
+
+In that case, the substitution leads to:
+
+``` {.c}
+printf("%s\n", "3.14159");
+```
+
+Let's see if we can use this to greater effect so that we can pass any
+`int` variable name into a macro, and have it print out it's name and
+value.
+
+``` {.c .numberLines}
+#include <stdio.h>
+
+#define PRINT_INT_VAL(x) printf("%s = %d\n", #x, x)
+
+int main(void)
+{
+    int a = 5;
+
+    PRINT_INT_VAL(a);  // prints "a = 5"
+
+    return 0;
+}
+```
+
+On line 9, we get the following macro replacement:
+
+``` {.c .numberLines startWith="9"}
+    printf("%s = %d\n", "a", 5);
+```
+
+### Concatenation
+
+We can concatenate two arguments together with `##`, as well. Fun times!
+
+``` {.c}
+#define CAT(a, b) a ## b
+
+printf("%f\n", CAT(3.14, 1592));   // 3.141592
+```
+
+## Multiline Macros
+
+It's possible to continue a macro to multiple lines if you escape the
+newline with a backslash (`\`).
+
+Let's write a multiline macro that prints numbers from `0` to the
+product of the two arguments passed in.
+
+``` {.c .numberLines}
+#include <stdio.h>
+
+#define PRINT_NUMS_TO_PRODUCT(a, b) { \
+    int product = (a) * (b); \
+    for (int i = 0; i < product; i++) { \
+        printf("%d\n", i); \
+    } \
+}
+
+int main(void)
+{
+    PRINT_NUMS_TO_PRODUCT(2, 4);  // Outputs numbers from 0 to 7
+
+    return 0;
+}
+```
+
+A couple things to note there:
+
+* Escapes at the end of every line except the last one to indicate that
+  the macro continues.
+* Though not strictly necessary, I wrapped the whole thing in curly
+  braces. This did two things:
+  1. Made it look nice.
+  2. Made a new block scope for my `product` variable so it wouldn't
+     conflict with any other existing variables at the outer block
+     scope.
+
+## The `#line` Directive
 
 ## The Null Directive
 
@@ -515,16 +821,6 @@ just say this is some good ol' fashioned C esoterica.
 
 <!--
 TODO
-
-https://stackoverflow.com/questions/1674032/static-const-vs-define-vs-enum
-
-#define
-
-##
-#
-Multiline
-variadic
-built-ins
 #line
 #error
 #pragma
