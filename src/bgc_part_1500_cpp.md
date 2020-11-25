@@ -610,7 +610,7 @@ printf("x = %f or x = %f\n", QUAD(2, 10, 5));
 
 Let's put it together into some code:
 
-``` {.c .numeberLines}
+``` {.c .numberLines}
 #include <stdio.h>
 #include <math.h>  // For sqrt()
 
