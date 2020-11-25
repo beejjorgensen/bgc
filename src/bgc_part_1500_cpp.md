@@ -776,6 +776,25 @@ A couple things to note there:
      conflict with any other existing variables at the outer block
      scope.
 
+## The `#error` Directive
+
+This directive causes the compiler to error out as soon as it sees it.
+
+Commonly, this is used inside a conditional to prevent compilation
+unless some prerequisites are met:
+
+``` {.c}
+#ifndef __STDC_ISO_10646__
+    #error I really need IEEE-754 floating point to compile. Sorry!
+#endif
+```
+
+Some compilers have a non-standard complementary `#warning` directive
+that will output a warning but not stop compilation, but this is not in
+the C99 spec.
+
+## The `#pragma` Directive
+
 
 ## The `#line` Directive
 
@@ -842,10 +861,3 @@ the specification doesn't seem to say this is standard behavior.
 
 My searches for rationale aren't bearing much fruit. So I'm going to
 just say this is some good ol' fashioned C esoterica.
-
-<!--
-TODO
-#line
-#error
-#pragma
--->
