@@ -585,8 +585,7 @@ $x=\cfrac{-b\pm\sqrt{b^2-4ac}}{2a}$
 Which is crazy. Also notice the plus-or-minus ($\pm$) in there,
 indicating that there are actually two solutions.
 
-So let's make macros for both, one for $-b+\sqrt{b^2-4ac}$ and one for 
-$-b-\sqrt{b^2-4ac}$.
+So let's make macros for both:
 
 ``` {.c}
 #define QUADP(a, b, c) ((-(b) + sqrt((b) * (b) - 4 * (a) * (c))) / (2 * (a)))
@@ -725,7 +724,7 @@ int main(void)
 
 On line 9, we get the following macro replacement:
 
-``` {.c .numberLines startWith="9"}
+``` {.c .numberLines startsWith="9"}
     printf("%s = %d\n", "a", 5);
 ```
 
@@ -795,6 +794,83 @@ the C99 spec.
 
 ## The `#pragma` Directive
 
+This is one funky directive, short for "pragmatic". You can use it to
+do... well, anything your compiler supports you doing with it.
+
+Basically the only time you're going to add this to your code is if some
+documentation tells you to do so.
+
+### Non-Standard Pragmas
+
+Here's one non-standard example of using `#pragma` to cause the compiler
+to execute a `for` loop in parallel with multiple threads (if the
+compiler supports the [fl[OpenMP|https://www.openmp.org/]] extension):
+
+``` {.c}
+#pragma omp parallel for
+for (int i = 0; i < 10; i++) { ... }
+```
+
+There are all kinds of `#pragma` directives documented across all four
+corners of the globe.
+
+All unrecognized `#pragma`s are ignored by the compiler.
+
+### Standard Pragmas
+
+There are also a few standard ones, and these start with `STDC`, and
+follow the same form:
+
+``` {.c}
+#pragma STDC pragma_name on-off
+```
+
+The `on-off` portion can be either `ON`, `OFF`, or `DEFAULT`.
+
+And the `pragma_name` can be one of these:
+
+|Pragma Name|Description|
+|-|-|
+|`FP_CONTRACT`|Allow floating point expressions to be contracted into a single operation to avoid rounding errors that might occur from multiple operations.|
+|`FENV_ACCESS`|Set to `ON` if you plan to access the floating point status flags. If `OFF`, the compiler might perform optimizations that cause the values in the flags to be inconsistent or invalid.|
+|`CX_LIMITED_RANGE`|Set to `ON` to allow the compiler to skip overflow checks when performing complex arithmetic. Defaults to `OFF`.|
+
+For example:
+
+``` {.c}
+#pragma STDC FP_CONTRACT OFF
+#pragma STDC CX_LIMITED_RANGE ON
+```
+
+As for `CX_LIMITED_RANGE`, the spec points out:
+
+> The purpose of the pragma is to allow the implementation to use the
+> formulas:
+>
+> $(x+iy)\times(u+iv) = (xu-yv)+i(yu+xv)$
+>
+> $(x+iy)/(u+iv) = [(xu+yv)+i(yu-xv)]/(u^2+v^2)$
+>
+> $|x+iy|=\sqrt{x^2+y^2}$
+>
+> where the programmer can determine they are safe.
+
+### `_Pragma` Operator
+
+This is another way to declare a pragma that you could use in a macro.
+
+These are equivalent:
+
+``` {.c}
+#pragma "Unnecessary" quotes
+_Pragma("\"Unnecessary\" quotes")
+```
+
+This can be used in a macro, if need be:
+
+``` {.c}
+#define PRAGMA(x) _Pragma(#x)
+```
 
 ## The `#line` Directive
 
