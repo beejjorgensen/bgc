@@ -776,7 +776,31 @@ A couple things to note there:
      conflict with any other existing variables at the outer block
      scope.
 
+
 ## The `#line` Directive
+
+This allows you to override the values for `__LINE__` and `__FILE__`. If
+you want.
+
+I've never wanted to do this, but in K&R2, they write:
+
+> For the benefit of other preprocessors that generate C programs [...]
+
+So maybe there's that.
+
+To override the line number to, say 300:
+
+``` {.c}
+#line 300
+```
+
+and `__LINE__` will keep counting up from there.
+
+To override the line number and the filename:
+
+``` {.c}
+#line 300 "newfilename"
+```
 
 ## The Null Directive
 
