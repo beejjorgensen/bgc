@@ -97,12 +97,43 @@ struct node {
 
 It's important to node that `next` is a pointer. This is what allows the
 whole thing to even build. Even though the compiler doesn't know what
-the entire `struct node` looks like yet, all pointers look the same.
+the entire `struct node` looks like yet, all pointers are the same size.
+
+Here's a cheesy linked list program to test it out:
+
+``` {.c .numberLines}
+#include <stdio.h>
+
+struct node {
+    int data;
+    struct node next;
+};
+
+int main(void)
+{
+    struct node head = {.data=11}, n1 = {.data=22}, n2 = {.data=33};
+
+    // Set up the linked list
+    head.next = &n1;
+    n1.next = &n2;
+    n2.next = NULL;
+
+    // Traverse it
+    for (struct node *cur = &head; cur != NULL; cur = cur->next) {
+        printf("%d\n", cur->data);
+    }
+
+    return 0;
+}
+```
+
+Normally that linked list would have been set up with `malloc()`, but
+just in case you haven't read that chapter yet, we kinda mocked it up
+there another way.
+
+## Flexible Array Members
 
 
-    * Self-referential Structs
-    * Typedef
-    * Flexible array members
     * Bitfields
     * Padding bytes
     * Unions
