@@ -503,3 +503,131 @@ telling the compiler, "Stop packing bits in this `unsigned`, and start
 packing them in the next one."
 
 ## Unions
+
+These are basically just like `struct`s, except the fields overlap in
+memory. The `union` will be only large enough for the largest field, and
+you can only use one field at a time.
+
+It's a way to reuse the same memory space for different types of data.
+
+You declare them just like `struct`s, except it's `union`. Take a look
+at this:
+
+``` {.c}
+union foo {
+    int a, b, c, d, e, f;
+    float g, h;
+    char i, j, k, l;
+};
+```
+
+Now, that's a lot of fields. If this were a `struct`, my system would
+tell me it took 36 bytes to hold it all.
+
+But it's a `union`, so all those fields overlap in the same stretch of
+memory. The biggest one is `int` (or `float`), taking up 4 bytes on my
+system. And, indeed, if I ask for the `sizeof` the `union foo`, it tells
+me 4!
+
+The tradeoff is that you can only portably use one of those fields at a
+time. If you try to read from a field that was not the last one written
+to, the behavior is unspecified.
+
+Let's take that crazy `union` and first store an `int` in it, then a
+`float`. Then we'll print out the `int` again to see what's in
+there---even though, since it wasn't the last value we stored, the
+result is unspecified.
+
+``` {.c .numberLines}
+#include <stdio.h>
+
+union foo {
+    int a, b, c, d, e, f;
+    float g, h;
+    char i, j, k, l;
+};
+
+int main(void)
+{
+    union foo x;
+
+    x.a = 12;
+    printf("%d\n", x.a);  // OK--x.a was the last thing we stored into
+
+    x.g = 3.141592;
+    printf("%f\n", x.g);  // OK--x.g was the last thing we stored into
+
+    printf("%d\n", x.a);  // Unspecified behavior!
+
+    return 0;
+}
+```
+
+On my machine, this prints:
+
+```
+12
+3.141592
+1078530008
+```
+
+Probably deep down the decimal value `1078530008` is probably the same
+pattern of bits as `3.141592`, but the spec makes no guarantees about
+this.
+
+### Pointers to `union`s
+
+If you have a pointer to a `union`, you can cast that pointer to any of
+the types of the fields in that `union` and get the values out that way.
+
+In this example, we see that the `union` has `int`s and `float`s in it.
+And we get pointers to the `union`, but we cast them to `int*` and
+`float*` types (the cast silences compiler warnings). And then if we
+dereference those, we see that they have the values we stored directly
+in the `union`.
+
+``` {.c .numberLines}
+#include <stdio.h>
+
+union foo {
+    int a, b, c, d, e, f;
+    float g, h;
+    char i, j, k, l;
+};
+
+int main(void)
+{
+    union foo x;
+
+    int *foo_int_p = (int *)&x;
+    float *foo_float_p = (float *)&x;
+
+    x.a = 12;
+    printf("%d\n", x.a);           // 12
+    printf("%d\n", *foo_int_p);    // 12, again
+
+    x.g = 3.141592;
+    printf("%f\n", x.g);           // 3.141592
+    printf("%f\n", *foo_float_p);  // 3.141592, again
+
+    return 0;
+}
+```
+
+The reverse is also true. If we have a pointer to a type inside the
+`union`, we can cast that to a pointer to the `union` and access its
+members.
+
+``` {.c}
+union foo x;
+int *foo_int_p = (int *)&x;             // Pointer to int field
+union foo *p = (union foo *)foo_int_p;  // Back to pointer to union
+
+p->a = 12;  // This line the same as...
+x.a = 12;   // this one.
+```
+
+All this just lets you know that, under the hood, all these values in a
+`union` start at the same place in memory, and that's the same as where
+the entire `union` is.
+
