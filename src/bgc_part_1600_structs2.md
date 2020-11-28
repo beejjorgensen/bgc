@@ -242,8 +242,108 @@ struct len_string *len_string_from_c_string(char *s)
 }
 ```
 
-## Bitfields
-
 ## Padding Bytes
+
+Beware that C is allowed to add padding bytes within or after a `struct`
+as it sees fit. You can't trust that they will be directly adjacent in
+memory^[Though some compilers have options to force this to
+occur---search for `__attribute__((packed))` to see how to do this with
+GCC.].
+
+Let's take a look at this program. We output two numbers. One is the sum
+of the `sizeof`s the individual field types. The other is the `sizeof`
+the entire `struct`.
+
+One would expect them to be the same. The size of the total is the size
+of the sum of its parts, right?
+
+``` {.c .numberLines}
+#include <stdio.h>
+
+struct foo {
+    int a;
+    char b;
+    int c;
+    char d;
+};
+
+int main(void)
+{
+    printf("%zu\n", sizeof(int) + sizeof(char) + sizeof(int) + sizeof(char));
+    printf("%zu\n", sizeof(struct foo));
+
+    return 0;
+}
+```
+
+But on my system, this outputs:
+
+```
+10
+16
+```
+
+They're not the same! The compiler has added 6 bytes of padding to help
+it be more performant. Maybe you got different output with your
+compiler, but unless you're forcing it, you can't be sure there's no
+padding.
+
+## `offsetof`
+
+In the previous section, we saw that the compiler could inject padding
+bytes at will inside a structure.
+
+What if we needed to know where those were? We can measure it with
+`offsetof`, defined in `<stddef.h>`.
+
+Let's modify the code from above to print the offsets of the individual
+fields in the `struct`:
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <stddef.h>
+
+struct foo {
+    int a;
+    char b;
+    int c;
+    char d;
+};
+
+int main(void)
+{
+    printf("%zu\n", offsetof(struct foo, a));
+    printf("%zu\n", offsetof(struct foo, b));
+    printf("%zu\n", offsetof(struct foo, c));
+    printf("%zu\n", offsetof(struct foo, d));
+
+    return 0;
+}
+```
+
+For me, this outputs:
+
+```
+0
+4
+8
+12
+```
+
+indicating that we're using 4 bytes for each of the fields. It's a
+little weird, because `char` is only 1 byte, right? C is putting 3
+padding bytes after each `char` so that all the fields are 4 bytes long.
+Presumably this will run faster on my CPU.
+
+## Bit-Fields
+
+These are a rarely 
+
+<!--
+packed in
+:0
+unnamed
+int signed or unsigned
+-->
 
 ## Unions
