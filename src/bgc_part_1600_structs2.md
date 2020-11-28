@@ -331,19 +331,175 @@ For me, this outputs:
 ```
 
 indicating that we're using 4 bytes for each of the fields. It's a
-little weird, because `char` is only 1 byte, right? C is putting 3
-padding bytes after each `char` so that all the fields are 4 bytes long.
-Presumably this will run faster on my CPU.
+little weird, because `char` is only 1 byte, right? The compiler is
+putting 3 padding bytes after each `char` so that all the fields are 4
+bytes long. Presumably this will run faster on my CPU.
 
 ## Bit-Fields
 
-These are a rarely 
+In my experience, these are rarely used, but you might see them out
+there from time to time, especially in lower-level applications that
+pack bits together into larger spaces.
 
-<!--
-packed in
-:0
-unnamed
-int signed or unsigned
--->
+Let's take a look at some code to demonstrate a use case:
+
+``` {.c .numberLines}
+#include <stdio.h>
+
+struct foo {
+    unsigned int a;
+    unsigned int b;
+    unsigned int c;
+    unsigned int d;
+};
+
+int main(void)
+{
+    printf("%zu\n", sizeof(struct foo));
+
+    return 0;
+}
+```
+
+For me, this prints `16`. Which makes sense, since `unsigned`s are 4
+bytes on my system.
+
+But what if we knew that all the values that were going to be stored in
+`a` and `b` could be stored in 5 bits, and the values in `c`, and `d`
+could be stored in 3 bits?  That's only a total 16 bits. Why have 128
+bits reserved for them if we're only going to use 16?
+
+Well, we can tell C to pretty-please try to pack these values in. We can
+specify the maximum number of bits that values can take (from 1 up the
+size of the containing type).
+
+We do this by putting a colon after the field name, followed by the
+field width in bits.
+
+``` {.c .numberLines startFrom="3"}
+struct foo {
+    unsigned int a:5;
+    unsigned int b:5;
+    unsigned int c:3;
+    unsigned int d:3;
+};
+```
+
+Now when I ask C how big my `struct foo` is, it tells me 4! It was 16
+bytes, but now it's only 4. It has "packed" those 4 values down into 4
+bytes, which is a four-fold memory savings.
+
+The tradeoff is, of course, that the 5-bit fields can only hold values
+from 0-31 and the 3-bit fields can only hold values from 0-7. But life's
+all about compromise, after all.
+
+### Non-Adjacent Bit-Fields
+
+A gotcha: C will only combine **adjacent** bit-fields. If they're
+interrupted by non-bit-fields, you get no savings:
+
+``` {.c}
+struct foo {            // sizeof(struct foo) == 16 (for me)
+    unsigned int a:1;   // since a is not adjacent to c.
+    unsigned int b;
+    unsigned int c:1;
+    unsigned int d;
+};
+```
+
+A quick rearrangement yields some space savings from 16 bytes down to 12
+bytes (on my system):
+
+``` {.c}
+struct foo {            // sizeof(struct foo) == 12 (for me)
+    unsigned int a:1;
+    unsigned int c:1;
+    unsigned int b;
+    unsigned int d;
+};
+```
+
+Put all your bitfields together to get the compiler to combine them.
+
+### Signed or Unsigned `int`s
+
+If you just declare a bit-field to be `int`, the different compilers
+will treat it as `signed` or `unsigned`. Just like the situation with
+`char`.
+
+Be specific about the signedness when using bit-fields.
+
+### Unnamed Bit-Fields
+
+In some specific circumstances, you might need to reserve some bits for
+hardware reasons, but not need to use them in code.
+
+For example, let's say you have a byte where the top 2 bits have a
+meaning, the bottom 1 bit has a meaning, but the middle 5 bits do not
+get used by you^[Assuming 8-bit `char`s, i.e. `CHAR_BIT == 8`.].
+
+We _could_ do something like this:
+
+``` {.c}
+struct foo {
+    unsigned char a:2;
+    unsigned char dummy:5;
+    unsigned char b:1;
+};
+```
+
+And that works---in our code we use `a` and `b`, but never `dummy`. It's
+just there to eat up 5 bits to make sure `a` and `b` are in the
+"required" (by this contrived example) positions within the byte.
+
+C allows us a way to clean this up: _unnamed bit-fields_. You can just
+leave the name (`dummy`) out in this case, and C is perfectly happy for
+the same effect:
+
+``` {.c}
+struct foo {
+    unsigned char a:2;
+    unsigned char :5;   // <-- unnamed bit-field!
+    unsigned char b:1;
+};
+```
+
+### Zero-Width Unnamed Bit-Fields
+
+Some more esoterica out here... Let's say you were packing bits into an
+`unsigned int`, and you needed some adjacent bit-fields to pack into the
+_next_ `unsigned int`.
+
+That is, if you do this:
+
+``` {.c}
+struct foo {
+    unsigned int a:1;
+    unsigned int b:2;
+    unsigned int c:3;
+    unsigned int d:4;
+};
+```
+
+the compiler packs all those into a single `unsigned int`. But what if
+you needed `a` and `b` in one `int`, and `c` and `d` in a different one?
+
+There's a solution for that: put an unnamed bit-field of width `0` where
+you want the compiler to start anew with packing bits in a different
+`int`:
+
+``` {.c}
+struct foo {
+    unsigned int a:1;
+    unsigned int b:2;
+    unsigned int :0;   // <--Zero-width unnamed bit-field
+    unsigned int c:3;
+    unsigned int d:4;
+};
+```
+
+It's analogous to an explicit page break in a word processor. You're
+telling the compiler, "Stop packing bits in this `unsigned`, and start
+packing them in the next one."
 
 ## Unions
