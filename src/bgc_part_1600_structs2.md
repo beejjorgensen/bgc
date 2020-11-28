@@ -103,23 +103,28 @@ Here's a cheesy linked list program to test it out:
 
 ``` {.c .numberLines}
 #include <stdio.h>
+#include <stdlib.h>
 
 struct node {
     int data;
-    struct node next;
+    struct node *next;
 };
 
 int main(void)
 {
-    struct node head = {.data=11}, n1 = {.data=22}, n2 = {.data=33};
+    struct node *head;
 
-    // Set up the linked list
-    head.next = &n1;
-    n1.next = &n2;
-    n2.next = NULL;
+    // Hackishly set up a linked list (11)->(22)->(33)
+    head = malloc(sizeof(struct node));
+    head->data = 11;
+    head->next = malloc(sizeof(struct node));
+    head->next->data = 22;
+    head->next->next = malloc(sizeof(struct node));
+    head->next->next->data = 33;
+    head->next->next->next = NULL;
 
     // Traverse it
-    for (struct node *cur = &head; cur != NULL; cur = cur->next) {
+    for (struct node *cur = head; cur != NULL; cur = cur->next) {
         printf("%d\n", cur->data);
     }
 
@@ -134,6 +139,8 @@ there another way.
 ## Flexible Array Members
 
 
-    * Bitfields
-    * Padding bytes
-    * Unions
+## Bitfields
+
+## Padding bytes
+
+## Unions
