@@ -3011,3 +3011,54 @@ them as you see fit!
 
 
 
+# Wide Char Notes
+
+Source character set
+    Basic character set  | Extended character set
+    Extended characters  |
+
+Execution character set
+    Basic character set  | Extended character set
+    Extended characters  |
+
+character, char: fits in a byte
+
+multibyte character: sequence of one or more bytes representing a member
+of the extended character set (S or E)
+
+    'x'
+
+wide character, wchar_t: value can represent any character in locale.
+These are 32-bit that represent the code point for the character.
+
+    L'x'  wchar_t
+    u'x'  char16_t
+    U'x'  char32_t
+
+char16_t
+char32_t
+
+locale
+
+\unnnn
+\Unnnnnnnn
+
+String encoding prefixes:
+
+    UTF-8 string literal
+        u8"foo" char
+
+    Wide string literals
+        L"foo"  wchar_t
+        u"foo"  char16_t
+        U"foo"  char32_t
+
+mblen
+mbtowc
+mbstowcs
+
+wctomb
+wcctombs
+
+The wide output only works if the stream is wide-oriented fwide()
+    Stdout on Linux isn't, it seems.
