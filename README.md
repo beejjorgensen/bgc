@@ -140,7 +140,9 @@ have to consider any copyright issues when merging changes.
     * Bitfields
     * Padding bytes
     * Unions
-  * Enum
+  * Characters and Strings II
+    * Escape sequences
+    * `'abc'` integer character constants
   * Pointers III
     * Pointers to pointers
     * Pointers to functions
@@ -149,6 +151,7 @@ have to consider any copyright issues when merging changes.
     * ptrdiff_t
     * unnamed objects
     * Iterating through bytes of an object
+  * Enum
   * Arrays II
     * static const
     * Equivalent initializers 6.7.9p29
@@ -164,11 +167,9 @@ have to consider any copyright issues when merging changes.
   * Signals
   * Bitwise operations
   * Preprocessor II
-  * Characters and Strings II
-    * Escape sequences
-    * `'abc'` integer character constants
   * Goto
     * Labels
+  * Locale, Wide and multibyte characters
   * Incomplete types
   * lvalues
   * More man pages
