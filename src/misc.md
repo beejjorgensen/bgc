@@ -3062,3 +3062,153 @@ wcctombs
 
 The wide output only works if the stream is wide-oriented fwide()
     Stdout on Linux isn't, it seems.
+
+
+## Types
+
+wchar_t
+
+mbstate_t
+* Used for mb<->wide conversion
+
+wint_t
+
+* which is an integer type unchanged by default argument promotions that
+  can hold any value corresponding to members of the extended character
+  set, as well as at least one value that does not correspond to any
+  member of the extended character set
+    
+WEOF
+
+    wide EOF
+
+## Function groups:
+
+* Functions that perform input and output of wide characters, or
+  multibyte characters, or both;
+* Functions that provide wide string numeric conversion;
+* Functions that perform general wide string manipulation;
+* Functions for wide string date and time conversion; and
+* Functions that provide extended capabilities for conversion between
+  multibyte and wide character sequences.
+
+## I/O:
+
+* int fwprintf(FILE * restrict stream, const wchar_t * restrict format, ...);
+
+  * Characters from the array are converted as if by repeated calls to
+    the mbrtowc function, with the conversion state described by an
+    mbstate_t object initialized to zero before the first multibyte
+    character is converted
+
+* int fwscanf(FILE * restrict stream, const wchar_t * restrict format,
+  ...);
+
+* int swprintf(wchar_t * restrict s, size_t n, const wchar_t * restrict
+  format, ...);
+
+* int swscanf(const wchar_t * restrict s, const wchar_t * restrict
+  format, ...);
+
+* int vfwprintf(FILE * restrict stream, const wchar_t * restrict format,
+  va_list arg);
+
+* int vfwscanf(FILE * restrict stream, const wchar_t * restrict format,
+  va_list arg);
+
+* int vswprintf(wchar_t * restrict s, size_t n, const wchar_t * restrict
+  format, va_list arg);
+
+* int vswscanf(const wchar_t * restrict s, const wchar_t * restrict
+  format, va_list arg);
+
+* int vwprintf(const wchar_t * restrict format, va_list arg);
+
+* int vwscanf(const wchar_t * restrict format, va_list arg);
+
+* int wprintf(const wchar_t * restrict format, ...);
+
+* int wscanf(const wchar_t * restrict format, ...);
+
+* wint_t fgetwc(FILE *stream);
+
+* wchar_t *fgetws(wchar_t * restrict s, int n, FILE * restrict stream);
+
+* wint_t fputwc(wchar_t c, FILE *stream);
+
+* int fputws(const wchar_t * restrict s, FILE * restrict stream);
+
+* int fwide(FILE *stream, int mode);
+
+* wint_t getwc(FILE *stream);
+
+* wint_t getwchar(void);
+
+* wint_t putwc(wchar_t c, FILE *stream);
+
+* wint_t putwchar(wchar_t c);
+
+* wint_t ungetwc(wint_t c, FILE *stream);
+
+## Conversion Functions
+
+* double wcstod(const wchar_t * restrict nptr, wchar_t ** restrict endptr);
+* float wcstof(const wchar_t * restrict nptr, wchar_t ** restrict endptr);
+* long double wcstold(const wchar_t * restrict nptr, wchar_t ** restrict endptr);
+
+* long int wcstol(const wchar_t * restrict nptr, wchar_t ** restrict endptr, int base);
+* long long int wcstoll(const wchar_t * restrict nptr, wchar_t ** restrict endptr, int base);
+* unsigned long int wcstoul(const wchar_t * restrict nptr, wchar_t ** restrict endptr, int base);
+* unsigned long long int wcstoull(const wchar_t * restrict nptr, wchar_t ** restrict endptr, int base);
+
+## Copying
+
+* wchar_t *wcscpy(wchar_t * restrict s1, const wchar_t * restrict s2);
+
+* wchar_t *wcsncpy(wchar_t * restrict s1, const wchar_t * restrict s2, size_t n);
+* wchar_t *wmemcpy(wchar_t * restrict s1, const wchar_t * restrict s2, size_t n);
+
+* wchar_t *wmemmove(wchar_t *s1, const wchar_t *s2, size_t n);
+* wchar_t *wcscat(wchar_t * restrict s1, const wchar_t * restrict s2);
+* wchar_t *wcsncat(wchar_t * restrict s1, const wchar_t * restrict s2,
+  size_t n);
+
+## Comparing
+
+* int wcscmp(const wchar_t *s1, const wchar_t *s2);
+* int wcscoll(const wchar_t *s1, const wchar_t *s2);
+
+* int wcsncmp(const wchar_t *s1, const wchar_t *s2, size_t n);
+* size_t wcsxfrm(wchar_t * restrict s1, const wchar_t * restrict s2, size_t n);
+* int wmemcmp(const wchar_t *s1, const wchar_t *s2, size_t n);
+
+## Searching
+
+* wchar_t *wcschr(const wchar_t *s, wchar_t c);
+* size_t wcscspn(const wchar_t *s1, const wchar_t *s2);
+* wchar_t *wcspbrk(const wchar_t *s1, const wchar_t *s2);
+* wchar_t *wcsrchr(const wchar_t *s, wchar_t c);
+* size_t wcsspn(const wchar_t *s1, const wchar_t *s2);
+* wchar_t *wcsstr(const wchar_t *s1, const wchar_t *s2);
+* wchar_t *wcstok(wchar_t * restrict s1, const wchar_t * restrict s2, wchar_t ** restrict ptr);
+* wchar_t *wmemchr(const wchar_t *s, wchar_t c, size_t n);
+
+## Length and Misc
+
+* size_t wcslen(const wchar_t *s);
+* wchar_t *wmemset(wchar_t *s, wchar_t c, size_t n);
+* size_t wcsftime(wchar_t * restrict s, size_t maxsize, const wchar_t * restrict format, const struct tm * restrict timeptr);
+
+## String Conversions
+
+* wint_t btowc(int c);
+* int wctob(wint_t c);
+* int mbsinit(const mbstate_t *ps);
+* size_t mbrlen(const char * restrict s, size_t n, mbstate_t * restrict ps);
+* size_t mbrtowc(wchar_t * restrict pwc, const char * restrict s, size_t n, mbstate_t * restrict ps);
+* size_t wcrtomb(char * restrict s, wchar_t wc, mbstate_t * restrict ps);
+* size_t mbsrtowcs(wchar_t * restrict dst, const char ** restrict src, size_t len, mbstate_t * restrict ps);
+* size_t wcsrtombs(char * restrict dst, const wchar_t ** restrict src, size_t len, mbstate_t * restrict ps);
+
+
+7.30.2
