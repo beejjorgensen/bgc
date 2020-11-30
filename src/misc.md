@@ -3095,59 +3095,37 @@ WEOF
 ## I/O:
 
 * int fwprintf(FILE * restrict stream, const wchar_t * restrict format, ...);
-
   * Characters from the array are converted as if by repeated calls to
     the mbrtowc function, with the conversion state described by an
     mbstate_t object initialized to zero before the first multibyte
     character is converted
-
 * int fwscanf(FILE * restrict stream, const wchar_t * restrict format,
   ...);
-
 * int swprintf(wchar_t * restrict s, size_t n, const wchar_t * restrict
   format, ...);
-
 * int swscanf(const wchar_t * restrict s, const wchar_t * restrict
   format, ...);
-
 * int vfwprintf(FILE * restrict stream, const wchar_t * restrict format,
   va_list arg);
-
 * int vfwscanf(FILE * restrict stream, const wchar_t * restrict format,
   va_list arg);
-
 * int vswprintf(wchar_t * restrict s, size_t n, const wchar_t * restrict
   format, va_list arg);
-
 * int vswscanf(const wchar_t * restrict s, const wchar_t * restrict
   format, va_list arg);
-
 * int vwprintf(const wchar_t * restrict format, va_list arg);
-
 * int vwscanf(const wchar_t * restrict format, va_list arg);
-
 * int wprintf(const wchar_t * restrict format, ...);
-
 * int wscanf(const wchar_t * restrict format, ...);
-
 * wint_t fgetwc(FILE *stream);
-
 * wchar_t *fgetws(wchar_t * restrict s, int n, FILE * restrict stream);
-
 * wint_t fputwc(wchar_t c, FILE *stream);
-
 * int fputws(const wchar_t * restrict s, FILE * restrict stream);
-
 * int fwide(FILE *stream, int mode);
-
 * wint_t getwc(FILE *stream);
-
 * wint_t getwchar(void);
-
 * wint_t putwc(wchar_t c, FILE *stream);
-
 * wint_t putwchar(wchar_t c);
-
 * wint_t ungetwc(wint_t c, FILE *stream);
 
 ## Conversion Functions
@@ -3210,5 +3188,51 @@ WEOF
 * size_t mbsrtowcs(wchar_t * restrict dst, const char ** restrict src, size_t len, mbstate_t * restrict ps);
 * size_t wcsrtombs(char * restrict dst, const wchar_t ** restrict src, size_t len, mbstate_t * restrict ps);
 
+## Character Classification
 
-7.30.2
+`<wctype.h>`
+
+* int iswalnum(wint_t wc);
+* int iswalpha(wint_t wc);
+* int iswblank(wint_t wc);
+* int iswcntrl(wint_t wc);
+* int iswdigit(wint_t wc);
+* int iswgraph(wint_t wc);
+* int iswlower(wint_t wc);
+* int iswprint(wint_t wc);
+* int iswpunct(wint_t wc);
+* int iswspace(wint_t wc);
+* int iswupper(wint_t wc);
+* int iswxdigit(wint_t wc);
+* int iswctype(wint_t wc, wctype_t desc);
+  * iswctype(wc, wctype("alnum")) // iswalnum(wc)
+  * iswctype(wc, wctype("alpha")) // iswalpha(wc)
+  * iswctype(wc, wctype("blank")) // iswblank(wc)
+  * iswctype(wc, wctype("cntrl")) // iswcntrl(wc)
+  * iswctype(wc, wctype("digit")) // iswdigit(wc)
+  * iswctype(wc, wctype("graph")) // iswgraph(wc)
+  * iswctype(wc, wctype("lower")) // iswlower(wc)
+  * iswctype(wc, wctype("print")) // iswprint(wc)
+  * iswctype(wc, wctype("punct")) // iswpunct(wc)
+  * iswctype(wc, wctype("space")) // iswspace(wc)
+  * iswctype(wc, wctype("upper")) // iswupper(wc)
+  * iswctype(wc, wctype("xdigit")) // iswxdigit(wc)
+* wctype_t wctype(const char *property);
+* wint_t towlower(wint_t wc);
+* wint_t towupper(wint_t wc);
+* wint_t towctrans(wint_t wc, wctrans_t desc);
+  * towctrans(wc, wctrans("tolower")) // towlower(wc)
+  * towctrans(wc, wctrans("toupper")) // towupper(wc)
+* wctrans_t wctrans(const char *property);
+
+## Unicode Utils
+
+`<uchar.h>`
+
+* size_t mbrtoc16(char16_t * restrict pc16, const char * restrict s, size_t n, mbstate_t * restrict ps);
+* size_t c16rtomb(char * restrict s, char16_t c16, mbstate_t * restrict ps);
+* size_t mbrtoc32(char32_t * restrict pc32, const char * restrict s, size_t n, mbstate_t * restrict ps);
+* size_t c32rtomb(char * restrict s, char32_t c32, mbstate_t * restrict ps);
+
+
+
