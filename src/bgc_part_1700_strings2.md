@@ -10,7 +10,16 @@ types... but it's the same for a character in single quotes.
 
 But a string in double quotes is type `const char *`.
 
+Turns out there are few more types of strings and characters, and it
+leads down one of the most infamous rabbit holes in the language: the
+whole multibyte/wide/Unicode/localization thingy.
+
+We're going to peer into that rabbit hole, but not go in. ...Yet!
+
 ## Escape Sequences
 
-## Multicharacter Constants
 
+
+
+
+## String and Character Types
