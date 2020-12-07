@@ -3,17 +3,10 @@
 
 size_t strlen_u8(const char *s)
 {
-    const unsigned char *p = (const unsigned char *)s;
     size_t count = 0;
 
-    while (*p != '\0') {
-        const unsigned char t = (*p>>4) == 0xe;
-        const unsigned char x = (*p>>4) == 0xf;
-        const unsigned char y = ((*p>>5) == 0x6) | t;
-        const unsigned char z = ((*p>>7) == 0x0) | t;
-
-        p += x << 2 | y << 1 | z;
-        count++;
+    for (const char *p = s; *p != '\0'; p++) {
+        if ((*p & 0xC0) != 0x80) count++;
     }
 
     return count;
@@ -38,11 +31,3 @@ int main(void)
 
     return 0;
 }
-
-/*
-ABCD  XYZ
-0xxx  001
-110x  010
-1110  011
-1111  100
-*/
