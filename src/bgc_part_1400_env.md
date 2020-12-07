@@ -516,4 +516,4 @@ This isn't standard, but a lot of systems provide ways to set
 environment variables.
 
 If on a Unix-like, look up the documentation for `putenv()`, `setenv()`,
-and `unsetenv`. On Windows, see `_putenv()`.
+and `unsetenv()`. On Windows, see `_putenv()`.
