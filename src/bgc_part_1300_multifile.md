@@ -175,9 +175,13 @@ It's not uncommon that a header file will itself `#include` other
 headers needed for the functionality of its corresponding C files. I
 mean, why not?
 
-But we might get into a crazy situation where header `a.h` includes
-header `b.h`, and `b.h` includes `a.h`! It's an `#include` infinite
-cycle!
+And it could be that you have a header `#include`d multiple times from
+different places. Maybe that's no problem, but maybe it would cause
+compiler errors. And we can't control how many places `#include` it!
+
+Even, worse we might get into a crazy situation where header `a.h`
+includes header `b.h`, and `b.h` includes `a.h`! It's an `#include`
+infinite cycle!
 
 Trying to build such a thing gives an error:
 
@@ -200,6 +204,10 @@ For that variable name, it's super common to take the name of the header
 file, like `bar.h`, make it uppercase, and replace the period with an
 underscore: `BAR_H`.
 
+So put a check at the very, very top of the file where you see if it's
+already been included, and effectively comment the whole thing out if it
+has.
+
 (Don't put a leading underscore (because a leading underscore followed
 by a capital letter is reserved) or a double leading underscore (because
 that's also reserved.))
@@ -216,7 +224,7 @@ int add(int, int);
 ```
 
 This will effectively cause the header file to be included only a single
-time, breaking any `#include` loops you'll find.
+time, no matter how many places try to `#include` it.
 
 ## `static` and `extern`
 
