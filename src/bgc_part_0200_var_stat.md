@@ -772,3 +772,126 @@ for(;;) {  // "forever"
     printf("for all eternity until the cold-death of the universe.\n");
 }
 ```
+
+### The `switch` Statement
+
+Depending on what languages you're coming from, you might or might not
+be familiar with `switch`, or C's version might even be more restrictive
+than you're used to. This is a statement that allows you to take a
+variety of actions depending on the value of an integer expression.
+
+Basically, it evaluates an expression to an integer value, jumps to the
+`case` that corresponds to that value. Execution resumes from that
+point. If a `break` statement is encountered, then execution jumps out
+of the `switch`.
+
+Let's do an example where the user enters a number of goats and we print
+out a gut-feel of how many goats that is.
+
+``` {.c .numberLines}
+#include <stdio.h>
+
+int main(void)
+{
+    int goat_count;
+
+    printf("Enter a goat count: ");
+    scanf("%d", &goat_count);       // Read an integer from the keyboard
+
+    switch (goat_count) {
+        case 0:
+            printf("You have no goats.\n");
+            break;
+
+        case 1:
+            printf("You have a singular goat.\n");
+            break;
+
+        case 2:
+            printf("You have a brace of goats.\n");
+            break;
+
+        default:
+            printf("You have a bona fide plethora of goats!\n");
+            break;
+    }
+
+    return 0;
+}
+```
+
+In that example, if the user enters, say, `2`, the `switch` will jump to
+the `case 2` and execute from there. When (if) it hits a `break`, it
+jumps out of the `switch`.
+
+Also, you might see that `default` label there at the bottom. This is
+what happens when no cases match.
+
+Every `case`, including `default`, is optional. And they can occur in
+any order, but it's really typical for `default`, if any, to be listed
+last.
+
+So the whole thing acts like an `if`-`else` cascade:
+
+``` {.c}
+if (goat_count == 0)
+    printf("You have no goats.\n");
+else if (goat_count == 1)
+    printf("You have a singular goat.\n");
+else if (goat_count == 2)
+    printf("You have a brace of goats.\n");
+else:
+    printf("You have a bona fide plethora of goats!\n");
+```
+
+With some key differences:
+
+* `switch` is often faster to jump to the correct code (though the spec
+  makes no such guarantee).
+* `if`-`else` can do things like relational conditionals like `<` and
+  `>=` and floating point and other types, while `switch` cannot.
+
+There's one more neat thing about switch that you sometimes see that is
+quite interesting: _fall through_.
+
+Remember how `break` causes us to jump out of the switch?
+
+Well, what happens if we _don't_ `break`?
+
+Turns out we just keep on going into the next `case`! Demo!
+
+``` {.c}
+switch (x) {
+    case 1:
+        printf("1\n");
+        // fall through!
+    case 2:
+        printf("2\n");
+        break;
+    case 3:
+        printf("3\n");
+        break;
+}
+```
+
+If `x == 1`, this `switch` will first hit `case 1`, it'll print the `1`,
+but then it just continues on to the next line of code... which prints
+`2`!
+
+And then, at last, we hit a `break` so we jump out of the `switch`.
+
+if `x == 2`, then we just it the `case 2`, print `2`, and `break` as
+normal.
+
+Not having a `break` is called _fall through_.
+
+ProTip: _ALWAYS_ put a comment in the code where you intend to fall
+through, like I did above. It will save other programmers from wondering
+if you meant to do that.
+
+In fact, this is one of the common places to introduce bugs in C
+programs: forgetting to put a `break` in your `case`. You gotta do it if
+you don't want to just roll into the next case^[This was considered
+such hazard that the designers of the Go Programming Language made
+`break` the default; you have to explicitly use Go's `fallthrough`
+statement if you want to fall into the next case.].
