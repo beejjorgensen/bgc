@@ -269,5 +269,3 @@ printf("\U00002022 Bullet 1\n");
 ```
 
 But who has time to be that verbose?
-
-## String and Character Types
