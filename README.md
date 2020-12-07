@@ -170,6 +170,8 @@ have to consider any copyright issues when merging changes.
   * Goto
     * Labels
   * Locale, Wide and multibyte characters
+    * UTF-8 best practices
+    * Constant string and char types
   * Incomplete types
   * lvalues
   * More man pages
