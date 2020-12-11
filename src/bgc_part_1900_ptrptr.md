@@ -118,8 +118,19 @@ hex).
 |`p`|`0x7ffd96a07b98`|`0x7ffd96a07b94`---the address of `x`!|
 |`q`|`0x7ffd96a07ba0`|`0x7ffd96a07b98`---the address of `p`!|
 
-You can see those addresses are the same except the last byte---the
-values grow by 4 bytes each time, because that's the size  [TODO]
+You can see those addresses are the same except the last byte, so just
+focus on those.
+
+On my system, `int`s are 4 bytes, which is why we're seeing the address
+go up by 4 from `x` to `p`^[There is absolutely nothing in the spec that
+says this will always work this way, but it happens to work this way on
+my system.] and then goes up by 8 from `p` to `q`. On my system, all
+pointers are 8 bytes.
+
+Does it matter if it's an `int*` or an `int**`? Is one more bytes than
+the other? Nope! Remember that all pointers are addresses, that is
+indexes into memory. And on my machine you can represent an index with 8
+bytes... doesn't matter what's stored at that index.
 
 Now check out what we did there on line 9 of the previous example: we
 _double dereferenced_ `q` to get back to our `3490`.
@@ -176,6 +187,89 @@ int *****t = &s;  // Type: int *****
 ```
 
 ### Pointer Pointers and `const`
+
+If you recall, declaring a pointer like this:
+
+``` {.c}
+int *const p;
+```
+
+means that you can't modify `p`. Trying to `p++` would give you a
+compile-time error.
+
+But how does that work with `int **` or `int ***`? Where does the
+`const` go, and what does it mean?
+
+Let's start with the simple bit. The `const` right next to the variable
+name refers to that variable. So if you want an `int***` that you can't
+change, you can do this:
+
+``` {.c}
+int ***const p;
+
+p++;  // Not allowed
+```
+
+But here's where things get a little weird.
+
+What if we had this situation:
+
+``` {.c .numberLines}
+int main(void)
+{
+    int x = 3490;
+    int *const p = &x;
+    int **q = &p;
+
+    return 0;
+}
+```
+
+When I build that, I get a warning:
+
+```
+warning: initialization discards ‘const’ qualifier from pointer target type
+    7 |     int **q = &p;
+      |               ^
+```
+
+What's going on? The 
+
+That is, we're saying that q is type `int **`, and if you dereference
+that, the rightmost `*` in the type goes away. So after the dereference,
+we have type `int *`.
+
+And we're assigning `&p` into it which is _a pointer to_ an `int
+*const`, or, in other words, `int *const *`.
+
+But `q` is `int **`! A type with different `const`ness on the first
+`*`! So we get a warning that the `const` in `p`'s `int *const *` is
+being ignored and thrown away.
+
+We can fix that by making sure `q`'s type is at least as `const` as `p`.
+
+``` {.c}
+int x = 3490;
+int *const p = &x;
+int *const *q = &p;
+```
+
+And now we're happy.
+
+We could make `q` even more `const`. As it is, above, we're saying, "`q`
+isn't itself `const`, but the thing it points to is `const`." But we
+could make them both `const`:
+
+```
+int x = 3490;
+int *const p = &x;
+int *const *const q = &p;  // More const!
+```
+
+And that works, too. Now we can't modify `q`, or the pointer `q` points
+to.
+
+## Multibyte Values
 
 
 
