@@ -147,10 +147,10 @@ have to consider any copyright issues when merging changes.
     * Pointers to pointers
     * Pointers to functions
     * Pointer integer types
+    * Iterating through bytes of an object
     * NULL is 0
     * ptrdiff_t
     * unnamed objects
-    * Iterating through bytes of an object
   * Enum
   * Arrays II
     * static const
