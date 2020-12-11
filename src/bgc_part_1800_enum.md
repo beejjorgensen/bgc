@@ -42,10 +42,11 @@ They start at `0`, and autoincrement up from there, by default:
 
 ``` {.c}
 enum {
-  SHEEP,  // Value is 0
-  WOOL,   // Value is 1
-  BRICK,  // Value is 2
-  WHEAT   // Value is 3
+    SHEEP,  // Value is 0
+    WHEAT,  // Value is 1
+    WOOD,   // Value is 2
+    BRICK,  // Value is 3
+    ORE     // Value is 4
 };
 
 printf("%d %d\n", SHEEP, BRICK);  // 0 2
@@ -127,8 +128,79 @@ declare variables of that type.
 
 Now, since `enum`s are integer types, why not just use `int`?
 
-It's true: it'll work if you just store them in `int`s. But the compiler
-can tell you if you try to store a literal value in an `enum` that's out
-of range.
+In C, the best reason for this is code clarity--it's a nice, typed way
+to describe your thinking in code. C (unlike C++) doesn't actually
+enforce any values being in range for a particular `enum`.
 
-Let's do an example
+Let's do an example where we declare a variable `r` of type `enum
+resource` that can hold those values:
+
+``` {.c}
+// Named enum, type is "enum resource"
+
+enum resource {
+    SHEEP,
+    WHEAT,
+    WOOD,
+    BRICK,
+    ORE
+};
+
+// Declare a variable "r" of type "enum resource"
+
+enum resource r = BRICK;
+
+if (r == BRICK) {
+    printf("I'll trade you a brick for two sheep.\n");
+}
+```
+
+You can also `typedef` these, of course, though I personally don't like
+to.
+
+
+``` {.c}
+typedef enum {
+    SHEEP,
+    WHEAT,
+    WOOD,
+    BRICK,
+    ORE
+} RESOURCE;
+
+RESOURCE r = BRICK;
+```
+
+Another shortcut that's legal but rare is to declare variables when you
+declare the `enum`:
+
+``` {.c}
+// Declare an enum and some initialized variables of that type:
+
+enum {
+    SHEEP,
+    WHEAT,
+    WOOD,
+    BRICK,
+    ORE
+} r = BRICK, s = WOOD;
+```
+
+You can also give the `enum` a name so you can use it later, which is
+probably what you want to do in most cases:
+
+
+``` {.c}
+// Declare an enum and some initialized variables of that type:
+
+enum resource {   // <-- type is now "enum resource"
+    SHEEP,
+    WHEAT,
+    WOOD,
+    BRICK,
+    ORE
+} r = BRICK, s = WOOD;
+```
+
+In short, `enum`s are a great way to write nice, scoped, typed, clean
+code.
