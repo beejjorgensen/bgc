@@ -1,0 +1,182 @@
+<!-- Beej's guide to C
+
+# vim: ts=4:sw=4:nosi:et:tw=72
+-->
+
+# Pointers III: Pointers to Pointers and More
+
+Here's where we cover some intermediate and advanced pointer usage. If
+you don't have pointers down well, review the previous chapters on
+[pointers](#pointers) and [pointer arithmetic](#pointers2) before
+starting on this stuff.
+
+## Pointers to Pointers
+
+If you can have a pointer to a variable, and a variable can be a
+pointer, can you have a pointer to a variable that it itself a pointer?
+
+Yes! This is a pointer to a pointer, and it's held in variable of type
+pointer-pointer. 
+
+Before we tear into that, I want to try for a _gut feel_ for how
+pointers to pointers work.
+
+Remember that a pointer is just a number. It's a number that represents
+an index in computer memory, typically one that holds a value we're
+interested in for some reason.
+
+That pointer, which is a number, has to be stored somewhere. And that
+place is memory, just like everything else^[There's some devil in the
+details with values that are stored in registers only, but we can safely
+ignore that for our purposes here. Also the C spec makes no stance on
+these "register" things beyond the `register` keyword, the description
+for which doesn't mention registers.].
+
+But because it's stored in memory, it must have an index it's stored at,
+right? The pointer must have an index in memory where it is stored. And
+that index is a number. It's the address of the pointer. It's a pointer
+to the pointer.
+
+Let's start with a regular pointer to an `int`, back from the earlier
+chapters:
+
+``` {.c .numberLines}
+#include <stdio.h>
+
+int main(void)
+{
+    int x = 3490;  // Type: int
+    int *p = &x;   // Type: pointer to an int
+
+    printf("%d\n", *p);  // 3490
+
+    return 0;
+}
+```
+
+Straightforward enough, right? We have two types represented: `int` and
+`int*`, and we set up `p` to point to `x`. Then we can dereference `p`
+on line 8 and print out the value `3490`.
+
+But, like we said, we can have a pointer to any variable... so does that
+mean we can have a pointer to `p`?
+
+In other words, what type is this expression?
+
+
+``` {.c}
+int x = 3490;  // Type: int
+int *p = &x;   // Type: pointer to an int
+
+&p  // <-- What type is the address of p? AKA a pointer to p?
+```
+
+If `x` is an `int`, then `&x` is a pointer to an `int` that we've stored
+in `p` which is type `int*`. Follow? (Repeat this paragraph until you
+do!)
+
+And therefore `&p` is a pointer to an `int*`, AKA a "pointer to a
+pointer to an `int`". AKA "`int`-pointer-pointer".
+
+Got it? (Repeat the previous paragraph until you do!)
+
+We write this type with two asterisks: `int **`. Let's see it in action.
+
+``` {.c .numberLines}
+#include <stdio.h>
+
+int main(void)
+{
+    int x = 3490;  // Type: int
+    int *p = &x;   // Type: pointer to an int
+    int **q = &p;  // Type: pointer to pointer to int
+
+    printf("%d %d\n", *p, **q);  // 3490 3490
+
+    return 0;
+}
+```
+
+Let's make up some pretend addresses for the above values as examples
+and see what these three variables might look like in memory. The
+address values, below are just made up by me for example purposes:
+
+|Variable|Stored at Address|Value Stored There|
+|-|-|-|
+|`x`|`28350`|`3490`---the value from the code|
+|`p`|`29122`|`28350`---the address of `x`!|
+|`q`|`30840`|`29122`---the address of `p`!|
+
+Indeed, let's try it for real on my computer^[You're very likely to get
+different numbers on yours.] and print out the pointer values with `%p`
+and I'll do the same table again with actual references (printed in
+hex).
+
+|Variable|Stored at Address|Value Stored There|
+|-|-|-|
+|`x`|`0x7ffd96a07b94`|`3490`---the value from the code|
+|`p`|`0x7ffd96a07b98`|`0x7ffd96a07b94`---the address of `x`!|
+|`q`|`0x7ffd96a07ba0`|`0x7ffd96a07b98`---the address of `p`!|
+
+You can see those addresses are the same except the last byte---the
+values grow by 4 bytes each time, because that's the size  [TODO]
+
+Now check out what we did there on line 9 of the previous example: we
+_double dereferenced_ `q` to get back to our `3490`.
+
+This is the important bit about pointers and pointers to pointers:
+
+* You can get a pointer to anything with `&` (including to a pointer!)
+* You can get the thing a pointer points to with `*` (including a
+  pointer!)
+
+So you can think of `&` as being used to make pointers, and `*` being
+the inverse---it goes the opposite direction of `&`---to get to the
+thing pointed to.
+
+In terms of type, each time you `&`, that adds another pointer level to
+the type.
+
+|If you have|Then you run|The result type is|
+|:-|:-:|:-|
+|`int x`|`&x`|`int *`|
+|`int *x`|`&x`|`int **`|
+|`int **x`|`&x`|`int ***`|
+|`int ***x`|`&x`|`int ****`|
+
+And each time you use dereference (`*`), it does the opposite:
+
+|If you have|Then you run|The result type is|
+|:-|:-:|:-|
+|`int ****x`|`*x`|`int ***`|
+|`int ***x`|`*x`|`int **`|
+|`int **x`|`*x`|`int *`|
+|`int *x`|`*x`|`int`|
+
+Note that you can use multiple `*`s in a row to quickly dereference,
+just like we saw in the example code with `**q`, above. Each one strips
+away one level of indirection.
+
+|If you have|Then you run|The result type is|
+|:-|:-:|:-|
+|`int ****x`|`***x`|`int *`|
+|`int ***x`|`**x`|`int *`|
+|`int **x`|`**x`|`int`|
+
+But `&` doesn't work the same way---you can only do those one at a time,
+and have to store the result in an intermediate variable:
+
+``` {.c}
+int x = 3490;     // Type: int
+int *p = &x;      // Type: int *, pointer to an int
+int **q = &p;     // Type: int **, pointer to pointer to int
+int ***r = &q;    // Type: int ***, pointer to pointer to pointer to int
+int ****s = &r;   // Type: int ****, you get the idea
+int *****t = &s;  // Type: int *****
+```
+
+### Pointer Pointers and `const`
+
+
+
+
