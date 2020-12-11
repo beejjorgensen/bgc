@@ -271,6 +271,27 @@ to.
 
 ## Multibyte Values
 
+We kinda hinted at this in a variety of places earlier, but clearly not
+every value can be stored in a single byte of memory. Things take up
+multiple bytes of memory (assuming they're not `char`s). You can tell
+how many bytes by using `sizeof`. And you can tell which address in
+memory is the _first_ byte of the object by using the standard `&`
+operator, which always returns the address of the first byte.
 
+And here's another fun fact! If you iterate over the bytes of any
+object, you can copy
+Let's 
 
+``` {.c}
+void *my_memcpy(void *dest, const void *src, size_t n)
+{
+    const unsigned char *s = src;
+    char *d = dest;
+
+    while (n-- > 0)
+        *d++ = *s++;
+
+    return dest;
+}
+```
 
