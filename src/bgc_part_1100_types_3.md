@@ -421,6 +421,39 @@ int compar(const void *elem1, const void *elem2)
 }
 ```
 
+One place you'll see casts more commonly is to avoid a warning when
+printing pointer values with the rarely-used `%p` which gets picky with
+anything other than a `void*`:
+
+``` {.c}
+int x = 3490;
+int *p = &x;
+
+printf("%p\n", p);
+```
+
+generates this warning:
+
+```
+warning: format ‘%p’ expects argument of type ‘void *’, but argument
+         2 has type ‘int *’
+```
+
+You can fix it with a cast:
+
+``` {.c}
+printf("%p\n", (void *)p);
+```
+
+Another place is with explicit pointer changes, if you don't want to use
+an intervening `void*`, but these are also pretty uncommon:
+
+``` {.c}
+long x = 3490;
+long *p = &x;
+unsigned char *c = (unsigned char *)p;
+```
+
 Again, casting is rarely _needed_ in practice. If you find yourself
 casting, there might be another way to do the same thing, or maybe
 you're casting unnecessarily.
