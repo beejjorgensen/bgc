@@ -461,7 +461,7 @@ Your implementation might define these, as well. Or it might not.
 |`__STDC_ISO_10646__`|If defined, `wchar_t` holds Unicode values, otherwise something else|
 |`__STDC_MB_MIGHT_NEQ_WC__`|A `1` indicates that the values in multibyte characters might not map equally to values in wide characters|
 |`__STDC_UTF_16__`|A `1` indicates that the system uses UTF-16 encoding in type `char16_t`|
-|`__STDC_UTF_16__`|A `1` indicates that the system uses UTF-16 encoding in type `char16_t`|
+|`__STDC_UTF_32__`|A `1` indicates that the system uses UTF-32 encoding in type `char32_t`|
 |`__STDC_ANALYZABLE__`|A `1` indicates the code is analyzable^[OK, I know that was a cop-out answer. Basically there's an optional extension compilers can implement wherein they agree to limit certain types of undefined behavior so that the C code is more amenable to static code analysis. It is unlikely you'll need to use this.]|
 |`__STDC_IEC_559__`|`1` if IEEE-754 (aka IEC 60559) floating point is supported|
 |`__STDC_IEC_559_COMPLEX__`|`1` if IEC 60559 complex floating point is supported|
