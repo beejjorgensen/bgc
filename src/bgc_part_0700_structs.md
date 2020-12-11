@@ -211,3 +211,21 @@ So when accessing fields. when do we use dot and when do we use arrow?
 
 * If you have a `struct`, use dot (`.`).
 * If you have a pointer to a `struct`, use arrow (`->`).
+
+## Copying and Returning `struct`s
+
+Here's an easy one for you!
+
+Just assign from one to the other!
+
+``` {.c}
+struct a, b;
+
+b = a;  // Copy the struct
+```
+
+And returning a `struct` (as opposed to a pointer to one) from a
+function also makes a similar copy to the receiving variable.
+
+This is not a "deep copy". All fields are copied as-is, including
+pointers to things.
