@@ -3236,3 +3236,29 @@ WEOF
 
 
 
+
+## Unnamed Objects, Compound Literals
+
+This is an interesting feature of C99 that allows you to make an object
+without a name. A couple places this might be useful is if you need to
+pass a one-off `struct` to a function, but want it to just _exist_ as an
+argument, but not as a regular variable elsewhere.
+
+First, let's look at some contrived and useless syntax.
+
+``` {.c}
+int a = (int){2};
+```
+
+Right of the assignment, we have an unnamed `int` that's initializd to
+`2`. The we immediately assign it into a variable `a`.
+
+``` {.c}
+int a = (int){2};
+int a = 2;         // Same thing
+```
+
+If those are the same, why even bother this this syntax? It's harder to
+read and more verbose.
+
+Well, let's try it with a `struct` and see what happens.
