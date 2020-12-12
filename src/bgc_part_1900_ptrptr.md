@@ -174,6 +174,9 @@ away one level of indirection.
 |`int ***x`|`**x`|`int *`|
 |`int **x`|`**x`|`int`|
 
+In general, `&*E == E`^[Even if `E` is `NULL`, it turns out, weirdly.].
+The dereference "undoes" the address-of.
+
 But `&` doesn't work the same way---you can only do those one at a time,
 and have to store the result in an intermediate variable:
 
@@ -189,7 +192,6 @@ int *****t = &s;  // Type: int *****
 ### Pointer Pointers and `const`
 
 If you recall, declaring a pointer like this:
-
 ``` {.c}
 int *const p;
 ```
@@ -279,19 +281,253 @@ memory is the _first_ byte of the object by using the standard `&`
 operator, which always returns the address of the first byte.
 
 And here's another fun fact! If you iterate over the bytes of any
-object, you can copy
-Let's 
+object, you get its _object representation_. Two things with the same
+object representation in memory are equal.
+
+If you want to iterate over the object representation, you should do it
+with pointers to `unsigned char`.
+
+Let's make our own version of [`memcpy()`](#man-memcpy) that does
+exactly this:
 
 ``` {.c}
 void *my_memcpy(void *dest, const void *src, size_t n)
 {
-    const unsigned char *s = src;
-    char *d = dest;
+    // Make local variables for src and dest, but of type unsigned char
 
-    while (n-- > 0)
-        *d++ = *s++;
+    const unsigned char *s = src;
+    unsigned char *d = dest;
+
+    while (n-- > 0)   // For the given number of bytes
+        *d++ = *s++;  // Copy source byte to dest byte
+
+    // Most copy functions return a pointer to the dest as a convenience
+    // to the caller
 
     return dest;
 }
 ```
+
+(There are some good examples of post-increment and post-decrement in
+there for you to study, as well.)
+
+It's important to note that the version, above, is probably less
+efficient than the one that comes with your system.
+
+But you can pass pointers to anything into it, and it'll copy those
+objects. Could be `int*`, `struct animal*`, or anything.
+
+Let's do another example that prints out the object representation bytes
+of a `struct` so we can see if there's any padding in there and what
+values it has^[Your C compiler is not required to add padding bytes, and
+the values of any padding bytes that are added are indeterminate.].
+
+``` {.c .numberLines}
+#include <stdio.h>
+
+struct foo {
+    char a;
+    int b;
+};
+
+int main(void)
+{
+    struct foo x = {0x12, 0x12345678};
+    unsigned char *p = (unsigned char *)&x;
+
+    for (size_t i = 0; i < sizeof x; i++) {
+        printf("%02X\n", p[i]);
+    }
+
+    return 0;
+}
+```
+
+What we have there is a `struct foo` that's built in such a way that
+should encourage a compiler to inject padding bytes (though it doesn't
+have to). And then we get an `unsigned char *` to the first byte of the
+`struct foo` variable `x`.
+
+From there, all we need to know is the `sizeof x` and we can loop
+through that many bytes, printing out the values (in hex for ease).
+
+Running this gives a bunch of numbers as output. I've annotated it below
+to identify where the values were stored:
+
+```
+12  | x.a == 0x12
+
+AB  |
+BF  | padding bytes with "random" value
+26  |
+
+78  |
+56  | x.b == 0x12345678
+34  |
+12  |
+```
+
+On all systems, `sizeof(char)` is 1, and we see that first byte at the
+top of the output holding the value `0x12` that we stored there.
+
+Then we have some padding bytes---for me, these varied from run to run.
+
+Finally, on my system, `sizeof(int)` is 4, and we can see those 4 bytes
+at the end. Notice how they're the same bytes as are in the hex value
+`0x12345678`, but strangely in reverse order^[This will vary depending
+on the architecture, but my system is _little endian_, which means the
+least-significant byte of the number is stored first. _Big endian_
+systems will have the `12` first and the `78` last. But the spec doesn't
+dictate anything about this representation.].
+
+So that's a little peek under the hood at the bytes of a more complex
+entity in memory.
+
+## The `NULL` Pointer and Zero
+
+These things can be used interchangeably:
+
+* `NULL`
+* `0`
+* `\0`
+* `(void *)0`
+
+Personally, I always use `NULL` when I mean `NULL`, but you might see
+some other variants from time to time. Though `'\0'` (a byte with all
+bits set to zero) will also compare equal, it's _weird_ to compare it to
+a pointer; you should compare `NULL` against the pointer. (Of course,
+lots of times in string processing, you're comparing _the thing the
+pointer points to_ to `'\0'`, and that's right.)
+
+`0` is called the _null pointer constant_, and, when compared to or
+assigned into another pointer, it is converted to a null pointer of the
+same type.
+
+## Pointers as Integers
+
+You can cast pointers to integers and vice-versa (since a pointer is
+just an index into memory), but you probably only ever need to do this
+if you're doing some low-level hardware stuff. The results of such
+machinations are implementation-defined, so they aren't portable. And
+_weird things_ could happen.
+
+C does make one guarantee, though: you can convert a pointer to a
+`uintptr_t` type and you'll be able to convert it back to a pointer
+without losing any data.
+
+`uintptr_t` is defined in `<stdint.h>`^[It's an optional feature, so it
+might not be there---but it probably is.].
+
+Additionally, if you feel like being signed, you can use `intptr_t` to
+the same effect.
+
+## Pointer Differences
+
+As you know from the section on pointer arithmetic, you can subtract one
+pointer from another^[Assuming they point to the same array object.] to
+get the difference between them in count of array elements.
+
+Now the _type of that difference_ is something that's up to the
+implementation, so it could vary from system to system.
+
+To be more portable, you can store the result in a variable of type
+`ptrdiff_t` defined in `<stddef.h>`.
+
+``` {.c}
+int cats[100];
+
+int *f = cats + 20;
+int *g = cats + 60;
+
+ptrdiff_t d = g - f;  // difference is 40
+```
+
+And you can print it by prefixing the integer format specifier with `t`:
+
+``` {.c}
+printf("%td\n", d);  // Print decimal: 40
+printf("%tX\n", d);  // Print hex:     28
+```
+
+## Pointers to Functions
+
+Functions are just collections of machine instructions in memory, so
+there's no reason we can't get a pointer to the first instruction of the
+function.
+
+And then call it.
+
+This can be useful for passing a pointer to a function into another
+function as an argument. Then the second one could call whatever was
+passed in.
+
+The tricky part with these, though, is that C needs to know the type of
+the variable that is the pointer to the function.
+
+And it would really like to know all the details.
+
+Like "this is a pointer to a function that takes two `int` arguments and
+returns `void`".
+
+How do you write all that down so you can declare a variable?
+
+Well, it turns out it looks very much like a function prototype, except
+with some extra parentheses:
+
+``` {.c}
+// Declare p to be a pointer to a function.
+// This function returns a float, and takes two ints as arguments.
+
+float (*p)(int, int);
+```
+
+Also notice that you don't have to give the parameters names. But you
+can if you want; they're just ignored.
+
+``` {.c}
+// Declare p to be a pointer to a function.
+// This function returns a float, and takes two ints as arguments.
+
+float (*p)(int a, int b);
+```
+
+So now that we know how to declare a variable, how do we know what to
+assign into it? How do we get the address of a function?
+
+Turns out there's a shortcut just like with getting a pointer to an
+array: you can just refer to the bare function name without parens. (You
+can put an `&` in front of this if you like, but it's unnecessary and
+not idiomatic.)
+
+Once you have a pointer to a function, you can call it just by adding
+parens and an argument list.
+
+Let's do a simple example where I effectively make an alias for a
+function by setting a pointer to it. Then we'll call it.
+
+This code prints out `3490`:
+
+``` {.c .numberLines}
+#include <stdio.h>
+
+void print_int(int n)
+{
+    printf("%d\n", n);
+}
+
+int main(void)
+{
+    // Assign p to point to print_int:
+
+    void (*p)(int) = print_int;
+
+    p(3490);          // Call print_int via the pointer
+
+    return 0;
+}
+```
+
+Notice how the type of `p` represents the return value and parameter
+types of `print_int`. It has to, or else C will complain about
+incompatible pointer types.
 
