@@ -60,6 +60,13 @@ have to consider any copyright issues when merging changes.
 
 ## TODO
 
+-----
+
+* Ditch all the return 0s from main
+
+-----
+
+
 * Change audience to more advanced
 * Exercises
 * Outline
@@ -145,11 +152,11 @@ have to consider any copyright issues when merging changes.
     * `'abc'` integer character constants
   * Pointers III
     * Pointers to pointers
-    * Pointers to functions
-    * Pointer integer types
     * Iterating through bytes of an object
+    * Pointer integer types
     * NULL is 0
     * ptrdiff_t
+    * Pointers to functions
     * unnamed objects
   * Enum
   * Arrays II
