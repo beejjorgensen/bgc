@@ -482,8 +482,10 @@ Now that we've done that, I just want to quickly point out that we can
 use this technique to iterate over the bytes of _any_ object in C,
 `float`s, `struct`s, or anything!
 
-Let's run one more real-world example with the built-in `qsort()`
-routine that can sort _anything_ thanks to the magic of `void*`s.
+
+[Let's]{#qsort-example} run one more real-world example with the
+built-in `qsort()` routine that can sort _anything_ thanks to the magic
+of `void*`s.
 
 (In the following example, you can ignore the word `const`, which we
 haven't covered yet.)
