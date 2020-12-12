@@ -604,6 +604,3 @@ it's a pointer to a function.
 Finally, jump back to the _Pointers II_ chapter for a
 pointer-to-function [example using the built-in
 `qsort()`](#qsort-example).
-
-## Unnamed Objects
-
