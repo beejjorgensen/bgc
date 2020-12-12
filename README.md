@@ -60,13 +60,6 @@ have to consider any copyright issues when merging changes.
 
 ## TODO
 
------
-
-* Ditch all the return 0s from main
-
------
-
-
 * Change audience to more advanced
 * Exercises
 * Outline
@@ -181,6 +174,7 @@ have to consider any copyright issues when merging changes.
     * Constant string and char types
   * Incomplete types
   * lvalues
+  * _Generic
   * More man pages
   * Optional features
     * Threads
@@ -191,11 +185,10 @@ have to consider any copyright issues when merging changes.
     * __STDC_WANT_LIB_EXT
   * make primer
 
-
-
-
 ### Bug fixes
 
-* When pandoc 2.8 comes up, switch all man page subheaders to h3 and supress
-  them from the table of contents.
+* Ditch all the return 0s from main
+* C99 -> C11, note on versions
+
+
 
