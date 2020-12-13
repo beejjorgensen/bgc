@@ -295,8 +295,6 @@ int main(void)
     counter();  // "This has been called 2 time(s)"
     counter();  // "This has been called 3 time(s)"
     counter();  // "This has been called 4 time(s)"
-
-    return 0;
 }
 ```
 
@@ -359,8 +357,6 @@ int main(void)
     a = 99;
 
     printf("%d\n", a);  // Same "a" from bar.c, but it's now 99
-
-    return 0;
 }
 ```
 
@@ -379,8 +375,6 @@ int main(void)
     a = 99;
 
     printf("%d\n", a);  // Same "a" from bar.c, but it's now 99
-
-    return 0;
 }
 ```
 
@@ -414,8 +408,6 @@ int main(void)
 
     for (a = 0; a < 10; a++)
         printf("%d\n", a);
-
-    return 0;
 }
 ```
 

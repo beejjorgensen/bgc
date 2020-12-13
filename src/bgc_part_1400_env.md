@@ -83,8 +83,6 @@ int main(int argc, char *argv[])
     for (int i = 0; i < argc; i++) {
         printf("arg %d: %s\n", i, argv[i]);
     }
-
-    return 0;
 }
 ```
 
@@ -142,8 +140,6 @@ int main(int argc, char **argv)
     }
 
     printf("%d\n", total);
-
-    return 0;
 }
 ```
 
@@ -244,8 +240,6 @@ int main(int argc, char **argv)
     }
 
     printf("%d\n", total);
-
-    return 0;
 }
 ```
 
@@ -297,12 +291,24 @@ Just a few more things about `argc` and `argv`.
 
 ## Exit Status
 
-There are a number of ways a program can exit in C, including
+Did you notice that the function signatures for `main()` have it
+returning type `int`? What's that all about? It has to do with a thing
+called the _exit status_, which is an integer that can be returned to
+the program that launched yours to let it know how things went.
+
+Now, there are a number of ways a program can exit in C, including
 `return`ing from `main()`, or calling one of the `exit()` variants.
 
-All of these methods accept an `int` as an argument. So far, we've done
-a lot of `return 0` from `main()`, but what does the `0` mean? What
-other numbers can we put there? And how are they used?
+All of these methods accept an `int` as an argument.
+
+Side note: did you see that in basically all my examples, even though
+`main()` is supposed to return an `int`, I don't actually `return`
+anything? In any other function, this would be illegal, but there's a
+special case in C: if execution reaches the end of `main()` without
+finding a `return`, it automatically does a `return 0`.
+
+But what does the `0` mean? What other numbers can we put there? And how
+are they used?
 
 The spec is both clear and vague on the matter, as is common. Clear
 because it spells out what you can do, but vague in that it doesn't
@@ -479,8 +485,6 @@ int main(void)
     }
 
     printf("Value: %s\n", val);
-
-    return 0;
 }
 ```
 

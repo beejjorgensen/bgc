@@ -64,8 +64,6 @@ int main(void)
     int j = 5;
 
     printf("%d %d\n", i, j);   // OK: "0 5"
-
-    return 0;
 }
 ```
 
@@ -93,8 +91,6 @@ int main(void)
     }
 
     printf("%d\n", i);  // Outer scope i, 10
-
-    return 0;
 }
 ```
 
@@ -135,8 +131,6 @@ int main(void)
 {
     func1();
     func2();
-
-    return 0;
 }
 ```
 
@@ -175,8 +169,6 @@ int main(void)
         int i = 999;  // Hides the i in the for-loop scope
         printf("%d\n", i);
     }
-
-    return 0;
 }
 ```
 

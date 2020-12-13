@@ -198,9 +198,7 @@ int main(void)
         exit(1);
     }
 
-    // fp is now initialized and can be read from
-
-    return 0;
+    // fp is now initialized and can be read from it
 }
 ```
 
@@ -280,8 +278,6 @@ int main(void)
 
     // this is allowed on some systems--you can change the mode of a file:
     freopen(NULL, "wb", stdout); // change to "wb" instead of "w"
-
-    return 0;
 }
 ```
 
@@ -1072,8 +1068,6 @@ int main(void)
     }
 
     fclose(fp);
-
-    return 0;
 }
 ```
 
@@ -1123,8 +1117,6 @@ int main(void)
     }
 
     fclose(fp);
-
-    return 0;
 }
 ```
 
@@ -1178,8 +1170,6 @@ int main(void)
         putchar(i);
 
     putchar('\n'); // put a newline at the end to make it pretty
-
-    return 0;
 }
 ```
 
@@ -1552,8 +1542,6 @@ int main(void)
     // print them out:
     for(i = 0; i < 10; i++)
         printf("n[%d] == %d\n", i, n[i]);
-
-    return 0;
 }
 ```
 
@@ -1609,8 +1597,6 @@ int main(void)
     fp = fopen("binaryfile.dat", "wb");
     fwrite(r, sizeof(int), 10, fp); // write 10 ints
     fclose(fp);
-
-    return 0;
 }
 ```
 
@@ -1679,8 +1665,6 @@ int main(void)
         printf("An error occurred.\n");
 
     fclose(fp);
-
-    return 0;
 }
 ```
 
@@ -1760,8 +1744,6 @@ int main(void)
             perror("fseek again");
         }
     }
-
-    return 0;
 }
 ```
 
@@ -1908,8 +1890,6 @@ int main(void)
     fscanf(temp, "%s", s); // read it back out
 
     fclose(temp); // close (and magically delete)
-
-    return 0;
 }
 ```
 
@@ -2217,8 +2197,6 @@ int main(void)
         // number of seconds:
         sleep(1);
     }
-
-    return 0;
 }
 ```
 

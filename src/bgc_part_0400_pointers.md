@@ -107,8 +107,6 @@ int main(void)
     int i = 10;
 
     printf("The value of i is %d, and its address is %p\n", i, &i);
-
-    return 0;
 }
 ```
 
@@ -156,8 +154,6 @@ int main(void)
 {
     int i;  /* i's type is "int" */
     int *p; /* p's type is "pointer to an int", or "int-pointer" */
-
-    return 0;
 }
 ```
 
@@ -240,8 +236,6 @@ int main(void)
 
     printf("i is %d\n", i);   // prints "20"
     printf("i is %d\n", *p);  // "20"! dereference-p is the same as i!
-
-    return 0;
 }
 ```
 
@@ -302,8 +296,6 @@ int main(void)
     increment(j);
 
     printf("i is %d\n", i); // prints "11"!
-
-    return 0;
 }
 ```
 

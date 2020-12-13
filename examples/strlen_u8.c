@@ -28,6 +28,4 @@ int main(void)
     printf("%zu\n", strlen_u8(t));
     printf("%zu\n", strlen_u8(u));
     printf("%zu\n", strlen_u8(v));
-
-    return 0;
 }

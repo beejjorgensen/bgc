@@ -127,8 +127,6 @@ int main(void)
     for (struct node *cur = head; cur != NULL; cur = cur->next) {
         printf("%d\n", cur->data);
     }
-
-    return 0;
 }
 ```
 
@@ -271,8 +269,6 @@ int main(void)
 {
     printf("%zu\n", sizeof(int) + sizeof(char) + sizeof(int) + sizeof(char));
     printf("%zu\n", sizeof(struct foo));
-
-    return 0;
 }
 ```
 
@@ -316,8 +312,6 @@ int main(void)
     printf("%zu\n", offsetof(struct foo, b));
     printf("%zu\n", offsetof(struct foo, c));
     printf("%zu\n", offsetof(struct foo, d));
-
-    return 0;
 }
 ```
 
@@ -356,8 +350,6 @@ struct foo {
 int main(void)
 {
     printf("%zu\n", sizeof(struct foo));
-
-    return 0;
 }
 ```
 
@@ -558,8 +550,6 @@ int main(void)
     printf("%f\n", x.g);  // OK--x.g was the last thing we stored into
 
     printf("%d\n", x.a);  // Unspecified behavior!
-
-    return 0;
 }
 ```
 
@@ -609,8 +599,6 @@ int main(void)
     x.g = 3.141592;
     printf("%f\n", x.g);           // 3.141592
     printf("%f\n", *foo_float_p);  // 3.141592, again
-
-    return 0;
 }
 ```
 

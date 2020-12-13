@@ -49,8 +49,6 @@ int main(void)
     int *p = &x;   // Type: pointer to an int
 
     printf("%d\n", *p);  // 3490
-
-    return 0;
 }
 ```
 
@@ -92,8 +90,6 @@ int main(void)
     int **q = &p;  // Type: pointer to pointer to int
 
     printf("%d %d\n", *p, **q);  // 3490 3490
-
-    return 0;
 }
 ```
 
@@ -222,8 +218,6 @@ int main(void)
     int x = 3490;
     int *const p = &x;
     int **q = &p;
-
-    return 0;
 }
 ```
 
@@ -338,8 +332,6 @@ int main(void)
     for (size_t i = 0; i < sizeof x; i++) {
         printf("%02X\n", p[i]);
     }
-
-    return 0;
 }
 ```
 
@@ -522,8 +514,6 @@ int main(void)
     void (*p)(int) = print_int;
 
     p(3490);          // Call print_int via the pointer
-
-    return 0;
 }
 ```
 
@@ -562,8 +552,6 @@ int main(void)
 {
     print_math(add, 5, 7);   // 12
     print_math(mult, 5, 7);  // 35
-
-    return 0;
 }
 ```
 

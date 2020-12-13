@@ -186,5 +186,3 @@ have to consider any copyright issues when merging changes.
   * make primer
 
 ### Bug fixes
-
-* Ditch all the return 0s from main

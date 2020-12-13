@@ -34,6 +34,4 @@ int main(void)
     v.data.f = 0.8;
 
     print_variable(&v);
-
-    return 0;
 }

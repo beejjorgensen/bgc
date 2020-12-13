@@ -42,8 +42,6 @@ int main(void)
 
     c = 20; /* in scope */
     b = 30; /* ERROR, out of scope (declared above in frotz()) */
-
-    return 0;
 }
 ```
 
@@ -79,8 +77,6 @@ int main(void)
 
     /* but this a back in main is still 10 (since we set it in the if): */
     printf("%d\n", a);
-
-    return 0;
 }
 ```
 
@@ -137,8 +133,6 @@ int main(void)
     g = 10; /* global g is now 10 */
     afunc(20); /* but this function will set it to 20 */
     printf("%d\n", g); /* so this will print "20" */
-
-    return 0;
 }
 ```
 
@@ -225,8 +219,6 @@ int main(void)
     print_plus_one(); /* prints "2" */
     print_plus_one(); /* prints "3" */
     print_plus_one(); /* prints "4" */
-
-    return 0;
 }
 ```
 
@@ -317,8 +309,6 @@ int main(void)
     s.b = 3.14159;
 
     printf("The val field in s is: %d\n", s.val);
-
-    return 0;
 }
 ```
 
@@ -406,8 +396,6 @@ int main(void)
     /* bit of syntactic sugar:                                     */
 
     b->val = 3491; /* EXACTLY the same as (*b).val = 3491; */
-
-    return 0;
 }
 ```
 
@@ -464,8 +452,6 @@ int main(void)
 
     printf("leg count: %d\n", rudolph.num_legs); /* prints "10" */
     printf("eye count: %d\n", rudolph.num_eyes); /* prints "1" */
-
-    return 0;
 }
 ```
 
@@ -549,8 +535,6 @@ int main(void)
     v.data.f = 0.8;
 
     print_variable(&v);
-
-    return 0;
 }
 ```
 
@@ -667,8 +651,6 @@ int main(void)
     int mydata[10];
 
     init_array(mydata, 10);  /* note lack of [] notation */
-
-    return 0;
 }
 ```
 
@@ -821,8 +803,6 @@ main(int main(void)
             printf("creature %d: (%.2f, %.2f)\n", i, guys[i].x, guys[i].y);
         }
     }
-
-    return 0;
 }
 ```
 
@@ -860,8 +840,6 @@ programming blockbusters, such as Hello World:
 int main(void)
 {
     printf("Hello, World!\n");
-
-    return 0;
 }
 ```
 
@@ -1124,8 +1102,6 @@ int main(void)
     for(i = 0; i < 23; i++) {
         add_data(i);
     }
-
-    return 0;
 }
 
 void add_data(int new_data)
@@ -1240,8 +1216,6 @@ int main(void)
         printf("%i\n", *p);
         p++; /* go to the next int in memory */
     }
-
-    return 0;
 }
 ```
 
@@ -1334,8 +1308,6 @@ int main(void)
 
     /* OR, we can do it like this: */
     NAMESTRUCT another_variable;
-
-    return 0;
 }
 ```
 
@@ -1408,8 +1380,6 @@ int main(void)
     if (fish1 == SEABASS) {
         fish2 = TUBESNOUT;
     }
-
-    return 0;
 }
 ```
 
@@ -1707,8 +1677,6 @@ int main(void)
         /* at the end of the row, print a newline for the next row */
         printf("\n"); 
     }
-
-    return 0;
 }
 ```
 
@@ -1761,8 +1729,6 @@ int main(void)
         /* at the end of the row, print a newline for the next row */
         printf("\n"); 
     }
-
-    return 0;
 }
 ```
 
@@ -1789,8 +1755,6 @@ int main(void)
 
     f = a / b;  /* calculate 5 divided by 10 */
     printf("%.2f\n", f);
-
-    return 0;
 }
 ```
 
@@ -1851,8 +1815,6 @@ int main(void)
 
     w = get_next_wombat(); /* grab a wombat */
     process_wombat(w);     /* use it somewhere */
-
-    return 0;
 }
 ```
 
@@ -1978,8 +1940,6 @@ int main(void)
     /* they're stored! let's get them back! */
     s2 = get_pointer(0); /* this was at index 0 */
     b2 = get_pointer(1); /* this was at index 1 */
-
-    return 0;
 }
 ```
 
@@ -2012,8 +1972,6 @@ int main(void)
     } else {
         printf("p points to %d\n", *p);
     }
-
-    return 0;
 }
 ```
 
@@ -2207,8 +2165,6 @@ int main(void)
     int a = 10, b;
 
     b = plusone(a);  /* make that processor work! */
-
-    return 0;
 }
 
 /** end of file main.c **/
@@ -2334,8 +2290,6 @@ int main(void)
     printf("pi/2: %f\n", PI/2);
     printf("area: %f\n", PI*r*r);
     printf("circumference: %f\n", 2*PI*r);
-
-    return 0;
 }
 ```
 
@@ -2567,8 +2521,6 @@ int main(void)
     get_string(2, &s);
 
     printf("s is \"%s\"\n", s);  /* 's is "kung-foo fighting"' */
-
-    return 0;
 }
 ```
 
@@ -2599,8 +2551,6 @@ int main(void)
     char **p;
 
     p = malloc(sizeof(char*) * 10);  // allocate 10 char*s
-
-    return 0;
 }
 ```
 
@@ -2630,8 +2580,6 @@ int main(void)
     for(i = 0; i < 10; i++) {
         printf("%d: %s\n", i, p[i]); // p[i] same as *(p+i)
     }
-
-    return 0;
 }
 ```
 
@@ -2747,8 +2695,6 @@ int main(void)
     deliver_fruit("My house", 5280.0); // a normal call
 
     p("My house", 5280.0); // the same call, but using the pointer
-
-    return 0;
 }
 ```
 
@@ -2996,8 +2942,6 @@ int main(void)
 {
     // example call:
     timestamp_printf("Brought to you by the number %d\n", 3490);
-
-    return 0;
 }
 ```
 

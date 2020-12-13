@@ -83,8 +83,6 @@ int main(void)
 
     for (int i = 0; i < 13; i++)
         printf("%c\n", s[i]);
-
-    return 0;
 }
 ```
 
@@ -103,8 +101,6 @@ int main(void)
 
     for (int i = 0; i < 13; i++)
         printf("%c\n", s[i]);    // But still use arrays here...?
-
-    return 0;
 }
 ```
 
@@ -172,8 +168,6 @@ int main(void)
     char *s = "Hello, world!";
 
     printf("The string is %zu characters long.\n", strlen(s));
-
-    return 0;
 }
 ```
 
@@ -277,8 +271,6 @@ int main(void)
     // Because t and s point to the same string!
 
     printf("%s\n", s);  // "zello, world!"
-
-    return 0;
 }
 ```
 
@@ -311,8 +303,6 @@ int main(void)
 
     // But t has been changed
     printf("%s\n", t);  // "zello, world!"
-
-    return 0;
 }
 ```
 

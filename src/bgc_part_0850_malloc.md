@@ -181,8 +181,6 @@ int main(void)
 
     // Free the space
     free(p);
-
-    return 0;
 }
 ```
 
@@ -270,8 +268,6 @@ int main(void)
 
     // Free the space
     free(p);
-
-    return 0;
 }
 ```
 
@@ -362,8 +358,6 @@ int main(void)
 
     // Free the space
     free(p);
-
-    return 0;
 }
 ```
 

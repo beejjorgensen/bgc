@@ -79,8 +79,6 @@ example:
 int main(void)
 {
     printf("%s, %f\n", HELLO, PI);
-
-    return 0;
 }
 ```
 
@@ -97,8 +95,6 @@ instead:
 int main(void)
 {
     printf("%s, %f\n", "Hello, world", 3.14159);
-
-    return 0;
 }
 ```
 
@@ -153,8 +149,6 @@ int main(void)
 #endif
 
     printf("OK!\n");
-
-    return 0;
 }
 ```
 
@@ -278,8 +272,6 @@ int main(void)
 #endif
 
     printf("OK!\n");
-
-    return 0;
 }
 ```
 
@@ -296,8 +288,6 @@ int main(void)
     printf("I'm just regular\n");
 
     printf("OK!\n");
-
-    return 0;
 }
 ```
 
@@ -394,8 +384,6 @@ int main(void)
 #ifdef GOATS
     printf("Goats detected, again!\n"); // doesn't print
 #endif
-
-    return 0;
 }
 ```
 
@@ -432,8 +420,6 @@ int main(void)
     printf("This line: %d\n", __LINE__);
     printf("Compiled on: %s %s\n", __DATE__, __TIME__);
     printf("C Version: %ld\n", __STDC_VERSION__);
-
-    return 0;
 }
 ```
 
@@ -494,8 +480,6 @@ Let's start with a simple one that squares a number:
 int main(void)
 {
     printf("%d\n", SQR(12));  // 144
-
-    return 0;
 }
 ```
 
@@ -622,8 +606,6 @@ int main(void)
 {
     printf("2*x^2 + 10*x + 5 = 0\n");
     printf("x = %f or x = %f\n", QUAD(2, 10, 5));
-
-    return 0;
 }
 ```
 
@@ -658,8 +640,6 @@ from there:
 int main(void)
 {
     printf("%d %f %s %d\n", X(5, 4, 3.14, "Hi!", 12));
-
-    return 0;
 }
 ```
 
@@ -717,8 +697,6 @@ int main(void)
     int a = 5;
 
     PRINT_INT_VAL(a);  // prints "a = 5"
-
-    return 0;
 }
 ```
 
@@ -759,8 +737,6 @@ product of the two arguments passed in.
 int main(void)
 {
     PRINT_NUMS_TO_PRODUCT(2, 4);  // Outputs numbers from 0 to 7
-
-    return 0;
 }
 ```
 

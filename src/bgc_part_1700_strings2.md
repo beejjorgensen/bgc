@@ -111,8 +111,6 @@ int main(void)
     }
 
     printf("\rLiftoff!             \n");
-
-    return 0;
 }
 ```
 

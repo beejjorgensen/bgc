@@ -47,8 +47,6 @@ int main(void)
     snprintf(s, 10, "%f", f);
 
     printf("String value: %s\n", s);  // String value: 3.141590
-
-    return 0;
 }
 ```
 
@@ -91,8 +89,6 @@ int main(void)
     f = atof(pi);
 
     printf("%f\n", f);
-
-    return 0;
 }
 ```
 
@@ -141,8 +137,6 @@ int main(void)
     unsigned long int x = strtoul(s, NULL, 10);
 
     printf("%lu\n", x);  // 3490
-
-    return 0;
 }
 ```
 
@@ -168,8 +162,6 @@ int main(void)
     unsigned long int x = strtoul(s, NULL, 2);
 
     printf("%lu\n", x);  // 42
-
-    return 0;
 }
 ```
 
@@ -204,8 +196,6 @@ int main(void)
     // points to it!
 
     printf("Invalid character: %c\n", *badchar);  // "x"
-
-    return 0;
 }
 ```
 
@@ -240,8 +230,6 @@ int main(void)
         printf("Partial conversion: %lu\n", x);
         printf("Invalid character: %c\n", *badchar);
     }
-
-    return 0;
 }
 ```
 

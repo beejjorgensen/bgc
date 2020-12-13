@@ -56,8 +56,6 @@ And the file `foo.c` with main in it:
 int main(void)
 {
     printf("%d\n", add(2, 3));  // 5!
-
-    return 0;
 }
 ```
 
@@ -108,8 +106,6 @@ int add(int, int);  // Add the prototype
 int main(void)
 {
     printf("%d\n", add(2, 3));  // 5!
-
-    return 0;
 }
 ```
 
@@ -153,8 +149,6 @@ brackets):
 int main(void)
 {
     printf("%d\n", add(2, 3));  // 5!
-
-    return 0;
 }
 ```
 

@@ -201,8 +201,6 @@ int my_strlen(char *s)
 int main(void)
 {
     printf("%d\n", my_strlen("Hello, world!"));  // Prints "13"
-
-    return 0;
 }
 ```
 
@@ -266,8 +264,6 @@ int main(void)
     for (int i = 0; i < 5; i++)
         printf("%d\n", *(p++));    // Moving pointer p
         //printf("%d\n", *(a++));    // Moving array variable a--ERROR!
-
-    return 0;
 }
 ```
 
@@ -344,8 +340,6 @@ int main(void)
     memcpy(t, s, 7);  // Copy 7 bytes--including the NUL terminator!
 
     printf("%s\n", t);  // "Goats!"
-
-    return 0;
 }
 ```
 
@@ -363,8 +357,6 @@ int main(void)
     memcpy(b, a, 3 * sizeof(int));  // Copy 3 ints of data
 
     printf("%d\n", b[1]);  // 22
-
-    return 0;
 }
 ```
 
@@ -542,8 +534,6 @@ int main(void)
     for (int i = 0; i < 4; i++) {
         printf("%d: %s\n", a[i].leg_count, a[i].name);
     }
-
-    return 0;
 }
 ```
 

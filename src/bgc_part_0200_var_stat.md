@@ -110,8 +110,6 @@ int main(void)
     float f;  /* holds signed floating point numbers, e.g. -3.1416 */
 
     printf("Hello, World!\n"); /* ah, blessed familiarity */
-
-    return 0;
 }
 ```
 
@@ -143,8 +141,6 @@ int main(void)
     i = 2; // Assign the value 2 into the variable i
 
     printf("Hello, World!\n");
-
-    return 0;
 }
 ```
 
@@ -171,8 +167,6 @@ int main(void)
     char *s = "Hello, world!";  // char * ("char pointer") is the string type
 
     printf("%s  i = %d and f = %f!\n", s, i, f);
-
-    return 0;
 }
 ```
 
@@ -222,8 +216,6 @@ int main(void) {
     if (x) {
         printf("x is true!\n");
     }
-
-    return 0;
 }
 ```
 
@@ -701,8 +693,6 @@ int main(void)
         r = rand() % 100; // Get a random number between 0 and 99
         printf("%d\n", r);
     } while (r != 37);    // Repeat until 37 comes up
-
-    return 0;
 }
 ```
 
@@ -815,8 +805,6 @@ int main(void)
             printf("You have a bona fide plethora of goats!\n");
             break;
     }
-
-    return 0;
 }
 ```
 

@@ -39,8 +39,6 @@ int main(void)
     j = plus_one(i);  // The "call"
 
     printf("i + 1 is %d\n", j);
-
-    return 0;
 }
 ```
 
@@ -104,8 +102,6 @@ int main(void)
     int i = 10;
 
     increment(i);
-
-    return 0;
 }
 ```
 
@@ -163,8 +159,6 @@ int main(void)
     int i;
     
     i = foo();
-
-    return 0;
 }
 
 int foo(void)  // this is the definition, just like the prototype!
