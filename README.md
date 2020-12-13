@@ -143,6 +143,7 @@ have to consider any copyright issues when merging changes.
   * Characters and Strings II
     * Escape sequences
     * `'abc'` integer character constants
+  * Enum
   * Pointers III
     * Pointers to pointers
     * Iterating through bytes of an object
@@ -150,8 +151,9 @@ have to consider any copyright issues when merging changes.
     * NULL is 0
     * ptrdiff_t
     * Pointers to functions
+  * Types V
     * unnamed objects
-  * Enum
+    * Generics
   * Arrays II
     * static const
     * Equivalent initializers 6.7.9p29
@@ -166,7 +168,6 @@ have to consider any copyright issues when merging changes.
     * at_quick_exit()
   * Signals
   * Bitwise operations
-  * Preprocessor II
   * Goto
     * Labels
   * Locale, Wide and multibyte characters
@@ -174,7 +175,6 @@ have to consider any copyright issues when merging changes.
     * Constant string and char types
   * Incomplete types
   * lvalues
-  * _Generic
   * More man pages
   * Optional features
     * Threads
