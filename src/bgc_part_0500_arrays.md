@@ -353,7 +353,7 @@ void times4(int a[5], int len)
 In C, the first is the most common, by far.
 
 And, in fact, in the latter situation, the compiler doesn't even care
-what number you pass in (other than it has to be greater than zero^[C99
+what number you pass in (other than it has to be greater than zero^[C11
 §6.7.6.2¶1 requires it be greater than zero. But you might see code out
 there with arrays declared of zero length at the end of `struct`s and
 GCC is particularly lenient about it unless you compile with

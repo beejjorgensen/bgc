@@ -3239,7 +3239,7 @@ WEOF
 
 ## Unnamed Objects, Compound Literals
 
-This is an interesting feature of C99 that allows you to make an object
+This is an interesting feature of C11 that allows you to make an object
 without a name. A couple places this might be useful is if you need to
 pass a one-off `struct` to a function, but want it to just _exist_ as an
 argument, but not as a regular variable elsewhere.

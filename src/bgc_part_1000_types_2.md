@@ -82,7 +82,7 @@ Deep down, `char` is just a small `int`, namely an integer that uses
 just a single byte of space, limiting its range to...
 
 Here the C spec gets just a little funky. It assures us that a `char` is
-a single byte, i.e. `sizeof(char) == 1`. But then in C99 §3.6¶3 it goes
+a single byte, i.e. `sizeof(char) == 1`. But then in C11 §3.6¶3 it goes
 out of its way to say:
 
 > A byte is composed of a contiguous sequence of bits, _the number of
@@ -284,7 +284,7 @@ variants---they're just `0`.
 
 ## More Float: `double` and `long double`
 
-Let's see what the C99 spec has to say about floating point numbers in
+Let's see what the  spec has to say about floating point numbers in
 §5.2.4.2.2¶1-2:
 
 >The following parameters are used to define the model for each
@@ -589,7 +589,7 @@ The spec has a great table indicating which type gets used for what
 unsuffixed value. In fact, I'm just going to copy it wholesale right
 here.
 
-C99 §6.4.4.1¶5 reads, "The type of an integer constant is the first of
+C11 §6.4.4.1¶5 reads, "The type of an integer constant is the first of
 the first of the corresponding list in which its value can be
 represented."
 

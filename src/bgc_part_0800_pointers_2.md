@@ -226,7 +226,7 @@ I've oversimplified a bit, because in my above example `a` and `b` can
 both be expressions, and we might want a few more parentheses to force
 order of operations in case the expressions are complex.
 
-The spec is specific, as always, declaring (in C99 §6.5.2.1¶2):
+The spec is specific, as always, declaring (in C11 §6.5.2.1¶2):
 
 > `E1[E2]` is identical to `(*((E1)+(E2)))`
 

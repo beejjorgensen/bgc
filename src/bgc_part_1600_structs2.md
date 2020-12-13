@@ -204,7 +204,7 @@ But, of course, actually accessing the data beyond the end of that array
 is undefined behavior! In these modern times, we no longer deign to
 resort to such savagery.
 
-Luckily for us, we can still get the same effect with C99, but now it's
+Luckily for us, we can still get the same effect with C11, but now it's
 legal.
 
 Let's just change our above definition to have no size for the

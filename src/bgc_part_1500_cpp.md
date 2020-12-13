@@ -790,7 +790,7 @@ unless some prerequisites are met:
 
 Some compilers have a non-standard complementary `#warning` directive
 that will output a warning but not stop compilation, but this is not in
-the C99 spec.
+the C11 spec.
 
 ## The `#pragma` Directive
 

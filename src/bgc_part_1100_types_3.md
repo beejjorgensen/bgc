@@ -321,7 +321,7 @@ this still works for historic reasons, before prototypes were a thing.].
 
 These are automatic conversions that C does around numeric operations
 that you ask for. (That's actually what they're called, by the way, by
-C99 §6.3.1.8.) Note that for this section, we're just talking about
+C11 §6.3.1.8.) Note that for this section, we're just talking about
 numeric types---strings will come later.
 
 These conversions answer questions about what happens when you mix
@@ -344,7 +344,7 @@ Here are the steps, paraphrased for easy consumption.
    to be hold the common largest value. Sometimes this involves changing
    signed to unsigned.
 
-If you want to know the gritty details, check out C99 §6.3.1.8. But you
+If you want to know the gritty details, check out C11 §6.3.1.8. But you
 probably don't.
 
 Just generally remember that int types become float types if there's a

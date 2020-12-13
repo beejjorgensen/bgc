@@ -62,8 +62,8 @@ for variable names, with the following rules:
 
 For Unicode, things get a little different, but the basic idea is that
 you can start or continue the variable name with one of the characters
-listed in C99 §D.1, and you can continue but _not_ start a variable name
-with any of the characters listed in C99 §D.2.
+listed in C11 §D.1, and you can continue but _not_ start a variable name
+with any of the characters listed in C11 §D.2.
 
 Since those are just number ranges, I'm not going to reproduce them
 here. If you're in an environment that supports Unicode, just try it and

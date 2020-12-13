@@ -198,7 +198,7 @@ typedef struct {
 } MY_POINT;          // UPPER SNAKE CASE
 ```
 
-The C99 specification doesn't dictate one way or another, and shows
+The C11 specification doesn't dictate one way or another, and shows
 examples in all uppercase and all lowercase.
 
 K&R2 uses leading uppercase predominantly, but show some examples in

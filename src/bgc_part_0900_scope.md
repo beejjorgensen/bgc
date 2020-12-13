@@ -145,7 +145,7 @@ wouldn't compile. It has to be declared _before_ any functions use it.
 
 ## `for`-loop Scope
 
-I really don't know what to call this, as C99 §6.8.5.3¶1 doesn't give it
+I really don't know what to call this, as C11 §6.8.5.3¶1 doesn't give it
 a proper name. We've done it already a few times in this guide, as well.
 It's when you declare a variable inside the first clause of a
 `for`-loop:

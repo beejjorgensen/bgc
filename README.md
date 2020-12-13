@@ -188,7 +188,3 @@ have to consider any copyright issues when merging changes.
 ### Bug fixes
 
 * Ditch all the return 0s from main
-* C99 -> C11, note on versions
-
-
-
