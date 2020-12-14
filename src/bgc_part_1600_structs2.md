@@ -130,9 +130,13 @@ int main(void)
 }
 ```
 
-Normally that linked list would have been set up with `malloc()`, but
-just in case you haven't read that chapter yet, we kinda mocked it up
-there another way.
+Running that prints:
+
+```
+11
+22
+33
+```
 
 ## Flexible Array Members
 
