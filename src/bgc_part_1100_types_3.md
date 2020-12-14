@@ -282,7 +282,7 @@ behavior.
 These are conversions the compiler does automatically for you when you
 mix and match types.
 
-### The Integer Promotions
+### The Integer Promotions {#integer-promotions}
 
 In a number of places, if a `int` can be used to represent a value from
 `char` or `short` (signed or unsigned), that value is _promoted_ up to
@@ -305,7 +305,7 @@ functions without prototypes^[This is rarely done because the compiler
 will complain and having a prototype is the _Right Thing_ to do. I think
 this still works for historic reasons, before prototypes were a thing.].
 
-### The Usual Arithmetic Conversions
+### The Usual Arithmetic Conversions {#usual-arithmetic-conversions}
 
 These are automatic conversions that C does around numeric operations
 that you ask for. (That's actually what they're called, by the way, by
