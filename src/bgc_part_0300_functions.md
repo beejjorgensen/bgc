@@ -20,7 +20,7 @@ int plus_one(int n)  // The "definition"
 {
     return n + 1;
 }
-
+ 
 ```
 
 The `int` before the `plus_one` indicates the return type.
