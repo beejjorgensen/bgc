@@ -759,7 +759,7 @@ Commonly, this is used inside a conditional to prevent compilation
 unless some prerequisites are met:
 
 ``` {.c}
-#ifndef __STDC_ISO_10646__
+#ifndef __STDC_IEC_559__
     #error I really need IEEE-754 floating point to compile. Sorry!
 #endif
 ```
