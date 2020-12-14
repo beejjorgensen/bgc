@@ -151,6 +151,8 @@ have to consider any copyright issues when merging changes.
     * NULL is 0
     * ptrdiff_t
     * Pointers to functions
+  * Bitwise operations
+  * Variadic functions
   * Types V
     * unnamed objects
     * Generics
@@ -158,7 +160,6 @@ have to consider any copyright issues when merging changes.
     * static const
     * Equivalent initializers 6.7.9p29
     * Array of struct initializers 6.7.9p35
-  * Variadic functions
   * Exiting
     * return from main()
     * exit()
@@ -167,7 +168,6 @@ have to consider any copyright issues when merging changes.
     * atexit()
     * at_quick_exit()
   * Signals
-  * Bitwise operations
   * Goto
     * Labels
   * Locale, Wide and multibyte characters
