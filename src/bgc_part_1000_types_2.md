@@ -108,7 +108,7 @@ _must_ be specific:
 
 ``` {.c}
 char a;           // Could be signed or unsigned
-signed char ab    // Definitely signed
+signed char b;    // Definitely signed
 unsigned char c;  // Definitely unsigned
 ```
 
