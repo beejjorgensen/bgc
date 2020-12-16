@@ -153,6 +153,10 @@ have to consider any copyright issues when merging changes.
     * Pointers to functions
   * Bitwise operations
   * Variadic functions
+  * Locale
+  * Wide and multibyte characters
+    * UTF-8 best practices
+    * Constant string and char types
   * Types V
     * unnamed objects
     * Generics
@@ -170,9 +174,6 @@ have to consider any copyright issues when merging changes.
   * Signals
   * Goto
     * Labels
-  * Locale, Wide and multibyte characters
-    * UTF-8 best practices
-    * Constant string and char types
   * Incomplete types
   * lvalues
   * More man pages
