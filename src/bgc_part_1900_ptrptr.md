@@ -381,7 +381,7 @@ These things can be used interchangeably:
 
 * `NULL`
 * `0`
-* `\0`
+* `'\0'`
 * `(void *)0`
 
 Personally, I always use `NULL` when I mean `NULL`, but you might see
