@@ -81,7 +81,7 @@ which was odd because on the whole it wasn't the small green pieces of
 paper that were unhappy." ---The Hitchhiker's Guide to the Galaxy,
 Douglas Adams], let's talk about monetary locale. When you're writing
 portable code, you have to know what to type for cash, right? Whether
-that's "$", "€", "¥", "£", or "₹".
+that's "$", "€", "¥", or "£".
 
 How can you write that code without going insane? Luckily, once you call
 `setlocale(LC_ALL, "")`, you can just look these up with a call to
