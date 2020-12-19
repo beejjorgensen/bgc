@@ -131,7 +131,7 @@ value that can be held in a `char`.
 
 OK, this is a trippy one. `mon_grouping` is a `char*`, so you might be
 thinking it's a string. But in this case, no, it's really an array of
-`char`s.
+`char`s. It should always end either with a `0` or `CHAR_MAX`.
 
 These values describe how to group sets of numbers in currency to the
 _left_ of the decimal (the whole number part).
@@ -204,7 +204,12 @@ would indicate:
 
 for example.
 
+And simply having `CHAR_MAX` in the first array position would tell you
+there was to be no grouping at all.
+
 ### Separators and Sign Position
+
+
 
 ### Example Values
 
