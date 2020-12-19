@@ -209,7 +209,24 @@ there was to be no grouping at all.
 
 ### Separators and Sign Position
 
+All the `sep_by_space` variants deal with spacing around the currency
+sign. Valid values are:
 
+|Value|Description|
+|--|---------|
+|`0`|No space between currency symbol and value.|
+|`1`|Separate the currency symbol (and sign, if any) from the value with a space.|
+|`2`|Separate the sign symbol from the currency symbol (if adjacent) with a space, otherwise separate the sign symbol from the value with a space.|
+
+The `sign_posn` variants are determined by the following values:
+
+|Value|Description|
+|--|---------|
+|`0`|Put parens around the value and the currency symbol.|
+|`1`|Put the sign string in front of the currency symbol and value.|
+|`2`|Put the sign string after the currency symbol and value.|
+|`3`|Put the sign string directly in front of the currency symbol.|
+|`4`|Put the sign string directly behind the currency symbol.|
 
 ### Example Values
 
