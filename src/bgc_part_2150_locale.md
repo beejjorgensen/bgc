@@ -83,11 +83,12 @@ Douglas Adams], let's talk about monetary locale. When you're writing
 portable code, you have to know what to type for cash, right? Whether
 that's "$", "€", "¥", "£", or "₹".
 
-How can you write that code without going insane? Luckily, once you
-call `setlocale(LC_ALL, "")`, you can just look these up with a call:
+How can you write that code without going insane? Luckily, once you call
+`setlocale(LC_ALL, "")`, you can just look these up with a call to
+`localeconv()`:
 
 ``` {.c}
-struct lconv *x = localconv();
+struct lconv *x = localeconv();
 ```
 
 This function returns a pointer to a statically-allocated `struct lconv`
@@ -100,8 +101,13 @@ type `char` or `char*`, most (or the strings they point to) are actually
 treated as integers^[Remember that `char` is just a byte-sized
 integer.].
 
+Before we go further, know that `CHAR_MAX` (from `<limits.h>`) is the
+maximum value that can be held in a `char`. And that many of the
+following `char` values use that to indicate the value isn't available
+in the given locale.
+
 |Field|Description|
-|-|--------------|
+|-----|-----------|
 |`char *mon_decimal_point`|Decimal pointer character for money, e.g. `"."`.|
 |`char *mon_thousands_sep`|Thousands separator character for money, e.g. `","`.|
 |`char *mon_grouping`|Grouping description for money (see below).|
@@ -125,9 +131,6 @@ integer.].
 |`char int_n_sign_posn`|International value for `n_sign_posn`.|
 
 ### Monetary Digit Grouping
-
-Before we start, know that `CHAR_MAX` (from `<limits.h>`) is the maximum
-value that can be held in a `char`.
 
 OK, this is a trippy one. `mon_grouping` is a `char*`, so you might be
 thinking it's a string. But in this case, no, it's really an array of
@@ -213,7 +216,7 @@ All the `sep_by_space` variants deal with spacing around the currency
 sign. Valid values are:
 
 |Value|Description|
-|--|---------|
+|:--:|------------|
 |`0`|No space between currency symbol and value.|
 |`1`|Separate the currency symbol (and sign, if any) from the value with a space.|
 |`2`|Separate the sign symbol from the currency symbol (if adjacent) with a space, otherwise separate the sign symbol from the value with a space.|
@@ -221,7 +224,7 @@ sign. Valid values are:
 The `sign_posn` variants are determined by the following values:
 
 |Value|Description|
-|--|---------|
+|:--:|------------|
 |`0`|Put parens around the value and the currency symbol.|
 |`1`|Put the sign string in front of the currency symbol and value.|
 |`2`|Put the sign string after the currency symbol and value.|
@@ -257,34 +260,26 @@ int_p_sign_posn    = 1
 int_n_sign_posn    = 1
 ```
 
-LC_ALL
-LC_COLLATE
-LC_CTYPE
-LC_MONETARY
-LC_NUMERIC
-LC_TIME
+## Localization Specifics
 
-char *decimal_point; // "."
-char *thousands_sep; // ""
-char *grouping; // ""
-char *mon_decimal_point; // ""
-char *mon_thousands_sep; // ""
-char *mon_grouping; // ""
-char *positive_sign; // ""
-char *negative_sign; // ""
-char *currency_symbol; // ""
-char frac_digits; // CHAR_MAX
-char p_cs_precedes; // CHAR_MAX
-char n_cs_precedes; // CHAR_MAX
-char p_sep_by_space; // CHAR_MAX
-char n_sep_by_space; // CHAR_MAX
-char p_sign_posn; // CHAR_MAX
-char n_sign_posn; // CHAR_MAX
-char *int_curr_symbol; // ""
-char int_frac_digits; // CHAR_MAX
-char int_p_cs_precedes; // CHAR_MAX
-char int_n_cs_precedes; // CHAR_MAX
-char int_p_sep_by_space; // CHAR_MAX
-char int_n_sep_by_space; // CHAR_MAX
-char int_p_sign_posn; // CHAR_MAX
-char int_n_sign_posn; // CHAR_MAX
+Notice how we passed the macro `LC_ALL` to `setlocale()` earlier... this
+hints that there might be some variant that allows you to be more
+precise about which _parts_ of the locale you're setting.
+
+Let's take a look at the values you can see for these:
+
+|Macro|Description|
+|----|--------------|
+|`LC_ALL`|Set all of the following to the given locale.|
+|`LC_COLLATE`|Controls the behavior of the `strcoll()` and `strxfrm()` functions.|
+|`LC_CTYPE`|Controls the behavior of the character-handling functions^[Except for `isdigit()` and `isxdigit()`.].|
+|`LC_MONETARY`|Controls the values returned by `localeconv()`.|
+|`LC_NUMERIC`|Controls the decimal point for the `printf()` family of functions.|
+|`LC_TIME`|Controls time formatting of the `strftime()` and `wcsftime()` time and date printing functions.|
+
+It's pretty common to see `LC_ALL` being set, but, hey, at least you
+have options.
+
+Also I should point out that `LC_CTYPE` is one of the biggies because it
+ties into wide characters, a significant can of worms that we'll talk about
+later.
