@@ -42,8 +42,35 @@ void foo(const int x)
 This one gets a little funky, because there are two usages that have two
 meanings when it comes to pointers.
 
+For one thing, we can make it so you can't change the thing the pointer
+points to. You do this by putting the `const` up front with the type
+name (before the asterisk) in the type declaration.
+
+``` {.c}
+int x[] = {10, 20};
+const int *p = x; 
+
+p++;  // We can modify p, no problem
+
+*p = 30; // Compiler error! Can't change what it points to
+```
+
+Somewhat confusingly, these two things are equivalent:
+
+``` {.c}
+const int *p;  // Can't modify what p points to
+int const *p;  // Can't modify what p points to, just like the previous line
+```
+
+Great, so we can't change the thing the pointer points to, but we can
+change the pointer itself. What if we want the other way around? We want
+to be able to change what the pointer points to, but _not_ the pointer
+itself?
+
+Just move the `const` after the asterisk in the declaration:
+
 ``` {c.}
-const int *p;   // We can't modify "p" with pointer arithmetic
+int *const p;   // We can't modify "p" with pointer arithmetic
 
 p++;  // Compiler error!
 ```
@@ -52,41 +79,38 @@ But we can modify what they point to:
 
 ``` {.c}
 int x = 10;
-const int *p = &x;
+int *const p = &x;
 
 *p = 20;   // Set "x" to 20, no problem
 ```
 
-Great, so we can't change the pointer, but we can change what it points
-to. What if we want the other way around? We want to be able to change
-the pointer, but _not_ what it points to?
-
-``` {.c}
-int x[] = {10, 20};
-int *const p = x;   // Move the const close to the variable name
-
-p++;  // No problem
-
-*p = 30; // Compiler error! Can't change what it points to
-```
-
-Somewhat confusingly, these two things are equivalent:
-
-``` {.c}
-const int *p;  // Can't modify p
-int const *p;  // Can't modify p, just like the previous line
-```
-
-but different than:
-
-``` {.c}
-int *const p;  // Can't modify *p, the thing p points to
-```
-
-You can also do both!
+You can also do make both things `const`:
 
 ``` {.c}
 const int *const p;  // Can't modify p or *p!
+```
+
+Finally, if you have multiple levels of indirection, you should `const`
+the appropriate levels. Just because a pointer is `const`, doesn't mean
+the pointer it points to must also be. You can explicitly set them like
+in the following examples:
+
+``` {.c}
+char **p;
+p++;     // OK!
+(*p)++;  // OK!
+
+char **const p;
+p++;     // Error!
+(*p)++;  // OK!
+
+char *const *p;
+p++;     // OK!
+(*p)++;  // Error!
+
+char *const *const p;
+p++;     // Error!
+(*p)++;  // Error!
 ```
 
 #### `const` Correctness
