@@ -7,6 +7,7 @@
 
 Before we begin, note that this is an active area of language
 development in C as it works to get past some, erm, _growing pains_.
+When C2x comes out, updates here are probable.
 
 Most people are basically interested in the deceptively simple question,
 "How do I use such-and-such character set in C?" We'll get to that. But
@@ -23,6 +24,8 @@ Let's get an outline first of what we're going to look at:
 * Source and Execution character Sets
 * Using Unicode and UTF-8
 * Using other character types like `wchar_t`, `char16_t`, and `char32_t`
+
+Let's dive in!
 
 ## What is Unicode?
 
@@ -192,16 +195,16 @@ Unicode characters using only the basic character set.
 
 ## Unicode in C
 
-Before I get into encoding, let's talk about Unicode from a codepoint
-standpoint. There is a way in C to specify Unicode characters and these
-will get translated by the compiler into the execution character
+Before I get into encoding in C, let's talk about Unicode from a code
+point standpoint. There is a way in C to specify Unicode characters and
+these will get translated by the compiler into the execution character
 set^[Presumably the compiler makes the best effort to translate the code
 point to whatever the output encoding is, but I can't find any
 guarantees in the spec.].
 
 So how do we do it?
 
-How about the euro symbol, codepoint 0x20AC. (I've written it in hex
+How about the euro symbol, code point 0x20AC. (I've written it in hex
 because both ways of representing it in C require hex.) How can we put
 that in our C code?
 
@@ -238,7 +241,9 @@ equivalent:
 
 Again, these are translated into the execution character set during
 compilation. They represent Unicode code points, not any specific
-encoding.
+encoding. Furthermore, if a Unicode code point is not representable in
+the execution character set, the compiler can do whatever it wants with
+it.
 
 Now, you might wonder why you can't just do this:
 
@@ -255,14 +260,14 @@ that aren't included in their extended character set, and the € symbol
 certainly isn't in the basic character set.
 
 Caveat from the spec: you can't use `\u` or `\U` to encode any
-codepoints below 0xA0 except for 0x24 (`$`), 0x40 (`@`), and 0x60
+code points below 0xA0 except for 0x24 (`$`), 0x40 (`@`), and 0x60
 (`` ` ``).
 
 Finally, you can also use these in identifiers in your code, with some
 restrictions. But I don't want to get into that here. We're all about
 string handling in this chapter.
 
-And that's about it for Unicode (except encoding).
+And that's about it for Unicode in C (except encoding).
 
 ## A Quick Note on UTF-8 Before We Swerve into the Weeds
 
@@ -275,7 +280,8 @@ If that's the case, and you don't mind being non-portable to systems
 that aren't like that, then just run with it. Stick Unicode characters
 in your source and data at will. Use regular C strings and be happy.
 
-A lot of things will just work.
+A lot of things will just work, albeit non-portably. But maybe that's a
+tradeoff that's worth it to you.
 
 But there are some caveats.
 
@@ -294,27 +300,173 @@ But there are some caveats.
 * If you want to `malloc()` space for a string, or declare an array of
   `char`s for one, be aware that the maximum size could be more than you
   were expecting. Each character could take up to `MB_LEN_MAX` bytes
-  (from `<limits.h>`).
+  (from `<limits.h>`)---except characters in the basic character set
+  which are guaranteed to be one byte.
 
 And probably others I haven't discovered. Let me know what pitfalls
 there are out there...
 
 ## Different Character Types
 
-### Wide
-### 16
-### 32
+I want to introduce more character types. We're used to `char`, right?
 
-## Wide Characters
+But that's too easy. Let's make things a lot more difficult! Yay!
 
-> "It means fasten your seat belt Dorothy, 'cause Kansas is going
-> bye-bye." 
-> ---Cipher, _The Matrix_
+### Multibyte Characters
 
-The execution character set can be encoded a figuratively infinite
-number of ways, so how do we write our code to handle it? What is a 
+First of all, I want to potentially change your thinking about what a
+string (array of `char`s) is. These are _multibyte strings_ made up of
+_multibyte characters_.
 
-## UTF-8 in C
+That's right---your run-of-the-mill string of characters is multibyte.
+
+Even if a particular character in the string is only a single byte, or
+if a string is made up of only single characters, it's known as
+multibyte.
+
+For example:
+
+``` {.c}
+char c[128] = "Hello, world!";  // Multibyte string
+```
+
+What we're saying here is that a particular character that's not in the
+basic character set could be composed of multiple bytes. Up to
+`MB_LEN_MAX` of them (from `<limits.h>`). Sure, it only looks like one
+character on the screen, but it could be multiple bytes.
+
+You can throw Unicode values in there, as well, as we saw earlier:
+
+``` {.c}
+char *s = "\u20AC1.23";
+
+printf("%s\n", s);  // €1.23
+```
+
+But here we're getting into some weirdness, because check this out:
+
+``` {.c}
+char *s = "\u20AC1.23";  // €1.23
+
+printf("%zu\n", strlen(s));  // 7!
+```
+
+The string length of `"€1.23"` is `7`?! Yes! Well, on my system, yes!
+Remember that `strlen()` returns the number of bytes in the string, not
+the number of characters. (When we get to "wide characters", coming up,
+we'll see a way to get the number of characters in the string.)`
+
+Note that while C allows individual multibyte `char` constants, the
+behavior of these varies by implementation and your compiler might warn
+on it.
+
+GCC, for example, warns of multi-character character constants for the
+following two lines (and, on my system, prints out the UTF-8 encoding):
+
+``` {.c}
+printf("%x\n", '€');
+printf("%x\n", '\u20ac');
+```
+
+### Wide Characters
+
+If you're not a multibyte character, then you're a _wide character_.
+
+A wide character is a single value that can uniquely represent any
+character in the current locale. It's analogous to Unicode code points.
+But it might not be. Or it might be.
+
+Basically, where multibyte character strings are arrays of bytes, wide
+character strings are arrays of _characters_. So you can start thinking
+on a character-by-character basis rather than a byte-by-byte basis (the
+latter of which gets all messy when characters start taking up variable
+numbers of bytes).
+
+Wide characters can be represented by a number of types, but the big
+standout one is `wchar_t`. It's the main one.
+
+You might be wondering if you can't tell if it's Unicode or not, how
+does that allow you much flexibility in terms of writing code? `wchar_t`
+opens some of those doors, as there are a rich set of function you can
+use to deal with `wchar_t` strings (like getting the length, etc.)
+without caring about the encoding.
+
+### An Opening Note on I/O
+
+TODO
+
+## Using Wide Characters and `wchar_t`
+
+Time for a new type: `wchar_t`. This is the main wide character typre.
+Remember how a `char` is only one byte? And a byte's not enough to
+represent all characters, potentially? Well, this one is enough.
+
+To use `wchar_t`, `#include <wchar.h>`.
+
+How many bytes big is it? Well, it's not totally clear. Could be 16
+bits. Could be 32 bits.
+
+But wait, you're saying---if it's only 16 bits, it's not big enough to
+hold all the Unicode code points, is it? You're right---it's not. The
+spec doesn't require it to be. It just has to be able to represent all
+the characters in the current locale.
+
+This can cause grief with Unicode on platforms with 16-bit `wchar_t`s
+(ahem---Windows). But that's out of scope for this guide.
+
+You can declare a string or character of this type with the `L` prefix:
+
+``` {.c}
+wchar_t *s = L"Hello, world!";
+wchar_t c = L'B';
+```
+
+Now---are those stored are Unicode code points, or not? Depends on the
+implementation. But you can test if they are with the macro
+`__STDC_ISO_10646__`. If this is defined, the answer is, "It's Unicode!"
+
+More detailedly, the value in that macro is an integer in the form
+`yyyymm` that lets you know what Unicode standard you can rely
+on---whatever was in effect on that date.
+
+But how do you use them?
+
+Well, usefully, most of the string-oriented functions you're used to
+using with multibyte strings have a corresponding version that works
+with wide strings.
+
+### `wint_t`
+
+This is related to `wchar_t` in nature. It's an integer that can
+represent all values in the extended character set, and also a special
+end-of-file character, `WEOF`.
+
+This is used by a number of single-character-oriented wide character
+functions.
+
+To use it, `#include <wchar.h>`.
+
+## Character Type Conversions
+
+* int mbtowc(wchar_t * restrict pwc, const char * restrict s, size_t n);
+* int wctomb(char *s, wchar_t wchar);
+
+* wint_t btowc(int c);
+* int wctob(wint_t c);
+
+* size_t mbrtowc(wchar_t * restrict pwc, const char * restrict s, size_t n, mbstate_t * restrict ps);
+* size_t wcrtomb(char * restrict s, wchar_t wc, mbstate_t * restrict ps);
+* size_t mbsrtowcs(wchar_t * restrict dst, const char ** restrict src, size_t len, mbstate_t * restrict ps);
+* size_t wcsrtombs(char * restrict dst, const wchar_t ** restrict src, size_t len, mbstate_t * restrict ps);
+
+* size_t mbrtoc16(char16_t * restrict pc16, const char * restrict s, size_t n, mbstate_t * restrict ps);
+* size_t c16rtomb(char * restrict s, char16_t c16, mbstate_t * restrict ps);
+* size_t mbrtoc32(char32_t * restrict pc32, const char * restrict s, size_t n, mbstate_t * restrict ps);
+* size_t c32rtomb(char * restrict s, char32_t c32, mbstate_t * restrict ps);
+
+## Unicode Encodings and C
+
+### UTF-8
 
 In general, C doesn't dictate what encoding your characters use. The
 spec is _really_ flexible in this regard.
@@ -352,7 +504,7 @@ What if it doesn't? You can specify a Unicode character with `\u` for
 always use `\U`, it's just a lot of zeros up front that you might not
 need.)
 
-The "€" symbol is codepoint `20AC` in hex, so we could write the above
+The "€" symbol is code point `20AC` in hex, so we could write the above
 with:
 
 ``` {.c}
@@ -367,5 +519,50 @@ char *s = u8"\U000020AC";
 
 You must use exactly 4 hex digits with `\u` and exactly 8 hex digits
 with `\U`. The spec also has a restriction: you can't use them to encode
-any codepoints below 0xA0 except for 0x24 (`$`), 0x40 (`@`), and 0x60
+any code points below 0xA0 except for 0x24 (`$`), 0x40 (`@`), and 0x60
 (`` ` ``).
+
+### `char16_t` and `char32_t`
+
+`char16_t` and `char32_t` are a couple other potentially wide character
+types with sizes of 16 bits and 32 bits, respectively. Not necessarily,
+because if they can't represent every character in the current locale,
+they lose their wide character nature. But the spec refers them as "wide
+character" types all over the place, so there we are.
+
+These are here to make things a little more Unicode-friendly,
+potentially.
+
+To use, `#include <uchar.h>`.
+
+You can declare a string or character of these types with the `u` and
+`U` prefixes:
+
+``` {.c}
+char16_t *s = u"Hello, world!";
+char16_t c = u'B';
+
+char32_t *t = U"Hello, world!";
+char32_t d = U'B';
+```
+
+Now---are values in these stored in UTF-16 or UTF-32? Depends on the
+implementation.
+
+But you can test to see if they are. If the macros `__STDC_UTF_16__` or
+`__STDC_UTF_32__` are defined (to `1`) it means the types hold UTF-16 or
+UTF-32, respectively.
+
+If you're curious, and I know you are, the values, if UTF-16 or UTF-32,
+are stored in the native endianess. That is, you should be to compare
+them straight up to Unicode code point values:
+
+``` {.c}
+char16_t pi = u"\u03C0";  // pi symbol
+
+#if __STDC_UTF_16__
+pi == 0x3C0;  // Always true
+#else
+pi == 0x3C0;  // Probably not true
+#endif
+```
