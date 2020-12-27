@@ -522,10 +522,45 @@ multibyte string functions that we're use to. (For example, we know
 `strlen()` for multibyte strings; there's an `wcslen()` for wide
 character strings.)
 
+### `wint_t`
+
+A lot of these functions use a `wint_t` to hold single characters,
+whether they are passed in or returned.
+
+It is related to `wchar_t` in nature. A `wint_t` is an integer that can
+represent all values in the extended character set, and also a special
+end-of-file character, `WEOF`.
+
+This is used by a number of single-character-oriented wide character
+functions.
+
+### I/O Stream Orientation
+
+The tl;dr here is to not mix and match byte-oriented functions (like
+`fprintf()` with wide-oriented functions (like `fwprintf()`). Decide if
+a stream will be byte-oriented or wide-oriented and stick with those
+types of I/O functions.
+
+In more detail: streams can be either byte-oriented or wide-oriented.
+When a stream is first created, it has no orientation, but the first
+read or write will set the orientation.
+
+If you first use a wide operation (like `fwprintf()`) it will orient the
+stream wide.
+
+If you first use a byte operation (like `fprintf()`) it will orient the
+stream by bytes.
+
+You can manually set an unoriented stream one way or the other with a
+call to `fwide()`. You can use that same function to get the orientation
+of a stream.
+
+If you need to change the orientation mid-flight, you can do it with
+`freopen()`.
+
 ### I/O Functions
 
-TODO output stream mode
-TODO wint_t
+Before we talk I/O. 
 
 Typically include `<stdio.h>` and `<wchar.h>` for these.
 
@@ -639,26 +674,12 @@ Include `<wctype.h>` for these.
 |`towlower()`|Convert character to lowercase.|
 |`towupper()`|Convert character to uppercase.|
 
-TODO: shift state, UTF
-
-### `wint_t`
-
-This is related to `wchar_t` in nature. It's an integer that can
-represent all values in the extended character set, and also a special
-end-of-file character, `WEOF`.
-
-This is used by a number of single-character-oriented wide character
-functions.
-
-To use it, `#include <wchar.h>`.
-
 ## Character Type Conversions
 
 * int mbtowc(wchar_t * restrict pwc, const char * restrict s, size_t n);
 * int wctomb(char *s, wchar_t wchar);
 
-* size_t mbstowcs(wchar_t * restrict pwcs, const char * restrict s, size_t n);
-* size_t wcstombs(char * restrict s, const wchar_t * restrict pwcs, size_t n);
+## State, Restartable Functions
 
 * size_t mbrtowc(wchar_t * restrict pwc, const char * restrict s, size_t n, mbstate_t * restrict ps);
 * size_t wcrtomb(char * restrict s, wchar_t wc, mbstate_t * restrict ps);
