@@ -286,7 +286,8 @@ tradeoff that's worth it to you.
 But there are some caveats.
 
 * Things like `strlen()` report the number of bytes in a string, not the
-  number of characters, necessarily.
+  number of characters, necessarily. (Use `mbstowcs()` with a `NULL`
+  first argument to get the number of characters in a multibyte string.)
 
 * The following won't work properly with characters of more than one
   byte: `strtok()`, `strchr()` (use `strstr()` instead), `strspn()`-type
@@ -450,6 +451,13 @@ First, some naming conventions you'll see in these functions:
 So if we want to convert a multibyte string to a wide character string,
 we can call the `mbstowcs()`. And the other way around: `wcstombs()`.
 
+|Conversion Function|Description|
+|-|-|
+|`mbtowc()`|Convert a multibyte character to a wide character.|
+|`wctomb()`|Convert a wide character to a multibyte character.|
+|`mbstowcs()`|Convert a multibyte string to a wide string.|
+|`wcstombs()`|Convert a wide string to a multibyte string.|
+
 Let's do a quick demo where we convert a multibyte string to a wide
 character string, and compare the string lengths of the two using their
 respective functions.
@@ -559,8 +567,6 @@ If you need to change the orientation mid-flight, you can do it with
 `freopen()`.
 
 ### I/O Functions
-
-Before we talk I/O. 
 
 Typically include `<stdio.h>` and `<wchar.h>` for these.
 
@@ -674,31 +680,118 @@ Include `<wctype.h>` for these.
 |`towlower()`|Convert character to lowercase.|
 |`towupper()`|Convert character to uppercase.|
 
-## Character Type Conversions
+## Parse State, Restartable Functions
 
-* int mbtowc(wchar_t * restrict pwc, const char * restrict s, size_t n);
-* int wctomb(char *s, wchar_t wchar);
+We're going to get a little bit into the guts of multibyte conversion,
+but this is a good thing to understand, conceptually.
 
-## State, Restartable Functions
+Imagine how your program takes a sequence of multibyte characters and
+turns them into wide characters, or vice-versa. It might, at some point,
+be partway through parsing a character, or it might have to wait for
+more bytes before it makes the determination of the final value.
 
-* size_t mbrtowc(wchar_t * restrict pwc, const char * restrict s, size_t n, mbstate_t * restrict ps);
-* size_t wcrtomb(char * restrict s, wchar_t wc, mbstate_t * restrict ps);
+This parse state is stored in an opaque variable of type `mbstate_t` and
+is used every time conversion is performed. That's how the conversion
+functions keep track of where they are mid-work.
 
-* size_t mbrtowc(wchar_t * restrict pwc, const char * restrict s, size_t n, mbstate_t * restrict ps);
-* size_t wcrtomb(char * restrict s, wchar_t wc, mbstate_t * restrict ps);
+And if you change to a different character sequence mid-stream, or try
+to seek to a different place in your input sequence, it could get
+confused over that.
 
-* size_t mbsrtowcs(wchar_t * restrict dst, const char ** restrict src, size_t len, mbstate_t * restrict ps);
-* size_t wcsrtombs(char * restrict dst, const wchar_t ** restrict src, size_t len, mbstate_t * restrict ps);
+Now you might want to call me on this one: we just did some conversions,
+above, and I never mentioned any `mbstate_t` anywhere.
 
+That's because the conversion functions like `mbstowcs()`, `wctomb()`,
+etc. each have their own `mbstate_t` variable that they use. There's
+only one per function, though, so if you're writing multithreaded code,
+they're not safe to use.
 
-* wint_t btowc(int c);
-* int wctob(wint_t c);
+Fortunately, C defines _restartable_ versions of these functions where
+you can pass in your own `mbstate_t` on per-thread basis if you need to.
+If you're doing multithreaded stuff, use these!
 
+Quick note on initializing an `mbstate_t` variable: just `memset()` it
+to zero. There is no built-in function to force it to be initialized.
 
-* size_t mbrtoc16(char16_t * restrict pc16, const char * restrict s, size_t n, mbstate_t * restrict ps);
-* size_t c16rtomb(char * restrict s, char16_t c16, mbstate_t * restrict ps);
-* size_t mbrtoc32(char32_t * restrict pc32, const char * restrict s, size_t n, mbstate_t * restrict ps);
-* size_t c32rtomb(char * restrict s, char32_t c32, mbstate_t * restrict ps);
+``` {.c}
+mbstate_t mbs;
+
+// Set the state to the initial state
+memset(&mbs, 0, sizeof mbs);
+```
+
+Here is a list of the restartable conversion functions---note the naming
+convension of putting an "`r`" after the "from" type:
+
+* `mbrtowc()`---multibyte to wide character
+* `wcrtomb()`---wide character to multibyte
+* `mbsrtowcs()`---multibyte string to wide character string
+* `wcsrtombs()`---wide character string to multibyte string
+
+These are really similar to their non-restartable counterparts, except
+they require you pass in a pointer to your own `mbstate_t` variable. And
+also they modify the source string pointer (to help you out if invalid
+bytes are found), so it might be useful to save a copy of the original.
+
+Here's the example from earlier in the chapter reworked to pass in our
+own `mbstate_t`.
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <stdlib.h>
+#include <wchar.h>
+#include <string.h>
+#include <locale.h>
+
+int main(void)
+{
+    // Get out of the C locale to one that likely has the euro symbol
+    setlocale(LC_ALL, "");
+
+    // Original multibyte string with a euro symbol (Unicode point 20ac)
+    char *mb_string = "The cost is \u20ac1.23";  // €1.23
+    size_t mb_len = strlen(mb_string);
+
+    // Wide character array that will hold the converted string
+    wchar_t wc_string[128];  // Holds up to 128 wide characters
+
+    // Set up the conversion state
+    mbstate_t mbs;
+    memset(&mbs, 0, sizeof mbs);  // Initial state
+
+    // mbsrtowcs() modifies the input pointer to point at the first
+    // invalid character, or NULL if successful. Let's make a copy of
+    // the pointer for mbsrtowcs() to mess with so our original is
+    // unchanged.
+    const char *invalid = mb_string;
+
+    // Convert the MB string to WC; this returns the number of wide chars
+    size_t wc_len = mbsrtowcs(wc_string, &invalid, 128, &mbs);
+
+    // Print result--note the %ls for wide char strings
+    printf("multibyte: \"%s\" (%zu bytes)\n", mb_string, mb_len);
+    printf("wide char: \"%ls\" (%zu characters)\n", wc_string, wc_len);
+}
+```
+
+For the conversion functions that manage their own state, you can reset
+their internal state to the initial one by passing in `NULL` for their
+`char*` arguments, for example:
+
+``` {.c}
+mbstowcs(NULL, NULL, 0);   // Reset the parse state for mbstowcs()
+mbstowcs(dest, src, 100);  // Parse some stuff
+```
+
+For I/O, each wide stream manages its own `mbstate_t` and uses that for
+input and output conversions as it goes.`
+
+And some of the byte-oriented I/O functions like `printf()` and
+`scanf()` keep their own internal state while doing their work.
+
+Finally, these restartable conversion functions do actually have their
+own internal state if you pass in `NULL` for the `mbstate_t` parameter.
+This makes them behave more like their non-restartable counterparts.
 
 ## Unicode Encodings and C
 
@@ -802,3 +895,8 @@ pi == 0x3C0;  // Always true
 pi == 0x3C0;  // Probably not true
 #endif
 ```
+
+* size_t mbrtoc16(char16_t * restrict pc16, const char * restrict s, size_t n, mbstate_t * restrict ps);
+* size_t c16rtomb(char * restrict s, char16_t c16, mbstate_t * restrict ps);
+* size_t mbrtoc32(char32_t * restrict pc32, const char * restrict s, size_t n, mbstate_t * restrict ps);
+* size_t c32rtomb(char * restrict s, char32_t c32, mbstate_t * restrict ps);
