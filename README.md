@@ -157,13 +157,6 @@ have to consider any copyright issues when merging changes.
   * Wide and multibyte characters
     * UTF-8 best practices
     * Constant string and char types
-  * Types V
-    * unnamed objects
-    * Generics
-  * Arrays II
-    * static const
-    * Equivalent initializers 6.7.9p29
-    * Array of struct initializers 6.7.9p35
   * Exiting
     * return from main()
     * exit()
@@ -172,10 +165,18 @@ have to consider any copyright issues when merging changes.
     * atexit()
     * at_quick_exit()
   * Signals
+  * Types V
+    * unnamed objects
+    * Generics
+  * Arrays II
+    * static const
+    * Equivalent initializers 6.7.9p29
+    * Array of struct initializers 6.7.9p35
   * Goto
     * Labels
   * Incomplete types
   * lvalues
+  * setjmp/longjmp
   * More man pages
   * Optional features
     * Threads
