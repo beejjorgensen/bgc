@@ -128,6 +128,14 @@ int main(void)
 }
 ```
 
+Which gives this output:
+
+```
+About to quick exit...
+Quick exit handler 2 called!
+Quick exit handler 1 called!
+```
+
 It works just like `exit()`/`atexit()`, except for the fact that file
 flushing and cleanup might not be done.
 
