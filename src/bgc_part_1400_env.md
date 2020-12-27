@@ -289,7 +289,7 @@ Just a few more things about `argc` and `argv`.
 
   This behavior is not in the spec and is highly system-dependent.
 
-## Exit Status
+## Exit Status {#exit-status}
 
 Did you notice that the function signatures for `main()` have it
 returning type `int`? What's that all about? It has to do with a thing
