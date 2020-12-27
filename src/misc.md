@@ -3005,8 +3005,8 @@ wctomb
 wcctombs
 
 The wide output only works if the stream is wide-oriented fwide()
-    Stdout on Linux isn't, it seems.
-
+    Orientation gets set on first write
+    Other orientations won't work
 
 ## Types
 
@@ -3014,6 +3014,7 @@ wchar_t
 
 mbstate_t
 * Used for mb<->wide conversion
+* Shift state
 
 wint_t
 
