@@ -289,12 +289,13 @@ But there are some caveats.
   number of characters, necessarily.
 
 * The following won't work properly with characters of more than one
-  byte: `strtok()`, `strchr()` (use `strstr()` instead), `strspn()`
-  byte.
+  byte: `strtok()`, `strchr()` (use `strstr()` instead), `strspn()`-type
+  functions, `toupper()`, `tolower()`, `isalpha()`-type functions, and
+  probably more. Beware anything that operates on bytes.
 
 * `printf()` variants allow for a way to only print so many bytes of a
-  string^[With a format specifier like `"%s.12"`, for example.] You want
-  to make certain you print the correct number of bytes to end on a
+  string^[With a format specifier like `"%s.12"`, for example.]. You
+  want to make certain you print the correct number of bytes to end on a
   character boundary.
 
 * If you want to `malloc()` space for a string, or declare an array of
@@ -391,10 +392,6 @@ opens some of those doors, as there are a rich set of function you can
 use to deal with `wchar_t` strings (like getting the length, etc.)
 without caring about the encoding.
 
-### An Opening Note on I/O
-
-TODO
-
 ## Using Wide Characters and `wchar_t`
 
 Time for a new type: `wchar_t`. This is the main wide character typre.
@@ -414,16 +411,21 @@ the characters in the current locale.
 This can cause grief with Unicode on platforms with 16-bit `wchar_t`s
 (ahem---Windows). But that's out of scope for this guide.
 
-You can declare a string or character of this type with the `L` prefix:
+You can declare a string or character of this type with the `L` prefix,
+and you can print them with the `%ls` ("ell ess") format specifier. Or
+print an individual `wchar_t` with `%lc`.
 
 ``` {.c}
 wchar_t *s = L"Hello, world!";
 wchar_t c = L'B';
+
+printf("%ls %lc\n", s, c);
 ```
 
-Now---are those stored are Unicode code points, or not? Depends on the
-implementation. But you can test if they are with the macro
-`__STDC_ISO_10646__`. If this is defined, the answer is, "It's Unicode!"
+Now---are those characters stored are Unicode code points, or not?
+Depends on the implementation. But you can test if they are with the
+macro `__STDC_ISO_10646__`. If this is defined, the answer is, "It's
+Unicode!"
 
 More detailedly, the value in that macro is an integer in the form
 `yyyymm` that lets you know what Unicode standard you can rely
@@ -431,9 +433,213 @@ on---whatever was in effect on that date.
 
 But how do you use them?
 
-Well, usefully, most of the string-oriented functions you're used to
-using with multibyte strings have a corresponding version that works
-with wide strings.
+### Multibyte to `wchar_t` Conversions
+
+So how do we get from the byte-oriented standard strings to the
+character-oriented wide strings and back?
+
+We can use a couple string conversion functions to make this happen.
+
+First, some naming conventions you'll see in these functions:
+
+* `mb`: multibyte
+* `wc`: wide character
+* `mbs`: multibyte string
+* `wcs`: wide character string
+
+So if we want to convert a multibyte string to a wide character string,
+we can call the `mbstowcs()`. And the other way around: `wcstombs()`.
+
+Let's do a quick demo where we convert a multibyte string to a wide
+character string, and compare the string lengths of the two using their
+respective functions.
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <stdlib.h>
+#include <wchar.h>
+#include <string.h>
+#include <locale.h>
+
+int main(void)
+{
+    // Get out of the C locale to one that likely has the euro symbol
+    setlocale(LC_ALL, "");
+
+    // Original multibyte string with a euro symbol (Unicode point 20ac)
+    char *mb_string = "The cost is \u20ac1.23";  // €1.23
+    size_t mb_len = strlen(mb_string);
+
+    // Wide character array that will hold the converted string
+    wchar_t wc_string[128];  // Holds up to 128 wide characters
+
+    // Convert the MB string to WC; this returns the number of wide chars
+    size_t wc_len = mbstowcs(wc_string, mb_string, 128);
+
+    // Print result--note the %ls for wide char strings
+    printf("multibyte: \"%s\" (%zu bytes)\n", mb_string, mb_len);
+    printf("wide char: \"%ls\" (%zu characters)\n", wc_string, wc_len);
+}
+```
+
+On my system, this outputs:
+
+```
+multibyte: "The cost is €1.23" (19 bytes)
+wide char: "The cost is €1.23" (17 characters)
+```
+
+(Your system might vary on the number of bytes depending on your
+locale.)
+
+One interesting thing to note is that `mbstowcs()`, in addition to
+converting the multibyte string to wide, returns the length (in
+characters) of the wide character string. And, in fact, it has a special
+mode where it _only_ returns the length-in-characters of a given
+multibyte string: you just pass `NULL` to the destination, and `0` to
+the maximum number of characters to convert (this value is ignored).
+
+(In the code below, I'm using my extended source character set---you
+might have to replace those with `\u` escapes.)
+
+``` {.c}
+setlocale(LC_ALL, "");
+
+// The following string has 7 characters
+size_t len_in_chars = mbstowcs(NULL, "§¶°±π€•", 0));
+
+printf("%zu", len_in_chars);  // 7
+```
+
+And, of course, if you want to convert the other way, it's `wcstombs()`.
+
+## Wide Character Functionality
+
+Once we're in wide character land, we have all kinds of functionality at
+our disposal. I'm just going to summarize a bunch of the functions here,
+but basically what we have here are the wide character versions of the
+multibyte string functions that we're use to. (For example, we know
+`strlen()` for multibyte strings; there's an `wcslen()` for wide
+character strings.)
+
+### I/O Functions
+
+TODO output stream mode
+TODO wint_t
+
+Typically include `<stdio.h>` and `<wchar.h>` for these.
+
+|I/O Function|Description|
+|-|-|
+|`wprintf()`|Formatted console output.|
+|`wscanf()`|Formatted console input.|
+|`getwchar()`|Character-based console input.|
+|`putwchar()`|Character-based console output.|
+|`fwprintf()`|Formatted file output.|
+|`fwscanf()`|Formatted file input.|
+|`fgetwc()`|Character-based file input.|
+|`fputwc()`|Character-based file output.|
+|`fgetws()`|String-based file input.|
+|`fputws()`|String-based file output.|
+|`swprintf()`|Formatted string output.|
+|`swscanf()`|Formatted string input.|
+|`vfwprintf()`|Variadic formatted file output.|
+|`vfwscanf()`|Variadic formatted file input.|
+|`vswprintf()`|Variadic formatted string output.|
+|`vswscanf()`|Variadic formatted string input.|
+|`vwprintf()`|Variadic formatted console output.|
+|`vwscanf()`|Variadic formatted console input.|
+|`ungetwc()`|Push a wide character back on an output stream.|
+|`fwide()`|Get or set stream multibyte/wide orientation.|
+
+### Type Conversion Functions
+
+Typically include `<wchar.h>` for these.
+
+|Conversion Function|Description|
+|-|-|
+|`wcstod()`|Convert string to `double`.|
+|`wcstof()`|Convert string to `float`.|
+|`wcstold()`|Convert string to `long double`.|
+|`wcstol()`|Convert string to `long`.|
+|`wcstoll()`|Convert string to `long long`.|
+|`wcstoul()`|Convert string to `unsigned long`.|
+|`wcstoull()`|Convert string to `unsigned long long`.|
+
+### String and Memory Copying Functions
+
+Typically include `<wchar.h>` for these.
+
+|Copying Function|Description|
+|----|----------------------------------------------|
+|`wcscpy()`|Copy string.|
+|`wcsncpy()`|Copy string, length-limited.|
+|`wmemcpy()`|Copy memory.|
+|`wmemmove()`|Copy potentially-overlapping memory.|
+|`wcscat()`|Concatenate strings.|
+|`wcsncat()`|Concatenate strings, length-limited.|
+
+### String and Memory Comparing Functions
+
+Typically include `<wchar.h>` for these.
+
+|Comparing Function|Description|
+|-------------------|---------------------------------------------------------------|
+|`wcscmp()`|Compare strings lexicographically.|
+|`wcsncmp()`|Compare strings lexicographically, length-limited.|
+|`wcscoll()`|Compare strings in dictionary order by locale.|
+|`wmemcmp()`|Compare memory lexicographically.|
+|`wcsxfrm()`|Transform strings into versions such that `wcscmp()` behaves like `wcscoll()`[^97d0].|
+
+[^97d0]: `wcscoll()` is the same as `wcsxfrm()` followed by `wcscmp()`.
+
+### String Searching Functions
+
+Typically include `<wchar.h>` for these.
+
+|Searching Function|Description|
+|-|-|
+|`wcschr()`|Find a character in a string.|
+|`wcsrchr()`|Find a character in a string from the back.|
+|`wmemchr()`|Find a character in memory.|
+|`wcsstr()`|Find a substring in a string.|
+|`wcspbrk()`|Find any of a set of characters in a string.|
+|`wcsspn()`|Find length of substring including any of a set of characters.|
+|`wcscspn()`|Find length of substring before any of a set of characters.|
+|`wcstok()`|Find tokens in a string.|
+
+### Length/Miscellaneous Functions
+
+Typically include `<wchar.h>` for these.
+
+|Length/Misc Function|Description|
+|-|-|
+|`wcslen()`|Return the length of the string.|
+|`wmemset()`|Set characters in memory.|
+|`wcsftime()`|Formatted date and time output.|
+
+### Character Classification Functions
+
+Include `<wctype.h>` for these.
+
+|Length/Misc Function|Description|
+|-|-|
+|`iswalnum()`|True if the character is alphanumeric.|
+|`iswalpha()`|True if the character is alphabetic.|
+|`iswblank()`|True if the character is blank (space-ish, but not a newline).|
+|`iswcntrl()`|True if the character is a control character.|
+|`iswdigit()`|True if the character is a digit.|
+|`iswgraph()`|True if the character is printable (except space).|
+|`iswlower()`|True if the character is lowercase.|
+|`iswprint()`|True if the character is printable (including space).|
+|`iswpunct()`|True if the character is punctuation.|
+|`iswspace()`|True if the character is whitespace.|
+|`iswupper()`|True if the character is uppercase.|
+|`iswxdigit()`|True if the character is a hex digit.|
+|`towlower()`|Convert character to lowercase.|
+|`towupper()`|Convert character to uppercase.|
+
+TODO: shift state, UTF
 
 ### `wint_t`
 
@@ -451,13 +657,22 @@ To use it, `#include <wchar.h>`.
 * int mbtowc(wchar_t * restrict pwc, const char * restrict s, size_t n);
 * int wctomb(char *s, wchar_t wchar);
 
-* wint_t btowc(int c);
-* int wctob(wint_t c);
+* size_t mbstowcs(wchar_t * restrict pwcs, const char * restrict s, size_t n);
+* size_t wcstombs(char * restrict s, const wchar_t * restrict pwcs, size_t n);
 
 * size_t mbrtowc(wchar_t * restrict pwc, const char * restrict s, size_t n, mbstate_t * restrict ps);
 * size_t wcrtomb(char * restrict s, wchar_t wc, mbstate_t * restrict ps);
+
+* size_t mbrtowc(wchar_t * restrict pwc, const char * restrict s, size_t n, mbstate_t * restrict ps);
+* size_t wcrtomb(char * restrict s, wchar_t wc, mbstate_t * restrict ps);
+
 * size_t mbsrtowcs(wchar_t * restrict dst, const char ** restrict src, size_t len, mbstate_t * restrict ps);
 * size_t wcsrtombs(char * restrict dst, const wchar_t ** restrict src, size_t len, mbstate_t * restrict ps);
+
+
+* wint_t btowc(int c);
+* int wctob(wint_t c);
+
 
 * size_t mbrtoc16(char16_t * restrict pc16, const char * restrict s, size_t n, mbstate_t * restrict ps);
 * size_t c16rtomb(char * restrict s, char16_t c16, mbstate_t * restrict ps);
