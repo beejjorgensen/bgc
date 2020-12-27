@@ -193,7 +193,7 @@ UTF-8 are getting more common.
 Notably, it's a pain (though possible with escape sequences) to enter
 Unicode characters using only the basic character set.
 
-## Unicode in C
+## Unicode in C {#unicode-in-c}
 
 Before I get into encoding in C, let's talk about Unicode from a code
 point standpoint. There is a way in C to specify Unicode characters and
@@ -269,7 +269,7 @@ string handling in this chapter.
 
 And that's about it for Unicode in C (except encoding).
 
-## A Quick Note on UTF-8 Before We Swerve into the Weeds
+## A Quick Note on UTF-8 Before We Swerve into the Weeds {#utf8-quick}
 
 It could be that your source file on disk, the extended source
 characters, and the extended execution characters are all in UTF-8
@@ -280,10 +280,12 @@ If that's the case, and you don't mind being non-portable to systems
 that aren't like that, then just run with it. Stick Unicode characters
 in your source and data at will. Use regular C strings and be happy.
 
-A lot of things will just work, albeit non-portably. But maybe that's a
+A lot of things will just work (albeit non-portably) because UTF-8
+strings can safely be NUL-terminated just like any other C string. But
+maybe losing portability in exchange for easier character handling is a
 tradeoff that's worth it to you.
 
-But there are some caveats.
+There are some caveats, however:
 
 * Things like `strlen()` report the number of bytes in a string, not the
   number of characters, necessarily. (Use `mbstowcs()` with a `NULL`
@@ -795,24 +797,20 @@ This makes them behave more like their non-restartable counterparts.
 
 ## Unicode Encodings and C
 
+In this section, we'll see what C can (and can't) do when it comes to
+three specific Unicode encodings: UTF-8, UTF-16, and UTF-32.
+
 ### UTF-8
 
-In general, C doesn't dictate what encoding your characters use. The
-spec is _really_ flexible in this regard.
+To refresh before this section, read the [UTF-8 quick note,
+above](#utf8-quick).
 
-But if you are dealing with UTF-8 data in C, there's something about it
-that makes it C-friendly. You know how C strings end with a NUL (`'\0'`)
-character? Well, good news: that character won't show up in any UTF-8
-strings! (It's a valid UTF-8 character, but it's the NUL character, just
-like we're used to.)
+Aside from that, what are C's UTF-8 capabilities?
 
-Also, all the string functions in C just process bytes until they find a
-NUL. So you can have UTF-8 encoded data in there and things like
-`strcpy()` will still work. But you have to be careful---a lot of other
-functions, like `strlen()`, might not behave as you expect.
+Well, not much, unfortunately.
 
-You can tell C that you specifically want a string to be UTF-8 encoded,
-and it'll do it for you. You can prefix a string with `u8`:
+You can tell C that you specifically want a string literal to be UTF-8
+encoded, and it'll do it for you. You can prefix a string with `u8`:
 
 ``` {.c}
 char *s = u8"Hello, world!";
@@ -828,41 +826,40 @@ char *s = u8"€123";
 
 Sure! If the extended source character set supports it. (gcc does.)
 
-What if it doesn't? You can specify a Unicode character with `\u` for
-16-bit hex code points and `\U` for 32-bit hex code points. (You can
-always use `\U`, it's just a lot of zeros up front that you might not
-need.)
+What if it doesn't? You can specify a Unicode code point with your
+friendly neighborhood `\u` and `\U`, [as noted above](#unicode-in-c).
 
-The "€" symbol is code point `20AC` in hex, so we could write the above
-with:
+But that's about it. There's no portable way in the standard library to
+take arbirary input and turn it into UTF-8 unless your locale is UTF-8.
+Or to parse UTF-8 unless your locale is UTF-8.
 
-``` {.c}
-char *s = u8"\u20AC";
-```
-
-Or this way with UTF-32:
+So if you want to do it, either be in a UTF-8 locale and:
 
 ``` {.c}
-char *s = u8"\U000020AC";
+setlocale(LC_ALL, "");
 ```
 
-You must use exactly 4 hex digits with `\u` and exactly 8 hex digits
-with `\U`. The spec also has a restriction: you can't use them to encode
-any code points below 0xA0 except for 0x24 (`$`), 0x40 (`@`), and 0x60
-(`` ` ``).
+or figure out a UTF-8 locale name on your local machine and set it
+explicitly like so:
+
+``` {.c}
+setlocale(LC_ALL, "en_US.UTF-8");  // Non-portable name
+```
+
+Or use a [third-party library](#utf-3rd-party).
 
 ### `char16_t` and `char32_t`
 
 `char16_t` and `char32_t` are a couple other potentially wide character
-types with sizes of 16 bits and 32 bits, respectively. Not necessarily,
-because if they can't represent every character in the current locale,
-they lose their wide character nature. But the spec refers them as "wide
-character" types all over the place, so there we are.
+types with sizes of 16 bits and 32 bits, respectively. Not necessarily
+wide, because if they can't represent every character in the current
+locale, they lose their wide character nature. But the spec refers them
+as "wide character" types all over the place, so there we are.
 
 These are here to make things a little more Unicode-friendly,
 potentially.
 
-To use, `#include <uchar.h>`.
+To use, include `<uchar.h>`. (That's "u", not "w".)
 
 You can declare a string or character of these types with the `u` and
 `U` prefixes:
@@ -896,7 +893,35 @@ pi == 0x3C0;  // Probably not true
 #endif
 ```
 
-* size_t mbrtoc16(char16_t * restrict pc16, const char * restrict s, size_t n, mbstate_t * restrict ps);
-* size_t c16rtomb(char * restrict s, char16_t c16, mbstate_t * restrict ps);
-* size_t mbrtoc32(char32_t * restrict pc32, const char * restrict s, size_t n, mbstate_t * restrict ps);
-* size_t c32rtomb(char * restrict s, char32_t c32, mbstate_t * restrict ps);
+### Multibyte Conversions
+
+You can convert from your multibyte encoding to `char16_t` or `char32_t`
+with a number of helper functions.
+
+(Like I said, though, the result might not be UTF-16 or UTF-32 unless the
+corresponding macro is set to `1`.)
+
+All of these functions are restartable (i.e. you pass in your own
+`mbstate_t`), and all of them operate character by
+character^[Ish---things get funky with multi-`char16_t` UTF-16
+encodings.].
+
+|Conversion Function|Description|
+|-|-|
+|`mbrtoc16()`|Convert a multibyte character to a `char16_t` character.|
+|`mbrtoc32()`|Convert a multibyte character to a `char32_t` character.|
+|`c16rtomb()`|Convert a `char16_t` character to a multibyte character.|
+|`c32rtomb()`|Convert a `char32_t` character to a multibyte character.|
+
+### Third-Party Libraries {#utf-3rd-party}
+
+For heavy-duty conversion between different specific encodings, there are a
+couple mature libraries worth checking out. Note that I haven't used
+either of these.
+
+* [flw[iconv|Iconv]]---Internationalization Conversion, a common
+  POSIX-standard API available on the major platforms.
+* [fl[ICU|http://site.icu-project.org/]]---International Components for
+  Unicode. At least one blogger found this easy to use.
+
+If you have more noteworthy libraries, let me know.
