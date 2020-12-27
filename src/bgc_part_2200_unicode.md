@@ -75,12 +75,12 @@ Because we're about to flip the table a little.
 
 If you recall, an 8-bit byte can hold values from 0-255, inclusive.
 That's great for "B" which is 66---that fits in a byte. But "π" is 960,
-and that doesn't fit in a byte! We need another byte. How do we
-represent that in memory? Or what about bigger numbers, like 195,024?
-That's going to need a number of bytes to hold.
+and that doesn't fit in a byte! We need another byte. How do we store
+all that in memory? Or what about bigger numbers, like 195,024? That's
+going to need a number of bytes to hold.
 
-How are these numbers represented in memory? This is what we call the
-_encoding_ of the characters.
+The Big Question: how are these numbers represented in memory? This is
+what we call the _encoding_ of the characters.
 
 So we have two things: one is the code point which tells us effectively
 the serial number of a particular character. And we have the encoding
@@ -94,10 +94,14 @@ But we're going to look at some really common encodings that are in use
 with Unicode.
 
 |Encoding|Description|
-|:-:|:-|
+|:-----------------:|:--------------------------------------------------------------|
 |UTF-8|A byte-oriented encoding that uses a variable number of bytes per character. This is the one to use.|
-|UTF-16|A 16-bit per character^[Ish. Technically, it's variable width---there's a way to represent code points higher than $2^{16}$ by putting two UTF-16 characters together.] encoding.|
+|UTF-16|A 16-bit per character[^091d] encoding.|
 |UTF-32|A 32-bit per character encoding.|
+
+[^091d]: Ish. Technically, it's variable width---there's a way to
+represent code points higher than $2^{16}$ by putting two UTF-16
+characters together.]
 
 With UTF-16 and UTF-32, the byte order matters, so you might see
 UTF-16BE for big-endian and UTF-16LE for little-endian. Same for UTF-32.
@@ -138,7 +142,9 @@ with the code point value, either.
 [flw[The details of UTF-8 encoding|UTF-8]] are beyond the scope of this
 guide, but it's enough to know that it has a variable number of bytes
 per code point, and those byte values don't match up with the code point
-_except for the first 128 code points_.
+_except for the first 128 code points_. If you really want to learn
+more, [fl[Computerphile has a great UTF-8 video with Tom
+Scott|https://www.youtube.com/watch?v=MijmeoH9LT4]].
 
 That last bit is a neat thing about Unicode and UTF-8 from a North
 American perspective: it's backward compatible with 7-bit ASCII
@@ -848,7 +854,7 @@ setlocale(LC_ALL, "en_US.UTF-8");  // Non-portable name
 
 Or use a [third-party library](#utf-3rd-party).
 
-### `char16_t` and `char32_t`
+### UTF-16, UTF-32, `char16_t`, and `char32_t`
 
 `char16_t` and `char32_t` are a couple other potentially wide character
 types with sizes of 16 bits and 32 bits, respectively. Not necessarily
