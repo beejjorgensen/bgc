@@ -246,16 +246,16 @@ You can take the `sizeof` a variable or expression:
 ``` {.c}
 int a = 999;
 
-print("%zu", sizeof a);      // Prints 8 on my system
-print("%zu", sizeof 3.14);   // Prints 8 on my system, also
+printf("%zu", sizeof a);      // Prints 4 on my system
+printf("%zu", sizeof 3.14);   // Prints 8 on my system, also
 ```
 
 or you can take the `sizeof` a type (note the parentheses are required
 around a type name, unlike an expression):
 
 ``` {.c}
-print("%zu", sizeof(int));   // Prints 8 on my system
-print("%zu", sizeof(char));  // Prints 1 on all systems
+printf("%zu", sizeof(int));   // Prints 4 on my system
+printf("%zu", sizeof(char));  // Prints 1 on all systems
 ```
 
 We'll make use of this later on.
