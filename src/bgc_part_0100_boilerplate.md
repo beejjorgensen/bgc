@@ -113,7 +113,8 @@ me to hear that it is being used for good! `:-)` Thank you!
 
 You are more than welcome to mirror this site, whether publicly or
 privately. If you publicly mirror the site and want me to link to it
-from the main page, drop me a line at [`beej@beej.us`](beej@beej.us).
+from the main page, drop me a line at
+[`beej@beej.us`](mailto:beej@beej.us).
 
 ## Note for Translators
 
