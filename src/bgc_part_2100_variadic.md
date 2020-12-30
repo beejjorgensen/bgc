@@ -76,7 +76,8 @@ Here's some code to demo that:
 ```
 #include <stdio.h>
 
-void func(int a, ...) {
+void func(int a, ...)
+{
     printf("a is %d\n", a);  // Prints "a is 2"
 }
 

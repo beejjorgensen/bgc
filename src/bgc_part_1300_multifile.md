@@ -41,7 +41,8 @@ So let's take a look at the source file `bar.c`:
 ``` {.c .numberLines}
 // File bar.c
 
-int add(int x, int y) {
+int add(int x, int y)
+{
     return x + y;
 }
 ```
