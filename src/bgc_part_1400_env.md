@@ -193,7 +193,7 @@ Now, it's been convenient to think of `argv` as an array of strings,
 i.e. an array of `char*`s, so this made sense:
 
 ``` {.c}
-int main(int argc, char *argc[])
+int main(int argc, char *argv[])
 ```
 
 but because of the equivalence, you could also write:
