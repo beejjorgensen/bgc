@@ -165,6 +165,7 @@ have to consider any copyright issues when merging changes.
     * atexit()
     * at_quick_exit()
   * Signals
+    * Can't call non-reentrant library functions
   * Types V
     * unnamed objects
     * Generics
