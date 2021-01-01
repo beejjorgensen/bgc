@@ -64,8 +64,10 @@ and use double quotes (`"`) for your personal includes.
 
 ## Simple Macros
 
-Now let's check out another cool feature of the preprocessor: the
-ability to define constant values and substitute them in place.
+A _macro_ is an identifier that gets _expanded_ to another piece of code
+before the compiler even sees it. Think of it like a placeholder---when
+the preprocessor sees one of those identifiers, it replaces it with
+another value that you've defined.
 
 We do this with `#define` (often read "pound define"). Here's an
 example:
@@ -98,9 +100,14 @@ int main(void)
 }
 ```
 
-Note that the macros aren't typed, _per se_. Really all that happens is
-they get replaced wholesale with whatever they're `#define`d as. If the
-resulting C code is invalid, the compiler will puke.
+See how `HELLO` was replaced with `"Hello, world"` and `PI` was replaced
+with `3.14159`? From the compiler's perspective, it's just like those
+values had appeared right there in the code.
+
+Note that the macros don't have a specific type, _per se_. Really all
+that happens is they get replaced wholesale with whatever they're
+`#define`d as. If the resulting C code is invalid, the compiler will
+puke.
 
 You can also define a macro with no value:
 
