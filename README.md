@@ -168,6 +168,9 @@ have to consider any copyright issues when merging changes.
     * Can't call non-reentrant library functions
   * Types V
     * unnamed objects
+      * Declare pointer to
+      * Pass to function
+        * Pass pointer to function
     * Generics
   * Arrays II
     * static const
