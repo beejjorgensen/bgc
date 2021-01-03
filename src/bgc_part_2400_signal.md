@@ -204,13 +204,15 @@ Here's what we **can't** portably do:
     but the spec doesn't allow that liberty.
 * Get or set values from a local `static`, file scope, or thread-local
   variable.
-  * Unless it's a lock-free atomic object or of type `volatile
-    sig_atomic_t`.
+  * Unless it's a lock-free atomic object or...
+  * You're assigning into a variable of type `volatile sig_atomic_t`.
 
 That last bit--`sig_atomic_t`--is your ticket to getting data out of a
 signal handler. (Unless you want to use lock-free atomic objects, which
-is outside the scope of this section.) It's an integer type that might
-or might not be signed. And it's bounded by what you can put in there.
+is outside the scope of this section^[Confusingly, `sig_atomic_t`
+predates the lock-free atomics and is not the same thing.].) It's an
+integer type that might or might not be signed. And it's bounded by what
+you can put in there.
 
 You can look at the minimum and maximum allowable values in the macros
 `SIG_ATOMIC_MIN` and `SIG_ATOMIC_MAX`^[If `sig_action_t` is signed, the
@@ -230,16 +232,6 @@ But can you read from it? I honestly don't see why not, except that the
 spec is very pointed about mentioning assigning into. But if you have to
 read it and make any kind of decision based on it, you might be opening
 up room for some kind of race conditions.
-
-There are some atomic operations you can do on the `volatile
-sig_action_t` variable, though, and these should be fine:
-
-* Post-increment: `x++`
-* Post-decrement: `x--`
-* Compound addition: `x += 5`
-* Compound subtraction: `x -= 10`
-
-Try to limit yourself to those and keep your logic out of the handler.
 
 With that in mind, we can rewrite our "hit `CTRL-C` twice to exit"
 code to be a little more portable, albeit less verbose on the output.
@@ -263,7 +255,7 @@ void sigint_handler(int signum)
 
     signal(SIGINT, sigint_handler);  // Reset signal handler
 
-    count++;
+    count++;                         // Undefined behavior
 }
 
 int main(void)
@@ -276,7 +268,44 @@ int main(void)
 }
 ```
 
-That seems pretty solid.
+Undefined behavior again? It's my read that this is, because we have to
+read the value in order to increment and store it. We can do some
+ridiculous contortions so that we're only assigning into the values and
+manage to avoid undefined behavior.
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <signal.h>
+
+void sigint_handler_2(int signum)
+{
+    (void)signum;                      // Unused variable warning
+    signal(SIGINT, SIG_DFL);           // Reset signal handler
+}
+
+void sigint_handler_1(int signum)
+{
+    (void)signum;                      // Unused variable warning
+    signal(SIGINT, sigint_handler_2);  // Set to second handler
+}
+
+int main(void)
+{
+    signal(SIGINT, sigint_handler_1);
+
+    printf("Hit ^C twice to exit.\n");
+
+    while(1);
+}
+```
+
+That's pretty ugly, all right. Later when we look at lock-free atomic
+variables, we'll see a way to fix the `count` version (assuming
+lock-free atomic variables are available on your particular system), but
+we're getting into zanyland here.
+
+This is why at the beginning, I was suggesting checking out your OS's
+built-in signal system as a probably-superior alternative.
 
 ## Friends Don't Let Friends `signal()`
 
