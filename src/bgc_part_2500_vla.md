@@ -3,7 +3,6 @@
 # vim: ts=4:sw=4:nosi:et:tw=72
 -->
 
-<!--
 # Variable-Length Arrays (VLAs)
 
 C provides a way for you to declare an array whose size is determined at
@@ -151,9 +150,9 @@ int z[10][w][20];
 
 Again, you can navigate these just like you would a regular array.
 
-## Passing VLAs to Functions
+## Passing One-Dimensional VLAs to Functions
 
-Passing single-dimensional VLAs into a function is no different than
+Passing single-dimensional VLAs into a function can be no different than
 passing a regular array in. You just go for it.
 
 ``` {.c .numberLines}
@@ -183,6 +182,38 @@ int main(void)
 }
 ```
 
+But there's a bit more to it than that. You can also let C know that the
+array is a specific VLA size by passing that in first and then giving
+that dimension in the parameter list:
+
+``` {.c}
+void do_something(int count, int v[count])
+{
+    // ...
+}
+```
+
+Incidentally, there are a couple ways of listing a prototype for the
+above function; one of them involves an `*` if you don't want to
+specifically name the value in the VLA. It just indicates that the type
+is a VLA as opposed to a regular pointer.
+
+VLA prototypes:
+
+``` {.c}
+void do_something(int count, int v[count]);  // With names
+void do_something(int, int v[*]);            // Without names
+```
+
+Again, that `*` thing only works with the prototype---in the function
+itself, you'll have to put the explicit size.
+
+Now---_let's get multidimensional_! This is where the fun begins.
+
+## Passing Multi-Dimensional VLAs to Functions
+
+## Compatibility with Regular Arrays
+
 ## `typedef` and VLAs
 
 ## Jumping Pitfalls
@@ -195,14 +226,5 @@ Any array size expressions associated with variable length array
 declarators are evaluated each time the declaration of the typedef name
 is reached in the order of execution.
 
-compatibility with other arrays
-function prototypes, *
-
-  If the size is an expression that is not an integer constant
-  expression: if it occurs in a declaration at function prototype scope,
-  it is treated as if it were replaced by *
-
 longjmp pitfalls
 goto pitfalls
-
--->
