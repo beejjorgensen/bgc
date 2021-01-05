@@ -158,7 +158,7 @@ passing a regular array in. You just go for it.
 ``` {.c .numberLines}
 #include <stdio.h>
 
-int add(int *v, int count)
+int add(int count, int *v)
 {
     int total = 0;
 
@@ -170,15 +170,16 @@ int add(int *v, int count)
 
 int main(void)
 {
-    int x[5];
+    int x[5];   // Standard array
+
     int a = 5;
-    int y[a];
+    int y[a];   // VLA
 
     for (int i = 0; i < a; i++)
         x[i] = y[i] = i + 1;
 
-    printf("%d\n", add(x, 5));
-    printf("%d\n", add(y, a));
+    printf("%d\n", add(5, x));
+    printf("%d\n", add(a, y));
 }
 ```
 
@@ -187,7 +188,7 @@ array is a specific VLA size by passing that in first and then giving
 that dimension in the parameter list:
 
 ``` {.c}
-void do_something(int count, int v[count])
+int add(int count, int v[count])
 {
     // ...
 }
@@ -211,6 +212,8 @@ itself, you'll have to put the explicit size.
 Now---_let's get multidimensional_! This is where the fun begins.
 
 ## Passing Multi-Dimensional VLAs to Functions
+
+
 
 ## Compatibility with Regular Arrays
 
