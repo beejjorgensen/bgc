@@ -206,3 +206,18 @@ uppercase and snake case (with `_t`).
 
 If you have a style guide in use, stick with it. If you don't, grab one
 and stick with it.
+
+## Arrays and `typedef`
+
+The syntax is a little weird, and this is rarely seen in my experience,
+but you can `typedef` an array of some number of items.
+
+``` {.c}
+// Make type five_ints an array of 5 ints
+typedef int five_ints[5];
+
+five_ints x = {11, 22, 33, 44, 55};
+```
+
+I don't like it because it hides the array nature of the variable, but
+it's possible to do.
