@@ -176,6 +176,7 @@ have to consider any copyright issues when merging changes.
     * static const
     * Equivalent initializers 6.7.9p29
     * Array of struct initializers 6.7.9p35
+  * VLAs
   * Goto
     * Labels
   * Incomplete types
@@ -186,7 +187,6 @@ have to consider any copyright issues when merging changes.
     * Threads
     * Complex numbers
     * Atomic
-    * VLAs
   * Extensions
     * __STDC_WANT_LIB_EXT
   * make primer
