@@ -9,7 +9,7 @@ Time to get more into it with a number of new pointer topics! If you're
 not up to speed with pointers, [check out the first section in the guide
 on the matter](#pointers).
 
-### Pointer Arithmetic
+## Pointer Arithmetic
 
 Turns out you can do math on pointers, notably addition and subtraction.
 
