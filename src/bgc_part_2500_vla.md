@@ -213,21 +213,157 @@ Now---_let's get multidimensional_! This is where the fun begins.
 
 ## Passing Multi-Dimensional VLAs to Functions
 
+Same thing as we did with the second form of one-dimensional VLAs,
+above, but this time we're passing in two dimensions and using those.
 
+In the following example, we build a multiplication table matrix of a
+variable width and height, and then pass it into a function to print it
+out.
+
+``` {.c .numberLines}
+#include <stdio.h>
+
+void print_matrix(int h, int w, int m[h][w])
+{
+    for (int row = 0; row < h; row++) {
+        for (int col = 0; col < w; col++)
+            printf("%2d ", m[row][col]);
+        printf("\n");
+    }
+}
+
+int main(void)
+{
+    int rows = 4;
+    int cols = 7;
+
+    int matrix[rows][cols];
+
+    for (int row = 0; row < rows; row++)
+        for (int col = 0; col < cols; col++)
+            matrix[row][col] = row * col;
+
+    print_matrix(rows, cols, matrix);
+}
+```
+
+### Partial Multidimensional VLAs
+
+You can have some of the dimensions fixed and some variable. Let's say
+we have a record length fixed at 5 elements, but we don't know how many
+records there are.
+
+``` {.c .numberLines}
+#include <stdio.h>
+
+void print_records(int count, int record[count][5])
+{
+    for (int i = 0; i < count; i++) {
+        for (int j = 0; j < 5; j++)
+            printf("%2d ", record[i][j]);
+        printf("\n");
+    }
+}
+
+int main(void)
+{
+    int rec_count = 3;
+    int records[rec_count][5];
+
+    // Fill with some dummy data
+    for (int i = 0; i < rec_count; i++)
+        for (int j = 0; j < 5; j++)
+            records[i][j] = (i+1)*(j+2);
+
+    print_records(rec_count, records);
+}
+```
 
 ## Compatibility with Regular Arrays
 
+Because VLAs are just like regular arrays in memory, it's perfectly
+permissible to pass them interchangeably... as long as the dimensions
+match.
+
+For example, if we have a function that specifically wants a $3\times5$
+array, we can still pass a VLA into it.
+
+``` {.c}
+int foo(int m[5][3]) {...}
+
+\\ ...
+
+int w = 3, h = 5;
+int matrix[h][w];
+
+foo(matrix);   // OK!
+```
+
+Likewise, if you have a VLA function, you can pass a regular array into
+it:
+
+``` {.c}
+int foo(int h, int w, int m[h][w]) {...}
+
+\\ ...
+
+int matrix[3][5];
+
+foo(3, 5, matrix);   // OK!
+```
+
+Beware, through: if your dimensions mismatch, you're going to have some
+undefined behavior going on, likely.
+
 ## `typedef` and VLAs
+
+You can `typedef` a VLA, but the behavior might not be as you expect.
+
+Basically, `typedef` makes a new type with the values as they existed
+the moment the `typedef` was executed.
+
+So it's not a `typedef` of a VLA so much as a new fixed size array type
+of the dimensions at the time.
+
+``` {.c .numberLines}
+#include <stdio.h>
+
+int main(void)
+{
+    int w = 10;
+
+    typedef int goat[w];
+
+    // goat is an array of 10 ints
+    goat x;
+
+    // Init with squares of numbers
+    for (int i = 0; i < w; i++)
+        x[i] = i*i;
+
+    // Print them
+    for (int i = 0; i < w; i++)
+        printf("%d\n", x[i]);
+
+    // Now let's change w...
+
+    w = 20;
+
+    // But goat is STILL an array of 10 ints, because that was the
+    // value of w when the typedef executed.
+}
+```
+
+So it acts like an array of fixed size.
+
+But you still can't use an initializer list on it.
 
 ## Jumping Pitfalls
 
------
+You have to watch out when using `goto` near VLAs because a lot of
+things aren't legal.
 
-fixed at typedef moment
+And when you're using `longjmp()` there's a case where you could leak
+memory with VLAs.
 
-Any array size expressions associated with variable length array
-declarators are evaluated each time the declaration of the typedef name
-is reached in the order of execution.
-
-longjmp pitfalls
-goto pitfalls
+But both of these things we'll cover in their respective chapters.
