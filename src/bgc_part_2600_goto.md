@@ -267,4 +267,51 @@ This will compile and run, but gives me a warning:
 warning: ‘a’ is used uninitialized in this function
 ```
 
-See
+And then it prints out `0` when I run it (your mileage may vary).
+
+Basically what has happened is that we jumped into `x`'s scope (so it
+was OK to reference it in the `printf()`) but we jumped over the line
+that actually initialized it to `12345`. So the value was indeterminate.
+
+The fix is, of course, to get the initialization _after_ the label one
+way or another.
+
+``` {.c}
+    goto label;
+
+    {
+        int x;
+
+label:
+        x = 12345;
+        printf("%d\n", x);
+    }
+```
+
+## `goto` and Variable-Length Arrays
+
+When it comes to VLAs and `goto`, there's one rule: you can't jump from
+outside the scope of a VLA into the scope of that VLA.
+
+If I try to do this:
+
+``` {.c}
+    int x = 10;
+
+    goto label;
+
+    {
+        int v[x];
+
+label:
+
+        printf("Hi!\n");
+    }
+```
+
+I get an error:
+
+```
+error: jump into scope of identifier with variably modified type
+```
+
