@@ -26,7 +26,7 @@ _best_ code in those circumstances.].
 
 In this example, we're going to use `goto` to skip a line of code and
 jump to a _label_. The label is the identifier that can be a `goto`
-target---it ends with a colon (`:`). Labels have function scope.
+target---it ends with a colon (`:`).
 
 ``` {.c .numberLines}
 #include <stdio.h>
@@ -45,6 +45,17 @@ skip_3:
     printf("Five!\n");
 }
 ```
+
+The output is:
+
+```
+One
+Two
+Five!
+```
+
+`goto` sends execution jumping to the specified label, skipping
+everything in between.
 
 You can jump forward or backward with `goto`.
 
@@ -71,6 +82,15 @@ label 4:
 As you've noticed, it's common convention to justify the labels all the
 way on the left. This increases readability because a reader can quickly
 scan to find the destination.
+
+Labels have _function scope_. That is, no matter how many levels deep in
+blocks they appear, you can still `goto` them from anywhere in the
+function.
+
+It also means you can only `goto` labels that are in the same function
+as the `goto` itself. Labels in other functions are out of scope from
+`goto`'s perspective. And it means you can use the same label name in
+two functions---just not the same label name in the same function.
 
 ## Labeled `continue`
 
@@ -105,7 +125,8 @@ continue_i: ;
 ```
 
 We have a `;` at the end there---that's because you can't have a label
-pointing to the plain end of a compound statement.
+pointing to the plain end of a compound statement (or before a variable
+declaration).
 
 ## Bailing Out
 
@@ -288,6 +309,32 @@ label:
     }
 ```
 
+Let's look at one more example.
+
+``` {.c}
+    {
+        int x = 10;
+
+label:
+
+        printf("%d\n", x);
+    }
+
+    goto label;
+```
+
+What happens here?
+
+The first time through the block, we're good. `x` is `10` and that's
+what prints.
+
+But after the `goto`, we're jumping into the scope of `x`, but past its
+initialization. Which means we can still print it, but the value is
+indeterminate (since it hasn't been reinitialized).
+
+On my machine, it prints `10` again (to infinity), but that's just luck.
+It could print any value after the `goto` since `x` is uninitialized.
+
 ## `goto` and Variable-Length Arrays
 
 When it comes to VLAs and `goto`, there's one rule: you can't jump from
@@ -315,3 +362,20 @@ I get an error:
 error: jump into scope of identifier with variably modified type
 ```
 
+You can jump in ahead of the VLA declaration, like this:
+
+``` {.c}
+    int x = 10;
+
+    goto label;
+
+    {
+label:  ;
+        int v[x];
+
+        printf("Hi!\n");
+    }
+```
+
+Because that way the VLA gets allocated properly before its inevitable
+deallocation once it falls out of scope.
