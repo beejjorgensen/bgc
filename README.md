@@ -166,6 +166,9 @@ have to consider any copyright issues when merging changes.
     * at_quick_exit()
   * Signals
     * Can't call non-reentrant library functions
+  * VLAs
+  * Goto
+    * Labels
   * Types V
     * unnamed objects
       * Declare pointer to
@@ -176,12 +179,9 @@ have to consider any copyright issues when merging changes.
     * static const
     * Equivalent initializers 6.7.9p29
     * Array of struct initializers 6.7.9p35
-  * VLAs
-  * Goto
-    * Labels
+  * setjmp/longjmp
   * Incomplete types
   * lvalues
-  * setjmp/longjmp
   * More man pages
   * Optional features
     * Threads
