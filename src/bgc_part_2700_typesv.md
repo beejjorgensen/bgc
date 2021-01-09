@@ -3,7 +3,7 @@
 # vim: ts=4:sw=4:nosi:et:tw=72
 -->
 
-# Types Part V: Compound Literals and Generics
+# Types Part V: Compound Literals and Generic Selections
 
 This is the final chapter for types! We're going to talk about two
 things:
