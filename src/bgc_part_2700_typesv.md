@@ -277,10 +277,10 @@ int main(void)
 
 Check out the `_Generic` expression starting on line 9.
 
-When the preprocessor sees it, it look at the type of the first
-argument. (In this example, the type of the variable `i`.) It then looks
-through the cases for something of that type. And then it substitutes
-the argument in place of the entire `_Generic` expression. 
+When the compiler sees it, it look at the type of the first argument.
+(In this example, the type of the variable `i`.) It then looks through
+the cases for something of that type. And then it substitutes the
+argument in place of the entire `_Generic` expression. 
 
 In this case, `i` is an `int`, so it matches that case. Then the string
 is substituted in for the expression. So the line turns into this when
@@ -290,8 +290,8 @@ the compiler sees it:
     char *s = "that variable is an int";
 ```
 
-If the preprocessor can't find a type match in the `_Generic`, it looks
-for the optional `default` case and uses that.
+If the compiler can't find a type match in the `_Generic`, it looks for
+the optional `default` case and uses that.
 
 If it can't find a type match and there's no `default`, you'll get a
 compile error. The first expression **must** match one of the types or
@@ -343,9 +343,8 @@ d is type double
 c is type something else
 ```
 
-Which should be no surprise, because, like we said, this is a
-preprocessor effort. That code in `main()` is replaced with the
-following before it is compiled:
+Which should be no surprise, because, like we said, that code in
+`main()` is replaced with the following when it is compiled:
 
 ``` {.c}
     printf("i is type %s\n", "int");
