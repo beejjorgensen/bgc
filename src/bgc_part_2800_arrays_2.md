@@ -96,6 +96,152 @@ says, "Yeah, fine," and trusts you to not do it.
 And then the compiler can make certain cone optimization, safe in the
 knowledge that you, the programmer, will always do the right thing.
 
+## Equivalent Initializers
+
+C is a little bit, shall we say, _flexible_ when it comes to array
+initializers.
+
+We've already seen some of this, where any missing values are replaced
+with zero.
+
+For example, we can initialize a 5 element array to `1,2,0,0,0` with
+this:
+
+``` {.c}
+int a[5] = {1, 2};
+```
+
+Or set an array entirely to zero with:
+
+``` {.c}
+int a[5] = {0};
+```
+
+But things get interesting when initializing multidimensional arrays.
+
+Let's make an array of 3 rows and 2 columns:
+
+``` {.c}
+int a[3][2];
+```
+
+Let's write some code to initialize it and print the result:
+
+``` {.c}
+#include <stdio.h>
+
+int main(void)
+{
+    int a[3][2] = {
+        {1, 2},
+        {3, 4},
+        {5, 6}
+    };
+
+    for (int row = 0; row < 3; row++) {
+        for (int col = 0; col < 2; col++)
+            printf("%d ", a[row][col]);
+        printf("\n");
+    }
+}
+```
+
+And when we run it, we get the expected:
+
+```
+1 2
+3 4
+5 6
+```
+
+Let's leave off some of the initializer elements and see they get set to
+zero:
 
 
-## equivalent initializers
+``` {.c}
+    int a[3][2] = {
+        {1, 2},
+        {3},    // Left off the 4!
+        {5, 6}
+    };
+```
+
+which produces:
+
+```
+1 2
+3 0
+5 6
+```
+
+Now let's leave off the entire last middle element:
+
+``` {.c}
+    int a[3][2] = {
+        {1, 2},
+        // {3, 4},   // Just cut this whole thing out
+        {5, 6}
+    };
+```
+
+And now we get this, which might not be what you expect:
+
+```
+1 2
+5 6
+0 0
+```
+
+But if you stop to think about it, we only provided enough initializers
+for two rows, so they got used for the first two rows. And the remaining
+elements were initialized to zero.
+
+So far so good. Generally, if we leave off parts of the initializer, the
+compiler sets the corresponding elements to `0`.
+
+But let's get _crazy_.
+
+``` {.c}
+    int a[3][2] = { 1, 2, 3, 4, 5, 6 };
+```
+
+What---? That's a 2D array, but it only has a 1D initializer!
+
+Turns out that's legal (though GCC will warn about it with the proper
+warnings turned on).
+
+Basically, what it does is starts filling in elements in row 0, then row
+1, then row 2 from left to right.
+
+So when we print, it prints in order:
+
+```
+1 2
+3 4
+5 6
+```
+
+If we leave some off:
+
+``` {.c}
+    int a[3][2] = { 1, 2, 3 };
+```
+
+they fill with `0`:
+
+```
+1 2
+3 0
+0 0
+```
+
+So if you want to fill the whole array with `0`, then go ahead and:
+
+``` {.c}
+    int a[3][2] = {0};
+```
+
+But my recommendation is if you have a 2D array, use a 2D initializer.
+It just makes the code more readable. (Except for initializing the whole
+array with `0`, in which case it's idiomatic to use `{0}` no matter the
+dimension of the array.)
