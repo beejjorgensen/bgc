@@ -379,17 +379,18 @@ We'll have to make use of some macro magic to do that.
 #include <stdio.h>
 #include <string.h>
 
-// Macro that gives back
+// Macro that gives back a format specifier for a type
 #define FMTSPEC(x) _Generic((x), \
                         int: "%d", \
                         long: "%ld", \
                         float: "%f", \
                         double: "%f", \
                         char *: "%s")
+                        // TODO: add more types
                         
+// Macro that prints a variable in the form "name = value"
 #define PRINT_VAL(x) { \
     char fmt[512]; \
-    \
     sprintf(fmt, #x " = %s\n", FMTSPEC(x)); \
     printf(fmt, (x)); \
 }
