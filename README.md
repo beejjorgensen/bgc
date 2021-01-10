@@ -176,7 +176,7 @@ have to consider any copyright issues when merging changes.
         * Pass pointer to function
     * Generics
   * Arrays II
-    * static const
+    * static const 6.7.6.3
     * Equivalent initializers 6.7.9p29
     * Array of struct initializers 6.7.9p35
   * setjmp/longjmp
