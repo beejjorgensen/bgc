@@ -391,7 +391,7 @@ We'll have to make use of some macro magic to do that.
 // Macro that prints a variable in the form "name = value"
 #define PRINT_VAL(x) { \
     char fmt[512]; \
-    sprintf(fmt, #x " = %s\n", FMTSPEC(x)); \
+    snprintf(fmt, sizeof fmt, #x " = %s\n", FMTSPEC(x)); \
     printf(fmt, (x)); \
 }
 
