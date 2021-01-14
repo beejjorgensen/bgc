@@ -3207,3 +3207,155 @@ If those are the same, why even bother this this syntax? It's harder to
 read and more verbose.
 
 Well, let's try it with a `struct` and see what happens.
+
+
+Incomplete types
+
+6.2.5p22
+
+An array type of unknown size is an incomplete type. It is completed,
+for an identifier of that type, by specifying the size in a later
+declaration (with internal or external linkage).
+
+A structure or union type of unknown content (as described in 6.7.2.3)
+is an incomplete type. It is completed, for all declarations of that
+type, by declaring the same structure or union tag with its defining
+content later in the same scope.
+
+6.3.2.1p1
+
+A modifiable lvalue is an lvalue that does not have array type, does not
+have an incomplete type, does not have a constqualified type, and if it
+is a structure or union, does not have any member (including,
+recursively, any member or element of all contained aggregates or
+unions) with a constqualified type.
+
+6.3.2.1p2
+
+If the lvalue has an incomplete type and does not have array type, the
+behavior is undefined.
+
+6.5.3.4p1
+
+The sizeof operator shall not be applied to an expression that has
+function type or an incomplete type, to the parenthesized name of such a
+type, or to an expression that designates a bit-field member. The
+_Alignof operator shall not be applied to a function type or an
+incomplete type.
+
+fn129
+
+An incomplete type may only by used when the size of an object of that
+type is not needed. It is not needed, for example, when a typedef name
+is declared to be a specifier for a structure or union, or when a
+pointer to or a function returning a structure or union is being
+declared. (See incomplete types in 6.2.5.) The specification has to be
+complete before such a function is called or defined.
+
+6.7.6.2p4
+
+If the size is not present, the array type is an incomplete type.
+
+6.7.6.2p8
+
+EXAMPLE 2 Note the distinction between the declarations 
+
+    extern int *x;
+    extern int y[];
+
+The first declares x to be a pointer to int; the second declares y to be
+an array of int of unspecified size (an incomplete type), the storage
+for which is defined elsewhere.
+
+6.7.9p31
+
+EXAMPLE 7 One form of initialization that completes array types involves
+typedef names. Given the declaration
+
+    typedef int A[]; // OK - declared with block scope
+
+the declaration
+
+    A a = { 1, 2 }, b = { 3, 4, 5 };
+
+is identical to
+
+    int a[] = { 1, 2 }, b[] = { 3, 4, 5 };
+
+due to the rules for incomplete types.
+
+6.9.2p3
+
+If the declaration of an identifier for an object is a tentative
+definition and has internal linkage, the declared type shall not be an
+incomplete type.
+
+6.9.2p5
+
+EXAMPLE 2 If at the end of the translation unit containing
+
+    int i[];
+
+the array i still has incomplete type, the implicit initializer causes
+it to have one element, which is set to zero on program startup.
+
+6.2.5p1
+
+At various points within a translation unit an object type may be
+incomplete (lacking sufficient information to determine the size of
+objects of that type) or complete (having sufficient information).
+
+6.2.5p19
+
+The void type comprises an empty set of values; it is an incomplete
+object type that cannot be completed.
+
+6.7.2.1p3
+
+A structure or union shall not contain a member with incomplete or
+function type (hence, a structure shall not contain an instance of
+itself, but may contain a pointer to an instance of itself), except that
+the last member of a structure with more than one named member may have
+incomplete array type; such a structure (and any union containing,
+possibly recursively, a member that is such a structure) shall not be a
+member of a structure or an element of an array.
+
+6.7.2.1p8
+
+The [struct/union] type is incomplete until immediately after the } that
+terminates the list, and complete thereafter.
+
+6.7.2.1p18
+
+As a special case, the last element of a structure with more than one
+named member may have an incomplete array type; this is called a
+flexible array member. In most situations, the flexible array member is
+ignored. In particular, the size of the structure is as if the flexible
+array member were omitted except that it may have more trailing padding
+than the omission would imply. Howev er, when a . (or ->) operator has a
+left operand that is (a pointer to) a structure with a flexible array
+member and the right operand names that member, it behaves as if that
+member were replaced with the longest array (with the same element type)
+that would not make the structure larger than the object being accessed;
+the offset of the array shall remain that of the flexible array member,
+even if this would differ from that of the replacement array. If this
+array would have no elements, it behaves as if it had one element but
+the behavior is undefined if any attempt is made to access that element
+or to generate a pointer one past it.
+
+6.7.2.3p4
+
+Each enumerated type shall be compatible with char, a signed integer
+type, or an unsigned integer type. The choice of type is
+implementation-defined,128) but shall be capable of representing the
+values of all the members of the enumeration. The enumerated type is
+incomplete until immediately after the } that terminates the list of
+enumerator declarations, and complete thereafter.
+
+6.7.2.3p8
+
+If a type specifier of the form struct-or-union identifier occurs other
+than as part of one of the above forms, and no other declaration of the
+identifier as a tag is visible, then it declares an incomplete structure
+or union type, and declares the identifier as the tag of that type.
+
