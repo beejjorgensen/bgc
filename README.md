@@ -181,11 +181,10 @@ have to consider any copyright issues when merging changes.
     * Array of struct initializers 6.7.9p35
   * setjmp/longjmp
   * Incomplete types
-  * lvalues
+  * Complex numbers
   * More man pages
   * Optional features
     * Threads
-    * Complex numbers
     * Atomic
   * Extensions
     * __STDC_WANT_LIB_EXT
