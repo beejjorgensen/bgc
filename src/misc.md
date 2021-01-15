@@ -3359,3 +3359,58 @@ than as part of one of the above forms, and no other declaration of the
 identifier as a tag is visible, then it declares an incomplete structure
 or union type, and declares the identifier as the tag of that type.
 
+## Complex
+
+FN24
+
+The evaluation method determines evaluation formats of expressions
+involving all floating types, not just real types. For example, if
+FLT_EVAL_METHOD is 1, then the product of two float _Complex operands is
+represented in the double _Complex format, and its parts are evaluated
+to double.
+
+6.2.5p11-13
+
+There are three complex types, designated as float _Complex, double
+_Complex, and long double _Complex.43) (Complex types are a conditional
+feature that implementations need not support; see 6.10.8.3.) The real
+floating and complex types are collectively called the floating types.
+
+For each floating type there is a corresponding real type, which is
+always a real floating type. For real floating types, it is the same
+type. For complex types, it is the type given by deleting the keyword
+_Complex from the type name.
+
+Each complex type has the same representation and alignment requirements
+as an array type containing exactly two elements of the corresponding
+real type; the first element is equal to the real part, and the second
+element to the imaginary part, of the complex number.
+
+
+STDC_NO_COMPLEX
+_ _STDC_IEC_559_COMPLEX_ _
+
+complex == _Complex
+
+
+float complex
+double complex
+long double complex
+
+_Complex_I
+
+_Imaginary
+_Imaginary_I
+
+I expands to _Imaginary_I if there, else _Complex_I
+
+https://en.cppreference.com/w/c/numeric/complex/imaginary
+
+pragma STDC CX_LIMITED_RANGE
+
+All the math function
+
+CMPLX
+
+
+
