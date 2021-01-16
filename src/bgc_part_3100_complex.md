@@ -199,6 +199,130 @@ functions: `crealf()`, `cimagf()`, `creall()`, and `cimagl()`.
 
 ## Complex Arithmetic and Comparisons
 
-Equal if both components are equal
+Arithmetic can be performed on complex numbers, though how this works
+mathematically is beyond the scope of the guide.
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <complex.h>
+
+int main(void)
+{
+    double complex x = 1 + 2*I;
+    double complex y = 3 + 4*I;
+    double complex z;
+
+    z = x + y;
+    printf("x + y = %f + %fi\n", creal(z), cimag(z));
+
+    z = x - y;
+    printf("x - y = %f + %fi\n", creal(z), cimag(z));
+
+    z = x * y;
+    printf("x * y = %f + %fi\n", creal(z), cimag(z));
+
+    z = x / y;
+    printf("x / y = %f + %fi\n", creal(z), cimag(z));
+}
+```
+
+for a result of:
+
+```
+x + y = 4.000000 + 6.000000i
+x - y = -2.000000 + -2.000000i
+x * y = -5.000000 + 10.000000i
+x / y = 0.440000 + 0.080000i
+```
+
+You can also compare two complex numbers for equality (or inequality):
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <complex.h>
+
+int main(void)
+{
+    double complex x = 1 + 2*I;
+    double complex y = 3 + 4*I;
+
+    printf("x == y = %d\n", x == y);  // 0
+    printf("x != y = %d\n", x != y);  // 1
+}
+```
+
+with the output:
+
+```
+x == y = 0
+x != y = 1
+```
+
+They are equal if both components test equal. Note that as with all
+floating point, they could be equal if they're close enough due to
+rounding error^[The simplicity of this statement doesn't do justice to
+the incredible amount of work that goes into simply understanding how
+floating point actually functions.
+https://randomascii.wordpress.com/2012/02/25/comparing-floating-point-numbers-2012-edition/].
 
 ## Complex Math
+
+But wait! There's more than just simple complex arithmetic!
+
+Here's a summary table of all the math functions available to you with
+complex numbers.
+
+I'm only going to list the `double` version of each function, but for
+all of them there is a `float` version that you can get by appending `f`
+to the function name, and a `long double` version that you can get by
+appending `l`.
+
+For example, the `cabs()` function for computing the absolute value of a
+complex number also has `cabsf()` and `cabsl()` variants. I'm omitting
+them for brevity.
+
+### Trigonometry Functions
+
+|Function|Description|
+|-|-|
+|`ccos()`|Cosine|
+|`csin()`|Sine|
+|`ctan()`|Tangent|
+|`cacos()`|Arc cosine|
+|`casin()`|Arc sine|
+|`catan()`|Play _Settlers of Catan_|
+|`ccosh()`|Hyperbolic cosine|
+|`csinh()`|Hyperbolic sine|
+|`ctanh()`|Hyperbolic tangent|
+|`cacosh()`|Arc hyperbolic cosine|
+|`casinh()`|Arc hyperbolic sine|
+|`catanh()`|Arc hyperbolic tangent|
+
+### Exponential and Logarithmic Functions
+
+|Function|Description|
+|-|-|
+|`cexp()`|Base-$e$ exponential|
+|`clog()`|Natural (base-$e$) logarithm|
+
+### Power and Absolute Value Functions
+
+|Function|Description|
+|-|-|
+|`cabs()`|Absolute value|
+|`cpow()`|Power|
+|`csqrt()`|Square root|
+
+### Manipulation Functions
+
+|Function|Description|
+|-|-|
+|`creal()`|Return real part|
+|`cimag()`|Return imaginary part|
+|`CMPLX()`|Construct a complex number|
+|`carg()`|Argument/phase angle|
+|`conj()`|Conjugate[^4a34]|
+|`cproj()`|Projection on Riemann sphere|
+
+[^4a34]: This is the only one that doesn't begin with an extra leading
+`c`, strangely.
