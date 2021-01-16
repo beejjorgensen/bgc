@@ -83,14 +83,94 @@ binary later.
 So let's get to work---how do we open a file for reading, and pull data
 out of it?
 
-Let's have a file called `input.txt` that has just this in it:
+Let's have a file called `hello.txt` that has just this in it:
 
 ```
 Hello, world!
 ```
 
 And let's write a program to open the file, read a character out of it,
-and then close the file when we're done.
+and then close the file when we're done. That's the gameplan!
+
+``` {.c .numberLines}
+#include <stdio.h>
+
+int main(void)
+{
+    FILE *fp;                      // Variable to represent open file
+
+    fp = fopen("hello.txt", "r");  // Open file for reading
+
+    char c = fgetc(fp);            // Read a single character
+    printf("%c\n", c);             // Print char to stdout
+
+    fclose(fp);                    // Close the file when done
+}
+```
+
+See how when we opened the file with `fopen()`, it returned the `FILE*`
+to us so we could use it later.
+
+Also notice the `"r"` that we passed in---this means "open a text stream
+for reading". (There are various strings we can pass to `fopen()` with
+additional meaning, like writing, or appending, and so on.)
+
+After that, we used the `fgetc()` function to get a character from the
+stream.
+
+Finally, we close the stream when we're done with it. All streams are
+automatically closed when the program exits, but it's good form and good
+housekeeping to explicitly close any files yourself when done with them.
+
+The `FILE*` keeps track of our position in the file. So subsequent calls
+to `fgetc()` would get the next character in the file, and then the
+next, until the end.
+
+But that sounds like a pain. Let's see if we can make it easier.
+
+## End of File: `EOF`
+
+There is a special character defined as a macro: `EOF`. This is what
+`fgetc()` will return when the end of the file has been reached and
+you've attempted to read another character.
+
+We can use this to read the whole file in a loop.
+
+``` {.c .numberLines}
+#include <stdio.h>
+
+int main(void)
+{
+    FILE *fp;
+
+    fp = fopen("hello.txt", "r");
+    char c;
+
+    while ((c = fgetc(fp)) != EOF)
+        printf("%c", c);
+
+    fclose(fp);
+}
+```
+
+(If line 10 is too weird, just break it down starting with the
+most-nested parens. The first thing we do is assign the result of
+`fgets()` into `c`, and _then_ we compare that against `EOF`. We've just
+crammed it into a single line. This might look hard to read, but study
+it---it's idiomatic C.)
+
+And running this, we see:
+
+```
+Hello, world!
+```
+
+But still, we're operating a character at a time, and lots of text files
+make more sense at the line level. Let's switch to that.
+
+### Reading a Line at a Time
+
+So how can we get 
 
 ## Writing Text Files
 
