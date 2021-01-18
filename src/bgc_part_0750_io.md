@@ -407,7 +407,7 @@ the bytes one at a time in a loop.
 read, or `0` on EOF. So we can loop until we see that, printing numbers
 as we go.
 
-``` {.c numberLines}
+``` {.c .numberLines}
 #include <stdio.h>
 
 int main(void)
@@ -437,5 +437,72 @@ Woo hoo!
 
 ### `struct` and Number Caveats
 
+As we saw in the `struct`s section, the compiler is free to add padding
+to a `struct` as it sees fit. And different compilers might do this
+differently. And the same compiler on different architectures could do
+it differently. And the same compiler on the same architectures could do
+it differently.
 
+What I'm getting at is, it's not portable to just `fwrite()` an entire
+`struct` out to a file when you don't know where the padding will end
+up.
 
+How do we fix this? Hold that thought---we'll look at some ways to do
+this after looking at another related problem.
+
+Numbers!
+
+Turns out all architectures don't represent numbers in memory the same
+way.
+
+Let's look at a simple `fwrite()` of a 2-byte number. We'll write it in
+hex so each byte is clear. The most significant byte will have the value
+`0x12` and the least significant will have the value `0x34`.
+
+``` {.c}
+unsigned short v = 0x1234;  // Two bytes, 0x12 and 0x34
+
+fwrite(&v, sizeof v, 1, fp);
+```
+
+What ends up in the stream?
+
+Well, it seems like it should be `0x12` followed by `0x34`, right?
+
+But if I run this on my machine and hex dump the result, I get:
+
+```
+34 12
+```
+
+They're reversed! What gives?
+
+This has something to do with what's called the
+[flw[_endianess_|Endianess]] of the architecture. Some write the most
+significant bytes first, and some the least significant bytes first.
+
+This means that if you write a multibyte number out straight from
+memory, you can't do it in a portable way^[And this is why I used
+individual bytes in my `fwrite()` and `fread()` examples, above,
+shrewdly.].
+
+A similar problem exists with floating point. Most systems use the same
+format for their floating point numbers, but some do not. No guarantees!
+
+So... how can we fix all these problems with numbers and `struct`s to
+get our data written in a portable way?
+
+The summary is to _serialize_ the data, which is a general term that
+means to take all the data and write it out in a format that you
+control, that is well-known, and programmable to work the same way on
+all platforms.
+
+As you might imagine, this is a solved problem. There are a bunch of
+serialization libraries you can take advantage of, such as Google's
+[flw[_protocol buffers_|Protocol_buffers]], out there and ready to use.
+They will take care of all the gritty details for you, and even will
+allow data from your C programs to interoperate with other languages
+that support the same serialization methods.
+
+Do yourself and everyone a favor! Serialize your binary data when you
+write it to a stream!
