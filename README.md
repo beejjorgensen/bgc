@@ -182,6 +182,7 @@ have to consider any copyright issues when merging changes.
   * setjmp/longjmp
   * Incomplete types
   * Complex numbers
+  * stdint types
   * More man pages
   * Optional features
     * Threads
