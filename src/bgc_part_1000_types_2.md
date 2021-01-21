@@ -255,7 +255,7 @@ what comes out:
 That's a little more sensible, but we can see how my system has larger
 limits than the minimums in the specification.
 
-So what are the macros in `<limits.h>`?
+[So what are the macros in `<limits.h>`?]{#limits-macros}
 
 |Type|Min Macro|Max Macro|
 |:-|:-|:-|
