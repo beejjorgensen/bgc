@@ -5,6 +5,11 @@
 
 # Fixed Width Integer Types
 
+C has all those small, bigger, and biggest integer types like `int` and
+`long` and all that. And you can look in [the section on
+limits](#limits-macros) to see what the largest int is with `INT_MAX`
+and so on.
+
 intN_t
 uintN_t
 8, 16, 32, 64, should be present if no padding, two's complement
