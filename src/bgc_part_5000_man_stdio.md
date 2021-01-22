@@ -3,7 +3,7 @@
 # vim: ts=4:sw=4:nosi:et:tw=72
 -->
 
-# Standard I/O Library {#stdio}
+# `<stdio.h>` Standard I/O Library {#stdio}
 
 The most basic of all libraries in the whole of the standard C library
 is the standard I/O library. It's used for reading from and writing to
