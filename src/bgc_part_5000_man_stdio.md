@@ -630,6 +630,118 @@ int main(void)
 
 [[pagebreak]]
 
+## `setbuf()`, `setvbuf()` {#man-setbuf}
+
+Configure buffering for standard I/O operations
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <stdio.h>
+
+void setbuf(FILE *stream, char *buf);
+int setvbuf(FILE *stream, char *buf, int mode, size_t size);
+```
+
+### Description {.unnumbered .unlisted}
+
+Now brace yourself because this might come as a bit of a surprise to
+you: when you `printf()` or `fprintf()` or use any I/O functions like
+that, _it does not normally work immediately_. For the sake of
+efficiency, and to irritate you, the I/O on a `FILE*` stream is buffered
+away safely until certain conditions are met, and only then is the
+actual I/O performed. The functions `setbuf()` and `setvbuf()` allow you
+to change those conditions and the buffering behavior.
+
+So what are the different buffering behaviors? The biggest is called
+"full buffering", wherein all I/O is stored in a big buffer until it is
+full, and then it is dumped out to disk (or whatever the file is). The
+next biggest is called "line buffering"; with line buffering, I/O is
+stored up a line at a time (until a newline (`'\n'`) character is
+encountered) and then that line is processed. Finally, we have
+"unbuffered", which means I/O is processed immediately with every
+standard I/O call.
+
+You might have seen and wondered why you could call `putchar()` time and
+time again and not see any output until you called `putchar('\n')`;
+that's right---`stdout` is line-buffered!
+
+Since `setbuf()` is just a simplified version of `setvbuf()`, we'll talk
+about `setvbuf()` first.
+
+The `stream` is the `FILE*` you wish to modify. The standard says you
+_must_ make your call to `setvbuf()` _before_ any I/O operation is
+performed on the stream, or else by then it might be too late.
+
+The next argument, `buf` allows you to make your own buffer space (using
+[`malloc()`](#malloc) or just a `char` array) to use for buffering. If
+you don't care to do this, just set `buf` to `NULL`.
+
+Now we get to the real meat of the function: `mode` allows you to choose
+what kind of buffering you want to use on this `stream`. Set it to one
+of the following:
+
+<!-- TODO: tabelize this and format everything up through printf -->
+
+**`_IOFBF`**
+
+`stream` will be fully buffered.
+
+**`_IOLBF`**
+
+`stream` will be line buffered.
+
+**`_IONBF`**
+
+`stream` will be unbuffered.
+
+Finally, the `size` argument is the size of the array you
+passed in for `buf`...unless you passed `NULL` for
+`buf`, in which case it will resize the existing buffer to the
+size you specify.
+
+Now what about this lesser function `setbuf()`? It's just
+like calling `setvbuf()` with some specific parameters,
+except `setbuf()` doesn't return a value. The following
+example shows the equivalency:
+
+``` {.c}
+// these are the same:
+setbuf(stream, buf);
+setvbuf(stream, buf, _IOFBF, BUFSIZ); // fully buffered
+
+// and these are the same:
+setbuf(stream, NULL);
+setvbuf(stream, NULL, _IONBF, BUFSIZ); // unbuffered
+```
+
+### Return Value {.unnumbered .unlisted}
+
+`setvbuf()` returns zero on success, and nonzero on failure.
+`setbuf()` has no return value.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+FILE *fp;
+char lineBuf[1024];
+
+fp = fopen("somefile.txt", "r");
+setvbuf(fp, lineBuf, _IOLBF, 1024);  // set to line buffering
+// ...
+fclose(fp);
+
+fp = fopen("another.dat", "rb");
+setbuf(fp, NULL); // set to unbuffered
+// ...
+fclose(fp);
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`fflush()`](#man-fflush)
+[[pagebreak]]
+
 ## `printf()`, `fprintf()` {#man-printf}
 
 Print a formatted string to the console or to a file.
@@ -1034,9 +1146,8 @@ printf("%5d %5.2f %c\n", a, b, d); /* "  100  2.71 X" */
 [`vfprintf()`](#man-vfprintf),
 [`vsprintf()`](#man-vsprintf)
 
-<!-- MARKER -->
-
 [[pagebreak]]
+
 ## `scanf()`, `fscanf()` {#man-scanf}
 
 Read formatted string, character, or numeric data from the
@@ -1274,8 +1385,93 @@ scanf("%10c", s);
 [`vsscanf()`](#man-vsscanf),
 [`vfscanf()`](#man-vfscanf)
 
+<!-- TODO: sprintf, snprintf -->
+
+<!-- TODO: sscanf -->
+
+<!-- TODO: vfprintf, vprintf, vsprintf, vsnprintf -->
+
+<!-- TODO: vfscanf, vscanf, vsscanf -->
+
+[[pagebreak]]
+## `getc()`, `fgetc()`, `getchar()` {#man-getc}
+
+Get a single character from the console or from a file.
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <stdio.h>
+
+int getc(FILE *stream);
+int fgetc(FILE *stream);
+int getchar(void);
+```
+
+### Description {.unnumbered .unlisted}
+
+All of these functions in one way or another, read a single character
+from the console or from a `FILE`. The differences are
+fairly minor, and here are the descriptions:
+
+`getc()` returns a character from the specified
+`FILE`. From a usage standpoint, it's equivalent to the same
+`fgetc()` call, and `fgetc()` is a little more
+common to see. Only the implementation of the two functions
+differs.
+
+`fgetc()` returns a character from the specified
+`FILE`. From a usage standpoint, it's equivalent to the same
+`getc()` call, except that `fgetc()` is a little
+more common to see. Only the implementation of the two functions
+differs.
+
+Yes, I cheated and used cut-n-paste to do that last paragraph.
+
+`getchar()` returns a character from `stdin`. In
+fact, it's the same as calling `getc(stdin)`.
+
+### Return Value {.unnumbered .unlisted}
+
+All three functions return the `unsigned char` that they
+read, except it's cast to an `int`.
+
+If end-of-file or an error is encountered, all three functions return
+`EOF`.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+// read all characters from a file, outputting only the letter 'b's
+// it finds in the file
+
+#include <stdio.h>
+
+int main(void)
+{
+    FILE *fp;
+    int c;
+
+    fp = fopen("datafile.txt", "r"); // error check this!
+
+    // this while-statement assigns into c, and then checks against EOF:
+
+    while((c = fgetc(fp)) != EOF) {
+        if (c == 'b') {
+            putchar(c);
+        }
+    }
+
+    fclose(fp);
+}
+```
+
+### See Also {.unnumbered .unlisted}
+
 [[pagebreak]]
 ## `gets()`, `fgets()` {#man-gets}
+
+<!--TODO gets removed in C11 -->
 
 Read a string from console or file
 
@@ -1378,130 +1574,6 @@ fgets(s, 20, stdin); // read a maximum of 20 bytes from stdin
 [`ungetc()`](#man-ungetc)
 
 [[pagebreak]]
-## `getc()`, `fgetc()`, `getchar()` {#man-getc}
-
-Get a single character from the console or from a file.
-
-### Synopsis {.unnumbered .unlisted}
-
-``` {.c}
-#include <stdio.h>
-
-int getc(FILE *stream);
-int fgetc(FILE *stream);
-int getchar(void);
-```
-
-### Description {.unnumbered .unlisted}
-
-All of these functions in one way or another, read a single character
-from the console or from a `FILE`. The differences are
-fairly minor, and here are the descriptions:
-
-`getc()` returns a character from the specified
-`FILE`. From a usage standpoint, it's equivalent to the same
-`fgetc()` call, and `fgetc()` is a little more
-common to see. Only the implementation of the two functions
-differs.
-
-`fgetc()` returns a character from the specified
-`FILE`. From a usage standpoint, it's equivalent to the same
-`getc()` call, except that `fgetc()` is a little
-more common to see. Only the implementation of the two functions
-differs.
-
-Yes, I cheated and used cut-n-paste to do that last paragraph.
-
-`getchar()` returns a character from `stdin`. In
-fact, it's the same as calling `getc(stdin)`.
-
-### Return Value {.unnumbered .unlisted}
-
-All three functions return the `unsigned char` that they
-read, except it's cast to an `int`.
-
-If end-of-file or an error is encountered, all three functions return
-`EOF`.
-
-### Example {.unnumbered .unlisted}
-
-``` {.c .numberLines}
-// read all characters from a file, outputting only the letter 'b's
-// it finds in the file
-
-#include <stdio.h>
-
-int main(void)
-{
-    FILE *fp;
-    int c;
-
-    fp = fopen("datafile.txt", "r"); // error check this!
-
-    // this while-statement assigns into c, and then checks against EOF:
-
-    while((c = fgetc(fp)) != EOF) {
-        if (c == 'b') {
-            putchar(c);
-        }
-    }
-
-    fclose(fp);
-}
-```
-
-### See Also {.unnumbered .unlisted}
-
-[[pagebreak]]
-## `puts()`, `fputs()` {#man-puts}
-
-Write a string to the console or to a file.
-
-### Synopsis {.unnumbered .unlisted}
-
-``` {.c}
-#include <stdio.h>
-
-int puts(const char *s);
-int fputs(const char *s, FILE *stream);
-```
-
-### Description {.unnumbered .unlisted}
-
-Both these functions output a NUL-terminated string.
-`puts()` outputs to the console, while `fputs()`
-allows you to specify the file for output.
-
-### Return Value {.unnumbered .unlisted}
-
-Both functions return non-negative on success, or `EOF` on
-error.
-
-### Example {.unnumbered .unlisted}
-
-``` {.c .numberLines}
-// read strings from the console and save them in a file
-
-#include <stdio.h>
-
-int main(void)
-{
-    FILE *fp;
-    char s[100];
-
-    fp = fopen("datafile.txt", "w"); // error check this!
-
-    while(fgets(s, sizeof(s), stdin) != NULL) { // read a string
-        fputs(s, fp);  // write it to the file we opened
-    }
-
-    fclose(fp);
-}
-```
-
-### See Also {.unnumbered .unlisted}
-
-[[pagebreak]]
 ## `putc()`, `fputc()`, `putchar()` {#man-putc}
 
 Write a single character to the console or to a file.
@@ -1555,213 +1627,53 @@ int main(void)
 ### See Also {.unnumbered .unlisted}
 
 [[pagebreak]]
-## `fseek()`, `rewind()` {#man-fseek}
+## `puts()`, `fputs()` {#man-puts}
 
-Position the file pointer in anticipition of the next read or
-write.
-
-### Synopsis {.unnumbered .unlisted}
-
-``` {.c}
-#include <stdio.h>
-
-int fseek(FILE *stream, long offset, int whence);
-void rewind(FILE *stream);
-```
-
-### Description {.unnumbered .unlisted}
-
-When doing reads and writes to a file, the OS keeps track of where you
-are in the file using a counter generically known as the file pointer.
-You can reposition the file pointer to a different point in the file
-using the `fseek()` call. Think of it as a way to randomly
-access you file.
-
-The first argument is the file in question, obviously.
-`offset` argument is the position that you want to seek to, and
-`whence` is what that offset is relative to.
-
-Of course, you probably like to think of the offset as being from the
-beginning of the file. I mean, "Seek to position 3490, that should be
-3490 bytes from the beginning of the file."  Well, it _can_ be,
-but it doesn't have to be. Imagine the power you're wielding here. Try
-to command your enthusiasm.
-
-You can set the value of `whence` to one of three
-things:
-
-**`SEEK_SET`**
-
-`offset` is relative to the beginning of the file.
-This is probably what you had in mind anyway, and is the most commonly
-used value for `whence`.
-
-**`SEEK_CUR`**
-
-`offset` is relative to the current file pointer
-position. So, in effect, you can say, "Move to my current position plus
-30 bytes," or, "move to my current position minus 20
-bytes."
-
-**`SEEK_END`**
-
-`offset` is relative to the end of the file. Just
-like `SEEK_SET` except from the other end of the file. Be sure
-to use negative values for `offset` if you want to back up from
-the end of the file, instead of going past the end into
-oblivion.
-
-Speaking of seeking off the end of the file, can you do it? Sure
-thing. In fact, you can seek way off the end and then write a
-character; the file will be expanded to a size big enough to hold a
-bunch of zeros way out to that character.
-
-Now that the complicated function is out of the way, what's this
-`rewind()` that I briefly mentioned? It repositions the file
-pointer at the beginning of the file:
-
-``` {.c}
-fseek(fp, 0, SEEK_SET); // same as rewind()
-rewind(fp);             // same as fseek(fp, 0, SEEK_SET)
-```
-
-### Return Value {.unnumbered .unlisted}
-
-For `fseek()`, on success zero is returned; `-1` is
-returned on failure.
-
-The call to `rewind()` never fails.
-
-### Example {.unnumbered .unlisted}
-
-``` {.c .numberLines}
-fseek(fp, 100, SEEK_SET); // seek to the 100th byte of the file
-fseek(fp, -30, SEEK_CUR); // seek backward 30 bytes from the current pos
-fseek(fp, -10, SEEK_END); // seek to the 10th byte before the end of file
-
-fseek(fp, 0, SEEK_SET);   // seek to the beginning of the file
-rewind(fp);               // seek to the beginning of the file
-```
-
-### See Also {.unnumbered .unlisted}
-
-[`ftell()`](#man-ftell),
-[`fgetpos()`](#man-fgetpos),
-[`fsetpos()`](#man-fgetpos)
-
-[[pagebreak]]
-## `ftell()` {#man-ftell}
-
-Tells you where a particular file is about to read from or
-write to.
+Write a string to the console or to a file.
 
 ### Synopsis {.unnumbered .unlisted}
 
 ``` {.c}
 #include <stdio.h>
 
-long ftell(FILE *stream);
+int puts(const char *s);
+int fputs(const char *s, FILE *stream);
 ```
 
 ### Description {.unnumbered .unlisted}
 
-This function is the opposite of [`fseek()`](#fseek). It tells you where in the
-file the next file operation will occur relative to the beginning of the
-file.
-
-It's useful if you want to remember where you are in the file,
-`fseek()` somewhere else, and then come back later. You can
-take the return value from `ftell()` and feed it back into
-`fseek()` (with `whence` parameter set to
-`SEEK_SET`) when you want to return to your previous position.
+Both these functions output a NUL-terminated string.
+`puts()` outputs to the console, while `fputs()`
+allows you to specify the file for output.
 
 ### Return Value {.unnumbered .unlisted}
 
-Returns the current offset in the file, or `-1` on error.
+Both functions return non-negative on success, or `EOF` on
+error.
 
 ### Example {.unnumbered .unlisted}
 
 ``` {.c .numberLines}
-long pos;
+// read strings from the console and save them in a file
 
-// store the current position in variable "pos":
-pos = ftell(fp);
-
-// seek ahead 10 bytes:
-fseek(fp, 10, SEEK_CUR);
-
-// do some mysterious writes to the file
-do_mysterious_writes_to_file(fp);
-
-// and return to the starting position, stored in "pos":
-fseek(fp, pos, SEEK_SET);
-```
-
-### See Also {.unnumbered .unlisted}
-
-[`fseek()`](#man-fseek),
-[`rewind()`](#man-fseek),
-[`fgetpos()`](#man-fgetpos),
-[`fsetpos()`](#man-fgetpos)
-
-[[pagebreak]]
-## `fgetpos()`, `fsetpos()` {#man-fgetpos}
-
-Get the current position in a file, or set the current position
-in a file. Just like `ftell()` and `fseek()` for
-most systems.
-
-### Synopsis {.unnumbered .unlisted}
-
-``` {.c}
 #include <stdio.h>
 
-int fgetpos(FILE *stream, fpos_t *pos);
-int fsetpos(FILE *stream, fpos_t *pos);
-```
+int main(void)
+{
+    FILE *fp;
+    char s[100];
 
-### Description {.unnumbered .unlisted}
+    fp = fopen("datafile.txt", "w"); // error check this!
 
-These functions are just like `ftell()` and
-`fseek()`, except instead of counting in bytes, they use an
-_opaque_ data structure to hold positional information about
-the file. (Opaque, in this case, means you're not supposed to know what
-the data type is made up of.)
+    while(fgets(s, sizeof(s), stdin) != NULL) { // read a string
+        fputs(s, fp);  // write it to the file we opened
+    }
 
-On virtually every system (and certainly every system that I know
-of), people don't use these functions, using `ftell()` and
-`fseek()` instead. These functions exist just in case your
-system can't remember file positions as a simple byte offset.
-
-Since the `pos` variable is opaque, you have to assign to it
-using the `fgetpos()` call itself. Then you save the value
-for later and use it to reset the position using
-`fsetpos()`.
-
-### Return Value {.unnumbered .unlisted}
-
-Both functions return zero on success, and `-1` on error.
-
-### Example {.unnumbered .unlisted}
-
-``` {.c .numberLines}
-char s[100];
-fpos_t pos;
-
-fgets(s, sizeof(s), fp); // read a line from the file
-
-fgetpos(fp, &pos);   // save the position
-
-fgets(s, sizeof(s), fp); // read another line from the file
-
-fsetpos(fp, &pos);   // now restore the position to where we saved
+    fclose(fp);
+}
 ```
 
 ### See Also {.unnumbered .unlisted}
-
-[`fseek()`](#man-fseek),
-[`ftell()`](#man-ftell),
-[`rewind()`](#man-fseek)
 
 [[pagebreak]]
 ## `ungetc()` {#man-ungetc}
@@ -1985,6 +1897,215 @@ int main(void)
 [`fread()`](#man-fread)
 
 [[pagebreak]]
+## `fgetpos()`, `fsetpos()` {#man-fgetpos}
+
+Get the current position in a file, or set the current position
+in a file. Just like `ftell()` and `fseek()` for
+most systems.
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <stdio.h>
+
+int fgetpos(FILE *stream, fpos_t *pos);
+int fsetpos(FILE *stream, fpos_t *pos);
+```
+
+### Description {.unnumbered .unlisted}
+
+These functions are just like `ftell()` and
+`fseek()`, except instead of counting in bytes, they use an
+_opaque_ data structure to hold positional information about
+the file. (Opaque, in this case, means you're not supposed to know what
+the data type is made up of.)
+
+On virtually every system (and certainly every system that I know
+of), people don't use these functions, using `ftell()` and
+`fseek()` instead. These functions exist just in case your
+system can't remember file positions as a simple byte offset.
+
+Since the `pos` variable is opaque, you have to assign to it
+using the `fgetpos()` call itself. Then you save the value
+for later and use it to reset the position using
+`fsetpos()`.
+
+### Return Value {.unnumbered .unlisted}
+
+Both functions return zero on success, and `-1` on error.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+char s[100];
+fpos_t pos;
+
+fgets(s, sizeof(s), fp); // read a line from the file
+
+fgetpos(fp, &pos);   // save the position
+
+fgets(s, sizeof(s), fp); // read another line from the file
+
+fsetpos(fp, &pos);   // now restore the position to where we saved
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`fseek()`](#man-fseek),
+[`ftell()`](#man-ftell),
+[`rewind()`](#man-fseek)
+
+[[pagebreak]]
+## `fseek()`, `rewind()` {#man-fseek}
+
+Position the file pointer in anticipition of the next read or
+write.
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <stdio.h>
+
+int fseek(FILE *stream, long offset, int whence);
+void rewind(FILE *stream);
+```
+
+### Description {.unnumbered .unlisted}
+
+When doing reads and writes to a file, the OS keeps track of where you
+are in the file using a counter generically known as the file pointer.
+You can reposition the file pointer to a different point in the file
+using the `fseek()` call. Think of it as a way to randomly
+access you file.
+
+The first argument is the file in question, obviously.
+`offset` argument is the position that you want to seek to, and
+`whence` is what that offset is relative to.
+
+Of course, you probably like to think of the offset as being from the
+beginning of the file. I mean, "Seek to position 3490, that should be
+3490 bytes from the beginning of the file."  Well, it _can_ be,
+but it doesn't have to be. Imagine the power you're wielding here. Try
+to command your enthusiasm.
+
+You can set the value of `whence` to one of three
+things:
+
+**`SEEK_SET`**
+
+`offset` is relative to the beginning of the file.
+This is probably what you had in mind anyway, and is the most commonly
+used value for `whence`.
+
+**`SEEK_CUR`**
+
+`offset` is relative to the current file pointer
+position. So, in effect, you can say, "Move to my current position plus
+30 bytes," or, "move to my current position minus 20
+bytes."
+
+**`SEEK_END`**
+
+`offset` is relative to the end of the file. Just
+like `SEEK_SET` except from the other end of the file. Be sure
+to use negative values for `offset` if you want to back up from
+the end of the file, instead of going past the end into
+oblivion.
+
+Speaking of seeking off the end of the file, can you do it? Sure
+thing. In fact, you can seek way off the end and then write a
+character; the file will be expanded to a size big enough to hold a
+bunch of zeros way out to that character.
+
+Now that the complicated function is out of the way, what's this
+`rewind()` that I briefly mentioned? It repositions the file
+pointer at the beginning of the file:
+
+``` {.c}
+fseek(fp, 0, SEEK_SET); // same as rewind()
+rewind(fp);             // same as fseek(fp, 0, SEEK_SET)
+```
+
+### Return Value {.unnumbered .unlisted}
+
+For `fseek()`, on success zero is returned; `-1` is
+returned on failure.
+
+The call to `rewind()` never fails.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+fseek(fp, 100, SEEK_SET); // seek to the 100th byte of the file
+fseek(fp, -30, SEEK_CUR); // seek backward 30 bytes from the current pos
+fseek(fp, -10, SEEK_END); // seek to the 10th byte before the end of file
+
+fseek(fp, 0, SEEK_SET);   // seek to the beginning of the file
+rewind(fp);               // seek to the beginning of the file
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`ftell()`](#man-ftell),
+[`fgetpos()`](#man-fgetpos),
+[`fsetpos()`](#man-fgetpos)
+
+[[pagebreak]]
+## `ftell()` {#man-ftell}
+
+Tells you where a particular file is about to read from or
+write to.
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <stdio.h>
+
+long ftell(FILE *stream);
+```
+
+### Description {.unnumbered .unlisted}
+
+This function is the opposite of [`fseek()`](#fseek). It tells you where in the
+file the next file operation will occur relative to the beginning of the
+file.
+
+It's useful if you want to remember where you are in the file,
+`fseek()` somewhere else, and then come back later. You can
+take the return value from `ftell()` and feed it back into
+`fseek()` (with `whence` parameter set to
+`SEEK_SET`) when you want to return to your previous position.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns the current offset in the file, or `-1` on error.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+long pos;
+
+// store the current position in variable "pos":
+pos = ftell(fp);
+
+// seek ahead 10 bytes:
+fseek(fp, 10, SEEK_CUR);
+
+// do some mysterious writes to the file
+do_mysterious_writes_to_file(fp);
+
+// and return to the starting position, stored in "pos":
+fseek(fp, pos, SEEK_SET);
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`fseek()`](#man-fseek),
+[`rewind()`](#man-fseek),
+[`fgetpos()`](#man-fgetpos),
+[`fsetpos()`](#man-fgetpos)
+
+[[pagebreak]]
 ## `feof()`, `ferror()`, {#man-feof}
 `clearerr()`
 
@@ -2138,118 +2259,3 @@ fseek again, EBADF: Bad file descriptor
 [`feof()`](#man-feof),
 [`ferror()`](#man-feof),
 [`clearerr()`](#man-feof)
-
-[[pagebreak]]
-## `setbuf()`, `setvbuf()` {#man-setbuf}
-
-Configure buffering for standard I/O operations
-
-### Synopsis {.unnumbered .unlisted}
-
-``` {.c}
-#include <stdio.h>
-
-void setbuf(FILE *stream, char *buf);
-int setvbuf(FILE *stream, char *buf, int mode, size_t size);
-```
-
-### Description {.unnumbered .unlisted}
-
-Now brace yourself because this might come as a bit of a surprise to
-you: when you `printf()` or `fprintf()` or use any
-I/O functions like that, _it does not normally work
-immediately_. For the sake of efficiency, and to irritate you, the
-I/O on a `FILE*` stream is buffered away safely until certain
-conditions are met, and only then is the actual I/O performed. The
-functions `setbuf()` and `setvbuf()` allow you to
-change those conditions and the buffering behavior.
-
-So what are the different buffering behaviors? The biggest is called
-"full buffering", wherein all I/O is stored in a big buffer until it is
-full, and then it is dumped out to disk (or whatever the file is). The
-next biggest is called "line buffering"; with line buffering, I/O is
-stored up a line at a time (until a newline (`'\n'`) character is
-encountered) and then that line is processed. Finally, we have
-"unbuffered", which means I/O is processed immediately with every
-standard I/O call.
-
-You might have seen and wondered why you could call
-`putchar()` time and time again and not see any output until
-you called `putchar('\n')`; that's right---`stdout`
-is line-buffered!
-
-Since `setbuf()` is just a simplified version of
-`setvbuf()`, we'll talk about `setvbuf()`
-first.
-
-The `stream` is the `FILE*` you wish to modify. The
-standard says you _must_ make your call to
-`setvbuf()` _before_ any I/O operation is performed
-on the stream, or else by then it might be too late.
-
-The next argument, `buf` allows you to make your own buffer
-space (using [`malloc()`](#malloc) or just a
-`char` array) to use for buffering. If you don't care to do
-this, just set `buf` to `NULL`.
-
-Now we get to the real meat of the function: `mode` allows you
-to choose what kind of buffering you want to use on this
-`stream`. Set it to one of the following:
-
-**`_IOFBF`**
-
-`stream` will be fully buffered.
-
-**`_IOLBF`**
-
-`stream` will be line buffered.
-
-**`_IONBF`**
-
-`stream` will be unbuffered.
-
-Finally, the `size` argument is the size of the array you
-passed in for `buf`...unless you passed `NULL` for
-`buf`, in which case it will resize the existing buffer to the
-size you specify.
-
-Now what about this lesser function `setbuf()`? It's just
-like calling `setvbuf()` with some specific parameters,
-except `setbuf()` doesn't return a value. The following
-example shows the equivalency:
-
-``` {.c}
-// these are the same:
-setbuf(stream, buf);
-setvbuf(stream, buf, _IOFBF, BUFSIZ); // fully buffered
-
-// and these are the same:
-setbuf(stream, NULL);
-setvbuf(stream, NULL, _IONBF, BUFSIZ); // unbuffered
-```
-
-### Return Value {.unnumbered .unlisted}
-
-`setvbuf()` returns zero on success, and nonzero on failure.
-`setbuf()` has no return value.
-
-### Example {.unnumbered .unlisted}
-
-``` {.c .numberLines}
-FILE *fp;
-char lineBuf[1024];
-
-fp = fopen("somefile.txt", "r");
-setvbuf(fp, lineBuf, _IOLBF, 1024);  // set to line buffering
-// ...
-fclose(fp);
-
-fp = fopen("another.dat", "rb");
-setbuf(fp, NULL); // set to unbuffered
-// ...
-fclose(fp);
-```
-
-### See Also {.unnumbered .unlisted}
-
-[`fflush()`](#man-fflush)
