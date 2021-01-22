@@ -663,7 +663,7 @@ percent code. These percent codes are called _format specifiers_.
 Here are the most common format specifiers.
 
 |Specifier|Description|
-|-|-|
+|:--:|--------------------------|
 |`%d`|Print the next argument as a signed decimal number, like `3490`. The argument printed this way should be an `int`, or something that gets promoted to `int`.|
 |`%f`|Print the next argument as a signed floating point number, like `3.14159`. The argument printed this way should be a `double`, or something that gets promoted to a `double`.|
 |`%c`|Print the next argument as a character, like `'B'`. The argument printed this way should be a `char` variant.|
@@ -739,6 +739,14 @@ order:
    `double`.
 6. Conversion specifier, like `d`, `f`, etc.
 
+In short, the whole format specifier is laid out like this:
+
+```
+%[flags][fieldwidth][.precision][lengthmodifier]conversionspecifier
+```
+
+What could be easier?
+
 #### Conversion Specifiers
 
 Let's talk conversion specifiers first. Each of the following specifies
@@ -747,7 +755,7 @@ promoted to that type. For example, `%d` can print `int`, `short`, and
 `char`.
 
 |Conversion Specifier|Description|
-|-|-|
+|:--:|--------------------------|
 |`d`|Print an `int` argument as a decimal number.|
 |`i`|Identical to `d`.|
 |`o`|Print an `unsigned int` in octal (base 8).|
@@ -760,13 +768,78 @@ promoted to that type. For example, `%d` can print `int`, `short`, and
 |`E`|Just like `e`, except prints the exponent `E` (and infinity and NaN) in uppercase.|
 |`g`|Print small numbers like `f` and large numbers like `e`. See note below.|
 |`G`|Print small numbers like `F` and large numbers like `E`. See note below.|
-|`a`|Print a `double` in hexadecimal form `0xh.hhhhpd` where `h` is a lowercase hex digit and `d` is a decimal exponent. Infinity and NaN in the form of `f`. More below.|
+|`a`|Print a `double` in hexadecimal form `0xh.hhhhpd` where `h` is a lowercase hex digit and `d` is a decimal exponent of 2. Infinity and NaN in the form of `f`. More below.|
 |`A`|Like `a` except everything's uppercase.|
 |`c`|Convert `int` argument to `unsigned char` and print as a character.|
 |`s`|Print a string starting at the given `char*`.|
 |`p`|Print a `void*` out as a number, probably the numeric address, possibly in hex.|
-|`n`|Store the number of characters written so far in the given `unsigned int*`. Doesn't print anything.|
+|`n`|Store the number of characters written so far in the given `unsigned int*`. Doesn't print anything. See below.|
 |`%`|Print a literal percent sign.|
+
+##### Note on `%a` and `%A`
+
+When printing floating point numbers in hex form, there is one number
+before the decimal point, and the rest of are out to the precision.
+
+``` {.c}
+double pi = 3.14159265358979;
+
+printf("%.3a\n", pi);  // 0x1.922p+1
+```
+
+C can choose the leading number in such a way to insure subsequent
+digits align to 4-bit boundaries.
+
+If the precision is left out and the macro `FLT_RADIX` is a power of 2,
+enough precision is used to represent the number exactly. If `FLT_RADIX`
+is not a power of two, enough precision is used to be able to tell any
+two floating values apart.
+
+If the precision is `0` and the `#` flag isn't specified, the decimal
+point is omitted.
+
+##### Note on `%g` and `%G`
+
+The gist of this is to use scientific notation when the number gets too
+"extreme", and regular decimal notation otherwise.
+
+The exact behavior for whether these print as `%f` or `%e` depends on a
+number of factors:
+
+If the number's exponent is greater than or equal to -4 **and** the
+precision is greater than the exponent, we use `%f`. In this case, the
+precision is converted according to $p=p-(x+1)$, where $p$ is the
+specified precision and $x$ is the exponent.
+
+Otherwise we use `%e`, and the precision becomes $p-1$.
+
+Trailing zeros in the decimal portion are removed. And if there are none
+left, the decimal point is removed, too. All this unless the `#` flag is
+specified.
+
+##### Note on `%n`
+
+This specifier is cool and different, and rarely needed. It doesn't
+actually print anything, but stores the number of characters printed so
+far in the next pointer argument in the list.
+
+``` {.c}
+int numChars;
+float a = 3.14159;
+int b = 3490;
+
+printf("%f %d%n\n", a, b, &numChars);
+printf("The above line contains %d characters.\n", numChars);
+```
+
+The above example will print out the values of `a` and `b`, and then
+store the number of characters printed so far into the variable
+`numChars`. The next call to `printf()` prints out that result.
+
+```
+3.141590 3490
+The above line contains 13 characters
+```
 
 #### Length Modifiers
 
@@ -784,7 +857,7 @@ printf("%lld\n", x);  // 3490
 ```
 
 |Length Modifier|Conversion Specifier|Description|
-|-|-|-|
+|:--:|:--:|---------------------|
 |`hh`|`d`, `i`, `o`, `u`, `x`, `X`|Convert argument to `char` (signed or unsigned as appropriate) before printing.|
 |`h`|`d`, `i`, `o`, `u`, `x`, `X`|Convert argument to `short int` (signed or unsigned as appropriate) before printing.|
 |`l`|`d`, `i`, `o`, `u`, `x`, `X`|Convert argument to `long int` (signed or unsigned as appropriate) before printing.|
@@ -821,7 +894,7 @@ printf("%.2f\n", pi);  // 3.14
 ```
 
 |Conversion Specifier|Precision Value Meaning|
-|-|-|
+|:-------:|---------------------|
 |`d`, `i`, `o`, `u`, `x`, `X`|For integer types, minimum number of digits (will pad with leading zeros)|
 |`a`, `e`, `f`, `A`, `E`, `F`|For floating types, the precision is the number of digits past the decimal.|
 |`g`, `G`|For floating types, the precision is the number of significant digits printed.|
@@ -831,8 +904,9 @@ If no number is specified in the precision after the decimal point, the
 precision is zero.
 
 If an `*` is specified after the decimal, something amazing happens! It
-means the _next_ argument to `printf()` actually holds the precision.
-You can use this if you don't know the precision at compile time.
+means the `int` argument to `printf()` before the number to be printed
+holds the precision. You can use this if you don't know the precision at
+compile time.
 
 ``` {.c}
 int precision;
@@ -851,195 +925,106 @@ Enter precision: 4
 3.1416
 ```
 
-**`0`**
+#### Field Width
 
-This was already mentioned above. It pads the spaces before a
-number with zeros, e.g. `"%05d"`.
+In front of the optional precision, you can indicate a field width. This
+is a decimal number that indicates how wide the region should be in
+which the argument is printed. The region is padding with leading (or
+trailing) spaces to make sure it's wide enough.
 
-**`-`**
+If the field width specified is too small to hold the output, it is
+ignored.
 
-This was also already mentioned above. It causes the value to
-be left-justified in the field, e.g. `"%-5d"`.
+As a preview, you can give a negative field width to justify the item
+the other direction.
 
-**`' '` (space)**
+So let's print a number in a field of width 10. We'll put some angle
+brackets around it so we can see the padding spaces in the output.
 
-This prints a blank space before a positive number, so that
-it will line up in a column along with negative numbers (which have a
-negative sign in front of them). `"% d"`. 
-
-**`+`**
-
-Always puts a `+` sign in front of a number that you
-print so that it will line up in a column along with negative numbers
-(which have a negative sign in front of them).
-`"%+d"`.
-
-**`#`**
-
-This causes the output to be printed in a different form than
-normal. The results vary based on the specifier used, but
-generally, hexidecimal output (`"%x"`) gets a `"0x"`
-prepended to the output, and octal output (`"%o"`) gets a
-`"0"` prepended to it. These are, if you'll notice, how such
-numbers are represented in C source. Additionally, floating point
-numbers, when printed with this `#` modified, will print a
-trailing decimal point even if the number has no fractional part.
-Example: `"%#x"`.
-
-Now, I know earlier I promised the rest of the format specifiers...so
-ok, here they are:
-
-**`%i`**
-
-Just like `%d`, above.
-
-**`%o`**
-
-Prints the integer number out in octal format. Octal is a
-base-eight number representation scheme invented on the planet Krylon
-where all the inhabitants have only eight fingers.
-
-**`%u`**
-
-Just like `%d`, but works on `unsigned
-int`s, instead of `int`s.
-
-**`%x` or `%X`**
-
-Prints the `unsigned int` argument in hexidecimal
-(base-16) format. This is for people with 16 fingers, or people who
-are simply addicted hex, like you should be. Just try it!
-`"%x"` prints the hex digits in lowercase, while `"%X"`
-prints them in uppercase.
-
-**`%F`**
-
-Just like "%f", except any string-based results (which can
-happen for numbers like infinity) are printed in
-uppercase.
-
-**`%e` or `%E`**
-
-Prints the `float` argument in exponential
-(scientific) notation. This is your classic form similar to "three
-times 10 to the 8th power", except printed in text form: "`3e8`".
-(You see, the "`e`" is read "times 10 to the".)  If you use the
-`"%E"` specifier, the the exponent "e" is written in uppercase, a
-la "`3E8`".
-
-**`%g` or `%G`**
-
-Another way of printing `double`s. In this case
-the precision you specific tells it how many significant figures to
-print.
-
-**`%p`**
-
-Prints a pointer type out in hex representation. In other
-words, the address that the pointer is pointing to is printed. (Not the
-value in the address, but the address number itself.)
-
-**`%n`**
-
-This specifier is cool and different, and rarely needed. It
-doesn't actually print anything, but stores the number of characters
-printed so far in the next pointer argument in the list.
 ``` {.c}
-int numChars;
-float a = 3.14159;
-int b = 3490;
-
-printf("%f %d%n\n", a, b, &numChars);
-printf("The above line contains %d characters.\n", numChars);
+printf("<<%10d>>\n", 3490);   // right justified
+printf("<<%-10d>>\n", 3490);  // left justified
 ```
 
-The above example will print out the values of `a` and
-`b`, and then store the number of characters printed so far
-into the variable `numChars`. The next call to
-`printf()` prints out that result.
-
-So let's recap what we have here. We have a format string in the
-form:
-
-```shell
-"%[modifier][fieldwidth][.precision][lengthmodifier][formatspecifier]"
+```
+<<      3490>>
+<<3490      >>
 ```
 
-Modifier is like the `"-"` for left justification, the field
-width is how wide a space to print the result in, the precision is, for
-`float`s, how many decimal places to print, and the format
-specifier is like `%d`.
+Like with the precision, you can use an asterisk (`*`) as the field
+width 
 
-That wraps it up, except what's this "lengthmodifier" I put up
-there?! Yes, just when you thought things were under control, I had to
-add something else on there. Basically, it's to tell
-`printf()` in more detail what size the arguments are. For
-instance, `char`, `short`, `int`,
-and `long` are all integer types, but they all use a
-different number of bytes of memory, so you can't use plain old
-"`%d`" for _all_ of them, right? How can
-`printf()` tell the difference?
+``` {.c}
+int field_width;
+int val = 3490;
 
-The answer is that you tell it explicitly using another optional
-letter (the length modifier, this) before the type specifier. If you
-omit it, then the basic types are assumed (like `%d` is for
-`int`, and `%f` is for `float`).
+printf("Enter field_width: "); fflush(stdout);
+scanf("%d", &field_width);
 
-Here are the format specifiers:
+printf("<<%*d>>\n", field_width, val);
+```
 
-**`h`**
+#### Flags
 
-Integer referred to is a `short` integer, e.g.
-"`%hd`" is a `short` and "`%hu`" is an
-`unsigned short`.
+Before the field width, you can put some optional flags that further
+control the output of the subsequent fields. We just saw that the `-`
+flag can be used to left- or right-justify fields. But there are plenty
+more!
 
-**`l` ("ell")**
+|Flag|Description|
+|:--:|--------------------------|
+|`-`|For a field width, left justify in the field (right is default).|
+|`+`|If the number is signed, always prefix a `+` or `-` on the front.|
+|` `|(Space.) If the number is signed, prefix a space for positive, or a `-` for negative.|
+|`0`|Pad the right-justified field with leading zeros instead of leading spaces.
+|`#`|Print using an alternate form. See below.|
 
-Integer referred to is a `long` integer, e.g.
-"`%ld`" is a `long` and "`%lu`" is an
-`unsigned long`.
+For example, we could pad a hexadecimal number with leading zeros to a
+field width of 8 with:
 
-**`hh`**
+``` {.c}
+printf("%08x\n", 0x1234);  // 00001234
+```
 
-Integer referred to is a `char` integer, e.g.
-"`%hhd`" is a `char` and "`%hhu`" is an
-`unsigned char`.
+The `#` "alternate form" result depends on the conversion specifier.
 
-**`ll` ("ell ell")**
-
-Integer referred to is a `long long` integer, e.g.
-"`%lld`" is a `long long` and "`%llu`" is an
-`unsigned long long`.
-
-I know it's hard to believe, but there might be _still more_
-format and length specifiers on your system. Check your manual for more
-information.
+|Conversion Specifier|Alternate Form (`#`) Meaning|
+|:---------:|---------------------------------------|
+|`o`|Increase precision of a non-zero number just enough to get one leading `0` on the octal number.|
+|`x`|Prefix a non-zero number with `0x`.|
+|`X`|Same as `x`, except capital `0X`.|
+|`a`, `e`, `f`|Always print a decimal point, even if nothing follows it.|
+|`A`, `E`, `F`|Identical to `a`, `e`, `f`.|
+|`g`, `G`|Always print a decimal point, even if nothing follows it, and keep trailing zeros.|
 
 ### Return Value {.unnumbered .unlisted}
+
+Returns the number of characters outputted, or a negative number on
+error.
 
 ### Example {.unnumbered .unlisted}
 
 ``` {.c .numberLines}
 int a = 100;
-    float b = 2.717;
-    char *c = "beej!";
-    char d = 'X';
-    int e = 5;
+float b = 2.717;
+char *c = "beej!";
+char d = 'X';
+int e = 5;
 
-    printf("%d", a); /* "100"      */
-    printf("%f", b); /* "2.717000" */
-    printf("%s", c); /* "beej!"    */
-    printf("%c", d); /* "X"        */
-    printf("110%%"); /* "110%"     */
+printf("%d", a); /* "100"      */
+printf("%f", b); /* "2.717000" */
+printf("%s", c); /* "beej!"    */
+printf("%c", d); /* "X"        */
+printf("110%%"); /* "110%"     */
 
-    printf("%10d\n", a);   /* "       100" */
-    printf("%-10d\n", a);  /* "100       " */
-    printf("%*d\n", e, a); /* "  100"      */
-    printf("%.2f\n", b);   /* "2.71"       */
+printf("%10d\n", a);   /* "       100" */
+printf("%-10d\n", a);  /* "100       " */
+printf("%*d\n", e, a); /* "  100"      */
+printf("%.2f\n", b);   /* "2.71"       */
 
-    printf("%hhd\n", c); /* "88" <-- ASCII code for 'X' */
-    
-    printf("%5d %5.2f %c\n", a, b, d); /* "  100  2.71 X" */
+printf("%hhd\n", c); /* "88" <-- ASCII code for 'X' */
+
+printf("%5d %5.2f %c\n", a, b, d); /* "  100  2.71 X" */
 ```
 
 ### See Also {.unnumbered .unlisted}
