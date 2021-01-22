@@ -5,88 +5,75 @@
 
 # Standard I/O Library {#stdio}
 
-The most basic of all libraries in the whole of the standard C
-library is the standard I/O library. It's used for reading from and
-writing to files. I can see you're very excited about this.
+The most basic of all libraries in the whole of the standard C library
+is the standard I/O library. It's used for reading from and writing to
+files. I can see you're very excited about this.
 
-So I'll continue. It's also used for reading and writing to the
-console, as we've already often seen with the `printf()`
-function.
+So I'll continue. It's also used for reading and writing to the console,
+as we've already often seen with the `printf()` function.
 
-(A little secret here---many many things in various operating
-systems are secretly files deep down, and the console is no exception.
+(A little secret here---many many things in various operating systems
+are secretly files deep down, and the console is no exception.
 "_Everything in Unix is a file!_" `:-)`)
 
 You'll probably want some prototypes of the functions you can use,
 right? To get your grubby little mittens on those, you'll want to
 include `stdio.h`.
 
-Anyway, so we can do all kinds of cool stuff in terms of file I/O.
-LIE DETECTED. Ok, ok. We can do all kinds of stuff in terms of file
-I/O. Basically, the strategy is this:
+Anyway, so we can do all kinds of cool stuff in terms of file I/O. LIE
+DETECTED. Ok, ok. We can do all kinds of stuff in terms of file I/O.
+Basically, the strategy is this:
 
-1. Use `fopen()` to get a pointer to a file structure of
-type `FILE*`. This pointer is what you'll be passing to many
-of the other file I/O calls.
+1. Use `fopen()` to get a pointer to a file structure of type `FILE*`.
+   This pointer is what you'll be passing to many of the other file I/O
+   calls.
 
-2. Use some of the other file calls, like `fscanf()`,
-`fgets()`, `fprintf()`, or etc. using the
-`FILE*` returned from `fopen()`.
+2. Use some of the other file calls, like `fscanf()`, `fgets()`,
+   `fprintf()`, or etc. using the `FILE*` returned from `fopen()`.
 
-3. When done, call `fclose()` with the `FILE*`.
-This let's the operating system know that you're truly done with the
-file, no take-backs.
+3. When done, call `fclose()` with the `FILE*`. This let's the operating
+   system know that you're truly done with the file, no take-backs.
 
-What's in the `FILE*`? Well, as you might guess, it
-points to a `struct` that contains all kinds of information
-about the current read and write position in the file, how the file was
-opened, and other stuff like that. But, honestly, who cares. No one,
-that's who. The `FILE` structure is _opaque_ to you
-as a programmer; that is, you don't need to know what's in it, and you
-don't even _want_ to know what's in it. You just pass it to
-the other standard I/O functions and they know what to do.
+What's in the `FILE*`? Well, as you might guess, it points to a `struct`
+that contains all kinds of information about the current read and write
+position in the file, how the file was opened, and other stuff like
+that. But, honestly, who cares. No one, that's who. The `FILE` structure
+is _opaque_ to you as a programmer; that is, you don't need to know
+what's in it, and you don't even _want_ to know what's in it. You just
+pass it to the other standard I/O functions and they know what to do.
 
-This is actually pretty important: try to not muck around in the
-`FILE` structure. It's not even the same from system to
-system, and you'll end up writing some really non-portable code.
+This is actually pretty important: try to not muck around in the `FILE`
+structure. It's not even the same from system to system, and you'll end
+up writing some really non-portable code.
 
-One more thing to mention about the standard I/O library: a lot of
-the functions that operate on files use an "f" prefix on the function
-name. The same function that is operating on the console will leave the
-"f" off. For instance, if you want to print to the console, you use
-`printf()`, but if you want to print to a file, use
-`fprintf()`, see?
+One more thing to mention about the standard I/O library: a lot of the
+functions that operate on files use an "f" prefix on the function name.
+The same function that is operating on the console will leave the "f"
+off. For instance, if you want to print to the console, you use
+`printf()`, but if you want to print to a file, use `fprintf()`, see?
 
 Wait a moment! If writing to the console is, deep down, just like
 writing to a file, since everything in Unix is a file, why are there two
-functions? Answer: it's more convenient. But, more importantly, is
-there a `FILE*` associated with the console that you can use?
-Answer: YES!
+functions? Answer: it's more convenient. But, more importantly, is there
+a `FILE*` associated with the console that you can use? Answer: YES!
 
-There are, in fact, _three_ (count 'em!) special
-`FILE*`s you have at your disposal merely for just including
-`stdio.h`. There is one for input, and two for output.
+There are, in fact, _three_ (count 'em!) special `FILE*`s you have at
+your disposal merely for just including `stdio.h`. There is one for
+input, and two for output.
 
-That hardly seems fair---why does output get two files, and
-input only get one?
+That hardly seems fair---why does output get two files, and input only
+get one?
 
 That's jumping the gun a bit---let's just look at them:
 
-**`stdin`**
+|Stream|Description|
+|-|-|
+|`stdin`|Input from the console.|
+|`stdout`|Output to the console.|
+|`stderr`|Output to the console on the error file stream.|
 
-Input from the console.
-
-**`stdout`**
-
-Output to the console.
-
-**`stderr`**
-
-Output to the console on the error file stream.
-
-So standard input (`stdin`) is by default just what you type
-at the keyboard. You can use that in `fscanf()` if you want,
-just like this:
+So standard input (`stdin`) is by default just what you type at the
+keyboard. You can use that in `fscanf()` if you want, just like this:
 
 ``` {.c}
 /* this line: */
@@ -103,17 +90,395 @@ printf("Hello, world!\n");
 fprintf(stdout, "Hello, world!\n"); /* same as previous line! */
 ```
 
-So what is this `stderr` thing? What happens when you
-output to that? Well, generally it goes to the console just like
-`stdout`, but people use it for error messages, specifically.
-Why? On many systems you can redirect the output from the program into
-a file from the command line...and sometimes you're interested in
-getting just the error output. So if the program is good and writes all
-its errors to `stderr`, a user can redirect just
-`stderr` into a file, and just see that. It's just a nice
-thing you, as a programmer, can do.
+So what is this `stderr` thing? What happens when you output to that?
+Well, generally it goes to the console just like `stdout`, but people
+use it for error messages, specifically. Why? On many systems you can
+redirect the output from the program into a file from the command
+line...and sometimes you're interested in getting just the error output.
+So if the program is good and writes all its errors to `stderr`, a user
+can redirect just `stderr` into a file, and just see that. It's just a
+nice thing you, as a programmer, can do.
 
 [[pagebreak]]
+
+## `remove()` {#man-remove}
+
+Delete a file
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <stdio.h>
+
+int remove(const char *filename);
+```
+
+### Description {.unnumbered .unlisted}
+
+Removes the specified file from the filesystem. It just deletes it.
+Nothing magical. Simply call this function and sacrifice a small chicken
+and the requested file will be deleted.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns zero on success, and `-1` on error, setting `errno`.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+char *filename = "/home/beej/evidence.txt";
+
+remove(filename);
+remove("/disks/d/Windows/system.ini");
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`rename()`](#man-rename)
+
+[[pagebreak]]
+## `rename()` {#man-rename}
+
+Renames a file and optionally moves it to a new location
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <stdio.h>
+
+int rename(const char *old, const char *new);
+```
+
+### Description {.unnumbered .unlisted}
+
+Renames the file `old` to name `new`. Use this function if you're tired
+of the old name of the file, and you are ready for a change. Sometimes
+simply renaming your files makes them feel new again, and could save you
+money over just getting all new files!
+
+One other cool thing you can do with this function is actually move a
+file from one directory to another by specifying a different path for
+the new name.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns zero on success, and `-1` on error, setting `errno`.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+rename("foo", "bar"); // changes the name of the file "foo" to "bar"
+
+// the following moves the file "evidence.txt" from "/tmp" to
+// "/home/beej", and also renames it to "nothing.txt":
+rename("/tmp/evidence.txt", "/home/beej/nothing.txt");
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`remove()`](#man-remove)
+
+[[pagebreak]]
+
+## `tmpfile()` {#man-tmpfile}
+
+Create a temporary file
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <stdio.h>
+
+FILE *tmpfile(void);
+```
+
+### Description {.unnumbered .unlisted}
+
+This is a nifty little function that will create and open a temporary
+file for you, and will return a `FILE*` to it that you can use. The file
+is opened with mode "`r+b`", so it's suitable for reading, writing, and
+binary data.
+
+By using a little magic, the temp file is automatically deleted when it
+is `close()`'d or when your program exits. (Specifically, `tmpfile()`
+unlinks the file right after it opens it. If you don't know what that
+means, it won't affect your `tmpfile()` skill, but hey, be curious! It's
+for your own good!)
+
+### Return Value {.unnumbered .unlisted}
+
+This function returns an open `FILE*` on success, or `NULL` on failure.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+#include <stdio.h>
+
+int main(void)
+{
+    FILE *temp;
+    char s[128];
+
+    temp = tmpfile();
+
+    fprintf(temp, "What is the frequency, Alexander?\n");
+
+    rewind(temp); // back to the beginning
+
+    fscanf(temp, "%s", s); // read it back out
+
+    fclose(temp); // close (and magically delete)
+}
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`fopen()`](#man-fopen),
+[`fclose()`](#man-fclose),
+[`tmpnam()`](#man-tmpnam)
+
+[[pagebreak]]
+
+## `tmpnam()` {#man-tmpnam}
+
+Generate a unique name for a temporary file
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <stdio.h>
+
+char *tmpnam(char *s);
+```
+
+### Description {.unnumbered .unlisted}
+
+This function takes a good hard look at the existing files on your
+system, and comes up with a unique name for a new file that is suitable
+for temporary file usage.
+
+Let's say you have a program that needs to store off some data for a
+short time so you create a temporary file for the data, to be deleted
+when the program is done running. Now imagine that you called this file
+`foo.txt`. This is all well and good, except what if a user already has
+a file called `foo.txt` in the directory that you ran your program from?
+You'd overwrite their file, and they'd be unhappy and stalk you forever.
+And you wouldn't want that, now would you?
+
+Ok, so you get wise, and you decide to put the file in `/tmp` so that it
+won't overwrite any important content. But wait! What if some other user
+is running your program at the same time and they both want to use that
+filename? Or what if some other program has already created that file?
+
+See, all of these scary problems can be completely avoided if you just
+use `tmpnam()` to get a safe-ready-to-use filename.
+
+So how do you use it? There are two amazing ways. One, you can declare
+an array (or `malloc()` it---whatever) that is big enough to hold the
+temporary file name. How big is that? Fortunately there has been a macro
+defined for you, `L_tmpnam`, which is how big the array must be.
+
+And the second way: just pass `NULL` for the filename. `tmpnam()` will
+store the temporary name in a static array and return a pointer to that.
+Subsequent calls with a `NULL` argument will overwrite the static array,
+so be sure you're done using it before you call `tmpnam()` again.
+
+Again, this function just makes a file name for you. It's up to you to
+later `fopen()` the file and use it.
+
+One more note: some compilers warn against using `tmpnam()` since some
+systems have better functions (like the Unix function `mkstemp()`.)  You
+might want to check your local documentation to see if there's a better
+option. Linux documentation goes so far as to say, "Never use this
+function. Use `mkstemp()` instead."
+
+I, however, am going to be a jerk and not talk about `mkstemp()` because
+it's not in the standard I'm writing about. Nyaah.
+
+The macro `TMP_MAX` holds the number of unique filenames that can be
+generated by `tmpnam()`. Ironically, it is the _minimum_ number of such
+filenames.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns a pointer to the temporary file name. This is either a pointer
+to the string you passed in, or a pointer to internal static storage if
+you passed in `NULL`. On error (like it can't find any temporary name
+that is unique), `tmpnam()` returns `NULL`.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+char filename[L_tmpnam];
+char *another_filename;
+
+if (tmpnam(filename) != NULL)
+    printf("We got a temp file named: \"%s\"\n", filename);
+else
+    printf("Something went wrong, and we got nothing!\n");
+
+another_filename = tmpnam(NULL);
+printf("We got another temp file named: \"%s\"\n", another_filename);
+printf("And we didn't error check it because we're too lazy!\n");
+```
+
+On my Linux system, this generates the following output:
+
+```
+We got a temp file named: "/tmp/filew9PMuZ"
+We got another temp file named: "/tmp/fileOwrgPO"
+And we didn't error check it because we're too lazy!
+```
+    
+
+### See Also {.unnumbered .unlisted}
+
+[`fopen()`](#man-fopen),
+[`tmpfile()`](#man-tmpfile)
+
+[[pagebreak]]
+
+## `fclose()` {#man-fclose}
+
+The opposite of `fopen()`---closes a file when you're done with it so
+that it frees system resources.
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <stdio.h>
+
+int fclose(FILE *stream);
+```
+
+### Description {.unnumbered .unlisted}
+
+When you open a file, the system sets aside some resources to maintain
+information about that open file. Usually it can only open so many files
+at once. In any case, the Right Thing to do is to close your files when
+you're done using them so that the system resources are freed.
+
+Also, you might not find that all the information that you've written to
+the file has actually been written to disk until the file is closed.
+(You can force this with a call to `fflush()`.)
+
+When your program exits normally, it closes all open files for you. Lots
+of times, though, you'll have a long-running program, and it'd be better
+to close the files before then. In any case, not closing a file you've
+opened makes you look bad. So, remember to `fclose()` your file when
+you're done with it!
+
+### Return Value {.unnumbered .unlisted}
+
+On success, `0` is returned. Typically no one checks for this. On error
+`EOF` is returned. Typically no one checks for this, either.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+FILE *fp;
+
+fp = fopen("spoonDB.dat", r"); // (you should error-check this)
+sort_spoon_database(fp);
+fclose(fp);   // pretty simple, huh. 
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`fopen()`](#man-fopen)
+
+[[pagebreak]]
+
+## `fflush()` {#man-fflush}
+
+Process all buffered I/O for a stream right now
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <stdio.h>
+
+int fflush(FILE *stream);
+```
+
+### Description {.unnumbered .unlisted}
+
+When you do standard I/O, as mentioned in the section on the
+[`setvbuf()`](#setvbuf) function, it is usually stored in a buffer until
+a line has been entered or the buffer is full or the file is closed.
+Sometimes, though, you really want the output to happen _right this
+second_, and not wait around in the buffer. You can force this to happen
+by calling `fflush()`.
+
+The advantage to buffering is that the OS doesn't need to hit the disk
+every time you call `fprintf()`. The disadvantage is that if you look at
+the file on the disk after the `fprintf()` call, it might not have
+actually been written to yet. ("I called `fputs()`, but the file is
+still zero bytes long! Why?!") In virtually all circumstances, the
+advantages of buffering outweigh the disadvantages; for those other
+circumstances, however, use `fflush()`.
+
+Note that `fflush()` is only designed to work on output streams
+according to the spec. What will happen if you try it on an input
+stream? Use your spooky voice: _who knooooows!_
+
+### Return Value {.unnumbered .unlisted}
+
+On success, `fflush()` returns zero. If there's an error, it returns
+`EOF` and sets the error condition for the stream (see
+[`ferror()`](#feof).)
+
+### Example {.unnumbered .unlisted}
+
+In this example, we're going to use the carriage return, which is
+`'\r'`. This is like newline (`'\n'`), except that it doesn't move to
+the next line. It just returns to the front of the current line.
+
+What we're going to do is a little text-based status bar like so many
+command line programs implement. It'll do a countdown from 10 to 0
+printing over itself on the same line.
+
+What is the catch and what does this have to do with `fflush()`? The
+catch is that the terminal is most likely "line buffered" (see the
+section on [`setvbuf()`](#setvbuf) for more info), meaning that it won't
+actually display anything until it prints a newline. But we're not
+printing newlines; we're just printing carriage returns, so we need a
+way to force the output to occur even though we're on the same line.
+Yes, it's `fflush()!`
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <unistd.h> // for prototype for sleep()
+
+int main(void)
+{
+    int count;
+
+    for(count = 10; count >= 0; count--) {
+        printf("\rSeconds until launch: ");  // lead with a CR
+        if (count > 0)
+            printf("%2d", count);
+        else
+            printf("blastoff!\n");
+
+        // force output now!!
+        fflush(stdout);
+
+        // the sleep() function is non-standard, but virtually every
+        // system implements it--it simply delays for the specificed
+        // number of seconds:
+        sleep(1);
+    }
+}
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`setbuf()`](#man-setvbuf),
+[`setvbuf()`](#man-setvbuf)
+
+[[pagebreak]]
+
 ## `fopen()` {#man-fopen}
 
 Opens a file for reading or writing
@@ -130,58 +495,40 @@ FILE *fopen(const char *path, const char *mode);
 
 The `fopen()` opens a file for reading or writing.
 
-Parameter `path` can be a relative or fully-qualified
-path and file name to the file in question.
+Parameter `path` can be a relative or fully-qualified path and file name
+to the file in question.
 
-Paramter `mode` tells `fopen()` how to open the
-file (reading, writing, or both), and whether or not it's a binary
-file. Possible modes are:
+Parameter `mode` tells `fopen()` how to open the file (reading, writing,
+or both), and whether or not it's a binary file. Possible modes are:
 
-**`r`**
+|Mode|Description|
+|-|-|
+|`r`|Open the file for reading (read-only).|
+|`w`|Open the file for writing (write-only). The file is created if it doesn't exist.|
+|`r+`|Open the file for reading and writing. The file has to already exist.|
+|`w+`|Open the file for writing and reading. The file is created if it doesn't already exist.|
+|`a`|Open the file for append. This is just like opening a file for writing, but it positions the file pointer at the end of the file, so the next write appends to the end. The file is created if it doesn't exist.|
+|`a+`|Open the file for reading and appending. The file is created if it doesn't exist.|
 
-Open the file for reading (read-only).
+Any of the modes can have the letter "`b`" appended to the end, as is
+"`wb`" ("write binary"), to signify that the file in question is a
+_binary_ file. ("Binary" in this case generally means that the file
+contains non-alphanumeric characters that look like garbage to human
+eyes.)  Many systems (like Unix) don't differentiate between binary and
+non-binary files, so the "`b`" is extraneous. But if your data is
+binary, it doesn't hurt to throw the "`b`" in there, and it might help
+someone who is trying to port your code to another system.
 
-**`w`**
+The macro `FOPEN_MAX` tells you how many streams (at least) you can have
+open at once.
 
-Open the file for writing (write-only). The file is created
-if it doesn't exist.
-
-**`r+`**
-
-Open the file for reading and writing. The file has to
-already exist.
-
-**`w+`**
-
-Open the file for writing and reading. The file is created
-if it doesn't already exist.
-
-**`a`**
-
-Open the file for append. This is just like opening a file
-for writing, but it positions the file pointer at the end of the file,
-so the next write appends to the end. The file is created if it doesn't
-exist.
-
-**`a+`**
-
-Open the file for reading and appending. The file is
-created if it doesn't exist.
-
-Any of the modes can have the letter "`b`" appended to the
-end, as is "`wb`" ("write binary"), to signify that the file in question is a
-_binary_ file. ("Binary" in this case generally means that the
-file contains non-alphanumeric characters that look like garbage to
-human eyes.)  Many systems (like Unix) don't differentiate between
-binary and non-binary files, so the "`b`" is extraneous. But if
-your data is binary, it doesn't hurt to throw the "`b`" in there,
-and it might help someone who is trying to port your code to another
-system.
+The macro `FILENAME_MAX` tells you what the longest valid filename can
+be. Don't go crazy, now.
 
 ### Return Value {.unnumbered .unlisted}
 
-`fopen()` returns a `FILE*` that can be used in
-subsequent file-related calls.
+`fopen()` returns a `FILE*` that can be used in subsequent file-related
+calls.
 
 If something goes wrong (e.g. you tried to open a file for read that
 didn't exist), `fopen()` will return `NULL`.
@@ -208,10 +555,10 @@ int main(void)
 [`freopen()`](#man-freopen)
 
 [[pagebreak]]
+
 ## `freopen()` {#man-freopen}
 
-Reopen an existing `FILE*`, associating it with a
-new path
+Reopen an existing `FILE*`, associating it with a new path
 
 ### Synopsis {.unnumbered .unlisted}
 
@@ -223,32 +570,27 @@ FILE *freopen(const char *filename, const char *mode, FILE *stream);
 
 ### Description {.unnumbered .unlisted}
 
-Let's say you have an existing `FILE*` stream that's
-already open, but you want it to suddenly use a different file than the
-one it's using. You can use `freopen()` to "re-open" the
-stream with a new file.
+Let's say you have an existing `FILE*` stream that's already open, but
+you want it to suddenly use a different file than the one it's using.
+You can use `freopen()` to "re-open" the stream with a new file.
 
 Why on Earth would you ever want to do that? Well, the most common
 reason would be if you had a program that normally would read from
-`stdin`, but instead you wanted it to read from a file.
-Instead of changing all your `scanf()`s to
-`fscanf()`s, you could simply reopen `stdin` on the
-file you wanted to read from.
+`stdin`, but instead you wanted it to read from a file. Instead of
+changing all your `scanf()`s to `fscanf()`s, you could simply reopen
+`stdin` on the file you wanted to read from.
 
 Another usage that is allowed on some systems is that you can pass
-`NULL` for `filename`, and specify a new
-`mode` for `stream`. So you could change a file from
-"`r+`" (read and write) to just "`r`" (read), for
-instance. It's implementation dependent which modes can be changed.
+`NULL` for `filename`, and specify a new `mode` for `stream`. So you
+could change a file from "`r+`" (read and write) to just "`r`" (read),
+for instance. It's implementation dependent which modes can be changed.
 
-When you call `freopen()`, the old `stream` is
-closed. Otherwise, the function behaves just like the standard
-`fopen()`.
+When you call `freopen()`, the old `stream` is closed. Otherwise, the
+function behaves just like the standard `fopen()`.
 
 ### Return Value {.unnumbered .unlisted}
 
-`freopen()` returns `stream` if all goes
-well.
+`freopen()` returns `stream` if all goes well.
 
 If something goes wrong (e.g. you tried to open a file for read that
 didn't exist), `freopen()` will return `NULL`.
@@ -287,58 +629,7 @@ int main(void)
 [`fopen()`](#man-fopen)
 
 [[pagebreak]]
-## `fclose()` {#man-fclose}
 
-The opposite of `fopen()`--closes a file when
-you're done with it so that it frees system resources.
-
-### Synopsis {.unnumbered .unlisted}
-
-``` {.c}
-#include <stdio.h>
-
-int fclose(FILE *stream);
-```
-
-### Description {.unnumbered .unlisted}
-
-When you open a file, the system sets aside some resources to
-maintain information about that open file. Usually it can only open so
-many files at once. In any case, the Right Thing to do is to close your
-files when you're done using them so that the system resources are
-freed.
-
-Also, you might not find that all the information that you've written
-to the file has actually been written to disk until the file is closed.
-(You can force this with a call to `fflush()`.)
-
-When your program exits normally, it closes all open files for you.
-Lots of times, though, you'll have a long-running program, and it'd be
-better to close the files before then. In any case, not closing a file
-you've opened makes you look bad. So, remember to `fclose()`
-your file when you're done with it!
-
-### Return Value {.unnumbered .unlisted}
-
-On success, `0` is returned. Typically no one checks for this.
-On error `EOF` is returned. Typically no one checks for this,
-either.
-
-### Example {.unnumbered .unlisted}
-
-``` {.c .numberLines}
-FILE *fp;
-
-fp = fopen("spoonDB.dat", r"); // (you should error-check this)
-sort_spoon_database(fp);
-fclose(fp);   // pretty simple, huh. 
-```
-
-### See Also {.unnumbered .unlisted}
-
-[`fopen()`](#man-fopen)
-
-[[pagebreak]]
 ## `printf()`, `fprintf()` {#man-printf}
 
 Print a formatted string to the console or to a file.
@@ -354,63 +645,41 @@ int fprintf(FILE *stream, const char *format, ...);
 
 ### Description {.unnumbered .unlisted}
 
-These functions print formatted strings to a file (that is, a
-`FILE*` you likely got from `fopen()`), or to the
-console (which is usually itself just a special file, right?)
+These functions print formatted strings to a file (that is, a `FILE*`
+you likely got from `fopen()`), or to the console (which is usually
+itself just a special file, right?)
 
-The `printf()` function is legendary as being one of the
-most flexible outputting systems ever devisied. It can also get a bit
-freaky here or there, most notably in the `format` string.
-We'll take it a step at a time here.
+The `printf()` function is legendary as being one of the most flexible
+outputting systems ever devised. It can also get a bit freaky here or
+there, most notably in the `format` string. We'll take it a step at a
+time here.
 
 The easiest way to look at the format string is that it will print
-everything in the string as-is, _unless_ a character has a
-percent sign (`%`) in front of it. That's when the magic
-happens: the next argument in the `printf()` argument list is
-printed in the way described by the percent code.
+everything in the string as-is, _unless_ a character has a percent sign
+(`%`) in front of it. That's when the magic happens: the next argument
+in the `printf()` argument list is printed in the way described by the
+percent code. These percent codes are called _format specifiers_.
 
-Here are the most common percent codes:
+Here are the most common format specifiers.
 
-**`%d`**
+|Specifier|Description|
+|-|-|
+|`%d`|Print the next argument as a signed decimal number, like `3490`. The argument printed this way should be an `int`, or something that gets promoted to `int`.|
+|`%f`|Print the next argument as a signed floating point number, like `3.14159`. The argument printed this way should be a `double`, or something that gets promoted to a `double`.|
+|`%c`|Print the next argument as a character, like `'B'`. The argument printed this way should be a `char` variant.|
+|`%s`|Print the next argument as a string, like `"Did you remember your mittens?"`. The argument printed this way should be a `char*` or `char[]`.|
+|`%%`|No arguments are converted, and a plain old run-of-the-mill percent sign is printed. This is how you print a '%' using `printf()`.|
 
-Print the next argument as a signed decimal number, like
-`3490`. The argument printed this way should be an
-`int`.
+So those are the basics. I'll give you some more of the format
+specifiers in a bit, but let's get some more breadth before then.
+There's actually a lot more that you can specify in there after the
+percent sign.
 
-**`%f`**
-
-Print the next argument as a signed floating point number, like
-`3.14159`. The argument printed this way should be a
-`float`.
-
-**`%c`**
-
-Print the next argument as a character, like
-`'B'`. The argument printed this way should be a
-`char`.
-
-**`%s`**
-
-Print the next argument as a string, like
-`"Did you remember your mittens?"`. The argument printed this
-way should be a `char*` or `char[]`.
-
-**`%%`**
-
-No arguments are converted, and a plain old run-of-the-mill
-percent sign is printed. This is how you print a '%' using
-`printf()`.
-
-So those are the basics. I'll give you some more of the percent
-codes in a bit, but let's get some more breadth before then. There's
-actually a lot more that you can specify in there after the percent
-sign.
-
-For one thing, you can put a field width in there---this is a
-number that tells `printf()` how many spaces to put on one
-side or the other of the value you're printing. That helps you line
-things up in nice columns. If the number is negative, the result
-becomes left-justified instead of right-justified. Example:
+For one thing, you can put a field width in there---this is a number
+that tells `printf()` how many spaces to put on one side or the other of
+the value you're printing. That helps you line things up in nice
+columns. If the number is negative, the result becomes left-justified
+instead of right-justified. Example:
 
 ``` {.c}
 printf("%10d", x);  /* prints X on the right side of the 10-space field */
@@ -420,12 +689,12 @@ printf("%-10d", x); /* prints X on the left side of the 10-space field */
 If you don't know the field width in advance, you can use a little
 kung-foo to get it from the argument list just before the argument
 itself. Do this by placing your seat and tray tables in the fully
-upright position. The seatbelt is fastened by placing
-the---_*cough*_. I seem to have been doing way too much
-flying lately. Ignoring that useless fact completely, you can specify a
-dynamic field width by putting a `*` in for the width. If you
-are not willing or able to perform this task, please notify a flight
-attendant and we will reseat you.
+upright position. The seatbelt is fastened by placing the---_*cough*_. I
+seem to have been doing way too much flying lately. Ignoring that
+useless fact completely, you can specify a dynamic field width by
+putting a `*` in for the width. If you are not willing or able to
+perform this task, please notify a flight attendant and we will reseat
+you.
 
 ``` {.c}
 int width = 12;
@@ -442,11 +711,10 @@ int x = 17;
 printf("%05d", x);  /* "00017" */
 ```
 
-When it comes to floating point, you can also specify how many
-decimal places to print by making a field width of the form
-"`x.y`" where `x` is the field width (you can leave this
-off if you want it to be just wide enough) and `y` is the number
-of digits past the decimal point to print:
+When it comes to floating point, you can also specify how many decimal
+places to print by making a field width of the form "`x.y`" where `x` is
+the field width (you can leave this off if you want it to be just wide
+enough) and `y` is the number of digits past the decimal point to print:
 
 ``` {.c}
 float f = 3.1415926535;
@@ -455,9 +723,133 @@ printf("%.2f", f);  /* "3.14" */
 printf("%7.3f", f); /* "  3.141" <-- 7 spaces across */
 ```
 
-Ok, those above are definitely the most common uses of
-`printf()`, but there are still more modifiers you can put in
-after the percent and before the field width:
+Ok, those above are definitely the most common uses of `printf()`, but
+let's get _total coverage_.
+
+#### Format Specifier Layout
+
+Technically, the layout of the format specifier is these things in this
+order:
+
+1. `%`, followed by...
+2. Optional: zero or more flags, left justify, leading zeros, etc.
+3. Optional: Field width, how wide the output field should be.
+4. Optional: Precision, or how many decimal places to print.
+5. Optional: Length modifier, for printing things bigger than `int` or
+   `double`.
+6. Conversion specifier, like `d`, `f`, etc.
+
+#### Conversion Specifiers
+
+Let's talk conversion specifiers first. Each of the following specifies
+what type it can print, but it can also print anything that gets
+promoted to that type. For example, `%d` can print `int`, `short`, and
+`char`.
+
+|Conversion Specifier|Description|
+|-|-|
+|`d`|Print an `int` argument as a decimal number.|
+|`i`|Identical to `d`.|
+|`o`|Print an `unsigned int` in octal (base 8).|
+|`u`|Print an `unsigned int` in decimal.|
+|`x`|Print an `unsigned int` in hexadecimal with lowercase letters.|
+|`X`|Print an `unsigned int` in hexadecimal with uppercase letters.|
+|`f`|Print a `double` in decimal notation. Infinity is printed as `infinity` or `inf`, and NaN is printed as `nan`, any of which could have a leading minus sign.|
+|`F`|Same as `f`, except it prints out `INFINITY`, `INF`, or `NAN` in all caps.|
+|`e`|Print a number in scientific notation, e.g. `1.234e56`. Does infinity and NaN like `f`.|
+|`E`|Just like `e`, except prints the exponent `E` (and infinity and NaN) in uppercase.|
+|`g`|Print small numbers like `f` and large numbers like `e`. See note below.|
+|`G`|Print small numbers like `F` and large numbers like `E`. See note below.|
+|`a`|Print a `double` in hexadecimal form `0xh.hhhhpd` where `h` is a lowercase hex digit and `d` is a decimal exponent. Infinity and NaN in the form of `f`. More below.|
+|`A`|Like `a` except everything's uppercase.|
+|`c`|Convert `int` argument to `unsigned char` and print as a character.|
+|`s`|Print a string starting at the given `char*`.|
+|`p`|Print a `void*` out as a number, probably the numeric address, possibly in hex.|
+|`n`|Store the number of characters written so far in the given `unsigned int*`. Doesn't print anything.|
+|`%`|Print a literal percent sign.|
+
+#### Length Modifiers
+
+You can stick a _length_ modifier in front of each of the conversion
+specifiers, if you want. most of those format specifiers work on `int`
+or `double` types, but what if you want larger or smaller types? That's
+what these are good for.
+
+For example, you could print out a long long int with the `ll` modifier:
+
+``` {.c}
+long long int x = 3490;
+
+printf("%lld\n", x);  // 3490
+```
+
+|Length Modifier|Conversion Specifier|Description|
+|-|-|-|
+|`hh`|`d`, `i`, `o`, `u`, `x`, `X`|Convert argument to `char` (signed or unsigned as appropriate) before printing.|
+|`h`|`d`, `i`, `o`, `u`, `x`, `X`|Convert argument to `short int` (signed or unsigned as appropriate) before printing.|
+|`l`|`d`, `i`, `o`, `u`, `x`, `X`|Convert argument to `long int` (signed or unsigned as appropriate) before printing.|
+|`ll`|`d`, `i`, `o`, `u`, `x`, `X`|Argument is a `long long int` (signed or unsigned as appropriate).|
+|`j`|`d`, `i`, `o`, `u`, `x`, `X`|Argument is a `intmax_t` or `uintmax_t` (as appropriate).|
+|`z`|`d`, `i`, `o`, `u`, `x`, `X`|Argument is a `size_t`.|
+|`t`|`d`, `i`, `o`, `u`, `x`, `X`|Argument is a `ptrdiff_t`.|
+|`L`|`a`, `A`, `e`, `E`, `f`, `F`, `g`, `G`|Argument is a `long double`.|
+|`l`|`c`|Argument is in a `wint_t`,  a wide character.|
+|`l`|`s`|Argument is in a `wchar_t*`,  a wide character string.|
+|`hh`|`n`|Store result in `signed char*` argument.|
+|`h`|`n`|Store result in `short int*` argument.|
+|`l`|`n`|Store result in `long int*` argument.|
+|`ll`|`n`|Store result in `long long int*` argument.|
+|`j`|`n`|Store result in `intmax_t*` argument.|
+|`z`|`n`|Store result in `size_t*` argument.|
+|`t`|`n`|Store result in `ptrdiff_t*` argument.|
+
+#### Precision
+
+In front of the length modifier, you can put a precision, which
+generally means how many decimal places you want on your floating point
+numbers.
+
+To do this, you put a decimal point (`.`) and the decimal places
+afterward.
+
+For example, we could print π rounded to two decimal places like this:
+
+``` {.c}
+double pi = 3.14159265358979;
+
+printf("%.2f\n", pi);  // 3.14
+```
+
+|Conversion Specifier|Precision Value Meaning|
+|-|-|
+|`d`, `i`, `o`, `u`, `x`, `X`|For integer types, minimum number of digits (will pad with leading zeros)|
+|`a`, `e`, `f`, `A`, `E`, `F`|For floating types, the precision is the number of digits past the decimal.|
+|`g`, `G`|For floating types, the precision is the number of significant digits printed.|
+|`s`|The maximum number of bytes (not multibyte characters!) to be written.|
+
+If no number is specified in the precision after the decimal point, the
+precision is zero.
+
+If an `*` is specified after the decimal, something amazing happens! It
+means the _next_ argument to `printf()` actually holds the precision.
+You can use this if you don't know the precision at compile time.
+
+``` {.c}
+int precision;
+double pi = 3.14159265358979;
+
+printf("Enter precision: "); fflush(stdout);
+scanf("%d", &precision);
+
+printf("%.*f\n", precision, pi);
+```
+
+Which gives:
+
+```
+Enter precision: 4
+3.1416
+```
 
 **`0`**
 
@@ -656,6 +1048,8 @@ int a = 100;
 [`vprintf()`](#man-vprintf),
 [`vfprintf()`](#man-vfprintf),
 [`vsprintf()`](#man-vsprintf)
+
+<!-- MARKER -->
 
 [[pagebreak]]
 ## `scanf()`, `fscanf()` {#man-scanf}
@@ -1761,246 +2155,6 @@ fseek again, EBADF: Bad file descriptor
 [`clearerr()`](#man-feof)
 
 [[pagebreak]]
-## `remove()` {#man-remove}
-
-Delete a file
-
-### Synopsis {.unnumbered .unlisted}
-
-``` {.c}
-#include <stdio.h>
-
-int remove(const char *filename);
-```
-
-### Description {.unnumbered .unlisted}
-
-Removes the specified file from the filesystem. It just deletes it.
-Nothing magical. Simply call this function and sacrifice a small
-chicken and the requested file will be deleted.
-
-### Return Value {.unnumbered .unlisted}
-
-Returns zero on success, and `-1` on error, setting
-`errno`.
-
-### Example {.unnumbered .unlisted}
-
-``` {.c .numberLines}
-char *filename = "/home/beej/evidence.txt";
-
-remove(filename);
-remove("/disks/d/Windows/system.ini");
-```
-
-### See Also {.unnumbered .unlisted}
-
-[`rename()`](#man-rename)
-
-[[pagebreak]]
-## `rename()` {#man-rename}
-
-Renames a file and optionally moves it to a new location
-
-### Synopsis {.unnumbered .unlisted}
-
-``` {.c}
-#include <stdio.h>
-
-int rename(const char *old, const char *new);
-```
-
-### Description {.unnumbered .unlisted}
-
-Renames the file `old` to name `new`. Use this
-function if you're tired of the old name of the file, and you are ready
-for a change. Sometimes simply renaming your files makes them feel new
-again, and could save you money over just getting all new files!
-
-One other cool thing you can do with this function is actually move a
-file from one directory to another by specifying a different path for
-the new name.
-
-### Return Value {.unnumbered .unlisted}
-
-Returns zero on success, and `-1` on error, setting
-`errno`.
-
-### Example {.unnumbered .unlisted}
-
-``` {.c .numberLines}
-rename("foo", "bar"); // changes the name of the file "foo" to "bar"
-
-// the following moves the file "evidence.txt" from "/tmp" to
-// "/home/beej", and also renames it to "nothing.txt":
-rename("/tmp/evidence.txt", "/home/beej/nothing.txt");
-```
-
-### See Also {.unnumbered .unlisted}
-
-[`remove()`](#man-remove)
-
-[[pagebreak]]
-## `tmpfile()` {#man-tmpfile}
-
-Create a temporary file
-
-### Synopsis {.unnumbered .unlisted}
-
-``` {.c}
-#include <stdio.h>
-
-FILE *tmpfile(void);
-```
-
-### Description {.unnumbered .unlisted}
-
-This is a nifty little function that will create and open a temporary
-file for you, and will return a `FILE*` to it that you can
-use. The file is opened with mode "`r+b`", so it's suitable for
-reading, writing, and binary data.
-
-By using a little magic, the temp file is automatically deleted when
-it is `close()`'d or when your program exits. (Specifically,
-`tmpfile()` unlinks the file right after it opens it. If you
-don't know what that means, it won't affect your `tmpfile()`
-skill, but hey, be curious! It's for your own good!)
-
-### Return Value {.unnumbered .unlisted}
-
-This function returns an open `FILE*` on success, or
-`NULL` on failure.
-
-### Example {.unnumbered .unlisted}
-
-``` {.c .numberLines}
-#include <stdio.h>
-
-int main(void)
-{
-    FILE *temp;
-    char s[128];
-
-    temp = tmpfile();
-
-    fprintf(temp, "What is the frequency, Alexander?\n");
-
-    rewind(temp); // back to the beginning
-
-    fscanf(temp, "%s", s); // read it back out
-
-    fclose(temp); // close (and magically delete)
-}
-```
-
-### See Also {.unnumbered .unlisted}
-
-[`fopen()`](#man-fopen),
-[`fclose()`](#man-fclose),
-[`tmpnam()`](#man-tmpnam)
-
-[[pagebreak]]
-## `tmpnam()` {#man-tmpnam}
-
-Generate a unique name for a temporary file
-
-### Synopsis {.unnumbered .unlisted}
-
-``` {.c}
-#include <stdio.h>
-
-char *tmpnam(char *s);
-```
-
-### Description {.unnumbered .unlisted}
-
-This function takes a good hard look at the existing files on your
-system, and comes up with a unique name for a new file that is suitable
-for temporary file usage.
-
-Let's say you have a program that needs to store off some data for a
-short time so you create a temporary file for the data, to be deleted
-when the program is done running. Now imagine that you called this file
-`foo.txt`. This is all well and good, except what if a user
-already has a file called `foo.txt` in the directory that you
-ran your program from? You'd overwrite their file, and they'd be
-unhappy and stalk you forever. And you wouldn't want that, now would
-you?
-
-Ok, so you get wise, and you decide to put the file in
-`/tmp` so that it won't overwrite any important content. But
-wait! What if some other user is running your program at the same time
-and they both want to use that filename? Or what if some other program
-has already created that file?
-
-See, all of these scary problems can be completely avoided if you
-just use `tmpnam()` to get a safe-ready-to-use filename.
-
-So how do you use it? There are two amazing ways. One, you can
-declare an array (or `malloc()` it---whatever) that is
-big enough to hold the temporary file name. How big is that?
-Fortunately there has been a macro defined for you, `L_tmpnam`,
-which is how big the array must be.
-
-And the second way: just pass `NULL` for the filename.
-`tmpnam()` will store the temporary name in a static array
-and return a pointer to that. Subsequent calls with a `NULL`
-argument will overwrite the static array, so be sure you're done using
-it before you call `tmpnam()` again.
-
-Again, this function just makes a file name for you. It's up to you
-to later `fopen()` the file and use it.
-
-One more note: some compilers warn against using
-`tmpnam()` since some systems have better functions (like the
-Unix function `mkstemp()`.)  You might want to check your
-local documentation to see if there's a better option. Linux
-documentation goes so far as to say, "Never use this function. Use
-`mkstemp()` instead."
-
-I, however, am going to be a jerk and not talk about
-`mkstemp()` because it's not in the standard I'm writing
-about. Nyaah.
-
-### Return Value {.unnumbered .unlisted}
-
-Returns a pointer to the temporary file name. This is either a
-pointer to the string you passed in, or a pointer to internal static
-storage if you passed in `NULL`. On error (like it can't
-find any temporary name that is unique), `tmpnam()` returns
-`NULL`.
-
-### Example {.unnumbered .unlisted}
-
-``` {.c .numberLines}
-char filename[L_tmpnam];
-char *another_filename;
-
-if (tmpnam(filename) != NULL)
-    printf("We got a temp file named: \"%s\"\n", filename);
-else
-    printf("Something went wrong, and we got nothing!\n");
-
-another_filename = tmpnam(NULL);
-printf("We got another temp file named: \"%s\"\n", another_filename);
-printf("And we didn't error check it because we're too lazy!\n");
-```
-
-On my Linux system, this generates the following output:
-
-```shell
-We got a temp file named: "/tmp/filew9PMuZ"
-We got another temp file named: "/tmp/fileOwrgPO"
-And we didn't error check it because we're too lazy!
-```
-    
-
-### See Also {.unnumbered .unlisted}
-
-[`fopen()`](#man-fopen),
-[`tmpfile()`](#man-tmpfile)
-
-[[pagebreak]]
 ## `setbuf()`, `setvbuf()` {#man-setbuf}
 
 Configure buffering for standard I/O operations
@@ -2114,95 +2268,3 @@ fclose(fp);
 ### See Also {.unnumbered .unlisted}
 
 [`fflush()`](#man-fflush)
-
-[[pagebreak]]
-## `fflush()` {#man-fflush}
-
-Process all buffered I/O for a stream right now
-
-### Synopsis {.unnumbered .unlisted}
-
-``` {.c}
-#include <stdio.h>
-
-int fflush(FILE *stream);
-```
-
-### Description {.unnumbered .unlisted}
-
-When you do standard I/O, as mentioned in the section on the [`setvbuf()`](#setvbuf) function, it is usually
-stored in a buffer until a line has been entered or the buffer is full
-or the file is closed. Sometimes, though, you really want the output to
-happen _right this second_, and not wait around in the buffer.
-You can force this to happen by calling `fflush()`.
-
-The advantage to buffering is that the OS doesn't need to hit the disk
-every time you call `fprintf()`. The disadvantage is that if
-you look at the file on the disk after the `fprintf()` call,
-it might not have actually been written to yet. ("I called
-`fputs()`, but the file is still zero bytes long! Why?!")
-In virtually all circumstances, the advantages of buffering outweigh the
-disadvantages; for those other circumstances, however, use
-`fflush()`.
-
-Note that `fflush()` is only designed to work on output
-streams according to the spec. What will happen if you try it on an
-input stream? Use your spooky voice: _who knooooows!_
-
-### Return Value {.unnumbered .unlisted}
-
-On success, `fflush()` returns zero. If there's an error,
-it returns `EOF` and sets the error condition for the stream
-(see [`ferror()`](#feof).)
-
-### Example {.unnumbered .unlisted}
-
-In this example, we're going to use the carriage return, which is
-`'\r'`. This is like newline (`'\n'`), except that it
-doesn't move to the next line. It just returns to the front of the
-current line.
-
-What we're going to do is a little text-based status bar like so many
-command line programs implement. It'll do a countdown from 10 to 0
-printing over itself on the same line.
-
-What is the catch and what does this have to do with
-`fflush()`? The catch is that the terminal is most likely
-"line buffered" (see the section on [`setvbuf()`](#setvbuf) for more info), meaning
-that it won't actually display anything until it prints a newline. But
-we're not printing newlines; we're just printing carriage returns, so we
-need a way to force the output to occur even though we're on the same
-line. Yes, it's `fflush()!`
-
-``` {.c .numberLines}
-#include <stdio.h>
-#include <unistd.h> // for prototype for sleep()
-
-int main(void)
-{
-    int count;
-
-    for(count = 10; count >= 0; count--) {
-        printf("\rSeconds until launch: ");  // lead with a CR
-        if (count > 0)
-            printf("%2d", count);
-        else
-            printf("blastoff!\n");
-
-        // force output now!!
-        fflush(stdout);
-
-        // the sleep() function is non-standard, but virtually every
-        // system implements it--it simply delays for the specificed
-        // number of seconds:
-        sleep(1);
-    }
-}
-```
-
-### See Also {.unnumbered .unlisted}
-
-[`setbuf()`](#man-setvbuf),
-[`setvbuf()`](#man-setvbuf)
-
-
