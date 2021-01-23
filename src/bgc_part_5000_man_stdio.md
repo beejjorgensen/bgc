@@ -9,7 +9,7 @@ The most basic of all libraries in the whole of the standard C library
 is the standard I/O library. It's used for reading from and writing to
 files. I can see you're very excited about this.
 
-So I'll continue. It's also used for reading and writing to the console,
+So I'll continue. It's also used for readingand writing to the console,
 as we've already often seen with the `printf()` function.
 
 (A little secret here---many many things in various operating systems
@@ -876,7 +876,7 @@ promoted to that type. For example, `%d` can print `int`, `short`, and
 |`c`|Convert `int` argument to `unsigned char` and print as a character.|
 |`s`|Print a string starting at the given `char*`.|
 |`p`|Print a `void*` out as a number, probably the numeric address, possibly in hex.|
-|`n`|Store the number of characters written so far in the given `unsigned int*`. Doesn't print anything. See below.|
+|`n`|Store the number of characters written so far in the given `int*`. Doesn't print anything. See below.|
 |`%`|Print a literal percent sign.|
 
 ##### Note on `%a` and `%A`
@@ -1198,7 +1198,7 @@ And that's the end of the story!
 Ha! Just kidding. If you've just arrived from the `printf()` page, you
 know there's a near-infinite amount of additional material.
 
-### Consuming Other Characters
+#### Consuming Other Characters
 
 `scanf()` will move along the format string matching any characters you
 include.
@@ -1220,7 +1220,7 @@ And it will return the number of variables successfully converted. In
 the example above, if the user entered a valid string, `scanf()` would
 return `3`, one for each variable successfully read.
 
-### Problems with `scanf()`
+#### Problems with `scanf()`
 
 I (and the C FAQ and a lot of people) recommend _against_ using
 `scanf()` to read directly from the keyboard. It's too easy for it to
@@ -1233,7 +1233,7 @@ But in the case of the keyboard or file, you can always use `fgets()` to
 read a complete line into a buffer, and then use `sscanf()` to scan
 things out of the buffer. This gives you the best of both worlds.
 
-### The Deep Details
+#### The Deep Details
 
 Let's check out what a `scanf()` 
 
@@ -1248,119 +1248,141 @@ cause `scanf()` to consume as many whitespace characters as it can up to
 the next non-whitespace character. You can use this to ignore all
 leading or trailing whitespace.
 
+Also, all format specifiers except for `s`, `c`, and `[` automatically
+consume leading whitespace.
+
 But I know what you're thinking: the meat of this function is in the
 format specifiers. What do those look like?
 
-<!-- MARKER -->
+These consist of the following, in sequence:
 
+1. A `%` sign
+2. Optional: an `*` to suppress assignment---more later
+3. Optional: a field width---max characters to read
+4. Optional: length modifier, for specifying longer or shorter types
+5. A conversion specifier, like `d` or `f` indicating the type to read
 
-**`%u`**
+#### The Conversion Specifier
 
-Reads an unsigned integer to be stored in an
-`unsigned int`.
+Let's start with the best and last: the _conversion specifier_. 
 
-**`%x` (`%X` is equivalent)**
+This is the part of the format specifier that tells us what type of
+variable `scanf()` should be reading into, like `%d` or `%f`.
 
-Reads an unsigned hexidecimal integer to be stored in an
-`unsigned int`.
+|Conversion Specifier|Description|
+|:--:|--------------------------|
+|`d`|Matches a decimal `int`. Can have a leading sign.|
+|`i`|Like `d`, except will handle it if you put a leading `0x` (hex) or `0` (octal) on the number.|
+|`o`|Matches an octal (base 8) `unsigned int`. Leading zeros are ignored.|
+|`u`|Matches a decimal `unsigned int`.|
+|`x`|Matches a hex (base 16) `unsigned int`.|
+|`f`|Match a floating point number (or scientific notation, or anything `strtod()` can handle).|
+|`c`|Match a `char`, or mutiple `char`s if a field width is given.|
+|`s`|Match a sequence of non-whitespace `char`s.|
+|`[`|Match a sequence of characters from a set. The set ends with `]`. More below.|
+|`p`|Match a pointer, the opposite of `%p` for `printf()`.|
+|`n`|Store the number of characters written so far in the given `int*`. Doesn't consume anything.|
+|`%`|Match a literal percent sign.|
 
-**`%o`**
+All of the following are equivalent to the `f` specifier: `a`, `e`, `g`,
+`A`, `E`, `F`, `G`.
 
-Reads an unsigned octal integer to be stored in an
-`unsigned int`.
+And capital `X` is equivalent to lowercase `x`.
 
-**`%i`**
+##### The Scanset `%[]` Conversion Specifier
 
-Like `%d`, except you can preface the input with "0x"
-if it's a hex number, or "0" if it's an octal number.
+This is about the weirdest format specifier there is. It allows you to
+specify a set of characters (the _scanset_) to be stored away (likely in
+an array of `char`s). Conversion stops when a character that is not in
+the set is matched.
 
-**`%%`**
+For example, `%[0-9]` means "match all numbers zero through nine."  And
+`%[AD-G34]` means "match A, D through G, 3, or 4".
 
-Matches a literal percent sign. No conversion of parameters
-is done. This is simply how you get a standalone percent sign in your
-string without `scanf()` trying to do something with
-it.
+Now, to convolute matters, you can tell `scanf()` to match characters
+that are _not_ in the set by putting a caret (`^`) directly after the
+`%[` and following it with the set, like this: `%[^A-C]`, which means
+"match all characters that are _not_ A through C."
 
-**`%[`**
+To match a close square bracket, make it the first character in the set,
+like this: `%[]A-C]` or `%[^]A-C]`. (I added the "`A-C`" just so it was
+clear that the "`]`" was first in the set.)
 
-This is about the weirdest format specifier there is. It
-allows you to specify a set of characters to be stored away (likely in
-an array of `char`s). Conversion stops when a character that
-is not in the set is matched.
+To match a hyphen, make it the last character in the set, e.g. to match
+A-through-C or hyphen: `%[A-C-]`.
 
-For example, `%[0-9]` means "match all numbers zero through
-nine."  And `%[AD-G34]` means "match A, D through G, 3, or
-4".
+So if we wanted to match all letters _except_ "%", "^", "]", "B", "C",
+"D", "E", and "-", we could use this format string: `%[^]%^B-E-]`.
 
-Now, to convolute matters, you can tell `scanf()` to match
-characters that are _not_ in the set by putting a caret
-(`^`) directly after the `%[` and following it with the
-set, like this: `%[^A-C]`, which means "match all characters that
-are _not_ A through C."
+Got it? Now we can go onto the next func---no wait! There's more! Yes,
+still more to know about `scanf()`. Does it never end? Try to imagine
+how I feel writing about it!
 
-To match a close square bracket, make it the first character in the
-set, like this: `%[]A-C]` or `%[^]A-C]`. (I added the
-"`A-C`" just so it was clear that the "`]`" was first in
-the set.)
+#### The Length Modifier
 
-To match a hyphen, make it the last character in the set:
-`%[A-C-]`.
+So you know that "`%d`" stores into an `int`. But how do you store into
+a `long`, `short`, or `double`?
 
-So if we wanted to match all letters _except_ "%", "^", "]",
-"B", "C", "D", "E", and "-", we could use this format string:
-`%[^]%^B-E-]`.
+Well, like in `printf()`, you can add a modifier before the type
+specifier to tell `scanf()` that you have a longer or shorter type. The
+following is a table of the possible modifiers:
 
-So those are the basics! Phew! There's a lot of stuff to know, but,
-like I said, a few of these format specifiers are common, and the others
-are pretty rare.
+|Length Modifier|Conversion Specifier|Description|
+|:--:|:-----:|------------------|
+|`hh`|`d`, `i`, `o`, `u`, `x`, `X`|Convert input to `char` (signed or unsigned as appropriate) before printing.|
+|`h`|`d`, `i`, `o`, `u`, `x`, `X`|Convert input to `short int` (signed or unsigned as appropriate) before printing.|
+|`l`|`d`, `i`, `o`, `u`, `x`, `X`|Convert input to `long int` (signed or unsigned as appropriate).|
+|`ll`|`d`, `i`, `o`, `u`, `x`, `X`|Convert input to `long long int` (signed or unsigned as appropriate).|
+|`j`|`d`, `i`, `o`, `u`, `x`, `X`|Convert input to `intmax_t` or `uintmax_t` (as appropriate).|
+|`z`|`d`, `i`, `o`, `u`, `x`, `X`|Convert input to `size_t`.|
+|`t`|`d`, `i`, `o`, `u`, `x`, `X`|Convert input to `ptrdiff_t`.|
+|`L`|`a`, `A`, `e`, `E`, `f`, `F`, `g`, `G`|Convert input to `long double`.|
+|`l`|`c`,`s`,`[`|Convert input to `wchar_t`,  a wide character.|
+|`l`|`s`|Argument is in a `wchar_t*`,  a wide character string.|
+|`hh`|`n`|Store result in `signed char*` argument.|
+|`h`|`n`|Store result in `short int*` argument.|
+|`l`|`n`|Store result in `long int*` argument.|
+|`ll`|`n`|Store result in `long long int*` argument.|
+|`j`|`n`|Store result in `intmax_t*` argument.|
+|`z`|`n`|Store result in `size_t*` argument.|
+|`t`|`n`|Store result in `ptrdiff_t*` argument.|
 
-Got it? Now we can go onto the next---no wait! There's more!
-Yes, still more to know about `scanf()`. Does it never end?
-Try to imagine how I feel writing about it!
+#### Field Widths
 
-So you know that "`%d`" stores into an `int`. But
-how do you store into a `long`, `short`, or
-`double`?
+The field width generally allows you to specify a maximum number of
+characters to consume. If the thing you're trying to match is shorter
+than the field width, that input will stop being processed before the
+field width is reached.
 
-Well, like in `printf()`, you can add a modifier before
-the type specifier to tell `scanf()` that you have a
-longer or shorter type. The following is a table of the possible
-modifiers:
+So a string will stop being consumed when whitespace is found, even if
+fewer than the field width characters are matched.
 
-**`h`**
+And a float will stop being consumed at the end of the number, even if
+fewer characters than the field width are matched.
 
-The value to be parsed is a `short int` or
-`short unsigned`. Example: `%hd` or
-`%hu`.
+But `%c` is an interesting one---it doesn't stop consuming characters on
+anything. So it'll go exactly to the field width. (Or 1 character if no
+field width is given.)
 
-**`l`**
+#### Skip Input with `*`
 
-The value to be parsed is a `long int` or
-`long unsigned`, or `double` (for `%f`
-conversions.)  Example: `%ld`,
-`%lu`, or `%lf`.
+If you put an `*` in the format specifier, it tells `scanf()` do to the
+conversion specified, but not store it anywhere. It simply discards the
+data as it reads it. This is what you use if you want `scanf()` to eat
+some data but you don't want to store it anywhere; you don't give
+`scanf()` an argument for this conversion.
 
-**`L`**
-
-The value to be parsed is a `long long` for
-integer types or `long double` for `float` types.
-Example: `%Ld`, `%Lu`, or `%Lf`.
-
-**`*`**
-
-Tells `scanf()` do to the conversion specified,
-but not store it anywhere. It simply discards the data as it reads it.
-This is what you use if you want `scanf()` to eat some data
-but you don't want to store it anywhere; you don't give
-`scanf()` an argument for this conversion. Example:
-`%*d`.
+``` {.c}
+// Read 3 ints, but discard the middle one
+scanf("%d %*d %d", &int1, &int3);
+```
 
 ### Return Value {.unnumbered .unlisted}
 
-`scanf()` returns the number of items assigned into
-variables. Since assignment into variables stops when given invalid
-input for a certain format specifier, this can tell you if you've input
-all your data correctly.
+`scanf()` returns the number of items assigned into variables. Since
+assignment into variables stops when given invalid input for a certain
+format specifier, this can tell you if you've input all your data
+correctly.
 
 Also, `scanf()` returns `EOF` on end-of-file.
 
