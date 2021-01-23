@@ -681,29 +681,19 @@ Now we get to the real meat of the function: `mode` allows you to choose
 what kind of buffering you want to use on this `stream`. Set it to one
 of the following:
 
-<!-- TODO: tabelize this and format everything up through printf -->
+|Mode|Description|
+|-|-|
+|`_IOFBF`|`stream` will be fully buffered.|
+|`_IOLBF`|`stream` will be line buffered.|
+|`_IONBF`|`stream` will be unbuffered.|
 
-**`_IOFBF`**
+Finally, the `size` argument is the size of the array you passed in for
+`buf`...unless you passed `NULL` for `buf`, in which case it will resize
+the existing buffer to the size you specify.
 
-`stream` will be fully buffered.
-
-**`_IOLBF`**
-
-`stream` will be line buffered.
-
-**`_IONBF`**
-
-`stream` will be unbuffered.
-
-Finally, the `size` argument is the size of the array you
-passed in for `buf`...unless you passed `NULL` for
-`buf`, in which case it will resize the existing buffer to the
-size you specify.
-
-Now what about this lesser function `setbuf()`? It's just
-like calling `setvbuf()` with some specific parameters,
-except `setbuf()` doesn't return a value. The following
-example shows the equivalency:
+Now what about this lesser function `setbuf()`? It's just like calling
+`setvbuf()` with some specific parameters, except `setbuf()` doesn't
+return a value. The following example shows the equivalency:
 
 ``` {.c}
 // these are the same:
@@ -740,6 +730,7 @@ fclose(fp);
 ### See Also {.unnumbered .unlisted}
 
 [`fflush()`](#man-fflush)
+
 [[pagebreak]]
 
 ## `printf()`, `fprintf()` {#man-printf}
@@ -899,7 +890,7 @@ double pi = 3.14159265358979;
 printf("%.3a\n", pi);  // 0x1.922p+1
 ```
 
-C can choose the leading number in such a way to insure subsequent
+C can choose the leading number in such a way to ensure subsequent
 digits align to 4-bit boundaries.
 
 If the precision is left out and the macro `FLT_RADIX` is a power of 2,
@@ -969,10 +960,10 @@ printf("%lld\n", x);  // 3490
 ```
 
 |Length Modifier|Conversion Specifier|Description|
-|:--:|:--:|---------------------|
+|:--:|:-----:|------------------|
 |`hh`|`d`, `i`, `o`, `u`, `x`, `X`|Convert argument to `char` (signed or unsigned as appropriate) before printing.|
 |`h`|`d`, `i`, `o`, `u`, `x`, `X`|Convert argument to `short int` (signed or unsigned as appropriate) before printing.|
-|`l`|`d`, `i`, `o`, `u`, `x`, `X`|Convert argument to `long int` (signed or unsigned as appropriate) before printing.|
+|`l`|`d`, `i`, `o`, `u`, `x`, `X`|Argument is a `long int` (signed or unsigned as appropriate).|
 |`ll`|`d`, `i`, `o`, `u`, `x`, `X`|Argument is a `long long int` (signed or unsigned as appropriate).|
 |`j`|`d`, `i`, `o`, `u`, `x`, `X`|Argument is a `intmax_t` or `uintmax_t` (as appropriate).|
 |`z`|`d`, `i`, `o`, `u`, `x`, `X`|Argument is a `size_t`.|
@@ -1164,15 +1155,14 @@ int fscanf(FILE *stream, const char *format, ...);
 
 ### Description {.unnumbered .unlisted}
 
-The `scanf()` family of functions reads data from the
-console or from a `FILE` stream, parses it, and stores the
-results away in variables you provide in the argument list.
+The `scanf()` family of functions reads data from the console or from a
+`FILE` stream, parses it, and stores the results away in variables you
+provide in the argument list.
 
-The format string is very similar to that in `printf()` in
-that you can tell it to read a `"%d"`, for instance for an
-`int`. But it also has additional capabilities, most notably
-that it can eat up other characters in the input that you specify in the
-format string.
+The format string is very similar to that in `printf()` in that you can
+tell it to read a `"%d"`, for instance for an `int`. But it also has
+additional capabilities, most notably that it can eat up other
+characters in the input that you specify in the format string.
 
 But let's start simple, and look at the most basic usage first before
 plunging into the depths of the function. We'll start by reading an
@@ -1184,36 +1174,85 @@ int a;
 scanf("%d", &a);
 ```
 
-`scanf()` obviously needs a pointer to the variable if it
-is going to change the variable itself, so we use the address-of
-operator to get the pointer.
+`scanf()` obviously needs a pointer to the variable if it is going to
+change the variable itself, so we use the address-of operator to get the
+pointer.
 
-In this case, `scanf()` walks down the format string,
-finds a "`%d`", and then knows it needs to read an integer and
-store it in the next variable in the argument list, `a`.
+In this case, `scanf()` walks down the format string, finds a "`%d`",
+and then knows it needs to read an integer and store it in the next
+variable in the argument list, `a`.
 
-Here are some of the other percent-codes you can put in the format
+Here are some of the other format specifiers you can put in the format
 string:
 
-**`%d`**
+|Format Specifier|Description|
+|-|-|
+|`%d`|Reads an integer to be stored in an `int`. This integer can be signed.|
+|`%u`|Reads an integer to be stored in an `unsigned int`.|
+|`%f`|Reads a floating point number, to be stored in a `float`.|
+|`%s`|Reads a string up to the first whitespace character.|
+|`%c`|Reads a `char`.|
 
-Reads an integer to be stored in an `int`. This
-integer can be signed.
+And that's the end of the story!
 
-**`%f` (`%e`, `%E`, and `%g` are
-equivalent)**
+Ha! Just kidding. If you've just arrived from the `printf()` page, you
+know there's a near-infinite amount of additional material.
 
-Reads a floating point number, to be stored in a
-`float`.
+### Consuming Other Characters
 
-**`%s`**
+`scanf()` will move along the format string matching any characters you
+include.
 
-Reads a string. This will stop on the first whitespace
-character reached, or at the specified field width (e.g. "%10s"),
-whichever comes first.
+For example, you could read a hyphenated date like so:
+
+``` {.c}
+scanf("%u-%u-%u", &yyyy, &mm, &dd);
+```
+
+In that case, `scanf()` will attempt to consume an unsigned decimal
+number, then a hyphen, then another unsigned number, then another hypen,
+then another unsigned number.
+
+If it fails to match at any point (e.g. the user entered "foo"),
+`scanf()` will bail without consuming the offending characters.
+
+And it will return the number of variables successfully converted. In
+the example above, if the user entered a valid string, `scanf()` would
+return `3`, one for each variable successfully read.
+
+### Problems with `scanf()`
+
+I (and the C FAQ and a lot of people) recommend _against_ using
+`scanf()` to read directly from the keyboard. It's too easy for it to
+stop consuming characters when the user enters some bad data.
+
+If you have data in a file and you're confident it's in good shape,
+`fscanf()` can be really useful.
+
+But in the case of the keyboard or file, you can always use `fgets()` to
+read a complete line into a buffer, and then use `sscanf()` to scan
+things out of the buffer. This gives you the best of both worlds.
+
+### The Deep Details
+
+Let's check out what a `scanf()` 
 
 And here are some more codes, except these don't tend to be used as
 often. You, of course, may use them as often as you wish!
+
+First, the format string. Like we mentioned, it can hold ordinary
+characters as well as `%` format specifiers. And whitespace characters.
+
+Whitespace characters have a special role: a whitespace character will
+cause `scanf()` to consume as many whitespace characters as it can up to
+the next non-whitespace character. You can use this to ignore all
+leading or trailing whitespace.
+
+But I know what you're thinking: the meat of this function is in the
+format specifiers. What do those look like?
+
+<!-- MARKER -->
+
 
 **`%u`**
 
@@ -1234,26 +1273,6 @@ Reads an unsigned octal integer to be stored in an
 
 Like `%d`, except you can preface the input with "0x"
 if it's a hex number, or "0" if it's an octal number.
-
-**`%c`**
-
-Reads in a character to be stored in a `char`.
-If you specify a field width (e.g. "`%12c`", it will read that
-many characters, so make sure you have an array that large to hold
-them.
-
-**`%p`**
-
-Reads in a pointer to be stored in a `void*`.
-The format of this pointer should be the same as that which is outputted
-with `printf()` and the "`%p`" format
-specifier.
-
-**`%n`**
-
-Reads nothing, but will store the number of characters
-processed so far into the next `int` parameter in the
-argument list.
 
 **`%%`**
 
