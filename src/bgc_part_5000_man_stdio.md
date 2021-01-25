@@ -1156,7 +1156,7 @@ printf("%5d %5.2f %c\n", a, b, d); /* "  100  2.71 X" */
 
 [[pagebreak]]
 
-## `scanf()`, `fscanf()` {#man-scanf}
+## `scanf()`, `fscanf()`, `sscanf()` {#man-scanf}
 
 Read formatted string, character, or numeric data from the
 console or from a file.
@@ -1168,9 +1168,27 @@ console or from a file.
 
 int scanf(const char *format, ...);
 int fscanf(FILE *stream, const char *format, ...);
+int sscanf(const char * restrict s, const char * restrict format, ...);
 ```
 
 ### Description {.unnumbered .unlisted}
+
+These functions read formatted output from a variety of sources.
+
+|Function|Input Source|
+|-|-|
+|`scanf()`|Read from the console (keyboard by default, typically).|
+|`fscanf()`|Read from a file.|
+|`sscanf()`|Read from a string.|
+
+The only differences between these is are the leading parameters that
+you pass to them before the `format` string.
+
+|Function|What you pass before `format`|
+|-|-|
+|`scanf()`|Nothing comes before `format`.|
+|`fscanf()`|Pass a `FILE*`.|
+|`sscanf()`|Pass a `char*` to a buffer to read from.|
 
 The `scanf()` family of functions reads data from the console or from a
 `FILE` stream, parses it, and stores the results away in variables you
