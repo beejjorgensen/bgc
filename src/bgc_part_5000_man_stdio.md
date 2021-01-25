@@ -733,7 +733,7 @@ fclose(fp);
 
 [[pagebreak]]
 
-## `printf()`, `fprintf()` {#man-printf}
+## `printf()`, `fprintf()`, `sprintf()`, `snprintf()` {#man-printf}
 
 Print a formatted string to the console or to a file.
 
@@ -744,13 +744,30 @@ Print a formatted string to the console or to a file.
 
 int printf(const char *format, ...);
 int fprintf(FILE *stream, const char *format, ...);
+int sprintf(char * restrict s, const char * restrict format, ...);
+int snprintf(char * restrict s, size_t n, const char * restrict format, ...);
 ```
 
 ### Description {.unnumbered .unlisted}
 
-These functions print formatted strings to a file (that is, a `FILE*`
-you likely got from `fopen()`), or to the console (which is usually
-itself just a special file, right?)
+These functions print formatted output to a variety of destinations.
+
+|Function|Output Destination|
+|-|-|
+|`printf()`|Print to console (screen by default, typically).|
+|`fprintf()`|Print to a file.|
+|`sprintf()`|Print to a string.|
+|`snprintf()`|Print to a string (safely).|
+
+The only differences between these is are the leading parameters that
+you pass to them before the `format` string.
+
+|Function|What you pass before `format`|
+|-|-|
+|`printf()`|Nothing comes before `format`.|
+|`fprintf()`|Pass a `FILE*`.|
+|`sprintf()`|Pass a `char*` to a buffer to print into.|
+|`snprintf()`|Pass a `char*` to the buffer and a maximum buffer length.|
 
 The `printf()` function is legendary as being one of the most flexible
 outputting systems ever devised. It can also get a bit freaky here or
