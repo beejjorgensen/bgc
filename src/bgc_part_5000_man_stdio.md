@@ -640,6 +640,7 @@ Configure buffering for standard I/O operations
 #include <stdio.h>
 
 void setbuf(FILE *stream, char *buf);
+
 int setvbuf(FILE *stream, char *buf, int mode, size_t size);
 ```
 
@@ -743,8 +744,11 @@ Print a formatted string to the console or to a file.
 #include <stdio.h>
 
 int printf(const char *format, ...);
+
 int fprintf(FILE *stream, const char *format, ...);
+
 int sprintf(char * restrict s, const char * restrict format, ...);
+
 int snprintf(char * restrict s, size_t n, const char * restrict format, ...);
 ```
 
@@ -1179,7 +1183,9 @@ console or from a file.
 #include <stdio.h>
 
 int scanf(const char *format, ...);
+
 int fscanf(FILE *stream, const char *format, ...);
+
 int sscanf(const char * restrict s, const char * restrict format, ...);
 ```
 
@@ -1481,13 +1487,18 @@ scanf("%10c", s);
 ### Synopsis {.unnumbered .unlisted}
 
 ``` {.c}
-#include <stdarg.h>
 #include <stdio.h>
+#include <stdarg.h>
 
 int vprintf(const char * restrict format, va_list arg);
-int vfprintf(FILE * restrict stream, const char * restrict format, va_list arg);
+
+int vfprintf(FILE * restrict stream, const char * restrict format,
+             va_list arg);
+
 int vsprintf(char * restrict s, const char * restrict format, va_list arg);
-int vsnprintf(char * restrict s, size_t n, const char * restrict format, va_list arg);
+
+int vsnprintf(char * restrict s, size_t n, const char * restrict format,
+              va_list arg);
 ```
 
 ### Description {.unnumbered .unlisted}
@@ -1579,7 +1590,86 @@ int main(void)
 ### See Also {.unnumbered .unlisted}
 [`printf()`](#man-printf)
 
-<!-- TODO: vfscanf, vscanf, vsscanf -->
+[[pagebreak]]
+## `vscanf()`, `vfscanf()`, `vsscanf()` {#man-vscanf}
+
+`scanf()` variants using variable argument lists (`va_list`)
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <stdio.h>
+#include <stdarg.h>
+
+int vscanf(const char * restrict format, va_list arg);
+
+int vfscanf(FILE * restrict stream, const char * restrict format,
+            va_list arg);
+
+int vsscanf(const char * restrict s, const char * restrict format,
+            va_list arg);
+```
+
+### Description {.unnumbered .unlisted}
+
+These are just like the `scanf()` variants except instead of taking an
+actual variable number of arguments, they take a fixed number---the last
+of which is a `va_list` that refers to the variable arguments.
+
+|Function|Input Source|
+|-|-|
+|`vscanf()`|Read from the console (keyboard by default, typically).|
+|`vfscanf()`|Read from a file.|
+|`vsscanf()`|Read from a string.|
+
+Like with the `vprintf()` functions, this would be a good way to add
+additional functionality that took advantage of the power `scanf()` has
+to offer.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns the number of items successfully scanned, or `EOF` on
+end-of-file or error.
+
+### Example {.unnumbered .unlisted}
+
+I have to admit I was wracking my brain to think of when you'd ever want
+to use this. The best example I could find was [one on Stack
+Overflow](https://stackoverflow.com/questions/17017331/c99-vscanf-for-dummies/17018046#17018046)
+that error-checks the return value from `scanf()` against the expected.
+A variant of that is shown below.
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <stdarg.h>
+#include <assert.h>
+
+int error_check_scanf(int expected_count, char *format, ...)
+{
+    va_list va;
+
+    va_start(va, format);
+    int count = vscanf(format, va);
+    va_end(va);
+
+    // This line will crash the program if the condition is false:
+    assert(count == expected_count);
+
+    return count;
+}
+
+int main(void)
+{
+    int a, b;
+    float c;
+
+    error_check_scanf(3, "%d, %d/%f", &a, &b, &c);
+    error_check_scanf(2, "%d", &a);
+}
+```
+
+### See Also {.unnumbered .unlisted}
+[`scanf()`](#man-scanf)
 
 [[pagebreak]]
 ## `getc()`, `fgetc()`, `getchar()` {#man-getc}
@@ -1592,7 +1682,9 @@ Get a single character from the console or from a file.
 #include <stdio.h>
 
 int getc(FILE *stream);
+
 int fgetc(FILE *stream);
+
 int getchar(void);
 ```
 
