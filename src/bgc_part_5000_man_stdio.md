@@ -1117,6 +1117,20 @@ The `#` "alternate form" result depends on the conversion specifier.
 |`A`, `E`, `F`|Identical to `a`, `e`, `f`.|
 |`g`, `G`|Always print a decimal point, even if nothing follows it, and keep trailing zeros.|
 
+
+#### `sprintf()` and `snprintf()` Details
+
+Both `sprintf()` and `snprintf()` have the quality that if you pass in
+`NULL` as the buffer, nothing is written---but you can still check the
+return value to see how many characters _would_ have been written.
+
+`snprintf()` **always** terminates the string with a `NUL` character. So
+if you try to write out more than the maximum specified characters, the
+universe ends.
+
+Just kidding. If you do, `snprintf()` will write $n-1$ characters so
+that it has enough room to write the terminator at the end.
+
 ### Return Value {.unnumbered .unlisted}
 
 Returns the number of characters outputted, or a negative number on
@@ -1149,10 +1163,8 @@ printf("%5d %5.2f %c\n", a, b, d); /* "  100  2.71 X" */
 
 ### See Also {.unnumbered .unlisted}
 
-[`sprintf()`](#man-sprintf),
-[`vprintf()`](#man-vprintf),
-[`vfprintf()`](#man-vfprintf),
-[`vsprintf()`](#man-vsprintf)
+[`sprintf()`](#man-printf),
+[`vprintf()`](#man-vprintf)
 
 [[pagebreak]]
 
@@ -1461,11 +1473,111 @@ scanf("%10c", s);
 [`vsscanf()`](#man-vsscanf),
 [`vfscanf()`](#man-vfscanf)
 
-<!-- TODO: sprintf, snprintf -->
+[[pagebreak]]
+## `vprintf()`, `vfprintf()`, `vsprintf()`, `vsnprintf()` {#man-vprintf}
 
-<!-- TODO: sscanf -->
+`printf()` variants using variable argument lists (`va_list`)
 
-<!-- TODO: vfprintf, vprintf, vsprintf, vsnprintf -->
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <stdarg.h>
+#include <stdio.h>
+
+int vprintf(const char * restrict format, va_list arg);
+int vfprintf(FILE * restrict stream, const char * restrict format, va_list arg);
+int vsprintf(char * restrict s, const char * restrict format, va_list arg);
+int vsnprintf(char * restrict s, size_t n, const char * restrict format, va_list arg);
+```
+
+### Description {.unnumbered .unlisted}
+
+These are just like the `printf()` variants except instead of taking an
+actual variable number of arguments, they take a fixed number---the last
+of which is a `va_list` that refers to the variable arguments.
+
+Like with `printf()`, the different variants send output different
+places.
+
+|Function|Output Destination|
+|-|-|
+|`vprintf()`|Print to console (screen by default, typically).|
+|`vfprintf()`|Print to a file.|
+|`vsprintf()`|Print to a string.|
+|`vsnprintf()`|Print to a string (safely).|
+
+Both `vsprintf()` and `vsnprintf()` have the quality that if you pass in
+`NULL` as the buffer, nothing is written---but you can still check the
+return value to see how many characters _would_ have been written.
+
+`vsnprintf()` **always** terminates the string with a `NUL` character. So
+if you try to write out more than the maximum specified characters, a
+massive interstellar war breaks out.
+
+Just kidding. If you do, `vsnprintf()` will write $n-1$ characters so
+that it has enough room to write the terminator at the end.
+
+As for why in the heck would you ever want to do this, the most common
+reason is to create your own specialized versions of `printf()`-type
+functions, piggybacking on all that `printf()` functionality goodness.
+
+See the example for an example, predictably.
+
+### Return Value {.unnumbered .unlisted}
+
+`vprintf()` and `vfprintf()` return the number of characters printed, or
+a negative value on error.
+
+`vsprintf()` returns the number of characters printed to the buffer, not
+counting the NUL terminator, or a negative value if an error occurred.
+
+`vnsprintf()` returns the number of characters printed to the buffer. Or
+the number that _would_ have been printed if the buffer had been large
+enough.
+
+### Example {.unnumbered .unlisted}
+
+In this example, we make our own version of `printf()` called `logger()`
+that timestamps output. Notice how the calls to `logger()` have all the
+bells and whistles of `printf()`.
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <stdarg.h>
+#include <time.h>
+
+int logger(char *format, ...)
+{
+    va_list va;
+    time_t now_secs = time(NULL);
+    struct tm *now = gmtime(&now_secs);
+
+    // Output timestamp in format "YYYY-MM-DD hh:mm:ss : "
+    printf("%04d-%02d-%02d %02d:%02d:%02d : ",
+        now->tm_year + 1900, now->tm_mon + 1, now->tm_mday,
+        now->tm_hour, now->tm_min, now->tm_sec);
+
+    va_start(va, format);
+    int result = vprintf(format, va);
+    va_end(va);
+
+    printf("\n");
+
+    return result;
+}
+
+int main(void)
+{
+    int x = 12;
+    float y = 3.2;
+
+    logger("Hello!");
+    logger("x = %d and y = %.2f", x, y);
+}
+```
+
+### See Also {.unnumbered .unlisted}
+[`printf()`](#man-printf)
 
 <!-- TODO: vfscanf, vscanf, vsscanf -->
 
@@ -2335,3 +2447,16 @@ fseek again, EBADF: Bad file descriptor
 [`feof()`](#man-feof),
 [`ferror()`](#man-feof),
 [`clearerr()`](#man-feof)
+
+
+<!--
+[[pagebreak]]
+## `vprintf()`, `vfprintf()`, `vsprintf()`, `vsnprintf()` {#man-vprintf}
+
+### Synopsis {.unnumbered .unlisted}
+### Description {.unnumbered .unlisted}
+### Return Value {.unnumbered .unlisted}
+### Example {.unnumbered .unlisted}
+### See Also {.unnumbered .unlisted}
+[`sprintf()`](#man-sprintf),
+-->
