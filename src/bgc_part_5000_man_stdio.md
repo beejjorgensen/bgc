@@ -1634,8 +1634,8 @@ end-of-file or error.
 ### Example {.unnumbered .unlisted}
 
 I have to admit I was wracking my brain to think of when you'd ever want
-to use this. The best example I could find was [one on Stack
-Overflow](https://stackoverflow.com/questions/17017331/c99-vscanf-for-dummies/17018046#17018046)
+to use this. The best example I could find was [fl[one on Stack
+Overflow|https://stackoverflow.com/questions/17017331/c99-vscanf-for-dummies/17018046#17018046]]
 that error-checks the return value from `scanf()` against the expected.
 A variant of that is shown below.
 
@@ -1691,30 +1691,28 @@ int getchar(void);
 ### Description {.unnumbered .unlisted}
 
 All of these functions in one way or another, read a single character
-from the console or from a `FILE`. The differences are
-fairly minor, and here are the descriptions:
+from the console or from a `FILE`. The differences are fairly minor, and
+here are the descriptions:
 
-`getc()` returns a character from the specified
-`FILE`. From a usage standpoint, it's equivalent to the same
-`fgetc()` call, and `fgetc()` is a little more
-common to see. Only the implementation of the two functions
-differs.
+`getc()` returns a character from the specified `FILE`. From a usage
+standpoint, it's equivalent to the same `fgetc()` call, and `fgetc()` is
+a little more common to see. Only the implementation of the two
+functions differs.
 
-`fgetc()` returns a character from the specified
-`FILE`. From a usage standpoint, it's equivalent to the same
-`getc()` call, except that `fgetc()` is a little
-more common to see. Only the implementation of the two functions
-differs.
+`fgetc()` returns a character from the specified `FILE`. From a usage
+standpoint, it's equivalent to the same `getc()` call, except that
+`fgetc()` is a little more common to see. Only the implementation of the
+two functions differs.
 
 Yes, I cheated and used cut-n-paste to do that last paragraph.
 
-`getchar()` returns a character from `stdin`. In
-fact, it's the same as calling `getc(stdin)`.
+`getchar()` returns a character from `stdin`. In fact, it's the same as
+calling `getc(stdin)`.
 
 ### Return Value {.unnumbered .unlisted}
 
-All three functions return the `unsigned char` that they
-read, except it's cast to an `int`.
+All three functions return the `unsigned char` that they read, except
+it's cast to an `int`.
 
 If end-of-file or an error is encountered, all three functions return
 `EOF`.
@@ -1751,8 +1749,6 @@ int main(void)
 [[pagebreak]]
 ## `gets()`, `fgets()` {#man-gets}
 
-<!--TODO gets removed in C11 -->
-
 Read a string from console or file
 
 ### Synopsis {.unnumbered .unlisted}
@@ -1771,25 +1767,24 @@ the console or a file. In other normal words, it reads a line of text.
 The behavior is slightly different, and, as such, so is the usage. For
 instance, here is the usage of `gets()`:
 
-Don't use `gets()`.
+Don't use `gets()`. In fact, as of C11, it ceases to exist! This is one
+of the rare cases of a function being _removed_ from the standard.
 
-Admittedly, rationale would be useful, yes? For one thing,
-`gets()` doesn't allow you to specify the length of the
-buffer to store the string in. This would allow people to keep entering
-data past the end of your buffer, and believe me, this would be Bad
-News.
+Admittedly, rationale would be useful, yes? For one thing, `gets()`
+doesn't allow you to specify the length of the buffer to store the
+string in. This would allow people to keep entering data past the end of
+your buffer, and believe me, this would be Bad News.
 
-I was going to add another reason, but that's basically the primary
-and only reason not to use `gets()`. As you might suspect,
-`fgets()` allows you to specify a maximum string length.
+I was going to add another reason, but that's basically the primary and
+only reason not to use `gets()`. As you might suspect, `fgets()` allows
+you to specify a maximum string length.
 
-One difference here between the two functions: `gets()`
-will devour and throw away the newline at the end of the line, while
-`fgets()` will store it at the end of your string (space
-permitting).
+One difference here between the two functions: `gets()` will devour and
+throw away the newline at the end of the line, while `fgets()` will
+store it at the end of your string (space permitting).
 
-Here's an example of using `fgets()` from the console,
-making it behave more like `gets()`:
+Here's an example of using `fgets()` from the console, making it behave
+more like `gets()` (with the exception of the newline inclusion):
 
 ``` {.c}
 char s[100];
@@ -1797,34 +1792,41 @@ gets(s);  // don't use this--read a line (from stdin)
 fgets(s, sizeof(s), stdin); // read a line from stdin
 ```
 
-In this case, the `sizeof()` operator gives us the
-total size of the array in bytes, and since a `char` is a
-byte, it conveniently gives us the total size of the array.
+In this case, the `sizeof()` operator gives us the total size of the
+array in bytes, and since a `char` is a byte, it conveniently gives us
+the total size of the array.
 
-Of course, like I keep saying, the string returned from
-`fgets()` probably has a newline at the end that you might
-not want. You can write a short function to chop the newline off, like
-so:
+Of course, like I keep saying, the string returned from `fgets()`
+probably has a newline at the end that you might not want. You can write
+a short function to chop the newline off---in fact, let's just roll that
+into our own version of `gets()`
 
 ``` {.c}
-char *remove_newline(char *s)
+#include <stdio.h>
+#include <string.h>
+
+char *safe_gets(char *s, int size)
 {
+    char *rv = fgets(s, size, stdin);
+
+    if (rv == NULL)
+        return NULL;
+
     int len = strlen(s);
 
     if (len > 0 && s[len-1] == '\n')  // if there's a newline
-        s[len-1] = '\0';          // truncate the string
+        s[len-1] = '\0';              // truncate the string
 
     return s;
 }
 ```
 
-So, in summary, use `fgets()` to read a line of text from
-the keyboard or a file, and don't use `gets()`.
+So, in summary, use `fgets()` to read a line of text from the keyboard
+or a file, and don't use `gets()`.
 
 ### Return Value {.unnumbered .unlisted}
 
-Both `gets()` and `fgets()` return a pointer to
-the string passed.
+Both `gets()` and `fgets()` return a pointer to the string passed.
 
 On error or end-of-file, the functions return `NULL`.
 
@@ -1864,27 +1866,28 @@ Write a single character to the console or to a file.
 #include <stdio.h>
 
 int putc(int c, FILE *stream);
+
 int fputc(int c, FILE *stream);
+
 int putchar(int c);
 ```
 
 ### Description {.unnumbered .unlisted}
 
-All three functions output a single character, either to the console
-or to a `FILE`.
+All three functions output a single character, either to the console or
+to a `FILE`.
 
-`putc()` takes a character argument, and outputs it to the
-specified `FILE`. `fputc()` does exactly the same
-thing, and differs from `putc()` in implementation only.
-Most people use `fputc()`.
+`putc()` takes a character argument, and outputs it to the specified
+`FILE`. `fputc()` does exactly the same thing, and differs from `putc()`
+in implementation only. Most people use `fputc()`.
 
-`putchar()` writes the character to the console, and is
-the same as calling `putc(c, stdout)`.
+`putchar()` writes the character to the console, and is the same as
+calling `putc(c, stdout)`.
 
 ### Return Value {.unnumbered .unlisted}
 
-All three functions return the character written on success, or
-`EOF` on error.
+All three functions return the character written on success, or `EOF` on
+error.
 
 ### Example {.unnumbered .unlisted}
 
@@ -1917,19 +1920,18 @@ Write a string to the console or to a file.
 #include <stdio.h>
 
 int puts(const char *s);
+
 int fputs(const char *s, FILE *stream);
 ```
 
 ### Description {.unnumbered .unlisted}
 
-Both these functions output a NUL-terminated string.
-`puts()` outputs to the console, while `fputs()`
-allows you to specify the file for output.
+Both these functions output a NUL-terminated string. `puts()` outputs to
+the console, while `fputs()` allows you to specify the file for output.
 
 ### Return Value {.unnumbered .unlisted}
 
-Both functions return non-negative on success, or `EOF` on
-error.
+Both functions return non-negative on success, or `EOF` on error.
 
 ### Example {.unnumbered .unlisted}
 
@@ -1970,31 +1972,28 @@ int ungetc(int c, FILE *stream);
 
 ### Description {.unnumbered .unlisted}
 
-You know how `getc()` reads the next character from a file
-stream? Well, this is the opposite of that---it pushes a character
-back into the file stream so that it will show up again on the very next
-read from the stream, as if you'd never gotten it from
-`getc()` in the first place.
+You know how `getc()` reads the next character from a file stream? Well,
+this is the opposite of that---it pushes a character back into the file
+stream so that it will show up again on the very next read from the
+stream, as if you'd never gotten it from `getc()` in the first place.
 
-Why, in the name of all that is holy would you want to do that?
-Perhaps you have a stream of data that you're reading a character at a
-time, and you won't know to stop reading until you get a certain
-character, but you want to be able to read that character again later.
-You can read the character, see that it's what you're supposed to stop
-on, and then `ungetc()` it so it'll show up on the next
-read.
+Why, in the name of all that is holy would you want to do that? Perhaps
+you have a stream of data that you're reading a character at a time, and
+you won't know to stop reading until you get a certain character, but
+you want to be able to read that character again later. You can read the
+character, see that it's what you're supposed to stop on, and then
+`ungetc()` it so it'll show up on the next read.
 
 Yeah, that doesn't happen very often, but there we are.
 
 Here's the catch: the standard only guarantees that you'll be able to
-push back _one character_. Some implementations might allow
-you to push back more, but there's really no way to tell and still be
-portable.
+push back _one character_. Some implementations might allow you to push
+back more, but there's really no way to tell and still be portable.
 
 ### Return Value {.unnumbered .unlisted}
 
-On success, `ungetc()` returns the character you passed to
-it. On failure, it returns `EOF`.
+On success, `ungetc()` returns the character you passed to it. On
+failure, it returns `EOF`.
 
 ### Example {.unnumbered .unlisted}
 
@@ -2052,48 +2051,40 @@ size_t fread(void *p, size_t size, size_t nmemb, FILE *stream);
 
 ### Description {.unnumbered .unlisted}
 
-You might remember that you can call [`fopen()`](#fopen) with the "`b`" flag in
-the open mode string to open the file in "binary" mode. Files open in
-not-binary (ASCII or text mode) can be read using standard
-character-oriented calls like [`fgetc()`](#getc) or [`fgets()`](#gets). Files open in binary mode are
-typically read using the `fread()` function.
+You might remember that you can call [`fopen()`](#fopen) with the "`b`"
+flag in the open mode string to open the file in "binary" mode. Files
+open in not-binary (ASCII or text mode) can be read using standard
+character-oriented calls like [`fgetc()`](#getc) or [`fgets()`](#gets).
+Files open in binary mode are typically read using the `fread()`
+function.
 
-All this function does is says, "Hey, read this many things where
-each thing is a certain number of bytes, and store the whole mess of
-them in memory starting at this pointer."
+All this function does is says, "Hey, read this many things where each
+thing is a certain number of bytes, and store the whole mess of them in
+memory starting at this pointer."
 
-This can be very useful, believe me, when you want to do something
-like store 20 `int`s in a file.
+This can be very useful, believe me, when you want to do something like
+store 20 `int`s in a file.
 
-But wait---can't you use [`fprintf()`](#printf) with the "`%d`"
-format specifier to save the `int`s to a text file and store
-them that way? Yes, sure. That has the advantage that a human can open
-the file and read the numbers. It has the disadvantage that it's slower
-to convert the numbers from `int`s to text and that the
-numbers are likely to take more space in the file. (Remember, an
-`int` is likely 4 bytes, but the string "12345678" is 8
-bytes.)
+But wait---can't you use [`fprintf()`](#printf) with the "`%d`" format
+specifier to save the `int`s to a text file and store them that way?
+Yes, sure. That has the advantage that a human can open the file and
+read the numbers. It has the disadvantage that it's slower to convert
+the numbers from `int`s to text and that the numbers are likely to take
+more space in the file. (Remember, an `int` is likely 4 bytes, but the
+string "12345678" is 8 bytes.)
 
-So storing the binary data can certainly be more compact and faster
-to read.
-
-(As for the prototype, what is this `size_t` you see
-floating around? It's short for "size type" which is a data type
-defined to hold the size of something. Great---would I stop
-beating around the bush already and give you the straight story?! Ok,
-`size_t` is probably an `int`.)
+So storing the binary data can certainly be more compact and faster to
+read.
 
 ### Return Value {.unnumbered .unlisted}
 
 This function returns the number of items successfully read. If all
 requested items are read, the return value will be equal to that of the
-parameter `nmemb`. If EOF occurs, the return value will be
-zero.
+parameter `nmemb`. If EOF occurs, the return value will be zero.
 
-To make you confused, it will also return zero if there's an error.
-You can use the functions [`feof()`](#feof)
-or [`ferror()`](#feof) to tell which one
-really happened.
+To make you confused, it will also return zero if there's an error. You
+can use the functions [`feof()`](#feof) or [`ferror()`](#feof) to tell
+which one really happened.
 
 ### Example {.unnumbered .unlisted}
 
@@ -2138,15 +2129,15 @@ size_t fwrite(const void *p, size_t size, size_t nmemb, FILE *stream);
 
 ### Description {.unnumbered .unlisted}
 
-This is the counterpart to the [`fread()`](#fread) function. It writes blocks of
-binary data to disk. For a description of what this means, see the
-entry for [`fread()`](#fread).
+This is the counterpart to the [`fread()`](#fread) function. It writes
+blocks of binary data to disk. For a description of what this means, see
+the entry for [`fread()`](#fread).
 
 ### Return Value {.unnumbered .unlisted}
 
-`fwrite()` returns the number of items successfully
-written, which should hopefully be `nmemb` that you passed in.
-It'll return zero on error.
+`fwrite()` returns the number of items successfully written, which
+should hopefully be `nmemb` that you passed in. It'll return zero on
+error.
 
 ### Example {.unnumbered .unlisted}
 
@@ -2179,9 +2170,8 @@ int main(void)
 [[pagebreak]]
 ## `fgetpos()`, `fsetpos()` {#man-fgetpos}
 
-Get the current position in a file, or set the current position
-in a file. Just like `ftell()` and `fseek()` for
-most systems.
+Get the current position in a file, or set the current position in a
+file. Just like `ftell()` and `fseek()` for most systems.
 
 ### Synopsis {.unnumbered .unlisted}
 
@@ -2189,21 +2179,21 @@ most systems.
 #include <stdio.h>
 
 int fgetpos(FILE *stream, fpos_t *pos);
+
 int fsetpos(FILE *stream, fpos_t *pos);
 ```
 
 ### Description {.unnumbered .unlisted}
 
-These functions are just like `ftell()` and
-`fseek()`, except instead of counting in bytes, they use an
-_opaque_ data structure to hold positional information about
-the file. (Opaque, in this case, means you're not supposed to know what
-the data type is made up of.)
+These functions are just like `ftell()` and `fseek()`, except instead of
+counting in bytes, they use an _opaque_ data structure to hold
+positional information about the file. (Opaque, in this case, means
+you're not supposed to know what the data type is made up of.)
 
-On virtually every system (and certainly every system that I know
-of), people don't use these functions, using `ftell()` and
-`fseek()` instead. These functions exist just in case your
-system can't remember file positions as a simple byte offset.
+On virtually every system (and certainly every system that I know of),
+people don't use these functions, using `ftell()` and `fseek()` instead.
+These functions exist just in case your system can't remember file
+positions as a simple byte offset.
 
 Since the `pos` variable is opaque, you have to assign to it
 using the `fgetpos()` call itself. Then you save the value
@@ -2238,8 +2228,7 @@ fsetpos(fp, &pos);   // now restore the position to where we saved
 [[pagebreak]]
 ## `fseek()`, `rewind()` {#man-fseek}
 
-Position the file pointer in anticipition of the next read or
-write.
+Position the file pointer in anticipition of the next read or write.
 
 ### Synopsis {.unnumbered .unlisted}
 
@@ -2247,6 +2236,7 @@ write.
 #include <stdio.h>
 
 int fseek(FILE *stream, long offset, int whence);
+
 void rewind(FILE *stream);
 ```
 
@@ -2255,51 +2245,35 @@ void rewind(FILE *stream);
 When doing reads and writes to a file, the OS keeps track of where you
 are in the file using a counter generically known as the file pointer.
 You can reposition the file pointer to a different point in the file
-using the `fseek()` call. Think of it as a way to randomly
-access you file.
+using the `fseek()` call. Think of it as a way to randomly access you
+file.
 
-The first argument is the file in question, obviously.
-`offset` argument is the position that you want to seek to, and
-`whence` is what that offset is relative to.
+The first argument is the file in question, obviously. `offset` argument
+is the position that you want to seek to, and `whence` is what that
+offset is relative to.
 
 Of course, you probably like to think of the offset as being from the
 beginning of the file. I mean, "Seek to position 3490, that should be
-3490 bytes from the beginning of the file."  Well, it _can_ be,
-but it doesn't have to be. Imagine the power you're wielding here. Try
-to command your enthusiasm.
+3490 bytes from the beginning of the file."  Well, it _can_ be, but it
+doesn't have to be. Imagine the power you're wielding here. Try to
+command your enthusiasm.
 
-You can set the value of `whence` to one of three
-things:
+You can set the value of `whence` to one of three things:
 
-**`SEEK_SET`**
+|`whence`|Description|
+|--------|---------------------------------------------|
+|`SEEK_SET`|`offset` is relative to the beginning of the file. This is probably what you had in mind anyway, and is the most commonly used value for `whence`.|
+|`SEEK_CUR`|`offset` is relative to the current file pointer position. So, in effect, you can say, "Move to my current position plus 30 bytes," or, "move to my current position minus 20 bytes."|
+|`SEEK_END`|`offset` is relative to the end of the file. Just like `SEEK_SET` except from the other end of the file. Be sure to use negative values for `offset` if you want to back up from the end of the file, instead of going past the end into oblivion.|
 
-`offset` is relative to the beginning of the file.
-This is probably what you had in mind anyway, and is the most commonly
-used value for `whence`.
-
-**`SEEK_CUR`**
-
-`offset` is relative to the current file pointer
-position. So, in effect, you can say, "Move to my current position plus
-30 bytes," or, "move to my current position minus 20
-bytes."
-
-**`SEEK_END`**
-
-`offset` is relative to the end of the file. Just
-like `SEEK_SET` except from the other end of the file. Be sure
-to use negative values for `offset` if you want to back up from
-the end of the file, instead of going past the end into
-oblivion.
-
-Speaking of seeking off the end of the file, can you do it? Sure
-thing. In fact, you can seek way off the end and then write a
-character; the file will be expanded to a size big enough to hold a
-bunch of zeros way out to that character.
+Speaking of seeking off the end of the file, can you do it? Sure thing.
+In fact, you can seek way off the end and then write a character; the
+file will be expanded to a size big enough to hold a bunch of zeros way
+out to that character.
 
 Now that the complicated function is out of the way, what's this
-`rewind()` that I briefly mentioned? It repositions the file
-pointer at the beginning of the file:
+`rewind()` that I briefly mentioned? It repositions the file pointer at
+the beginning of the file:
 
 ``` {.c}
 fseek(fp, 0, SEEK_SET); // same as rewind()
@@ -2308,8 +2282,7 @@ rewind(fp);             // same as fseek(fp, 0, SEEK_SET)
 
 ### Return Value {.unnumbered .unlisted}
 
-For `fseek()`, on success zero is returned; `-1` is
-returned on failure.
+For `fseek()`, on success zero is returned; `-1` is returned on failure.
 
 The call to `rewind()` never fails.
 
@@ -2333,8 +2306,7 @@ rewind(fp);               // seek to the beginning of the file
 [[pagebreak]]
 ## `ftell()` {#man-ftell}
 
-Tells you where a particular file is about to read from or
-write to.
+Tells you where a particular file is about to read from or write to.
 
 ### Synopsis {.unnumbered .unlisted}
 
@@ -2346,15 +2318,14 @@ long ftell(FILE *stream);
 
 ### Description {.unnumbered .unlisted}
 
-This function is the opposite of [`fseek()`](#fseek). It tells you where in the
-file the next file operation will occur relative to the beginning of the
-file.
+This function is the opposite of [`fseek()`](#fseek). It tells you where
+in the file the next file operation will occur relative to the beginning
+of the file.
 
-It's useful if you want to remember where you are in the file,
-`fseek()` somewhere else, and then come back later. You can
-take the return value from `ftell()` and feed it back into
-`fseek()` (with `whence` parameter set to
-`SEEK_SET`) when you want to return to your previous position.
+It's useful if you want to remember where you are in the file, `fseek()`
+somewhere else, and then come back later. You can take the return value
+from `ftell()` and feed it back into `fseek()` (with `whence` parameter
+set to `SEEK_SET`) when you want to return to your previous position.
 
 ### Return Value {.unnumbered .unlisted}
 
@@ -2386,11 +2357,9 @@ fseek(fp, pos, SEEK_SET);
 [`fsetpos()`](#man-fgetpos)
 
 [[pagebreak]]
-## `feof()`, `ferror()`, {#man-feof}
-`clearerr()`
+## `feof()`, `ferror()`, `clearerr()` {#man-feof}
 
-Determine if a file has reached end-of-file or if an error has
-occurred.
+Determine if a file has reached end-of-file or if an error has occurred.
 
 ### Synopsis {.unnumbered .unlisted}
 
@@ -2398,28 +2367,29 @@ occurred.
 #include <stdio.h>
 
 int feof(FILE *stream);
+
 int ferror(FILE *stream);
+
 void clearerr(FILE *stream);
 ```
 
 ### Description {.unnumbered .unlisted}
 
-Each `FILE*` that you use to read and write data from and
-to a file contains flags that the system sets when certain events occur.
-If you get an error, it sets the error flag; if you reach the end of the
-file during a read, it sets the EOF flag. Pretty simple really.
+Each `FILE*` that you use to read and write data from and to a file
+contains flags that the system sets when certain events occur. If you
+get an error, it sets the error flag; if you reach the end of the file
+during a read, it sets the EOF flag. Pretty simple really.
 
-The functions `feof()` and `ferror()` give you
-a simple way to test these flags: they'll return non-zero (true) if
-they're set.
+The functions `feof()` and `ferror()` give you a simple way to test
+these flags: they'll return non-zero (true) if they're set.
 
-Once the flags are set for a particular stream, they stay that way
-until you call `clearerr()` to clear them.
+Once the flags are set for a particular stream, they stay that way until
+you call `clearerr()` to clear them.
 
 ### Return Value {.unnumbered .unlisted}
 
-`feof()` and `ferror()` return non-zero (true) if
-the file has reached EOF or there has been an error, respectively.
+`feof()` and `ferror()` return non-zero (true) if the file has reached
+EOF or there has been an error, respectively.
 
 ### Example {.unnumbered .unlisted}
 
@@ -2470,26 +2440,34 @@ void perror(const char *s);
 ### Description {.unnumbered .unlisted}
 
 Many functions, when they encounter an error condition for whatever
-reason, will set a global variable called `errno` for you.
-`errno` is just an interger representing a unique error.
+reason, will set a global variable called `errno` (in `<errno.h>`) for
+you. `errno` is just an interger representing a unique error.
 
-But to you, the user, some number isn't generally very useful. For
-this reason, you can call `perror()` after an error occurs to
-print what error has actually happened in a nice human-readable
-string.
+But to you, the user, some number isn't generally very useful. For this
+reason, you can call `perror()` after an error occurs to print what
+error has actually happened in a nice human-readable string.
 
-And to help you along, you can pass a parameter, `s`, that
-will be prepended to the error string for you.
+And to help you along, you can pass a parameter, `s`, that will be
+prepended to the error string for you.
 
-One more clever trick you can do is check the value of the
-`errno` (you have to include `errno.h` to see it)
-for specific errors and have your code do different things. Perhaps you
-want to ignore certain errors but not others, for instance.
+One more clever trick you can do is check the value of the `errno` (you
+have to include `errno.h` to see it) for specific errors and have your
+code do different things. Perhaps you want to ignore certain errors but
+not others, for instance.
 
-The catch is that different systems define different values for
-`errno`, so it's not very portable. The standard only defines
-a few math-related values, and not others. You'll have to check your
-local man-pages for what works on your system.
+The standard only defines three values for `errno`, but your system
+undoubtedly defines more. The three that are defined are:
+
+|`errno`|Description|
+|-|-|
+|`EDOM`|Math operation outside domain.|
+|`EILSEQ`|Invalid sequence in multibyte to wide character encoding.|
+|`ERANGE`|Result of operation doesn't fit in specified type.|
+
+The catch is that different systems define different values for `errno`,
+so it's not very portable beyond the above 3. The good news is that at
+least the values are _largely_ portable between Unix-like systems, at
+least.
 
 ### Return Value {.unnumbered .unlisted}
 
@@ -2497,9 +2475,9 @@ Returns nothing at all! Sorry!
 
 ### Example {.unnumbered .unlisted}
 
-[`fseek()`](#fseek) returns `-1` on error, and
-sets `errno`, so let's use it. Seeking on `stdin`
-makes no sense, so it should generate an error:
+[`fseek()`](#fseek) returns `-1` on error, and sets `errno`, so let's
+use it. Seeking on `stdin` makes no sense, so it should generate an
+error:
 
 ``` {.c .numberLines}
 #include <stdio.h>
@@ -2538,7 +2516,7 @@ fseek again, EBADF: Bad file descriptor
 
 [`feof()`](#man-feof),
 [`ferror()`](#man-feof),
-[`clearerr()`](#man-feof)
+
 
 
 <!--
