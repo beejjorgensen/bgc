@@ -2,7 +2,7 @@
 
 # vim: ts=4:sw=4:nosi:et:tw=72
 -->
-# String Manipulation {#stringref}
+# `<string.h>` String Manipulation {#stringref}
 
 As has been mentioned earlier in the guide, a string in C is a sequence
 of bytes in memory, terminated by a NUL character ('`\0`'). The NUL at
@@ -21,6 +21,56 @@ strings, concatenating strings together, getting the length of a string,
 and so forth and so on.
 
 <!-- TODO: memcpy(), memmove() -->
+[[pagebreak]]
+## `memcpy()`, `memmove()` {#man-memcpy}
+
+Copy bytes of memory from one location to another
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <string.h>
+
+void *memcpy(void * restrict s1, const void * restrict s2, size_t n);
+
+void *memmove(void *s1, const void *s2, size_t n);
+```
+
+### Description {.unnumbered .unlisted}
+
+These functions copy memory---as many bytes as you want! From source to
+destination!
+
+The main difference between the two is that `memcpy()` cannot safely
+copy overlapping memory regions, whereas `memmove()` can.
+
+On the one hand, I'm not sure why you'd want to ever use `memcpy()`
+instead of `memmove()`, but I'll bet it's possibly more performant.
+
+The parameters are in a particular order: destination first, then
+source. I remember this order because it behaves like an "`=`"
+assignment: the destination is on the left.
+
+### Return Value {.unnumbered .unlisted}
+
+Both functions return whatever you passed in for parameter `s1` for your
+convenience.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+char s[100] = "Goats";
+char t[100];
+
+memcpy(t, s, 6);       // Copy non-overlapping memory
+
+memmove(s + 2, s, 6);  // Copy overlapping memory
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`strcpy()`](#man-strcpy),
+[`strncpy()`](#man-strcpy)
 
 [[pagebreak]]
 ## `strcpy()`, `strncpy()` {#man-strcpy}
@@ -540,3 +590,15 @@ printf("The string is %d characters long.\n", strlen(s));
 ```
 
 ### See Also {.unnumbered .unlisted}
+
+<!--
+[[pagebreak]]
+## `vprintf()`, `vfprintf()`, `vsprintf()`, `vsnprintf()` {#man-vprintf}
+
+### Synopsis {.unnumbered .unlisted}
+### Description {.unnumbered .unlisted}
+### Return Value {.unnumbered .unlisted}
+### Example {.unnumbered .unlisted}
+### See Also {.unnumbered .unlisted}
+[`sprintf()`](#man-sprintf),
+-->
