@@ -296,7 +296,7 @@ if (!strncmp(s1, s2, 6))
 [`qsort()`](#man-qsort)
 
 [[pagebreak]]
-## `strcoll()` {#man-vprintf}
+## `strcoll()` {#man-strcoll}
 
 Compare two strings accounting for locale
 
@@ -351,7 +351,144 @@ int main(void)
 
 [`strcmp()`](#man-strcmp)
 
-<!-- TODO: strxfrm() -->
+[[pagebreak]]
+## `strxfrm()` {#man-strxfrm}
+
+Transform a string for comparing based on locale
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <string.h>
+
+size_t strxfrm(char * restrict s1, const char * restrict s2, size_t n);
+```
+
+### Description {.unnumbered .unlisted}
+
+This is a strange little function, so bear with me.
+
+Firstly, if you haven't done so, get familiar with
+[`strcoll()`](#man-strcoll) because this is closely related to that.
+
+OK! Now that you're back, you can think of `strxfrm()` as the first part
+of the `strcoll()` internals. Basically, `strcoll()` has to transform a
+string into a form that can be compared with `strcmp()`. And it does
+this with `strxfrm()` for both strings every time you call it.
+
+`strxform()` takes string `s2` and transforms it (readies it for
+`strcmp()`) storing the result in `s1`. It writes no more than `n`
+bytes, protecting us from terrible buffer overflows.
+
+But hang on---there's another mode! If you pass `NULL` for `s1` and `0`
+for `n`, it will return the number of bytes that the transformed string
+_would have_ used^[It always returns the number of bytes the transformed
+string took, but in this case because `s1` was `NULL`, it doesn't
+actually write a transformed string.]. This is useful if you need to
+allocate some space to hold the transformed string before you `strcmp()`
+it against another.
+
+What I'm getting at, not to be too blunt, is that `strcoll()` is
+slow compared to `strcmp()`. It does a lot of extra work running
+`strxfrm()` on all its strings.
+
+In fact, we can see how it works by writing our own like this:
+
+``` {.c .numberLines}
+int my_strcoll(char *s1, char *s2)
+{
+    // Use n = 0 to just get the lengths of the transformed strings
+    int len1 = strxfrm(NULL, s1, 0) + 1;
+    int len2 = strxfrm(NULL, s2, 0)  + 1;
+
+    // Allocate enough room for each
+    char *d1 = malloc(len1);
+    char *d2 = malloc(len2);
+
+    // Transform the strings for comparison
+    strxfrm(d1, s1, len1);
+    strxfrm(d2, s2, len2);
+
+    // Compare the transformed strings
+    int result = strcmp(d1, d2);
+
+    // Free up the transformed strings
+    free(d2);
+    free(d1);
+
+    return result;
+}
+```
+
+You see on lines 12, 13, and 16, above how we transform the two input
+strings and then call `strcmp()` on the result.
+
+So why do we have this function? Can't we just call `strcoll()` and be
+done with it?
+
+The idea is that if you have one string that you're going to be
+comparing against a whole lot of other ones, maybe you just want to
+transform that string one time, then use the faster `strcmp()` saving
+yourself a bunch of the work we had to do in the function, above.
+
+We'll do that in the example.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns the number of bytes in the transformed sequence. If the value is
+greater than `n`, the results in `s1` are meaningless.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <string.h>
+#include <locale.h>
+#include <malloc.h>
+
+// Transform a string for comparison, returning a malloc'd
+// result
+char *get_xfrm_str(char *s)
+{
+    int len = strxfrm(NULL, s, 0) + 1;
+    char *d = malloc(len);
+
+    strxfrm(d, s, len);
+
+    return d;
+}
+
+// Does half the work of a regular strcoll() because the second
+// string arrives already transformed.
+int half_strcoll(char *s1, char *s2_transformed)
+{
+    char *s1_transformed = get_xfrm_str(s1);
+
+    int result = strcmp(s1_transformed, s2_transformed);
+
+    free(s1_transformed);
+
+    return result;
+}
+
+int main(void)
+{
+    setlocale(LC_ALL, "");
+
+    // Pre-transform the string to compare against
+    char *s = get_xfrm_str("éfg");
+
+    // Repeatedly compare against "éfg" 
+    printf("%d\n", half_strcoll("fgh", s));  // "fgh" > "éfg"
+    printf("%d\n", half_strcoll("àbc", s));  // "àbc" < "éfg"
+    printf("%d\n", half_strcoll("ĥij", s));  // "ĥij" > "éfg"
+    
+    free(s);
+}
+```
+
+### See Also {.unnumbered .unlisted}
+[`strcoll()`](#man-strcoll)
 
 [[pagebreak]]
 ## `strchr()`, `strrchr()` {#man-strchr}
