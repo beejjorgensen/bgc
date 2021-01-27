@@ -20,7 +20,6 @@ In this section you'll find functions for pulling substrings out of
 strings, concatenating strings together, getting the length of a string,
 and so forth and so on.
 
-<!-- TODO: memcpy(), memmove() -->
 [[pagebreak]]
 ## `memcpy()`, `memmove()` {#man-memcpy}
 
@@ -214,11 +213,9 @@ and `numbers`; this is just fine with string functions.
 [`strlen()`](#man-strlen)
 
 [[pagebreak]]
-## `strcmp()`, `strncmp()` {#man-strcmp}
+## `strcmp()`, `strncmp()`, `memcpy()` {#man-strcmp}
 
-<!-- TODO: memcmp() -->
-
-Compare two strings and return a difference.
+Compare two strings or memory regions and return a difference.
 
 ### Synopsis {.unnumbered .unlisted}
 
@@ -228,13 +225,20 @@ Compare two strings and return a difference.
 int strcmp(const char *s1, const char *s2);
 
 int strncmp(const char *s1, const char *s2, size_t n);
+
+int memcmp(const void *s1, const void *s2, size_t n);
 ```
 
 ### Description {.unnumbered .unlisted}
 
-Both these functions compare two strings. `strcmp()` compares the entire
-string down to the end, while `strncmp()` only compares the first `n`
-characters of the strings.
+All these functions compare chunks of bytes in memory.
+
+`strcmp()` and `strncmp()` operate on NUL-terminated strings, whereas
+`memcmp()` will compare the number of bytes you specify, brazenly
+ignoring any NUL characters it finds along the way.
+
+`strcmp()` compares the entire string down to the end, while `strncmp()`
+only compares the first `n` characters of the strings.
 
 It's a little funky what they return. Basically it's a difference of the
 strings, so if the strings are the same, it'll return zero (since the
@@ -244,19 +248,18 @@ less-than zero if that character in `s1` is less than the corresponding
 character in `s2`. It'll return greater-than zero if that character in
 `s1` is greater than that in `s2`.
 
-For the most part, people just check to see if the return value is zero
-or not, because, more often than not, people are only curious if strings
-are the same.
+So if they return `0`, the comparison was equal (i.e. the difference was
+`0`.)
 
 These functions can be used as comparison functions for
 [`qsort()`](#qsort) if you have an array of `char*`s you want to sort.
 
 ### Return Value {.unnumbered .unlisted}
 
-Returns zero if the strings are the same, less-than zero if the first
-different character in `s1` is less than that in `s2`, or greater-than
-zero if the first difference character in `s1` is greater than than in
-`s2`.
+Returns zero if the strings or memory are the same, less-than zero if
+the first different character in `s1` is less than that in `s2`, or
+greater-than zero if the first difference character in `s1` is greater
+than than in `s2`.
 
 ### Example {.unnumbered .unlisted}
 
