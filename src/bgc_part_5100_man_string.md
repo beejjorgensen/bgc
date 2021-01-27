@@ -295,7 +295,62 @@ if (!strncmp(s1, s2, 6))
 [`memcmp()`](#man-memcmp),
 [`qsort()`](#man-qsort)
 
-<!-- TODO: strcoll() -->
+[[pagebreak]]
+## `strcoll()` {#man-vprintf}
+
+Compare two strings accounting for locale
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <string.h>
+
+int strcoll(const char *s1, const char *s2);
+```
+
+### Description {.unnumbered .unlisted}
+
+This is basically `strcmp()`, except that it handles accented characters
+better depending on the locale.
+
+For example, my `strcmp()` reports that the character "é" (with accent)
+is greater than "f". But that's hardly useful for alphabetizing.
+
+By setting the `LC_COLLATE` locale value (either by name or via
+`LC_ALL`), you can have `strcoll()` sort in a way that's more meaningful
+by the current locale. For example, by having "é" appear sanely _before_
+"f".
+
+### Return Value {.unnumbered .unlisted}
+
+Like the other string comparison functions, `strcoll()` returns a
+negative value if `s1` is less than `s2`, or a positive value if `s1` is
+greater than `s2`. Or `0` if they are equal.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <string.h>
+#include <locale.h>
+
+int main(void)
+{
+    setlocale(LC_ALL, "");
+
+    // If your source character set doesn't support "é" in a string
+    // you can replace it with `\u00e9`, the Unicode code point
+    // for "é".
+
+    printf("%d\n", strcmp("é", "f"));   // Reports é > f, yuck.
+    printf("%d\n", strcoll("é", "f"));  // Reports é < f, yay!
+}
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`strcmp()`](#man-strcmp)
+
 <!-- TODO: strxfrm() -->
 
 [[pagebreak]]
