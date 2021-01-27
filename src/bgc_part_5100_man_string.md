@@ -402,7 +402,7 @@ int my_strcoll(char *s1, char *s2)
 {
     // Use n = 0 to just get the lengths of the transformed strings
     int len1 = strxfrm(NULL, s1, 0) + 1;
-    int len2 = strxfrm(NULL, s2, 0)  + 1;
+    int len2 = strxfrm(NULL, s2, 0) + 1;
 
     // Allocate enough room for each
     char *d1 = malloc(len1);
