@@ -321,6 +321,9 @@ By setting the `LC_COLLATE` locale value (either by name or via
 by the current locale. For example, by having "é" appear sanely _before_
 "f".
 
+It's also a lot slower than `strcmp()` so use it only if you have to.
+See [`strxfrm()`](#man-strxfrm) for a potential speedup.
+
 ### Return Value {.unnumbered .unlisted}
 
 Like the other string comparison functions, `strcoll()` returns a
