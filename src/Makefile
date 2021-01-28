@@ -29,6 +29,7 @@ COMMON_OPTS= \
 	--variable subtitle:$(SUBTITLE) \
 	--variable author:$(AUTHOR) \
 	--variable date:$(VERSION_DATE) \
+	--number-sections \
 	--toc
 
 PDF_OPTS= \
