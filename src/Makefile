@@ -61,7 +61,10 @@ BW=--no-highlight  # black and white options
 
 all: $(HTML) $(BOOKS)
 
-bg-css-wide.html: bg-css.html body-wide-css.html
+bg-css.html: common-css-src.html
+	cat $^ > $@
+
+bg-css-wide.html: common-css-src.html widescreen-css-src.html
 	cat $^ > $@
 
 $(GUIDE_ID).html: $(GUIDE_MD) bg-css.html
@@ -183,7 +186,7 @@ $(GUIDE_ID)_amazon.pdf: $(GUIDE_ID)_amazon.md
 	rm -f $(GUIDE_ID)_temp*
 
 clean:
-	rm -f $(GUIDE_ID)_temp* bg-css-wide.html
+	rm -f $(GUIDE_ID)_temp* bg-css*.html
 
 pristine: clean
 	rm -f $(HTML) $(BOOKS)

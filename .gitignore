@@ -7,7 +7,7 @@
 stage/
 src/bgc.html
 src/bgc-wide.html
-src/bg-css-wide.html
+src/bg-css*.html
 src/bgc_*.pdf
 
 __pycache__
