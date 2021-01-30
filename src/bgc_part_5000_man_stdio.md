@@ -5,6 +5,55 @@
 
 # `<stdio.h>` Standard I/O Library {#stdio}
 
+|Function|Description|
+|-|-|
+|[`clearerr()`](#man-feof)|Clear the `feof` and `ferror` status flags|
+|[`fclose()`](#man-fclose)|Close an open file|
+|[`feof()`](#man-feof)|Return the file end-of-file status|
+|[`ferror()`](#man-feof)|Return the file error status|
+|[`fflush()`](#man-fflush)|Flush all buffered output to a file|
+|[`fgetc()`](#man-getc)|Read a character in a file|
+|[`fgetpos()`](#man-fsetpos)|Get the file I/O position|
+|[`fgets()`](#man-gets)|Read a line from a file|
+|[`fopen()`](#man-fopen)|Open a file|
+|[`fprintf()`](#man-printf)|Print formatted output to a file|
+|[`fputc()`](#man-putc)|Print a character to a file|
+|[`fputs()`](#man-puts)|Print a string to a file|
+|[`fread()`](#man-fread)|Read binary data from a file|
+|[`freopen()`](#man-freopen)|Change file associated with a stream|
+|[`fscanf()`](#man-scanf)|Read formatted input from a file|
+|[`fseek()`](#man-fseek)|Set the file I/O position|
+|[`fsetpos()`](#man-fsetpos)|Set the file I/O position|
+|[`ftell()`](#man-ftell)|Get the file I/O position|
+|[`fwrite()`](#man-fwrite)|Write binary data to a file|
+|[`getc()`](#man-getc)|Get a character from `stdin`|
+|[`getchar()`](#man-getc)|Get a character from `stdin`|
+|[`gets()`](#man-gets)|Get a string from `stdin` (obsolete)|
+|[`perror()`](#man-perror)|Print a human-formatted error message|
+|[`printf()`](#man-printf)|Print formatted output to `stdout`|
+|[`putc()`](#man-putc)|Print a character to `stdout`|
+|[`putchar()`](#man-putc)|Print a character to `stdout`|
+|[`puts()`](#man-puts)|Print a string to `stdout`|
+|[`remove()`](#man-remove)|Delete a file from disk|
+|[`rename()`](#man-rename)|Rename or move a file on disk|
+|[`rewind()`](#man-fseek)|Set the I/O position to the beginning of a file|
+|[`scanf()`](#man-scanf)|Read formatted input from `stdin`|
+|[`setbuf()`](#man-setbuf)|Configure buffering for I/O operations|
+|[`setvbuf()`](#man-setbuf)|Configure buffering for I/O operations|
+|[`snprintf()`](#man-printf)|Print length-limited formatted output to a string|
+|[`sprintf()`](#man-printf)|Print formatted output to a string|
+|[`sscanf()`](#man-scanf)|Read formatted input from a string|
+|[`tmpfile()`](#man-tmpfile)|Create a temporary file|
+|[`tmpnam()`](#man-tmpnam)|Generate a unique name for a temporary file|
+|[`ungetc()`](#man-ungetc)|Push a character back on the input stream|
+|[`vfprintf()`](#man-vprintf)|Variadic print formatted output to a file|
+|[`vfscanf()`](#man-vscanf)|Variadic read formatted input from a file|
+|[`vprintf()`](#man-vprintf)|Variadic print formatted output to `stdout`|
+|[`vscanf()`](#man-vscanf)|Variadic read formatted input from `stdin`|
+|[`vsnprintf()`](#man-vprintf)|Variadic length-limited print formatted output to a string|
+|[`vsprintf()`](#man-vprintf)|Variadic print formatted output to a string|
+|[`vsscanf()`](#man-vscanf)|Variadic read formatted input to a string|
+
 The most basic of all libraries in the whole of the standard C library
 is the standard I/O library. It's used for reading from and writing to
 files. I can see you're very excited about this.
@@ -110,7 +159,7 @@ Delete a file
 ``` {.c}
 #include <stdio.h>
 
-int remove(const char *filename);
+int remove(const char *filename); 
 ```
 
 ### Description {.unnumbered .unlisted}
@@ -474,8 +523,8 @@ int main(void)
 
 ### See Also {.unnumbered .unlisted}
 
-[`setbuf()`](#man-setvbuf),
-[`setvbuf()`](#man-setvbuf)
+[`setbuf()`](#man-setbuf),
+[`setvbuf()`](#man-setbuf)
 
 [[pagebreak]]
 
