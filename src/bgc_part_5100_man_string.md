@@ -4,6 +4,31 @@
 -->
 # `<string.h>` String Manipulation {#stringref}
 
+|Function|Description|
+|-|-|
+|[`memchr()`](#man-strchr)|Find the first occurrence of a character in memory.|
+|[`memcmp()`](#man-strcmp)|Compare two regions of memory.|
+|[`memcpy()`](#man-memcpy)|Copy a region of memory to another.|
+|[`memmove()`](#man-memcpy)|Move a (potentially overlapping) region of memory.|
+|[`memset()`](#man-memset)|Set a region of memory to a value.|
+|[`strcat()`](#man-strcat)|Concatenate (join) two strings together.|
+|[`strchr()`](#man-strchr)|Find the first occurrence of a character in a string.|
+|[`strcmp()`](#man-strcmp)|Compare two strings.|
+|[`strcoll()`](#man-strcoll)|Compare two strings accounting for locale.|
+|[`strcpy()`](#man-strcpy)|Copy a string.|
+|[`strcspn()`](#man-strspn)|Find length of a string not consisting of a set of characters.|
+|[`strerror()`](#man-strerror)|Return a human-readable error message for a given code.|
+|[`strlen()`](#man-strlen)|Return the length of a string.|
+|[`strncat()`](#man-strcat)|Concatenate (join) two strings, length-limited.|
+|[`strncmp()`](#man-strcmp)|Compare two strings, length-limited.|
+|[`strncpy()`](#man-strcpy)|Copy two strings, length-limited.|
+|[`strpbrk()`](#man-strpbrk)|Search a string for one of a set of character.|
+|[`strrchr()`](#man-strchr)|Find the last occurrence of a character in a string.|
+|[`strspn()`](#man-strspn)|Find length of a string consisting of a set of characters.|
+|[`strstr()`](#man-strstr)|Find a substring in a string.|
+|[`strtok()`](#man-strtok)|Tokenize a string.|
+|[`strxfrm()`](#man-strxfrm)|Prepare a string for comparison as if by `strcoll()`.|
+
 As has been mentioned earlier in the guide, a string in C is a sequence
 of bytes in memory, terminated by a NUL character ('`\0`'). The NUL at
 the end is important, since it lets all these string functions (and
@@ -213,7 +238,7 @@ and `numbers`; this is just fine with string functions.
 [`strlen()`](#man-strlen)
 
 [[pagebreak]]
-## `strcmp()`, `strncmp()`, `memcpy()` {#man-strcmp}
+## `strcmp()`, `strncmp()`, `memcmp()` {#man-strcmp}
 
 Compare two strings or memory regions and return a difference.
 
@@ -550,7 +575,7 @@ p = strrchr(str, 'o');      // p now points at position B
 p = memchr(str, '!', 13);   // p now points at position C
 ```
 
-``` {.c}
+``` {.c .numberLines}
 // repeatedly find all occurrences of the letter 'B'
 char *str = "A BIG BROWN BAT BIT BEEJ";
 char *p;
