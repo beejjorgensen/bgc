@@ -2565,7 +2565,7 @@ fseek again, EBADF: Bad file descriptor
 
 [`feof()`](#man-feof),
 [`ferror()`](#man-feof),
-
+[`strerror()`](#man-strerror)
 
 
 <!--
