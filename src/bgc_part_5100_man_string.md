@@ -841,7 +841,71 @@ b.grams == 0;          // True
 [`memcpy()`](#man-memcpy),
 [`memmove()`](#man-memcpy)
 
-<!-- TODO strerror() -->
+[[pagebreak]]
+## `strerror()` {#man-strerror}
+
+Get a string version of an error number
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <string.h>
+
+char *strerror(int errnum);
+```
+
+### Description {.unnumbered .unlisted}
+
+This function ties closely into `perror()` (which prints a
+human-readable error message corresponding to `errno`). But instead of
+printing, `strerror()` returns a pointer to the locale-specific error
+message string.
+
+So if you ever need that string back for some reason (e.g. you're going
+to `fprintf()` it to a file or something), this function will give it to
+you. All you need to do is pass in `errno` as an argument. (Recall that
+`errno` gets set as an error status by a variety of functions.)
+
+You can actually pass in any integer for `errnum` you want. The function
+will return _some_ message, even if the number doesn't correspond to any
+known value for `errno`.
+
+The values of `errno` and the strings returned by `strerror()` are
+system-dependent.
+
+### Return Value {.unnumbered .unlisted}
+
+A string error message corresponding to the given error number.
+
+You are not allowed to modify the returned string.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <string.h>
+#include <errno.h>
+
+int main(void)
+{
+    FILE *fp = fopen("NONEXISTENT_FILE.TXT", "r");
+
+    if (fp == NULL) {
+        char *errmsg = strerror(errno);
+        printf("Error %d opening file: %s\n", errno, errmsg);
+    }
+}
+```
+
+Output:
+
+```
+Error 2 opening file: No such file or directory
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`perror()`](#man-perror)
 
 [[pagebreak]]
 ## `strlen()` {#man-strlen}
