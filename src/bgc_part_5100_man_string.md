@@ -795,7 +795,52 @@ if ((token = strtok(str, ".,?! ")) != NULL) {
 [`strcspn()`](#man-strspn)
 
 
-<!-- TODO memset() -->
+[[pagebreak]]
+## `memset()` {#man-memset}
+
+Set a region of memory to a certain value
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <string.h>
+
+void *memset(void *s, int c, size_t n);
+```
+### Description {.unnumbered .unlisted}
+
+This function is what you use to set a region of memory to a particular
+value, namely `c` converted into `unsigned char`.
+
+The most common usage is to zero out an array or `struct`.
+
+### Return Value {.unnumbered .unlisted}
+
+`memset()` returns whatever you passed in as `s` for happy convenience.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+struct banana {
+    float ripeness;
+    char *peel_color;
+    int grams;
+};
+
+struct banana b;
+
+memset(&b, 0, sizeof b);
+
+b.ripeness == 0.0;     // True
+b.peel_color == NULL;  // True
+b.grams == 0;          // True
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`memcpy()`](#man-memcpy),
+[`memmove()`](#man-memcpy)
+
 <!-- TODO strerror() -->
 
 [[pagebreak]]
