@@ -494,9 +494,7 @@ int main(void)
 [`strcoll()`](#man-strcoll)
 
 [[pagebreak]]
-## `strchr()`, `strrchr()` {#man-strchr}
-
-<!-- TODO: memchr() -->
+## `strchr()`, `strrchr()`, `memchr()` {#man-strchr}
 
 Find a character in a string.
 
@@ -508,6 +506,8 @@ Find a character in a string.
 char *strchr(char *str, int c);
 
 char *strrchr(char *str, int c);
+
+void *memchr(const void *s, int c, size_t n);
 ```
 
 ### Description {.unnumbered .unlisted}
@@ -517,6 +517,9 @@ of a letter in a string, respectively. (The extra "r" in `strrchr()`
 stands for "reverse"--it looks starting at the end of the string and
 working backward.)  Each function returns a pointer to the char in
 question, or `NULL` if the letter isn't found in the string.
+
+`memchr()` is similar, except that instead of stopping on the first NUL
+character, it continues searching for however many bytes you specify.
 
 Quite straightforward.
 
@@ -535,14 +538,16 @@ Returns a pointer to the occurrence of the letter in the string, or
 
 ``` {.c .numberLines}
 // "Hello, world!"
-//       ^  ^   
-//       A  B
+//       ^  ^   ^
+//       A  B   C
 
 char *str = "Hello, world!";
 char *p;
 
-p = strchr(str, ','); // p now points at position A
-p = strrchr(str, 'o'); // p now points at position B
+p = strchr(str, ',');       // p now points at position A
+p = strrchr(str, 'o');      // p now points at position B
+
+p = memchr(str, '!', 13);   // p now points at position C
 ```
 
 ``` {.c}
