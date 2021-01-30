@@ -627,7 +627,49 @@ n = strcspn(str2, "y"); // n = 16, "the bolivian nav"
 [`strchr()`](#man-strchr),
 [`strrchr()`](#man-strchr)
 
-<!-- TODO: strpbrk() -->
+[[pagebreak]]
+## `strpbrk()` {#man-strpbrk}
+
+Search a string for one of a set of characters
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <string.h>
+
+char *strpbrk(const char *s1, const char *s2);
+```
+
+### Description {.unnumbered .unlisted}
+
+This function searches string `s1` for any of the characters that are
+found in string `s2`.
+
+It's just like how `strchr()` searches for a specific character in a
+string, except it will match _any_ of the characters found in `s2`.
+
+Think of the power!
+
+### Return Value {.unnumbered .unlisted}
+
+Returns a pointer to the first character matched in `s1`, or NULL if the
+string isn't found.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+//  p points here after strpbrk
+//              v
+char *s1 = "Hello, world!";
+char *s2 = "dow!";  // Match any of these chars
+
+char *p = strpbrk(s1, s2);  // p points to the o
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`strchr()`](#man-strchr),
+[`memchr()`](#man-strchr)
 
 [[pagebreak]]
 ## `strstr()` {#man-strstr}
