@@ -28,7 +28,7 @@
 |[`fwrite()`](#man-fwrite)|Write binary data to a file|
 |[`getc()`](#man-getc)|Get a character from `stdin`|
 |[`getchar()`](#man-getc)|Get a character from `stdin`|
-|[`gets()`](#man-gets)|Get a string from `stdin` (obsolete)|
+|[`gets()`](#man-gets)|Get a string from `stdin` (removed in C11)|
 |[`perror()`](#man-perror)|Print a human-formatted error message|
 |[`printf()`](#man-printf)|Print formatted output to `stdout`|
 |[`putc()`](#man-putc)|Print a character to `stdout`|
@@ -1854,17 +1854,17 @@ into our own version of `gets()`
 #include <stdio.h>
 #include <string.h>
 
-char *safe_gets(char *s, int size)
+char *ngets(char *s, int size)
 {
     char *rv = fgets(s, size, stdin);
 
     if (rv == NULL)
         return NULL;
 
-    int len = strlen(s);
+    char *p = strchr(s, '\n');  // Find a newline
 
-    if (len > 0 && s[len-1] == '\n')  // if there's a newline
-        s[len-1] = '\0';              // truncate the string
+    if (p != NULL)  // if there's a newline
+        *p = '\0';  // truncate the string there
 
     return s;
 }
