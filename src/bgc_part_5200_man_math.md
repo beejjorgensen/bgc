@@ -63,6 +63,100 @@ Also, there are several values that are defined in the
 |$1/\sqrt2$|`M_SQRT1_2`|
 
 [[pagebreak]]
+## `fpclassify()`, {#man-fpclassify}
+
+Return the classification of a given floating point number
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <math.h>
+
+int fpclassify(any_floating_type x);
+```
+
+### Description {.unnumbered .unlisted}
+
+What kind of entity does this floating point number represent? What are
+the options?
+
+We're used to floating point numbers being regular old things like
+`3.14` or `3490.0001`.
+
+But floating point numbers can also represent things like infinity. Or
+Not-A-Number (NAN). This function will let you know which type of
+floating point number the argument is.
+
+This is a macro, so you can use it with `float`, `double`, `long double`
+or anything similar.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns one of these macros depending on the argument's classification:
+
+|Classification|Description|
+|-|-|
+|`FP_INFINITE`|Number is infinite.|
+|`FP_NAN`|Number is Not-A-Number (NAN).|
+|`FP_NORMAL`|Just a regular number.|
+|`FP_SUBNORMAL`|Number is a sub-normal number.|
+|`FP_ZERO`|Number is zero.|
+
+A discussion of subnormal numbers is beyond the scope of the guide, and
+is something that most devs go their whole lives without dealing with.
+In a nutshell, it's a way to represent really small numbers that might
+normally round down to zero. If you want to know more, see the Wikipedia
+page on [flw[denormal numbers|Denormal_number]].
+
+### Example {.unnumbered .unlisted}
+
+Print various number classifications.
+
+```{.c .numberLines}
+#include <stdio.h>
+#include <math.h>
+
+const char *get_classification(double n)
+{
+    switch (fpclassify(n)) {
+        case FP_INFINITE: return "infinity";
+        case FP_NAN: return "not a number";
+        case FP_NORMAL: return "normal";
+        case FP_SUBNORMAL: return "subnormal";
+        case FP_ZERO: return "zero";
+    }
+
+    return "unknown";
+}
+ 
+int main(void)
+{
+    printf("    1.23: %s\n", get_classification(1.23));
+    printf("     0.0: %s\n", get_classification(0.0));
+    printf("sqrt(-1): %s\n", get_classification(sqrt(-1)));
+    printf("1/tan(0): %s\n", get_classification(1/tan(0)));
+    printf("  1e-310: %s\n", get_classification(1e-310));  // very small!
+}
+```
+
+Output^[This is on my system. Some systems will have different points at
+which numbers become subnormal, or they might not support subnormal
+values at all.]:
+
+```
+    1.23: normal
+     0.0: zero
+sqrt(-1): not a number
+1/tan(0): infinity
+  1e-310: subnormal
+```
+
+### See Also {.unnumbered .unlisted}
+[`sprintf()`](#man-sprintf),
+
+<!-- MARKER -->
+
+[[pagebreak]]
 ## `sin()`, `sinf()`, `sinl()` {#man-sin}
 
 Calculate the sine of a number.
@@ -454,4 +548,15 @@ distance between points (x1, y1) and (x2, y2): 40.54
 
 [`hypot()`](#man-tan)
 
+<!--
+[[pagebreak]]
+## `vprintf()`, `vfprintf()`, `vsprintf()`, `vsnprintf()` {#man-vprintf}
+
+### Synopsis {.unnumbered .unlisted}
+### Description {.unnumbered .unlisted}
+### Return Value {.unnumbered .unlisted}
+### Example {.unnumbered .unlisted}
+### See Also {.unnumbered .unlisted}
+[`sprintf()`](#man-sprintf),
+-->
 
