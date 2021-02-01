@@ -548,6 +548,119 @@ ldtanx = tanl((long double)3.490);
 [`atan()`](#man-atan),
 [`atan2()`](#man-atan)
 
+[[pagebreak]]
+## `acosh()`, `acoshf()`, `acoshl()` {#man-acosh}
+
+Compute arc hyperbolic cosine.
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <math.h>
+
+double acosh(double x);
+
+float acoshf(float x);
+
+long double acoshl(long double x);
+```
+
+### Description {.unnumbered .unlisted}
+
+Trig lovers can rejoice! C has arc hyperbolic cosine!
+
+These functions return the nonnegative acosh of `x`, which must be
+greater than or equal to `1`.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns the arc hyperbolic cosince in the range $[0,+\infty]$.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+printf("acosh 1.8 = %f\n", acosh(1.8));  // 1.192911
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`asinh()`](#man-asinh)
+
+[[pagebreak]]
+## `asinh()`, `asinhf()`, `asinhl()` {#man-asinh}
+
+Compute arc hyperbolic sine.
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <math.h>
+
+double asinh(double x);
+
+float asinhf(float x);
+
+long double asinhl(long double x);
+```
+
+### Description {.unnumbered .unlisted}
+
+Trig lovers can rejoice! C has arc hyperbolic sine!
+
+These functions return the asinh of `x`.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns the arc hyperbolic sine.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+printf("acosh 1.8 = %f\n", asinh(1.8));  // 1.350441
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`acosh()`](#man-acosh)
+
+[[pagebreak]]
+## `atanh()`, `atanhf()`, `atanhl()` {#man-atanh}
+
+Compute the arc hyperbolic tangent.
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <math.h>
+
+double atanh(double x);
+
+float atanhf(float x);
+
+long double atanhl(long double x);
+```
+
+### Description {.unnumbered .unlisted}
+
+These functions compute the arc hyperbolic tangent of `x`, which must be
+in the range $[-1,+1]$. Passing exactly $-1$ or $+1$ might result in a
+pole error.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns the arc hyperbolic tangent of `x`.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+printf("atanh 0.5 = %f\n", atanh(0.5));  // 0.549306
+```
+
+### See Also {.unnumbered .unlisted}
+[`acosh()`](#man-acosh),
+[`asinh()`](#man-asinh)
+
+
 <!-- MARKER -->
 
 [[pagebreak]]
