@@ -661,6 +661,81 @@ printf("atanh 0.5 = %f\n", atanh(0.5));  // 0.549306
 [`asinh()`](#man-asinh)
 
 
+[[pagebreak]]
+## `cosh()`, `coshf()`, `coshl()` {#man-cosh}
+
+Compute the hyperbolic cosine.
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <math.h>
+
+double cosh(double x);
+
+float coshf(float x);
+
+long double coshl(long double x);
+```
+
+### Description {.unnumbered .unlisted}
+
+These functions predictably compute the hyperbolic cosine of `x`. A
+range error might occur if `x` is too large.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns the hyperbolic cosine of `x`.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+printf("cosh 0.5 = %f\n", cosh(0.5));  // 1.127626
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`sinh()`](#man-sinh),
+[`tanh()`](#man-tanh)
+
+[[pagebreak]]
+## `tanh()`, `tanhf()`, `tanhl()` {#man-tanh}
+
+Compute the hyperbolic tangent.
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <math.h>
+
+double tanh(double x);
+
+float tanhf(float x);
+
+long double tanhl(long double x);
+```
+
+### Description {.unnumbered .unlisted}
+
+These functions predictably compute the hyperbolic tangent of `x`.
+
+Mercifully, this is the last trig-related man page I'm going to write.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns the hyperbolic tangent of `x`.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+printf("tanh 0.5 = %f\n", tanh(0.5));  // 0.462117
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`cosh()`](#man-cosh),
+[`sinh()`](#man-sinh)
+
 <!-- MARKER -->
 
 [[pagebreak]]
