@@ -128,8 +128,8 @@ sqrt(-1): not a number
 [`isfinite()`](#man-isnan),
 [`isinf()`](#man-isnan),
 [`isnan()`](#man-isnan),
-[`isnormal()`](#man-isnan)
-
+[`isnormal()`](#man-isnan),
+[`signbit()`](#man-signbit)
 
 [[pagebreak]]
 ## `isfinite()`, `isinf()`, `isnan()`, `isnormal()` {#man-isnan}
@@ -185,6 +185,45 @@ int main(void)
 ### See Also {.unnumbered .unlisted}
 
 [`fpclassify()`](#man-fpclassify),
+[`signbit()`](#man-signbit),
+
+
+[[pagebreak]]
+## `signbit()` {#man-signbit}
+
+Return the sign of a number.
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <math.h>
+
+int signbit(any_floating_type x);
+```
+
+### Description {.unnumbered .unlisted}
+
+This macro takes any floating point number and returns a value
+indicating the sign of the number, positive or negative.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns `1` if the sign is negative, otherwise `0`.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+printf("%d\n", signbit(3490.0));  // 0
+printf("%d\n", signbit(-37.0));   // 1
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`fpclassify()`](#man-fpclassify),
+[`isfinite()`](#man-isnan),
+[`isinf()`](#man-isnan),
+[`isnan()`](#man-isnan),
+[`isnormal()`](#man-isnan)
 
 <!-- MARKER -->
 
