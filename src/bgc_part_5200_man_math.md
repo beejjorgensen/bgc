@@ -736,6 +736,46 @@ printf("tanh 0.5 = %f\n", tanh(0.5));  // 0.462117
 [`cosh()`](#man-cosh),
 [`sinh()`](#man-sinh)
 
+[[pagebreak]]
+## `exp()`, `expf()`, `expl()` {#man-exp}
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <math.h>
+
+double exp(double x);
+
+float expf(float x);
+
+long double expl(long double x);
+```
+
+### Description {.unnumbered .unlisted}
+
+Compute $e^x$ where $e$ is [flw[Euler's
+number|E_(mathematical_constant)]].
+
+The number $e$ is named after Leonard Euler, born April 15, 1707, who is
+responsible, among other things, for making this reference page longer
+than it needed to be.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns $e^x$.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+printf("exp(1) = %f\n", exp(1));  // 2.718282
+printf("exp(2) = %f\n", exp(2));  // 7.389056
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`expm1()`](#man-expm1),
+[`log()`](#man-log)
+
 <!-- MARKER -->
 
 [[pagebreak]]
