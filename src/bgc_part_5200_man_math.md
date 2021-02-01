@@ -35,33 +35,6 @@ including
 
 In short, you're a fricking MATHEMATICAL DEITY!
 
-Oh wait, before then, I should tell you that the trig functions have
-three variants with different suffixes. The "f" suffix (e.g.
-`sinf()`) returns a `float`, while the "l" suffix
-(e.g. `sinl()`) returns a massive and nicely accurate
-`long double`. Normal `sin()` just returns a
-`double`. These are extensions to ANSI C, but they should be
-supported by modern compilers.
-
-Also, there are several values that are defined in the
-`math.h` header file.
-
-|Constant|C Macro Equivalent|
-|:-|:-|
-|$e$|`M_E`|
-|$\log_2 e$|`M_LOG2E`|
-|$\log_{10} e$|`M_LOG10E`|
-|$\log_e 2$|`M_LN2`||
-|$\log_e 10$|`M_LN10`|
-|$\pi$|`M_PI`|
-|$\pi/2$|`M_PI_2`|
-|$\pi/4$|`M_PI_4`|
-|$1/\pi$|`M_1_PI`|
-|$2/\pi$|`M_2_PI`|
-|$2/\sqrt\pi$|`M_2_SQRTPI`|
-|$\sqrt2$|`M_SQRT2`|
-|$1/\sqrt2$|`M_SQRT1_2`|
-
 [[pagebreak]]
 ## `fpclassify()`, {#man-fpclassify}
 
