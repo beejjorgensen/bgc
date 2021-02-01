@@ -225,211 +225,6 @@ printf("%d\n", signbit(-37.0));   // 1
 [`isnan()`](#man-isnan),
 [`isnormal()`](#man-isnan)
 
-<!-- MARKER -->
-
-[[pagebreak]]
-## `sin()`, `sinf()`, `sinl()` {#man-sin}
-
-Calculate the sine of a number.
-
-### Synopsis {.unnumbered .unlisted}
-
-``` {.c}
-#include <math.h>
-
-double sin(double x);
-float sinf(float x);
-long double sinl(long double x);
-```
-
-### Description {.unnumbered .unlisted}
-
-Calculates the sine of the value `x`, where `x` is
-in radians.
-
-For those of you who don't remember, radians are another way of
-measuring an angle, just like degrees. To convert from degrees to
-radians or the other way around, use the following code:
-
-``` {.c}
-degrees = radians * 180.0f / M_PI;
-radians = degrees * M_PI / 180;
-```
-
-### Return Value {.unnumbered .unlisted}
-
-Returns the sine of `x`. The variants return different
-types.
-
-### Example {.unnumbered .unlisted}
-
-``` {.c .numberLines}
-double sinx;
-long double ldsinx;
-
-sinx = sin(3490.0); // round and round we go!
-ldsinx = sinl((long double)3.490);
-```
-
-### See Also {.unnumbered .unlisted}
-
-[`cos()`](#man-cos),
-[`tan()`](#man-tan),
-[`asin()`](#man-asin)
-
-[[pagebreak]]
-## `cos()`, `cosf()`, `cosl()` {#man-cos}
-
-Calculate the cosine of a number.
-
-### Synopsis {.unnumbered .unlisted}
-
-``` {.c}
-#include <math.h>
-
-double cos(double x)
-float cosf(float x)
-long double cosl(long double x)
-```
-
-### Description {.unnumbered .unlisted}
-
-Calculates the cosine of the value `x`, where `x` is
-in radians.
-
-For those of you who don't remember, radians are another way of
-measuring an angle, just like degrees. To convert from degrees to
-radians or the other way around, use the following code:
-
-``` {.c}
-degrees = radians * 180.0f / M_PI;
-radians = degrees * M_PI / 180;
-```
-
-### Return Value {.unnumbered .unlisted}
-
-Returns the cosine of `x`. The variants return different
-types.
-
-### Example {.unnumbered .unlisted}
-
-``` {.c .numberLines}
-double sinx;
-long double ldsinx;
-
-sinx = sin(3490.0); // round and round we go!
-ldsinx = sinl((long double)3.490);
-```
-
-### See Also {.unnumbered .unlisted}
-
-[`sin()`](#man-sin),
-[`tan()`](#man-tan),
-[`acos()`](#man-acos)
-
-[[pagebreak]]
-## `tan()`, `tanf()`, `tanl()` {#man-tan}
-
-Calculate the tangent of a number.
-
-### Synopsis {.unnumbered .unlisted}
-
-``` {.c}
-#include <math.h>
-
-double tan(double x)
-float tanf(float x)
-long double tanl(long double x)
-```
-
-### Description {.unnumbered .unlisted}
-
-Calculates the tangent of the value `x`, where `x` is
-in radians.
-
-For those of you who don't remember, radians are another way of
-measuring an angle, just like degrees. To convert from degrees to
-radians or the other way around, use the following code:
-
-``` {.c}
-degrees = radians * 180.0f / M_PI;
-radians = degrees * M_PI / 180;
-```
-
-### Return Value {.unnumbered .unlisted}
-
-Returns the tangent of `x`. The variants return different
-types.
-
-### Example {.unnumbered .unlisted}
-
-``` {.c .numberLines}
-double tanx;
-long double ldtanx;
-
-tanx = tan(3490.0); // round and round we go!
-ldtanx = tanl((long double)3.490);
-```
-
-### See Also {.unnumbered .unlisted}
-
-[`sin()`](#man-sin),
-[`cos()`](#man-cos),
-[`atan()`](#man-atan),
-[`atan2()`](#man-atan)
-
-[[pagebreak]]
-## `asin()`, `asinf()`, `asinl()` {#man-asin}
-
-Calculate the arc sine of a number.
-
-### Synopsis {.unnumbered .unlisted}
-
-``` {.c}
-#include <math.h>
-
-double asin(double x);
-float asinf(float x);
-long double asinl(long double x);
-```
-
-### Description {.unnumbered .unlisted}
-
-Calculates the arc sine of a number in radians. (That is, the value
-whose sine is `x`.)  The number must be in the range -1.0 to
-1.0.
-
-For those of you who don't remember, radians are another way of
-measuring an angle, just like degrees. To convert from degrees to
-radians or the other way around, use the following code:
-
-``` {.c}
-degrees = radians * 180.0f / M_PI;
-radians = degrees * M_PI / 180;
-```
-
-### Return Value {.unnumbered .unlisted}
-
-Returns the arc sine of `x`, unless `x` is out of
-range. In that case, `errno` will be set to EDOM and the
-return value will be NaN. The variants return different types.
-
-### Example {.unnumbered .unlisted}
-
-``` {.c .numberLines}
-double asinx;
-long double ldasinx;
-
-asinx = asin(0.2);
-ldasinx = asinl((long double)0.3);
-```
-
-### See Also {.unnumbered .unlisted}
-
-[`acos()`](#man-acos),
-[`atan()`](#man-atan),
-[`atan2()`](#man-atan),
-[`sin()`](#man-sin)
 
 [[pagebreak]]
 ## `acos()`, `acosf()`, `acosl()` {#man-acos}
@@ -484,9 +279,63 @@ ldacosx = acosl((long double)0.3);
 [`atan2()`](#man-atan),
 [`cos()`](#man-cos)
 
+
 [[pagebreak]]
-## `atan()`, `atanf()`, `atanl()`, {#man-atan}
-`atan2()`, `atan2f()`, `atan2l()`
+## `asin()`, `asinf()`, `asinl()` {#man-asin}
+
+Calculate the arc sine of a number.
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <math.h>
+
+double asin(double x);
+float asinf(float x);
+long double asinl(long double x);
+```
+
+### Description {.unnumbered .unlisted}
+
+Calculates the arc sine of a number in radians. (That is, the value
+whose sine is `x`.)  The number must be in the range -1.0 to
+1.0.
+
+For those of you who don't remember, radians are another way of
+measuring an angle, just like degrees. To convert from degrees to
+radians or the other way around, use the following code:
+
+``` {.c}
+degrees = radians * 180.0f / M_PI;
+radians = degrees * M_PI / 180;
+```
+
+### Return Value {.unnumbered .unlisted}
+
+Returns the arc sine of `x`, unless `x` is out of
+range. In that case, `errno` will be set to EDOM and the
+return value will be NaN. The variants return different types.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+double asinx;
+long double ldasinx;
+
+asinx = asin(0.2);
+ldasinx = asinl((long double)0.3);
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`acos()`](#man-acos),
+[`atan()`](#man-atan),
+[`atan2()`](#man-atan),
+[`sin()`](#man-sin)
+
+
+[[pagebreak]]
+## `atan()`, `atanf()`, `atanl()`, `atan2()`, `atan2f()`, `atan2l()` {#man-atan}
 
 Calculate the arc tangent of a number.
 
@@ -547,6 +396,159 @@ ldatanx = atan2l((long double)0.3);
 [`tan()`](#man-tan),
 [`asin()`](#man-asin),
 [`atan()`](#man-acos)
+
+[[pagebreak]]
+## `cos()`, `cosf()`, `cosl()` {#man-cos}
+
+Calculate the cosine of a number.
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <math.h>
+
+double cos(double x)
+float cosf(float x)
+long double cosl(long double x)
+```
+
+### Description {.unnumbered .unlisted}
+
+Calculates the cosine of the value `x`, where `x` is
+in radians.
+
+For those of you who don't remember, radians are another way of
+measuring an angle, just like degrees. To convert from degrees to
+radians or the other way around, use the following code:
+
+``` {.c}
+degrees = radians * 180.0f / M_PI;
+radians = degrees * M_PI / 180;
+```
+
+### Return Value {.unnumbered .unlisted}
+
+Returns the cosine of `x`. The variants return different
+types.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+double sinx;
+long double ldsinx;
+
+sinx = sin(3490.0); // round and round we go!
+ldsinx = sinl((long double)3.490);
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`sin()`](#man-sin),
+[`tan()`](#man-tan),
+[`acos()`](#man-acos)
+
+[[pagebreak]]
+## `sin()`, `sinf()`, `sinl()` {#man-sin}
+
+Calculate the sine of a number.
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <math.h>
+
+double sin(double x);
+float sinf(float x);
+long double sinl(long double x);
+```
+
+### Description {.unnumbered .unlisted}
+
+Calculates the sine of the value `x`, where `x` is
+in radians.
+
+For those of you who don't remember, radians are another way of
+measuring an angle, just like degrees. To convert from degrees to
+radians or the other way around, use the following code:
+
+``` {.c}
+degrees = radians * 180.0f / M_PI;
+radians = degrees * M_PI / 180;
+```
+
+### Return Value {.unnumbered .unlisted}
+
+Returns the sine of `x`. The variants return different
+types.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+double sinx;
+long double ldsinx;
+
+sinx = sin(3490.0); // round and round we go!
+ldsinx = sinl((long double)3.490);
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`cos()`](#man-cos),
+[`tan()`](#man-tan),
+[`asin()`](#man-asin)
+
+[[pagebreak]]
+## `tan()`, `tanf()`, `tanl()` {#man-tan}
+
+Calculate the tangent of a number.
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <math.h>
+
+double tan(double x)
+float tanf(float x)
+long double tanl(long double x)
+```
+
+### Description {.unnumbered .unlisted}
+
+Calculates the tangent of the value `x`, where `x` is
+in radians.
+
+For those of you who don't remember, radians are another way of
+measuring an angle, just like degrees. To convert from degrees to
+radians or the other way around, use the following code:
+
+``` {.c}
+degrees = radians * 180.0f / M_PI;
+radians = degrees * M_PI / 180;
+```
+
+### Return Value {.unnumbered .unlisted}
+
+Returns the tangent of `x`. The variants return different
+types.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+double tanx;
+long double ldtanx;
+
+tanx = tan(3490.0); // round and round we go!
+ldtanx = tanl((long double)3.490);
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`sin()`](#man-sin),
+[`cos()`](#man-cos),
+[`atan()`](#man-atan),
+[`atan2()`](#man-atan)
+
+<!-- MARKER -->
 
 [[pagebreak]]
 ## `sqrt()` {#man-sqrt}
