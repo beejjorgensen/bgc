@@ -125,7 +125,66 @@ sqrt(-1): not a number
 ```
 
 ### See Also {.unnumbered .unlisted}
-[`sprintf()`](#man-sprintf),
+[`isfinite()`](#man-isnan),
+[`isinf()`](#man-isnan),
+[`isnan()`](#man-isnan),
+[`isnormal()`](#man-isnan)
+
+
+[[pagebreak]]
+## `isfinite()`, `isinf()`, `isnan()`, `isnormal()` {#man-isnan}
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <math.h>
+
+int isfinite(any_floating_type x);
+
+int isinf(any_floating_type x);
+
+int isnan(any_floating_type x);
+
+int isnormal(any_floating_type x);
+```
+
+### Description {.unnumbered .unlisted}
+
+These are helper macros to `fpclassify()`. Bring macros, they work on
+any floating point type.
+
+|Macro|Description|
+|-|-|
+|`isfinite()`|True if the number is not infinite or NaN.|
+|`isinf()`|True if the number is infinite.|
+|`isnan()`|True if the number is Not-a-Number.|
+|`isnormal()`|True if the number is normal.|
+
+For more superficial discussion on normal and subnormal numbers, see
+[`fpclassify()`](#man-fpclassify).
+
+### Return Value {.unnumbered .unlisted}
+
+Returns non-zero for true, and zero for false.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <math.h>
+
+int main(void)
+{
+    printf("  isfinite(1.23): %d\n", isfinite(1.23));    // 1
+    printf(" isinf(1/tan(0)): %d\n", isinf(1/tan(0)));   // 1
+    printf(" isnan(sqrt(-1)): %d\n", isnan(sqrt(-1)));   // 1
+    printf("isnormal(1e-310): %d\n", isnormal(1e-310));  // 0
+}
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`fpclassify()`](#man-fpclassify),
 
 <!-- MARKER -->
 
