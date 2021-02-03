@@ -15,6 +15,42 @@ but these are merely functions that quickly and easily do math you
 either know, want, or just don't care about. That pretty much covers
 it.
 
+## Math Errors
+
+As we know, nothing can ever go wrong with math... except _everything_!
+
+So there are just a couple errors that might occur when using some of
+these functions.
+
+* **Range errors** mean that some result is beyond what can be stored in
+  the result type.
+
+* **Domain errors** mean that you've passed in an argument that doesn't
+  have a defined result for this function.
+
+* **Pole errors** mean that the limit of the function as $x$ approaches
+  the given argument is infinite.
+
+* **Overflow errors** are when the result is really large, but can't be
+  stored without incurring large roundoff error.
+
+* **Underflow errors** are like overflow errors, except with very small
+  numbers.
+
+Now, the C math library can do a couple things when these errors occur
+depending in how we have it configured.
+
+* Set `errno` to some value, or...
+* Raise a floating point exception.
+
+Floating point exceptions are:
+
+* invalid
+* inexact
+* divide by zero
+* overflow
+* underflow
+
 For you trig fans out there, we've got all manner of things,
 including
 [sine](#sin),
@@ -775,6 +811,7 @@ printf("exp(2) = %f\n", exp(2));  // 7.389056
 
 [`exp2()`](#man-exp2),
 [`expm1()`](#man-expm1),
+[`pow()`](#man-pow),
 [`log()`](#man-log)
 
 [[pagebreak]]
@@ -799,9 +836,11 @@ long double exp2l(long double x);
 These functions raise 2 to a power. Very exciting, since computers are
 all about twos-to-powers!
 
-These are likely to be faster than using `exp()` to do the same thing.
+These are likely to be faster than using `pow()` to do the same thing.
 
 They support fractional exponents, as well.
+
+A range error occurs if the result is too large.
 
 ### Return Value {.unnumbered .unlisted}
 
@@ -816,7 +855,8 @@ printf("2^0.5 = %f\n", exp2(0.5));  // 2^0.5 = 1.414214
 ```
 
 ### See Also {.unnumbered .unlisted}
-[`exp()`](#man-exp)
+[`exp()`](#man-exp),
+[`pow()`](#man-pow)
 
 <!-- MARKER -->
 
