@@ -957,7 +957,7 @@ printf("2^0.5 = %f\n", exp2(0.5));  // 2^0.5 = 1.414214
 
 
 [[pagebreak]]
-## `expm1()`, `expm1f()`, `expm1l()` {#man-vprintf}
+## `expm1()`, `expm1f()`, `expm1l()` {#man-expm1}
 
 Compute $e^x-1$.
 
@@ -1025,7 +1025,7 @@ fractional part and exponent part (as a power of 2).
 For example, if you have the number $1234.56$, this can be represented
 as a multiple of a power of 2 like so:
 
-$1234.56=0.6028125\times2^11$ (roughly)
+$1234.56=0.6028125\times2^{11}$
 
 And you can use this function to get the $0.6028125$ and $11$ parts of
 that equation.
