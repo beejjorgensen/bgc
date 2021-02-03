@@ -15,6 +15,31 @@ but these are merely functions that quickly and easily do math you
 either know, want, or just don't care about. That pretty much covers
 it.
 
+## Math Function Idioms
+
+Many of these math functions exist in three forms, each corresponding
+to the argument and/or return types the function uses, `float`,
+`double`, or `long double`.
+
+The alternate form for `float` is made by appending `f` to the end of
+the function name.
+
+The alternate form for `long double` is made by appending `l` to the end
+of the function name.
+
+For example, the `pow()` function, which computes $x^y$, exists in these
+forms:
+
+``` {.c}
+double      pow(double x, double y);             // double
+float       powf(float x, float y);              // float
+long double powl(long double x, long double y);  // long double
+```
+
+Remember that parameters are given values as if you assigned into them.
+So if you pass a `double` into `powf()`, it'll choose the closest
+`float` it can to hold the double. If the `double` doesn't fit,
+undefined behavior happens.
 
 ## Math Types
 
@@ -973,6 +998,83 @@ printf("%f\n", expm1(2.34));  // 9.381237
 ### See Also {.unnumbered .unlisted}
 
 [`exp()`](#man-exp)
+
+
+[[pagebreak]]
+## `frexp()`, `frexpf()`, `frexpl()` {#man-frexp}
+
+Break a number into its fraction part and exponent (as a power of 2)
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <math.h>
+
+double frexp(double value, int *exp);
+
+float frexpf(float value, int *exp);
+
+long double frexpl(long double value, int *exp);
+```
+
+### Description {.unnumbered .unlisted}
+
+If you have a floating point number, you can break it into its
+fractional part and exponent part (as a power of 2).
+
+For example, if you have the number $1234.56$, this can be represented
+as a multiple of a power of 2 like so:
+
+$1234.56=0.6028125\times2^11$ (roughly)
+
+And you can use this function to get the $0.6028125$ and $11$ parts of
+that equation.
+
+As for why, I have a simple answer: I don't know. I can't find a use.
+K&R2 and everyone else I can find just says _how_ to use it, but not
+_why_ you might want to.
+
+The C99 Rationale document says:
+
+> The functions `frexp`, `ldexp`, and `modf` are primitives used by the
+> remainder of the library.
+>
+> There was some sentiment for dropping them for the same reasons that
+> `ecvt`, `fcvt`, and `gcvt` were dropped, but their adherents rescued
+> them for general use. Their use is problematic: on non-binary
+> architectures, ldexp may lose precision and frexp may be inefficient. 
+
+So there you have it. If you need it.
+
+### Return Value {.unnumbered .unlisted}
+
+`frexp()` returns the fractional part of `value` in the range 0.5
+(inclusive) to 1 (exclusive), or 0. And it stores the exponent
+power-of-2 in the variable pointed to by `exp`.
+
+If you pass in zero, the return value and the variable `exp` points to
+are both zero.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+double frac;
+int expt;
+
+frac = frexp(1234.56, &expt);
+printf("1234.56 = %.7f x 2^%d\n", frac, expt);
+```
+
+Output:
+
+```
+1234.56 = 0.6028125 x 2^11
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`ldexp()`](#man-ldexp),
+[`modf()`](#man-modf)
 
 <!-- MARKER -->
 
