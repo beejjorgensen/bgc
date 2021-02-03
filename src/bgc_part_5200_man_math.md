@@ -15,6 +15,33 @@ but these are merely functions that quickly and easily do math you
 either know, want, or just don't care about. That pretty much covers
 it.
 
+
+## Math Types
+
+We have two exciting new types in `<math.h>`:
+
+* `float_t`
+* `double_t`
+
+The `float_t` type is at least as accurate as a `float`, and the
+`double_t` type is at least as accurate as a `double`.
+
+The idea with these types is they can represent the most efficient way
+of storing numbers for maximum speed.
+
+Their actual types vary by implementation, but can be determined by the
+value of the `FLT_EVAL_METHOD` macro.
+
+|`FLT_EVAL_METHOD`|`float_t` type|`double_t` type|
+|-|-|-|
+|`0`|`float`|`double`|
+|`1`|`double`|`double`|
+|`2`|`long double`|`long double`|
+|Other|Implementation-defined|Implementation-defined|
+
+For all defined values of `FLT_EVAL_METHOD`, `float_t` is the
+least-precise type used for all floating calculations.
+
 ## Math Errors
 
 As we know, nothing can ever go wrong with math... except _everything_!
@@ -37,39 +64,28 @@ these functions.
 * **Underflow errors** are like overflow errors, except with very small
   numbers.
 
-Now, the C math library can do a couple things when these errors occur
-depending in how we have it configured.
+Now, the C math library can do a couple things when these errors occur:
 
 * Set `errno` to some value, or...
 * Raise a floating point exception.
 
-Floating point exceptions are:
+Your system might vary on what happens. You can check it by looking at
+the value of the variable `math_errhandling`. It will be equivalent to
+one of the following^[Though the system defines `MATH_ERRNO` as `1` and
+`MATH_ERREXCEPT` as `2`, it's best to always use their symbolic names.
+Just in case.]:
 
-* invalid
-* inexact
-* divide by zero
-* overflow
-* underflow
+|`math_errhandling`|Description|
+|-|-|
+|`MATH_ERRNO`|The system uses `errno` for math errors.|
+|`MATH_ERREXCEPT`|The system uses exceptions for math errors.|
+|`MATH_ERRNO | MATH_ERREXCEPT`|The system does both! (That's a bitwise-OR!)|
 
-For you trig fans out there, we've got all manner of things,
-including
-[sine](#sin),
-[cosine](#cos),
-[tangent](#tan), and, conversely, 
-[arc sine](#asin),
-[arc cosine](#acos), and
-[arc tangent](#atan). That's very exciting.
+You are not allowed to change `math_errhandling`.
 
-And for normal people, there is a slurry of your run-of-the-mill
-functions that will serve your general purpose mathematical needs,
-including
-[absolute value](#abs),
-[hypotenuse length](#hypot),
-[square root](#sqrt),
-[cube root](#cbrt), and
-[power](#pow).
+For a fuller description on how exceptions work and their meanings, see
+the [`<fenv.h>`](#fenv) section.
 
-In short, you're a fricking MATHEMATICAL DEITY!
 
 [[pagebreak]]
 ## `fpclassify()`, {#man-fpclassify}
