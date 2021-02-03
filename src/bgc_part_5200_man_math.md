@@ -773,8 +773,50 @@ printf("exp(2) = %f\n", exp(2));  // 7.389056
 
 ### See Also {.unnumbered .unlisted}
 
+[`exp2()`](#man-exp2),
 [`expm1()`](#man-expm1),
 [`log()`](#man-log)
+
+[[pagebreak]]
+## `exp2()`, `exp2f()`, `exp2l()` {#man-exp2}
+
+Compute 2 to a power.
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <math.h>
+
+double exp2(double x);
+
+float exp2f(float x);
+
+long double exp2l(long double x);
+```
+
+### Description {.unnumbered .unlisted}
+
+These functions raise 2 to a power. Very exciting, since computers are
+all about twos-to-powers!
+
+These are likely to be faster than using `exp()` to do the same thing.
+
+They support fractional exponents, as well.
+
+### Return Value {.unnumbered .unlisted}
+
+`exp2()` returns $2^x$.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+printf("2^3 = %f\n", exp2(3));      // 2^3 = 8.000000
+printf("2^8 = %f\n", exp2(8));      // 2^8 = 256.000000
+printf("2^0.5 = %f\n", exp2(0.5));  // 2^0.5 = 1.414214
+```
+
+### See Also {.unnumbered .unlisted}
+[`exp()`](#man-exp)
 
 <!-- MARKER -->
 
