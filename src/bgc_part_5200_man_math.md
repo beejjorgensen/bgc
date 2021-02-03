@@ -912,7 +912,7 @@ These are likely to be faster than using `pow()` to do the same thing.
 
 They support fractional exponents, as well.
 
-A range error occurs if the result is too large.
+A range error occurs if `x` is too large.
 
 ### Return Value {.unnumbered .unlisted}
 
@@ -929,6 +929,50 @@ printf("2^0.5 = %f\n", exp2(0.5));  // 2^0.5 = 1.414214
 ### See Also {.unnumbered .unlisted}
 [`exp()`](#man-exp),
 [`pow()`](#man-pow)
+
+
+[[pagebreak]]
+## `expm1()`, `expm1f()`, `expm1l()` {#man-vprintf}
+
+Compute $e^x-1$.
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <math.h>
+
+double expm1(double x);
+
+float expm1f(float x);
+
+long double expm1l(long double x);
+```
+
+### Description {.unnumbered .unlisted}
+
+This is just like `exp()` except---_plot twist!_--it computes that
+result minus one.
+
+For more discussion about what $e$ is, see [the `exp()` man
+page](#man-exp).
+
+If `x` is giant, a range error might occur.
+
+For small values of `x` near zero, `expm1(x)` might be more accurate
+than computing `exp(x)-1`.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns $e^x-1$.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+printf("%f\n", expm1(2.34));  // 9.381237
+```
+### See Also {.unnumbered .unlisted}
+
+[`exp()`](#man-exp)
 
 <!-- MARKER -->
 
