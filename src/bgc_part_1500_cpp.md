@@ -775,7 +775,7 @@ Some compilers have a non-standard complementary `#warning` directive
 that will output a warning but not stop compilation, but this is not in
 the C11 spec.
 
-## The `#pragma` Directive
+## The `#pragma` Directive {#pragma}
 
 This is one funky directive, short for "pragmatic". You can use it to
 do... well, anything your compiler supports you doing with it.
