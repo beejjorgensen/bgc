@@ -42,6 +42,13 @@ value of the `FLT_EVAL_METHOD` macro.
 For all defined values of `FLT_EVAL_METHOD`, `float_t` is the
 least-precise type used for all floating calculations.
 
+## Math Macros
+
+There are actually a number of these defined, but we'll cover most of
+them in their relevant reference sections, below.
+
+Except for `NAN`, which represents Not-A-Number.
+
 ## Math Errors
 
 As we know, nothing can ever go wrong with math... except _everything_!
@@ -85,6 +92,55 @@ You are not allowed to change `math_errhandling`.
 
 For a fuller description on how exceptions work and their meanings, see
 the [`<fenv.h>`](#fenv) section.
+
+## Math Pragmas
+
+In case you don't remember, you can brush up on [pragmas back in the C
+Preprocessor section](#pragma).
+
+But in a nutshell, they offer various ways to control the compiler's
+behavior.
+
+In this case, we have a pragma `FP_CONTRACT` that can be turned off and
+on.
+
+What does it mean?
+
+First of all, keep in mind that any operation in an expression can cause
+rounding error. So each step of the expression can introduce more
+rounding error.
+
+But what if the compiler knows a _double secret_ way of taking the
+expression you wrote and converting it to a single instruction that
+reduced the number of steps such that the intermediate rounding error
+didn't occur?
+
+Could it use it? I mean, the results would be different than if you let
+the rounding error settle each step of the way...
+
+Because the results would be different, you can tell the compiler if you
+want to allow it to do this or not.
+
+If you want to allow it:
+
+``` {.c}
+#pragma STDC FP_CONTRACT ON
+```
+
+and to disallow it:
+
+``` {.c}
+#pragma STDC FP_CONTRACT OFF
+```
+
+If you do this at global scope, it stays at whatever state you set it to
+until you change it.
+
+If you do it at block scope, it reverts to the value outside the block
+when the block ends.
+
+The initial value of the `FP_CONTRACT` pragma varies from system to
+system.
 
 
 [[pagebreak]]
