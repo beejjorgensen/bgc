@@ -339,6 +339,11 @@ Just generally remember that int types become float types if there's a
 floating point type anywhere in there, and the compiler makes an effort
 to make sure mixed integer types don't overflow.
 
+Finally, if you convert from one floating point type to another, the
+compiler will try to make an exact conversion. If it can't, it'll do the
+best approximation it can. If the number is too large to fit in the type
+you're converting into, _boom_: undefined behavior!
+
 ### `void*`
 
 The `void*` type is interesting because it can be converted from or to
