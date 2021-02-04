@@ -1151,13 +1151,13 @@ distance between points (x1, y1) and (x2, y2): 40.54
 
 <!--
 [[pagebreak]]
-## `vprintf()`, `vfprintf()`, `vsprintf()`, `vsnprintf()` {#man-vprintf}
+## `example()`, `example()`, `example()` {#man-example}
 
 ### Synopsis {.unnumbered .unlisted}
 ### Description {.unnumbered .unlisted}
 ### Return Value {.unnumbered .unlisted}
 ### Example {.unnumbered .unlisted}
 ### See Also {.unnumbered .unlisted}
-[`sprintf()`](#man-sprintf),
+[`example()`](#man-example),
 -->
 
