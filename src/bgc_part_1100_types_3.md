@@ -110,7 +110,7 @@ convert to more types and more bases, too!
 |`strtol`|String to `long int`|
 |`strtoll`|String to `long long int`|
 |`strtoul`|String to `unsigned long int`|
-|`strtoull`String to `unsigned long long int`||
+|`strtoull`|String to `unsigned long long int`|
 |`strtof`|String to `float`|
 |`strtod`|String to `double`|
 |`strtold`|String to `long double`|
