@@ -1,3 +1,8 @@
 % Create the index
 \usepackage{makeidx}
 \makeindex
+
+% Fix TOC section number spacing
+\usepackage{tocloft}
+\setlength{\cftsecnumwidth}{3em}
+%\setlength\cftsubsecnumwidth{3em}
