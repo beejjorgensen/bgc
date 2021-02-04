@@ -3,7 +3,7 @@
 # vim: ts=4:sw=4:nosi:et:tw=72
 -->
 
-# Mathematics {#math}
+# `<math.h>` Mathematics {#math}
 
 It's your favorite subject: Mathematics! Hello, I'm Doctor Math, and
 I'll be making math FUN and EASY!
