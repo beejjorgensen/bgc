@@ -3,7 +3,7 @@
 # vim: ts=4:sw=4:nosi:et:tw=72
 -->
 
-# Foreward
+# Foreword
 
 No point in wasting words here, folks, let's jump straight into the C
 code:
