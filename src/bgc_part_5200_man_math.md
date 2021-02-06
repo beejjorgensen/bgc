@@ -1183,6 +1183,48 @@ Output:
 
 [`exp()`](#man-exp)
 
+
+[[pagebreak]]
+## `log()`, `logf()`, `logl()` {#man-log}
+
+Compute the natural logarithm
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <math.h>
+
+double log(double x);
+
+float logf(float x);
+
+long double logl(long double x);
+```
+
+### Description {.unnumbered .unlisted}
+
+Natural logarithms! And there was much rejoycing. 
+
+These compute the base-$e$ logarithm of a number. In other words, for a
+given $x$, solves $x=e^y$ for $y$.
+
+### Return Value {.unnumbered .unlisted}
+
+The base-$e$ logarithm of the given value.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+const double e = 2.718281828459045;
+
+printf("%f\n", log(3490.2));  // 8.157714
+printf("%f\n", log(e));       // 1.000000
+```
+
+### See Also {.unnumbered .unlisted}
+
+
+[`example()`](#man-example),
 <!-- MARKER -->
 
 [[pagebreak]]
@@ -1261,10 +1303,21 @@ distance between points (x1, y1) and (x2, y2): 40.54
 ## `example()`, `example()`, `example()` {#man-example}
 
 ### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+```
+
 ### Description {.unnumbered .unlisted}
+
 ### Return Value {.unnumbered .unlisted}
+
 ### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+```
+
 ### See Also {.unnumbered .unlisted}
+
 [`example()`](#man-example),
 -->
 
