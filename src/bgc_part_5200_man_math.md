@@ -1079,7 +1079,7 @@ Output:
 
 
 [[pagebreak]]
-## `ilogb()`, `ilogbf()`, `ilogbl()` {#man-example}
+## `ilogb()`, `ilogbf()`, `ilogbl()` {#man-ilogb}
 
 Return the base-2 exponent of a floating point number.
 
@@ -1138,6 +1138,36 @@ printf("%d\n", ilogb(255));  // 7
 [`frexp()`](#man-frexp),
 [`logb()`](#man-frexp)
 
+
+[[pagebreak]]
+## `ldexp()`, `ldexpf()`, `ldexpl()` {#man-ldexp}
+
+Multiply a number by an integral power of 2.
+
+### Synopsis {.unnumbered .unlisted}
+
+```
+#include <math.h>
+
+double ldexp(double x, int exp);
+
+float ldexpf(float x, int exp);
+
+long double ldexpl(long double x, int exp);
+```
+
+### Description {.unnumbered .unlisted}
+
+These functions multiply the given number `x` by 2 raised to the `exp`
+power.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns $x\times2^{exp}$.
+
+### Example {.unnumbered .unlisted}
+### See Also {.unnumbered .unlisted}
+[`example()`](#man-example),
 <!-- MARKER -->
 
 [[pagebreak]]
