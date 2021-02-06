@@ -1205,12 +1205,13 @@ long double logl(long double x);
 
 Natural logarithms! And there was much rejoycing. 
 
-These compute the base-$e$ logarithm of a number. In other words, for a
-given $x$, solves $x=e^y$ for $y$.
+These compute the base-$e$ logarithm of a number, $\log_ex$.
+
+In other words, for a given $x$, solves $x=e^y$ for $y$.
 
 ### Return Value {.unnumbered .unlisted}
 
-The base-$e$ logarithm of the given value.
+The base-$e$ logarithm of the given value, $\log_ex$.
 
 ### Example {.unnumbered .unlisted}
 
@@ -1222,9 +1223,51 @@ printf("%f\n", log(e));       // 1.000000
 ```
 
 ### See Also {.unnumbered .unlisted}
+[`exp()`](#man-exp),
+[`log10()`](#man-log10)
 
+[[pagebreak]]
+## `log10()`, `log10()`, `log10()` {#man-log10}
 
-[`example()`](#man-example),
+Compute the log-base-10 of a number.
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <math.h>
+
+double log10(double x);
+
+float log10f(float x);
+
+long double log10l(long double x);
+```
+
+### Description {.unnumbered .unlisted}
+
+Just when you thought you might have to use Laws of Logarithms to
+compute this, here's a function coming out of the blue to save you.
+
+These compute the base-$10$ logarithm of a number, $\log_{10}x$.
+
+In other words, for a given $x$, solves $x=10^y$ for $y$.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns the log base-10 of `x`, $\log_{10}x$.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+printf("%f\n", log10(3490.2));   // 3.542850
+printf("%f\n", log10(10));       // 1.000000
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`pow()`](#man-pow),
+[`log()`](#man-log)
+
 <!-- MARKER -->
 
 [[pagebreak]]
