@@ -148,6 +148,12 @@ So if the program is good and writes all its errors to `stderr`, a user
 can redirect just `stderr` into a file, and just see that. It's just a
 nice thing you, as a programmer, can do.
 
+Finally, a lot of these functions return `int` where you might expect
+`char`. This is because the function can return a character _or_
+end-of-file (`EOF`), and `EOF` is potentially an integer. If you don't
+get `EOF` as a return value, you can safely store the result in a
+`char`.
+
 [[pagebreak]]
 
 ## `remove()` {#man-remove}
@@ -2052,32 +2058,47 @@ failure, it returns `EOF`.
 // in a string
 //
 // sample input: !foo#bar*baz
-// output:  return value: '!', s is "foo"
-//          return value: '#', s is "bar"
-//          return value: '*', s is "baz"
+//
+// output:
+//
+// !: foo
+// #: bar
+// *: baz
 //
 
-char read_punctstring(FILE *fp, char *s)
+#include <stdio.h>
+#include <ctype.h>
+
+int read_punctstring(FILE *fp, char *s)
 {
-    char origpunct, c;
+    int origpunct, c;
     
     origpunct = fgetc(fp);
 
-    if (origpunct == EOF) // return EOF on end-of-file
+    if (origpunct == EOF)  // return EOF on end-of-file
         return EOF;
 
-    while(c = fgetc(fp), !ispunct(c) && c != EOF) {
-        *s++ = c; // save it in the string
-    }
-    *s = '\0'; // nul-terminate the string!
+    while (c = fgetc(fp), !ispunct(c) && c != EOF)
+        *s++ = c;  // save it in the string
+
+    *s = '\0'; // nul-terminate the string
 
     // if we read punctuation last, ungetc it so we can fgetc it next
     // time:
     if (ispunct(c))
         ungetc(c, fp);
-    }
 
     return origpunct;
+}
+
+int main(void)
+{
+    char s[128];
+    char c;
+
+    while((c = read_punctstring(stdin, s)) != EOF) {
+        printf("%c: %s\n", c, s);
+    }
 }
 ```
 
