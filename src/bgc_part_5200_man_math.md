@@ -1166,8 +1166,23 @@ power.
 Returns $x\times2^{exp}$.
 
 ### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+printf("1 x 2^10 = %f\n", ldexp(1, 10));
+printf("5.67 x 2^7 = %f\n", ldexp(5.67, 7));
+```
+
+Output:
+
+```
+1 x 2^10 = 1024.000000
+5.67 x 2^7 = 725.760000
+```
+
 ### See Also {.unnumbered .unlisted}
-[`example()`](#man-example),
+
+[`exp()`](#man-exp)
+
 <!-- MARKER -->
 
 [[pagebreak]]
