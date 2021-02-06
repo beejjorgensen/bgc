@@ -1074,7 +1074,69 @@ Output:
 ### See Also {.unnumbered .unlisted}
 
 [`ldexp()`](#man-ldexp),
+[`ilogb()`](#man-ldexp),
 [`modf()`](#man-modf)
+
+
+[[pagebreak]]
+## `ilogb()`, `ilogbf()`, `ilogbl()` {#man-example}
+
+Return the base-2 exponent of a floating point number.
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <math.h>
+
+int ilogb(double x);
+
+int ilogbf(float x);
+
+int ilogbl(long double x);
+```
+
+### Description {.unnumbered .unlisted}
+
+This returns the integer base-2 exponent of the given number. Basically,
+if you pass in $x$, it will return $y$ as an integer where:
+
+$x=2^y$
+
+roughly.
+
+Or, if you're more mathy, it returns the integer portion of:
+
+$\log_2x$
+
+The value of FP_ILOGB0 shall be either INT_MIN or-INT_MAX . The value of
+FP_ILOGBNAN shall be either INT_MAX or INT_MIN.
+
+Domain or range errors might occur for invalid values of `x`, or for
+return values that are outside the range of the return type.
+
+### Return Value {.unnumbered .unlisted}
+
+A truncated integer value $y$ where $x=2^y$. In other words, a truncated
+$\log_2x$.
+
+If you pass in `0`, it'll return `FP_ILOGB0`.
+
+If you pass in infinity, it'll return `INT_MAX`.
+
+If you pass in NaN, it'll return `FP_ILOGBNAN`.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+printf("%d\n", ilogb(257));  // 8
+printf("%d\n", ilogb(256));  // 8
+printf("%d\n", ilogb(255));  // 7
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`frexp()`](#man-frexp),
+[`logb()`](#man-frexp)
 
 <!-- MARKER -->
 
