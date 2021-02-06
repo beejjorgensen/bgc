@@ -412,8 +412,6 @@ only want it visible in a single source file.
 
 ### `register`
 
-Barely anyone uses this anymore.
-
 This is a keyword to hint to the compiler that this variable is
 frequently-used, and should be made as fast as possible to access. The
 compiler is under no obligation to agree to it.
@@ -472,16 +470,22 @@ with:
 warning: ISO C forbids subscripting ‘register’ array
 ```
 
-A bit of backstory, here: deep inside the CPU are little dedicated
-"variables" called [flw[_registers_|Processor_register]]. They are super
-fast to access compared to RAM, so using them gets you a speed boost.
-But they're not in RAM, so they don't have an associated memory address
-(which is why you can't take the address-of or get a pointer to them).
+The fact that you can't take the address of a register variable frees
+the compiler up to make optimizations around that assumption if it
+hasn't figured them out already. Also adding `register` to a `const`
+variable prevents one from accidentally passing its pointer to another
+function that willfully ignore its
+constness^[https://gustedt.wordpress.com/2010/08/17/a-common-misconsception-the-register-keyword/].
+
+A bit of historic backstory, here: deep inside the CPU are little
+dedicated "variables" called [flw[_registers_|Processor_register]]. They
+are super fast to access compared to RAM, so using them gets you a speed
+boost. But they're not in RAM, so they don't have an associated memory
+address (which is why you can't take the address-of or get a pointer to
+them).
 
 But, like I said, modern compilers are really good at producing optimal
 code, using registers whenever possible regardless of whether or not you
 specified the `register` keyword. Not only that, but the spec allows
-them to just treat it as if you'd typed `auto`, if they want.
-
-In short, you probably don't want to even bother with `register`, and
-just let the compiler do what it thinks is best.
+them to just treat it as if you'd typed `auto`, if they want. So no
+guarantees.
