@@ -1205,13 +1205,13 @@ long double logl(long double x);
 
 Natural logarithms! And there was much rejoycing. 
 
-These compute the base-$e$ logarithm of a number, $\log_ex$.
+These compute the base-$e$ logarithm of a number, $\log_ex$, $\ln x$.
 
 In other words, for a given $x$, solves $x=e^y$ for $y$.
 
 ### Return Value {.unnumbered .unlisted}
 
-The base-$e$ logarithm of the given value, $\log_ex$.
+The base-$e$ logarithm of the given value, $\log_ex$, $\ln x$.
 
 ### Example {.unnumbered .unlisted}
 
