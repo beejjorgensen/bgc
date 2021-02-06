@@ -403,7 +403,7 @@ in this case, but there are some limits.
 1. You cannot do pointer arithmetic a `void*`.
 2. You cannot dereference a `void*`.
 3. You cannot use the arrow operator on a `void*`, since it's also a
-   deference.
+   dereference.
 4. You cannot use array notation on a `void*`, since it's also a
    dereference, as well^[Because remember that array notation is just a
    dereference and some pointer math, and you can't dereference a
