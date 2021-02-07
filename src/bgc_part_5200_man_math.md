@@ -1101,7 +1101,7 @@ This gives you the exponent of the given number... it's a little weird,
 because the exponent depends on the value of `FLT_RADIX`. Now, this is
 very often `2`, making this a $\log_2x$ function, usually.
 
-It actually returns $\log_{FLT_RADIX}|x|$.
+It actually returns $\log_r|x|$ where $r$ is `FLT_RADIX`.
 
 Domain or range errors might occur for invalid values of `x`, or for
 return values that are outside the range of the return type.
@@ -1111,7 +1111,7 @@ return values that are outside the range of the return type.
 The exponent of the absolute value of the given number, depending on
 `FLT_RADIX`. 
 
-Specifically $\log_{FLT_RADIX}|x|$.
+Specifically $\log_r|x|$ where $r$ is `FLT_RADIX`.
 
 If you pass in `0`, it'll return `FP_ILOGB0`.
 
