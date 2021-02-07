@@ -1330,6 +1330,49 @@ Small log()  : 0.00995033085316809164
 
 [`log()`](#man-log)
 
+
+[[pagebreak]]
+## `log2()`, `log2f()`, `log2l()` {#man-log2}
+
+Compute the base-2 logarithm of a number.
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <math.h>
+
+double log2(double x);
+
+float log2f(float x);
+
+long double log2l(long double x);
+```
+
+### Description {.unnumbered .unlisted}
+
+Wow! Were you thinking we were done with the logarithm functions? We're
+only getting started!
+
+This one computes $\log_2 x$. That is, computes $y$ that satisfies
+$x=2^y$.
+
+Love me those powers of 2!
+
+### Return Value {.unnumbered .unlisted}
+
+Returns the base-2 logarithm of the given value, $\log_2 x$.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+printf("%f\n", log2(3490.2));  // 11.769094
+printf("%f\n", log2(256));     // 8.000000
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`log()`](#man-log)
+
 <!-- MARKER -->
 
 [[pagebreak]]
