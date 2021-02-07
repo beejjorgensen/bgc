@@ -72,7 +72,12 @@ least-precise type used for all floating calculations.
 There are actually a number of these defined, but we'll cover most of
 them in their relevant reference sections, below.
 
-Except for `NAN`, which represents Not-A-Number.
+But here are a couple:
+
+`NAN` represents Not-A-Number.
+
+Defined in `<float.h>` is `FLT_RADIX`: the number base used by floating
+point numbers. This is commonly `2`, but could be anything.
 
 ## Math Errors
 
@@ -1502,6 +1507,88 @@ Fractional part: -0.456000
 ### See Also {.unnumbered .unlisted}
 
 [`frexp()`](#man-frexp)
+
+[[pagebreak]]
+## `example()`, `example()`, `example()` {#man-example}
+
+Efficiently compute $x\timesr^n$, where $r$ is `FLT_RADIX`.
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <math.h>
+
+double scalbn(double x, int n);
+
+float scalbnf(float x, int n);
+
+long double scalbnl(long double x, int n);
+
+double scalbln(double x, long int n);
+
+float scalblnf(float x, long int n);
+
+long double scalblnl(long double x, long int n);
+```
+
+### Description {.unnumbered .unlisted}
+These functions efficiently compute $x\timesr^n$, where $r$ is
+`FLT_RADIX`.
+
+If `FLT_RADIX` happens to be `2` (no guarantees!), then this works like
+[`exp2()`](#man-exp2).
+
+The name of this function should have an obvious meaning to you. Clearly
+they all start with the prefix "scalb" which means...
+
+...OK, I confess! I have no idea what it means. My searches are futile!
+
+But let's look at the suffixes:
+
+|Suffix|Meaning|
+|-|-|
+|`n`|`scalbn()`---exponent `n` is an `int`|
+|`nf`|`scalbnf()`---`float` version of `scalbn()`|
+|`nl`|`scalbnl()`---`long double` version of `scalbn()`|
+|`ln`|`scalbln()`---exponent `n` is a `long int`|
+|`lnf`|`scalblnf()`---`float` version of `scalbln()`|
+|`lnl`|`scalblnl()`---`long double` version of `scalbln()`|
+
+So while I'm still in the dark about "scalb", at least I have that part
+down.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns $x\timesr^n$, where $r$ is `FLT_RADIX`.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <math.h>
+#include <float.h>
+
+int main(void)
+{
+    printf("FLT_RADIX = %d\n\n", FLT_RADIX);
+    printf("scalbn(3, 8)       = %f\n", scalbn(2, 8));
+    printf("scalbn(10.2, 20.7) = %f\n", scalbn(10.2, 20.7));
+}
+```
+
+Output on my system:
+
+```
+FLT_RADIX = 2
+
+scalbn(3, 8)       = 512.000000
+scalbn(10.2, 20.7) = 10695475.200000
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`exp2()`](#man-exp2),
+[`pow()`](#man-pow)
 
 <!-- MARKER -->
 
