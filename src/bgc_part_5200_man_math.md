@@ -1978,7 +1978,7 @@ long double lgammal(long double x);
 ### Description {.unnumbered .unlisted}
 
 Compute the natural log of the absolute value of
-[flw[gamma|Gamma_function]] `x`, $\Gamma(x)$.
+[flw[gamma|Gamma_function]] `x`, $\log_e|\Gamma(x)|$.
 
 A range error can occur if `x` is too large.
 
