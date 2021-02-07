@@ -370,10 +370,8 @@ including you), but bear with me while we figure it out.
 ### How Many Decimal Digits?
 
 The million dollar question is, "How many significant decimal digits can
-I store in a given floating point type before the floating point
-precision runs out?"
-
-But it's not quite so easy to answer. So we'll do it in two ways.
+I store in a given floating point type so that I get out the same
+decimal number when I print it?"
 
 The number of decimal digits you can store in a floating point type and
 surely get the same number back out when you print it is given by these
@@ -386,9 +384,9 @@ macros:
 |`long double`|`LDBL_DIG`|10|18|
 
 On my system, `FLT_DIG` is 6, so I can be sure that if I print out a 6
-digit `float`, I'll get the same thing back. (It could be more---some
-numbers will come back correctly with more digits. But 6 is definitely
-coming back.)
+digit `float`, I'll get the same thing back. (It could be more
+digits---some numbers will come back correctly with more digits. But 6
+is definitely coming back.)
 
 For example, printing out `float`s following this pattern of increasing
 digits, we apparently make it to 8 digits before something goes wrong,
@@ -453,26 +451,82 @@ So that's the story. `FLT_DIG`. The End.
 
 ### Converting to Decimal and Back
 
-But storing a base 10 number in a floating point number is only half the
-story.
+But storing a base 10 number in a floating point number and getting it
+back out is only half the story.
 
-What about when you print out a floating point number? How many digits
-can you print?
+Turns out floating point numbers can encode numbers that require more
+decimal places to print out completely. It's just that your big decimal
+number might not map to one of those numbers.
 
-You might think it would be the same as the number you can store, but
-it's not^[Or at least, it's probably not---if you store floating point
-numbers in base 2.]!
+That is, when you look at floating point numbers from one to the next,
+there's a gap. If you try to encode a decimal number in that gap, it'll
+use the closest floating point number. That's why you can only encode
+`FLT_DIG` for a `float`.
 
-But recall that you might have more decimal digits than `FLT_DIG`
-encoded correctly in the number. In order to make sure you're printed
-them all out, you can 
-Of course, if you store the number `3.14f` in a `float`, you can't
-expect to print out more than 2 decimal places and get sensible results.
-But `FLT_DIG` (if 6) says that you can't store more digits than
-`3.14159f` and be sure of getting it stored successfully.
+But what about those floating point numbers that _aren't_ in the gap?
+How many places do you need to print those out accurately?
 
-But what if you did some math on a floating point number? Can you get
-more precision?
+Another way to phrase this question is for any given floating point
+number, how many decimal digits do I have to preserve if I want to
+convert the decimal number back into an identical floating point number?
+That is, how many digits do I have to print in base 10 to recover
+**all** the digits in base 2 in the original number?
+
+Sometimes it might only be a few. But to be sure, you'll want to convert
+to decimal with a certain safe number of decimal places. That number is
+encoded in the following macros:
+
+|Macro|Description|
+|-|-|
+|`FLT_DECIMAL_DIG`|Number of decimal digits encoded in a `float`.|
+|`DBL_DECIMAL_DIG`|Number of decimal digits encoded in a `double`.|
+|`LDBL_DECIMAL_DIG`|Number of decimal digits encoded in a `long double`.|
+|`DECIMAL_DIG`|Same as the widest encoding, `LDBL_DECIMAL_DIG`.|
+
+Let's see an example where `DBL_DIG` is 15 (so that's all we can have in
+a constant), but `DBL_DECIMAL_DIG` is 17 (so we have to convert to 17
+decimal numbers to preserve all the bits of the original `double`).
+
+Let's assign the 15 significant digit number `0.123456789012345` to `x`,
+and let's assign the 1 significant digit number `0.0000000000000006` to
+`y`.
+
+```
+x is exact: 0.12345678901234500    Printed to 17 decimal places
+y is exact: 0.00000000000000060
+```
+
+But let's add them together. This should give `0.1234567890123456`, but
+that's more than `DBL_DIG`, so strange things might happen... let's
+look:
+
+```
+x + y not quite right: 0.12345678901234559    Should end in 4560!
+```
+
+That's what we get for printing more than `DBL_DIG`, right? But check
+this out... that number, above, is exactly representable as it is!
+
+If we assign `0.12345678901234559` (17 digits) to `z` and print it, we
+get:
+
+```
+z is exact: 0.12345678901234559   17 digits correct! More than DBL_DIG!
+```
+
+If we'd truncated `z` down to 15 digits, it wouldn't have been the same
+number. That's why to preserve all the bits of a `double`, we need
+`DBL_DECIMAL_DIG` and not just the lesser `DBL_DIG`.
+
+All that being said, it's clear that when we're messing with decimal
+numbers in general, it's not safe to print more than `FLT_DIG`,
+`DBL_DIG`, or `LDBL_DIG` digits to be sensible in relation to the
+original base 10 numbers and any subsequent math.
+
+But when converting from `float` to a decimal representation and _back_
+to `float`, definitely use `FLT_DECIMAL_DIG` to do that so that all the
+bits are preserved exactly.
+
 
 ## Constant Numeric Types
 
