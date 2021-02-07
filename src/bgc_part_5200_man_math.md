@@ -1424,6 +1424,85 @@ FLT_RADIX = 2
 
 [`ilogb()`](#man-ilogb)
 
+
+[[pagebreak]]
+## `modf()`, `modff()`, `modfl()` {#man-modf}
+
+Extract the integral and fractional parts of a number.
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <math.h>
+
+double modf(double value, double *iptr);
+
+float modff(float value, float *iptr);
+
+long double modfl(long double value, long double *iptr);
+```
+
+### Description {.unnumbered .unlisted}
+
+If you have a floating point number, like `123.456`, this function will
+extract the integral part (`123.0`) and the fractional part (`0.456`).
+It's total coincidence that this is exactly the plot for the latest
+Jason Statham action spectacular.
+
+Both the integral part and fractional parts keep the sign of the passed
+in `value`.
+
+The integral part is stored in the address pointed to by `iptr`.
+
+See the note in [`frexp()`](#man-frexp) regarding why this is in the
+library.
+
+### Return Value {.unnumbered .unlisted}
+
+These functions return the fractional part of the number. The integral
+part is stored in the address pointed to by `iptr`. Both the integral
+and fractional parts preserve the sign of the passed-in `value`.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <math.h>
+
+void print_parts(double x)
+{
+    double i, f;
+
+    f = modf(x, &i);
+
+    printf("Entire number  : %f\n", x);
+    printf("Integral part  : %f\n", i);
+    printf("Fractional part: %f\n\n", f);
+}
+
+int main(void)
+{
+    print_parts(123.456);
+    print_parts(-123.456);
+}
+```
+
+Output:
+
+```
+Entire number  : 123.456000
+Integral part  : 123.000000
+Fractional part: 0.456000
+
+Entire number  : -123.456000
+Integral part  : -123.000000
+Fractional part: -0.456000
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`frexp()`](#man-frexp)
+
 <!-- MARKER -->
 
 [[pagebreak]]
