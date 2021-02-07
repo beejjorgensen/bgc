@@ -1224,10 +1224,11 @@ printf("%f\n", log(e));       // 1.000000
 
 ### See Also {.unnumbered .unlisted}
 [`exp()`](#man-exp),
-[`log10()`](#man-log10)
+[`log10()`](#man-log10),
+[`logp1()`](#man-log10)
 
 [[pagebreak]]
-## `log10()`, `log10()`, `log10()` {#man-log10}
+## `log10()`, `log10f()`, `log10l()` {#man-log10}
 
 Compute the log-base-10 of a number.
 
@@ -1266,6 +1267,67 @@ printf("%f\n", log10(10));       // 1.000000
 ### See Also {.unnumbered .unlisted}
 
 [`pow()`](#man-pow),
+[`log()`](#man-log)
+
+[[pagebreak]]
+## `logp1()`, `logp1f()`, `logp1l()` {#man-logp1}
+
+Compute the natural logarithm of a number plus 1.
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <math.h>
+
+double log1p(double x);
+
+float log1pf(float x);
+
+long double log1pl(long double x);
+```
+
+### Description {.unnumbered .unlisted}
+
+This computes $\log_e(1 + x)$, $\ln(1+x)$.
+
+This works just like calling:
+
+``` {.c}
+log(1 + x)
+```
+
+except it could be more accurate for small values of `x`.
+
+So if your `x` is small magnitude, use this.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns $\log_e(1 + x)$, $\ln(1+x)$.
+
+### Example {.unnumbered .unlisted}
+
+Compute some big and small logarithm values to see the difference
+between `log1p()` and `log()`:
+
+``` {.c .numberLines}
+printf("Big log1p()  : %.*Lf\n", LDBL_DECIMAL_DIG-1, log1pl(9));
+printf("Big log()    : %.*Lf\n", LDBL_DECIMAL_DIG-1, logl(1 + 9));
+
+printf("Small log1p(): %.*Lf\n", LDBL_DECIMAL_DIG-1, log1pl(0.01));
+printf("Small log()  : %.*Lf\n", LDBL_DECIMAL_DIG-1, logl(1 + 0.01));
+```
+
+Output on my system:
+
+```
+Big log1p()  : 2.30258509299404568403
+Big log()    : 2.30258509299404568403
+Small log1p(): 0.00995033085316808305
+Small log()  : 0.00995033085316809164
+```
+
+### See Also {.unnumbered .unlisted}
+
 [`log()`](#man-log)
 
 <!-- MARKER -->
