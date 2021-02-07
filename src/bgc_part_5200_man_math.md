@@ -1703,12 +1703,12 @@ If you know the lengths of the two sides of a right triangle, `x` and
 side) with this function.
 
 In particular, it computes the square root of the sum of the squares of
-the sides: $\sqrt{x^2 + y^2}$
+the sides: $\sqrt{x^2 + y^2}$.
 
 ### Return Value {.unnumbered .unlisted}
 
 Returns the lenght of the hypotenuse of a right triangle with side
-lengths `x` and `y`: $\sqrt{x^2 + y^2}$
+lengths `x` and `y`: $\sqrt{x^2 + y^2}$.
 
 ### Example {.unnumbered .unlisted}
 
@@ -1720,7 +1720,56 @@ printf("%f\n", hypot(3, 4));  // 5.000000
 
 [`sqrt()`](#man-sqrt)
 
-<!-- MARKER -->
+[[pagebreak]]
+## `pow()`, `powf()`, `powl()` {#man-pow}
+
+Compute a value raised to a power.
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <math.h>
+
+double pow(double x, double y);
+
+float powf(float x, float y);
+
+long double powl(long double x, long double y);
+```
+
+### Description {.unnumbered .unlisted}
+
+Computes `x` raised to the `y`th power: $x^y$.
+
+These arguments can be fractional.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns `x` raised to the `y`th power: $x^y$.
+
+A domain error can occur if:
+
+* `x` is a finite negative number and `y` is a finite non-integer
+* `x` is zero and `y` is zero.
+
+A domain error or pole error can occur if `x` is zero and `y` is
+negative.
+
+A range error can occur for large values.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+printf("%f\n", pow(3, 4));    // 3^4    = 81.000000
+printf("%f\n", pow(2, 0.5));  // sqrt 2 = 1.414214
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`exp()`](#man-exp),
+[`exp2()`](#man-exp2),
+[`sqrt()`](#man-sqrt),
+[`cbrt()`](#man-cbrt)
 
 [[pagebreak]]
 ## `sqrt()` {#man-sqrt}
@@ -1733,16 +1782,18 @@ Calculate the square root of a number
 #include <math.h>
 
 double sqrt(double x);
+
 float sqrtf(float x);
+
 long double sqrtl(long double x);
 ```
 
 ### Description {.unnumbered .unlisted}
 
-Computes the square root of a number. To those of you who don't know
-what a square root is, I'm not going to explain. Suffice it to say, the
-square root of a number delivers a value that when squared (multiplied
-by itself) results in the original number.
+Computes the square root of a number: $\sqrt{x}$. To those of you who
+don't know what a square root is, I'm not going to explain. Suffice it
+to say, the square root of a number delivers a value that when squared
+(multiplied by itself) results in the original number.
 
 Ok, fine---I did explain it after all, but only because I wanted
 to show off. It's not like I'm giving you examples or anything, such as
@@ -1755,13 +1806,12 @@ well. You can see the usual trio of functions here---they all
 compute square root, but they take different types as arguments. Pretty
 straightforward, really.
 
+A domain error occurs if `x` is negative.
+
 ### Return Value {.unnumbered .unlisted}
 
 Returns (and I know this must be something of a surprise to you) the
-square root of `x`. If you try to be smart and pass a negative
-number in for `x`, the global variable `errno` will be
-set to `EDOM` (which stands for DOMain Error, not some kind of
-cheese.)
+square root of `x`: $\sqrt{x}$.
 
 ### Example {.unnumbered .unlisted}
 
@@ -1784,14 +1834,15 @@ printf("distance between points (x1, y1) and (x2, y2): %.2f\n",
 
 And the output is:
 
-```shell
+```
 square root of 10 is 3.16
 distance between points (x1, y1) and (x2, y2): 40.54
 ```
 
 ### See Also {.unnumbered .unlisted}
 
-[`hypot()`](#man-tan)
+[`hypot()`](#man-hypot),
+[`pow()`](#man-pow)
 
 <!--
 [[pagebreak]]
