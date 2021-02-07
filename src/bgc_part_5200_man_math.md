@@ -1509,9 +1509,9 @@ Fractional part: -0.456000
 [`frexp()`](#man-frexp)
 
 [[pagebreak]]
-## `example()`, `example()`, `example()` {#man-example}
+## `scalbn()`, `scalbnf()`, `scalbnl()` `scalbln()`, `scalblnf()`, `scalblnl()` {#man-scalb}
 
-Efficiently compute $x\timesr^n$, where $r$ is `FLT_RADIX`.
+Efficiently compute $x\times r^n$, where $r$ is `FLT_RADIX`.
 
 ### Synopsis {.unnumbered .unlisted}
 
@@ -1532,7 +1532,7 @@ long double scalblnl(long double x, long int n);
 ```
 
 ### Description {.unnumbered .unlisted}
-These functions efficiently compute $x\timesr^n$, where $r$ is
+These functions efficiently compute $x\times r^n$, where $r$ is
 `FLT_RADIX`.
 
 If `FLT_RADIX` happens to be `2` (no guarantees!), then this works like
@@ -1557,9 +1557,11 @@ But let's look at the suffixes:
 So while I'm still in the dark about "scalb", at least I have that part
 down.
 
+A range error might occur for large values.
+
 ### Return Value {.unnumbered .unlisted}
 
-Returns $x\timesr^n$, where $r$ is `FLT_RADIX`.
+Returns $x\times r^n$, where $r$ is `FLT_RADIX`.
 
 ### Example {.unnumbered .unlisted}
 
@@ -1589,6 +1591,134 @@ scalbn(10.2, 20.7) = 10695475.200000
 
 [`exp2()`](#man-exp2),
 [`pow()`](#man-pow)
+
+
+[[pagebreak]]
+## `cbrt()`, `cbrtf()`, `cbrtl()` {#man-cbrt}
+
+Compute the cube root
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <math.h>
+
+double cbrt(double x);
+
+float cbrtf(float x);
+
+long double cbrtl(long double x);
+```
+
+### Description {.unnumbered .unlisted}
+
+Computes the cube root of `x`, $x^{1/3}$, $\sqrt[3]{x}$.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns the cube root of `x`, $x^{1/3}$, $\sqrt[3]{x}$.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+printf("cbrt(1729.03) = %f\n", cbrt(1729.03));
+```
+
+Output:
+
+```
+cbrt(1729.03) = 12.002384
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`sqrt()`](#man-sqrt),
+[`pow()`](#man-pow)
+
+[[pagebreak]]
+## `fabs()`, `fabsf()`, `fabsl()` {#man-fabs}
+
+Compute the absolute value
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <math.h>
+
+double fabs(double x);
+
+float fabsf(float x);
+
+long double fabsl(long double x);
+```
+
+### Description {.unnumbered .unlisted}
+
+These functions straightforwardly return the absolute value of `x`, that
+is $|x|$.
+
+If you're rusty on your absolute values, all it means is that the result
+will be positive, even if `x` is negative. It's just strips negative
+signs off.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns the absolute value of `x`, $|x|$.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+printf("fabs(3490.0)  = %f\n", fabs(3490.0));  // 3490.000000
+printf("fabs(-3490.0) = %f\n", fabs(3490.0));  // 3490.000000
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`copysign()`](#man-copysign)
+
+[[pagebreak]]
+## `hypot()`, `hypotf()`, `hypotl()` {#man-hypot}
+
+Compute the length of the hypotenuse of a triangle
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <math.h>
+
+double hypot(double x, double y);
+
+float hypotf(float x, float y);
+
+long double hypotl(long double x, long double y);
+```
+
+### Description {.unnumbered .unlisted}
+
+[flw[Pythagorean Theorem|Pythagorean_theorem]] fans rejoice! This is the
+function you've been waiting for!
+
+If you know the lengths of the two sides of a right triangle, `x` and
+`y`, you can compute the length of the hypotenuse (the longest, diagonal
+side) with this function.
+
+In particular, it computes the square root of the sum of the squares of
+the sides: $\sqrt{x^2 + y^2}$
+
+### Return Value {.unnumbered .unlisted}
+
+Returns the lenght of the hypotenuse of a right triangle with side
+lengths `x` and `y`: $\sqrt{x^2 + y^2}$
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+printf("%f\n", hypot(3, 4));  // 5.000000
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`sqrt()`](#man-sqrt)
 
 <!-- MARKER -->
 
