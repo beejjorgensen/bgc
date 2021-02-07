@@ -1154,7 +1154,7 @@ more!
 |:--:|--------------------------|
 |`-`|For a field width, left justify in the field (right is default).|
 |`+`|If the number is signed, always prefix a `+` or `-` on the front.|
-|` `|(Space.) If the number is signed, prefix a space for positive, or a `-` for negative.|
+|[SPACE]|If the number is signed, prefix a space for positive, or a `-` for negative.|
 |`0`|Pad the right-justified field with leading zeros instead of leading spaces.
 |`#`|Print using an alternate form. See below.|
 
