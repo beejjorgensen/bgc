@@ -1099,7 +1099,7 @@ int ilogbl(long double x);
 
 This gives you the exponent of the given number... it's a little weird,
 because the exponent depends on the value of `FLT_RADIX`. Now, this is
-very often `2`, making this a $\log_2x$ function, usually.
+very often `2`---but no guarantees!
 
 It actually returns $\log_r|x|$ where $r$ is `FLT_RADIX`.
 
@@ -1134,7 +1134,7 @@ printf("%d\n", ilogb(255));  // 7
 ### See Also {.unnumbered .unlisted}
 
 [`frexp()`](#man-frexp),
-[`logb()`](#man-frexp)
+[`logb()`](#man-logb)
 
 
 [[pagebreak]]
@@ -1370,6 +1370,59 @@ printf("%f\n", log2(256));     // 8.000000
 ### See Also {.unnumbered .unlisted}
 
 [`log()`](#man-log)
+
+[[pagebreak]]
+## `logb()`, `logbf()`, `logbl()` {#man-logb}
+
+Extract the exponent of a number given `FLT_RADIX`
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <math.h>
+
+double logb(double x);
+
+float logbf(float x);
+
+long double logbl(long double x);
+```
+
+### Description {.unnumbered .unlisted}
+
+This function returns the whole number portion of the exponent of the
+number with radix `FLT_RADIX`, namely the whole number portion
+$\log_r|x|$ where $r$ is `FLT_RADIX`. Fractional numbers are truncated.
+
+If the number is [flw[subnormal|Denormal_number]], `logb()` treats it as
+if it were normalized.
+
+If `x` is `0`, there could be a domain error or pole error.
+
+### Return Value {.unnumbered .unlisted}
+
+This function returns the whole number portion of $\log_r|x|$ where $r$
+is `FLT_RADIX`.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+printf("FLT_RADIX = %d\n", FLT_RADIX);
+printf("%f\n", logb(3490.2));
+printf("%f\n", logb(256));
+```
+
+Output:
+
+```
+FLT_RADIX = 2
+11.000000
+8.000000
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`ilogb()`](#man-ilogb)
 
 <!-- MARKER -->
 
