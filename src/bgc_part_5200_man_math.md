@@ -1958,6 +1958,113 @@ Output:
 
 [`erf()`](#man-erf)
 
+[[pagebreak]]
+## `lgamma()`, `lgammaf()`, `lgammal()` {#man-lgamma}
+
+Compute the natural logarithm of the absolute value of $\Gamma(x)$
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <math.h>
+
+double lgamma(double x);
+
+float lgammaf(float x);
+
+long double lgammal(long double x);
+```
+
+### Description {.unnumbered .unlisted}
+
+Compute the natural log of the absolute value of
+[flw[gamma|Gamma_function]] `x`, $\Gamma(x)$.
+
+A range error can occur if `x` is too large.
+
+A pole error can occur is `x` is non-positive.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns $\log_e|\Gamma(x)|$.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+for (float i = 0.5; i <= 4; i += 0.5)
+    printf("%.1f: %f\n", i, lgamma(i));
+```
+
+Output:
+
+```
+0.5: 0.572365
+1.0: 0.000000
+1.5: -0.120782
+2.0: 0.000000
+2.5: 0.284683
+3.0: 0.693147
+3.5: 1.200974
+4.0: 1.791759
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`tgamma()`](#man-tgamma)
+
+[[pagebreak]]
+## `tgamma()`, `tgammaf()`, `tgammal()` {#man-tgamma}
+
+Compute the gamma function, $\Gamma(x)$
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <math.h>
+
+double tgamma(double x);
+
+float tgammaf(float x);
+
+long double tgammal(long double x);
+```
+
+### Description {.unnumbered .unlisted}
+
+Computes the [flw[gamma function|Gamma_function]] of `x`, $\Gamma(x)$.
+
+A domain or pole error might occur if `x` is non-positive.
+
+A range error might occur if `x` is too large or too small.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns the gamma function of `x`, $\Gamma(x)$.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+for (float i = 0.5; i <= 4; i += 0.5)
+    printf("%.1f: %f\n", i, tgamma(i));
+```
+
+Output:
+
+```
+0.5: 1.772454
+1.0: 1.000000
+1.5: 0.886227
+2.0: 1.000000
+2.5: 1.329340
+3.0: 2.000000
+3.5: 3.323351
+4.0: 6.000000
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`lgamma()`](#man-lgamma)
+
 <!--
 [[pagebreak]]
 ## `example()`, `example()`, `example()` {#man-example}
