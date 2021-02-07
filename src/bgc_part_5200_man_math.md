@@ -1081,7 +1081,7 @@ Output:
 [[pagebreak]]
 ## `ilogb()`, `ilogbf()`, `ilogbl()` {#man-ilogb}
 
-Return the base-2 exponent of a floating point number.
+Return the exponent of a floating point number.
 
 ### Synopsis {.unnumbered .unlisted}
 
@@ -1097,33 +1097,31 @@ int ilogbl(long double x);
 
 ### Description {.unnumbered .unlisted}
 
-This returns the integer base-2 exponent of the given number. Basically,
-if you pass in $x$, it will return $y$ as an integer where:
+This gives you the exponent of the given number... it's a little weird,
+because the exponent depends on the value of `FLT_RADIX`. Now, this is
+very often `2`, making this a $\log_2x$ function, usually.
 
-$x=2^y$
-
-roughly.
-
-Or, if you're more mathy, it returns the integer portion of:
-
-$\log_2x$
-
-The value of FP_ILOGB0 shall be either INT_MIN or-INT_MAX . The value of
-FP_ILOGBNAN shall be either INT_MAX or INT_MIN.
+It actually returns $\log_{FLT_RADIX}|x|$.
 
 Domain or range errors might occur for invalid values of `x`, or for
 return values that are outside the range of the return type.
 
 ### Return Value {.unnumbered .unlisted}
 
-A truncated integer value $y$ where $x=2^y$. In other words, a truncated
-$\log_2x$.
+The exponent of the absolute value of the given number, depending on
+`FLT_RADIX`. 
+
+Specifically $\log_{FLT_RADIX}|x|$.
 
 If you pass in `0`, it'll return `FP_ILOGB0`.
 
 If you pass in infinity, it'll return `INT_MAX`.
 
 If you pass in NaN, it'll return `FP_ILOGBNAN`.
+
+The spec goes on to say that the value of `FP_ILOGB0` will be either
+`INT_MIN` or `-INT_MAX`. And the value of `FP_ILOGBNAN` shall be either
+`INT_MAX` or `INT_MIN`, if that's useful in any way.
 
 ### Example {.unnumbered .unlisted}
 
