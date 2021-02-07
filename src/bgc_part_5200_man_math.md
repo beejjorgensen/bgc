@@ -1844,6 +1844,59 @@ distance between points (x1, y1) and (x2, y2): 40.54
 [`hypot()`](#man-hypot),
 [`pow()`](#man-pow)
 
+[[pagebreak]]
+## `erf()`, `erff()`, `erfl()` {#man-erf}
+
+Compute the error function of the given value
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <math.h>
+
+double erfc(double x);
+
+float erfcf(float x);
+
+long double erfcl(long double x);
+```
+
+### Description {.unnumbered .unlisted}
+
+These functions compute the [flw[error function|Error_function]] of a
+value.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns the error function of `x`:
+
+${\displaystyle \frac{2}{\sqrt\pi} \int_0^x e^{-t^2}\,dt}$
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+for (float i = -2; i <= 2; i += 0.5)
+    printf("% .1f: %f\n", i, erf(i));
+```
+
+Output:
+
+```
+-2.0: -0.995322
+-1.5: -0.966105
+-1.0: -0.842701
+-0.5: -0.520500
+ 0.0: 0.000000
+ 0.5: 0.520500
+ 1.0: 0.842701
+ 1.5: 0.966105
+ 2.0: 0.995322
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`erfc()`](#man-erfc)
+
 <!--
 [[pagebreak]]
 ## `example()`, `example()`, `example()` {#man-example}
