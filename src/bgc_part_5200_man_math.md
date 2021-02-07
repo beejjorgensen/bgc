@@ -1897,6 +1897,67 @@ Output:
 
 [`erfc()`](#man-erfc)
 
+[[pagebreak]]
+## `erfc()`, `erfcf()`, `erfcl()` {#man-erfc}
+
+Compute the complementary error function of a value.
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <math.h>
+
+double erfc(double x);
+
+float erfcf(float x);
+
+long double erfcl(long double x);
+```
+
+### Description {.unnumbered .unlisted}
+
+These functions compute the [flw[complementary error
+function|Error_function]] of a value.
+
+This is the same as:
+
+``` {.c
+1 - erf(x)
+```
+
+A range error can occur if `x` is too large.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns `1 - erf(x)`, namely:
+
+${\displaystyle \frac{2}{\sqrt\pi} \int_x^{\infty} e^{-t^2}\,dt}$
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+for (float i = -2; i <= 2; i += 0.5)
+    printf("% .1f: %f\n", i, erfc(i));
+```
+
+Output:
+
+```
+-2.0: 1.995322
+-1.5: 1.966105
+-1.0: 1.842701
+-0.5: 1.520500
+ 0.0: 1.000000
+ 0.5: 0.479500
+ 1.0: 0.157299
+ 1.5: 0.033895
+ 2.0: 0.004678
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`erf()`](#man-erf)
+
 <!--
 [[pagebreak]]
 ## `example()`, `example()`, `example()` {#man-example}
