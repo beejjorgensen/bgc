@@ -2065,6 +2065,56 @@ Output:
 
 [`lgamma()`](#man-lgamma)
 
+[[pagebreak]]
+## `ceil()`, `ceilf()`, `ceill()` {#man-ceil}
+
+Ceiling---return the next whole number not smaller than the given number
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <math.h>
+
+double ceil(double x);
+
+float ceilf(float x);
+
+long double ceill(long double x);
+```
+
+### Description {.unnumbered .unlisted}
+
+Returns the ceiling of the `x`: $\lceil{x}\rceil$.
+
+This is the next whole number not smaller than `x`.
+
+Beware this minor dragon: it's not just "rounding up". Well, it is for
+positive numbers, but negative numbers effectively round toward zero.
+(Because the ceiling function is headed for the next largest whole
+number and $-4$ is larger than $-5$.)
+
+### Return Value {.unnumbered .unlisted}
+
+Returns the next largest whole number larger than `x`.
+
+### Example {.unnumbered .unlisted}
+
+Notice for the negative numbers it heads toward zero, i.e. toward the
+next largest whole number---just like the positives head toward the next
+largest whole number.
+
+``` {.c .numberLines}
+printf("%f\n", ceil(4.0));   //  4.000000
+printf("%f\n", ceil(4.1));   //  5.000000
+printf("%f\n", ceil(-2.0));  // -2.000000
+printf("%f\n", ceil(-2.1));  // -2.000000
+printf("%f\n", ceil(-3.1));  // -3.000000
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`floor()`](#man-floor),
+
 <!--
 [[pagebreak]]
 ## `example()`, `example()`, `example()` {#man-example}
