@@ -2114,6 +2114,58 @@ printf("%f\n", ceil(-3.1));  // -3.000000
 ### See Also {.unnumbered .unlisted}
 
 [`floor()`](#man-floor),
+[`round()`](#man-round)
+
+[[pagebreak]]
+## `floor()`, `floorf()`, `floorl()` {#man-floor}
+
+Compute the largest whole number not larger than the given value.
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <math.h>
+double floor(double x);
+float floorf(float x);
+long double floorl(long double x);
+```
+
+### Description {.unnumbered .unlisted}
+
+Returns the floor of the value: $\lfloor{c}\rfloor$. This is the
+opposite of `ceil()`.
+
+This is the largest whole number that is not greater than `x`.
+
+For positive numbers, this is like rounding down: `4.5` becomes `4.0`.
+
+For negative numbers, it's like rounding up: `-3.6` becomes `-4.0`.
+
+In both cases, those results are the largest whole number not bigger
+than the given number.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns the largest whole number not greater than `x`:
+$\lfloor{x}\rfloor$.
+
+### Example {.unnumbered .unlisted}
+
+Note how the negative numbers effectively round away from zero, unlike
+the positives.
+
+``` {.c .numberLines}
+printf("%f\n", floor(4.0));   //  4.000000
+printf("%f\n", floor(4.1));   //  4.000000
+printf("%f\n", floor(-2.0));  // -2.000000
+printf("%f\n", floor(-2.1));  // -3.000000
+printf("%f\n", floor(-3.1));  // -4.000000
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`ceil()`](#man-ceil),
+[`round()`](#man-round)
 
 <!--
 [[pagebreak]]
