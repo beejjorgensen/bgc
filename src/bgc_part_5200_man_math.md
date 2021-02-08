@@ -2132,7 +2132,7 @@ long double floorl(long double x);
 
 ### Description {.unnumbered .unlisted}
 
-Returns the floor of the value: $\lfloor{c}\rfloor$. This is the
+Returns the floor of the value: $\lfloor{x}\rfloor$. This is the
 opposite of `ceil()`.
 
 This is the largest whole number that is not greater than `x`.
