@@ -2167,6 +2167,65 @@ printf("%f\n", floor(-3.1));  // -4.000000
 [`ceil()`](#man-ceil),
 [`round()`](#man-round)
 
+
+[[pagebreak]]
+## `nearbyint()`, `nearbyint()`, `nearbyint()` {#man-nearbyint}
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <math.h>
+
+double nearbyint(double x);
+
+float nearbyintf(float x);
+
+long double nearbyintl(long double x);
+```
+
+### Description {.unnumbered .unlisted}
+
+This function rounds `x` to the nearest integer in the current rounding
+direction.
+
+The rounding direction can be set with [`fesetround()`](#man-fesetround)
+in `<fenv.h>`.
+
+`nearbyint()` won't raise the "inexact" floating point exception.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns `x` rounded in the current rounding direction.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <math.h>
+#include <fenv.h>
+
+int main(void)
+{
+    #pragma STDC FENV_ACCESS ON        // If supported
+
+    fesetround(FE_TONEAREST);          // round to nearest
+
+    printf("%f\n", nearbyint(3.14));   // 3.000000
+    printf("%f\n", nearbyint(3.74));   // 4.000000
+
+    fesetround(FE_TOWARDZERO);         // round toward zero
+
+    printf("%f\n", nearbyint(1.99));   // 1.000000
+    printf("%f\n", nearbyint(-1.99));  // -1.000000
+}
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`round()`](#man-round),
+[`fesetround()`](#man-fesetround),
+[`fegetround()`](#man-fegetround)
+
 <!--
 [[pagebreak]]
 ## `example()`, `example()`, `example()` {#man-example}
