@@ -2355,7 +2355,7 @@ int main(void)
 [`fegetround()`](#man-fegetround)
 
 [[pagebreak]]
-## `round()`, `round()`, `round()` {#man-round}
+## `round()`, `roundf()`, `roundl()` {#man-round}
 
 Round a number in the good old-fashioned way
 
