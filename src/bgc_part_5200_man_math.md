@@ -2171,6 +2171,8 @@ printf("%f\n", floor(-3.1));  // -4.000000
 [[pagebreak]]
 ## `nearbyint()`, `nearbyint()`, `nearbyint()` {#man-nearbyint}
 
+Rounds a value in the current rounding direction.
+
 ### Synopsis {.unnumbered .unlisted}
 
 ``` {.c}
@@ -2222,6 +2224,63 @@ int main(void)
 
 ### See Also {.unnumbered .unlisted}
 
+[`rint()`](#man-rint),
+[`round()`](#man-round),
+[`fesetround()`](#man-fesetround),
+[`fegetround()`](#man-fegetround)
+
+[[pagebreak]]
+## `rint()`, `rintf()`, `rintl()` {#man-rint}
+
+Rounds a value in the current rounding direction.
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <math.h>
+
+double rint(double x);
+
+float rintf(float x);
+
+long double rintl(long double x);
+```
+
+### Description {.unnumbered .unlisted}
+
+This works just like [`nearbyint()`](#man-nearbyint) except that is can
+raise the "inexact" floating point exception.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns `x` rounded in the current rounding direction.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <math.h>
+#include <fenv.h>
+
+int main(void)
+{
+    #pragma STDC FENV_ACCESS ON
+
+    fesetround(FE_TONEAREST);
+
+    printf("%f\n", rint(3.14));   // 3.000000
+    printf("%f\n", rint(3.74));   // 4.000000
+
+    fesetround(FE_TOWARDZERO);
+
+    printf("%f\n", rint(1.99));   // 1.000000
+    printf("%f\n", rint(-1.99));  // -1.000000
+}
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`nearbyint()`](#man-nearbyint),
 [`round()`](#man-round),
 [`fesetround()`](#man-fesetround),
 [`fegetround()`](#man-fegetround)
