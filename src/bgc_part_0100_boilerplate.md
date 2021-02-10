@@ -3,6 +3,31 @@
 # vim: ts=4:sw=4:nosi:et:tw=72
 -->
 
+<!-- No hyphenation -->
+[nh[scalbn]]
+[nh[scalbnf]]
+[nh[scalbnl]]
+[nh[scalbln]]
+[nh[scalblnf]]
+[nh[scalblnl]]
+<!-- Can't do things that aren't letters
+[nh[atan2]]
+[nh[atan2f]]
+[nh[atan2l]]
+-->
+[nh[lrint]]
+[nh[lrintf]]
+[nh[lrintl]]
+[nh[llrint]]
+[nh[llrintf]]
+[nh[llrintl]]
+[nh[lround]]
+[nh[lroundf]]
+[nh[lroundl]]
+[nh[llround]]
+[nh[llroundf]]
+[nh[llroundl]]
+
 # Foreword
 
 No point in wasting words here, folks, let's jump straight into the C
