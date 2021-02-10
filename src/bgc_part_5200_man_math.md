@@ -2354,6 +2354,54 @@ int main(void)
 [`fesetround()`](#man-fesetround),
 [`fegetround()`](#man-fegetround)
 
+[[pagebreak]]
+## `round()`, `round()`, `round()` {#man-round}
+
+Round a number in the good old-fashioned way
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <math.h>
+
+double round(double x);
+
+float roundf(float x);
+
+long double roundl(long double x);
+```
+
+### Description {.unnumbered .unlisted}
+
+Rounds a number to the nearest whole value.
+
+In case of halfsies, rounds away from zero (i.e. "round up" in
+magnitude).
+
+The current rounding direction's Jedi mind tricks don't work on this
+function.
+
+### Return Value {.unnumbered .unlisted}
+
+The rounded value of `x`.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+printf("%f\n", round(3.14));   // 3.000000
+printf("%f\n", round(3.5));    // 4.000000
+
+printf("%f\n", round(-1.5));   // -2.000000
+printf("%f\n", round(-1.14));  // -1.000000
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`nearbyint()`](#man-nearbyint),
+[`rint()`](#man-lrint),
+[`lrint()`](#man-lrint),
+[`trunc()`](#man-trunc)
+
 <!--
 [[pagebreak]]
 ## `example()`, `example()`, `example()` {#man-example}
