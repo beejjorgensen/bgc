@@ -2225,6 +2225,7 @@ int main(void)
 ### See Also {.unnumbered .unlisted}
 
 [`rint()`](#man-rint),
+[`lrint()`](#man-lrint),
 [`round()`](#man-round),
 [`fesetround()`](#man-fesetround),
 [`fegetround()`](#man-fegetround)
@@ -2281,6 +2282,74 @@ int main(void)
 ### See Also {.unnumbered .unlisted}
 
 [`nearbyint()`](#man-nearbyint),
+[`lrint()`](#man-lrint),
+[`round()`](#man-round),
+[`fesetround()`](#man-fesetround),
+[`fegetround()`](#man-fegetround)
+
+[[pagebreak]]
+## `lrint()`, `lrint()`, `lrint()` `llrint()`, `llrint()`, `llrint()` {#man-lrint}
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <math.h>
+
+long int lrint(double x);
+long int lrintf(float x);
+long int lrintl(long double x);
+
+long long int llrint(double x);
+long long int llrintf(float x);
+long long int llrintl(long double x);
+```
+
+### Description {.unnumbered .unlisted}
+
+Round a floating point number in the current rounding direction, but
+this time return an integer intead of a float. You know, just to mix it
+up.
+
+These come in two variants:
+
+* `lrint()`---returns `long int`
+* `llrint()`---returns `long long int`
+
+If the result doesn't fit in the return type, a domain or range error
+might occur.
+
+### Return Value {.unnumbered .unlisted}
+
+The value of `x` rounded to an integer in the current rounding
+direction.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <math.h>
+#include <fenv.h>
+
+int main(void)
+{
+    #pragma STDC FENV_ACCESS ON
+
+    fesetround(FE_TONEAREST);
+
+    printf("%ld\n", lrint(3.14));   // 3
+    printf("%ld\n", lrint(3.74));   // 4
+
+    fesetround(FE_TOWARDZERO);
+
+    printf("%ld\n", lrint(1.99));   // 1
+    printf("%ld\n", lrint(-1.99));  // -1
+}
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`nearbyint()`](#man-nearbyint),
+[`rint()`](#man-lrint),
 [`round()`](#man-round),
 [`fesetround()`](#man-fesetround),
 [`fegetround()`](#man-fegetround)
