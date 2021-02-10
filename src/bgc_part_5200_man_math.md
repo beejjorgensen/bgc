@@ -2460,7 +2460,7 @@ printf("%ld\n", lround(-1.14));  // -1
 [`trunc()`](#man-trunc)
 
 [[pagebreak]]
-## `trunc()`, `truncf()`, `trunc()l` {#man-trunc}
+## `trunc()`, `truncf()`, `truncl()` {#man-trunc}
 
 Truncate the fractional part off a floating point value
 
