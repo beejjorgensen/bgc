@@ -2288,7 +2288,7 @@ int main(void)
 [`fegetround()`](#man-fegetround)
 
 [[pagebreak]]
-## `lrint()`, `lrint()`, `lrint()` `llrint()`, `llrint()`, `llrint()` {#man-lrint}
+## `lrint()`, `lrintf()`, `lrintl()` `llrint()`, `llrintf()`, `llrintl()` {#man-lrint}
 
 ### Synopsis {.unnumbered .unlisted}
 
@@ -2397,6 +2397,63 @@ printf("%f\n", round(-1.14));  // -1.000000
 
 ### See Also {.unnumbered .unlisted}
 
+[`lround()`](#man-lround),
+[`nearbyint()`](#man-nearbyint),
+[`rint()`](#man-lrint),
+[`lrint()`](#man-lrint),
+[`trunc()`](#man-trunc)
+
+[[pagebreak]]
+## `lround()`, `lroundf()`, `lroundl()` `llround()`, `llroundf()`, `llroundl()` {#man-lround}
+
+Round a number in the good old-fashioned way, returning an integer
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <math.h>
+
+long int lround(double x);
+long int lroundf(float x);
+long int lroundl(long double x);
+
+long long int llround(double x);
+long long int llroundf(float x);
+long long int llroundl(long double x);
+```
+
+### Description {.unnumbered .unlisted}
+
+These are just like [`round()`](#man-round) except they return integers.
+
+Halfway values round away from zero, e.g. $1.5$ rounds to $2$ and $-1.5$
+rounds to $-2$.
+
+The functions are grouped by return type:
+
+* `lround()`---returns a `long int`
+* `llround()`---returns a `long long int`
+
+If the rounded value can't find in the return time, a domain or range
+error can occur.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns the rounded value of `x` as an integer.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+printf("%ld\n", lround(3.14));   // 3
+printf("%ld\n", lround(3.5));    // 4
+
+printf("%ld\n", lround(-1.5));   // -2
+printf("%ld\n", lround(-1.14));  // -1
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`round()`](#man-lround),
 [`nearbyint()`](#man-nearbyint),
 [`rint()`](#man-lrint),
 [`lrint()`](#man-lrint),
