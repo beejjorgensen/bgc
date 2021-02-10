@@ -2459,6 +2459,51 @@ printf("%ld\n", lround(-1.14));  // -1
 [`lrint()`](#man-lrint),
 [`trunc()`](#man-trunc)
 
+[[pagebreak]]
+## `trunc()`, `truncf()`, `trunc()l` {#man-trunc}
+
+Truncate the fractional part off a floating point value
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <math.h>
+
+double trunc(double x);
+
+float truncf(float x);
+
+long double truncl(long double x);
+```
+
+### Description {.unnumbered .unlisted}
+
+These functions just drop the fractional part of a floating point
+number. Boom.
+
+In other words, they always round toward zero.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns the truncated floating point number.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+printf("%f\n", trunc(3.14));   // 3.000000
+printf("%f\n", trunc(3.8));    // 3.000000
+
+printf("%f\n", trunc(-1.5));   // -1.000000
+printf("%f\n", trunc(-1.14));  // -1.000000
+```
+
+### See Also {.unnumbered .unlisted}
+[`round()`](#man-lround),
+[`lround()`](#man-lround),
+[`nearbyint()`](#man-nearbyint),
+[`rint()`](#man-lrint),
+[`lrint()`](#man-lrint)
+
 <!--
 [[pagebreak]]
 ## `example()`, `example()`, `example()` {#man-example}
