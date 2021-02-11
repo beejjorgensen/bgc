@@ -2504,6 +2504,51 @@ printf("%f\n", trunc(-1.14));  // -1.000000
 [`rint()`](#man-lrint),
 [`lrint()`](#man-lrint)
 
+[[pagebreak]]
+## `fmod()`, `fmodf()`, `fmodl()` {#man-fmod}
+
+Compute the floating point remainder.
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <math.h>
+
+double fmod(double x, double y);
+
+float fmodf(float x, float y);
+
+long double fmodl(long double x, long double y);
+```
+
+### Description {.unnumbered .unlisted}
+
+Returns the remainder of $\frac{x}{y}$. The result will have the same
+sign as `x`.
+
+Under the hood, the computation performed is:
+
+``` {.c}
+x - trunc(x / y) * y
+```
+
+But it might be easier just to think of the remainder.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns the remainder of $\frac{x}{y}$ with the same sign as `x`.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+printf("%f\n", fmod(-9.2, 5.1));  // -4.100000
+printf("%f\n", fmod(9.2, 5.1));   //  4.100000
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`remainder()`](#man-remainder)
+
 <!--
 [[pagebreak]]
 ## `example()`, `example()`, `example()` {#man-example}
