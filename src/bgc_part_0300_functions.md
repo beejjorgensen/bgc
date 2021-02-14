@@ -174,3 +174,42 @@ We don't, actually. There is a prototype; it's in that header file
 `stdio.h` that we included with `#include`, remember? So we're still
 legit, officer!
 
+## Empty Parameter Lists
+
+You might see these from time to time in older code, but you shouldn't
+ever code one up in new code. Always use `void` to indicate that a
+function takes no parameters. There's never^[Never say "never".] a
+reason to do this in modern code.
+
+There are two contexts for this:
+
+* Omitting all parameters where the function is defined
+* Omitting all parameters in a prototype
+
+Let's look at a potential function definition first:
+
+``` {.c}
+void foo()  // Should really have a `void` in there
+{
+    printf("Hello, world!\n");
+}
+```
+
+While the spec spells out that the behavior in this instance is _as-if_
+you'd indicated `void` (C11 §6.7.6.3¶14), the `void` type is there for a
+reason. Use it.
+
+But in the case of a function prototype, there is a _significant_
+difference between using `void` and not:
+
+``` {.c}
+void foo();
+void foo(void);  // Not the same!
+```
+
+Leaving `void` out of the prototype indicates to the compiler that there
+is no additional information about the parameters to the function. It
+effectively turns off all that type checking.
+
+With a prototype **definitely** use `void` when you have an empty
+parameter list.
