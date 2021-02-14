@@ -28,11 +28,23 @@ time unless you have reasons to do otherwise.
 
 ### Returning From `main()`
 
-This is one we've seen already a bunch of times, but here's a quick
-refresher.
+If you've noticed, `main()` has a return type of `int`... and yet I've
+rarely, if ever, been `return`ing anything from `main()` at all.
+
+This is because for `main()` only (and I can't stress enough this
+special case _only_ applies to `main()` and no other functions anywhere)
+has an _implicit_ `return 0` if you fall off the end.
+
+You can explicitly `return` from `main()` any time you want, and some
+programmers feel it's more _Right_ to always have a `return` at the end
+of `main()`. But if you leave it off, C will put one there for you.
+
+So... here are the `return` rules for `main()`:
 
 * You can return an exit status from `main()` with a `return` statement.
-  `main()` is the only function with this special behavior.
+  `main()` is the only function with this special behavior. Using
+  `return` in any other function just returns from that function to the
+  caller.
 * If you don't explicitly `return` and just fall off the end of
   `main()`, it's just as if you'd returned `0` or `EXIT_SUCCESS`.
 
