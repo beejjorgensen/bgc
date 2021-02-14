@@ -45,7 +45,7 @@ What's this? You say something's still not clear about this whole C
 programming language thing?
 
 Well, to be quite honest, I'm not even sure what the above code does.
-It's a snippet from one of the entires in the 2001 [fl[International
+It's a snippet from one of the entries in the 2001 [fl[International
 Obfuscated C Code Contest|http://www.ioccc.org/]], a wonderful
 competition wherein the entrants attempt to write the most unreadable C
 code possible, with often surprising results.
