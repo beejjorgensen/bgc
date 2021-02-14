@@ -2549,6 +2549,72 @@ printf("%f\n", fmod(9.2, 5.1));   //  4.100000
 
 [`remainder()`](#man-remainder)
 
+[[pagebreak]]
+## `remainder()`, `remainderf()`, `remainderl()` {#man-remainder}
+
+Compute the remainder IEC 60559-style
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <math.h>
+
+double remainder(double x, double y);
+
+float remainderf(float x, float y);
+
+long double remainderl(long double x, long double y);
+```
+
+### Description {.unnumbered .unlisted}
+
+This is similar to `fmod()`, but not quite the same. `fmod()` is
+probably what you're after if you're expecting remainders to wrap around
+like an odometer.
+
+The C spec quotes IEC 60559 on how this works:
+
+> When $y\neq0$, the remainder $r=x$ REM $y$ is defined regardless of
+> the rounding mode by the mathematical relation $r=x-ny$, where $n$ is
+> the integer nearest the exact value of $x/y$; whenever $|n-x/y|=1/2$,
+> then $n$ is even. If $r=0$, its sign shall be that of $x$.
+
+Hope that clears it up!
+
+OK, maybe not. Here's the upshot:
+
+You know how if you `fmod()` something by, say `2.0` you get a result
+that is somewhere between `0.0` and `2.0`? And how if you just increase
+the number that you're modding by `2.0`, you can see the result climb up
+to `2.0` and then wrap around to `0.0` like your car's odometer?
+
+`remainder()` works just like that, except if `y` is `2.0`, it wraps
+from `-1.0` to `1.0` instead of from `0.0` to `2.0`.
+
+In other words, the range of the function runs from `-y/2` to `y/2`.
+Contrasted to `fmod()` that runs from `0.0` to `y`, `remainder()`'s
+output is just shifted down half a `y`.
+
+And zero-remainder-anything is `0`.
+
+Except if `y` is zero, the function might return zero or a domain error
+might occur.
+
+### Return Value {.unnumbered .unlisted}
+
+The IEC 60559 result of `x`-remainder-`y`.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+printf("%f\n", remainder(3.7, 4));  // -0.300000
+printf("%f\n", remainder(4.3, 4));  //  0.300000
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`fmod()`](#man-fmod)
+
 <!--
 [[pagebreak]]
 ## `example()`, `example()`, `example()` {#man-example}
