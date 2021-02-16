@@ -538,6 +538,9 @@ extern char **environ;
 
 It's an array of strings terminated with a `NULL` pointer.
 
+You should declare it yourself before you use it, or you might find it
+in the non-standard `<unistd.h>` header file.
+
 Each string is in the form `"key=value"` so you'll have to split it and
 parse it yourself if you want to get the keys and values out.
 
@@ -588,7 +591,6 @@ as far as I can tell, but it's common in Unix land.
 
 ``` {.c .numberLines}
 #include <stdio.h>
-#include <math.h>
 
 int main(int argc, char **argv, char **env)  // <-- env!
 {
