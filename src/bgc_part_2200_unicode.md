@@ -101,7 +101,7 @@ with Unicode.
 
 [^091d]: Ish. Technically, it's variable width---there's a way to
 represent code points higher than $2^{16}$ by putting two UTF-16
-characters together.]
+characters together.
 
 With UTF-16 and UTF-32, the byte order matters, so you might see
 UTF-16BE for big-endian and UTF-16LE for little-endian. Same for UTF-32.
