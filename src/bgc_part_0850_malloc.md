@@ -239,8 +239,25 @@ Sometimes it might return the same pointer (if the data didn't have to
 be copied elsewhere), or it might return a different one (if the data
 did have to be copied).
 
+Be sure when you call `realloc()`, you specify the number of _bytes_ to
+allocate, and not just the number of array elements! That is:
+
+``` {.c}
+num_floats *= 2;
+
+np = realloc(p, num_floats);  // WRONG: need bytes, not number of elements!
+
+np = realloc(p, num_floats * sizeof(float));  // Better!
+```
+
 Let's allocate an array of 20 `float`s, and then change our mind and
 make it an array of 40.
+
+We're going to assign the return value of `realloc()` into another
+pointer just to make sure it's not `NULL`. If it's not, then we can
+reassign it into our original pointer. (If we just assigned the return
+value directly into the original pointer, we'd lose that pointer if the
+function returned `NULL` and we'd have no way to get it back.)
 
 ``` {.c .numberLines}
 #include <stdio.h>
@@ -256,7 +273,16 @@ int main(void)
         p[i] = i / 20.0;
 
     // But wait! Let's actually make this an array of 40 elements
-    p = realloc(p, sizeof *p * 40);
+    float *new_p = realloc(p, sizeof *p * 40);
+
+    // Check to see if we successfully reallocated
+    if (new_p == NULL) {
+        printf("Error reallocing\n");
+        return 1;
+    }
+
+    // If we did, we can just reassign p
+    p = new_p;
 
     // And assign the new elements values in the range 1.0-2.0
     for (int i = 20; i < 40; i++)
@@ -274,6 +300,104 @@ int main(void)
 Notice in there how we took the return value from `realloc()` and
 reassigned it into the same pointer variable `p` that we passed in.
 That's pretty common to do.
+
+### Reading in Lines of Arbitrary Length
+
+I want to demonstrate two things with this full-blown example.
+
+1. Use of `realloc()` to grow a buffer as we read in more data.
+2. Use of `realloc()` to shrink the buffer down to the perfect size
+   after we've completed the read.
+
+What we see here is a loop that calls `fgets()` over and over to append
+to a buffer until we see that the last character is a newline.
+
+Once it finds the newline, it shrinks the buffer to just the right size
+and returns it.
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+/**
+ * Read a line and return a pointer to a buffer of exactly the right
+ * size.
+ * 
+ * This malloc()s the string--it must be free()d later.
+ */
+char *readline(FILE *fp)
+{
+    int size = 128;     // Initial space
+    int string_len = 0;
+
+    // Allocate the initial buffer
+    char *buf = malloc(size);
+
+    if (buf == NULL) return NULL;
+
+    for (;;) {
+        // Read the next chunk of characters into the buffer, avoiding
+        // overrunning the end
+        char *rv = fgets(buf + string_len, size - string_len, fp);
+
+        if (rv == NULL) {
+            free(buf);
+            return NULL;
+        }
+
+        // We use the string length everywhere
+        string_len = strlen(buf);
+
+        // If the last character is a newline, we're done
+        if (buf[string_len - 1] == '\n') break;
+
+        // Otherwise the buffer wasn't big enough
+        // and we want to double it.
+        size *= 2;
+
+        char *new_buf = realloc(buf, size);
+
+        if (new_buf == NULL) {
+            free(buf);
+            return NULL;
+        }
+
+        buf = new_buf;
+    }
+
+    // We finally have a line, but the buffer might be too large, so
+    // let's shrink it to fit the line.
+    char *new_buf = realloc(buf, string_len + 1);
+
+    if (new_buf == NULL) {
+        free(buf);
+        return NULL;
+    }
+
+    buf = new_buf;
+
+    // One shrinkwrapped line!
+    return buf;
+}
+
+int main(void)
+{
+    char *p = readline(stdin);
+
+    fputs(p, stdout);
+
+    free(p);
+}
+```
+
+When growing memory like this, it's common (though hardly a law) to
+double the space needed each step just to minimize the number of
+`realloc()`s that occur.
+
+Finally you might note that `readline()` returns a pointer to a
+`malloc()`d buffer. As such, it's up to the caller to explicitly
+`free()` that memory when it's done with it.
 
 ### `realloc()` with `NULL`
 
