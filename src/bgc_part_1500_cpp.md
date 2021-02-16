@@ -758,6 +758,107 @@ A couple things to note there:
      conflict with any other existing variables at the outer block
      scope.
 
+## Example: An Assert Macro
+
+Adding asserts to your code is a good way to catch conditions that you
+think shouldn't happen. C provides `assert()` functionality. It checks a
+condition, and if it's false, the program bombs out telling you the
+file and line number on which the assertion failed.
+
+But this is wanting.
+
+1. First of all, you can't specify an additional message with the
+   assert.
+2. Secondly, there's no easy on-off switch for all the asserts.
+
+We can address the first with macros.
+
+Basically, when I have this code:
+
+``` {.c}
+ASSERT(x < 20, "x must be under 20");
+```
+
+I want something like this to happen (assuming the `ASSERT()` is on line
+220 of `foo.c`):
+
+``` {.c}
+if (x < 20) {
+    fprintf(stderr, "foo.c:220: assertion x < 20 failed: ");
+    fprintf(stderr, "x must be under 20\n");
+    exit(1)
+}
+```
+
+We can get the filename out of the `__FILE__` macro, and the line number
+from `__LINE__`. The message is already a string, but `x < 20` is not,
+so we'll have to stringify it with `#`. We can make a multiline macro by
+using backslash escapes at the end of the line.
+
+``` {.c}
+#define ASSERT(c, m) \
+{ \
+    if (!(c)) { \
+        fprintf(stderr, __FILE__ ":%d: assertion %s failed: %s\n", \
+                        __LINE__, #c, m); \
+        exit(1); \
+    } \
+}
+```
+
+(It looks a little weird with `__FILE__` out front like that, but
+remember it is a string literal, and string literals next to each other
+are automagically concatenated. `__LINE__` on the other hand, it's just
+an `int`.)
+
+And that works! If I run this:
+
+``` {.c}
+int x = 30;
+
+ASSERT(x < 20, "x must be under 20");
+```
+
+I get this output:
+
+```
+foo.c:23: assertion x < 20 failed: x must be under 20
+```
+
+Very nice!
+
+The only thing left is a way to turn it on and off, and we could do that
+with conditional compilation.
+
+Here's the complete example:
+
+``` {.c}
+#include <stdio.h>
+#include <stdlib.h>
+
+#define ASSERT_ENABLED 1
+
+#if ASSERT_ENABLED
+#define ASSERT(c, m) \
+{ \
+    if (!(c)) { \
+        fprintf(stderr, __FILE__ ":%d: assertion %s failed: %s\n", \
+                        __LINE__, #c, m); \
+        exit(1); \
+    } \
+}
+#else
+#define ASSERT(c, m)  // Empty macro if not enabled
+#endif
+
+int main(void)
+{
+    int x = 30;
+
+    ASSERT(x < 20, "x must be under 20");
+}
+```
+
 ## The `#error` Directive
 
 This directive causes the compiler to error out as soon as it sees it.
