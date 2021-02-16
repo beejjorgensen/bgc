@@ -194,7 +194,8 @@ The execution character set will additionally have characters for alert
 
 But most people don't go to that extreme and freely use their extended
 character sets in source and executable, especially now that Unicode and
-UTF-8 are getting more common.
+UTF-8 are getting more common. I mean, the basic character set doesn't
+even allow for `@`, `$`, or `` ` ``!
 
 Notably, it's a pain (though possible with escape sequences) to enter
 Unicode characters using only the basic character set.
@@ -265,9 +266,11 @@ compiler. But compilers are free to puke out if they find any characters
 that aren't included in their extended character set, and the € symbol
 certainly isn't in the basic character set.
 
-Caveat from the spec: you can't use `\u` or `\U` to encode any
-code points below 0xA0 except for 0x24 (`$`), 0x40 (`@`), and 0x60
-(`` ` ``).
+Caveat from the spec: you can't use `\u` or `\U` to encode any code
+points below 0xA0 except for 0x24 (`$`), 0x40 (`@`), and 0x60 (`` `
+``)---yes, those are precisely the trio of common punctuation marks
+missing from the basic character set. Apparently this restriction is
+relaxed in the upcoming version of the spec.
 
 Finally, you can also use these in identifiers in your code, with some
 restrictions. But I don't want to get into that here. We're all about
