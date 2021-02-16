@@ -246,6 +246,10 @@ You can take the `sizeof` a variable or expression:
 ``` {.c}
 int a = 999;
 
+// %zu is the format specifier for type size_t ("t" is for "type", but
+// it's pronounced "size tee"), which is what is returned by sizeof.
+// More on size_t later.
+
 printf("%zu", sizeof a);      // Prints 4 on my system
 printf("%zu", sizeof 3.14);   // Prints 8 on my system, also
 ```
