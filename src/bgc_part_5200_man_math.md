@@ -174,7 +174,7 @@ system.
 
 
 [[pagebreak]]
-## `fpclassify()`, {#man-fpclassify}
+## `fpclassify()` {#man-fpclassify}
 
 Return the classification of a given floating point number
 
