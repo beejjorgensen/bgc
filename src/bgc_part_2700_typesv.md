@@ -129,7 +129,7 @@ we're passing to `print_coord()`.
 We'll just take `t` out of there and replace it with an unnamed
 `struct`:
 
-``` {.c .numberLines .startFrom="14"}
+``` {.c .numberLines startFrom="7"}
     //struct coord t = {.x=10, .y=20};
 
     print_coord((struct coord){.x=10, .y=20});   // prints "10, 20"
