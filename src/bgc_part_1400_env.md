@@ -521,3 +521,89 @@ environment variables.
 
 If on a Unix-like, look up the documentation for `putenv()`, `setenv()`,
 and `unsetenv()`. On Windows, see `_putenv()`.
+
+### Unix-like Alternative Environment Variables
+
+If you're on a Unix-like system, odds are you have another couple ways
+of getting access to environment variables. Note that although the spec
+points this out as a common extension, it's not truly part of the
+C standard. It is, however, part of the POSIX standard.
+
+One of these is a variable called `environ` that must be declared like
+so:
+
+``` {.c}
+extern char **environ;
+```
+
+It's an array of strings terminated with a `NULL` pointer.
+
+Each string is in the form `"key=value"` so you'll have to split it and
+parse it yourself if you want to get the keys and values out.
+
+Here's an example of looping through and printing out the environment
+variables a couple different ways:
+
+``` {.c .numberLines}
+#include <stdio.h>
+
+extern char **environ;  // MUST be extern AND named "environ"
+
+int main(void)
+{
+    for (char **p = environ; *p != NULL; p++) {
+        printf("%s\n", *p);
+    }
+
+    // Or you could do this:
+    for (int i = 0; environ[i] != NULL; i++) {
+        printf("%s\n", environ[i]);
+    }
+}
+```
+
+For a bunch of output that looks like this:
+
+```
+SHELL=/bin/bash
+COLORTERM=truecolor
+TERM_PROGRAM_VERSION=1.53.2
+LOGNAME=beej
+VSCODE_GIT_ASKPASS_NODE=/home/beej/.vscode-server/bin/ea3859d4ba2f3e577a159bc91e3074c5d85c0523/node
+HOME=/home/beej
+... etc ...
+```
+
+Use `getenv()` if at all possible because it's more portable. But if you
+have to iterate over environment variables, using `environ` might be the
+way to go.
+
+Another non-standard way to get the environment variables is as a
+parameter to `main()`. It works much the same way, but you avoid needing
+to add your `extern` `environ` variable. [flw[Not even the POSIX spec
+supports
+this|https://pubs.opengroup.org/onlinepubs/9699919799/functions/exec.html]]
+as far as I can tell, but it's common in Unix land.
+
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <math.h>
+
+int main(int argc, char **argv, char **env)  // <-- env!
+{
+    (void)argc; (void)argv;  // Suppress unused warnings
+
+    for (char **p = env; *p != NULL; p++) {
+        printf("%s\n", *p);
+    }
+
+    // Or you could do this:
+    for (int i = 0; env[i] != NULL; i++) {
+        printf("%s\n", env[i]);
+    }
+}
+```
+
+Just like using `environ` but _even less portable_. It's good to have
+goals.
