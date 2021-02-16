@@ -6,3 +6,6 @@
 \usepackage{tocloft}
 \setlength{\cftsecnumwidth}{3em}
 %\setlength\cftsubsecnumwidth{3em}
+
+% Less dense tables in LaTeX
+%\def\arraystretch{1.5}
