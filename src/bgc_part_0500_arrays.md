@@ -54,13 +54,46 @@ Hopefully this looks familiar from languages you already know!
 
 ## Getting the Length of an Array
 
-You can't. C doesn't record this information. You have to manage it
-separately in another variable.
+You can't...ish. C doesn't record this information. You have to manage
+it separately in another variable.
 
-There is a trick to get the number of elements in an array in the scope
-in which an array is declared. But, generally speaking, this won't work
-the way you want if you pass the array into a function.
+When I say "can't", I actually mean there are some circumstances when
+you _can_. There is a trick to get the number of elements in an array in
+the scope in which an array is declared. But, generally speaking, this
+won't work the way you want if you pass the array into a function.
 
+Let's take a look at this trick. The basic idea is that you take the
+`sizeof` the array, and then divide that by the size of each element to
+get the length. For example, if an `int` is 4 bytes, and the array is 32
+bytes long, there must be room for 32/4 or 8 `int`s in there.
+
+``` {.c}
+int x[12];  // 12 ints
+
+printf("%zu\n", sizeof x);     // 48 total bytes
+printf("%zu\n", sizeof(int));  // 4 bytes per int
+
+printf("%zu\n", sizeof x / sizeof(int));  // 48/4 = 12 ints!
+```
+
+But this trick only works in the scope in which the array was defined.
+If you pass the array to a function, it doesn't work. Even if you make
+it "big" in the function signature:
+
+``` {.c}
+void foo(int x[12])
+{
+    printf("%zu\n", sizeof x);     // 8?! What happened to 48?
+    printf("%zu\n", sizeof(int));  // 4 bytes per int
+
+    printf("%zu\n", sizeof x / sizeof(int));  // 8/4 = 2 ints?? WRONG.
+}
+```
+
+This is because when you "pass" arrays to functions, you're only passing
+a pointer to the first element, and that's what `sizeof` measures. More
+on this in the [Passing Single Dimensional Arrays to
+Functions](#passing1darrays) section, below.
 
 ## Array Initializers
 
@@ -287,7 +320,7 @@ as `a[0]`? Yessss. You're starting to get a glimpe of how arrays and
 pointers are related in C.
 
 
-### Passing Single Dimensional Arrays to Functions
+### Passing Single Dimensional Arrays to Functions {#passing1darrays}
 
 Let's do an example with a single dimensional array. I'm going to write
 a couple functions that we can pass the array to that do different
