@@ -394,8 +394,24 @@ Look at how versatile `memcpy()` is! If you have a pointer to a source
 and a pointer to a destination, and you have the number of bytes you
 want to copy, you can copy _any type of data_.
 
-That's the power of `void*`. You can write code that doesn't care about
-the type and is able to do things with it.
+Imagine if we didn't have `void*`. We'd have to write specialized
+`memcpy()` functions for each type:
+
+``` {.c}
+memcpy_int(int *a, int *b, int count);
+memcpy_float(float *a, float *b, int count);
+memcpy_double(double *a, double *b, int count);
+memcpy_char(char *a, char *b, int count);
+memcpy_unsigned_char(unsigned char *a, unsigned char *b, int count);
+
+// etc... blech!
+```
+
+Much better to just use `void*` and have one function that can do it
+all.
+
+That's the power of `void*`. You can write functions that don't care
+about the type and is still able to do things with it.
 
 But with great power comes great responsibility. Maybe not _that_ great
 in this case, but there are some limits.
