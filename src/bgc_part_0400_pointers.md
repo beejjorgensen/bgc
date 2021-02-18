@@ -449,3 +449,22 @@ int *a, b, c, *d, e, *f, g, h, *i;
 I'll drop the answer in a footnote^[The pointer type variables are `a`,
 `d`, `f`, and `i`, because those are the ones with `*` in front of
 them.].
+
+## `sizeof` and Pointers
+
+Just a little bit of syntax here that might be confusing and you might
+see from time to time.
+
+Recall that `sizeof` operates on the _type_ of the expression.
+
+``` {.c}
+int *p;
+
+sizeof(int); // Returns size of an `int`
+sizeof p     // p is type int*, so returns size of `int*`
+sizeof *p    // *p is type int, so returns size of `int`
+```
+
+You might see code with that last `sizeof` in there. Just remember that
+`sizeof` is all about the type of the expression, not the variables in
+the expression themselves.

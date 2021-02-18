@@ -235,6 +235,10 @@ in this section to get started.)
 This operator tells you the size (in bytes) that a particular variable
 or data type uses in memory.
 
+More particularly, it tells you the size (in bytes) that the _type of a
+particular expression_ (which might be just a single variable) uses in
+memory.
+
 This can be different on different systems, except for `char` (which is
 always 1 byte).
 
@@ -251,16 +255,27 @@ int a = 999;
 // More on size_t later.
 
 printf("%zu", sizeof a);      // Prints 4 on my system
-printf("%zu", sizeof 3.14);   // Prints 8 on my system, also
+printf("%zu", sizeof(2 + 7)); // Prints 4 on my system
+printf("%zu", sizeof 3.14);   // Prints 8 on my system
 ```
 
-or you can take the `sizeof` a type (note the parentheses are required
-around a type name, unlike an expression):
+Remember: it's the size in bytes of the _type_ of the expression, not
+the size of the expression itself. That's why the size of `2+7` is the
+same as the size of `a`---they're both type `int`. We'll revisit this
+number `4` in the very next block of code...
+
+...Where we'll see you can take the `sizeof` a type (note the
+parentheses are required around a type name, unlike an expression):
 
 ``` {.c}
 printf("%zu", sizeof(int));   // Prints 4 on my system
 printf("%zu", sizeof(char));  // Prints 1 on all systems
 ```
+
+It's important to note that `sizeof` is a _compile-time_
+operation^[Except for with variable length arrays---but that's a story
+for another time.]. The result of the expression is determined entirely
+at compiletime, not at runtime.
 
 We'll make use of this later on.
 

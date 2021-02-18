@@ -266,7 +266,7 @@ function returned `NULL` and we'd have no way to get it back.)
 int main(void)
 {
     // Allocate space for 20 floats
-    float *p = malloc(sizeof *p * 20);
+    float *p = malloc(sizeof *p * 20);  // sizeof *p same as sizeof(float)
 
     // Assign them fractional values 0.0-1.0:
     for (int i = 0; i < 20; i++)
@@ -300,6 +300,12 @@ int main(void)
 Notice in there how we took the return value from `realloc()` and
 reassigned it into the same pointer variable `p` that we passed in.
 That's pretty common to do.
+
+Also if line 7 is looking weird, with that `sizeof *p` in there,
+remember that `sizeof` works on the size of the type of the expression.
+And the type of `*p` is `float`, so that line is equivalent to
+`sizeof(float)`.
+
 
 ### Reading in Lines of Arbitrary Length
 
