@@ -2613,7 +2613,103 @@ printf("%f\n", remainder(4.3, 4));  //  0.300000
 
 ### See Also {.unnumbered .unlisted}
 
-[`fmod()`](#man-fmod)
+[`fmod()`](#man-fmod),
+[`remquo()`](#man-remquo)
+
+[[pagebreak]]
+## `remquo()`, `remquof()`, `remquol()` {#man-remquo}
+
+Compute the remainder and (some of the) quotient
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <math.h>
+
+double remquo(double x, double y, int *quo);
+
+float remquof(float x, float y, int *quo);
+
+long double remquol(long double x, long double y, int *quo);
+```
+
+### Description {.unnumbered .unlisted}
+
+This is a funky little thing.
+
+First of all, the return value is the remainder, the same as the
+[`remainder()`](#man-remainder) function, so check that out.
+
+And the quotient comes back in the `quo` pointer.
+
+Or at least _some of it_ does. You'll get at least 3 bits worth of the
+quotient.
+
+But _why_?
+
+So a couple things.
+
+One is that the quotient of some very large floating point numbers can
+easily be far too gigantic to fit in even a `long long unsigned int`. So
+some of it might very well need to be lopped off, anyway.
+
+But at 3 bits? How's that even useful? That only gets you from 0 to 7!
+
+The C99 Rationale document states:
+
+> The `remquo` functions are intended for implementing argument
+> reductions which can exploit a few low-order bits of the quotient.
+> Note that $x$ may be so large in magnitude relative to $y$ that an
+> exact representation of the quotient is not practical.
+
+So... implementing argument reductions... which can exploit a few
+low-order bits... Ooookay.
+
+[fl[CPPReference has this to
+say|https://en.cppreference.com/w/c/numeric/math/remquo]] on the matter,
+which is spoken so well, I will quote wholesale:
+
+> This function is useful when implementing periodic functions with the
+> period exactly representable as a floating-point value: when
+> calculating $\sin(πx)$ for a very large `x`, calling `sin` directly
+> may result in a large error, but if the function argument is first
+> reduced with `remquo`, the low-order bits of the quotient may be used
+> to determine the sign and the octant of the result within the period,
+> while the remainder may be used to calculate the value with high
+> precision.
+
+And there you have it. If you have another example that works for you...
+congratulations! :)
+
+### Return Value {.unnumbered .unlisted}
+
+Returns the same as [`remainder`](#remainder): The IEC 60559 result of
+`x`-remainder-`y`.
+
+In addition, at least the lowest 3 bits of the quotient will be stored
+in `quo` with the same sign as `x/y`.
+
+### Example {.unnumbered .unlisted}
+
+There's a [fl[great `cos()` example at
+CPPReference|https://en.cppreference.com/w/c/numeric/math/remquo]] that
+covers a genuine use case.
+
+But instead of stealing it, I'll just post a simple example here and you
+can visit their site for a real one.
+
+``` {.c .numberLines}
+int quo;
+double rem;
+
+rem = remquo(12.75, 2.25, &quo);
+
+printf("%d remainder %f\n", quo, rem);  // 6 remainder -0.750000
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`remainder()`](#man-remainder)
 
 <!--
 [[pagebreak]]
