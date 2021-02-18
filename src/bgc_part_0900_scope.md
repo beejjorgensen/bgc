@@ -124,7 +124,7 @@ void func1(void)
 
 void func2(void)
 {
-    printf("%d\n", shared);  // Prints "10"
+    printf("%d\n", shared);  // Prints "110"
 }
 
 int main(void)
