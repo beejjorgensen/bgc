@@ -76,6 +76,10 @@ printf("%zu\n", sizeof(int));  // 4 bytes per int
 printf("%zu\n", sizeof x / sizeof(int));  // 48/4 = 12 ints!
 ```
 
+If it's an array of `char`s, then `sizeof` the array _is_ the number of
+elements, since `sizeof(char)` is defined to be 1. For anything else,
+you have to divide by the size of each element.
+
 But this trick only works in the scope in which the array was defined.
 If you pass the array to a function, it doesn't work. Even if you make
 it "big" in the function signature:
