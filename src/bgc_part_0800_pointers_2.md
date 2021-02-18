@@ -400,7 +400,7 @@ the type and is able to do things with it.
 But with great power comes great responsibility. Maybe not _that_ great
 in this case, but there are some limits.
 
-1. You cannot do pointer arithmetic a `void*`.
+1. You cannot do pointer arithmetic on a `void*`.
 2. You cannot dereference a `void*`.
 3. You cannot use the arrow operator on a `void*`, since it's also a
    dereference.
