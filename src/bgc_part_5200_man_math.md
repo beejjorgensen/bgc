@@ -361,7 +361,8 @@ printf("%d\n", signbit(-37.0));   // 1
 [`isfinite()`](#man-isnan),
 [`isinf()`](#man-isnan),
 [`isnan()`](#man-isnan),
-[`isnormal()`](#man-isnan)
+[`isnormal()`](#man-isnan),
+[`copysign()`](#man-copysign)
 
 
 [[pagebreak]]
@@ -2710,6 +2711,52 @@ printf("%d remainder %f\n", quo, rem);  // 6 remainder -0.750000
 ### See Also {.unnumbered .unlisted}
 
 [`remainder()`](#man-remainder)
+
+[[pagebreak]]
+## `copysign()`, `copysignf()`, `copysignl()` {#man-copysign}
+
+Copy the sign of one value into another
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <math.h>
+
+double copysign(double x, double y);
+
+float copysignf(float x, float y);
+
+long double copysignl(long double x, long double y);
+```
+
+### Description {.unnumbered .unlisted}
+
+These functions return a number that has the magnitude of `x` and the
+sign of `y`. You can use them to coerce the sign to that of another
+value.
+
+Neither `x` nor `y` are modified, of course. The return value holds the
+result.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns a value with the magnitude of `x` and the sign of `y`.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+double x = 34.9;
+double y = -999.9;
+double z = 123.4;
+
+printf("%f\n", copysign(x, y)); // -34.900000
+printf("%f\n", copysign(x, z)); //  34.900000
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`signbit()`](#man-signbit)
+
 
 <!--
 [[pagebreak]]
