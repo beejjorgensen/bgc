@@ -2757,6 +2757,82 @@ printf("%f\n", copysign(x, z)); //  34.900000
 
 [`signbit()`](#man-signbit)
 
+[[pagebreak]]
+## `nan()`, `nanf()`, `nanl()` {#man-nan}
+
+Return `NAN`
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <math.h>
+
+double nan(const char *tagp);
+
+float nanf(const char *tagp);
+
+long double nanl(const char *tagp);
+```
+
+### Description {.unnumbered .unlisted}
+
+These functions return a quiet NaN^[A _quiet NaN_ is one that doesn't
+raise any exceptions.]. It is produced as if calling
+[`strtod()`](#strtod-man) with `"NAN"` (or a variant thereof) as an
+argument.
+
+`tagp` points to a string which could be several things, including
+empty. The contents of the string determine which variant of NaN might
+get returned depending on the implementation.
+
+Which _version_ of NaN? Did you even know it was possible to get this
+far into the weeds with something that wasn't a number?
+
+Case 1 in which you pass in an empty string, in which case these are the
+same:
+
+``` {.c}
+nan("");
+
+strtod("NAN()", NULL);
+```
+
+Case 2 in which the string contains only digits 0-9, letters a-z,
+letters A-Z, and/or underscore:
+
+``` {.c}
+nan("goats");
+
+strtod("NAN(goats)", NULL);
+```
+
+And Case 3, in which the string contains anything else and is ignored:
+
+``` {.c}
+nan("!");
+
+strtod("NAN", NULL);
+```
+
+As for what `strtod()` does with those values in parens, see the
+[`strtod()`] reference page. Spoiler: it's implementation-defined.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns the requested quiet NaN, or 0 if such things aren't supported by
+your system.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+printf("%f\n", nan(""));       // nan
+printf("%f\n", nan("goats"));  // nan
+printf("%f\n", nan("!"));      // nan
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`strtod()`](#man-strtod)
 
 <!--
 [[pagebreak]]
