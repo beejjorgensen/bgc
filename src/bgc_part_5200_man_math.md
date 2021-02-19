@@ -2892,6 +2892,51 @@ Output on my system:
 
 [`nexttoward()`](#man-nexttoward)
 
+[[pagebreak]]
+## `nextoward()`, `nextowardf()`, `nextowardl()` {#man-nextoward}
+
+Get the next (or previous) representable floating point value
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+include <math.h>
+
+double nexttoward(double x, long double y);
+
+float nexttowardf(float x, long double y);
+
+long double nexttowardl(long double x, long double y);
+```
+
+### Description {.unnumbered .unlisted}
+
+These functions are the same as [`nextafter()`](#man-nextafter) except
+the second parameter is always `long double`.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns the same as [`nextafter()`](#man-nextafter) except if `x` equals
+`y`, returns `y` cast to the function's return type.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+printf("%.*f\n", DBL_DECIMAL_DIG, nexttoward(0.5, 1.0));
+printf("%.*f\n", DBL_DECIMAL_DIG, nexttoward(0.349, 0.0));
+```
+
+Output on my system:
+
+```
+0.50000000000000011
+0.34899999999999992
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`nextafter()`](#man-nextafter)
+
 <!--
 [[pagebreak]]
 ## `example()`, `example()`, `example()` {#man-example}
