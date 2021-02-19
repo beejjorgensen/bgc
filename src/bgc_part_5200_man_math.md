@@ -2834,6 +2834,64 @@ printf("%f\n", nan("!"));      // nan
 
 [`strtod()`](#man-strtod)
 
+[[pagebreak]]
+## `nextafter()`, `nextafterf()`, `nextafterl()` {#man-nextafter}
+
+Get the next (or previous) representable floating point value
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <math.h>
+
+double nextafter(double x, double y);
+
+float nextafterf(float x, float y);
+
+long double nextafterl(long double x, long double y);
+```
+
+### Description {.unnumbered .unlisted}
+
+As you probably know, floating point numbers can't represent _every_
+possible real number. There are limits.
+
+And, as such, there exists a "next" and "previous" number after or
+before any floating point number.
+
+These functions return the next (or previous) representable number. That
+is, no floating point numbers exist between the given number and the
+next one.
+
+The way it figures it out is it works from `x` in the direction of `y`,
+answering the question of "what is the next representable number from
+`x` as we head toward `y`.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns the next representable floating point value from `x` in the
+direction of `y`.
+
+If `x` equals `y`, returns `y`. And also `x`, I suppose.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+printf("%.*f\n", DBL_DECIMAL_DIG, nextafter(0.5, 1.0));
+printf("%.*f\n", DBL_DECIMAL_DIG, nextafter(0.349, 0.0));
+```
+
+Output on my system:
+
+```
+0.50000000000000011
+0.34899999999999992
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`nexttoward()`](#man-nexttoward)
+
 <!--
 [[pagebreak]]
 ## `example()`, `example()`, `example()` {#man-example}
