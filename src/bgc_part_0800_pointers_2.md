@@ -313,6 +313,23 @@ the type of_.
 
 I know. Bear with me just a second.
 
+There are basically two use cases for this.
+
+1. A function is going to operate on something byte-by-byte. For
+   example, `memcpy()` copies bytes of memory from one pointer to
+   another, but those pointers can point to any type. `memcpy()` takes
+   advantage of the fact that if you iterate through `char*`s, you're
+   iterating through the bytes of an object no matter what type the
+   object is. More on this in the [Multibyte Values](#multibyte-values)
+   subsection.
+
+2. Another function is calling a function you passed to it (a callback),
+   and it's passing you data. You know the type of the data, but the
+   function calling you doesn't. So it passes you `void*`s---'cause it
+   doesn't know the type---and you convert those to the type you need.
+   The built-in [`qsort()`](#man-qsort) and [`bsearch()`](#man-bsearch)
+   use this technique.
+
 Let's look at an example, the built-in `memcpy()` function:
 
 ``` {.c}
