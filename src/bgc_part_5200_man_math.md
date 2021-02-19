@@ -2937,6 +2937,48 @@ Output on my system:
 
 [`nextafter()`](#man-nextafter)
 
+[[pagebreak]]
+## `fdim()`, `fdimf()`, `fdiml()` {#man-fdim}
+
+Return the positive difference between two numbers clamped at 0
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <math.h>
+
+double fdim(double x, double y);
+
+float fdimf(float x, float y);
+
+long double fdiml(long double x, long double y);
+```
+
+### Description {.unnumbered .unlisted}
+
+The positive difference between `x` and `y` is the difference... except
+if the difference is less than `0`, it's clamped to `0`.
+
+These functions might throw a range error.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns the difference of `x-y` if the difference is greater than `0`.
+Otherwise it returns `0`.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+printf("%f\n", fdim(10.0, 3.0));   // 7.000000
+printf("%f\n", fdim(3.0, 10.0));   // 0.000000, clamped
+```
+
+<!--
+### See Also {.unnumbered .unlisted}
+
+[`example()`](#man-example),
+-->
+
 <!--
 [[pagebreak]]
 ## `example()`, `example()`, `example()` {#man-example}
