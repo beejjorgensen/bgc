@@ -2979,6 +2979,55 @@ printf("%f\n", fdim(3.0, 10.0));   // 0.000000, clamped
 [`example()`](#man-example),
 -->
 
+[[pagebreak]]
+## `fmax()`, `fmax()`, `fmax()`, `fmin()`, `fmin()`, `fmin()` {#man-fmax}
+
+Return the maximum or minimum of two numbers.
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <math.h>
+
+double fmax(double x, double y);
+
+float fmaxf(float x, float y);
+
+long double fmaxl(long double x, long double y);
+
+double fmin(double x, double y);
+
+float fminf(float x, float y);
+
+long double fminl(long double x, long double y);
+```
+
+### Description {.unnumbered .unlisted}
+
+Straightforwardly, these functions return the minimum or maximum of two
+given numbers.
+
+If one of the numbers is NaN, the functions return the non-NaN number.
+If both arguments are NaN, the functions return NaN.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns the minimum or maximum values, with NaN handled as mentioned
+above.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+printf("%f\n", fmin(10.0, 3.0));   //  3.000000
+printf("%f\n", fmax(3.0, 10.0));   // 10.000000
+```
+
+<!--
+### See Also {.unnumbered .unlisted}
+
+[`example()`](#man-example),
+-->
+
 <!--
 [[pagebreak]]
 ## `example()`, `example()`, `example()` {#man-example}
