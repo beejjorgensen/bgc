@@ -265,7 +265,7 @@ int *const *const q = &p;  // More const!
 And that works, too. Now we can't modify `q`, or the pointer `q` points
 to.
 
-## Multibyte Values
+## Multibyte Values {#multibyte-values}
 
 We kinda hinted at this in a variety of places earlier, but clearly not
 every value can be stored in a single byte of memory. Things take up
