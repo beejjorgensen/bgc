@@ -3188,6 +3188,52 @@ printf("%d\n", islessgreater(10.0, 10.0));  // 0
 [`islessequal()`](#man-isgreater),
 [`isunordered()`](#man-isunordered)
 
+[[pagebreak]]
+## `isunordered()` {#man-isunordered}
+
+Macro returns true if either floating point argument is NaN
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <math.h>
+
+int isunordered(any_floating_type x, any_floating_type y);
+```
+
+### Description {.unnumbered .unlisted}
+
+The spec writes:
+
+> The isunordered macro determines whether its arguments are unordered.
+
+See? Told you C was easy!
+
+It does also elaborate that the arguments are unordered if one or both
+of them are NaN.
+
+### Return Value {.unnumbered .unlisted}
+
+This macro returns true if one or both of the arguments are NaN.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+printf("%d\n", isunordered(1.0, 2.0));       // 0
+printf("%d\n", isunordered(1.0, sqrt(-1)));  // 1
+printf("%d\n", isunordered(NAN, 30.0));      // 1
+printf("%d\n", isunordered(NAN, NAN));       // 1
+}
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`isgreater()`](#man-isgreater),
+[`isgreaterequal()`](#man-isgreater),
+[`isless()`](#man-isgreater),
+[`islessequal()`](#man-isgreater),
+[`islessgreater()`](#man-islessgreater)
+
 <!--
 [[pagebreak]]
 ## `example()`, `example()`, `example()` {#man-example}
