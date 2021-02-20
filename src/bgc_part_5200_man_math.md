@@ -3028,6 +3028,60 @@ printf("%f\n", fmax(3.0, 10.0));   // 10.000000
 [`example()`](#man-example),
 -->
 
+[[pagebreak]]
+## `fma()`, `fma()`, `fma()` {#man-fma}
+
+Floating (AKA "Fast") multiply and add
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <math.h>
+
+double fma(double x, double y, double z);
+
+float fmaf(float x, float y, float z);
+
+long double fmal(long double x, long double y, long double z);
+```
+
+### Description {.unnumbered .unlisted}
+
+This performs the operation $(x\times{y})+z$, but does so in a nifty
+way. It does the computation as if it had infinite precision, and then
+rounds the final result to the final data type according to the current
+rounding mode.
+
+Contrast to if you'd do the math yourself, where it would have rounded
+each step of the way, potentially.
+
+Also some architectures have a CPU instruction to do exactly this
+calculation, so it can do it super quick. (If it doesn't, it's
+considerably slower.)
+
+You can tell if your CPU supports the fast version by checking that the
+macro `FP_FAST_FMA` is set to `1`. (The `float` and `long` variants of
+`fma()` can be tested with `FP_FAST_FMAF` and `FP_FAST_FMAL`,
+respectively.)
+
+These functions might cause a range error to occur.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns `(x * y) + z`.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+printf("%f\n", fma(1.0, 2.0, 3.0));  // 5.000000
+```
+
+<!--
+### See Also {.unnumbered .unlisted}
+
+[`example()`](#man-example),
+-->
+
 <!--
 [[pagebreak]]
 ## `example()`, `example()`, `example()` {#man-example}
