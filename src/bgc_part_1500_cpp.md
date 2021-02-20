@@ -859,6 +859,12 @@ int main(void)
 }
 ```
 
+This has the output:
+
+```
+foo.c:23: assertion x < 20 failed: x must be under 20
+```
+
 ## The `#error` Directive
 
 This directive causes the compiler to error out as soon as it sees it.
