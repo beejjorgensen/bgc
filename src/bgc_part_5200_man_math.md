@@ -5,6 +5,78 @@
 
 # `<math.h>` Mathematics {#math}
 
+Many of the following functions have `float` and `long double` variants
+as described [below](#func-idioms) (e.g. `pow()`, `powf()`, `powl()`).
+The `float` and `long double` variants are omitted from the following
+table to keep your eyeballs from melting out.
+
+|Function|Description|
+|--------|----------------------|
+|[`acos()`](#man-acos)|Calculate the arc cosine of a number.|
+|[`acosh()`](#man-acosh)|Compute arc hyperbolic cosine.|
+|[`asin()`](#man-asin)|Calculate the arc sine of a number.|
+|[`asinh()`](#man-asinh)|Compute arc hyperbolic sine.|
+|[`atan()`](#man-atan), [`atan2()`](#man-atan)|Calculate the arc tangent of a number.|
+|[`atanh()`](#man-atanh)|Compute the arc hyperbolic tangent.|
+|[`cbrt()`](#man-cbrt)|Compute the cube root.|
+|[`ceil()`](#man-ceil)|Ceiling---return the next whole number not smaller than the given number.|
+|[`copysign()`](#man-copysign)|Copy the sign of one value into another.|
+|[`cos()`](#man-cos)|Calculate the cosine of a number.|
+|[`cosh()`](#man-cosh)|Compute the hyperbolic cosine.|
+|[`erf()`](#man-erf)|Compute the error function of the given value.|
+|[`erfc()`](#man-erfc)|Compute the complementary error function of a value.|
+|[`exp()`](#man-exp)|Compute $e$ raised to a power.|
+|[`exp2()`](#man-exp2)|Compute 2 to a power.|
+|[`expm1()`](#man-expm1)|Compute $e^x-1$.|
+|[`fabs()`](#man-fabs)|Compute the absolute value.|
+|[`fdim()`](#man-fdim)|Return the positive difference between two numbers clamped at 0.|
+|[`floor()`](#man-floor)|Compute the largest whole number not larger than the given value.|
+|[`fma()`](#man-fma)|Floating (AKA "Fast") multiply and add.|
+|[`fmax()`](#man-fmax), [`fmin()`](#man-fmax)|Return the maximum or minimum of two numbers.|
+|[`fmod()`](#man-fmod)|Compute the floating point remainder.|
+|[`fpclassify()`](#man-fpclassify)|Return the classification of a given floating point number.|
+|[`frexp()`](#man-frexp)|Break a number into its fraction part and exponent (as a power of 2).|
+|[`hypot()`](#man-hypot)|Compute the length of the hypotenuse of a triangle.|
+|[`ilogb()`](#man-ilogb)|Return the exponent of a floating point number.|
+|[`isfinite()`](#man-isnan)|True if the number is not infinite or NaN.|
+|[`isgreater()`](#man-isgreater)|True if one argument is greater than another.|
+|[`isgreatereequal()`](#man-isgreater)|True if one argument is greater than or equal to another.|
+|[`isinf()`](#man-isnan)|True if the number is infinite.|
+|[`isless()`](#man-isgreater)|True if one argument is less than another.|
+|[`islesseequal()`](#man-isgreater)|True if one argument is less than or equal to another.|
+|[`islessgreater()`](#man-islessgreater)|Test if a floating point number is less than or greater than another.|
+|[`isnan()`](#man-isnan)|True if the number is Not-a-Number.|
+|[`isnormal()`](#man-isnan})|True if the number is normal.|
+|[`isunordered()`](#man-isunordered)|Macro returns true if either floating point argument is NaN.|
+|[`ldexp()`](#man-ldexp)|Multiply a number by an integral power of 2.|
+|[`lgamma()`](#man-lgamma)|Compute the natural logarithm of the absolute value of $\Gamma(x)$.|
+|[`log()`](#man-log)|Compute the natural logarithm.|
+|[`log10()`](#man-log10)|Compute the log-base-10 of a number.|
+|[`log2()`](#man-log2)|Compute the base-2 logarithm of a number.|
+|[`logb()`](#man-logb)|Extract the exponent of a number given `FLT_RADIX`.|
+|[`logp1()`](#man-logp1)|Compute the natural logarithm of a number plus 1.|
+|[`lrint()`](#man-lrint)|Returns `x` rounded in the current rounding direction as an integer.|
+|[`lround()`](#man-lround), [`llround()`](#man-lround)|Round a number in the good old-fashioned way, returning an integer.|
+|[`modf()`](#man-modf)|Extract the integral and fractional parts of a number.|
+|[`nan()`](#man-nan)|Return `NAN`.|
+|[`nearbyint()`](#man-nearbyint)|Rounds a value in the current rounding direction.|
+|[`nextafter()`](#man-nextafter)|Get the next (or previous) representable floating point value.|
+|[`nextoward()`](#man-nextoward)|Get the next (or previous) representable floating point value.|
+|[`pow()`](#man-pow)|Compute a value raised to a power.|
+|[`remainder()`](#man-remainder)|Compute the remainder IEC 60559-style.|
+|[`remquo()`](#man-remquo)|Compute the remainder and (some of the) quotient.|
+|[`rint()`](#man-rint)|Rounds a value in the current rounding direction.|
+|[`round()`](#man-round)|Round a number in the good old-fashioned way.|
+|[`scalbn()`](#man-scalb), [`scalbln()`](#man-scalb)|Efficiently compute $x\times r^n$, where $r$ is `FLT_RADIX`.|
+|[`signbit()`](#man-signbit)|Return the sign of a number.|
+|[`sin()`](#man-sin)|Calculate the sine of a number.|
+|[`sqrt()`](#man-sqrt)|Calculate the square root of a number.|
+|[`tan()`](#man-tan)|Calculate the tangent of a number.|
+|[`tanh()`](#man-tanh)|Compute the hyperbolic tangent.|
+|[`tgamma()`](#man-tgamma)|Compute the gamma function, $\Gamma(x)$.|
+|[`trunc()`](#man-trunc)|Truncate the fractional part off a floating point value.|
+
+
 It's your favorite subject: Mathematics! Hello, I'm Doctor Math, and
 I'll be making math FUN and EASY!
 
@@ -15,7 +87,7 @@ but these are merely functions that quickly and easily do math you
 either know, want, or just don't care about. That pretty much covers
 it.
 
-## Math Function Idioms
+## Math Function Idioms {#func-idioms}
 
 Many of these math functions exist in three forms, each corresponding
 to the argument and/or return types the function uses, `float`,
@@ -176,7 +248,7 @@ system.
 [[pagebreak]]
 ## `fpclassify()` {#man-fpclassify}
 
-Return the classification of a given floating point number
+Return the classification of a given floating point number.
 
 ### Synopsis {.unnumbered .unlisted}
 
@@ -271,6 +343,8 @@ sqrt(-1): not a number
 
 [[pagebreak]]
 ## `isfinite()`, `isinf()`, `isnan()`, `isnormal()` {#man-isnan}
+
+Return true if a number matches a classification.
 
 ### Synopsis {.unnumbered .unlisted}
 
@@ -878,6 +952,8 @@ printf("tanh 0.5 = %f\n", tanh(0.5));  // 0.462117
 [[pagebreak]]
 ## `exp()`, `expf()`, `expl()` {#man-exp}
 
+Compute $e$ raised to a power.
+
 ### Synopsis {.unnumbered .unlisted}
 
 ``` {.c}
@@ -1009,7 +1085,7 @@ printf("%f\n", expm1(2.34));  // 9.381237
 [[pagebreak]]
 ## `frexp()`, `frexpf()`, `frexpl()` {#man-frexp}
 
-Break a number into its fraction part and exponent (as a power of 2)
+Break a number into its fraction part and exponent (as a power of 2).
 
 ### Synopsis {.unnumbered .unlisted}
 
@@ -1191,7 +1267,7 @@ Output:
 [[pagebreak]]
 ## `log()`, `logf()`, `logl()` {#man-log}
 
-Compute the natural logarithm
+Compute the natural logarithm.
 
 ### Synopsis {.unnumbered .unlisted}
 
@@ -1380,7 +1456,7 @@ printf("%f\n", log2(256));     // 8.000000
 [[pagebreak]]
 ## `logb()`, `logbf()`, `logbl()` {#man-logb}
 
-Extract the exponent of a number given `FLT_RADIX`
+Extract the exponent of a number given `FLT_RADIX`.
 
 ### Synopsis {.unnumbered .unlisted}
 
@@ -1597,7 +1673,7 @@ scalbn(10.2, 20.7) = 10695475.200000
 [[pagebreak]]
 ## `cbrt()`, `cbrtf()`, `cbrtl()` {#man-cbrt}
 
-Compute the cube root
+Compute the cube root.
 
 ### Synopsis {.unnumbered .unlisted}
 
@@ -1639,7 +1715,7 @@ cbrt(1729.03) = 12.002384
 [[pagebreak]]
 ## `fabs()`, `fabsf()`, `fabsl()` {#man-fabs}
 
-Compute the absolute value
+Compute the absolute value.
 
 ### Synopsis {.unnumbered .unlisted}
 
@@ -1680,7 +1756,7 @@ printf("fabs(-3490.0) = %f\n", fabs(3490.0));  // 3490.000000
 [[pagebreak]]
 ## `hypot()`, `hypotf()`, `hypotl()` {#man-hypot}
 
-Compute the length of the hypotenuse of a triangle
+Compute the length of the hypotenuse of a triangle.
 
 ### Synopsis {.unnumbered .unlisted}
 
@@ -1775,7 +1851,7 @@ printf("%f\n", pow(2, 0.5));  // sqrt 2 = 1.414214
 [[pagebreak]]
 ## `sqrt()` {#man-sqrt}
 
-Calculate the square root of a number
+Calculate the square root of a number.
 
 ### Synopsis {.unnumbered .unlisted}
 
@@ -1848,7 +1924,7 @@ distance between points (x1, y1) and (x2, y2): 40.54
 [[pagebreak]]
 ## `erf()`, `erff()`, `erfl()` {#man-erf}
 
-Compute the error function of the given value
+Compute the error function of the given value.
 
 ### Synopsis {.unnumbered .unlisted}
 
@@ -1962,7 +2038,7 @@ Output:
 [[pagebreak]]
 ## `lgamma()`, `lgammaf()`, `lgammal()` {#man-lgamma}
 
-Compute the natural logarithm of the absolute value of $\Gamma(x)$
+Compute the natural logarithm of the absolute value of $\Gamma(x)$.
 
 ### Synopsis {.unnumbered .unlisted}
 
@@ -2016,7 +2092,7 @@ Output:
 [[pagebreak]]
 ## `tgamma()`, `tgammaf()`, `tgammal()` {#man-tgamma}
 
-Compute the gamma function, $\Gamma(x)$
+Compute the gamma function, $\Gamma(x)$.
 
 ### Synopsis {.unnumbered .unlisted}
 
@@ -2069,7 +2145,7 @@ Output:
 [[pagebreak]]
 ## `ceil()`, `ceilf()`, `ceill()` {#man-ceil}
 
-Ceiling---return the next whole number not smaller than the given number
+Ceiling---return the next whole number not smaller than the given number.
 
 ### Synopsis {.unnumbered .unlisted}
 
@@ -2291,6 +2367,8 @@ int main(void)
 [[pagebreak]]
 ## `lrint()`, `lrintf()`, `lrintl()` `llrint()`, `llrintf()`, `llrintl()` {#man-lrint}
 
+Returns `x` rounded in the current rounding direction as an integer.
+
 ### Synopsis {.unnumbered .unlisted}
 
 ``` {.c}
@@ -2358,7 +2436,7 @@ int main(void)
 [[pagebreak]]
 ## `round()`, `roundf()`, `roundl()` {#man-round}
 
-Round a number in the good old-fashioned way
+Round a number in the good old-fashioned way.
 
 ### Synopsis {.unnumbered .unlisted}
 
@@ -2407,7 +2485,7 @@ printf("%f\n", round(-1.14));  // -1.000000
 [[pagebreak]]
 ## `lround()`, `lroundf()`, `lroundl()` `llround()`, `llroundf()`, `llroundl()` {#man-lround}
 
-Round a number in the good old-fashioned way, returning an integer
+Round a number in the good old-fashioned way, returning an integer.
 
 ### Synopsis {.unnumbered .unlisted}
 
@@ -2463,7 +2541,7 @@ printf("%ld\n", lround(-1.14));  // -1
 [[pagebreak]]
 ## `trunc()`, `truncf()`, `truncl()` {#man-trunc}
 
-Truncate the fractional part off a floating point value
+Truncate the fractional part off a floating point value.
 
 ### Synopsis {.unnumbered .unlisted}
 
@@ -2553,7 +2631,7 @@ printf("%f\n", fmod(9.2, 5.1));   //  4.100000
 [[pagebreak]]
 ## `remainder()`, `remainderf()`, `remainderl()` {#man-remainder}
 
-Compute the remainder IEC 60559-style
+Compute the remainder IEC 60559-style.
 
 ### Synopsis {.unnumbered .unlisted}
 
@@ -2620,7 +2698,7 @@ printf("%f\n", remainder(4.3, 4));  //  0.300000
 [[pagebreak]]
 ## `remquo()`, `remquof()`, `remquol()` {#man-remquo}
 
-Compute the remainder and (some of the) quotient
+Compute the remainder and (some of the) quotient.
 
 ### Synopsis {.unnumbered .unlisted}
 
@@ -2715,7 +2793,7 @@ printf("%d remainder %f\n", quo, rem);  // 6 remainder -0.750000
 [[pagebreak]]
 ## `copysign()`, `copysignf()`, `copysignl()` {#man-copysign}
 
-Copy the sign of one value into another
+Copy the sign of one value into another.
 
 ### Synopsis {.unnumbered .unlisted}
 
@@ -2760,7 +2838,7 @@ printf("%f\n", copysign(x, z)); //  34.900000
 [[pagebreak]]
 ## `nan()`, `nanf()`, `nanl()` {#man-nan}
 
-Return `NAN`
+Return `NAN`.
 
 ### Synopsis {.unnumbered .unlisted}
 
@@ -2837,7 +2915,7 @@ printf("%f\n", nan("!"));      // nan
 [[pagebreak]]
 ## `nextafter()`, `nextafterf()`, `nextafterl()` {#man-nextafter}
 
-Get the next (or previous) representable floating point value
+Get the next (or previous) representable floating point value.
 
 ### Synopsis {.unnumbered .unlisted}
 
@@ -2895,7 +2973,7 @@ Output on my system:
 [[pagebreak]]
 ## `nextoward()`, `nextowardf()`, `nextowardl()` {#man-nextoward}
 
-Get the next (or previous) representable floating point value
+Get the next (or previous) representable floating point value.
 
 ### Synopsis {.unnumbered .unlisted}
 
@@ -2940,7 +3018,7 @@ Output on my system:
 [[pagebreak]]
 ## `fdim()`, `fdimf()`, `fdiml()` {#man-fdim}
 
-Return the positive difference between two numbers clamped at 0
+Return the positive difference between two numbers clamped at 0.
 
 ### Synopsis {.unnumbered .unlisted}
 
@@ -3029,9 +3107,9 @@ printf("%f\n", fmax(3.0, 10.0));   // 10.000000
 -->
 
 [[pagebreak]]
-## `fma()`, `fma()`, `fma()` {#man-fma}
+## `fma()`, `fmaf()`, `fmal()` {#man-fma}
 
-Floating (AKA "Fast") multiply and add
+Floating (AKA "Fast") multiply and add.
 
 ### Synopsis {.unnumbered .unlisted}
 
@@ -3085,7 +3163,7 @@ printf("%f\n", fma(1.0, 2.0, 3.0));  // 5.000000
 [[pagebreak]]
 ## `isgreater()`, `isgreaterequal()`, `isless()`, `islessequal()` {#man-isgreater}
 
-Floating point comparison macros
+Floating point comparison macros.
 
 ### Synopsis {.unnumbered .unlisted}
 
@@ -3142,7 +3220,7 @@ printf("%d\n", islessequal(10.0, 3.0));      // 0
 [[pagebreak]]
 ## `islessgreater()` {#man-islessgreater}
 
-Test if a floating point number is less than or greater than another
+Test if a floating point number is less than or greater than another.
 
 ### Synopsis {.unnumbered .unlisted}
 
@@ -3191,7 +3269,7 @@ printf("%d\n", islessgreater(10.0, 10.0));  // 0
 [[pagebreak]]
 ## `isunordered()` {#man-isunordered}
 
-Macro returns true if either floating point argument is NaN
+Macro returns true if either floating point argument is NaN.
 
 ### Synopsis {.unnumbered .unlisted}
 
