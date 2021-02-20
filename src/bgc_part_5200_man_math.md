@@ -3139,6 +3139,55 @@ printf("%d\n", islessequal(10.0, 3.0));      // 0
 [`islessgreater()`](#man-islessgreater),
 [`isunordered()`](#man-isunordered)
 
+[[pagebreak]]
+## `islessgreater()` {#man-islessgreater}
+
+Test if a floating point number is less than or greater than another
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <math.h>
+
+int islessgreater(any_floating_type x, any_floating_type y);
+```
+
+### Description {.unnumbered .unlisted}
+
+This macro is similar to `isgreater()` and all those, except it made the
+section name too long if I included it up there. So it gets its own
+spot.
+
+This returns true if $x < y$ or $x > y$.
+
+Even though it's a macro, we can rest assured that `x` and `y` are only
+evaluated once.
+
+And even if `x` or `y` are NaN, this will not throw an "invalid"
+exception, unlike the normal comparison operators.
+
+If you pass in a non-floating type, the behavior is undefined.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns `(x < y) || (x > y)`.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+printf("%d\n", islessgreater(10.0, 3.0));   // 1
+printf("%d\n", islessgreater(10.0, 30.0));  // 1
+printf("%d\n", islessgreater(10.0, 10.0));  // 0
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`isgreater()`](#man-isgreater),
+[`isgreaterequal()`](#man-isgreater),
+[`isless()`](#man-isgreater),
+[`islessequal()`](#man-isgreater),
+[`isunordered()`](#man-isunordered)
+
 <!--
 [[pagebreak]]
 ## `example()`, `example()`, `example()` {#man-example}
