@@ -832,7 +832,7 @@ with conditional compilation.
 
 Here's the complete example:
 
-``` {.c}
+``` {.c .numberLines}
 #include <stdio.h>
 #include <stdlib.h>
 
