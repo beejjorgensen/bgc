@@ -9,3 +9,13 @@
 
 % Less dense tables in LaTeX
 %\def\arraystretch{1.5}
+
+% Make chapter headings mixed case
+% https://tex.stackexchange.com/questions/78550/how-to-modify-the-headers-of-this-book-to-lower-case
+\usepackage{regexpatch}% http://ctan.org/pkg/regexpatch
+\makeatletter
+% \*patchcmd{<cmd>}{<search>}{<replace>}{<success>}{<failure>}
+\xpatchcmd{\chaptermark}{\MakeUppercase}{}{}{}%
+\xpatchcmd{\sectionmark}{\MakeUppercase}{}{}{}%
+\xpatchcmd*{\tableofcontents}{\MakeUppercase}{}{}{}%
+\makeatother
