@@ -3082,6 +3082,63 @@ printf("%f\n", fma(1.0, 2.0, 3.0));  // 5.000000
 [`example()`](#man-example),
 -->
 
+[[pagebreak]]
+## `isgreater()`, `isgreaterequal()`, `isless()`, `islessequal()` {#man-isgreater}
+
+Floating point comparison macros
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <math.h>
+
+int isgreater(any_floating_type x, any_floating_type y);
+
+int isgreaterequal(any_floating_type x, any_floating_type y);
+
+int isless(any_floating_type x, any_floating_type y);
+
+int islessequal(any_floating_type x, any_floating_type y);
+```
+
+### Description {.unnumbered .unlisted}
+
+These macros compare floating point numbers. Being macros, we can pass
+in any floating point type.
+
+You might think you can already do that with just regular comparison
+operators---and you'd be right!
+
+One one exception: the comparison operators raise the "invalid" floating
+exception if one or more of the operands is NaN. These macros do not.
+
+Note that you must only pass floating point types into these functions.
+Passing an integer or any other type is undefined behavior.
+
+### Return Value {.unnumbered .unlisted}
+
+`isgreater()` returns the result of `x > y`.
+
+`isgreaterequal()` returns the result of `x >= y`.
+
+`isless()` returns the result of `x < y`.
+
+`islessequal()` returns the result of `x <= y`.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+printf("%d\n", isgreater(10.0, 3.0));        // 1
+printf("%d\n", isgreaterequal(10.0, 10.0));  // 1
+printf("%d\n", isless(10.0, 3.0));           // 0
+printf("%d\n", islessequal(10.0, 3.0));      // 0
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`islessgreater()`](#man-islessgreater),
+[`isunordered()`](#man-isunordered)
+
 <!--
 [[pagebreak]]
 ## `example()`, `example()`, `example()` {#man-example}
