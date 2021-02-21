@@ -95,7 +95,69 @@ Returns the string converted to a `double`.
 
 ### See Also {.unnumbered .unlisted}
 
+[`atoi()`](#man-atoi),
 [`strtod()`](#man-strtod)
+
+[[pagebreak]]
+## `atoi()`, `atol()`, `atoll()` {#man-atoi}
+
+Convert an integer in a string into a integer type
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <stdlib.h>
+
+int atoi(const char *nptr);
+
+long int atol(const char *nptr);
+
+long long int atoll(const char *nptr);
+```
+
+### Description {.unnumbered .unlisted}
+
+Back in the day, `atoi()` stood for
+[fl["ASCII-To_Integer"|http://man.cat-v.org/unix-1st/3/atoi]] but now
+the spec makes no mention of that.
+
+These functions take a string with a number in them and convert it to an
+integer of the specified return type.
+
+If the result doesn't fit in the return type, behavior is undefined.
+
+It generally works as if you'd called [`strtol()`](#man-strtol) family
+of functions:
+
+``` {.c}
+atoi(nptr)                 // is basically the same as...
+(int)strtol(nptr, NULL, 10)
+
+atol(nptr)                 // is basically the same as...
+strtol(nptr, NULL, 10)
+
+atoll(nptr)                // is basically the same as...
+strtoll(nptr, NULL, 10)
+```
+
+Again, the [`strtol()`](#man-strtol) functions are generally better, so
+I recommend them instead of these.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns an integer result corresponding to the return type.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+int x = atof("3490");
+printf("%d\n", x);  // 3490
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`atof()`](#man-atof),
+[`strtol()`](#man-strtol)
 
 <!--
 [[pagebreak]]
