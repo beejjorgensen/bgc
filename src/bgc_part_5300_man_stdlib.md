@@ -68,7 +68,9 @@ day|http://man.cat-v.org/unix-1st/3/atof]], but no one would dare to use
 such coarse language now.
 
 But the gist is the same: we're going to convert a string with numbers
-and (optionally) a decimal point into a floating point value.
+and (optionally) a decimal point into a floating point value. Leading
+whitespace is ignored, and translation stops at the first invalid
+character.
 
 If the result doesn't fit in a `double`, behavior is undefined.
 
@@ -122,7 +124,8 @@ Back in the day, `atoi()` stood for
 the spec makes no mention of that.
 
 These functions take a string with a number in them and convert it to an
-integer of the specified return type.
+integer of the specified return type. Leading whitespace is ignored.
+Translation stops at the first invalid character.
 
 If the result doesn't fit in the return type, behavior is undefined.
 
@@ -159,6 +162,72 @@ printf("%d\n", x);  // 3490
 [`atof()`](#man-atof),
 [`strtol()`](#man-strtol)
 
+[[pagebreak]]
+## `strtod()`, `strtof()`, `strtold()` {#man-strtod}
+
+Convert a string to a floating point number
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <stdlib.h>
+
+double strtod(const char * restrict nptr, char ** restrict endptr);
+
+float strtof(const char * restrict nptr, char ** restrict endptr);
+
+long double strtold(const char * restrict nptr, char ** restrict endptr);
+```
+
+### Description {.unnumbered .unlisted}
+
+These are some neat functions that convert strings to floating point
+numbers (or even NaN or Infinity) and provide some error checking,
+besides.
+
+Firstly, leading whitespace is skipped.
+
+Then the functions attempt to convert characters into the floating point
+result. Finally, when an invalid character (or NUL character) is
+reached, they set `endptr` to point to the invalid character.
+
+Set `endptr` to `NULL` if you don't care about where the first invalid
+character is.
+
+If you didn't set `endptr` to `NULL`, it will point to a NUL character
+if the translation didn't find any bad characters. That is:
+
+``` {.c}
+if (*endptr == '\0') {
+    printf("What a perfectly-formed number!\n");
+} else {
+    printf("I found badness in your number: \"%s\"\n", endptr);
+}
+```
+
+But guess what! You can also translate strings into special values, like
+NaN and Infinity!
+
+If `nptr` points to a string containing `INF` or `INFINITY` (upper or
+lowercase), the value for Infinity will be returned.
+
+If `nptr` points to a string containing `NAN`, then NaN will be
+returned.
+
+hex
+
+NAN()
+
+### Return Value {.unnumbered .unlisted}
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`example()`](#man-example),
 <!--
 [[pagebreak]]
 ## `example()`, `example()`, `example()` {#man-example}
