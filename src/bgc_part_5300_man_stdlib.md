@@ -36,4 +36,86 @@ also be defined elsewhere:
 
 And some macros:
 
-* `NULL`, our good friend
+|Type|Description|
+|-|-|
+|`NULL`|Our good pointer friend|
+|`EXIT_SUCCESS`|Good exit status when things go well|
+|`EXIT_FAILURE`|Good exit status when things go poorly|
+|`RAND_MAX`|The maximum value that can be returned by the `rand()` function|
+|`MB_CUR_MAX`|Maximum number of bytes in a multibyte character in the current locale|
+
+And there you have it. Just a lot of fun, useful functions in here.
+Let's check 'em out!
+
+
+[[pagebreak]]
+## `atof()` {#man-atof}
+
+Convert a string to a floating point value
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <stdlib.h>
+
+double atof(const char *nptr);
+```
+
+### Description {.unnumbered .unlisted}
+
+This stood for [fl["ASCII-To-Floating" back in the
+day|http://man.cat-v.org/unix-1st/3/atof]], but no one would dare to use
+such coarse language now.
+
+But the gist is the same: we're going to convert a string with numbers
+and (optionally) a decimal point into a floating point value.
+
+If the result doesn't fit in a `double`, behavior is undefined.
+
+It generally works as if you'd called [`strtod()`](#man-strtod):
+
+``` {.c}
+strtod(nptr, NULL)
+```
+
+So check out [that reference page](#man-strtod) for more info.
+
+In fact, `strtod()` is just better and you should probably use that.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns the string converted to a `double`.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+    double x = atof("3.141593");
+    printf("%f\n", x);  // 3.141593
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`strtod()`](#man-strtod)
+
+<!--
+[[pagebreak]]
+## `example()`, `example()`, `example()` {#man-example}
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+```
+
+### Description {.unnumbered .unlisted}
+
+### Return Value {.unnumbered .unlisted}
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`example()`](#man-example),
+-->
