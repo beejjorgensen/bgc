@@ -211,23 +211,82 @@ NaN and Infinity!
 If `nptr` points to a string containing `INF` or `INFINITY` (upper or
 lowercase), the value for Infinity will be returned.
 
-If `nptr` points to a string containing `NAN`, then NaN will be
-returned.
+If `nptr` points to a string containing `NAN`, then (a quiet,
+non-signalling) NaN will be returned. You can tag the `NAN` with a
+sequence of characters from the set `0`-`9`, `a`-`z`, `A`-`Z`, and `_`
+by enclosing them in parens:
 
-hex
+``` {.c}
+NAN(foobar_3490)
+```
 
-NAN()
+What your compiler does with this is implementation-defined, but it can
+be used to specify different kinds of NaN.
+
+You can also specify a number in hexadecimal with a power-of-two
+exponent ($2^x$) if you lead with `0x` (or `0X`). For the exponent, use
+a `p` followed by a base 10 exponent. (You can't use `e` because that's
+a valid hex digit!)
+
+Example:
+
+``` {.c}
+0xabc.123p15
+```
+
+Which computes to $0xabc.123\times2^{15}$.
+
+You can put in `FLT_DECIMAL_DIG`, `DBL_DECIMAL_DIG`, or
+`LDBL_DECIMAL_DIG` digits and get a correctly-rounded result for the
+type.
 
 ### Return Value {.unnumbered .unlisted}
+
+Returns the converted number. If there was no number, returns `0`.
+`endptr` is set to point to the first invalid character, or the NUL
+terminator if all characters were consumed.
+
+If there's an overflow, `HUGE_VAL`, `HUGE_VALF`, or `HUGE_VALL` is
+returned, signed like the input, and `errno` is set to `ERANGE`.
+
+If there's an underflow, it returns the smallest number closest to zero
+with the input sign. `errno` may be set to `ERANGE`.
 
 ### Example {.unnumbered .unlisted}
 
 ``` {.c .numberLines}
+char *inp = "   123.4567beej";
+char *badchar;
+
+double val = strtod(inp, &badchar);
+
+printf("Converted string to %f\n", val);
+printf("Encountered bad characters: %s\n", badchar);
+
+val = strtod("987.654321beej", NULL);
+printf("Ignoring bad chars: %f\n", val);
+
+val = strtod("11.2233", &badchar);
+
+if (*badchar == '\0')
+    printf("No bad chars: %f\n", val);
+else
+    printf("Found bad chars: %f, %s\n", val, badchar);
+```
+
+Output:
+
+```
+Converted string to 123.456700
+Encountered bad characters: beej
+Ignoring bad chars: 987.654321
+No bad chars: 11.223300
 ```
 
 ### See Also {.unnumbered .unlisted}
 
-[`example()`](#man-example),
+[`atof()`](#man-atof),
+[`strtol()`](#man-strtol)
 <!--
 [[pagebreak]]
 ## `example()`, `example()`, `example()` {#man-example}
