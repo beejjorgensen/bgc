@@ -287,6 +287,123 @@ No bad chars: 11.223300
 
 [`atof()`](#man-atof),
 [`strtol()`](#man-strtol)
+
+[[pagebreak]]
+## `strtol()`, `strtoll()`, `strtoul()`, `strtoull()` {#man-strtol}
+
+Convert a string to an integer
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <stdlib.h>
+
+long int strtol(const char * restrict nptr,
+                char ** restrict endptr, int base);
+
+long long int strtoll(const char * restrict nptr,
+                      char ** restrict endptr, int base);
+
+unsigned long int strtoul(const char * restrict nptr,
+                          char ** restrict endptr, int base);
+
+unsigned long long int strtoull(const char * restrict nptr,
+                                char ** restrict endptr, int base);
+
+```
+
+### Description {.unnumbered .unlisted}
+
+These convert a string to an integer like `atoi()`, but they have a few
+more bells and whistles.
+
+Most notable, they can tell you where conversion started going wrong,
+i.e. where invalid characters, if any, appear. Leading spaces are
+ignored. A `+` or `-` sign may precede the number.
+
+The basic idea is that if things go well, these functions will return
+the integer values contained in the strings. And if you pass in the
+`char**` typed `endptr`, it'll set it to point at the NUL at the end of
+the string.
+
+If things don't go well, they'll set `endptr` to point at the first
+character where things have gone awry. That is, if you're converting a
+value `103z2!` in base 10, they'll send `endptr` to point at the `z`
+because that's the first non-numeric character.
+
+You can pass in `NULL` for `endptr` if you don't care to do any of that
+kind of error checking.
+
+Wait---did I just say we could set the number base for the conversion?
+Yes! Yes, I did. Now [flw[number bases|Radix]] are out of scope for this
+document, but certainly some of the more well-known are binary (base 2),
+octal (base 8), decimal (base 10), and hexadecimal (base 16).
+
+You can specify the number base for the conversion as the third
+parameter. Bases from 2 to 36 are supported, with case-insensitive
+digits running from `0` to `Z`.
+
+If you specify a base of `0`, the function will make an effort to
+determine it. It'll default to base 10 except for a couple cases:
+
+* If the number has a leading `0`, it will be octal (base 8)
+* If the number has a leading `0x` or `0X`, it will be hex (base 16)
+
+The locale might affect the behavior of these functions.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns the converted value.
+
+`endptr`, if not `NULL` is set to the first invalid character, or to the
+beginning of the string if no conversion was performed, or to the string
+terminal NUL if all characters were valid.
+
+If there's overflow, one of these values will be returned: `LONG_MIN`,
+`LONG_MAX`, `LLONG_MIN`, `LLONG_MAX`, `ULONG_MAX`, `ULLONG_MAX`. And
+`errno` is set to `ERANGE`.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+// All output in decimal (base 10)
+
+printf("%ld\n", strtol("123", NULL, 0));      // 123
+printf("%ld\n", strtol("123", NULL, 10));     // 123
+printf("%ld\n", strtol("101010", NULL, 2));   // binary, 42
+printf("%ld\n", strtol("123", NULL, 8));      // octal, 83
+printf("%ld\n", strtol("123", NULL, 16));     // hex, 291
+
+printf("%ld\n", strtol("0123", NULL, 0));     // octal, 83
+printf("%ld\n", strtol("0x123", NULL, 0));    // hex, 291
+
+char *badchar;
+long int x = strtol("   1234beej", &badchar, 0);
+
+printf("Value is %ld\n", x);               // Value is 1234
+printf("Bad chars at \"%s\"\n", badchar);  // Bad chars at "beej"
+```
+
+Output:
+
+```
+123
+123
+42
+83
+291
+83
+291
+Value is 1234
+Bad chars at "beej"
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`atoi()`](#man-atoi),
+[`strtod()`](#man-strtod),
+[`setlocale()`](#man-setlocale)
+
 <!--
 [[pagebreak]]
 ## `example()`, `example()`, `example()` {#man-example}
