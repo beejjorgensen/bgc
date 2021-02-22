@@ -404,6 +404,91 @@ Bad chars at "beej"
 [`strtod()`](#man-strtod),
 [`setlocale()`](#man-setlocale)
 
+[[pagebreak]]
+## `rand()` {#man-rand}
+
+Return a pseudorandom number
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <stdlib.h>
+
+int rand(void);
+```
+
+### Description {.unnumbered .unlisted}
+
+This gives us back a pseudorandom number in the range `0` to `RAND_MAX`,
+inclusive. (`RAND_MAX` will be at least $32767$.)
+
+If you want to force this to a certain range, the classic way to do this
+is to force it with the modulo operator `%`, although [fl[this
+introduces
+biases|https://stackoverflow.com/questions/10984974/why-do-people-say-there-is-modulo-bias-when-using-a-random-number-generator]]
+if `RAND_MAX+1` is not a multiple of the number you're modding by. Dealing
+with this is out of scope for this guide.
+
+If you want to to make a floating point number between `0` and `1`
+inclusive, you can divide the result by `RAND_MAX`. Or `RAND_MAX+1` if
+you don't want to include `1`. But of course, there are out-of-scope
+[fl[problems with this, as
+well|https://mumble.net/~campbell/2014/04/28/uniform-random-float]].
+
+In short, `rand()` is a great way to get potentially poor random numbers
+with ease. Probably good enough for the game you're writing.
+
+The spec elaborates:
+
+> There are no guarantees as to the quality of the random sequence
+> produced and some implementations are known to produce sequences with
+> distressingly non-random low-order bits. Applications with particular
+> requirements should use a generator that is known to be sufficient for
+> their needs.
+
+Your system probably has a good random number generator on it if you
+need a stronger source. Linux users have `getrandom()`, for example, and
+Windows has `CryptGenRandom()`.
+
+For other more demanding random number work, you might find a library
+like the [fl[GNU Scientific
+Library|https://www.gnu.org/software/gsl/doc/html/rng.html]] of use.
+
+You can explicitly see the random number generator with `srand()`.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns a random number in the range `0` to `RAND_MAX`, inclusive.
+
+### Example {.unnumbered .unlisted}
+
+Note that all of these examples don't produce perfectly uniform
+distributions. But good enough for the untrained eye, and really common
+in general use when mediocre random number quality is acceptable.
+
+``` {.c .numberLines}
+printf("RAND_MAX = %d\n", RAND_MAX);
+
+printf("0 to 9: %d\n", rand() % 10);
+
+printf("10 to 44: %d\n", rand() % 35 + 10);
+printf("0 to 0.99999: %f\n", rand() / ((float)RAND_MAX + 1));
+printf("10.5 to 15.7: %f\n", 10.5 + 5.2 * rand() / (float)RAND_MAX);
+```
+
+Output on my system:
+
+```
+RAND_MAX = 2147483647
+0 to 9: 3
+10 to 44: 21
+0 to 0.99999: 0.783099
+10.5 to 15.7: 14.651888
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`srand()`](#man-srand)
 <!--
 [[pagebreak]]
 ## `example()`, `example()`, `example()` {#man-example}
