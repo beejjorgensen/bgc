@@ -489,6 +489,96 @@ RAND_MAX = 2147483647
 ### See Also {.unnumbered .unlisted}
 
 [`srand()`](#man-srand)
+
+[[pagebreak]]
+## `srand()` {#man-srand}
+
+Seed the built-in pseudorandom number generator
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <stdlib.h>
+
+void srand(unsigned int seed);
+```
+
+### Description {.unnumbered .unlisted}
+
+The dirty little secret of pseudorandom number generation is that
+they're completely deterministic. There's nothing random about them.
+They just look random.
+
+If you use `rand()` and run your program several times, you might notice
+something _fishy_: they produce the same random numbers over and over
+again.
+
+To mix it up, we need to give the pseudorandom number generator a new
+"starting point", if you will. We call that the _seed_. It's just a
+number, but it is used as the basic for subsequent number generation.
+Give a different seed, and you'll get a different sequence of random
+numbers. Give the same seed, and you'll get the same sequence of random
+numbers corresponding to it^[Minecraft enthusiasts might recall that
+when generating a new world, they were given the option to enter a
+random number seed. That single value is used to generate that entire
+random world. And if your friend starts a world with the same seed you
+did, they'll get the same world you did.].
+
+But if you can't hardcode the seed (because that would give you the same
+sequence every time), how are you supposed to do this?
+
+It's really common to use the number of seconds since January 1, 1970 to
+seed the generator. This sounds pretty arbitrary except for the fact
+that it's exactly the value returned by the library call `time(NULL)`.
+We'll do that in the example.
+
+If you don't call `srand()`, it's as if you called `srand(1)`.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns nothing!
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>    // for the time() call
+
+int main(void)
+{
+    srand(time(NULL));
+
+    for (int i = 0; i < 5; i++)
+        printf("%d\n", rand() % 32);
+}
+```
+
+Output:
+
+```
+4
+20
+22
+14
+9
+```
+
+Output from a subsequent run:
+
+```
+19
+0
+31
+31
+24
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`rand()`](#man-rand),
+[`time()`](#man-time)
+
 <!--
 [[pagebreak]]
 ## `example()`, `example()`, `example()` {#man-example}
