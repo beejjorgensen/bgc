@@ -605,9 +605,18 @@ Normally you don't have to think about this, since `malloc()` and
 But if you need a more specific alignment, you can specify it with this
 function.
 
+When you're done using the memory region, be sure to free it with a call
+to [`free()`](#man-free).
+
+In case you're wondering, all dynamically-allocated memory is
+automatically freed by the system when the program ends. That said, it's
+considered to be _Good Form_ to explicitly `free()` everything you
+allocate. This way other programmers don't think you were being sloppy.
+
 ### Return Value {.unnumbered .unlisted}
 
 Returns a pointer to the newly-allocated memory, aligned as specified.
+Returns `NULL` if something goes wrong.
 
 ### Example {.unnumbered .unlisted}
 
@@ -629,6 +638,9 @@ int main(void)
     intptr_t ip = (intptr_t)p;
 
     printf("%ld\n", ip % 256);   // 0!
+
+    // Free it up
+    free(p);
 }
 ```
 
@@ -636,6 +648,81 @@ int main(void)
 
 [`malloc()`](#man-malloc),
 [`calloc()`](#man-calloc),
+[`free()`](#man-free)
+
+[[pagebreak]]
+## `calloc()`, `malloc()` {#man-malloc}
+
+Allocate memory for arbitrary use
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <stdlib.h>
+
+void *calloc(size_t nmemb, size_t size);
+
+void *malloc(size_t size);
+```
+
+### Description {.unnumbered .unlisted}
+
+Both of these functions allocate memory for general-purpose use. It will
+be aligned such that it's useable for storing any data type.
+
+`malloc()` allocates exactly the specified number of bytes of memory in
+a contiguous block. The memory might be full of garbage data. (You can
+clear it with [`memset()`](#man-memset), if you wish.)
+
+`calloc()` is different in that it allocates space for `nmemb` objects
+of `size` bytes each. (You can do the same with `malloc()`, but you have
+to do the multiplication yourself.)
+
+`calloc()` has an additional feature: it clears all the memory to `0`.
+
+So if you're planning to zero the memory anyway, `calloc()` is probably
+the way to go. If you're not, you can avoid that overhead by calling
+`malloc()`.
+
+When you're done using the memory region, free it with a call to
+`free()`.
+
+In case you're wondering, all dynamically-allocated memory is
+automatically freed by the system when the program ends. That said, it's
+considered to be _Good Form_ to explicitly `free()` everything you
+allocate. This way other programmers don't think you were being sloppy.
+
+### Return Value {.unnumbered .unlisted}
+
+Both functions return a pointer to the shiny, newly-allocated memory. Or
+`NULL` if something's gone awry.
+
+### Example {.unnumbered .unlisted}
+
+Comparison of `malloc()` and `calloc()` for allocating 5 `int`s:
+
+``` {.c .numberLines}
+// Allocate space for 5 ints
+int *p = malloc(5 * sizeof(int));
+
+p[0] = 12;
+p[1] = 30;
+
+// Allocate space for 5 ints
+// (Also clear that memory to 0)
+int *q = calloc(5, sizeof(int));
+
+q[0] = 12;
+q[1] = 30;
+
+// All done
+free(p);
+free(q);
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`aligned_alloc()`](#man-aligned_alloc),
 [`free()`](#man-free)
 
 <!--
