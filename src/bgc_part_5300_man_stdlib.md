@@ -730,7 +730,7 @@ free(q);
 [`free()`](#man-free)
 
 [[pagebreak]]
-## `free() {#man-free}
+## `free()` {#man-free}
 
 Free a memory region
 
@@ -853,7 +853,7 @@ free(p);
 [`calloc()`](#man-malloc)
 
 [[pagebreak]]
-## `abort()`, `example()`, `example()` {#man-abort}
+## `abort()` {#man-abort}
 
 Abruptly end program execution
 
@@ -943,6 +943,10 @@ will fire.
 You can register multiple handlers to fire---at least 32 handlers are
 supported by both `exit()` and `quick_exit()`.
 
+The argument `func` to the functions looks a little weird---it's a
+pointer to a function to call. Basically just put the function name to
+call in there (without parentheses after). See the example, below.
+
 If you call `atexit()` from inside your `atexit()` handler (or equivalent
 in your `at_quick_exit()` handler), it's unspecified if it will get
 called. So get them all registered before you exit.
@@ -990,7 +994,7 @@ Exit handler 1 called!
 
 And a similar example with `quick_exit()`:
 
-```
+``` {.c .numberLines}
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -1017,6 +1021,78 @@ int main(void)
 
 [`exit()`](#man-exit),
 [`quick_exit()`](#man-quick_exit)
+
+[[pagebreak]]
+## `exit()`, `quick_exit()`, `_Exit()` {#man-exit}
+
+Exit the currently-running program
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <stdlib.h>
+
+_Noreturn void exit(int status);
+
+_Noreturn void quick_exit(int status);
+
+_Noreturn void _Exit(int status);
+```
+
+### Description {.unnumbered .unlisted}
+
+All these functions cause the program to exit, with various levels of
+cleanup performed.
+
+`exit()` does the most cleanup and is the most normal exit.
+
+`quick_exit()` is the second most.
+
+`_Exit()` unceremoniously drops everything and ragequits on the spot.
+
+Calling either of `exit()` or `quick_exit()` causes their respective
+`atexit()` or `at_quick_exit()` handlers to be called in the reverse
+order in which they were registered.
+
+`exit()` will flush all streams and delete all temporary files.
+
+`quick_exit()` or `_Exit()` might not perform that nicety.
+
+`_Exit()` doesn't call any of the at-exit handlers, either.
+
+For all functions, the exit `status` is returned to the environment.
+
+Defined exit statuses are:
+
+|Status|Description|
+|-|-|
+|`EXIT_SUCCESS`|Typically returned when good things happen|
+|`0`|Same as `EXIT_SUCCESS`|
+|`EXIT_FAILURE`|Oh noes! Definitely failure!|
+|Any positive value|Generally indicates another failure of some kind|
+
+### Return Value {.unnumbered .unlisted}
+
+None of these functions ever return.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+exit(EXIT_SUCCESS);
+```
+
+``` {.c .numberLines}
+quick_exit(EXIT_FAILURE);
+```
+
+``` {.c .numberLines}
+_Exit(2);
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`atexit()`](#man-atexit),
+[`at_quick_exit()`](#man-atexit)
 
 <!--
 [[pagebreak]]
