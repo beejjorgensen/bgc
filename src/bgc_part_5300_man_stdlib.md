@@ -608,6 +608,8 @@ function.
 When you're done using the memory region, be sure to free it with a call
 to [`free()`](#man-free).
 
+Don't pass in `0` for the size. It probably won't do anything you want.
+
 In case you're wondering, all dynamically-allocated memory is
 automatically freed by the system when the program ends. That said, it's
 considered to be _Good Form_ to explicitly `free()` everything you
@@ -647,7 +649,7 @@ int main(void)
 ### See Also {.unnumbered .unlisted}
 
 [`malloc()`](#man-malloc),
-[`calloc()`](#man-calloc),
+[`calloc()`](#man-malloc),
 [`free()`](#man-free)
 
 [[pagebreak]]
@@ -687,6 +689,8 @@ the way to go. If you're not, you can avoid that overhead by calling
 When you're done using the memory region, free it with a call to
 `free()`.
 
+Don't pass in `0` for the size. It probably won't do anything you want.
+
 In case you're wondering, all dynamically-allocated memory is
 automatically freed by the system when the program ends. That said, it's
 considered to be _Good Form_ to explicitly `free()` everything you
@@ -724,6 +728,129 @@ free(q);
 
 [`aligned_alloc()`](#man-aligned_alloc),
 [`free()`](#man-free)
+
+[[pagebreak]]
+## `free() {#man-free}
+
+Free a memory region
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <stdlib.h>
+
+void free(void *ptr);
+```
+
+### Description {.unnumbered .unlisted}
+
+You know that pointer you got back from `malloc()`, `calloc()`, or
+`aligned_alloc()`? You pass that pointer to `free()` to free the memory
+associated with it.
+
+If you don't do this, the memory will stay allocated FOREVER AND EVER! (Well,
+until your program exits, anyway.)
+
+Fun fact: `free(NULL)` does nothing. You can safely call that. Sometimes
+it's convenient.
+
+Don't `free()` a pointer that's already been `free()`d. Don't `free()` a
+pointer that you didn't get back from one of the allocation functions.
+It would be _Bad_^["Try to imagine all life as you know it stopping
+instantaneously and every molecule in your body exploding at the speed
+of light." ---Egon Spengler].
+
+### Return Value {.unnumbered .unlisted}
+
+Returns nothing!
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+// Allocate space for 5 ints
+int *p = malloc(5 * sizeof(int));
+
+p[0] = 12;
+p[1] = 30;
+
+// Free that space
+free(p);
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`malloc()`](#man-malloc),
+[`calloc()`](#man-malloc),
+[`aligned_alloc()`](#man-aligned_alloc)
+
+[[pagebreak]]
+## `realloc()` {#man-realloc}
+
+Resize a previously allocated stretch of memory
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <stdlib.h>
+
+void *realloc(void *ptr, size_t size);
+```
+
+### Description {.unnumbered .unlisted}
+
+This takes a pointer to some memory previously allocated with `malloc()`
+or `calloc()` and resizes it to the new size.
+
+If the new size is smaller than the old size, any data larger than the
+new size is discarded.
+
+If the new size is larger than the old size, the new larger part is
+uninitialized. (You can clear it with [`memset()`](#man-memset).)
+
+Important note: the memory might move! If you resize, the system might
+need to relocate the memory to a larger continguous chunk. If this
+happens, `realloc()` will copy the old data to the new location for you.
+
+Because of this, it's important to save the returned value to your
+pointer to update it to the new location if things move. (Also, be sure
+to error-check so that you don't overwrite your old pointer with `NULL`,
+leaking the memory.)
+
+You can also `relloc()` memory allocated with `aligned_alloc()`, but it
+will potentially lose its alignment if the block is moved.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns a pointer to the resized memory region. This might be equivalent
+to the `ptr` passed in, or it might be some other location.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+// Allocate space for 5 ints
+int *p = malloc(5 * sizeof(int));
+
+p[0] = 12;
+p[1] = 30;
+
+// Reallocate for 10 bytes
+int *new_p = realloc(p, 10 * sizeof(int));
+
+if (new_p == NULL) {
+    printf("Error reallocing\n");
+} else {
+    p = new_p;  // It's good; let's keep it
+    p[7] = 99;
+}
+
+// All done
+free(p);
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`malloc()`](#man-malloc),
+[`calloc()`](#man-malloc)
 
 <!--
 [[pagebreak]]
