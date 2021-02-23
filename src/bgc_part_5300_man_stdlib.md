@@ -579,6 +579,65 @@ Output from a subsequent run:
 [`rand()`](#man-rand),
 [`time()`](#man-time)
 
+
+[[pagebreak]]
+## `aligned_alloc()` {#man-example}
+
+Allocate specifically-aligned memory
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <stdlib.h>
+
+void *aligned_alloc(size_t alignment, size_t size);
+```
+
+### Description {.unnumbered .unlisted}
+
+Maybe you wanted [`malloc()`](#man-malloc) or [`calloc()`](#man-malloc)
+instead of this. But if you're sure you don't, read on!
+
+Normally you don't have to think about this, since `malloc()` and
+`realloc()` both provide memory regions that are suitably
+[flw[aligned|Data_structure_alignment]] for use with any data type.
+
+But if you need a more specific alignment, you can specify it with this
+function.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns a pointer to the newly-allocated memory, aligned as specified.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdint.h>
+
+int main(void)
+{
+    int *p = aligned_alloc(256, 10 * sizeof(int));
+
+    // Just for fun, let's convert to intptr_t and mod with 256
+    // to make sure we're actually aligned on a 256-byte boundary.
+    //
+    // This is probably some kind of implementation-defined
+    // behavior, but I'll bet it works.
+
+    intptr_t ip = (intptr_t)p;
+
+    printf("%ld\n", ip % 256);   // 0!
+}
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`malloc()`](#man-malloc),
+[`calloc()`](#man-calloc),
+[`free()`](#man-free)
+
 <!--
 [[pagebreak]]
 ## `example()`, `example()`, `example()` {#man-example}
