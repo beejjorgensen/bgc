@@ -875,6 +875,9 @@ removed. Exit handlers are not called.
 
 A non-zero exit status is returned to the environment.
 
+On some systems, `abort()` might [flw[dump core|Core_dump]], but this is
+outside the scope of the spec.
+
 You can cause the equivalent of an `abort()` by calling
 `raise(SIGABRT)`, but I don't know why you'd do that.
 
@@ -905,6 +908,115 @@ zsh: abort (core dumped)  ./foo
 ### See Also {.unnumbered .unlisted}
 
 [`signal()`](#man-signal)
+
+[[pagebreak]]
+## `atexit()`, `at_quick_exit()` {#man-atexit}
+
+Set up handlers to run when the program exits
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <stdlib.h>
+
+int atexit(void (*func)(void));
+
+int at_quick_exit(void (*func)(void));
+```
+
+### Description {.unnumbered .unlisted}
+
+When the program does a normal exit with `exit()` or returns from
+`main()`, it looks for previously-registered handlers to call on the way
+out. These handlers are registered with the `atexit()` call.
+
+Think of it like, "Hey, when you're about to exit, do these extra
+things."
+
+For the `quick_exit()` call, you can use the `at_quick_exit()` function
+to register handlers for that^[`quick_exit()` differs from `exit()` in
+that open files might not be flushed and temporary files might not be
+removed.]. There's no crossover in handlers from `exit()` to
+`quick_exit()`, i.e. for a call to one, none of the other's handlers
+will fire.
+
+You can register multiple handlers to fire---at least 32 handlers are
+supported by both `exit()` and `quick_exit()`.
+
+If you call `atexit()` from inside your `atexit()` handler (or equivalent
+in your `at_quick_exit()` handler), it's unspecified if it will get
+called. So get them all registered before you exit.
+
+When exiting, the functions will be called in the reverse order they
+were registered.
+
+### Return Value {.unnumbered .unlisted}
+
+These functions return `0` on success, or nonzero on failure.
+
+### Example {.unnumbered .unlisted}
+
+`atexit()`:
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <stdlib.h>
+
+void exit_handler_1(void)
+{
+    printf("Exit handler 1 called!\n");
+}
+
+void exit_handler_2(void)
+{
+    printf("Exit handler 2 called!\n");
+}
+
+int main(void)
+{
+    atexit(exit_handler_1);
+    atexit(exit_handler_2);
+
+    exit(0);
+}
+```
+
+For the output:
+
+```
+Exit handler 2 called!
+Exit handler 1 called!
+```
+
+And a similar example with `quick_exit()`:
+
+```
+#include <stdio.h>
+#include <stdlib.h>
+
+void exit_handler_1(void)
+{
+    printf("Exit handler 1 called!\n");
+}
+
+void exit_handler_2(void)
+{
+    printf("Exit handler 2 called!\n");
+}
+
+int main(void)
+{
+    at_quick_exit(exit_handler_1);
+    at_quick_exit(exit_handler_2);
+
+    quick_exit(0);
+}
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`exit()`](#man-exit),
+[`quick_exit()`](#man-quick_exit)
 
 <!--
 [[pagebreak]]
