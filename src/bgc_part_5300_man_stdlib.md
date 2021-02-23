@@ -454,7 +454,7 @@ For other more demanding random number work, you might find a library
 like the [fl[GNU Scientific
 Library|https://www.gnu.org/software/gsl/doc/html/rng.html]] of use.
 
-You can explicitly see the random number generator with `srand()`.
+You can explicitly seed the random number generator with `srand()`.
 
 ### Return Value {.unnumbered .unlisted}
 
