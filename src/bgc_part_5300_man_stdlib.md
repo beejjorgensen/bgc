@@ -852,6 +852,60 @@ free(p);
 [`malloc()`](#man-malloc),
 [`calloc()`](#man-malloc)
 
+[[pagebreak]]
+## `abort()`, `example()`, `example()` {#man-abort}
+
+Abruptly end program execution
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <stdlib.h>
+
+_Noreturn void abort(void);
+```
+
+### Description {.unnumbered .unlisted}
+
+This ends program execution _abnormally_ and immediately. Use this in
+rare, unexpected circumstances.
+
+Open streams might not be flushed. Temporary files created might not be
+removed. Exit handlers are not called.
+
+A non-zero exit status is returned to the environment.
+
+You can cause the equivalent of an `abort()` by calling
+`raise(SIGABRT)`, but I don't know why you'd do that.
+
+The only portable way to stop an `abort()` call midway is to use
+`signal()` to catch `SIGABRT` and then `exit()` in the signal handler.
+
+### Return Value {.unnumbered .unlisted}
+
+This function never returns.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+if (bad_thing) {
+    printf("This should never have happened!\n");
+    fflush(stdout);  // Make sure the message goes out
+    abort();
+}
+```
+
+On my system, this outputs:
+
+```
+This should never have happened!
+zsh: abort (core dumped)  ./foo
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`signal()`](#man-signal)
+
 <!--
 [[pagebreak]]
 ## `example()`, `example()`, `example()` {#man-example}
