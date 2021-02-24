@@ -1094,6 +1094,57 @@ _Exit(2);
 [`atexit()`](#man-atexit),
 [`at_quick_exit()`](#man-atexit)
 
+[[pagebreak]]
+## `getenv()` {#man-getenv}
+
+Get the value of an environment variable
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <stdlib.h>
+
+char *getenv(const char *name);
+```
+
+### Description {.unnumbered .unlisted}
+
+The environment often provides variables that are set before the program
+run that you can access at runtime.
+
+Of course the exact details are system dependent, but these variables
+are key/value pairs, and you can get the value by passing the key to
+`getenv()` as the `name` parameter.
+
+You're not allowed to overwrite the string that's returned.
+
+This is pretty limited in the standard, but your OS often provides
+better functionality. See the [Environment Variables](#env-var) section
+for more details.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns a pointer to the environment variable value, or `NULL` if the
+variable doesn't exist.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+printf("PATH is %s\n", getenv("PATH"));
+```
+
+Output (truncated in my case):
+
+```
+PATH is /usr/bin:/usr/local/bin:/usr/sbin:/home/beej/.cargo/bin [...]
+```
+
+<!--
+### See Also {.unnumbered .unlisted}
+
+[`example()`](#man-example),
+-->
+
 <!--
 [[pagebreak]]
 ## `example()`, `example()`, `example()` {#man-example}
