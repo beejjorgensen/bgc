@@ -1145,6 +1145,79 @@ PATH is /usr/bin:/usr/local/bin:/usr/sbin:/home/beej/.cargo/bin [...]
 [`example()`](#man-example),
 -->
 
+[[pagebreak]]
+## `system()` {#man-system}
+
+Run an external program
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <stdlib.h>
+
+int system(const char *string);
+```
+
+### Description {.unnumbered .unlisted}
+
+This will run an external program and then return to the caller.
+
+The manner in which it runs the program is system-defined, but typically
+you can pass something to it just like you'd run on the command line,
+searching the `PATH`, etc.
+
+Not all systems have this capability, but you can test for it by passing
+`NULL` to `system()` and seeing if it returns 0 (no command processor is
+available) or non-zero (a command processor is available! Yay!)
+
+If you're getting user input and passing it to the `system()` call, be
+extremely careful to escape all special shell characters (everything
+that's not alphanumeric) with a backslash to keep a villain from running
+something you don't want them to.
+
+### Return Value {.unnumbered .unlisted}
+
+If `NULL` is passed, returns nonzero if a command processor is available
+(i.e. `system()` will work at all).
+
+Otherwise returns an implementation-defined value.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+printf("Here's a directory listing:\n\n");
+
+system("ls -l");   // Run this command and return
+
+printf("\nAll done!\n");
+```
+
+Output:
+
+```
+Here's a directory listing:
+
+total 92
+drwxr-xr-x 3 beej beej  4096 Oct 14 21:38 bin
+drwxr-xr-x 2 beej beej  4096 Dec 20 20:07 examples
+-rwxr-xr-x 1 beej beej 16656 Feb 23 21:49 foo
+-rw-rw-rw- 1 beej beej   155 Feb 23 21:49 foo.c
+-rw-r--r-- 1 beej beej  1350 Jan 27 22:11 Makefile
+-rw-r--r-- 1 beej beej  4644 Jan 18 09:12 README.md
+drwxr-xr-x 3 beej beej  4096 Feb 23 20:21 src
+drwxr-xr-x 6 beej beej  4096 Feb 21 20:24 stage
+drwxr-xr-x 2 beej beej  4096 Sep 27 20:54 translations
+drwxr-xr-x 2 beej beej  4096 Sep 27 20:54 website
+
+All done!
+```
+
+<!--
+### See Also {.unnumbered .unlisted}
+
+[`example()`](#man-example),
+-->
+
 <!--
 [[pagebreak]]
 ## `example()`, `example()`, `example()` {#man-example}
