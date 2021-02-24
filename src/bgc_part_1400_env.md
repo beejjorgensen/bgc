@@ -432,7 +432,7 @@ AND the code with `0xff`, effectively clamping it to that range.
 You can script the shell to later use these status codes to make
 decisions about what to do next.
 
-## Environment Variables
+## Environment Variables {#env-var}
 
 Before I get into this, I need to warn you that C doesn't specify what
 an environment variable is. So I'm going to describe the environment
