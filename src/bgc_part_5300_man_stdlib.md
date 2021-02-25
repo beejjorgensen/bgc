@@ -1218,6 +1218,102 @@ All done!
 [`example()`](#man-example),
 -->
 
+[[pagebreak]]
+## `bsearch()` {#man-example}
+
+Binary Search (maybe) an array of objects
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <stdlib.h>
+
+void *bsearch(const void *key, const void *base,
+              size_t nmemb, size_t size,
+              int (*compar)(const void *, const void *));
+```
+
+### Description {.unnumbered .unlisted}
+
+This crazy-looking function searches an array for a value.
+
+It probably is a binary search or some fast, efficient search. But the
+spec doesn't really say.
+
+However, the array must be sorted! So binary search seems likely.
+
+* `key` is a pointer to the value to find.
+* `base` is a pointer to the start of the array---the array must be
+  sorted!
+* `nmemb` is the number of elements in the array.
+* `size` is the size of each element in the array.
+* `compar` is a pointer to a function that will compare the key against
+  other values.
+
+The comparison function takes the key as the first argument and the
+value to compare against as the second. It should return a negative
+number if the key is less than the value, `0` if the key equals the
+value, and a positive number if the key is greater than the value.
+
+This is commonly computed by taking the difference between the key and
+the value to be compared. If subtraction is supported.
+
+It's a general-purpose function---it'll search any type of array for
+anything. The catch is you have to write the comparison function.
+
+And that's not as scary as it looks. Jump down to the example
+
+### Return Value {.unnumbered .unlisted}
+
+The function returns a pointer to the found value, or `NULL` if it can't
+be found.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <stdlib.h>
+
+int compar(const void *key, const void *value)
+{
+    const int *k = key, *v = value;  // Need ints, not voids
+
+    return *k - *v;
+}
+
+int main(void)
+{
+    int a[9] = {2, 6, 9, 12, 13, 18, 20, 32, 47};
+
+    int *r, key;
+
+    key = 12;  // 12 is in there
+    r = bsearch(&key, a, 9, sizeof(int), compar);
+    printf("Found %d\n", *r);
+
+    key = 30;  // Won't find a 30
+    r = bsearch(&key, a, 9, sizeof(int), compar);
+    if (r == NULL)
+        printf("Didn't find 30\n");
+
+    // Searching with an unnamed key, pointer to 32
+    r = bsearch((int[]){32}, a, 9, sizeof(int), compar);
+    printf("Found %d\n", *r);  // Found it
+}
+```
+
+Output:
+
+```
+Found 12
+Didn't find 30
+Found 32
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`qsort()`](#man-qsort)
+
 <!--
 [[pagebreak]]
 ## `example()`, `example()`, `example()` {#man-example}
