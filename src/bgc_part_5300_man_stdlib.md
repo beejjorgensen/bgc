@@ -1246,7 +1246,7 @@ However, the array must be sorted! So binary search seems likely.
 * `base` is a pointer to the start of the array---the array must be
   sorted!
 * `nmemb` is the number of elements in the array.
-* `size` is the size of each element in the array.
+* `size` is the `sizeof` each element in the array.
 * `compar` is a pointer to a function that will compare the key against
   other values.
 
@@ -1257,6 +1257,14 @@ value, and a positive number if the key is greater than the value.
 
 This is commonly computed by taking the difference between the key and
 the value to be compared. If subtraction is supported.
+
+The return value from the [`strcmp()`](#man-strcmp) function can be used
+for comparing strings.
+
+Again, the array must be sorted according to the order of the comparison
+function before running `bsearch()`. Luckily for you, you can just call
+[`qsort()`](#man-qsort) with the same comparison function to get this
+done.
 
 It's a general-purpose function---it'll search any type of array for
 anything. The catch is you have to write the comparison function.
@@ -1297,7 +1305,7 @@ int main(void)
         printf("Didn't find 30\n");
 
     // Searching with an unnamed key, pointer to 32
-    r = bsearch((int[]){32}, a, 9, sizeof(int), compar);
+    r = bsearch(&(int){32}, a, 9, sizeof(int), compar);
     printf("Found %d\n", *r);  // Found it
 }
 ```
@@ -1312,8 +1320,114 @@ Found 32
 
 ### See Also {.unnumbered .unlisted}
 
+[`strcmp()`](#man-strcmp),
 [`qsort()`](#man-qsort)
 
+
+[[pagebreak]]
+## `qsort()` {#man-qsort}
+
+Quicksort (maybe) some data
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <stdlib.h>
+
+void qsort(void *base, size_t nmemb, size_t size,
+           int (*compar)(const void *, const void *));
+```
+
+### Description {.unnumbered .unlisted}
+
+This function will quicksort (or some other sort, probably speedy) an
+array of data in-place^["In-place" meaning that the original array will
+hold the results; no new array is allocated.].
+
+Like `bsearch()`, it's data-agnostic. Any data for which you can define
+a relative ordering can be sorted, whether `int`s, `struct`s, or
+anything else.
+
+Also like `bsearch()`, you have to give a comparison function to do the
+actual compare.
+
+* `base` is a pointer to the start of the array to be sorted.
+* `nmemb` is the number of elements in the array.
+* `size` is the `sizeof` each element.
+* `compar` is a pointer to the comparison function.
+
+The comparison function takes pointers to two elements of the array as
+arguments and compares them. It should return a negative number if the
+first argument is less than the second, `0` if they are equal, and a
+positive number if the first argument is greater than the second.
+
+This is commonly computed by taking the difference between the first
+argument and the second. If subtraction is supported.
+
+The return value from the [`strcmp()`](#man-strcmp) function can provide
+sort order for strings.
+
+If you have to sort a `struct`, just subtract the specific field you
+want to sort by.
+
+This comparison function can be used by [`bsearch()`](#man-bsearch) to
+do searches after the list is sorted.
+
+To reverse the sort, subtract the second argument from the first, i.e.
+negate the return value from `compar()`.
+
+
+### Return Value {.unnumbered .unlisted}
+
+Returns nothing!
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <stdlib.h>
+
+int compar(const void *elem0, const void *elem1)
+{
+    const int *x = elem0, *y = elem1;  // Need ints, not voids
+
+    return *x - *y;
+}
+
+int main(void)
+{
+    int a[9] = {14, 2, 3, 17, 10, 8, 6, 1, 13};
+
+    // Sort the list
+
+    qsort(a, 9, sizeof(int), compar);
+
+    // Print sorted list
+
+    for (int i = 0; i < 9; i++)
+        printf("%d ", a[i]);
+
+    putchar('\n');
+
+    // Use the same compar() function to binary search
+    // for 17 (passed in as an unnamed object)
+
+    int *r = bsearch(&(int){17}, a, 9, sizeof(int), compar);
+    printf("Found %d!\n", *r);
+}
+```
+
+Output:
+
+```
+1 2 3 6 8 10 13 14 17
+Found 17!
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`strcmp()`](#man-strcmp),
+[`bsearch()`](#man-bsearch)
 <!--
 [[pagebreak]]
 ## `example()`, `example()`, `example()` {#man-example}
