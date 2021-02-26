@@ -581,7 +581,7 @@ Output from a subsequent run:
 
 
 [[pagebreak]]
-## `aligned_alloc()` {#man-example}
+## `aligned_alloc()` {#man-aligned_alloc}
 
 Allocate specifically-aligned memory
 
@@ -1219,7 +1219,7 @@ All done!
 -->
 
 [[pagebreak]]
-## `bsearch()` {#man-example}
+## `bsearch()` {#man-bsearch}
 
 Binary Search (maybe) an array of objects
 
@@ -1432,6 +1432,8 @@ Found 17!
 [[pagebreak]]
 ## `abs()`, `labs()`, `llabs()` {#man-abs}
 
+Compute the absolute value of an integer
+
 ### Synopsis {.unnumbered .unlisted}
 
 ``` {.c}
@@ -1451,6 +1453,9 @@ from zero `j` is.
 
 In other words, if `j` is negative, return it as a positive. If it's
 positive, return it as a positive. Always be positive. Enjoy life.
+
+If the result cannot be represented, the behavior is undefined. Be
+especially aware of the upper half of unsigned numbers.
 
 ### Return Value {.unnumbered .unlisted}
 
@@ -1473,6 +1478,178 @@ Output:
 ### See Also {.unnumbered .unlisted}
 
 [`fabs()`](#man-fabs)
+
+
+[[pagebreak]]
+## `div()`, `ldiv()`, `lldiv()` {#man-div}
+
+Compute the quotient and remainder of two numbers
+ 
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <stdlib.h>
+
+div_t div(int numer, int denom);
+
+ldiv_t ldiv(long int numer, long int denom);
+
+lldiv_t lldiv(long long int numer, long long int denom);
+```
+
+### Description {.unnumbered .unlisted}
+
+These functions get you the quotient and remainder of a pair of numbers
+in one go.
+
+They return a structure that has two fields, `quot`, and `rem`, the
+types of which match types of `numer` and `denom`. Note how each
+function returns a different variant of `div_t`.
+
+These `div_t` variants are equivalent to the following:
+
+``` {.c}
+typedef struct {
+    int quot, rem;
+} div_t;
+
+typedef struct {
+    long int quot, rem;
+} ldiv_t;
+
+typedef struct {
+    long long int quot, rem;
+} lldiv_t;
+```
+
+Why use these instead of the division operator?
+
+The C99 Rationale says:
+
+> Because C89 had implementation-defined semantics for division of
+> signed integers when negative operands were involved, `div` and
+> `ldiv`, and `lldiv` in C99, were invented to provide well-specified
+> semantics for signed integer division and remainder operations. The
+> semantics were adopted to be the same as in Fortran. Since these
+> functions return both the quotient and the remainder, they also serve
+> as a convenient way of efficiently modeling underlying hardware that
+> computes both results as part of the same operation. Table 7.2
+> summarizes the semantics of these functions.
+
+Indeed, K&R2 (C89) says:
+
+> The direction of truncation for `/` and the sign of the result for `%`
+> are machine-dependent for negative operands [...]
+
+The Rationale then goes on to spell out what the signs of the quotient
+and remainder will be given the signs of a numerator and denominator
+when using the `div()` functions:
+
+|`numer`|`denom`|`quot`|`rem`|
+|:-:|:-:|:-:|:-:|
+|$+$|$+$|$+$|$+$|
+|$-$|$+$|$-$|$-$|
+|$+$|$-$|$-$|$+$|
+|$-$|$-$|$+$|$-$|
+
+
+### Return Value {.unnumbered .unlisted}
+
+A `div_t`, `ldiv_t`, or `lldiv_t` structure with the `quot` and `rem`
+fields loaded with the quotient and remainder of the operation of
+`numer/denom`.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+div_t d = div(64, -7);
+
+printf("64 / -7 = %d\n", d.quot);
+printf("64 %% -7 = %d\n", d.rem);
+```
+
+Output:
+
+```
+64 / -7 = -9
+64 % -7 = 1
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`fmod()`](#man-fmod),
+[`remainder()`](#man-remainder)
+
+
+[[pagebreak]]
+## `mblen()` {#man-mblen}
+
+Return the number of bytes in a multibyte character
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <stdlib.h>
+
+int mblen(const char *s, size_t n);
+```
+
+### Description {.unnumbered .unlisted}
+
+If you have a multibyte character in a string, this will tell you how
+many bytes long it is.
+
+`n` is the maximum number of bytes `mblen()` will scan before giving up.
+
+If `s` is a `NULL` pointer, tests if this encoding has state dependency,
+as noted in the return value, below. It also resets the state, if there
+is one.
+
+The behavior of this function is influenced by the locale.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns the number of bytes used to encode this character, or `-1` if
+there is no valid multibyte character in the next `n` bytes.
+
+Or, if `s` is NULL, returns true if this encoding has state dependency.
+
+### Example {.unnumbered .unlisted}
+
+For the example, I used my extended character set to put Unicode
+characters in the source. If this doesn't work for you, use the `\uXXXX`
+escape.
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <stdlib.h>
+#include <locale.h>
+
+int main(void)
+{
+    setlocale(LC_ALL, "");
+
+    printf("State dependency: %d\n", mblen(NULL, 0));
+    printf("Bytes for €: %d\n", mblen("€", 5));
+    printf("Bytes for \u00e9: %d\n", mblen("\u00e9", 5));  // \u00e9 == é
+    printf("Bytes for &: %d\n", mblen("&", 5));
+}
+```
+
+Output (in my case, the encoding is UTF-8, but your mileage may vary):
+
+```
+State dependency: 0
+Bytes for €: 3
+Bytes for é: 2
+Bytes for &: 1
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`mbtowc()`](#man-mbtowc),
+[`mbtowc()`](#man-mbstowcs),
+[`setlocale()`](#man-setlocale)
 
 <!--
 [[pagebreak]]
