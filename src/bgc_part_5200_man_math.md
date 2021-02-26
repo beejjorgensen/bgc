@@ -1751,6 +1751,7 @@ printf("fabs(-3490.0) = %f\n", fabs(3490.0));  // 3490.000000
 
 ### See Also {.unnumbered .unlisted}
 
+[`abs()`](#man-abs),
 [`copysign()`](#man-copysign)
 
 [[pagebreak]]
