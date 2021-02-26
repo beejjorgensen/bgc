@@ -1428,6 +1428,52 @@ Found 17!
 
 [`strcmp()`](#man-strcmp),
 [`bsearch()`](#man-bsearch)
+
+[[pagebreak]]
+## `abs()`, `labs()`, `llabs()` {#man-abs}
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <stdlib.h>
+
+int abs(int j);
+
+long int labs(long int j);
+
+long long int llabs(long long int j);
+```
+
+### Description {.unnumbered .unlisted}
+
+Compute the absolute value of `j`. If you don't remember, that's how far
+from zero `j` is.
+
+In other words, if `j` is negative, return it as a positive. If it's
+positive, return it as a positive. Always be positive. Enjoy life.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns the absolute value of `j`, $|j|$.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+printf("|-2| = %d\n", abs(-2));
+printf("|4|  = %d\n", abs(4));
+```
+
+Output:
+
+```
+|-2| = 2
+|4|  = 4
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`fabs()`](#man-fabs)
+
 <!--
 [[pagebreak]]
 ## `example()`, `example()`, `example()` {#man-example}
