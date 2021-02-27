@@ -1648,8 +1648,72 @@ Bytes for &: 1
 ### See Also {.unnumbered .unlisted}
 
 [`mbtowc()`](#man-mbtowc),
-[`mbtowc()`](#man-mbstowcs),
+[`mbstowcs())`](#man-mbstowcs),
 [`setlocale()`](#man-setlocale)
+
+j
+[[pagebreak]]
+## `mbtowc()` {#man-mbtowc}
+
+Convert a multibyte character to a wide character
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <stdlib.h>
+
+int mbtowc(wchar_t * restrict pwc, const char * restrict s, size_t n);
+```
+
+### Description {.unnumbered .unlisted}
+
+If you have a multibyte character, this function will convert it to a
+wide character and stored at the address pointed to by `pwc`. Up to `n`
+bytes of the multibyte character will be analyzed.
+
+If `pwc` is `NULL`, the resulting character will not be stored. (Useful
+for just getting the return value.)
+
+If `s` is a `NULL` pointer, tests if this encoding has state dependency,
+as noted in the return value, below. It also resets the state, if there
+is one.
+
+The behavior of this function is influenced by the locale.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns the number of bytes used in the encoded wide character, or `-1`
+if there is no valid multibyte character in the next `n` bytes.
+
+Or, if `s` is NULL, returns true if this encoding has state dependency.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <stdlib.h>
+#include <locale.h>
+#include <wchar.h>
+
+int main(void)
+{
+    setlocale(LC_ALL, "");
+
+    printf("State dependency: %d\n", mbtowc(NULL, NULL, 0));
+
+    wchar_t wc;
+    int bytes;
+
+    bytes = mbtowc(&wc, "€", 5);
+
+    printf("€ takes %d bytes as wide char L'%lc'\n", bytes, wc);
+}
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`mblen()`](#man-mblen),
+[`mbstowcs()`](#man-mbstowcs)
 
 <!--
 [[pagebreak]]
