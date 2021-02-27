@@ -1651,7 +1651,7 @@ Bytes for &: 1
 [`mbstowcs())`](#man-mbstowcs),
 [`setlocale()`](#man-setlocale)
 
-j
+
 [[pagebreak]]
 ## `mbtowc()` {#man-mbtowc}
 
@@ -1726,7 +1726,7 @@ State dependency: 0
 [`wcstombs()`](#man-wcstombs)
 
 [[pagebreak]]
-## `example()`, `example()`, `example()` {#man-example}
+## `wctomb()` {#man-wctomb}
 
 Convert a wide character to a multibyte character
 
