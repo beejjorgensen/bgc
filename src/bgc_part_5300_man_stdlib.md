@@ -1685,6 +1685,8 @@ The behavior of this function is influenced by the locale.
 Returns the number of bytes used in the encoded wide character, or `-1`
 if there is no valid multibyte character in the next `n` bytes.
 
+Returns `0` if `s` points to the NUL character.
+
 Or, if `s` is NULL, returns true if this encoding has state dependency.
 
 ### Example {.unnumbered .unlisted}
