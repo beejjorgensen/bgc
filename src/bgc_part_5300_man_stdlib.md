@@ -1712,10 +1712,94 @@ int main(void)
 }
 ```
 
+Output on my system:
+
+```
+State dependency: 0
+€ takes 3 bytes as wide char L'€'
+```
+
 ### See Also {.unnumbered .unlisted}
 
 [`mblen()`](#man-mblen),
-[`mbstowcs()`](#man-mbstowcs)
+[`mbstowcs()`](#man-mbstowcs),
+[`wcstombs()`](#man-wcstombs)
+
+[[pagebreak]]
+## `example()`, `example()`, `example()` {#man-example}
+
+Convert a wide character to a multibyte character
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <stdlib.h>
+
+int wctomb(char *s, wchar_t wc);
+```
+
+### Description {.unnumbered .unlisted}
+
+If you have your hands on a wide character, you can use this to make it
+multibyte.
+
+The wide character `wc` is stored as a multibyte character in the string
+pointed to by `s`. The buffer `s` points to should be at least
+`MB_CUR_MAX` characters long. Note that `MB_CUR_MAX` changes with
+locale.
+
+If `wc` is a NUL wide character, a NUL is stored in `s` after the bytes
+needed to reset the shift state (if any).
+
+If `s` is a `NULL` pointer, tests if this encoding has state dependency,
+as noted in the return value, below. It also resets the state, if there
+is one.
+
+The behavior of this function is influenced by the locale.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns the number of bytes used in the encoded multibyte character, or
+`-1` if `wc` does not correspond to any valid multibyte character.
+
+Or, if `s` is NULL, returns true if this encoding has state dependency.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <stdlib.h>
+#include <locale.h>
+#include <wchar.h>
+
+int main(void)
+{
+    setlocale(LC_ALL, "");
+
+    printf("State dependency: %d\n", mbtowc(NULL, NULL, 0));
+
+    int bytes;
+    char mb[MB_CUR_MAX + 1];
+
+    bytes = wctomb(mb, L'€');
+    mb[bytes] = '\0';
+
+    printf("L'€' takes %d bytes as multibyte char '%s'\n", bytes, mb);
+}
+```
+
+Output on my system:
+
+```
+State dependency: 0
+L'€' takes 3 bytes as multibyte char '€'
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`mbtowc()`](#man-mbtowc),
+[`mbstowcs()`](#man-mbstowcs),
+[`wcstombs()`](#man-wcstombs)
 
 <!--
 [[pagebreak]]
