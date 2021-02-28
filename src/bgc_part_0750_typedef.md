@@ -122,7 +122,7 @@ typedef struct {
 
 point p = {.x=20, .y=40};
 
-printf("%d, %d\n", p.x, p.y);  // 20, 10
+printf("%d, %d\n", p.x, p.y);  // 20, 40
 ```
 
 ### `typedef` and Other Types
