@@ -1901,6 +1901,101 @@ Byte count   : 16
 
 [`mblen()`](#man-mblen),
 [`mbtowc()`](#man-mbtowc),
+[`wcstombs()`](#man-wcstombs),
+[`setlocale()`](#man-setlocale)
+
+
+[[pagebreak]]
+## `wcstombs()` {#man-wcstombs}
+
+Convert a wide character string to a multibyte string
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <stdlib.h>
+
+size_t wcstombs(char * restrict s, const wchar_t * restrict pwcs, size_t n);
+```
+
+### Description {.unnumbered .unlisted}
+
+If you have a wide character string and you want it as multibyte string,
+this is the function for you!
+
+It'll take the wide characters pointed to by `pwcs` and convert them to
+multibyte characters stored in `s`. No more than `n` bytes will be
+written to `s`.
+
+Non-portable POSIX extension: if you're using a POSIX-complaint library,
+this function allows `s` to be `NULL` if you're only interested in
+the return value. Most notably, this will give you the number of
+bytes needed to encode the wide characters in a multibyte string.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns the number of bytes written to `s`, or `(size_t)(-1)` if one of
+the characters can't be encoded into a multibyte string.
+
+If the return value is `n`, it means the result was _not_
+NUL-terminated.
+
+### Example {.unnumbered .unlisted}
+
+This source uses an extended character set. If your compiler doesn't
+support it, you'll have to replace them with `\u` escapes.
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <stdlib.h>
+#include <locale.h>
+#include <string.h>
+
+int main(void)
+{
+    setlocale(LC_ALL, "");
+
+    char mbs[128];
+    wchar_t *wcs = L"€200 for this spoon?";  // 20 characters
+
+    size_t byte_count;
+
+    byte_count = wcstombs(mbs, wcs, 128);
+
+    printf("Wide string: L\"%ls\"\n", wcs);
+    printf("Multibyte  : \"%s\"\n", mbs);
+    printf("Byte count : %zu\n\n", byte_count);  // 22 on my system
+
+    // POSIX Extension that allows you to pass NULL for
+    // the destination so you can just use the return
+    // value (which is the character count of the string, 
+    // if no errors have occurred)
+
+    wcs = L"§¶°±π€•";  // 7 characters
+
+    byte_count = wcstombs(NULL, wcs, 0);  // POSIX-only, nonportable
+
+    printf("Wide string: L\"%ls\"\n", wcs);
+    printf("Byte count : %zu\n", byte_count);  // 16 on my system
+}
+```
+
+Output on my system (byte count will depend on your encoding):
+
+```
+Wide string: L"€200 for this spoon?"
+Multibyte  : "€200 for this spoon?"
+Byte count : 22
+
+Wide string: L"§¶°±π€•"
+Byte count : 16
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`mblen()`](#man-mblen),
+[`wctomb()`](#man-wctomb),
+[`mbstowcs()`](#man-mbstowcs),
 [`setlocale()`](#man-setlocale)
 
 <!--
