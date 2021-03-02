@@ -354,7 +354,7 @@ int main(void)
         .tm_year=82,   // years since 1900
         .tm_mon=3,     // months since January -- [0, 11]
         .tm_mday=12,   // day of the month -- [1, 31]
-        .tm_hour=12,   // hours since midnight -- [0, 23]
+        .tm_hour=4,    // hours since midnight -- [0, 23]
         .tm_min=00,    // minutes after the hour -- [0, 59]
         .tm_sec=04,    // seconds after the minute -- [0, 60]
         .tm_isdst=-1,  // Daylight Saving Time flag
