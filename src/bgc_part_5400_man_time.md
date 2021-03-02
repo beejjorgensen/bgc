@@ -767,6 +767,22 @@ stealing from the spec, these are the rules:
 Learn something new every day! If you want to know more, [flw[Wikipedia
 has a page on it|ISO_week_date]].
 
+If you're in the "C" locale, the specifiers produce the following
+(again, stolen from the spec):
+
+|Specifier|Description|
+|----|-----------------------------------|
+|`%a`|The first three characters of `%A`.|
+|`%A`|One of `Sunday`, `Monday`, ... , `Saturday`.|
+|`%b`|The first three characters of `%B`.|
+|`%B`|One of `January`, `February`, ... , `December`.|
+|`%c`|Equivalent to `%a %b %e %T %Y`.|
+|`%p`|One of `AM` or `PM`.|
+|`%r`|Equivalent to `%I:%M:%S %p`.|
+|`%x`|Equivalent to `%m/%d/%y`.|
+|`%X`|Equivalent to `%T`.|
+|`%Z`|Implementation-defined.|
+
 There are additional variants of the format specifiers that indicate you
 want to use a locale's alternative format. These don't exist for all
 locales. It's one of the format specifies above, with either an `E` or
@@ -776,6 +792,8 @@ locales. It's one of the format specifies above, with either an `E` or
 %Ec %EC %Ex %EX %Ey %EY %Od %Oe %OH %OI
 %Om %OM %OS %Ou %OU %OV %Ow %OW %Oy
 ```
+
+The `E` and `O` prefixes are ignored in the "C" locale.
 
 ### Return Value {.unnumbered .unlisted}
 
