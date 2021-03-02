@@ -60,13 +60,38 @@ have to consider any copyright issues when merging changes.
 
 ## TODO
 
-* Exercises
 * More man pages
+  * ctype
+  * uchar
+  * wchar
+  * wctype
+  * fenv
+  * errno
+  * signal
+  * complex
+  * setjmp
+  * assert
+  * locale
+
+  * float
+  * inttypes
+  * iso646
+  * limits
+  * stdalign
+  * stdarg
+  * stdatomic
+  * stdbool
+  * stddef
+  * stdint
+  * stdnoreturn
+  * tgmath
+  * threads
 * "subclass" structs
 * abort() for exit
 * Threads
 * Atomic
 * __STDC_WANT_LIB_EXT
 * make primer
+* Exercises
 
 ### Bug fixes
