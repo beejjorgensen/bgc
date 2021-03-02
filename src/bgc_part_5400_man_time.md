@@ -650,6 +650,182 @@ UTC  : Tue Mar  2 05:40:05 2021
 [`asctime()`](#man-asctime),
 [`strftime()`](#man-strftime)
 
+[[pagebreak]]
+## `strftime()` {#man-strftime}
+
+Formatted date and time output
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <time.h>
+
+size_t strftime(char * restrict s, size_t maxsize,
+                const char * restrict format,
+                const struct tm * restrict timeptr);
+```
+
+### Description {.unnumbered .unlisted}
+
+This is the [`sprintf()`](#man-sprintf) of date and time functions.
+It'll take a `struct tm` and produce a string in just about whatever
+form you desire, for example:
+
+```
+2021-03-01
+Monday, March 1 at 9:54 PM
+It's Monday!
+```
+
+It's a super flexible version of `asctime()`. And thread-safe, besides,
+since it doesn't rely on a static buffer to hold the results.
+
+Basically what you do is give it a destination, `s`, and its max size in
+bytes in `maxsize`. Also, provide a `format` string that's analogous to
+`printf()`'s format string, but with different format specifiers. And
+lastly, a `struct tm` with the broken-down time information to use for
+printing.
+
+The `format` string works like this, for example:
+
+``` {.c}
+"It's %A, %B %d!"
+```
+
+Which produces:
+
+```
+It's Monday, March 1!
+```
+
+The `%A` is the full day-of-week name, the `%B` is the full month name,
+and the `%d` is the day of the month. `strftime()` substitutes the right
+thing to produce the result. Brilliant!
+
+So what are all the format specifiers? Glad you asked!
+
+I'm going to be lazy and just drop this table in right from the spec.
+
+|Specifier|Description|
+|----|-----------------------------------|
+|`%a`|Locale’s abbreviated weekday name. [`tm_wday`]|
+|`%A`|Locale’s full weekday name. [`tm_wday`]|
+|`%b`|Locale’s abbreviated month name. [`tm_mon`]|
+|`%B`|Locale’s full month name. [`tm_mon`]|
+|`%c`|Locale’s appropriate date and time representation.|
+|`%C`|Year divided by 100 and truncated to an integer, as a decimal number (00–99). [`tm_year`]|
+|`%d`|Day of the month as a decimal number (01–31). [`tm_mday`]|
+|`%D`|Equivalent to `"%m/%d/%y"`. [`tm_mon`, `tm_mday`, `tm_year`]|
+|`%e`|Day of the month as a decimal number (1–31); a single digit is preceded by a space. [`tm_mday`]|
+|`%F`|Equivalent to "%Y-%m-%d" (the ISO 8601 date format). [`tm_year`, `tm_mon`, `tm_mday`]|
+|`%g`|Last 2 digits of the week-based year (see below) as a decimal number (00–99). [`tm_year`, `tm_wday`, `tm_yday`]|
+|`%G`|Week-based year (see below) as a decimal number (e.g., 1997). [`tm_year`, `tm_wday`, `tm_yday`]|
+|`%h`|Equivalent to "%b". [`tm_mon`]|
+|`%H`|Hour (24-hour clock) as a decimal number (00–23). [`tm_hour`]|
+|`%I`|Hour (12-hour clock) as a decimal number (01–12). [`tm_hour`]|
+|`%j`|Day of the year as a decimal number (001–366). [`tm_yday`]|
+|`%m`|Month as a decimal number (01–12).|
+|`%M`|Minute as a decimal number (00–59). [`tm_min`]|
+|`%n`|A new-line character.|
+|`%p`|Locale’s equivalent of the AM/PM designations associated with a 12-hour clock. [`tm_hour`]|
+|`%r`|Locale’s 12-hour clock time. [`tm_hour`, `tm_min`, `tm_sec`]|
+|`%R`|Equivalent to `"%H:%M"`. [`tm_hour`, `tm_min`]|
+|`%S`|Second as a decimal number (00–60). [`tm_sec`]|
+|`%t`|A horizontal-tab character.|
+|`%T`|Equivalent to `"%H:%M:%S"` (the ISO 8601 time format). [`tm_hour`, `tm_min`, `tm_sec`]|
+|`%u`|ISO 8601 weekday as a decimal number (1–7), where Monday is 1. [`tm_wday`]|
+|`%U`|Week number of the year (the first Sunday as the first day of week 1) as a decimal number (00–53). [`tm_year`, `tm_wday`, `tm_yday`]|
+|`%V`|ISO 8601 week number (see below) as a decimal number (01–53). [`tm_year`, `tm_wday`, `tm_yday`]|
+|`%w`|Weekday as a decimal number (0–6), where Sunday is 0.|
+|`%W`|Week number of the year (the first Monday as the first day of week 1) as a decimal number (00–53). [`tm_year`, `tm_wday`, `tm_yday`]|
+|`%x`|Locale’s appropriate date representation.|
+|`%X`|Locale’s appropriate time representation.|
+|`%y`|Last 2 digits of the year as a decimal number (00–99). [`tm_year`]|
+|`%Y`|Year as a decimal number (e.g., 1997). [`tm_year`]|
+|`%z`|Offset from UTC in the ISO 8601 format `"-0430"` (meaning 4 hours 30 minutes behind UTC, west of Greenwich), or by no characters if no time zone is determinable. [`tm_isdst`]
+|`%Z`|Locale’s time zone name or abbreviation, or by no characters if no time zone is determinable. [`tm_isdst`]|
+|`%%`|A plain ol' %|
+
+Phew. That's love.
+
+`%G`, `%g`, and `%v` are a little funky in that they use something
+called the ISO 8601 week-based year. I'd never heard of it. But, again
+stealing from the spec, these are the rules:
+
+> `%g`, `%G`, and `%V` give values according to the ISO 8601 week-based
+> year. In this system, weeks begin on a Monday and week 1 of the year
+> is the week that includes January 4th, which is also the week that
+> includes the first Thursday of the year, and is also the first week
+> that contains at least four days in the year. If the first Monday of
+> January is the 2nd, 3rd, or 4th, the preceding days are part of the
+> last week of the preceding year; thus, for Saturday 2nd January 1999,
+> `%G` is replaced by `1998` and `%V` is replaced by `53`. If December 29th,
+> 30th, or 31st is a Monday, it and any following days are part of week
+> 1 of the following year. Thus, for Tuesday 30th December 1997, `%G` is
+> replaced by `1998` and `%V` is replaced by `01`.
+
+Learn something new every day! If you want to know more, [flw[Wikipedia
+has a page on it|ISO_week_date]].
+
+There are additional variants of the format specifiers that indicate you
+want to use a locale's alternative format. These don't exist for all
+locales. It's one of the format specifies above, with either an `E` or
+`O` prefix:
+
+```
+%Ec %EC %Ex %EX %Ey %EY %Od %Oe %OH %OI
+%Om %OM %OS %Ou %OU %OV %Ow %OW %Oy
+```
+
+### Return Value {.unnumbered .unlisted}
+
+Returns the total number of bytes put into the result string, not
+including the NUL terminator.
+
+If the result doesn't fit in the string, zero is returned and the value
+in `s` is indeterminate.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <time.h>
+
+int main(void)
+{
+    char s[128];
+    time_t now = time(NULL);
+
+    // %c: print date as per current locale
+    strftime(s, sizeof s, "%c", localtime(&now));
+    puts(s);   // Sun Feb 28 22:29:00 2021
+
+    // %A: full weekday name
+    // %B: full month name
+    // %d: day of the month
+    strftime(s, sizeof s, "%A, %B %d", localtime(&now));
+    puts(s);   // Sunday, February 28
+
+    // %I: hour (12 hour clock)
+    // %M: minute
+    // %S: second
+    // %p: AM or PM
+    strftime(s, sizeof s, "It's %I:%M:%S %p", localtime(&now));
+    puts(s);   // It's 10:29:00 PM
+
+    // %F: ISO 8601 yyyy-mm-dd
+    // %T: ISO 8601 hh:mm:ss
+    // %z: ISO 8601 timezone offset
+    strftime(s, sizeof s, "ISO 8601: %FT%T%z", localtime(&now));
+    puts(s);   // ISO 8601: 2021-02-28T22:29:00-0800
+}
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`ctime()`](#man-ctime),
+[`asctime()`](#man-asctime)
+
 <!--
 [[pagebreak]]
 ## `example()`, `example()`, `example()` {#man-example}
