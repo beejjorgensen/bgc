@@ -553,7 +553,8 @@ struct tm *gmtime(const time_t *timer);
 ### Description {.unnumbered .unlisted}
 
 If you have a `time_t`, you can run it through this function to get a
-`struct tm` back full of the corresponding broken-down time information.
+`struct tm` back full of the corresponding broken-down UTC time
+information.
 
 This is just like `localtime()`, except it does UTC instead of local
 time.
@@ -568,7 +569,7 @@ and `localtime()`.
 
 ### Return Value {.unnumbered .unlisted}
 
-Returns a pointer to the broken-down time, or `NULL` if it can't be
+Returns a pointer to the broken-down UTC time, or `NULL` if it can't be
 obtained.
 
 ### Example {.unnumbered .unlisted}
@@ -592,6 +593,63 @@ Local: Mon Mar  1 21:40:05 2021
 [`localtime()`](#man-localtime),
 [`asctime()`](#man-asctime),
 [`strftime()`](#man-strftime)
+
+[[pagebreak]]
+## `localtime()` {#man-localtime}
+
+Convert a calendar time into a broken-down local time
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <time.h>
+
+struct tm *localtime(const time_t *timer);
+```
+
+### Description {.unnumbered .unlisted}
+
+If you have a `time_t`, you can run it through this function to get a
+`struct tm` back full of the corresponding broken-down local time
+information.
+
+This is just like `gmtime()`, except it does local time instead of UTC.
+
+Once you have that `struct tm`, you can feed it to `strftime()` to print
+it out.
+
+**WARNING**: This function returns a pointer to a `static struct tm*`
+region that isn't thread-safe and might be shared with the `gmtime()`
+function. If you need thread safety use a mutex that covers `gmtime()`
+and `localtime()`.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns a pointer to the broken-down local time, or `NULL` if it can't
+be obtained.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+time_t now = time(NULL);
+
+printf("Local: %s", asctime(localtime(&now)));
+printf("UTC  : %s", asctime(gmtime(&now)));
+```
+
+Sample output:
+
+```
+Local: Mon Mar  1 21:40:05 2021
+UTC  : Tue Mar  2 05:40:05 2021
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`gmtime()`](#man-gmtime),
+[`asctime()`](#man-asctime),
+[`strftime()`](#man-strftime)
+
 <!--
 [[pagebreak]]
 ## `example()`, `example()`, `example()` {#man-example}
