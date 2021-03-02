@@ -414,7 +414,7 @@ Example output:
 [[pagebreak]]
 ## `asctime()` {#man-asctime}
 
-Return a human-readable version of a time
+Return a human-readable version of a `struct tm`
 
 ### Synopsis {.unnumbered .unlisted}
 
@@ -435,6 +435,9 @@ Sun Sep 16 01:03:52 1973
 
 with a newline included at the end, rather unhelpfully.
 ([`strftime()`](#man-strftime) will give you more flexibility.)
+
+It's just like `ctime()`, except it takes a `struct tm` instead of a
+`time_t`.
 
 **WARNING**: This function returns a pointer to a `static char*` region
 that isn't threadsafe and might be shared with the `ctime()` function.
@@ -472,6 +475,67 @@ UTC  : Tue Mar  2 05:17:34 2021
 [`ctime()`](#man-ctime),
 [`localtime()`](#man-localtime),
 [`gmtime()`](#man-gmtime)
+
+[[pagebreak]]
+## `ctime()` {#man-ctime}
+
+Return a human-readable version of a `time_t`
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <time.h>
+
+char *ctime(const time_t *timer);
+```
+
+### Description {.unnumbered .unlisted}
+
+This takes a time in a `time_t` and returns a string with the local time
+and date in the form:
+
+```
+Sun Sep 16 01:03:52 1973
+```
+
+with a newline included at the end, rather unhelpfully.
+([`strftime()`](#man-strftime) will give you more flexibility.)
+
+It's just like `asctime()`, except it takes a `time_t` instead of a
+`struct tm`.
+
+**WARNING**: This function returns a pointer to a `static char*` region
+that isn't threadsafe and might be shared with the `asctime()` function.
+If you need thread safety, use `strftime()` or use a mutex that covers
+`ctime()` and `asctime()`.
+
+Behavior is undefined for:
+
+* Years less than 1000
+* Years greater than 9999
+* Any members of `timeptr` are out of range
+
+### Return Value {.unnumbered .unlisted}
+
+A pointer to the human-readable local time and data string.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+time_t now = time(NULL);
+
+printf("Local: %s", ctime(&now));
+```
+
+Sample output:
+
+```
+Local: Mon Mar  1 21:32:23 2021
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`asctime()`](#man-asctime)
 
 <!--
 [[pagebreak]]
