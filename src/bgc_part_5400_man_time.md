@@ -222,6 +222,10 @@ for Windows.
 
 ### Return Value {.unnumbered .unlisted}
 
+Returns the local time in the `struct tm` as a `time_t` calendar time.
+
+Returns `(time_t)(-1)` on error.
+
 ### Example {.unnumbered .unlisted}
 
 In the following example, we have `mktime()` tell us if that time was
@@ -233,7 +237,6 @@ DST or not.
 
 int main(void)
 {
-    // April 12, 1982 and change
     struct tm broken_down_time = {
         .tm_year=82,   // years since 1900
         .tm_mon=3,     // months since January -- [0, 11]
@@ -246,28 +249,80 @@ int main(void)
 
     time_t calendar_time = mktime(&broken_down_time);
 
+    char *days[] = {"Sunday", "Monday", "Tuesday",
+        "Wednesday", "Furzeday", "Friday", "Saturday"};
+
     // This will print what was in broken_down_time
-    printf("Local time: %s", asctime(localtime(&calendar_time)));
-    printf("Is DST    : %d\n\n", broken_down_time.tm_isdst);
+    printf("Local time : %s", asctime(localtime(&calendar_time)));
+    printf("Is DST     : %d\n", broken_down_time.tm_isdst);
+    printf("Day of week: %s\n\n", days[broken_down_time.tm_wday]);
 
     // This will print UTC for the local time, above
-    printf("UTC       : %s", asctime(gmtime(&calendar_time)));
+    printf("UTC        : %s", asctime(gmtime(&calendar_time)));
 }
 ```
 
 Output (for me in Pacific Time---UTC is 8 hours ahead):
 
 ```
-Local time: Mon Apr 12 04:00:04 1982
-Is DST    : 0
+Local time : Mon Apr 12 04:00:04 1982
+Is DST     : 0
+Day of week: Monday
 
-UTC       : Mon Apr 12 12:00:04 1982
+UTC        : Mon Apr 12 12:00:04 1982
 ```
 
 ### See Also {.unnumbered .unlisted}
 
 [`localtime()`](#man-localtime),
 [`gmtime()`](#man-gmtime)
+
+[[pagebreak]]
+## `time()` {#man-time}
+
+Get the current calendar time
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <time.h>
+
+time_t time(time_t *timer);
+```
+
+### Description {.unnumbered .unlisted}
+
+Returns the current calendar time right now. I mean, now. No, now!
+
+If `timer` is not `NULL`, it gets loaded with the current time, as well.
+
+This can be converted into a `struct tm` with `localtime()` or
+`gmtime()`, or printed directly with `ctime()`.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns the current calendar time. Also loads `timer` with the current
+time if it's not `NULL`.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+time_t now = time(NULL);
+
+printf("The time is %s", ctime(&now));
+```
+
+Example output:
+
+```
+The time is Mon Mar  1 18:45:14 2021
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`localtime()`](#man-localtime),
+[`gmtime()`](#man-gmtime),
+[`ctime()`](#man-ctime)
 
 <!--
 [[pagebreak]]
