@@ -41,6 +41,21 @@ You can convert between the two with `mktime()`, `gmtime()`, and
 You can print time information to strings with `ctime()`, `asctime()`,
 and `strftime()`.
 
+## Thread Safety Warning
+
+`asctime()`, `ctime()`: These two functions return a pointer to a
+`static` memory region. They both might return the same pointer. If
+you need thread safety, you'll need a mutex across them. If you need
+both results at once, `strcpy()` one of them out.
+
+All these problems with `asctime()` and `ctime()` can be avoided by
+using the more flexible and thread-safe `strftime()` function instead.
+
+`localtime()`, `gmtime()`: These other two functions also return a
+pointer to a `static` memory region. They both might return the same
+pointer. If you need thread safety, you'll need a mutex across them. If
+you need both results at once, copy the `struct` to another.
+
 [[pagebreak]]
 ## `clock()` {#man-clock}
 
@@ -422,18 +437,42 @@ with a newline included at the end, rather unhelpfully.
 ([`strftime()`](#man-strftime) will give you more flexibility.)
 
 **WARNING**: This function returns a pointer to a `static char*` region
-that isn't threadsafe. If you need thread safety, use `strftime()`.
+that isn't threadsafe and might be shared with the `ctime()` function.
+If you need thread safety, use `strftime()` or use a mutex that covers
+`ctime()` and `asctime()`.
+
+Behavior is undefined for:
+
+* Years less than 1000
+* Years greater than 9999
+* Any members of `timeptr` are out of range
 
 ### Return Value {.unnumbered .unlisted}
+
+Returns a pointer to the human-readable date string.
 
 ### Example {.unnumbered .unlisted}
 
 ``` {.c .numberLines}
+time_t now = time(NULL);
+
+printf("Local: %s", asctime(localtime(&now)));
+printf("UTC  : %s", asctime(gmtime(&now)));
+```
+
+Sample output:
+
+```
+Local: Mon Mar  1 21:17:34 2021
+UTC  : Tue Mar  2 05:17:34 2021
 ```
 
 ### See Also {.unnumbered .unlisted}
 
-[`example()`](#man-example),
+[`ctime()`](#man-ctime),
+[`localtime()`](#man-localtime),
+[`gmtime()`](#man-gmtime)
+
 <!--
 [[pagebreak]]
 ## `example()`, `example()`, `example()` {#man-example}
