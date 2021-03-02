@@ -394,8 +394,46 @@ Example output:
 
 ### See Also {.unnumbered .unlisted}
 
-[`example()`](#man-example),
+[`time()()`](#man-time)
 
+[[pagebreak]]
+## `asctime()` {#man-asctime}
+
+Return a human-readable version of a time
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <time.h>
+
+char *asctime(const struct tm *timeptr)
+```
+
+### Description {.unnumbered .unlisted}
+
+This takes a time in a `struct tm` and returns a string with that date
+in the form:
+
+```
+Sun Sep 16 01:03:52 1973
+```
+
+with a newline included at the end, rather unhelpfully.
+([`strftime()`](#man-strftime) will give you more flexibility.)
+
+**WARNING**: This function returns a pointer to a `static char*` region
+that isn't threadsafe. If you need thread safety, use `strftime()`.
+
+### Return Value {.unnumbered .unlisted}
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`example()`](#man-example),
 <!--
 [[pagebreak]]
 ## `example()`, `example()`, `example()` {#man-example}
