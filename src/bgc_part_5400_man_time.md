@@ -7,10 +7,10 @@
 
 When it comes to time and C, there are two main types to look for:
 
-* **`time_t`** holds a _calendar time_. This is an opaque type that
-  represents an absolute time that can be converted to UTC^[When you say
-  GMT, unless you're talking specifically about the timezone and not the
-  time, you probably mean "UTC".] or local time.
+* **`time_t`** holds a _calendar time_. This is an potentially opaque
+  numeric type that represents an absolute time that can be converted to
+  UTC^[When you say GMT, unless you're talking specifically about the
+  timezone and not the time, you probably mean "UTC".] or local time.
 
 * **`struct tm`** holds a _broken-down time_. This has things like the
   day of the week, the day of the month, the hour, the minute, the
@@ -304,18 +304,22 @@ This can be converted into a `struct tm` with `localtime()` or
 Returns the current calendar time. Also loads `timer` with the current
 time if it's not `NULL`.
 
+Or returns `(time_t)(-1)` if the time isn't available because you've
+fallen out of the space-time continuum and/or the system doesn't support
+times.
+
 ### Example {.unnumbered .unlisted}
 
 ``` {.c .numberLines}
 time_t now = time(NULL);
 
-printf("The time is %s", ctime(&now));
+printf("The local time is %s", ctime(&now));
 ```
 
 Example output:
 
 ```
-The time is Mon Mar  1 18:45:14 2021
+The local time is Mon Mar  1 18:45:14 2021
 ```
 
 ### See Also {.unnumbered .unlisted}
@@ -323,6 +327,74 @@ The time is Mon Mar  1 18:45:14 2021
 [`localtime()`](#man-localtime),
 [`gmtime()`](#man-gmtime),
 [`ctime()`](#man-ctime)
+
+[[pagebreak]]
+## `timespec_get()` {#man-timespec_get}
+
+Get a higher resolution time, probably now
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <time.h>
+
+int timespec_get(struct timespec *ts, int base);
+```
+
+### Description {.unnumbered .unlisted}
+
+This function loads the current time UTC (unless directed otherwise)
+into the given `struct timespec`, `ts`.
+
+That structure has two fields:
+
+``` {.c}
+struct timespec {
+    time_t tv_sec;   // Whole seconds
+    long   tv_nsec;  // Nanoseconds, 0-999999999
+}
+```
+
+Nanoseconds are billionths of a second. You can divide by 1000000000.0
+to convert to seconds.
+
+The `base` parameter has only one defined value, by the spec:
+`TIME_UTC`. So portably make it that. This will load `ts` with the
+current time in seconds since a system-defined [flw[Epoch|Unix_time]],
+often January 1, 1970 at 00:00 UTC.
+
+Your implementation might define other values for `base`.
+
+### Return Value {.unnumbered .unlisted}
+
+When `base` is `TIME_UTC`, loads `ts` with the current UTC time.
+
+On success, returns `base`, valid values for which will always be
+non-zero. On error, returns `0`.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+struct timespec ts;
+
+timespec_get(&ts, TIME_UTC);
+
+printf("%ld s, %ld ns\n", ts.tv_sec, ts.tv_nsec);
+
+double float_time = ts.tv_sec + ts.tv_nsec/1000000000.0;
+printf("%f seconds since epoch\n", float_time);
+```
+
+Example output:
+
+```
+1614654187 s, 825540756 ns
+1614654187.825541 seconds since epoch
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`example()`](#man-example),
 
 <!--
 [[pagebreak]]

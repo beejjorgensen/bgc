@@ -65,9 +65,9 @@ when it comes to dates: `time_t` and `struct tm`.
 The spec doesn't actually say much about them:
 
 * `time_t`: a real type capable of holding a time. So by the spec, this
-  could be a floating type, or an integer packed in some unexpected way.
-  In POSIX (Unix-likes), it's an integer. This holds _calendar time_.
-  Which you can think of as UTC time.
+  could be a floating type or integer type. In POSIX (Unix-likes), it's
+  an integer. This holds _calendar time_. Which you can think of as UTC
+  time.
 
 * `struct tm`: holds the components of a calendar time. This is a
   _broken-down time_, i.e. the components of the time, like hour,
