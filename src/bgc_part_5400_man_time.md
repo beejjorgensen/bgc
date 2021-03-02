@@ -133,7 +133,7 @@ CPU time: 1.863078
 
 
 [[pagebreak]]
-## `difftime()` {#man-example}
+## `difftime()` {#man-difftime}
 
 Compute the difference between two times
 
@@ -440,7 +440,7 @@ It's just like `ctime()`, except it takes a `struct tm` instead of a
 `time_t`.
 
 **WARNING**: This function returns a pointer to a `static char*` region
-that isn't threadsafe and might be shared with the `ctime()` function.
+that isn't thread-safe and might be shared with the `ctime()` function.
 If you need thread safety, use `strftime()` or use a mutex that covers
 `ctime()` and `asctime()`.
 
@@ -505,9 +505,9 @@ It's just like `asctime()`, except it takes a `time_t` instead of a
 `struct tm`.
 
 **WARNING**: This function returns a pointer to a `static char*` region
-that isn't threadsafe and might be shared with the `asctime()` function.
-If you need thread safety, use `strftime()` or use a mutex that covers
-`ctime()` and `asctime()`.
+that isn't thread-safe and might be shared with the `asctime()`
+function. If you need thread safety, use `strftime()` or use a mutex
+that covers `ctime()` and `asctime()`.
 
 Behavior is undefined for:
 
@@ -537,6 +537,61 @@ Local: Mon Mar  1 21:32:23 2021
 
 [`asctime()`](#man-asctime)
 
+[[pagebreak]]
+## `gmtime()` {#man-gmtime}
+
+Convert a calendar time into a UTC broken-down time
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <time.h>
+
+struct tm *gmtime(const time_t *timer);
+```
+
+### Description {.unnumbered .unlisted}
+
+If you have a `time_t`, you can run it through this function to get a
+`struct tm` back full of the corresponding broken-down time information.
+
+This is just like `localtime()`, except it does UTC instead of local
+time.
+
+Once you have that `struct tm`, you can feed it to `strftime()` to print
+it out.
+
+**WARNING**: This function returns a pointer to a `static struct tm*`
+region that isn't thread-safe and might be shared with the `localtime()`
+function. If you need thread safety use a mutex that covers `gmtime()`
+and `localtime()`.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns a pointer to the broken-down time, or `NULL` if it can't be
+obtained.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+time_t now = time(NULL);
+
+printf("UTC  : %s", asctime(gmtime(&now)));
+printf("Local: %s", asctime(localtime(&now)));
+```
+
+Sample output:
+
+```
+UTC  : Tue Mar  2 05:40:05 2021
+Local: Mon Mar  1 21:40:05 2021
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`localtime()`](#man-localtime),
+[`asctime()`](#man-asctime),
+[`strftime()`](#man-strftime)
 <!--
 [[pagebreak]]
 ## `example()`, `example()`, `example()` {#man-example}
