@@ -25,7 +25,7 @@ Note that wide characters have their own set of classification
 functions, so don't try to use these on `wchar_t`s. Or _else_!
 
 [[pagebreak]]
-## `isalnum()` {#man-example}
+## `isalnum()` {#man-isalnum}
 
 Tests if a character is alphabetic or is a digit
 
@@ -71,7 +71,7 @@ printf("%s\n", isalnum('?')? "yes": "no");  // no
 
 
 [[pagebreak]]
-## `isalpha()` {#man-example}
+## `isalpha()` {#man-isalpha}
 
 Returns true if a character is alphabetic
 
@@ -129,7 +129,7 @@ printf("%s\n", isalpha('?')? "yes": "no");  // no
 [`isalnum()`](#man-isalnum)
 
 [[pagebreak]]
-## `isblank()` {#man-example}
+## `isblank()` {#man-isblank}
 
 ### Synopsis {.unnumbered .unlisted}
 
@@ -167,6 +167,51 @@ printf("%s\n", isblank('?')? "yes": "no");   // no
 ### See Also {.unnumbered .unlisted}
 
 [`isspace()`](#man-isspace)
+
+[[pagebreak]]
+## `iscntrl()` {#man-iscntrl}
+
+Test if a character is a control character
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <ctype.h>
+
+int iscntrl(int c);
+```
+
+### Description {.unnumbered .unlisted}
+
+A _control character_ is a local-specific non-printing character.
+
+For the "C" locale, this means control characters are in the range 0x00
+to 0x1F (the character right before SPACE) and 0x7F (the DEL character).
+
+Basically if it's not an ASCII (or Unicode less than 128) printable
+character, it's a control character in the "C" locale.
+ 
+### Return Value {.unnumbered .unlisted}
+
+Returns true if `c` is a control character.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+//             testing this char
+//                      v
+printf("%s\n", iscntrl('\t')? "yes": "no");  // yes (tab)
+printf("%s\n", iscntrl('\n')? "yes": "no");  // yes (newline)
+printf("%s\n", iscntrl('\r')? "yes": "no");  // yes (return)
+printf("%s\n", iscntrl('\a')? "yes": "no");  // yes (bell)
+printf("%s\n", iscntrl(' ')? "yes": "no");   // no
+printf("%s\n", iscntrl('a')? "yes": "no");   // no
+printf("%s\n", iscntrl('?')? "yes": "no");   // no
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`isgraph()`](#man-isgraph)
 
 <!--
 [[pagebreak]]
