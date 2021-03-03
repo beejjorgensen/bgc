@@ -444,7 +444,8 @@ defined. In case you didn't know, the shell can make its own variables.
 Each shell is different, but in bash you can just type `set` and it'll
 show you all of them.
 
-Here's an except from the 61 variables that are defined in my bash shell:
+Here's an excerpt from the 61 variables that are defined in my bash
+shell:
 
 ```
 HISTFILE=/home/beej/.bash_history
