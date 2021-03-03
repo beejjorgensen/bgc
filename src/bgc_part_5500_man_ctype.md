@@ -286,7 +286,53 @@ printf("%s\n", isgraph('\n')? "yes": "no");  // no
 
 ### See Also {.unnumbered .unlisted}
 
-[`iscntrl()`](#man-iscntrl)
+[`iscntrl()`](#man-iscntrl),
+[`isprint()`](#man-isprint)
+
+[[pagebreak]]
+## `islower()` {#man-islower}
+
+Tests if a character is lowercase
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <ctype.h>
+
+int islower(int c);
+```
+
+### Description {.unnumbered .unlisted}
+
+Tests if a character is lowercase, in the range `a`-`z`.
+
+In other locales, there could be other lowercase characters. In all
+cases, to be lowercase, the following must be true:
+
+```
+!iscntrl(c) && !isdigit(c) && !ispunct(c) && !isspace(c)
+```
+
+### Return Value {.unnumbered .unlisted}
+
+Returns true if the character is lowercase.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+//             testing this char
+//                      v
+printf("%s\n", islower('c')? "yes": "no");   // yes
+printf("%s\n", islower('0')? "yes": "no");   // no
+printf("%s\n", islower('B')? "yes": "no");   // no
+printf("%s\n", islower('?')? "yes": "no");   // no
+printf("%s\n", islower(' ')? "yes": "no");   // no
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`isupper()`](#man-isupper),
+[`isalpha()`](#man-isalpha)
 
 <!--
 [[pagebreak]]
