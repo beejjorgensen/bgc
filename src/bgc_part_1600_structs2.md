@@ -95,7 +95,7 @@ struct node {
 };
 ```
 
-It's important to node that `next` is a pointer. This is what allows the
+It's important to note that `next` is a pointer. This is what allows the
 whole thing to even build. Even though the compiler doesn't know what
 the entire `struct node` looks like yet, all pointers are the same size.
 
