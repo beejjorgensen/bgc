@@ -123,11 +123,15 @@ It's conventional to write macro names in `ALL_CAPS` even though that's
 not technically required.
 
 Overall, this gives you a way to define constant values that are
-effectively global and can be used _any_ place that a constant can be
-used, e.g. in `switch` `case`s.
+effectively global and can be used _any_ place. Even in those places
+where a `const` variable won't work, e.g. in `switch` `case`s and fixed
+array lengths.
 
-It can also be used to replace or modify keywords, a place a `const`
-won't work at all, though this practice should be used sparingly.
+That said, the debate rages online whether a typed `const` variable is
+better than `#define` macro in the general case.
+
+It can also be used to replace or modify keywords, a concept completely
+foreign to `const`, though this practice should be used sparingly.
 
 ## Conditional Compilation
 
