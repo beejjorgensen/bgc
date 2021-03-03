@@ -373,6 +373,55 @@ printf("%s\n", isprint('\r')? "yes": "no");  // no
 [`isgraph()`](#man-isgraph),
 [`iscntrl()`](#man-iscntrl)
 
+[[pagebreak]]
+
+## `ispunct()` {#man-ispunct}
+
+Test if a character is punctuation
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <ctype.h>
+
+int ispunct(int c);
+```
+
+### Description {.unnumbered .unlisted}
+
+Tests if a character is punctuation.
+
+In the "C" locale, this means:
+
+``` {.c}
+!isspace(c) && !isalnum(c)
+```
+
+In other locales, there could be other punctuation characters (but they
+also can't be space or alphanumeric).
+
+### Return Value {.unnumbered .unlisted}
+
+True if the character is punctuation.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+//             testing this char
+//                      v
+printf("%s\n", ispunct(',')? "yes": "no");   // yes
+printf("%s\n", ispunct('!')? "yes": "no");   // yes
+printf("%s\n", ispunct('c')? "yes": "no");   // no
+printf("%s\n", ispunct('0')? "yes": "no");   // no
+printf("%s\n", ispunct(' ')? "yes": "no");   // no
+printf("%s\n", ispunct('\n')? "yes": "no");  // no
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`isspace()`](#man-isspace),
+[`isalnum()`](#man-isalnum)
+
 <!--
 [[pagebreak]]
 ## `example()` {#man-example}
