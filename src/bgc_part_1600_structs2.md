@@ -403,6 +403,12 @@ struct foo {            // sizeof(struct foo) == 16 (for me)
 };
 ```
 
+In that example, since `a` is not adjacent to `c`, they are both
+"packed" in their own `int`s.
+
+So we have one `int` each for `a`, `b`, `c`, and `d`. Since my `int`s
+are 4 bytes, that's a grand total of 16 bytes.
+
 A quick rearrangement yields some space savings from 16 bytes down to 12
 bytes (on my system):
 
@@ -414,6 +420,12 @@ struct foo {            // sizeof(struct foo) == 12 (for me)
     unsigned int d;
 };
 ```
+
+And now, since `a` is next to `c`, the compiler puts them together into
+a single `int`.
+
+So we have one `int` for a combined `a` and `c`, and one `int` each for
+`b` and `d`. For a grand total of 3 `int`s, or 12 bytes.
 
 Put all your bitfields together to get the compiler to combine them.
 
@@ -497,6 +509,11 @@ struct foo {
 It's analogous to an explicit page break in a word processor. You're
 telling the compiler, "Stop packing bits in this `unsigned`, and start
 packing them in the next one."
+
+By adding the zero-width unnamed bit field in that spot, the compiler
+puts `a` and `b` in one `unsigned int`, and `c` and `d` in another
+`unsigned int`. Two total, for a size of 8 bytes on my system (`unsigned
+int`s are 4 bytes each).
 
 ## Unions
 
