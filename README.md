@@ -61,7 +61,6 @@ have to consider any copyright issues when merging changes.
 ## TODO
 
 * More man pages
-  * ctype
   * uchar
   * wchar
   * wctype
