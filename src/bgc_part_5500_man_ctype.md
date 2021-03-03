@@ -211,7 +211,8 @@ printf("%s\n", iscntrl('?')? "yes": "no");   // no
 
 ### See Also {.unnumbered .unlisted}
 
-[`isgraph()`](#man-isgraph)
+[`isgraph()`](#man-isgraph),
+[`isprint()`](#man-isprint)
 
 
 [[pagebreak]]
@@ -333,6 +334,44 @@ printf("%s\n", islower(' ')? "yes": "no");   // no
 
 [`isupper()`](#man-isupper),
 [`isalpha()`](#man-isalpha)
+
+[[pagebreak]]
+## `isprint()` {#man-isprint}
+
+Tests if a character is printable
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <ctype.h>
+
+int isprint(int c);
+```
+
+### Description {.unnumbered .unlisted}
+
+Tests if a character is printable, including space (`' '`). So like
+`isgraph()`, except space isn't left out in the cold.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns true if the character is printable, including space (`' '`).
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+//             testing this char
+//                      v
+printf("%s\n", isprint('c')? "yes": "no");   // yes
+printf("%s\n", isprint('0')? "yes": "no");   // yes
+printf("%s\n", isprint(' ')? "yes": "no");   // yes
+printf("%s\n", isprint('\r')? "yes": "no");  // no
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`isgraph()`](#man-isgraph),
+[`iscntrl()`](#man-iscntrl)
 
 <!--
 [[pagebreak]]
