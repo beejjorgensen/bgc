@@ -3,7 +3,7 @@
 # vim: ts=4:sw=4:nosi:et:tw=72
 -->
 
-# `<ctype.h>` Character Classification {#ctype}
+# `<ctype.h>` Character Classification and Conversion {#ctype}
 
 This collection of macros is good for testing characters to see if
 they're of a certain class, such as alphabetic, numeric, control
@@ -212,6 +212,44 @@ printf("%s\n", iscntrl('?')? "yes": "no");   // no
 ### See Also {.unnumbered .unlisted}
 
 [`isgraph()`](#man-isgraph)
+
+
+[[pagebreak]]
+## `example()` {#man-example}
+
+Tests if a character is a digit
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <ctype.h>
+
+int isdigit(int c);
+```
+
+### Description {.unnumbered .unlisted}
+
+Tests if `c` is a digit in the range `0`-`9`.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns true if the character is a digit, unsurprisingly.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+//             testing this char
+//                      v
+printf("%s\n", isdigit('0')? "yes": "no");   // yes
+printf("%s\n", isdigit('5')? "yes": "no");   // yes
+printf("%s\n", isdigit('a')? "yes": "no");   // no
+printf("%s\n", isdigit('B')? "yes": "no");   // no
+printf("%s\n", isdigit('?')? "yes": "no");   // no
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`isalnum()`](#man-isalnum)
 
 <!--
 [[pagebreak]]
