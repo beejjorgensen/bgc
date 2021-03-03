@@ -128,6 +128,46 @@ printf("%s\n", isalpha('?')? "yes": "no");  // no
 
 [`isalnum()`](#man-isalnum)
 
+[[pagebreak]]
+## `isblank()` {#man-example}
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <ctype.h>
+
+int isblank(int c);
+```
+
+### Description {.unnumbered .unlisted}
+
+True if the character is a whitespace character used to separate words
+in a single line.
+
+For example, space (`' '`) or horizontal tab (`'\t'`). Other locales
+might define other blank characters.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns true if the character is a whitespace character used to separate
+words in a single line.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+//             testing this char
+//                      v
+printf("%s\n", isblank(' ')? "yes": "no");   // yes
+printf("%s\n", isblank('\t')? "yes": "no");  // yes
+printf("%s\n", isblank('\n')? "yes": "no");  // no
+printf("%s\n", isblank('a')? "yes": "no");   // no
+printf("%s\n", isblank('?')? "yes": "no");   // no
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`isspace()`](#man-isspace)
+
 <!--
 [[pagebreak]]
 ## `example()` {#man-example}
