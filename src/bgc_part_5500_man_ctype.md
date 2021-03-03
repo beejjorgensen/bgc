@@ -470,6 +470,51 @@ printf("%s\n", isspace('c')? "yes": "no");   // no
 
 [`isblank()`](#man-isblank)
 
+[[pagebreak]]
+## `isupper()` {#man-isupper}
+
+Tests if a character is uppercase
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <ctype.h>
+
+int isupper(int c);
+```
+
+### Description {.unnumbered .unlisted}
+
+Tests if a character is uppercase, in the range `A`-`Z`.
+
+In other locales, there could be other uppercase characters. In all
+cases, to be uppercase, the following must be true:
+
+```
+!iscntrl(c) && !isdigit(c) && !ispunct(c) && !isspace(c)
+```
+
+### Return Value {.unnumbered .unlisted}
+
+Returns true if the character is uppercase.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+//             testing this char
+//                      v
+printf("%s\n", isupper('B')? "yes": "no");   // yes
+printf("%s\n", isupper('c')? "yes": "no");   // no
+printf("%s\n", isupper('0')? "yes": "no");   // no
+printf("%s\n", isupper('?')? "yes": "no");   // no
+printf("%s\n", isupper(' ')? "yes": "no");   // no
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`islower()`](#man-islower),
+[`isalpha()`](#man-isalpha)
+
 <!--
 [[pagebreak]]
 ## `example()` {#man-example}
