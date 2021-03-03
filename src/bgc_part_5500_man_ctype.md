@@ -5,6 +5,24 @@
 
 # `<ctype.h>` Character Classification and Conversion {#ctype}
 
+|Function|Description|
+|--------|----------------------|
+|[`isalnum()`](#man-isalnum)|Tests if a character is alphabetic or is a digit|
+|[`isalpha()`](#man-isalpha)|Returns true if a character is alphabetic|
+|[`isblank()`](#man-isblank)|Tests if a character is word-separating whitespace|
+|[`iscntrl()`](#man-iscntrl)|Test if a character is a control character|
+|[`isdigit()`](#man-isdigit)|Tests if a character is a digit|
+|[`isgraph()`](#man-isgraph)|Tests if the character is printable and not a space|
+|[`islower()`](#man-islower)|Tests if a character is lowercase|
+|[`isprint()`](#man-isprint)|Tests if a character is printable|
+|[`ispunct()`](#man-ispunct)|Test if a character is punctuation|
+|[`isspace()`](#man-isspace)|Test if a character is whitespace|
+|[`isupper()`](#man-isupper)|Tests if a character is uppercase|
+|[`isxdigit()`](#man-isxdigit)|Tests if a character is a hexadecimal digit|
+|[`tolower()`](#man-tolower)|Convert a letter to lowercase|
+|[`toupper()`](#man-toupper)|Convert a letter to uppercase|
+
+
 This collection of macros is good for testing characters to see if
 they're of a certain class, such as alphabetic, numeric, control
 characters, etc.
@@ -131,6 +149,8 @@ printf("%s\n", isalpha('?')? "yes": "no");  // no
 [[pagebreak]]
 ## `isblank()` {#man-isblank}
 
+Tests if a character is word-separating whitespace
+
 ### Synopsis {.unnumbered .unlisted}
 
 ``` {.c}
@@ -250,10 +270,13 @@ printf("%s\n", isdigit('?')? "yes": "no");   // no
 
 ### See Also {.unnumbered .unlisted}
 
-[`isalnum()`](#man-isalnum)
+[`isalnum()`](#man-isalnum),
+[`isxdigit()`](#man-isxdigit)
 
 [[pagebreak]]
 ## `isgraph()` {#man-isgraph}
+
+Tests if the character is printable and not a space
 
 ### Synopsis {.unnumbered .unlisted}
 
@@ -333,7 +356,9 @@ printf("%s\n", islower(' ')? "yes": "no");   // no
 ### See Also {.unnumbered .unlisted}
 
 [`isupper()`](#man-isupper),
-[`isalpha()`](#man-isalpha)
+[`isalpha()`](#man-isalpha),
+[`toupper()`](#man-toupper),
+[`tolower()`](#man-tolower)
 
 [[pagebreak]]
 ## `isprint()` {#man-isprint}
@@ -374,7 +399,6 @@ printf("%s\n", isprint('\r')? "yes": "no");  // no
 [`iscntrl()`](#man-iscntrl)
 
 [[pagebreak]]
-
 ## `ispunct()` {#man-ispunct}
 
 Test if a character is punctuation
@@ -513,7 +537,129 @@ printf("%s\n", isupper(' ')? "yes": "no");   // no
 ### See Also {.unnumbered .unlisted}
 
 [`islower()`](#man-islower),
-[`isalpha()`](#man-isalpha)
+[`isalpha()`](#man-isalpha),
+[`toupper()`](#man-toupper),
+[`tolower()`](#man-tolower)
+
+[[pagebreak]]
+## `isxdigit()` {#man-isxdigit}
+
+Tests if a character is a hexadecimal digit
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <ctype.h>
+
+int isxdigit(int c);
+```
+
+### Description {.unnumbered .unlisted}
+
+Returns true if the character is a hexadecimal digit. Namely if it's
+`0`-`9`, `a`-`f`, or `A`-`F`.
+
+### Return Value {.unnumbered .unlisted}
+
+True if the character is a hexadecimal digit.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+//             testing this char
+//                      v
+printf("%s\n", isxdigit('B')? "yes": "no");   // yes
+printf("%s\n", isxdigit('c')? "yes": "no");   // yes
+printf("%s\n", isxdigit('2')? "yes": "no");   // yes
+printf("%s\n", isxdigit('G')? "yes": "no");   // no
+printf("%s\n", isxdigit('?')? "yes": "no");   // no
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`isdigit()`](#man-isdigit)
+
+[[pagebreak]]
+## `tolower()` {#man-tolower}
+
+Convert a letter to lowercase
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <ctype.h>
+
+int tolower(int c);
+```
+
+### Description {.unnumbered .unlisted}
+
+If the character is uppercase (i.e. `isupper(c)` is true), this function
+returns the corresponding lowercase letter.
+
+Different locales might have different upper- and lowercase letters.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns the lowercase value for an uppercase letter. If the letter isn't
+uppercase, returns it unchanged.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+//             changing this char
+//                      v
+printf("%c\n", tolower('B'));  // b (made lowercase!)
+printf("%c\n", tolower('e'));  // e (unchanged)
+printf("%c\n", tolower('!'));  // ! (unchanged)
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`toupper()`](#man-toupper),
+[`islower()`](#man-islower),
+[`isupper()`](#man-isupper)
+
+[[pagebreak]]
+## `toupper()` {#man-toupper}
+
+Convert a letter to uppercase
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <ctype.h>
+
+int toupper(int c);
+```
+
+### Description {.unnumbered .unlisted}
+
+If the character is lower (i.e. `islower(c)` is true), this function
+returns the corresponding uppercase letter.
+
+Different locales might have different upper- and lowercase letters.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns the uppercase value for a lowercase letter. If the letter isn't
+lowercase, returns it unchanged.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+//             changing this char
+//                      v
+printf("%c\n", toupper('B'));  // B (unchanged)
+printf("%c\n", toupper('e'));  // E (made uppercase!)
+printf("%c\n", toupper('!'));  // ! (unchanged)
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`tolower()`](#man-tolower),
+[`islower()`](#man-islower),
+[`isupper()`](#man-isupper)
 
 <!--
 [[pagebreak]]
