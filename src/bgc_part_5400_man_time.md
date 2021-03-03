@@ -5,6 +5,20 @@
 
 # `<time.h>` Date and Time Functions {#time}
 
+|Function|Description|
+|--------|----------------------|
+|[`clock()`](#man-clock)|How much processor time has been used by this process|
+|[`difftime()`](#man-difftime)|Compute the difference between two times|
+|[`mktime()`](man-mktime)|Convert a `struct tm` into a `time_t`|
+|[`time()`](#man-time)|Get the current calendar time|
+|[`timespec_get()`](#man-timespec_get)|Get a higher resolution time, probably now|
+|[`asctime()`](#man-asctime)|Return a human-readable version of a `struct tm`|
+|[`ctime()`](#man-ctime)|Return a human-readable version of a `time_t`|
+|[`gmtime()`](#man-gmtime)|Convert a calendar time into a UTC broken-down time|
+|[`localtime()`](#man-localtime)|Convert a calendar time into a broken-down local time|
+|[`strftime()`](#man-strftime)|Formatted date and time output|
+
+
 When it comes to time and C, there are two main types to look for:
 
 * **`time_t`** holds a _calendar time_. This is an potentially opaque

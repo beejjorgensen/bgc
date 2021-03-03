@@ -5,6 +5,41 @@
 
 # `<stdlib.h>` Standard Library Functions {#stdlib}
 
+Some of the following functions have variants that handle different
+types: `atoi()`, `strtod()`, `strtol()`, `abs()`, and `div()`. Only a
+single one is listed here for brevity.
+
+|Function|Description|
+|--------|----------------------|
+|[`_Exit()`](#man-exit)|Exit the currently-running program and don't look back|
+|[`abort()`](#man-abort)|Abruptly end program execution|
+|[`abs()`](#man-abs)|Compute the absolute value of an integer|
+|[`aligned_alloc()`](#man-aligned_alloc)|Allocate specifically-aligned memory|
+|[`at_quick_exit()`](#man-atexit)|Set up handlers to run when the program quickly exits|
+|[`atexit()`](#man-atexit)|Set up handlers to run when the program exits|
+|[`atof()`](#man-atof)|Convert a string to a floating point value|
+|[`atoi()`](#man-atoi)|Convert an integer in a string into a integer type|
+|[`bsearch()`](#man-bsearch)|Binary Search (maybe) an array of objects|
+|[`calloc()`](#man-malloc)|Allocate and clear memory for arbitrary use|
+|[`div()`](#man-div)|Compute the quotient and remainder of two numbers|
+|[`exit()`](#man-exit)|Exit the currently-running program|
+|[`free()`](#man-free)|Free a memory region|
+|[`getenv()`](#man-getenv)|Get the value of an environment variable|
+|[`malloc()`](man-malloc)|Allocate memory for arbitrary use|
+|[`mblen()`](#man-mblen)|Return the number of bytes in a multibyte character|
+|[`mbstowcs()`](#man-mbstowcs)|Convert a multibyte string to a wide character string|
+|[`mbtowc()`](#man-mbtowc)|Convert a multibyte character to a wide character|
+|[`qsort()`](#man-qsort)|Quicksort (maybe) some data|
+|[`quick_exit()`](#man-exit)|Exit the currently-running program quickly|
+|[`rand()`](#man-rand)|Return a pseudorandom number|
+|[`realloc()`](#man-realloc)|Resize a previously allocated stretch of memory|
+|[`srand()`](#man-srand)|Seed the built-in pseudorandom number generator|
+|[`strtod()`](#man-strtod)|Convert a string to a floating point number|
+|[`strtol()`](#man-strtol)|Convert a string to an integer|
+|[`system()`](#man-system)|Run an external program|
+|[`wcstombs()`](#man-wcstombs)|Convert a wide character string to a multibyte string|
+|[`wctomb()`](#man-wctomb)|Convert a wide character to a multibyte character|
+
 The `<stdlib.h>` header has all kinds of---dare I say---miscellaneous
 functions bundled into it. This functionality includes:
 
