@@ -215,7 +215,7 @@ printf("%s\n", iscntrl('?')? "yes": "no");   // no
 
 
 [[pagebreak]]
-## `example()` {#man-example}
+## `isdigit()` {#man-isdigit}
 
 Tests if a character is a digit
 
@@ -250,6 +250,43 @@ printf("%s\n", isdigit('?')? "yes": "no");   // no
 ### See Also {.unnumbered .unlisted}
 
 [`isalnum()`](#man-isalnum)
+
+[[pagebreak]]
+## `isgraph()` {#man-isgraph}
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <ctype.h>
+
+int isgraph(int c);
+```
+
+### Description {.unnumbered .unlisted}
+
+Tests if `c` is any printable character that isn't a space (`' '`).
+
+### Return Value {.unnumbered .unlisted}
+
+Returns true if `c` is any printable character that isn't a space
+(`' '`).
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+//             testing this char
+//                      v
+printf("%s\n", isgraph('0')? "yes": "no");   // yes
+printf("%s\n", isgraph('a')? "yes": "no");   // yes
+printf("%s\n", isgraph('B')? "yes": "no");   // yes
+printf("%s\n", isgraph('?')? "yes": "no");   // yes
+printf("%s\n", isgraph(' ')? "yes": "no");   // no
+printf("%s\n", isgraph('\n')? "yes": "no");  // no
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`iscntrl()`](#man-iscntrl)
 
 <!--
 [[pagebreak]]
