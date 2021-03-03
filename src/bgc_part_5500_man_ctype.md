@@ -422,6 +422,54 @@ printf("%s\n", ispunct('\n')? "yes": "no");  // no
 [`isspace()`](#man-isspace),
 [`isalnum()`](#man-isalnum)
 
+[[pagebreak]]
+## `isspace()` {#man-isspace}
+
+Test if a character is whitespace
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <ctype.h>
+
+int isspace(int c);
+```
+
+### Description {.unnumbered .unlisted}
+
+Tests if `c` is a whitespace character. These are:
+
+* Space (`' '`)
+* Formfeed (`'\f'`)
+* Newline (`'\n'`)
+* Carriage Return (`'\r'`)
+* Horizontal Tab (`'\t'`)
+* Vertical Tab (`'\v'`)
+
+Other locales might specify other whitespace characters. `isalnum()` is
+false for all whitespace characters.
+
+### Return Value {.unnumbered .unlisted}
+
+True if the character is whitespace.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+//             testing this char
+//                      v
+printf("%s\n", isspace(' ')? "yes": "no");   // yes
+printf("%s\n", isspace('\n')? "yes": "no");  // yes
+printf("%s\n", isspace('\t')? "yes": "no");  // yes
+printf("%s\n", isspace(',')? "yes": "no");   // no
+printf("%s\n", isspace('!')? "yes": "no");   // no
+printf("%s\n", isspace('c')? "yes": "no");   // no
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`isblank()`](#man-isblank)
+
 <!--
 [[pagebreak]]
 ## `example()` {#man-example}
