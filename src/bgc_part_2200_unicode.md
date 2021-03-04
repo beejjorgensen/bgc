@@ -889,8 +889,8 @@ But you can test to see if they are. If the macros `__STDC_UTF_16__` or
 UTF-32, respectively.
 
 If you're curious, and I know you are, the values, if UTF-16 or UTF-32,
-are stored in the native endianess. That is, you should be to compare
-them straight up to Unicode code point values:
+are stored in the native endianess. That is, you should be able to
+compare them straight up to Unicode code point values:
 
 ``` {.c}
 char16_t pi = u"\u03C0";  // pi symbol
