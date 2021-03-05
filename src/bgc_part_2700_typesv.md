@@ -173,6 +173,14 @@ int main(void)
 }
 ```
 
+Additionally, this can be a nice way to pass even pointers to simple
+objects:
+
+``` {.c}
+// Pass a pointer to an int with value 3490
+foo(&(int){3490});
+```
+
 Easy as that.
 
 ### Unnamed Objects and Scope
