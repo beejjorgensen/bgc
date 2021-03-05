@@ -202,7 +202,7 @@ So the standard progression is:
 
 I also mentioned `va_copy()` up there; it makes a copy of your `va_list`
 variable in the exact same state. That is, if you haven't started with
-`va_arg()` with the source variable, the new on won't be started,
+`va_arg()` with the source variable, the new one won't be started,
 either. If you've consumed 5 variables with `va_arg()` so far, the copy
 will also reflect that.
 
