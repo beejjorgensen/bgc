@@ -112,7 +112,7 @@ int run(void *arg)
 
     printf("THREAD: Running thread with arg %d\n", *a);
 
-    return 12;  // Value to be picked up by thrd_join()
+    return 12;  // Value to be picked up by thrd_join() (chose 12 at random)
 }
 
 int main(void)
@@ -326,6 +326,16 @@ This removes the parent thread's ability to get the return value from
 the child thread, but if you don't care about that and just want threads
 to clean up nicely on their own, this is the way to go.
 
+Basically we're going to do this:
+
+``` {.c}
+thrd_create(&t, run, NULL);
+thrd_detach(t);
+```
+
+where the `thrd_detach()` call is the parent thread saying, "Hey, I'm
+not going to wait for this child thread to complete with `thrd_join()`.
+So go ahead and clean it up on your own when it completes."
 
 ``` {.c .numberLines}
 #include <stdio.h>
@@ -335,7 +345,7 @@ int run(void *arg)
 {
     (void)arg;
 
-    //printf("Thread running! %lu\n", thrd_current());
+    //printf("Thread running! %lu\n", thrd_current()); // non-portable!
     printf("Thread running!\n");
 
     return 0;
@@ -349,10 +359,30 @@ int main(void)
 
     for (int i = 0; i < THREAD_COUNT; i++) {
         thrd_create(&t, run, NULL);
-        thrd_detach(t);
+        thrd_detach(t);               // <-- DETACH!
     }
 
     // Sleep for a second to let all the threads finish
     thrd_sleep(&(struct timespec){.tv_sec=1}, NULL);
 }
 ```
+
+Note that in this code, we put the main thread to sleep for 1 second
+with `thrd_sleep()`---more on that later.
+
+Also in the `run()` function, I have a commented-out line in there that
+prints out the thread ID as an `unsigned long`. This is non-portable,
+because the spec doesn't say what type a `thrd_t` is under the hood---it
+could be a `struct` for all we know. But that line works on my system.
+
+Something interesting I saw when I ran the code, above, and printed out
+the thread IDs was that some threads had duplicate IDs! This seems like
+it should be impossible, but C is allowed to _reuse_ thread IDs after
+the corresponding thread has exited. So what I was seeing was that some
+threads completed their run before other threads were launched.
+
+<!--
+## Thread Local Data
+## Mutexes
+## Condition Variables
+-->
