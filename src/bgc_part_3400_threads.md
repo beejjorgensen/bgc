@@ -76,6 +76,21 @@ The thread will begin execution on the function you specify.
 When you want to wait for a thread to complete, you have to specify it's
 thread ID so C knows which one to wait for.
 
+So the basic idea is:
+
+1. Write a function to act as the thread's "`main`". It's not
+   `main()`-proper, but analogous to it. The thread will start running
+   there.
+2. From the main thread, launch a new thread with `thrd_create()`, and
+   pass it a pointer to the function to run.
+3. In that function, have the thread do whatever it has to do.
+4. Meantimes, the main thread can continue doing whatever _it_ has to
+   do.
+5. When the main thread decides to, it can wait for the child thread to
+   complete by calling `thrd_join()`. Generally you **must**
+   `thrd_join()` the thread to clean up after it or else you'll leak
+   memory^[Unless you `thrd_detach()`. More on this later.]
+
 Let's make a thread!  We'll launch it from the main thread with
 `thrd_create()` to run a function, do some other things, then wait for
 it to complete with `thrd_join()`.
@@ -214,7 +229,8 @@ All threads complete!
 ```
 
 Whaaa---? Where's `THREAD 0`? And why do we have a `THREAD 5` when
-clearly `i` is never more than `4` when we call `thrd_create()`?
+clearly `i` is never more than `4` when we call `thrd_create()`? And two
+`THREAD 2`s? Madness!
 
 This is getting into the fun land of _race conditions_. The main thread
 is modifying `i` before the thread has a chance to copy it. Indeed, `i`
@@ -236,7 +252,7 @@ Let's give that a shot:
 
 int run(void *arg)
 {
-    int i = *(int*)arg;
+    int i = *(int*)arg;  // Copy the arg
 
     free(arg);  // Done with this
 
@@ -296,4 +312,16 @@ All threads complete!
 
 There we go! Threads 0-4 all in effect!
 
+Your run might vary---how the threads get scheduled to run is beyond the
+C spec. We see in the above example that thread 4 didn't even begin
+until threads 0-1 had completed. Indeed, if I run this again, I likely
+get different output. We cannot guarantee a thread execution order.
 
+## Detaching Threads
+
+If you want to fire-and-forget a thread (i.e. so you don't have to
+`thrd_join()` it later), you can do that with `thrd_detach()`.
+
+This removes the parent thread's ability to get the return value from
+the child thread, but if you don't care about that and just want threads
+to clean up nicely on their own
