@@ -7,7 +7,7 @@
 
 Now that we have some more types under our belts, turns out we can give
 these types some additional attributes that control their behavior.
-These are the _type qualifiers_ and _storage class specifiers_.
+These are the _type qualifiers_ and _storage-class specifiers_.
 
 ## Type Qualifiers
 
@@ -251,10 +251,10 @@ volatile int *p;
 
 This is an optional C feature that we'll talk about another time.
 
-## Type Specifiers
+## Storage-Class Specifiers
 
-Type specifiers are similar to type quantifiers. They give the compiler
-more information about the type of a variable.
+Storage-class specifiers are similar to type quantifiers. They give the
+compiler more information about the type of a variable.
 
 ### `auto`
 
@@ -351,8 +351,8 @@ More on that in the section about building with multiple source files.
 
 ### `extern` {#extern}
 
-The `extern` type specifier gives us a way to refer to objects in other
-source files.
+The `extern` storage-class specifier gives us a way to refer to objects
+in other source files.
 
 Let's say, for example, the file `bar.c` had the following as its entirety:
 

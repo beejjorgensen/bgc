@@ -230,7 +230,7 @@ the `static` keyword.
 And you can refer to objects in other files with `extern`.
 
 For more info, check out the sections in the book on the
-[`static`](#static) and [`extern`](#extern) type specifiers.
+[`static`](#static) and [`extern`](#extern) storage-class specifiers.
 
 
 ## Compiling with Object Files
