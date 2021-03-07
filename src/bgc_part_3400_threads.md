@@ -486,7 +486,7 @@ Let's solve this problem two different ways. (If you want all the
 threads to share the variable _and_ not step on each other's toes,
 you'll have to read on to the [mutex](#mutex) section.)
 
-## `_Thread_local` Storage-Class {#thread-local}
+### `_Thread_local` Storage-Class {#thread-local}
 
 First things first, let's just look at the easy way around this: the
 `_Thread_local` storage-class.
