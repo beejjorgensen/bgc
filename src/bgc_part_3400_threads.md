@@ -91,6 +91,10 @@ So the basic idea is:
    `thrd_join()` the thread to clean up after it or else you'll leak
    memory^[Unless you `thrd_detach()`. More on this later.]
 
+`thrd_create()` takes a pointer to the function to run, and it's of type
+`thrd_start_t`, which is `int (*)(int *)`. That's Greek for "a pointer
+to a function that takes an `int*` as an argument, and returns an `int`."
+
 Let's make a thread!  We'll launch it from the main thread with
 `thrd_create()` to run a function, do some other things, then wait for
 it to complete with `thrd_join()`.
@@ -381,8 +385,252 @@ it should be impossible, but C is allowed to _reuse_ thread IDs after
 the corresponding thread has exited. So what I was seeing was that some
 threads completed their run before other threads were launched.
 
-<!--
 ## Thread Local Data
+
+Threads are interesting because they don't have their own memory beyond
+local variables. If you want a `static` variable or file scope variable,
+all threads will see that same variable.
+
+This can lead to race conditions, where you get _Weird Things_™
+happening.
+
+Check out this example. We have a `static` variable `foo` in block scope
+in `run()`. This variable will be visible to all threads that pass
+through the `run()` function. And the various threads can effectively
+step on each other's toes.
+
+Each thread copies `foo` into a local variable `x` (which is not shared
+between threads---all the threads have their own call stacks). So they
+_should_ be the same, right?
+
+And the first time we print them, they are^[Though I don't think they
+have to be. It's just that the threads don't seem to get rescheduled
+until some system call like might happen with a `printf()`... which is
+why I have the `printf()` in there.]. But then right after that, we
+check to make sure they're still the same.
+
+And they _usually_ are. But not always!
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <stdlib.h>
+#include <threads.h>
+
+int run(void *arg)
+{
+    int n = *(int*)arg;  // Thread number for humans to differentiate
+
+    free(arg);
+
+    static int foo = 10;  // Static value shared between threads
+
+    int x = foo;  // Automatic local variable--each thread has its own
+
+    // We just assigned x from foo, so they'd better be equal here.
+    // (In all my test runs, they were, but even this isn't guaranteed!)
+
+    printf("Thread %d: x = %d, foo = %d\n", n, x, foo);
+
+    // And they should be equal here, but they're not always!
+    // (Sometimes they were, sometimes they weren't!)
+
+    // What happens is another thread gets in and increments foo
+    // right now, but this thread's x remains what it was before!
+
+    if (x != foo) {
+        printf("Thread %d: Craziness! x != foo! %d != %d\n", n, x, foo);
+    }
+
+    foo++;  // Increment shared value
+
+    return 0;
+}
+
+#define THREAD_COUNT 5
+
+int main(void)
+{
+    thrd_t t[THREAD_COUNT];
+
+    for (int i = 0; i < THREAD_COUNT; i++) {
+        int *n = malloc(sizeof *n);  // Holds a thread serial number
+        *n = i;
+        thrd_create(t + i, run, n);
+    }
+
+    for (int i = 0; i < THREAD_COUNT; i++) {
+        thrd_join(t[i], NULL);
+    }
+}
+```
+
+Here's an example output (though this varies from run to run):
+
+```
+Thread 0: x = 10, foo = 10
+Thread 1: x = 10, foo = 10
+Thread 1: Craziness! x != foo! 10 != 11
+Thread 2: x = 12, foo = 12
+Thread 4: x = 13, foo = 13
+Thread 3: x = 14, foo = 14
+```
+
+In thread 1, between the two `printf()`s, the value of `foo` somehow
+changed from `10` to `11`, even though clearly there's no increment
+between the `printf()`s!
+
+It was another thread that got in there (probably thread 0, from the
+look of it) and incremented the value of `foo` behind thread 1's back!
+
+Let's solve this problem two different ways. (If you want all the
+threads to share the variable _and_ not step on each other's toes,
+you'll have to read on to the [mutex](#mutex) section.)
+
+## `_Thread_local` Storage-Class {#thread-local}
+
+First things first, let's just look at the easy way around this: the
+`_Thread_local` storage-class.
+
+Basically we're just going to slap this on the front of our block scope
+`static` variable and things will work! It tells C that every thread
+should have its own version of this variable, so none of them step on
+each other's toes.
+
+The `<threads.h>` header defines `thread_local` as an alias to `_Thread_local`
+so your code doesn't have to look so ugly.
+
+Let's take the previous example and make `foo` into a `thread_local`
+variable so that we don't share that data.
+
+``` {.c .numberLines startFrom="5"}
+int run(void *arg)
+{
+    int n = *(int*)arg;  // Thread number for humans to differentiate
+
+    free(arg);
+
+    thread_local static int foo = 10;  // <-- No longer shared!!
+```
+
+And running we get:
+
+```
+Thread 0: x = 10, foo = 10
+Thread 1: x = 10, foo = 10
+Thread 2: x = 10, foo = 10
+Thread 4: x = 10, foo = 10
+Thread 3: x = 10, foo = 10
+```
+
+No more weird problems!
+
+One thing: if a `thread_local` variable is block scope, it **must** be
+`static`. Them's the rules. (But this is OK because non-`static`
+variables are per-thread already since each thread has it's own
+non-`static` variables.)
+
+A bit of a lie there: block scope `thread_local` variables can also be
+`extern`.
+
+### Another Option: Thread-Specific Storage
+
+Thread-specific storage (TSS) is another way of getting per-thread data.
+
+One additional feature is that these functions allow you to specify a
+destructor that will be called on the data when the TSS variable is
+deleted. Commonly this destructor is `free()` to automatically clean up
+`malloc()`d per-thread data. Or `NULL` if you don't need to destroy
+anything.
+
+The destructor is type `tss_dtor_t` which is a pointer to a function
+that returns `void` and takes a `void*` as an argument (the `void*`
+points to the data stored in the variable). In other words, it's a `void
+(*)(void*)`, if that clears it up. Which I admit it probably doesn't.
+Check out the example, below.
+
+Generally, `thread_local` is probably your go-to, but if you like the
+destructor idea, then you can make use of that.
+
+The usage is a bit weird in that we need a variable of type `tss_t` to
+be alive to represent the value on a per thread basis. Then we
+initialize it with `tss_create()`. Eventually we get rid of it with
+`tss_delete()` (which calls the destructor for all the threads).
+
+In the middle, threads can call `tss_set()` and `tss_get()` to set and
+get the value.
+
+In the following code, we set up the TSS variable before creating the
+threads, then clean up after the threads.
+
+In the `run()` function, the threads `malloc()` some space for a string
+and store that pointer in the TSS variable.
+
+When the main thread finally calls `tss_delete()`, the destructor
+function (`free()` in this case) is called for _all_ the threads.
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <stdlib.h>
+#include <threads.h>
+
+tss_t str;
+
+void some_function(void)
+{
+    // Retrieve the per-thread value of this string
+    char *tss_string = tss_get(str);
+
+    // And print it
+    printf("TSS string: %s\n", tss_string);
+}
+
+int run(void *arg)
+{
+    int serial = *(int*)arg;  // Get this thread's serial number
+    free(arg);
+
+    // malloc() space to hold the data for this thread
+    char *s = malloc(64);
+    sprintf(s, "thread %d! :)", serial);  // Happy little string
+
+    // Set this TSS variable to point at the string
+    tss_set(str, s);
+
+    // Call a function that will get the variable
+    some_function();
+
+    return 0;
+}
+
+#define THREAD_COUNT 15
+
+int main(void)
+{
+    thrd_t t[THREAD_COUNT];
+
+    // Make a new TSS variable, the free() function is the destructor
+    tss_create(&str, free);
+
+    for (int i = 0; i < THREAD_COUNT; i++) {
+        int *n = malloc(sizeof *n);  // Holds a thread serial number
+        *n = i;
+        thrd_create(t + i, run, n);
+    }
+
+    for (int i = 0; i < THREAD_COUNT; i++) {
+        thrd_join(t[i], NULL);
+    }
+
+    // And we're done--this calls the destructor (free()) on the string
+    tss_delete(str);
+}
+```
+
+Again, this is kind of a painful way of doing things compared to
+`thread_local`, so unless you really need that destructor functionality,
+I'd use that instead.
+
+<!--
 ## Mutexes
 ## Condition Variables
 -->
