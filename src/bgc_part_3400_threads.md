@@ -97,7 +97,9 @@ to a function that takes an `int*` as an argument, and returns an `int`."
 
 Let's make a thread!  We'll launch it from the main thread with
 `thrd_create()` to run a function, do some other things, then wait for
-it to complete with `thrd_join()`.
+it to complete with `thrd_join()`. I've named the thread's main function
+`run()`, but you can name it anything as long as the types match
+`thrd_start_t`.
 
 ``` {.c .numberLines}
 #include <stdio.h>
@@ -630,7 +632,246 @@ Again, this is kind of a painful way of doing things compared to
 `thread_local`, so unless you really need that destructor functionality,
 I'd use that instead.
 
-<!--
 ## Mutexes
+
+If you want to only allow a single thread into a critical section of
+code at a time, you can protect that section with a mutex^[Short for
+"mutual exclusion", AKA a "lock" on a section of code that only one
+thread is permitted to execute.].
+
+For example, if we had a `static` variable and we wanted to be able to
+get and set it in two operations without another thread jumping in the
+middle and corrupting it, we could use a mutex for that.
+
+You can acquire a mutex or release it. If you attempt to acquire the
+mutex and succeed, you may continue execution. If you attempt and fail
+(because someone else holds it), you will _block_^[That is, your process
+will go to sleep.] until the mutex is released.
+
+If multiple threads are blocked waiting for a mutex to be released, one
+of them will be chosen to run (at random, from our perspective), and the
+others will continue to sleep.
+
+The gameplan is that first we'll initialize a mutex variable to make it
+ready to use with `mtx_init()`.
+
+Then subsequent threads can call `mtx_lock()` and `mtx_unlock()` to get
+and release the mutex.
+
+When we're completely done with the mutex, we can destroy it with
+`mtx_destroy()`, the logical opposite of `mtx_init()`.
+
+First, let's look at some code that does _not_ use a mutex, and
+endeavors to print out a shared (`static`) serial number and then
+increment it. Because we're not using a mutex over the getting of the
+value (to print it) and the setting (to increment it), threads might get
+in each other's way in that critical section.
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <threads.h>
+
+int run(void *arg)
+{
+    (void)arg;
+
+    static int serial = 0;   // Shared static variable!
+
+    printf("Thread running! %d\n", serial);
+
+    serial++;
+
+    return 0;
+}
+
+#define THREAD_COUNT 10
+
+int main(void)
+{
+    thrd_t t[THREAD_COUNT];
+
+    for (int i = 0; i < THREAD_COUNT; i++) {
+        thrd_create(t + i, run, NULL);
+    }
+
+    for (int i = 0; i < THREAD_COUNT; i++) {
+        thrd_join(t[i], NULL);
+    }
+}
+```
+
+When I run this, I get something that looks like this:
+
+```
+Thread running! 0
+Thread running! 0
+Thread running! 0
+Thread running! 3
+Thread running! 4
+Thread running! 5
+Thread running! 6
+Thread running! 7
+Thread running! 8
+Thread running! 9
+```
+
+Clearly multiple threads are getting in there and running the `printf()`
+before anyone gets a change to update the `serial` variable.
+
+What we want to do is wrap the getting of the variable and setting of it
+into a single mutex-protected stretch of code.
+
+We'll add a new variable to represent the mutex of type `mtx_t` in file
+scope, initialize it, and then the threads can lock and unlock it in the
+`run()` function.
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <threads.h>
+
+static mtx_t serial_mtx;     // <-- MUTEX VARIABLE
+
+int run(void *arg)
+{
+    (void)arg;
+
+    static int serial = 0;   // Shared static variable!
+
+    // Acquire the mutex--all threads will block on this call until
+    // they get the lock:
+
+    mtx_lock(&serial_mtx);           // <-- ACQUIRE MUTEX
+
+    printf("Thread running! %d\n", serial);
+
+    serial++;
+
+    // Done getting and setting the data, so free the lock. This will
+    // unblock threads on the mtx_lock() call:
+
+    mtx_unlock(&serial_mtx);         // <-- RELEASE MUTEX
+
+    return 0;
+}
+
+#define THREAD_COUNT 10
+
+int main(void)
+{
+    thrd_t t[THREAD_COUNT];
+
+    // Initialize the mutex variable, indicating this is a normal
+    // no-frills, mutex:
+
+    mtx_init(&serial_mtx, mtx_plain);        // <-- CREATE MUTEX
+
+    for (int i = 0; i < THREAD_COUNT; i++) {
+        thrd_create(t + i, run, NULL);
+    }
+
+    for (int i = 0; i < THREAD_COUNT; i++) {
+        thrd_join(t[i], NULL);
+    }
+
+    // Done with the mutex, destroy it:
+
+    mtx_destroy(&serial_mtx);                // <-- DESTROY MUTEX
+}
+```
+
+See how on lines 38 and 50 of `main()` we initialize and destroy the
+mutex.
+
+But each individual thread acquires the mutex on line 15 and releases it
+on line 24.
+
+In between the `mtx_lock()` and `mtx_unlock()` is the _critical
+section_, the area of code where we don't want multiple threads mucking
+about at the same time.
+
+And now we get proper output!
+
+```
+Thread running! 0
+Thread running! 1
+Thread running! 2
+Thread running! 3
+Thread running! 4
+Thread running! 5
+Thread running! 6
+Thread running! 7
+Thread running! 8
+Thread running! 9
+```
+
+If you need multiple mutexes, no problem: just have multiple mutex
+variables.
+
+And always remember the Number One Rule of Multiple Mutexes: _Unlock mutexes in
+the opposite order in which you lock them!_
+
+### Different Mutex Types
+
+As hinted earlier, we have a few mutex types that you can create with
+`mtx_init()`. (Some of these types are the result of a bitwise-OR
+operation, as noted in the table.)
+
+|Type|Description|
+|-|-|
+|`mtx_plain`|Regular ol' mutex|
+|`mtx_timed`|Mutex that supports timeouts|
+|`mtx_plain|mtx_recursive`|Recursive mutex|
+|`mtx_timed|mtx_recursive`|Recursive mutex that supports timeouts|
+
+"Recursive" means that the holder of a lock can call `mtx_lock()`
+multiple times on the same lock. (They have to unlock it an equal number
+of times before anyone else can take the mutex.) This might ease coding
+from time to time, especially if you call a function that needs to lock
+the mutex when you already hold the mutex.
+
+And the timeout gives a thread a chance to _try_ to get the lock for a
+while, but then bail out if it can't get it in that timeframe.
+
+For a timeout mutex, be sure to create it with `mtx_timed`:
+
+``` {.c}
+mtx_init(&serial_mtx, mtx_timed);
+```
+
+And then when you wait for it, you have to specify a time in UTC when it
+will unlock^[You might have expected it to be "time from now", but you'd
+just like to think that, wouldn't you!].
+
+The function `timespec_get()` from `<time.h>` can be of assistance here.
+It'll get you the current time in UTC in a `struct timespec` which is
+just what we need. In fact, it seems to exist merely for this purpose.
+
+It has two fields: `tv_sec` has the current time in seconds since epoch,
+and `tv_nsec` has the nanoseconds (billionths of a second) as the
+"fractional" part.
+
+So you can load that up with the current time, and then add to it to get
+a specific timeout.
+
+Then call `mtx_timedlock()` instead of `mtx_lock()`. If it returns the
+value `thrd_timedout`, it timed out.
+
+``` {.c}
+struct timespec timeout;
+
+timespec_get(&timeout, TIME_UTC);  // Get current time
+timeout.tv_sec += 1;               // Timeout 1 second after now
+
+int result = mtx_timedlock(&serial_mtx, &timeout));
+
+if (result == thrd_timedout) {
+    printf("Mutex lock timed out!\n");
+    return 1;   // Or however you're bailing out
+}
+```
+
+Other than that, timed locks are the same as regular locks.
+
+<!--
 ## Condition Variables
 -->
