@@ -41,6 +41,7 @@ PDF_OPTS= \
 	--variable monofont=$(PDF_MONOFONT) \
 	--variable geometry:"top=1in,bottom=1in" \
 	-V documentclass=book \
+	-V indent \
 	-o $(GUIDE_ID)_temp.tex \
 	$(COMMON_OPTS)
 
