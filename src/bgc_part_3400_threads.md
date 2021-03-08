@@ -17,6 +17,33 @@ skills with classic multithreading constructs are rusty, to say the
 least.]; you'll have to pick up a different very thick book for that,
 specifically. Sorry!
 
+Threading is an optional feature. If a C11+ compiler defines
+`__STDC_NO_THREADS__`, threads will **not** be present in the library.
+Why they decided to go with a negative sense in that macro is beyond me,
+but there we are.
+
+You can test for it like this:
+
+```
+#ifdef __STDC_NO_THREADS__
+#error I need threads to build this program!
+#endif
+```
+
+Also, you might need to specify certain linker options when building. In
+the case of Unix-likes, try appending a `-lpthreads` to the end of the
+command line to link the `pthreads` library^[Yes, `pthreads` with a
+"`p`". It's short for POSIX threads, a library that C11 borrowed
+liberally from for its threads implementation.]:
+
+```
+gcc -std=c11 -o foo foo.c -lpthreads
+```
+
+If you're getting linker errors on your system, it could be because the
+appropriate library wasn't included.
+
+
 ## Background
 
 Threads are a way to have all those shiny CPU cores you paid for do work
@@ -54,6 +81,17 @@ The `main()` program is a thread, as well.
 Additionally, we have thread local storage, mutexes, and conditional
 variables. But more on those later. Let's just look at the basics for
 now.
+
+## Data Races and the Standard Library
+
+Some of the functions in the standard library (e.g. `asctime()` and
+`strtok()`) return or use `static` data elements that aren't threadsafe.
+But in general unless it's said otherwise, the standard library makes
+an effort to be so^[Per §7.1.4¶5.]
+
+But keep an eye out. If a standard library function is maintaining state
+between calls in a variable you don't own, or if a function is returning
+a pointer to a thing that you didn't pass in, it's not threadsafe.
 
 ## Creating and Waiting for Threads
 
