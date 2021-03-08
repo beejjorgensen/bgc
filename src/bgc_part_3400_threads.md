@@ -904,7 +904,6 @@ int result = mtx_timedlock(&serial_mtx, &timeout));
 
 if (result == thrd_timedout) {
     printf("Mutex lock timed out!\n");
-    return 1;   // Or however you're bailing out
 }
 ```
 
@@ -1144,9 +1143,84 @@ like this. If we didn't have a way to put the child thread to sleep
 while it waited for some condition to be met, it would be force to poll
 which is a big waste of CPU.
 
+### Timed Condition Wait
 
+There's a variant of `cnd_wait()` that allows you to specify a timeout
+so you can stop waiting.
 
-<!--
-Timed condition wait
-run once
--->
+Since the child thread must relock the mutex, this doesn't necessarily
+mean that you'll be popping back to life the instant the timeout occurs;
+you still must wait for any other threads to release the mutex.
+
+But it does mean that you won't be waiting until the `cnd_signal()`
+happens.
+
+To make this work, call `cnd_timedwait()` instead of `cnd_wait()`. If it
+returns the value `thrd_timedout`, it timed out.
+
+The timestamp is an absolute time in UTC, not a time-from-now.
+Thankfully the `timespec_get()` function in `<time.h>` seems custom-made
+for exactly this case.
+
+``` {.c}
+struct timespec timeout;
+
+timespec_get(&timeout, TIME_UTC);  // Get current time
+timeout.tv_sec += 1;               // Timeout 1 second after now
+
+int result = cnd_timedwait(&condition, &mutex, &timeout));
+
+if (result == thrd_timedout) {
+    printf("Condition variable timed out!\n");
+}
+```
+
+### Broadcast: Wake Up All Waiting Threads
+
+`cnd_signal()` only wakes up one thread to continue working. Depending
+on how you have your logic done, it might make sense to wake up more
+than one thread to continue once the condition is met.
+
+If you want to just wait up one, keep using `cnd_signal()`. But if you
+have an army of threads piled up waiting for a condition variable, and
+more than one of them could safely do work after it wakes up, then wake
+them all up!
+
+How, you ask?
+
+Simply use `cnd_broadcast()` instead of `cnd_signal()`. Exact same
+usage, except `cnd_broadcast()` wakes up **all** the sleeping threads
+that were waiting on that condition variable.
+
+## Running a Function One Time
+
+Let's say you have a function that _could_ be run by many threads, but
+you don't know when, and it's not work trying to write all that logic.
+
+There's a way around it: use `call_once()`. Tons of threads could try to
+run the function, but only the first one counts^[Survival of the
+fittest! Right? I admit it's actually nothing like that.]
+
+To work with this, you need a special flag variable you declare to keep
+track of whether or not the thing's been run. And you need a function to
+run, which takes no parameters and returns no value.
+
+``` {.c}
+once_flag of = ONCE_FLAG_INIT;  // Initialize it like this
+
+void run_once_function(void)
+{
+    printf("I'll only run once!\n");
+}
+
+int run(void *arg)
+{
+    (void)arg;
+
+    call_once(&of, run_once_function);
+
+    // ...
+```
+
+In this example, no matter how many threads get into the `run()`
+function, the `run_once_function()` will only be called a single time.
