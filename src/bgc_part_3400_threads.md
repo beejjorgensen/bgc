@@ -910,6 +910,243 @@ if (result == thrd_timedout) {
 
 Other than that, timed locks are the same as regular locks.
 
-<!--
 ## Condition Variables
+
+Condition Variables are the last piece of the puzzle we need to make
+performant multithreaded applications and to compose more complex
+multithreaded structures.
+
+A condition variable provides a way for threads to go to sleep until
+some event on another thread occurs.
+
+In other words, we might have a number of threads that are rearing to
+go, but they have to wait until some event is true before they continue.
+Basically they're being told "wait for it!" until they get notified.
+
+And this works hand-in-hand with mutexes since what we're going to wait
+on generally depends on the value of some data, and that data generally
+needs to be protected by a mutex.
+
+It's important to note that the condition variable itself isn't the
+holder of any particular data from our perspective. It's merely the
+variable by which C keeps track of the waiting/not-waiting status of a
+particular thread or group of threads.
+
+Let's write a contrived program that reads in groups of 5 numbers from
+the main thread one at a time. Then, when 5 numbers have been entered,
+the child thread wakes up, sums up those 5 numbers, and prints the
+result.
+
+The numbers will be stored in a global, shared array, as will the index
+into the array of the about-to-be-entered number.
+
+Since these are shared values, we at least have to hide them behind a
+mutex for both the main and child threads. (The main will be writing
+data to them and the child will be reading data from them.)
+
+But that's not enough. The child thread needs to block ("sleep") until 5
+numbers have been read into the array. And then the parent thread needs
+to wake up the child thread so it can do its work.
+
+And when it wakes up, it needs to be holding that mutex. And it will!
+When a thread waits on a condition variable, it also acquires a mutex
+when it wakes up.
+
+How's that work? Let's look at the outline of what the child thread will
+do:
+
+1. Lock the mutex with `mtx_lock()`
+2. If we haven't entered all the numbers, wait on the condition variable
+   with `cnd_wait()`
+3. Do the work that needs doing
+4. Unlock the mutex with `mtx_unlock()`
+
+Meanwhile the main thread will be doing this:
+
+1. Lock the mutex with `mtx_lock()`
+2. Store the recently-read number into the array
+3. If the array is full, signal the child to wake up with `cnd_signal()`
+4. Unlock the mutex with `mtx_unlock()`
+
+If you didn't skim that too hard (it's OK---I'm not offended), you might
+notice something weird: how can the main thread hold the mutex lock and
+signal the child, if the child has to hold the mutex lock to wait for
+the signal? They can't both hold the lock!
+
+And indeed they don't! There's some behind-the-scenes magic with
+condition variables: when you `cnd_wait()`, it releases the mutex that
+you specify and the thread goes to sleep. And when someone signals that
+thread to wake up, it reacquires the lock as if nothing had happened.
+
+It's a little different on the `cnd_signal()` side of things. This
+doesn't do anything with the mutex. The signalling thread still must
+manually release the mutex before the waiting threads can wake up.
+
+One more thing on the `cnd_wait()`. You'll probably be calling
+`cnd_wait()` if some condition^[And that's why they're called _condition
+variables_!] is not yet met (e.g. in this case, if not all the numbers
+have yet been entered). Here's the deal: this condition should be in a
+`while` loop, not an `if` statement. Why?
+
+It's because of a mysterious phenomenon called a _spurious wakeup_.
+Sometimes, in some implementations, a thread can be woken up out of a
+`cnd_wait()` sleep for seemingly _no reason_. _[X-Files music]_^[I'm not
+saying it's aliens... but it's aliens. OK, really more likely another
+thread might have been woken up and gotten to the work first.]. And so
+we have to check to see that the condition we need is still actually met
+when we wake up. And if it's not, back to sleep with us!
+
+So let's do this thing! Starting with the main thread:
+
+* The main thread will set up the mutex and condition variable, and will
+  launch the child thread.
+
+* Then it will, in an infinite loop, get numbers as input from the
+  console.
+
+* It will also acquire the mutex to store the inputted number into a
+  global array.
+
+* When the array has 5 numbers in it, the main thread will signal the
+  child thread that it's time to wake up and do its work.
+
+* Then the main thread will unlock the mutex and go back to reading the
+  next number from the console.
+
+Meanwhile, the child thread has been up to its own shenanigans:
+
+* The child thread grabs the mutex
+
+* While the condition is not met (i.e. while the shared array doesn't
+  yet have 5 numbers in it), the child thread sleeps by waiting on the
+  condition variable. When it waits, it unlocks the mutex.
+
+* Once the main thread signals the child thread to wake up, it wakes up
+  to do the work and gets the mutex lock back.
+
+* The child thread sums the numbers and resets the variable that is the
+  index into the array.
+
+* It then releases the mutex and runs again in an infinite loop.
+
+And here's the code! Give it some study so you can see where all the
+above pieces are being handled:
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <threads.h>
+
+#define VALUE_MAX 5
+
+static int value[VALUE_MAX];  // Shared global
+static int value_count = 0;   // Shared global, too
+
+mtx_t value_mtx;   // Mutex around value
+cnd_t value_cnd;   // Condition variable on value
+
+int run(void *arg)
+{
+    (void)arg;
+
+    for (;;) {
+        mtx_lock(&value_mtx);      // <-- GRAB THE MUTEX
+
+        while (value_count < VALUE_MAX) {
+            printf("Thread: is waiting\n");
+            cnd_wait(&value_cnd, &value_mtx);  // <-- CONDITION WAIT
+        }
+
+        printf("Thread: is awake!\n");
+
+        int t = 0;
+
+        // Add everything up
+        for (int i = 0; i < VALUE_MAX; i++)
+            t += value[i];
+
+        printf("Thread: total is %d\n", t);
+
+        // Reset input index for main thread
+        value_count = 0;
+
+        mtx_unlock(&value_mtx);   // <-- MUTEX UNLOCK
+    }
+
+    return 0;
+}
+
+int main(void)
+{
+    thrd_t t;
+
+    // Spawn a new thread
+
+    thrd_create(&t, run, NULL);
+    thrd_detach(t);
+
+    // Set up the mutex and condition variable
+
+    mtx_init(&value_mtx, mtx_plain);
+    cnd_init(&value_cnd);
+
+    for (;;) {
+        int n;
+
+        scanf("%d", &n);
+
+        mtx_lock(&value_mtx);    // <-- LOCK MUTEX
+
+        value[value_count++] = n;
+
+        if (value_count == VALUE_MAX) {
+            printf("Main: signaling thread\n");
+            cnd_signal(&value_cnd);  // <-- SIGNAL CONDITION
+        }
+
+        mtx_unlock(&value_mtx);  // <-- UNLOCK MUTEX
+    }
+
+    // Clean up (I know that's an infinite loop above here, but I
+    // want to at least pretend to be proper):
+
+    mtx_destroy(&value_mtx);
+    cnd_destroy(&value_cnd);
+}
+```
+
+And here's some sample output (individual numbers on lines are my
+input):
+
+```
+Thread: is waiting
+1
+1
+1
+1
+1
+Main: signaling thread
+Thread: is awake!
+Thread: total is 5
+Thread: is waiting
+2
+8
+5
+9
+0
+Main: signaling thread
+Thread: is awake!
+Thread: total is 24
+Thread: is waiting
+```
+
+It's a common use of condition variables in producer-consumer situations
+like this. If we didn't have a way to put the child thread to sleep
+while it waited for some condition to be met, it would be force to poll
+which is a big waste of CPU.
+
+
+
+<!--
+Timed condition wait
+run once
 -->
