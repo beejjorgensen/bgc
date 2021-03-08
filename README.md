@@ -60,6 +60,10 @@ have to consider any copyright issues when merging changes.
 
 ## TODO
 
+* Threads
+* Variadic printf-override example in chapter
+* "subclass" structs
+* assert() for exit
 * More man pages
   * uchar
   * wchar
@@ -85,9 +89,6 @@ have to consider any copyright issues when merging changes.
   * stdnoreturn
   * tgmath
   * threads
-* "subclass" structs
-* abort() for exit
-* Threads
 * Atomic
 * __STDC_WANT_LIB_EXT
 * make primer
