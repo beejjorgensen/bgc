@@ -171,12 +171,13 @@ the `va` variable to point to the variable argument _immediately after_
 
 And that's _why_ we need to have at least one named variable in our
 argument list^[Honestly, it would be possible to remove that limitation
-from the language, but the idea is that the macros `va_start()`, `va_arg()`, and
-`va_end()` should be able to be written in C. And to make that happen,
-we need some way to initialize a pointer to the location of the first
-parameter. And to do that, we need the _name_ of the first parameter. It
-would require a language extension to make this possible, and so far the
-committee hasn't found a rationale for doing so.].
+from the language, but the idea is that the macros `va_start()`,
+`va_arg()`, and `va_end()` should be able to be written in C. And to
+make that happen, we need some way to initialize a pointer to the
+location of the first parameter. And to do that, we need the _name_ of
+the first parameter. It would require a language extension to make this
+possible, and so far the committee hasn't found a rationale for doing
+so.].
 
 Once you have that pointer to the initial parameter, you can easily get
 subsequent argument values by calling `va_arg()` repeatedly. When you
@@ -208,3 +209,56 @@ will also reflect that.
 
 `va_copy()` can be useful if you need to scan ahead through the
 arguments but need to also remember your current place.
+
+## Library Functions That Use `va_list`s
+
+One of the other uses for these is pretty cool: writing your own custom
+`printf()` variant. It would be a pain to have to handle all those
+format specifiers right? All zillion of them?
+
+Luckily, there are `printf()` variants that accept a working `va_list`
+as an argument. You can use these to wrap up and make your own custom
+`printf()`s!
+
+These functions start with the letter `v`, such as `vprintf()`,
+`vfprintf()`, `vsprintf()`, and `vsnprintf()`. Basically all your
+`printf()` golden oldies except with a `v` in front.
+
+Let's make a function `my_printf()` that works just like `printf()`
+except it takes an extra argument up front.
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <stdarg.h>
+
+int my_printf(int serial, const char *format, ...)
+{
+    va_list va;
+
+    // Do my custom work
+    printf("The serial number is: %d\n", serial);
+
+    // Then pass the rest off to vprintf()
+    va_start(va, format);
+    int rv = vprintf(format, va);
+    va_end(va);
+
+    return rv;
+}
+
+int main(void)
+{
+    int x = 10;
+    float y = 3.2;
+
+    my_printf(3490, "x is %d, y is %f\n", x, y);
+}
+```
+
+See what we did there?  On lines 12-14 we started a new `va_list`
+variable, and then just passed it right into `vprintf()`. And it knows
+just want to do with it, because it has all the `printf()` smarts
+built-in.
+
+We still have to call `va_end()` when we're done, though, so don't
+forget that!
