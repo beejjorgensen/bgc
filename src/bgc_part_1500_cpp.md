@@ -762,7 +762,7 @@ A couple things to note there:
      conflict with any other existing variables at the outer block
      scope.
 
-## Example: An Assert Macro
+## Example: An Assert Macro {#my-assert}
 
 Adding asserts to your code is a good way to catch conditions that you
 think shouldn't happen. C provides `assert()` functionality. It checks a
