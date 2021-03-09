@@ -333,6 +333,88 @@ little weird, because `char` is only 1 byte, right? The compiler is
 putting 3 padding bytes after each `char` so that all the fields are 4
 bytes long. Presumably this will run faster on my CPU.
 
+## Fake OOP
+
+There's a slightly abusive thing that's sort of OOP-like that you can do
+with `struct`s.
+
+Since the pointer to the `struct` is the same as a pointer to the first
+element of the `struct`, you can freely cast a pointer to the `struct`
+to a pointer to the first element.
+
+What this means is that we can set up a situation like this:
+
+``` {.c}
+struct parent {
+    int a, b;
+};
+
+struct child {
+    struct parent super;  // MUST be first
+    int c, d;
+};
+```
+
+Then we are able to pass a pointer to a `struct child` to a function
+that expects either that _or_ a pointer to a `struct parent`!
+
+Because `struct parent super` is the first item in the `struct child`, a
+pointer to any `struct child` is the same as a pointer to that `super`
+field^[`super` isn't a keyword, incidentally. I'm just stealing some OOP
+terminology.].
+
+Let's set up an example here. We'll make `struct`s as above, but then
+we'll pass a pointer to a `struct child` into a function that needs a
+pointer to a `struct parent`... and it'll still work.
+
+``` {.c .numberLines}
+#include <stdio.h>
+
+struct parent {
+    int a, b;
+};
+
+struct child {
+    struct parent super;  // MUST be first
+    int c, d;
+};
+
+// Making the argument `void*` so we can pass any type into it
+// (namely a struct parent or struct child)
+void print_parent(void *p)
+{
+    // Expects a struct parent--but a struct child will also work
+    // because the pointer points to the struct parent in the first
+    // field:
+    struct parent *self = p;
+
+    printf("Parent: %d, %d\n", self->a, self->b);
+}
+
+void print_child(struct child *self)
+{
+    printf("Child: %d, %d\n", self->c, self->d);
+}
+
+int main(void)
+{
+    struct child c = {.super.a=1, .super.b=2, .c=3, .d=4};
+
+    print_child(&c);
+    print_parent(&c);  // Also works even though it's a struct child!
+}
+```
+
+See what we did on the last line of `main()`? We called `print_parent()`
+but passed a `struct child*` as the argument! Even though
+`print_parent()` needs the argument to point to a `struct parent`, we're
+_getting away with it_ because the first field in the `struct child` is
+a `struct parent`.
+
+Again, this works because a pointer to a `struct` has the same value as
+a pointer to the first field in that `struct`.
+
+
 ## Bit-Fields
 
 In my experience, these are rarely used, but you might see them out
