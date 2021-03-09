@@ -159,6 +159,42 @@ removed.
 
 Use this if you have to exit _right fargin' now_.
 
+## Exiting Sometimes: `assert()`
+
+The `assert()` statement is used to insist that something be true, or
+else the program will exit.
+
+Devs often use an assert to catch Should-Never-Happen type errors.
+
+``` {.c}
+#define PI 3.14159
+
+assert(PI > 3);   // Sure enough, it is, so carry on
+```
+
+versus:
+
+``` {.c}
+goats -= 100;
+
+assert(goats >= 0);  // Can't have negative goats
+```
+
+In that case, if I try to run it and `goats` falls under `0`, this
+happens:
+
+```
+goat_counter: goat_counter.c:8: main: Assertion `goats >= 0' failed.
+Aborted
+```
+
+and I'm dropped back to the command line.
+
+This isn't very user-friendly, so it's only used for things the user
+will never see. And often people [write their own assert macros that can
+more easily be turned off](#my-assert).
+
+
 ## Abnormal Exit: `abort()`
 
 You can use this if something has gone horribly wrong and you want to
