@@ -93,7 +93,7 @@ By putting `static` in there, you're saying, "I double secret PROMISE
 that I will never pass in a smaller array than this." And the compiler
 says, "Yeah, fine," and trusts you to not do it.
 
-And then the compiler can make certain code optimization, safe in the
+And then the compiler can make certain code optimizations, safe in the
 knowledge that you, the programmer, will always do the right thing.
 
 ## Equivalent Initializers
