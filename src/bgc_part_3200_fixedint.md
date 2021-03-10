@@ -39,6 +39,13 @@ you need the fastest 8-bit number, it might give you have a 16- or
 32-bit type instead because that's just faster. So with this, you won't
 know how big the type is, but it will be least as big as you say.
 
+How much faster is `fast`? Definitely maybe some amount faster.
+Probably. The spec doesn't say how much faster, just that they'll be the
+fastest on this architecture. Most C compilers are pretty good, though,
+so you'll probably only see this used in places where the most possible
+speed needs to be guaranteed (rather than just hoping the compiler is
+producing pretty-dang-fast code, which it is).
+
 Finally, these unsigned number types have a leading `u` to differentiate
 them.
 
@@ -67,7 +74,8 @@ int_fast32_t      uint_fast32_t
 int_fast64_t      uint_fast64_t
 ```
 
-There might be others, as well, but those are optional.
+There might be others of different widths, as well, but those are
+optional.
 
 Hey! Where are the fixed types like `int16_t`? Turns out those are
 entirely optional...unless certain conditions are met^[Namely, the
@@ -84,7 +92,8 @@ int32_t     uint32_t
 int64_t     uint64_t
 ```
 
-Other variants might be defined, but they're optional.
+Other variants with different widths might be defined, but they're
+optional.
 
 ## Maximum Integer Size Type
 
