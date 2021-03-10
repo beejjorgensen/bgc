@@ -750,6 +750,7 @@ own `mbstate_t`.
 ``` {.c .numberLines}
 #include <stdio.h>
 #include <stdlib.h>
+#include <stddef.h>
 #include <wchar.h>
 #include <string.h>
 #include <locale.h>
@@ -774,14 +775,24 @@ int main(void)
     // invalid character, or NULL if successful. Let's make a copy of
     // the pointer for mbsrtowcs() to mess with so our original is
     // unchanged.
+    //
+    // This example will probably be successful, but we check farther
+    // down to see.
     const char *invalid = mb_string;
 
     // Convert the MB string to WC; this returns the number of wide chars
     size_t wc_len = mbsrtowcs(wc_string, &invalid, 128, &mbs);
 
-    // Print result--note the %ls for wide char strings
-    printf("multibyte: \"%s\" (%zu bytes)\n", mb_string, mb_len);
-    printf("wide char: \"%ls\" (%zu characters)\n", wc_string, wc_len);
+    if (invalid == NULL) {
+        printf("No invalid characters found\n");
+
+        // Print result--note the %ls for wide char strings
+        printf("multibyte: \"%s\" (%zu bytes)\n", mb_string, mb_len);
+        printf("wide char: \"%ls\" (%zu characters)\n", wc_string, wc_len);
+    } else {
+        ptrdiff_t offset = invalid - mb_string;
+        printf("Invalid character at offset %td\n", offset);
+    }
 }
 ```
 
