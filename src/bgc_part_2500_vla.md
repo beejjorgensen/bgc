@@ -159,7 +159,7 @@ passing a regular array in. You just go for it.
 ``` {.c .numberLines}
 #include <stdio.h>
 
-int add(int count, int *v)
+int sum(int count, int *v)
 {
     int total = 0;
 
@@ -179,8 +179,8 @@ int main(void)
     for (int i = 0; i < a; i++)
         x[i] = y[i] = i + 1;
 
-    printf("%d\n", add(5, x));
-    printf("%d\n", add(a, y));
+    printf("%d\n", sum(5, x));
+    printf("%d\n", sum(a, y));
 }
 ```
 
@@ -189,7 +189,7 @@ array is a specific VLA size by passing that in first and then giving
 that dimension in the parameter list:
 
 ``` {.c}
-int add(int count, int v[count])
+int sum(int count, int v[count])
 {
     // ...
 }
