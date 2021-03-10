@@ -179,6 +179,22 @@ handler to its `SIG_DFL` behavior before running your custom handler. In
 other words, it could be a one-off. So we reset it first thing so that
 we handle it again for the next one.
 
+We're ignoring the return value from `signal()` in this case. If we'd
+set it to a different handler earlier, it would return a pointer to that
+handler, which we could get like this:
+
+``` {.c}
+// old_handler is type "pointer to function that takes a single
+// int parameter and returns void":
+
+void (*old_handler)(int);
+
+old_handler = signal(SIGINT, sigint_handler);
+```
+
+That said, I'm not sure of a common use case for this. But if you need
+the old handler for some reason, you can get it that way.
+
 Quick note on line 16---that's just to tell the compiler to not warn
 that we're not using this variable. It's like saying, "I know I'm not
 using it; you don't have to warn me."
