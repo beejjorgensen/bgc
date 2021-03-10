@@ -11,7 +11,8 @@ get with `malloc()`, but without needing to worry about `free()`ing the
 memory after.
 
 Now, a lot of people don't like VLAs. They've been banned from the Linux
-kernel, for example. We'll dig into more of that rationale later.
+kernel, for example. We'll dig into more of that rationale
+[later](#vla-general-issues).
 
 This is an optional feature of the language. The macro `__STDC_NO_VLA__`
 is set to `1` if VLAs are _not_ present. (They were mandatory in C99,
@@ -367,3 +368,22 @@ And when you're using `longjmp()` there's a case where you could leak
 memory with VLAs.
 
 But both of these things we'll cover in their respective chapters.
+
+## General Issues {#vla-general-issues}
+
+VLAs have been banned from the Linux kernel due for a few reasons:
+
+* Lots of places they were used should have just been fixed-size.
+* The code behind VLAs is slower (to a degree that most people wouldn't
+  notice, but makes a difference in an operating system).
+* VLAs are not supported to the same degree by all C compilers.
+* Stack size is limited, and VLAs go on the stack. If some code
+  accidentally (or maliciously) passes a large value into a kernel
+  function that allocates a VLA, _Bad Things_™ could happen.
+
+Other folks online point out that there's no way to detect a VLA's
+failure to allocate, and programs that suffered such problems would
+likely just crash. While fixed-size arrays also have the same issue,
+it's far more likely that someone accidentally make a _VLA Of Unusual
+Size_ than somehow accidentally declare a fixed-size, say, 30 megabyte
+array.
