@@ -315,7 +315,7 @@ I want to demonstrate two things with this full-blown example.
 2. Use of `realloc()` to shrink the buffer down to the perfect size
    after we've completed the read.
 
-What we see here is a loop that calls `fgets()` over and over to append
+What we see here is a loop that calls `fgetc()` over and over to append
 to a buffer until we see that the last character is a newline.
 
 Once it finds the newline, it shrinks the buffer to just the right size
@@ -324,76 +324,87 @@ and returns it.
 ``` {.c .numberLines}
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 
-/**
- * Read a line and return a pointer to a buffer of exactly the right
- * size.
- * 
- * This malloc()s the string--it must be free()d later.
- */
+// Read a line of arbitrary size from a file
+//
+// Returns a pointer to the line.
+// Returns NULL on EOF or error.
+//
+// It's up to the caller to free() this pointer when done with it.
+//
+// Note that this strips the newline from the result. If you need
+// it in there, probably best to switch this to a do-while.
+
 char *readline(FILE *fp)
 {
-    int size = 128;     // Initial space
-    int string_len = 0;
+    int offset = 0;   // Index next char goes in the buffer
+    int bufsize = 4;  // Preferably power of 2 initial size
+    char *buf;        // The buffer
+    int c;            // The character we've read in
 
-    // Allocate the initial buffer
-    char *buf = malloc(size);
+    buf = malloc(bufsize);  // Allocate initial buffer
 
-    if (buf == NULL) return NULL;
+    if (buf == NULL)   // Error check
+        return NULL;
 
-    for (;;) {
-        // Read the next chunk of characters into the buffer, avoiding
-        // overrunning the end
-        char *rv = fgets(buf + string_len, size - string_len, fp);
+    // Main loop--read until newline or EOF
+    while (c = fgetc(fp), c != '\n' && c != EOF) {
 
-        if (rv == NULL) {
-            free(buf);
-            return NULL;
+        // Check if we're out of room in the buffer accounting
+        // for the extra byte for the NUL terminator
+        if (offset == bufsize - 1) {  // -1 for the NUL terminator
+            bufsize *= 2;  // 2x the space
+
+            char *new_buf = realloc(buf, bufsize);
+
+            if (new_buf == NULL) {
+                free(buf);   // On error, free and bail
+                return NULL;
+            }
+
+            buf = new_buf;  // Successful realloc
         }
 
-        // We use the string length everywhere
-        string_len = strlen(buf);
-
-        // If the last character is a newline, we're done
-        if (buf[string_len - 1] == '\n') break;
-
-        // Otherwise the buffer wasn't big enough
-        // and we want to double it.
-        size *= 2;
-
-        char *new_buf = realloc(buf, size);
-
-        if (new_buf == NULL) {
-            free(buf);
-            return NULL;
-        }
-
-        buf = new_buf;
+        buf[offset++] = c;  // Add the byte onto the buffer
     }
 
-    // We finally have a line, but the buffer might be too large, so
-    // let's shrink it to fit the line.
-    char *new_buf = realloc(buf, string_len + 1);
+    // We hit newline or EOF...
 
-    if (new_buf == NULL) {
+    // If at EOF and we read no bytes, free the buffer and
+    // return NULL to indicate we're at EOF:
+    if (c == EOF && offset == 0) {
         free(buf);
         return NULL;
     }
 
-    buf = new_buf;
+    // Shrink to fit
+    if (offset < bufsize - 1) {  // If we're short of the end
+        char *new_buf = realloc(buf, offset + 1); // +1 for NUL terminator
 
-    // One shrinkwrapped line!
+        // If successful, point buf to new_buf;
+        // otherwise we'll just leave buf where it is
+        if (new_buf != NULL)
+            buf = new_buf;
+    }
+
+    // Add the NUL terminator
+    buf[offset] = '\0';
+
     return buf;
 }
 
 int main(void)
 {
-    char *p = readline(stdin);
+    FILE *fp = fopen("foo.txt", "r");
 
-    fputs(p, stdout);
+    char *line;
 
-    free(p);
+    while ((line = readline(fp)) != NULL) {
+        printf("%s\n", line);
+        free(line);
+    }
+
+    fclose(fp);
 }
 ```
 
