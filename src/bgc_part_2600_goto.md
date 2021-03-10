@@ -285,7 +285,7 @@ label:
 This will compile and run, but gives me a warning:
 
 ```
-warning: ‘a’ is used uninitialized in this function
+warning: ‘x’ is used uninitialized in this function
 ```
 
 And then it prints out `0` when I run it (your mileage may vary).
