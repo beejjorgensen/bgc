@@ -116,7 +116,7 @@ double complex x = 5 + 2*I;
 double complex y = 10 + 3*I;
 ```
 
-For $5_2i$ and $10+3i$, respectively.
+For $5+2i$ and $10+3i$, respectively.
 
 ## Constructing, Deconstructing, and Printing
 
