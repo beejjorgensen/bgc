@@ -100,25 +100,58 @@ statement. C doesn't allow it, but you can easily use `goto` instead.
 To show the issue, check out `continue` in this nested loop:
 
 ``` {.c}
-    for (int i = 0; i < 3; i++) {
-        for (int j = 0; j < 3; j++) {
-            printf("%d, %d\n", i, j);
-            continue;   // Always goes to next j
-        }
+for (int i = 0; i < 3; i++) {
+    for (int j = 0; j < 3; j++) {
+        printf("%d, %d\n", i, j);
+        continue;   // Always goes to next j
     }
+}
 ```
 
 As we see, that `continue`, like all `continues`, goes to the next
-iteration of the nearest enclosing loop.
+iteration of the nearest enclosing loop. What if we want to `continue`
+in the next loop out, the loop with `i`?
 
-But what if we wanted it to continue in the outer loop instead? We
-could rewrite like this to accomplish it with `goto`.
+Well, we can `break` to get back to the outer loop, right?
+
+``` {.c}
+for (int i = 0; i < 3; i++) {
+    for (int j = 0; j < 3; j++) {
+        printf("%d, %d\n", i, j);
+        break;     // Gets us to the next iteration of i
+    }
+}
+```
+
+That gets us two levels of nested loop. But then if we nest another
+loop, we're out of options. What about this, where we don't have any
+statement that will get us out to the next iteration of `i`?
+
+``` {.c}
+for (int i = 0; i < 3; i++) {
+    for (int j = 0; j < 3; j++) {
+        for (int k = 0; k < 3; k++) {
+            printf("%d, %d, %d\n", i, j, k);
+
+            continue;  // Gets us to the next iteration of k
+            break;     // Gets us to the next iteration of j
+            ????;      // Gets us to the next iteration of i???
+
+        }
+    }
+}
+```
+
+The `goto` statement offers us a way!
 
 ``` {.c}
     for (int i = 0; i < 3; i++) {
         for (int j = 0; j < 3; j++) {
-            printf("%d, %d\n", i, j);
-            goto continue_i;   // Now continuing the i loop!
+            for (int k = 0; k < 3; k++) {
+                printf("%d, %d, %d\n", i, j, k);
+
+                goto continue_i;   // Now continuing the i loop!!
+            }
         }
 continue_i: ;
     }
