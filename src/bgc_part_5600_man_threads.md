@@ -98,6 +98,178 @@ Thread running!
 [`example()`](#man-example),
 -->
 
+[[pagebreak]]
+## `cnd_broadcast()` {#man-cnd_broadcast}
+
+Wake up all threads waiting on a condition variable
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <threads.h>
+
+int cnd_broadcast(cnd_t *cond);
+```
+
+### Description {.unnumbered .unlisted}
+
+This is just like `cnd_signal()` in that it wakes up threads that are
+waiting on a condition variable.... except instead of just rousing one
+thread, it wakes them all.
+
+Of course, only one will get the mutex, and the rest will have to wait
+their turn. But instead of being asleep waiting for a signal, they'll be
+asleep waiting to reacquire the mutex. They're rearin' to go, in other
+words.
+
+This can make a difference in a specific set of circumstances where
+`cnd_signal()` might leave you hanging.
+
+If you're relying on subsequent threads to issue the next
+`cnd_signal()`, but you have the `cnd_wait()` in a `while` loop^[Which
+you should because of spurious wakeups.] that doesn't allow any threads
+to escape, you'll be stuck. No more threads will be woken up from the
+wait.
+
+But if you `cnd_broadcast()`, all the threads will be woken, and
+presumably at least one of them will be allowed to escape the `while`
+loop, freeing it up to broadcast the next wakeup when its work is done.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns `thrd_success` or `thrd_error` depending on how well things
+went.
+
+### Example {.unnumbered .unlisted}
+
+In the example below, we launch a bunch of threads, but they're only
+allowed to run if their ID matches the current ID. If it doesn't, they
+go back to waiting.
+
+If you `cnd_signal()` to wake the next thread, it might not be the one
+with the proper ID to run. If it's not, it goes back to sleep and we
+hang (because no thread is awake to hit `cnd_signal()` again).
+
+But if you `cnd_broadcast()` to wake them all, then they'll all try (one
+after another) to get out of the `while` loop. And one of them will make
+it.
+
+Try switching the `cnd_broadcast()` to `cnd_signal()` to see likely
+deadlocks. It doesn't happen every time, but usually does.
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <threads.h>
+
+cnd_t condvar;
+mtx_t mutex;
+
+int run(void *arg)
+{
+    int id = *(int*)arg;
+
+    static int current_id = 0;
+
+    mtx_lock(&mutex);
+
+    while (id != current_id) {
+        printf("THREAD %d: waiting\n", id);
+        cnd_wait(&condvar, &mutex);
+
+        if (id != current_id)
+            printf("THREAD %d: woke up, but it's not my turn!\n", id);
+        else
+            printf("THREAD %d: woke up, my turn! Let's go!\n", id);
+    }
+
+    current_id++;
+
+    printf("THREAD %d: signaling thread %d to run\n", id, current_id);
+
+    //cnd_signal(&condvar);
+    cnd_broadcast(&condvar);
+    mtx_unlock(&mutex);
+
+    return 0;
+}
+
+#define THREAD_COUNT 5
+
+int main(void)
+{
+    thrd_t t[THREAD_COUNT];
+    int id[] = {4, 3, 2, 1, 0};
+
+    mtx_init(&mutex, mtx_plain);
+    cnd_init(&condvar);
+
+    for (int i = 0; i < THREAD_COUNT; i++)
+        thrd_create(t + i, run, id + i);
+
+    for (int i = 0; i < THREAD_COUNT; i++)
+        thrd_join(t[i], NULL);
+
+    mtx_destroy(&mutex);
+    cnd_destroy(&condvar);
+}
+```
+
+Example run with `cnd_broadcast()`:
+
+```
+THREAD 4: waiting
+THREAD 1: waiting
+THREAD 3: waiting
+THREAD 2: waiting
+THREAD 0: signaling thread 1 to run
+THREAD 2: woke up, but it's not my turn!
+THREAD 2: waiting
+THREAD 4: woke up, but it's not my turn!
+THREAD 4: waiting
+THREAD 3: woke up, but it's not my turn!
+THREAD 3: waiting
+THREAD 1: woke up, my turn! Let's go!
+THREAD 1: signaling thread 2 to run
+THREAD 4: woke up, but it's not my turn!
+THREAD 4: waiting
+THREAD 3: woke up, but it's not my turn!
+THREAD 3: waiting
+THREAD 2: woke up, my turn! Let's go!
+THREAD 2: signaling thread 3 to run
+THREAD 4: woke up, but it's not my turn!
+THREAD 4: waiting
+THREAD 3: woke up, my turn! Let's go!
+THREAD 3: signaling thread 4 to run
+THREAD 4: woke up, my turn! Let's go!
+THREAD 4: signaling thread 5 to run
+```
+
+Example run with `cnd_signal()`:
+
+```
+THREAD 4: waiting
+THREAD 1: waiting
+THREAD 3: waiting
+THREAD 2: waiting
+THREAD 0: signaling thread 1 to run
+THREAD 4: woke up, but it's not my turn!
+THREAD 4: waiting
+
+[deadlock at this point]
+```
+
+See how `THREAD 0` signaled that it was `THREAD 1`'s turn? But---bad
+news---it was `THREAD 4` that got woken up. So no one continued the
+process.  `cnd_broadcast()` would have woken them all, so eventually
+`THREAD 1` would have run, gotten out of the `while`, and broadcast for
+the next thread to run.
+
+### See Also {.unnumbered .unlisted}
+
+[`cnd_signal()`](#man-signal),
+[`mtx_lock()`](#man-mtx_lock),
+[`mtx_unlock()`](#man-mtx_unlock)
+
 <!--
 [[pagebreak]]
 ## `example()` {#man-example}
