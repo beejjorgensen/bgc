@@ -1181,10 +1181,17 @@ if (result == thrd_timedout) {
 on how you have your logic done, it might make sense to wake up more
 than one thread to continue once the condition is met.
 
-If you want to just wait up one, keep using `cnd_signal()`. But if you
-have an army of threads piled up waiting for a condition variable, and
-more than one of them could safely do work after it wakes up, then wake
-them all up!
+Of course only one of them can grab the mutex, but if you have a
+situation where:
+
+* The newly-awoken thread is responsible for waking up the next one,
+  and---
+
+* There's a chance the spurious-wakeup loop condition will prevent it
+  from doing so, then---
+
+you'll want to broadcast the wake up so that you're sure to get at least
+one of the threads out of that loop to launch the next one.
 
 How, you ask?
 
