@@ -270,6 +270,165 @@ the next thread to run.
 [`mtx_lock()`](#man-mtx_lock),
 [`mtx_unlock()`](#man-mtx_unlock)
 
+[[pagebreak]]
+## `cnd_destroy()` {#man-cnd_destroy}
+
+Free up resources from a condition variable
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <threads.h>
+
+void cnd_destroy(cnd_t *cond);
+```
+
+### Description {.unnumbered .unlisted}
+
+This is the opposite of `cnd_init()` and should be called when all
+threads are done using a condition variable.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns nothing!
+
+### Example {.unnumbered .unlisted}
+
+General-purpose condition variable example here, but you can see the
+`cnd_destroy()` down at the end.
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <threads.h>
+
+cnd_t condvar;
+mtx_t mutex;
+
+int run(void *arg)
+{
+    (void)arg;
+
+    mtx_lock(&mutex);
+
+    printf("Thread: waiting...\n");
+    cnd_wait(&condvar, &mutex);
+    printf("Thread: running again!\n");
+
+    mtx_unlock(&mutex);
+
+    return 0;
+}
+
+int main(void)
+{
+    thrd_t t;
+
+    mtx_init(&mutex, mtx_plain);
+    cnd_init(&condvar);
+
+    printf("Main creating thread\n");
+    thrd_create(&t, run, NULL);
+
+    // Sleep 0.1s to allow the other thread to wait
+    thrd_sleep(&(struct timespec){.tv_nsec=100000000L}, NULL);
+
+    mtx_lock(&mutex);
+    printf("Main: signaling thread\n");
+    cnd_signal(&condvar);
+    mtx_unlock(&mutex);
+
+    thrd_join(t, NULL);
+
+    mtx_destroy(&mutex);
+    cnd_destroy(&condvar);  // <-- DESTROY CONDITION VARIABLE
+}
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`cnd_init()`](#man-cnd_init)
+
+[[pagebreak]]
+## `cnd_init()` {#man-cnd_init}
+
+Initialize a condition variable to make it ready for use
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <threads.h>
+
+int cnd_init(cnd_t *cond);
+```
+
+### Description {.unnumbered .unlisted}
+
+This is the opposite of `cnd_destroy()`. This prepares a condition
+variable for use, doing behind-the-scenes work on it.
+
+Don't use a condition variable without calling this first!
+
+### Return Value {.unnumbered .unlisted}
+
+If all goes well, returns `thrd_success`. It all doesn't go well, it
+could return `thrd_nomem` if the system is out of memory, or
+`thread_error` in the case of any other error.
+
+### Example {.unnumbered .unlisted}
+
+General-purpose condition variable example here, but you can see the
+`cnd_init()` down at the start of `main()`.
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <threads.h>
+
+cnd_t condvar;
+mtx_t mutex;
+
+int run(void *arg)
+{
+    (void)arg;
+
+    mtx_lock(&mutex);
+
+    printf("Thread: waiting...\n");
+    cnd_wait(&condvar, &mutex);
+    printf("Thread: running again!\n");
+
+    mtx_unlock(&mutex);
+
+    return 0;
+}
+
+int main(void)
+{
+    thrd_t t;
+
+    mtx_init(&mutex, mtx_plain);
+    cnd_init(&condvar);      // <-- INITIALIZE CONDITION VARIABLE
+
+    printf("Main creating thread\n");
+    thrd_create(&t, run, NULL);
+
+    // Sleep 0.1s to allow the other thread to wait
+    thrd_sleep(&(struct timespec){.tv_nsec=100000000L}, NULL);
+
+    mtx_lock(&mutex);
+    printf("Main: signaling thread\n");
+    cnd_signal(&condvar);
+    mtx_unlock(&mutex);
+
+    thrd_join(t, NULL);
+
+    mtx_destroy(&mutex);
+    cnd_destroy(&condvar);
+}
+```
+### See Also {.unnumbered .unlisted}
+
+[`cnd_destroy()`](#man-cnd_destroy)
+
 <!--
 [[pagebreak]]
 ## `example()` {#man-example}
