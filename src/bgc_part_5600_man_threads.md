@@ -478,7 +478,7 @@ program is.
 ### Example {.unnumbered .unlisted}
 
 General-purpose condition variable example here, but you can see the
-`cnd_destroy()` down at the end.
+`cnd_signal()` in the middle of `main()`.
 
 ``` {.c .numberLines}
 #include <stdio.h>
@@ -696,7 +696,7 @@ awry.
 ### Example {.unnumbered .unlisted}
 
 General-purpose condition variable example here, but you can see the
-`cnd_destroy()` down at the end.
+`cnd_wait()` in the `run()` function.
 
 ``` {.c .numberLines}
 #include <stdio.h>
@@ -946,6 +946,96 @@ Thread: I got 4!
 ### See Also {.unnumbered .unlisted}
 
 [`mtx_destroy()`](#man-mtx_destroy)
+
+[[pagebreak]]
+## `mtx_lock()` {#man-mtx_lock}
+
+Acquire a lock on a mutex
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <threads.h>
+
+int mtx_lock(mtx_t *mtx);
+```
+
+### Description {.unnumbered .unlisted}
+
+If you're a thread and want to enter a critical section, do I have the
+function for you!
+
+A thread that calls this function will wait until it can acquire the
+mutex, then it will grab it, wake up, and run!
+
+If the mutex is recursive and is already locked by this thread, it will
+be locked again and the lock count will increase. If the mutex is not
+recursive and the thread already holds it, this call will error out.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns `thrd_success` on goodness and `thrd_error` on badness.
+
+### Example {.unnumbered .unlisted}
+
+General-purpose mutex example here, but you can see the `mtx_lock()`
+in the `run()` function:
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <threads.h>
+
+cnd_t condvar;
+mtx_t mutex;
+
+int run(void *arg)
+{
+    (void)arg;
+
+    static int count = 0;
+
+    mtx_lock(&mutex);  // <-- LOCK HERE
+
+    printf("Thread: I got %d!\n", count);
+    count++;
+
+    mtx_unlock(&mutex);
+
+    return 0;
+}
+
+#define THREAD_COUNT 5
+
+int main(void)
+{
+    thrd_t t[THREAD_COUNT];
+
+    mtx_init(&mutex, mtx_plain);  // <-- CREATE THE MUTEX HERE
+
+    for (int i = 0; i < THREAD_COUNT; i++)
+        thrd_create(t + i, run, NULL);
+
+    for (int i = 0; i < THREAD_COUNT; i++)
+        thrd_join(t[i], NULL);
+
+    mtx_destroy(&mutex);   // <-- DESTROY THE MUTEX HERE
+}
+```
+
+Output:
+
+```
+Thread: I got 0!
+Thread: I got 1!
+Thread: I got 2!
+Thread: I got 3!
+Thread: I got 4!
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`mtx_unlock()`](#man-mtx_unlock),
+[`mtx_timedlock()`](#man-mtx_timedlock)
 
 <!--
 [[pagebreak]]
