@@ -1178,6 +1178,11 @@ int mtx_trylock(mtx_t *mtx);
 This works just like [`mtx_lock`](#man-mtx_lock) except that it returns
 instantly if a lock can't be obtained.
 
+The spec notes that there's a chance that `mtx_trylock()` might
+spuriously fail with `thrd_busy` even if there are no other threads
+holding the lock. I'm not sure why this is, but you should defensively
+code against it.
+
 ### Return Value {.unnumbered .unlisted}
 
 ### Example {.unnumbered .unlisted}
