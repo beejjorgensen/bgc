@@ -840,6 +840,113 @@ Thread: I got 4!
 
 [`mtx_init()`](#man-mtx_init)
 
+[[pagebreak]]
+## `mtx_init()` {#man-mtx_init}
+
+Initialize a mutex for use
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <threads.h>
+
+int mtx_init(mtx_t *mtx, int type);
+```
+
+### Description {.unnumbered .unlisted}
+
+Before you can use a mutex variable, you have to initialize it with this
+call to get it all prepped and ready to go.
+
+But wait! It's not quite that simple. You have to tell it what `type` of
+mutex you want to create.
+
+|Type|Description|
+|-|-|
+|`mtx_plain`|Regular ol' mutex|
+|`mtx_timed`|Mutex that supports timeouts|
+|`mtx_plain|mtx_recursive`|Recursive mutex|
+|`mtx_timed|mtx_recursive`|Recursive mutex that supports timeouts|
+
+As you can see, you can make a plain or timed mutex _recursive_ by
+bitwise-ORing the value with `mtx_recursive`.
+
+"Recursive" means that the holder of a lock can call `mtx_lock()`
+multiple times on the same lock. (They have to unlock it an equal number
+of times before anyone else can take the mutex.) This might ease coding
+from time to time, especially if you call a function that needs to lock
+the mutex when you already hold the mutex.
+
+And the timeout gives a thread a chance to _try_ to get the lock for a
+while, but then bail out if it can't get it in that timeframe. You use
+the [`mtx_timedlock()`](#man-muted_timedlock) function with `mtx_timed`
+mutexes.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns `thrd_success` in a perfect world, and potentially `thrd_error`
+in an imperfect one.
+
+### Example {.unnumbered .unlisted}
+
+General-purpose mutex example here, but you can see the `mtx_init()`
+down at the top of `main()`:
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <threads.h>
+
+cnd_t condvar;
+mtx_t mutex;
+
+int run(void *arg)
+{
+    (void)arg;
+
+    static int count = 0;
+
+    mtx_lock(&mutex);
+
+    printf("Thread: I got %d!\n", count);
+    count++;
+
+    mtx_unlock(&mutex);
+
+    return 0;
+}
+
+#define THREAD_COUNT 5
+
+int main(void)
+{
+    thrd_t t[THREAD_COUNT];
+
+    mtx_init(&mutex, mtx_plain);  // <-- CREATE THE MUTEX HERE
+
+    for (int i = 0; i < THREAD_COUNT; i++)
+        thrd_create(t + i, run, NULL);
+
+    for (int i = 0; i < THREAD_COUNT; i++)
+        thrd_join(t[i], NULL);
+
+    mtx_destroy(&mutex);   // <-- DESTROY THE MUTEX HERE
+}
+```
+
+Output:
+
+```
+Thread: I got 0!
+Thread: I got 1!
+Thread: I got 2!
+Thread: I got 3!
+Thread: I got 4!
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`mtx_destroy()`](#man-mtx_destroy)
+
 <!--
 [[pagebreak]]
 ## `example()` {#man-example}
