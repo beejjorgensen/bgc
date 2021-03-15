@@ -758,6 +758,88 @@ Thread: running again!
 
 [`cnd_timedwait()`](#man-cnd_timedwait)
 
+[[pagebreak]]
+## `mtx_destroy()` {#man-mtx_destroy}
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <threads.h>
+
+void mtx_destroy(mtx_t *mtx);
+```
+
+### Description {.unnumbered .unlisted}
+
+The opposite of [`mtx_init()`](#man-mtx_init), this function frees up
+any resources associated with the given mutex.
+
+You should call this when all threads are done using the mutex.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns nothing, the selfish ingrate!
+
+### Example {.unnumbered .unlisted}
+
+General-purpose mutex example here, but you can see the `mtx_destroy()`
+down at the end.
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <threads.h>
+
+cnd_t condvar;
+mtx_t mutex;
+
+int run(void *arg)
+{
+    (void)arg;
+
+    static int count = 0;
+
+    mtx_lock(&mutex);
+
+    printf("Thread: I got %d!\n", count);
+    count++;
+
+    mtx_unlock(&mutex);
+
+    return 0;
+}
+
+#define THREAD_COUNT 5
+
+int main(void)
+{
+    thrd_t t[THREAD_COUNT];
+
+    mtx_init(&mutex, mtx_plain);
+
+    for (int i = 0; i < THREAD_COUNT; i++)
+        thrd_create(t + i, run, NULL);
+
+    for (int i = 0; i < THREAD_COUNT; i++)
+        thrd_join(t[i], NULL);
+
+    mtx_destroy(&mutex);   // <-- DESTROY THE MUTEX HERE
+}
+```
+
+Output:
+
+```
+Thread: I got 0!
+Thread: I got 1!
+Thread: I got 2!
+Thread: I got 3!
+Thread: I got 4!
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`mtx_init()`](#man-mtx_init)
+
 <!--
 [[pagebreak]]
 ## `example()` {#man-example}
