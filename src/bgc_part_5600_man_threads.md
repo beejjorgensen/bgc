@@ -344,6 +344,15 @@ int main(void)
 }
 ```
 
+Output:
+
+```
+Main creating thread
+Thread: waiting...
+Main: signaling thread
+Thread: running again!
+```
+
 ### See Also {.unnumbered .unlisted}
 
 [`cnd_init()`](#man-cnd_init)
@@ -425,6 +434,16 @@ int main(void)
     cnd_destroy(&condvar);
 }
 ```
+
+Output:
+
+```
+Main creating thread
+Thread: waiting...
+Main: signaling thread
+Thread: running again!
+```
+
 ### See Also {.unnumbered .unlisted}
 
 [`cnd_destroy()`](#man-cnd_destroy)
@@ -457,6 +476,9 @@ Returns `thrd_success` or `thrd_error` depending on how happy your
 program is.
 
 ### Example {.unnumbered .unlisted}
+
+General-purpose condition variable example here, but you can see the
+`cnd_destroy()` down at the end.
 
 ``` {.c .numberLines}
 #include <stdio.h>
@@ -503,6 +525,15 @@ int main(void)
     mtx_destroy(&mutex);
     cnd_destroy(&condvar);
 }
+```
+
+Output:
+
+```
+Main creating thread
+Thread: waiting...
+Main: signaling thread
+Thread: running again!
 ```
 
 ### See Also {.unnumbered .unlisted}
@@ -637,6 +668,95 @@ Thread: timed out!
 
 [`cnd_wait()`](#man-cnd_wait),
 [`timespec_get()`](#man-timespec_get)
+
+[[pagebreak]]
+## `cnd_wait()` {#man-cnd_wait}
+
+Wait for a signal on a condition variable
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <threads.h>
+
+int cnd_wait(cnd_t *cond, mtx_t *mtx);
+```
+
+### Description {.unnumbered .unlisted}
+
+This puts the calling thread to sleep until it is awakened by a call to
+`cnd_signal()` or `cnd_broadcast()`.
+
+### Return Value {.unnumbered .unlisted}
+
+If everything's fantastic, returns `thrd_success`. Otherwise it returns
+`thrd_error` to report that something has gone fantastically, horribly
+awry.
+
+### Example {.unnumbered .unlisted}
+
+General-purpose condition variable example here, but you can see the
+`cnd_destroy()` down at the end.
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <threads.h>
+
+cnd_t condvar;
+mtx_t mutex;
+
+int run(void *arg)
+{
+    (void)arg;
+
+    mtx_lock(&mutex);
+
+    printf("Thread: waiting...\n");
+    cnd_wait(&condvar, &mutex);       // <-- WAIT HERE!
+    printf("Thread: running again!\n");
+
+    mtx_unlock(&mutex);
+
+    return 0;
+}
+
+int main(void)
+{
+    thrd_t t;
+
+    mtx_init(&mutex, mtx_plain);
+    cnd_init(&condvar);
+
+    printf("Main creating thread\n");
+    thrd_create(&t, run, NULL);
+
+    // Sleep 0.1s to allow the other thread to wait
+    thrd_sleep(&(struct timespec){.tv_nsec=100000000L}, NULL);
+
+    mtx_lock(&mutex);
+    printf("Main: signaling thread\n");
+    cnd_signal(&condvar);    // <-- SIGNAL CHILD THREAD HERE!
+    mtx_unlock(&mutex);
+
+    thrd_join(t, NULL);
+
+    mtx_destroy(&mutex);
+    cnd_destroy(&condvar);
+}
+```
+
+Output:
+
+```
+Main creating thread
+Thread: waiting...
+Main: signaling thread
+Thread: running again!
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`cnd_timedwait()`](#man-cnd_timedwait)
 
 <!--
 [[pagebreak]]
