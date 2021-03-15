@@ -624,11 +624,11 @@ int run(void *arg)
 
         case thrd_timedout:
             printf("Thread: timed out!\n");
-            break;
+            return 1;
 
         case thrd_error:
             printf("Thread: Some kind of error\n");
-            break;
+            return 2;
     }
 
     mtx_unlock(&mutex);
@@ -1035,6 +1035,7 @@ Thread: I got 4!
 ### See Also {.unnumbered .unlisted}
 
 [`mtx_unlock()`](#man-mtx_unlock),
+[`mtx_trylock()`](#man-mtx_trylock),
 [`mtx_timedlock()`](#man-mtx_timedlock)
 
 [[pagebreak]]
@@ -1156,7 +1157,99 @@ Thread: timed out!
 ### See Also {.unnumbered .unlisted}
 
 [`mtx_lock()`](#man-mtx_lock),
+[`mtx_trylock()`](#man-mtx_trylock),
 [`timespec_get()`](#man-timespec_get)
+
+[[pagebreak]]
+## `mtx_trylock()` {#man-mtx_trylock}
+
+Try to lock a mutex, returning if not possible
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <threads.h>
+
+int mtx_trylock(mtx_t *mtx);
+```
+
+### Description {.unnumbered .unlisted}
+
+This works just like [`mtx_lock`](#man-mtx_lock) except that it returns
+instantly if a lock can't be obtained.
+
+### Return Value {.unnumbered .unlisted}
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <time.h>
+#include <threads.h>
+
+mtx_t mutex;
+
+int run(void *arg)
+{
+    int id = *(int*)arg;
+
+    int r = mtx_trylock(&mutex);   // <-- TRY TO GRAB THE LOCK
+
+    switch (r) {
+        case thrd_success:
+            printf("Thread %d: grabbed lock!\n", id);
+            break;
+
+        case thrd_busy:
+            printf("Thread %d: lock already taken :(\n", id);
+            return 1;
+
+        case thrd_error:
+            printf("Thread %d: Some kind of error\n", id);
+            return 2;
+    }
+
+    mtx_unlock(&mutex);
+
+    return 0;
+}
+
+#define THREAD_COUNT 5
+
+int main(void)
+{
+    thrd_t t[THREAD_COUNT];
+    int id[THREAD_COUNT];
+
+    mtx_init(&mutex, mtx_plain);
+
+    for (int i = 0; i < THREAD_COUNT; i++) {
+        id[i] = i;
+        thrd_create(t + i, run, id + i);
+    }
+
+    for (int i = 0; i < THREAD_COUNT; i++)
+        thrd_join(t[i], NULL);
+
+    mtx_destroy(&mutex);
+}
+```
+
+Output (varies by run):
+
+```
+Thread 0: grabbed lock!
+Thread 1: lock already taken :(
+Thread 4: lock already taken :(
+Thread 3: grabbed lock!
+Thread 2: lock already taken :(
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`mtx_lock()`](#man-mtx_lock),
+[`mtx_timedlock()`](#man-mtx_timedlock),
+[`mtx_unlock()`](#man-mtx_unlock)
 
 <!--
 [[pagebreak]]
