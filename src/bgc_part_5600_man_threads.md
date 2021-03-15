@@ -1037,6 +1037,127 @@ Thread: I got 4!
 [`mtx_unlock()`](#man-mtx_unlock),
 [`mtx_timedlock()`](#man-mtx_timedlock)
 
+[[pagebreak]]
+## `mtx_timedlock()` {#man-mtx_timedlock}
+
+Lock a mutex allowing for timeout
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <threads.h>
+
+int mtx_timedlock(mtx_t *restrict mtx, const struct timespec *restrict ts);
+```
+
+### Description {.unnumbered .unlisted}
+
+This is just like [`mtx_lock()`](#man-mtx_lock) except you can add a
+timeout if you don't want to wait forever.
+
+The timeout is specified as an absolute UTC time since Epoch. You can
+get this with the [`timespec_get()`](#man-timespec_get) function and
+then add values on to the result to timeout later than now, as shown in
+the example.
+
+Beware that you can't have more than 999999999 nanoseconds in the
+`tv_nsec` field of the `struct timespec`. Mod those so they stay in
+range.
+
+### Return Value {.unnumbered .unlisted}
+
+If everything works and the mutex is obtained, returns `thrd_success`.
+If a timeout happens first, returns `thrd_timedout`.
+
+Otherwise, returns `thrd_error`. Because if nothing is right, everything
+is wrong.
+
+### Example {.unnumbered .unlisted}
+
+This example has a thread wait on a mutex for a maximum of 1.75 seconds.
+And it always times out because no one ever sends a signal.
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <time.h>
+#include <threads.h>
+
+mtx_t mutex;
+
+int run(void *arg)
+{
+    (void)arg;
+
+    struct timespec ts;
+
+    // Get the time now
+    timespec_get(&ts, TIME_UTC);
+
+    // Add on 1.75 seconds from now
+    ts.tv_sec += 1;
+    ts.tv_nsec += 750000000L;
+
+    // Handle nsec overflow
+    ts.tv_sec += ts.tv_nsec / 1000000000L;
+    ts.tv_nsec = ts.tv_nsec % 1000000000L;
+
+    printf("Thread: waiting for lock...\n");
+    int r = mtx_timedlock(&mutex, &ts);
+
+    switch (r) {
+        case thrd_success:
+            printf("Thread: grabbed lock!\n");
+            break;
+
+        case thrd_timedout:
+            printf("Thread: timed out!\n");
+            break;
+
+        case thrd_error:
+            printf("Thread: Some kind of error\n");
+            break;
+    }
+
+    mtx_unlock(&mutex);
+
+    return 0;
+}
+
+int main(void)
+{
+    thrd_t t;
+
+    mtx_init(&mutex, mtx_plain);
+
+    mtx_lock(&mutex);
+
+    printf("Main creating thread\n");
+    thrd_create(&t, run, NULL);
+
+    // Sleep 3s to allow the other thread to timeout
+    thrd_sleep(&(struct timespec){.tv_sec=3}, NULL);
+
+    mtx_unlock(&mutex);
+
+    thrd_join(t, NULL);
+
+    mtx_destroy(&mutex);
+}
+```
+
+Output:
+
+```
+Main creating thread
+Thread: waiting for lock...
+Thread: timed out!
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`mtx_lock()`](#man-mtx_lock),
+[`timespec_get()`](#man-timespec_get)
+
 <!--
 [[pagebreak]]
 ## `example()` {#man-example}
