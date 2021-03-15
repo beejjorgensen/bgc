@@ -167,6 +167,9 @@ you're on a POSIX system where `time_t` is definitely an integer, in
 which case you can subtract. But you should still use `difftime()` for
 maximum portability.]. Use this function to do it.
 
+There is no guarantee as to the resolution of this difference, but it's
+probably to the second.
+
 ### Return Value {.unnumbered .unlisted}
 
 Returns the difference between two `time_t`s in seconds.
@@ -421,9 +424,71 @@ Example output:
 1614654187.825541 seconds since epoch
 ```
 
+Here's a helper function to add values to a `struct timespec` that
+handles negative values and nanosecond overflow.
+
+```
+#include <stdlib.h>
+
+// Add delta seconds and delta nanoseconds to ts.
+// Negative values are allowed. Each component is added individually.
+//
+// Subtract 1.5 seconds from the current value:
+//
+// timespec_add(&ts, -1, -500000000L);
+
+struct timespec *timespec_add(struct timespec *ts, long dsec, long dnsec)
+{
+    long sec = (long)ts->tv_sec + dsec;
+    long nsec = ts->tv_nsec + dnsec;
+
+    ldiv_t qr = ldiv(nsec, 1000000000L);
+
+    if (qr.rem < 0) {
+        nsec = 1000000000L + qr.rem;
+        sec += qr.quot - 1;
+    } else {
+        nsec = qr.rem;
+        sec += qr.quot;
+    }
+
+    ts->tv_sec = sec;
+    ts->tv_nsec = nsec;
+
+    return ts;
+}
+```
+
+And here are some functions to convert from `long double` to `struct
+timespec` and back, just in case you like thinking in decimals. This is
+more limited in significant figures than using the integer values.
+
+```
+#include <math.h>
+
+// Convert a struct timespec into a long double
+long double timespec_to_ld(struct timespec *ts)
+{
+    return ts->tv_sec + ts->tv_nsec / 1000000000.0;
+}
+
+// Convert a long double to a struct timespec
+struct timespec ld_to_timespec(long double t)
+{
+    long double f;
+    struct timespec ts;
+    ts.tv_nsec = modfl(t, &f) * 1000000000L;
+    ts.tv_sec = f;
+
+    return ts;
+}
+```
+
 ### See Also {.unnumbered .unlisted}
 
-[`time()()`](#man-time)
+[`time()`](#man-time),
+[`mtx_timedlock()`](#man-mtx_timedlock),
+[`cnd_timedwait()`](#man-cnd_timedwait)
 
 [[pagebreak]]
 ## `asctime()` {#man-asctime}
