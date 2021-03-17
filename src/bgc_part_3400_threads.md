@@ -217,8 +217,6 @@ int run(void *arg)
 {
     int i = *(int*)arg;
 
-    free(arg);
-
     printf("THREAD %d: running!\n", i);
 
     return i;
