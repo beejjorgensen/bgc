@@ -1261,7 +1261,7 @@ Thread 2: lock already taken :(
 [`mtx_unlock()`](#man-mtx_unlock)
 
 [[pagebreak]]
-## `mtx_ulock()` {#man-mtx_ulock}
+## `mtx_unlock()` {#man-mtx_unlock}
 
 Free a mutex when you're done with the critical section
 
@@ -1318,7 +1318,7 @@ int main(void)
 {
     thrd_t t[THREAD_COUNT];
 
-    mtx_init(&mutex, mtx_plain);  // <-- CREATE THE MUTEX HERE
+    mtx_init(&mutex, mtx_plain);
 
     for (int i = 0; i < THREAD_COUNT; i++)
         thrd_create(t + i, run, NULL);
@@ -1326,7 +1326,7 @@ int main(void)
     for (int i = 0; i < THREAD_COUNT; i++)
         thrd_join(t[i], NULL);
 
-    mtx_destroy(&mutex);   // <-- DESTROY THE MUTEX HERE
+    mtx_destroy(&mutex);
 }
 ```
 
