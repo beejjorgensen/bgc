@@ -1185,6 +1185,10 @@ code against it.
 
 ### Return Value {.unnumbered .unlisted}
 
+Returns `thrd_success` if all's well. Or `thrd_busy` if some other
+thread holds the lock. Or `thrd_error`, which means something went
+right. I mean "wrong".
+
 ### Example {.unnumbered .unlisted}
 
 ``` {.c .numberLines}
@@ -1255,6 +1259,92 @@ Thread 2: lock already taken :(
 [`mtx_lock()`](#man-mtx_lock),
 [`mtx_timedlock()`](#man-mtx_timedlock),
 [`mtx_unlock()`](#man-mtx_unlock)
+
+[[pagebreak]]
+## `mtx_ulock()` {#man-mtx_ulock}
+
+Free a mutex when you're done with the critical section
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <threads.h>
+
+int mtx_unlock(mtx_t *mtx);
+```
+
+### Description {.unnumbered .unlisted}
+
+After you've done all the dangerous stuff you have to do, wherein the
+involved threads should not be stepping on each other's toes... you can
+free up your stranglehold on the mutex by calling `mtx_unlock()`.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns `thrd_success` on success. Or `thrd_error` on error. It's not
+very original in this regard.
+
+### Example {.unnumbered .unlisted}
+
+General-purpose mutex example here, but you can see the `mtx_unlock()`
+in the `run()` function:
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <threads.h>
+
+cnd_t condvar;
+mtx_t mutex;
+
+int run(void *arg)
+{
+    (void)arg;
+
+    static int count = 0;
+
+    mtx_lock(&mutex);
+
+    printf("Thread: I got %d!\n", count);
+    count++;
+
+    mtx_unlock(&mutex);  // <-- UNLOCK HERE
+
+    return 0;
+}
+
+#define THREAD_COUNT 5
+
+int main(void)
+{
+    thrd_t t[THREAD_COUNT];
+
+    mtx_init(&mutex, mtx_plain);  // <-- CREATE THE MUTEX HERE
+
+    for (int i = 0; i < THREAD_COUNT; i++)
+        thrd_create(t + i, run, NULL);
+
+    for (int i = 0; i < THREAD_COUNT; i++)
+        thrd_join(t[i], NULL);
+
+    mtx_destroy(&mutex);   // <-- DESTROY THE MUTEX HERE
+}
+```
+
+Output:
+
+```
+Thread: I got 0!
+Thread: I got 1!
+Thread: I got 2!
+Thread: I got 3!
+Thread: I got 4!
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`mtx_lock()`](#man-mtx_lock),
+[`mtx_timedlock()`](#man-mtx_timedlock),
+[`mtx_trylock()`](#man-mtx_trylock)
 
 <!--
 [[pagebreak]]
