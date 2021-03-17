@@ -1040,9 +1040,9 @@ above pieces are being handled:
 #include <stdio.h>
 #include <threads.h>
 
-#define VALUE_MAX 5
+#define VALUE_COUNT_MAX 5
 
-int value[VALUE_MAX];  // Shared global
+int value[VALUE_COUNT_MAX];  // Shared global
 int value_count = 0;   // Shared global, too
 
 mtx_t value_mtx;   // Mutex around value
@@ -1055,7 +1055,7 @@ int run(void *arg)
     for (;;) {
         mtx_lock(&value_mtx);      // <-- GRAB THE MUTEX
 
-        while (value_count < VALUE_MAX) {
+        while (value_count < VALUE_COUNT_MAX) {
             printf("Thread: is waiting\n");
             cnd_wait(&value_cnd, &value_mtx);  // <-- CONDITION WAIT
         }
@@ -1065,7 +1065,7 @@ int run(void *arg)
         int t = 0;
 
         // Add everything up
-        for (int i = 0; i < VALUE_MAX; i++)
+        for (int i = 0; i < VALUE_COUNT_MAX; i++)
             t += value[i];
 
         printf("Thread: total is %d\n", t);
@@ -1102,7 +1102,7 @@ int main(void)
 
         value[value_count++] = n;
 
-        if (value_count == VALUE_MAX) {
+        if (value_count == VALUE_COUNT_MAX) {
             printf("Main: signaling thread\n");
             cnd_signal(&value_cnd);  // <-- SIGNAL CONDITION
         }
