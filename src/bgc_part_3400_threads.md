@@ -772,7 +772,7 @@ scope, initialize it, and then the threads can lock and unlock it in the
 #include <stdio.h>
 #include <threads.h>
 
-static mtx_t serial_mtx;     // <-- MUTEX VARIABLE
+mtx_t serial_mtx;     // <-- MUTEX VARIABLE
 
 int run(void *arg)
 {
@@ -1042,8 +1042,8 @@ above pieces are being handled:
 
 #define VALUE_MAX 5
 
-static int value[VALUE_MAX];  // Shared global
-static int value_count = 0;   // Shared global, too
+int value[VALUE_MAX];  // Shared global
+int value_count = 0;   // Shared global, too
 
 mtx_t value_mtx;   // Mutex around value
 cnd_t value_cnd;   // Condition variable on value
