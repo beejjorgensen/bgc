@@ -1346,6 +1346,116 @@ Thread: I got 4!
 [`mtx_timedlock()`](#man-mtx_timedlock),
 [`mtx_trylock()`](#man-mtx_trylock)
 
+[[pagebreak]]
+## `thrd_create()` {#man-thrd_create}
+
+Create a new thread of execution
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <threads.h>
+
+int thrd_create(thrd_t *thr, thrd_start_t func, void *arg);
+```
+
+### Description {.unnumbered .unlisted}
+
+Now _you_ have the POWER!
+
+Right?
+
+This is how you launch new threads to make your program do multiple
+things at once^[Well, as at least as many things as you have free cores.
+Your OS will schedule them as it can.]!
+
+In order to make this happen, you need to pass a pointer to a `thrd_t`
+that will be used to represent the thread you're spawning.
+
+That thread will start running the function you pass a pointer to in
+`func`. This is a value of type `thrd_start_t`, which is a pointer to a
+function that returns an `int` and takes a single `void*` as a
+parameter, i.e.:
+
+```
+int thread_run_func(void *arg)
+```
+
+And, as you might have guessed, the pointer you pass to `thrd_create()`
+for the `arg` parameter is passed on to the `func` function. This is how
+you can give additional information to the thread when it starts up.
+
+Of course, for `arg`, you have to be sure to pass a pointer to an object
+that is thread-safe or per-thread.
+
+If the thread returns from the function, it exits just as if it had
+called `thrd_exit()`.
+
+Finally, the value that the `func` function returns can be picked up by
+the parent thread with `thrd_join()`.
+
+### Return Value {.unnumbered .unlisted}
+
+In the case of goodness, returns `thrd_success`. If you're out of
+memory, will return `thrd_nomem`. Otherwise, `thrd_error`.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <threads.h>
+
+int run(void *arg)
+{
+    int id = *(int*)arg;
+
+    printf("Thread %d: I'm alive!!\n", id);
+
+    return id;
+}
+
+#define THREAD_COUNT 5
+
+int main(void)
+{
+    thrd_t t[THREAD_COUNT];
+    int id[THREAD_COUNT];  // One of these per thread
+
+    for (int i = 0; i < THREAD_COUNT; i++) {
+        id[i] = i; // Let's pass in the thread number as the ID
+        thrd_create(t + i, run, id + i);
+    }
+
+    for (int i = 0; i < THREAD_COUNT; i++) {
+        int res;
+
+        thrd_join(t[i], &res);
+
+        printf("Main: thread %d exited with code %d\n", i, res);
+    }
+}
+```
+
+Output (might vary from run to run):
+
+```
+Thread 1: I'm alive!!
+Thread 0: I'm alive!!
+Thread 3: I'm alive!!
+Thread 2: I'm alive!!
+Main: thread 0 exited with code 0
+Main: thread 1 exited with code 1
+Main: thread 2 exited with code 2
+Main: thread 3 exited with code 3
+Thread 4: I'm alive!!
+Main: thread 4 exited with code 4
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`thrd_exit()`](#man-thrd_exit),
+[`thrd_join()`](#man-thrd_join)
+
 <!--
 [[pagebreak]]
 ## `example()` {#man-example}
