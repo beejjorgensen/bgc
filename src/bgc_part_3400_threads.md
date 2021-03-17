@@ -233,7 +233,13 @@ int main(void)
 
     printf("Launching threads...\n");
     for (i = 0; i < THREAD_COUNT; i++)
-        thrd_create(t + i, run, &i);   // <--- NOTE THIS
+
+        // NOTE! In the following line, we pass a pointer to i, 
+        // but each thread sees the same pointer. So they'll
+        // print out weird things as i changes value here in
+        // the main thread! (More in the text, below.)
+
+        thrd_create(t + i, run, &i);
 
     printf("Doing other things while the thread runs...\n");
     printf("Waiting for thread to complete...\n");
