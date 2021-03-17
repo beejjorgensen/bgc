@@ -130,8 +130,9 @@ So the basic idea is:
    memory^[Unless you `thrd_detach()`. More on this later.]
 
 `thrd_create()` takes a pointer to the function to run, and it's of type
-`thrd_start_t`, which is `int (*)(int *)`. That's Greek for "a pointer
-to a function that takes an `int*` as an argument, and returns an `int`."
+`thrd_start_t`, which is `int (*)(void *)`. That's Greek for "a pointer
+to a function that takes an `void*` as an argument, and returns an
+`int`."
 
 Let's make a thread!  We'll launch it from the main thread with
 `thrd_create()` to run a function, do some other things, then wait for
