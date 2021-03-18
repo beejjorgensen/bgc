@@ -1456,6 +1456,108 @@ Main: thread 4 exited with code 4
 [`thrd_exit()`](#man-thrd_exit),
 [`thrd_join()`](#man-thrd_join)
 
+[[pagebreak]]
+## `thrd_current()` {#man-thrd_current}
+
+Get the ID of the calling thread
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <threads.h>
+
+thrd_t thrd_current(void);
+```
+
+### Description {.unnumbered .unlisted}
+
+Each thread has an opaque ID of type `thrd_t`. This is the value we see
+get initialized when we call [`thrd_create()`](#man-thrd_create).
+
+But what if you want to get the ID of the currently running thread?
+
+No problem! Just call this function and it will be returned to you.
+
+Why? Who knows!
+
+Well, to be honest, I could see it being used a couple places.
+
+1. You could use it to have a thread detach itself with `thrd_detach()`.
+   I'm not sure why you'd want to do this, however.
+2. You could use it to compare this thread's ID with another you have
+   stored in a variable somewhere by using the `thrd_equal()` function.
+   Seems like the most legit use.
+3. ...
+4. Profit!
+
+If anyone has another use, please let me know.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns the calling thread's ID.
+
+### Example {.unnumbered .unlisted}
+
+Here's a general example that shows getting the current thread ID and
+comparing it to a previously-recorded thread ID and taking exciting
+action based on the result! Starring Arnold Schwarzenegger! 
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <threads.h>
+
+thrd_t first_thread_id;
+
+int run(void *arg)
+{
+    (void)arg;
+
+    thrd_t my_id = thrd_current();   // <-- GET MY THREAD ID
+
+    if (thrd_equal(my_id, first_thread_id))
+        printf("I'm the first thread!\n");
+    else
+        printf("I'm not the first!\n");
+
+    return 0;
+}
+
+int main(void)
+{
+    thrd_t t;
+
+    thrd_create(&first_thread_id, run, NULL);
+    thrd_create(&t, run, NULL);
+
+    thrd_join(first_thread_id, NULL);
+    thrd_join(t, NULL);
+}
+```
+
+Output:
+
+```
+Come on, you got what you want, Cohaagen! Give deez people ay-ah!
+```
+
+No, wait, that's an Arnold Schwarzenegger quote from _Total Recall_, one
+of the best science fiction films of all time. Watch it now and then
+come back to finish this reference page.
+
+Man--what an ending! And Johnny Cab? So excellent. Anyway!
+
+Output:
+
+```
+I'm the first thread!
+I'm not the first!
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`thrd_equal()`](#man-thrd_equal),
+[`thrd_detach()`](#man-thrd_detach)
+
 <!--
 [[pagebreak]]
 ## `example()` {#man-example}
