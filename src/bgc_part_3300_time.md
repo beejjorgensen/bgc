@@ -306,6 +306,15 @@ which the spec lets you set to `TIME_UTC` indicating that you're
 interested in seconds since Epoch. (Other implementations might give you
 more options for the `base`.)
 
+And the structure itself has two fields:
+
+``` {.c}
+struct timespec {
+    time_t tv_sec;   // Seconds
+    long   tv_nsec;  // Nanoseconds (billionths of a second)
+};
+```
+
 Here's an example where we get the time and print it out both as integer
 values and also a floating value:
 
