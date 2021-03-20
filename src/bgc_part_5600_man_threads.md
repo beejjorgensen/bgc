@@ -1790,7 +1790,7 @@ Thread 4 exited with code 0
 [`thrd_join()`](#man-thrd_join),
 
 [[pagebreak]]
-## `example()` {#man-example}
+## `thrd_join()` {#man-thrd_join}
 
 Wait for a thread to exit
 
@@ -1926,7 +1926,112 @@ int main(void)
 
 ### See Also {.unnumbered .unlisted}
 
-[`thrd_yield()`](#man-thrd_yield),
+[`thrd_yield()`](#man-thrd_yield)
+
+[[pagebreak]]
+## `thrd_yield()` {#man-thrd_yield}
+
+Stop running that other threads might run
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <threads.h>
+
+void thrd_yield(void);
+```
+
+### Description {.unnumbered .unlisted}
+
+If you have a thread that's hogging the CPU and you want to give your
+other threads time to run, you can call `thrd_yield()`. If the system
+sees fit, it will put the calling thread to sleep and one of the other
+threads will run instead.
+
+It's a good way to be "polite" to the other threads in your program if
+you want the encourage them to run instead.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns nothing!
+
+### Example {.unnumbered .unlisted}
+
+This example's kinda poor because the OS is probably going to reschedule
+threads on the output anyway, but it gets the point across.
+
+The main thread is giving other threads a chance to run after every
+block of dumb work it does.
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <threads.h>
+
+int run(void *arg)
+{
+    int main_thread = arg != NULL;
+
+    if (main_thread) {
+        long int total = 0;
+
+        for (int i = 0; i < 10; i++) {
+            for (long int j = 0; j < 1000L; j++)
+                total++;
+
+            printf("Main thread yielding\n");
+            thrd_yield();                       // <-- YIELD HERE
+        }
+    } else
+        printf("Other thread running!\n");
+
+    return 0;
+}
+
+#define THREAD_COUNT 10
+
+int main(void)
+{
+    thrd_t t[THREAD_COUNT];
+
+    for (int i = 0; i < THREAD_COUNT; i++)
+        thrd_create(t + i, run, i == 0? "main": NULL);
+
+    for (int i = 0; i < THREAD_COUNT; i++)
+        thrd_join(t[i], NULL);
+
+    return 0;
+}
+```
+
+The output will vary from run to run. Notice that even after
+`thrd_yield()` other threads might not yet be ready to run and the main
+thread will continue.
+
+```
+Main thread yielding
+Main thread yielding
+Main thread yielding
+Other thread running!
+Other thread running!
+Other thread running!
+Other thread running!
+Main thread yielding
+Other thread running!
+Other thread running!
+Main thread yielding
+Main thread yielding
+Main thread yielding
+Other thread running!
+Main thread yielding
+Main thread yielding
+Main thread yielding
+Other thread running!
+Other thread running!
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`thrd_sleep()`](#man-thrd_sleep)
 
 <!--
 [[pagebreak]]
