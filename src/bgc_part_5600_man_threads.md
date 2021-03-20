@@ -2033,6 +2033,95 @@ Other thread running!
 
 [`thrd_sleep()`](#man-thrd_sleep)
 
+[[pagebreak]]
+## `tss_create()` {#man-tss_create}
+
+Create new thread-specific storage
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <threads.h>
+
+int tss_create(tss_t *key, tss_dtor_t dtor);
+```
+
+### Description {.unnumbered .unlisted}
+
+This helps when you need per-thread storage of different values.
+
+A common place this comes up is if you have a file scope variable that
+is shared between a bunch of functions and often returned. That's not
+threadsafe. One way to refactor is to replace it with thread-specific
+storage so that each thread gets their own code and doesn't step on
+other thread's toes.
+
+
+### Return Value {.unnumbered .unlisted}
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <stdlib.h>
+#include <threads.h>
+
+tss_t str;
+
+void some_function(void)
+{
+    // Retrieve the per-thread value of this string
+    char *tss_string = tss_get(str);
+
+    // And print it
+    printf("TSS string: %s\n", tss_string);
+}
+
+int run(void *arg)
+{
+    int serial = *(int*)arg;  // Get this thread's serial number
+    free(arg);
+
+    // malloc() space to hold the data for this thread
+    char *s = malloc(64);
+    sprintf(s, "thread %d! :)", serial);  // Happy little string
+
+    // Set this TSS variable to point at the string
+    tss_set(str, s);
+
+    // Call a function that will get the variable
+    some_function();
+
+    return 0;
+}
+
+#define THREAD_COUNT 15
+
+int main(void)
+{
+    thrd_t t[THREAD_COUNT];
+
+    // Make a new TSS variable, the free() function is the destructor
+    tss_create(&str, free);
+
+    for (int i = 0; i < THREAD_COUNT; i++) {
+        int *n = malloc(sizeof *n);  // Holds a thread serial number
+        *n = i;
+        thrd_create(t + i, run, n);
+    }
+
+    for (int i = 0; i < THREAD_COUNT; i++) {
+        thrd_join(t[i], NULL);
+    }
+
+    // And we're done--this calls the destructor (free()) on the string
+    tss_delete(str);
+}
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`example()`](#man-example),
 <!--
 [[pagebreak]]
 ## `example()` {#man-example}
