@@ -1558,6 +1558,376 @@ I'm not the first!
 [`thrd_equal()`](#man-thrd_equal),
 [`thrd_detach()`](#man-thrd_detach)
 
+[[pagebreak]]
+## `thrd_detach()` {#man-thrd_detach}
+
+Automatically clean up threads when they exit
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <threads.h>
+
+int thrd_detach(thrd_t thr);
+```
+
+### Description {.unnumbered .unlisted}
+
+Normally you have to `thrd_join()` to get resources associated with a
+deceased thread cleaned up. (Most notably, its exit status is still
+floating around waiting to get picked up.)
+
+But if you call `thrd_detach()` on the thread first, manual cleanup
+isn't necessary. They just exit and are cleaned up by the OS.
+
+(Note that when the main thread dies, all the threads die in any case.)
+
+### Return Value {.unnumbered .unlisted}
+
+`thrd_success` if the thread successfully detaches, `thrd_error`
+otherwise.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <threads.h>
+
+thrd_t first_thread_id;
+
+int run(void *arg)
+{
+    (void)arg;
+
+    printf("Thread running!\n");
+
+    return 0;
+}
+
+#define THREAD_COUNT 5
+
+int main(void)
+{
+    thrd_t t;
+
+    for (int i = 0; i < THREAD_COUNT; i++) {
+        thrd_create(&t, run, NULL);
+        thrd_detach(t);
+    }
+
+    // No need to thrd_join()!
+
+    // Sleep a quarter second to let them all finish
+    thrd_sleep(&(struct timespec){.tv_nsec=250000000}, NULL);
+}
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`thrd_join()`](#man-thrd_join),
+[`thrd_exit()`](#man-thrd_exit)
+
+[[pagebreak]]
+## `thrd_equal()` {#man-thrd_equal}
+
+Compare two thread descriptors for equality
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <threads.h>
+
+int thrd_equal(thrd_t thr0, thrd_t thr1);
+```
+
+### Description {.unnumbered .unlisted}
+
+If you have two thread descriptors in `thrd_t` variables, you can test
+them for equality with this function.
+
+For example, maybe one of the threads has special powers the others
+don't, and the run function needs to be able to tell them apart, as in
+the example.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns non-zero if the threads are equal. Returns `0` if they're not.
+
+### Example {.unnumbered .unlisted}
+
+Here's a general example that shows getting the current thread ID and
+comparing it to a previously-recorded thread ID and taking boring action
+based on the result.
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <threads.h>
+
+thrd_t first_thread_id;
+
+int run(void *arg)
+{
+    (void)arg;
+
+    thrd_t my_id = thrd_current();
+
+    if (thrd_equal(my_id, first_thread_id))  // <-- COMPARE!
+        printf("I'm the first thread!\n");
+    else
+        printf("I'm not the first!\n");
+
+    return 0;
+}
+
+int main(void)
+{
+    thrd_t t;
+
+    thrd_create(&first_thread_id, run, NULL);
+    thrd_create(&t, run, NULL);
+
+    thrd_join(first_thread_id, NULL);
+    thrd_join(t, NULL);
+}
+```
+
+Output:
+
+```
+I'm the first thread!
+I'm not the first!
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`thrd_current()`](#man-thrd_current)
+
+[[pagebreak]]
+## `thrd_exit()` {#man-thrd_exit}
+
+Stop and exit this thread
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <threads.h>
+
+_Noreturn void thrd_exit(int res);
+```
+
+### Description {.unnumbered .unlisted}
+
+A thread commonly exits by returning from its run function. But if it
+wants to exit early (perhaps from deeper in the call stack), this
+function will get that done.
+
+The `res` code can be picked up by a thread calling `thrd_join()`, and
+is equivalent to returning a value from the run function.
+
+Like with returning from the run function, this will also properly clean
+up all the thread-specific storage associated with this thread.
+
+If the main thread calls this, it's as if you called
+`exit(EXIT_SUCCESS)`.
+
+### Return Value {.unnumbered .unlisted}
+
+This function never returns because the thread calling it is killed in
+the process. Trippy!
+
+### Example {.unnumbered .unlisted}
+
+Threads in this example exit early with result `22` if they get a `NULL`
+value for `arg`.
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <threads.h>
+
+thrd_t first_thread_id;
+
+int run(void *arg)
+{
+    (void)arg;
+
+    if (arg == NULL)
+        thrd_exit(22);
+
+    return 0;
+}
+
+#define THREAD_COUNT 5
+
+int main(void)
+{
+    thrd_t t[THREAD_COUNT];
+
+    for (int i = 0; i < THREAD_COUNT; i++)
+        thrd_create(t + i, run, i == 2? NULL: "spatula");
+
+
+    for (int i = 0; i < THREAD_COUNT; i++) {
+        int res;
+        thrd_join(t[i], &res);
+
+        printf("Thread %d exited with code %d\n", i, res);
+    }
+}
+```
+
+Output:
+
+```
+Thread 0 exited with code 0
+Thread 1 exited with code 0
+Thread 2 exited with code 22
+Thread 3 exited with code 0
+Thread 4 exited with code 0
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`thrd_join()`](#man-thrd_join),
+
+[[pagebreak]]
+## `example()` {#man-example}
+
+Wait for a thread to exit
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <threads.h>
+
+int thrd_join(thrd_t thr, int *res);
+```
+
+### Description {.unnumbered .unlisted}
+
+When a parent thread fires off some child threads, it can wait for them
+to complete with this call
+
+### Return Value {.unnumbered .unlisted}
+
+### Example {.unnumbered .unlisted}
+
+Threads in this example exit early with result `22` if they get a `NULL`
+value for `arg`. The parent thread picks up this result code with
+`thrd_join()`.
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <threads.h>
+
+thrd_t first_thread_id;
+
+int run(void *arg)
+{
+    (void)arg;
+
+    if (arg == NULL)
+        thrd_exit(22);
+
+    return 0;
+}
+
+#define THREAD_COUNT 5
+
+int main(void)
+{
+    thrd_t t[THREAD_COUNT];
+
+    for (int i = 0; i < THREAD_COUNT; i++)
+        thrd_create(t + i, run, i == 2? NULL: "spatula");
+
+
+    for (int i = 0; i < THREAD_COUNT; i++) {
+        int res;
+        thrd_join(t[i], &res);
+
+        printf("Thread %d exited with code %d\n", i, res);
+    }
+}
+```
+
+Output:
+
+```
+Thread 0 exited with code 0
+Thread 1 exited with code 0
+Thread 2 exited with code 22
+Thread 3 exited with code 0
+Thread 4 exited with code 0
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`thrd_exit()`](#man-thrd_exit)
+
+## `thrd_sleep()` {#man-thrd_sleep}
+
+Sleep for a specific number of seconds and nanoseconds
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <threads.h>
+
+int thrd_sleep(const struct timespec *duration, struct timespec *remaining);
+```
+
+### Description {.unnumbered .unlisted}
+
+This function puts the current thread to sleep for a while^[Unix-like
+systems have a `sleep()` syscall that sleeps for an integer number of
+seconds. But `thrd_sleep()` is likely more portable and gives subsecond
+resolution, besides!] allowing other threads to run.
+
+The calling thread will wake up after the time has elapsed, or if it
+gets interrupted by a signal or something.
+
+If it doesn't get interrupted, it'll sleep at least as long as you
+asked. Maybe a tad longer. You know how hard it can be to get out of
+bed.
+
+The structure looks like this:
+
+``` {.c}
+struct timespec {
+    time_t tv_sec;   // Seconds
+    long   tv_nsec;  // Nanoseconds (billionths of a second)
+};
+```
+
+Don't set `tv_nsec` greater than 999,999,999. I can't see what
+officially happens if you do, but on my system `thrd_sleep()` returns
+`-2` and fails.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns `0` on timeout, or `-1` if interrupted by a signal. Or any
+negative value on some other error. Weirdly, the spec allows this "other
+error negative value" to also be `-1`, so good luck with that.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <threads.h>
+
+int main(void)
+{
+    // Sleep for 3.25 seconds
+    thrd_sleep(&(struct timespec){.tv_sec=3, .tv_nsec=250000000}, NULL);
+
+    return 0;
+}
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`thrd_yield()`](#man-thrd_yield),
+
 <!--
 [[pagebreak]]
 ## `example()` {#man-example}
