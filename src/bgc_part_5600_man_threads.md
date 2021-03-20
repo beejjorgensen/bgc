@@ -2056,10 +2056,32 @@ threadsafe. One way to refactor is to replace it with thread-specific
 storage so that each thread gets their own code and doesn't step on
 other thread's toes.
 
+To make this work, you pass in a pointer to a `tss_t` key---this is the
+variable you will use in subsequent `tss_set()` and `tss_get()` calls to
+set and get the value associated with the key.
+
+The interesting part of this is the `dtor` destructor pointer of type
+`tss_dtor_t`. This is actually a pointer to a function that takes a
+`void*` argument and returns `void`, i.e.
+
+``` {.c}
+void dtor(void *p) { ... }
+```
+
+This function will be called per thread when the thread exits with
+`thrd_exit()` (or returns from the run function).
+
+It's unspecified behavior to call this function while other threads'
+destructors are running.
 
 ### Return Value {.unnumbered .unlisted}
 
+Returns nothing!
+
 ### Example {.unnumbered .unlisted}
+
+This is a general-purpose TSS example. Note the TSS variable is created
+near the top of `main()`.
 
 ``` {.c .numberLines}
 #include <stdio.h>
@@ -2092,7 +2114,7 @@ int run(void *arg)
     // Call a function that will get the variable
     some_function();
 
-    return 0;
+    return 0; // Equivalent to thrd_exit(0); fires destructors
 }
 
 #define THREAD_COUNT 15
@@ -2102,7 +2124,7 @@ int main(void)
     thrd_t t[THREAD_COUNT];
 
     // Make a new TSS variable, the free() function is the destructor
-    tss_create(&str, free);
+    tss_create(&str, free);                  // <-- CREATE TSS VAR!
 
     for (int i = 0; i < THREAD_COUNT; i++) {
         int *n = malloc(sizeof *n);  // Holds a thread serial number
@@ -2114,14 +2136,38 @@ int main(void)
         thrd_join(t[i], NULL);
     }
 
-    // And we're done--this calls the destructor (free()) on the string
+    // And all threads are done, so let's free this
     tss_delete(str);
 }
 ```
 
+Output:
+
+```
+TSS string: thread 0! :)
+TSS string: thread 2! :)
+TSS string: thread 1! :)
+TSS string: thread 5! :)
+TSS string: thread 3! :)
+TSS string: thread 6! :)
+TSS string: thread 4! :)
+TSS string: thread 7! :)
+TSS string: thread 8! :)
+TSS string: thread 9! :)
+TSS string: thread 10! :)
+TSS string: thread 13! :)
+TSS string: thread 12! :)
+TSS string: thread 11! :)
+TSS string: thread 14! :)
+```
+
 ### See Also {.unnumbered .unlisted}
 
-[`example()`](#man-example),
+[`tss_delete()`](#man-tss_delete),
+[`tss_set()`](#man-tss_set),
+[`tss_get()`](#man-tss_get),
+[`thrd_exit()`](#man-thrd_exit)
+
 <!--
 [[pagebreak]]
 ## `example()` {#man-example}
