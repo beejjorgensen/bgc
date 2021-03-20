@@ -599,7 +599,10 @@ destructor idea, then you can make use of that.
 The usage is a bit weird in that we need a variable of type `tss_t` to
 be alive to represent the value on a per thread basis. Then we
 initialize it with `tss_create()`. Eventually we get rid of it with
-`tss_delete()` (which calls the destructor for all the threads).
+`tss_delete()`. Note that calling `tss_delete()` doesn't run all the
+destructors---it's `thrd_exit()` (or returning from the run function)
+that does that. `tss_delete()` just releases any memory allocated by
+`tss_create()`.
 
 In the middle, threads can call `tss_set()` and `tss_get()` to set and
 get the value.
@@ -610,8 +613,8 @@ threads, then clean up after the threads.
 In the `run()` function, the threads `malloc()` some space for a string
 and store that pointer in the TSS variable.
 
-When the main thread finally calls `tss_delete()`, the destructor
-function (`free()` in this case) is called for _all_ the threads.
+When the thread exits, the destructor function (`free()` in this case)
+is called for _all_ the threads.
 
 ``` {.c .numberLines}
 #include <stdio.h>
@@ -644,7 +647,7 @@ int run(void *arg)
     // Call a function that will get the variable
     some_function();
 
-    return 0;
+    return 0;   // Equivalent to thrd_exit(0)
 }
 
 #define THREAD_COUNT 15
@@ -666,7 +669,7 @@ int main(void)
         thrd_join(t[i], NULL);
     }
 
-    // And we're done--this calls the destructor (free()) on the string
+    // All threads are done, so we're done with this
     tss_delete(str);
 }
 ```
