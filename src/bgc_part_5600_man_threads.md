@@ -6,7 +6,42 @@
 
 # `<threads.h>` Multithreading Functions {#threads}
 
-Welcome to the multithread section!
+|Function|Description|
+|-|-|
+|[`call_once()`](#man-call_once)|Call a function one time no matter how many threads try|
+|[`cnd_broadcast()`](#man-cnd_broadcast)|Wake up all threads waiting on a condition variable|
+|[`cnd_destroy()`](#man-cnd_destroy)|Free up resources from a condition variable|
+|[`cnd_init()`](#man-cnd_init)|Initialize a condition variable to make it ready for use|
+|[`cnd_signal()`](#man-cnd_signal)|Wake up a thread waiting on a condition variable|
+|[`cnd_timedwait()`](#man-cnd_timedwait)|Wait on a condition variable with a timeout|
+|[`cnd_wait()`](#man-cnd_wait)|Wait for a signal on a condition variable|
+|[`mtx_destroy()`](#man-mtx_destroy)|Cleanup a mutex when done with it|
+|[`mtx_init()`](#man-mtx_init)|Initialize a mutex for use|
+|[`mtx_lock()`](#man-mtx_lock)|Acquire a lock on a mutex|
+|[`mtx_timedlock()`](#man-mtx_timedlock)|Lock a mutex allowing for timeout|
+|[`mtx_trylock()`](#man-mtx_trylock)|Try to lock a mutex, returning if not possible|
+|[`mtx_unlock()`](#man-mtx_unlock)|Free a mutex when you're done with the critical section|
+|[`thrd_create()`](#man-thrd_create)|Create a new thread of execution|
+|[`thrd_current()`](#man-thrd_current)|Get the ID of the calling thread|
+|[`thrd_detach()`](#man-thrd_detach)|Automatically clean up threads when they exit|
+|[`thrd_equal()`](#man-thrd_equal)|Compare two thread descriptors for equality|
+|[`thrd_exit()`](#man-thrd_exit)|Stop and exit this thread|
+|[`thrd_join()`](#man-thrd_join)|Wait for a thread to exit|
+|[`thrd_yield()`](#man-thrd_yield)|Stop running that other threads might run|
+|[`tss_create()`](#man-tss_create)|Create new thread-specific storage|
+|[`tss_delete()`](#man-tss_delete)|Clean up a thread-specific storage variable|
+|[`tss_get()`](#man-tss_get)|Get thread-specific data|
+|[`tss_set()`](#man-tss_set)|Set thread-specific data|
+
+We have a bunch of good things at our disposal with this one:
+
+* Threads
+* Mutexes
+* Condition Variables
+* Thread-Specific Storage
+* And, last but not least, the always-fun `call_once()` function!
+
+Enjoy!
 
 [[pagebreak]]
 ## `call_once()` {#man-call_once}
@@ -760,6 +795,8 @@ Thread: running again!
 
 [[pagebreak]]
 ## `mtx_destroy()` {#man-mtx_destroy}
+
+Cleanup a mutex when done with it
 
 ### Synopsis {.unnumbered .unlisted}
 
@@ -1725,7 +1762,13 @@ The `res` code can be picked up by a thread calling `thrd_join()`, and
 is equivalent to returning a value from the run function.
 
 Like with returning from the run function, this will also properly clean
-up all the thread-specific storage associated with this thread.
+up all the thread-specific storage associated with this thread---all the
+destructors for the threads TSS variables will be called. If there are
+any remaining TSS variables with destructors after the first round of
+destruction^[For example, if a destructor caused more variables to be
+set.], the remaining destructors will be called. This happens repeatedly
+until there are no more, or the number of rounds of carnage reaches
+`TSS_DTOR_ITERATIONS`.
 
 If the main thread calls this, it's as if you called
 `exit(EXIT_SUCCESS)`.
@@ -1787,7 +1830,7 @@ Thread 4 exited with code 0
 
 ### See Also {.unnumbered .unlisted}
 
-[`thrd_join()`](#man-thrd_join),
+[`thrd_join()`](#man-thrd_join)
 
 [[pagebreak]]
 ## `thrd_join()` {#man-thrd_join}
