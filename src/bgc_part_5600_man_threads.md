@@ -2240,7 +2240,129 @@ int main(void)
     thrd_t t[THREAD_COUNT];
 
     // Make a new TSS variable, the free() function is the destructor
-    tss_create(&str, free);                  // <-- CREATE TSS VAR!
+    tss_create(&str, free);
+
+    for (int i = 0; i < THREAD_COUNT; i++) {
+        int *n = malloc(sizeof *n);  // Holds a thread serial number
+        *n = i;
+        thrd_create(t + i, run, n);
+    }
+
+    for (int i = 0; i < THREAD_COUNT; i++) {
+        thrd_join(t[i], NULL);
+    }
+
+    // And all threads are done, so let's free this
+    tss_delete(str);    // <-- DELETE TSS VARIABLE!
+}
+```
+
+Output:
+
+```
+TSS string: thread 0! :)
+TSS string: thread 2! :)
+TSS string: thread 1! :)
+TSS string: thread 5! :)
+TSS string: thread 3! :)
+TSS string: thread 6! :)
+TSS string: thread 4! :)
+TSS string: thread 7! :)
+TSS string: thread 8! :)
+TSS string: thread 9! :)
+TSS string: thread 10! :)
+TSS string: thread 13! :)
+TSS string: thread 12! :)
+TSS string: thread 11! :)
+TSS string: thread 14! :)
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`tss_create()`](#man-tss_create),
+[`tss_set()`](#man-tss_set),
+[`tss_get()`](#man-tss_get),
+[`thrd_exit()`](#man-thrd_exit)
+
+[[pagebreak]]
+## `tss_get()` {#man-tss_get}
+
+Get thread-specific data
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <threads.h>
+
+void *tss_get(tss_t key);
+```
+
+### Description {.unnumbered .unlisted}
+
+Once you've set a variable with `tss_set()`, you can retrieve the value
+with `tss_get()`---just pass in the key and you'll get a pointer to the
+value back.
+
+Don't call this from a destructor.
+<!--
+Once you've set up your TSS variable with `tss_create()`, you can set it
+on a per thread basis with `tss_set()`.
+
+The destructor specified in `tss_create()` will be called for the 
+-->
+
+### Return Value {.unnumbered .unlisted}
+
+Returns the value stored for the given `key`, or `NULL` if there's
+trouble.
+
+### Example {.unnumbered .unlisted}
+
+This is a general-purpose TSS example. Note the TSS variable is
+retrieved in `some_function()`, below.
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <stdlib.h>
+#include <threads.h>
+
+tss_t str;
+
+void some_function(void)
+{
+    // Retrieve the per-thread value of this string
+    char *tss_string = tss_get(str);    // <-- GET THE VALUE
+
+    // And print it
+    printf("TSS string: %s\n", tss_string);
+}
+
+int run(void *arg)
+{
+    int serial = *(int*)arg;  // Get this thread's serial number
+    free(arg);
+
+    // malloc() space to hold the data for this thread
+    char *s = malloc(64);
+    sprintf(s, "thread %d! :)", serial);  // Happy little string
+
+    // Set this TSS variable to point at the string
+    tss_set(str, s);
+
+    // Call a function that will get the variable
+    some_function();
+
+    return 0; // Equivalent to thrd_exit(0); fires destructors
+}
+
+#define THREAD_COUNT 15
+
+int main(void)
+{
+    thrd_t t[THREAD_COUNT];
+
+    // Make a new TSS variable, the free() function is the destructor
+    tss_create(&str, free);
 
     for (int i = 0; i < THREAD_COUNT; i++) {
         int *n = malloc(sizeof *n);  // Holds a thread serial number
@@ -2279,10 +2401,7 @@ TSS string: thread 14! :)
 
 ### See Also {.unnumbered .unlisted}
 
-[`tss_create()`](#man-tss_create),
-[`tss_set()`](#man-tss_set),
-[`tss_get()`](#man-tss_get),
-[`thrd_exit()`](#man-thrd_exit)
+[`tss_set()`](#man-tss_set)
 
 <!--
 [[pagebreak]]
