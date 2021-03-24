@@ -465,8 +465,9 @@ measuring an angle, just like degrees. To convert from degrees to
 radians or the other way around, use the following code:
 
 ``` {.c}
-degrees = radians * 180.0f / M_PI;
-radians = degrees * M_PI / 180;
+pi = 3.14159265358979;
+degrees = radians * 180 / pi;
+radians = degrees * pi / 180;
 ```
 
 ### Return Value {.unnumbered .unlisted}
@@ -519,8 +520,9 @@ measuring an angle, just like degrees. To convert from degrees to
 radians or the other way around, use the following code:
 
 ``` {.c}
-degrees = radians * 180.0f / M_PI;
-radians = degrees * M_PI / 180;
+pi = 3.14159265358979;
+degrees = radians * 180 / pi;
+radians = degrees * pi / 180;
 ```
 
 ### Return Value {.unnumbered .unlisted}
@@ -581,8 +583,9 @@ measuring an angle, just like degrees. To convert from degrees to
 radians or the other way around, use the following code:
 
 ``` {.c}
-degrees = radians * 180.0f / M_PI;
-radians = degrees * M_PI / 180;
+pi = 3.14159265358979;
+degrees = radians * 180 / pi;
+radians = degrees * pi / 180;
 ```
 
 ### Return Value {.unnumbered .unlisted}
@@ -635,8 +638,9 @@ measuring an angle, just like degrees. To convert from degrees to
 radians or the other way around, use the following code:
 
 ``` {.c}
-degrees = radians * 180.0f / M_PI;
-radians = degrees * M_PI / 180;
+pi = 3.14159265358979;
+degrees = radians * 180 / pi;
+radians = degrees * pi / 180;
 ```
 
 ### Return Value {.unnumbered .unlisted}
@@ -685,8 +689,9 @@ measuring an angle, just like degrees. To convert from degrees to
 radians or the other way around, use the following code:
 
 ``` {.c}
-degrees = radians * 180.0f / M_PI;
-radians = degrees * M_PI / 180;
+pi = 3.14159265358979;
+degrees = radians * 180 / pi;
+radians = degrees * pi / 180;
 ```
 
 ### Return Value {.unnumbered .unlisted}
@@ -735,8 +740,9 @@ measuring an angle, just like degrees. To convert from degrees to
 radians or the other way around, use the following code:
 
 ``` {.c}
-degrees = radians * 180.0f / M_PI;
-radians = degrees * M_PI / 180;
+pi = 3.14159265358979;
+degrees = radians * 180 / pi;
+radians = degrees * pi / 180;
 ```
 
 ### Return Value {.unnumbered .unlisted}
