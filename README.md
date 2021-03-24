@@ -61,18 +61,15 @@ have to consider any copyright issues when merging changes.
 ## TODO
 
 * More man pages
-  * threads
   * uchar
   * wchar
   * wctype
   * fenv
-  * errno
   * signal
   * complex
   * setjmp
   * assert
   * locale
-
   * float
   * inttypes
   * iso646
