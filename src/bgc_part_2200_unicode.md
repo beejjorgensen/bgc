@@ -553,7 +553,7 @@ end-of-file character, `WEOF`.
 This is used by a number of single-character-oriented wide character
 functions.
 
-### I/O Stream Orientation
+### I/O Stream Orientation {#io-stream-orientation}
 
 The tl;dr here is to not mix and match byte-oriented functions (like
 `fprintf()` with wide-oriented functions (like `fwprintf()`). Decide if
