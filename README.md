@@ -61,19 +61,19 @@ have to consider any copyright issues when merging changes.
 ## TODO
 
 * More man pages
-  * uchar
   * wchar
   * wctype
-  * fenv
+  * uchar
   * signal
-  * complex
-  * setjmp
+  * fenv
+  * float
   * assert
   * locale
-  * float
-  * inttypes
-  * iso646
   * limits
+  * complex
+  * inttypes
+  * setjmp
+  * iso646
   * stdalign
   * stdarg
   * stdatomic
