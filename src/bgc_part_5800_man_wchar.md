@@ -459,6 +459,79 @@ prepended numbers):
 [`fgetwc()`](#man-fgetwc),
 [`fgets()`](#man-gets)
 
+[[pagebreak]]
+## `putwchar()` `putwc()` `fputwc()` {#man-putwc}
+
+Write a single wide character to the console or to a file
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <stdio.h>   // For putwc() and fputwc()
+#include <wchar.h>
+
+wint_t putwchar(wchar_t c);
+
+wint_t putwc(wchar_t c, FILE *stream);
+
+wint_t fputwc(wchar_t c, FILE *stream);
+```
+
+### Description {.unnumbered .unlisted}
+
+These are the wide character equivalents to the ['fputc()'](#man-putc)
+group of functions. You can find more information ['in that reference
+section'](#man-putc).
+
+`fputwc()` and `putwc()` are identical except that `putwc()` might be
+implemented as a macro and is allowed to evaluate `stream` multiple
+times.
+
+`putwchar()` is identical to `putwc()` with `stream` set to `stdin`.
+
+I don't know why you'd ever use `putwc()` instead of `fputwc()`, but if
+anyone knows, drop me a line.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns the wide character written, or `WEOF` on error.
+
+If it's an I/O error, the error flag will be set for the stream.
+
+If it's an encoding error, `errno` will be set to `EILSEQ`.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+// read all characters from a file, outputting only the letter 'b's
+// it finds in the file
+
+#include <stdio.h>
+#include <wchar.h>
+
+int main(void)
+{
+    FILE *fp;
+    wint_t c;
+
+    fp = fopen("datafile.txt", "r"); // error check this!
+
+    // this while-statement assigns into c, and then checks against EOF:
+
+    while((c = fgetc(fp)) != WEOF) 
+        if (c == L'b')
+            fputwc(c, stdout);
+
+    fclose(fp);
+}
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`fgetwc()`](#man-getwc),
+[`fputc()`](#man-putc),
+[`errno`](#errno)
+
 <!--
 [[pagebreak]]
 ## `example()` {#man-example}
