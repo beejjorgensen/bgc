@@ -1344,6 +1344,29 @@ But in the case of the keyboard or file, you can always use `fgets()` to
 read a complete line into a buffer, and then use `sscanf()` to scan
 things out of the buffer. This gives you the best of both worlds.
 
+#### Problems with `sscanf()`
+
+A while back, a third-party programmer rose to fame for figuring out
+[fl[how to cut _GTA Online_ load times by
+70%|https://nee.lv/2021/02/28/How-I-cut-GTA-Online-loading-times-by-70/]].
+
+What they'd discovered was that the implementation of `sscanf()` first
+effectively calls `strlen()`... so even if you're just using `sscanf()`
+to peel the first few characters off the string, it still runs all the
+way out to the end of the string first.
+
+On small strings, no big deal, but on large strings with repeated calls
+(which is what was happening in _GTA_) it got _sloooooooooowwwww_...
+
+So if you're just converting a string to a number, consider
+[`atoi()`](#man-atoi), [`atof()`](#man-atof), or the
+[`strtol()`](#man-strtol) and [`strtod()`](#man-strtod) families of
+functions, instead.
+
+(The programmer [collected a $10,000 bug
+bounty](https://www.polygon.com/2021/3/16/22334214/gta-online-loading-times-t0st-update-bug-bounty)
+for the effort.)
+
 #### The Deep Details
 
 Let's check out what a `scanf()` 
