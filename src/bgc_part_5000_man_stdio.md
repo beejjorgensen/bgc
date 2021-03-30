@@ -1576,12 +1576,9 @@ Both `vsprintf()` and `vsnprintf()` have the quality that if you pass in
 `NULL` as the buffer, nothing is written---but you can still check the
 return value to see how many characters _would_ have been written.
 
-`vsnprintf()` **always** terminates the string with a `NUL` character. So
-if you try to write out more than the maximum specified characters, a
-massive interstellar war breaks out.
-
-Just kidding. If you do, `vsnprintf()` will write $n-1$ characters so
-that it has enough room to write the terminator at the end.
+If you try to write out more than the maximum number of characters,
+`vsnprintf()` will graciously write only $n-1$ characters so that it has
+enough room to write the terminator at the end.
 
 As for why in the heck would you ever want to do this, the most common
 reason is to create your own specialized versions of `printf()`-type
@@ -1640,6 +1637,13 @@ int main(void)
     logger("Hello!");
     logger("x = %d and y = %.2f", x, y);
 }
+```
+
+Output:
+
+```
+2021-03-30 04:25:49 : Hello!
+2021-03-30 04:25:49 : x = 12 and y = 3.20
 ```
 
 ### See Also {.unnumbered .unlisted}
