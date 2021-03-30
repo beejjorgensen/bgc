@@ -58,7 +58,7 @@ The most basic of all libraries in the whole of the standard C library
 is the standard I/O library. It's used for reading from and writing to
 files. I can see you're very excited about this.
 
-So I'll continue. It's also used for readingand writing to the console,
+So I'll continue. It's also used for reading and writing to the console,
 as we've already often seen with the `printf()` function.
 
 (A little secret here---many many things in various operating systems
