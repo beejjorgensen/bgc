@@ -1921,7 +1921,7 @@ fgets(s, 20, stdin); // read a maximum of 20 bytes from stdin
 [[pagebreak]]
 ## `putc()`, `fputc()`, `putchar()` {#man-putc}
 
-Write a single character to the console or to a file.
+Write a single character to the console or to a file
 
 ### Synopsis {.unnumbered .unlisted}
 
