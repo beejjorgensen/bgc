@@ -25,6 +25,10 @@ wchar_t *s = L"Hello, world!";
 wchar_t c = L'B';
 ```
 
+This header also introduces a type `wint_t` that is used by the
+character I/O functions. It's a type that can hold any single wide
+character, but _also_ the macro `WEOF` to indicate wide end-of-file.
+
 [[pagebreak]]
 ## `wprintf()`, `fwprintf()`, `swprintf()` {#man-wprintf}
 
@@ -315,6 +319,73 @@ int main(void)
 ### See Also {.unnumbered .unlisted}
 
 [`wscanf()`](#man-wscanf)
+
+[[pagebreak]]
+## `getwc()` `fgetwc()` {#man-getwc}
+
+Get a wide character from an input stream
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <stdio.h>
+#include <wchar.h>
+
+wint_t getwc(FILE *stream);
+
+wint_t fgetwc(FILE *stream);
+```
+
+### Description {.unnumbered .unlisted}
+
+These are the wide variants of [`fgetc()`](#man-getc).
+
+They're identical except that `getwc()` might be implemented as a macro
+and is allowed to evaluate `stream` multiple times.
+
+I don't know why you'd ever use `getwc()` instead of `fgetwc()`, but if
+anyone knows, drop me a line.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns the next wide character in the input stream. Return `WEOF` on
+end-of-file or error.
+
+If an I/O error occurs, the error flag is also set on the stream.
+
+If an invalid byte sequence is encountered, `errno` is set to `ILSEQ`.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+// read all characters from a file, outputting only the letter 'b's
+// it finds in the file
+
+#include <stdio.h>
+#include <wchar.h>
+
+int main(void)
+{
+    FILE *fp;
+    wint_t c;
+
+    fp = fopen("datafile.txt", "r"); // error check this!
+
+    // this while-statement assigns into c, and then checks against EOF:
+
+    while((c = fgetc(fp)) != WEOF) 
+        if (c == L'b')
+            fputwc(c, stdout);
+
+    fclose(fp);
+}
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`fputwc`](#man-fputwc),
+[`fgetws`](#man-fgetws),
+[`errno`](#errno)
 
 <!--
 [[pagebreak]]
