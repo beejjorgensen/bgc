@@ -321,15 +321,17 @@ int main(void)
 [`wscanf()`](#man-wscanf)
 
 [[pagebreak]]
-## `getwc()` `fgetwc()` {#man-getwc}
+## `getwc()` `fgetwc()` `getwchar()` {#man-getwc}
 
 Get a wide character from an input stream
 
 ### Synopsis {.unnumbered .unlisted}
 
 ``` {.c}
-#include <stdio.h>
+#include <stdio.h>   // For getwc() and fgetwc()
 #include <wchar.h>
+
+wint_t getwchar(void);
 
 wint_t getwc(FILE *stream);
 
@@ -340,8 +342,11 @@ wint_t fgetwc(FILE *stream);
 
 These are the wide variants of [`fgetc()`](#man-getc).
 
-They're identical except that `getwc()` might be implemented as a macro
-and is allowed to evaluate `stream` multiple times.
+`fgetwc()` and `getwc()` are identical except that `getwc()` might be
+implemented as a macro and is allowed to evaluate `stream` multiple
+times.
+
+`getwchar()` is identical to `getwc()` with `stream` set to `stdin`.
 
 I don't know why you'd ever use `getwc()` instead of `fgetwc()`, but if
 anyone knows, drop me a line.
@@ -386,6 +391,73 @@ int main(void)
 [`fputwc`](#man-fputwc),
 [`fgetws`](#man-fgetws),
 [`errno`](#errno)
+
+[[pagebreak]]
+## `fgetws()` {#man-fgetws}
+
+Read a wide string from console or file
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <stdio.h>
+#include <wchar.h>
+
+wchar_t *fgetws(wchar_t * restrict s, int n, FILE * restrict stream);
+```
+
+### Description {.unnumbered .unlisted}
+
+This is the wide version of [`fgets()`](#man-gets).  See [its reference
+page for details](#man-gets).
+
+A wide `NUL` character is used to terminate the string.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns `s` on success, or a `NULL` pointer on end-of-file or error.
+
+### Example {.unnumbered .unlisted}
+
+The following example reads lines from a file and prepends them with
+numbers:
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <wchar.h>
+
+#define BUF_SIZE 1024
+
+int main(void)
+{
+    FILE *fp;
+    wchar_t buf[BUF_SIZE];
+
+    fp = fopen("textfile.txt", "r"); // error check this!
+
+    int line_count = 0;
+
+    while ((fgetws(buf, BUF_SIZE, fp)) != NULL) 
+        wprintf(L"%04d: %ls", ++line_count, buf);
+
+    fclose(fp);
+}
+```
+
+Example output for a file with these lines in them (without the
+prepended numbers):
+
+```
+0001: line 1
+0002: line 2
+0003: something
+0004: line 4
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`fgetwc()`](#man-fgetwc),
+[`fgets()`](#man-gets)
 
 <!--
 [[pagebreak]]
