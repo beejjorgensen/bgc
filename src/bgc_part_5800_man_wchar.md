@@ -196,7 +196,6 @@ In this example, we make our own version of `wprintf()` called
 have all the bells and whistles of `wprintf()`.
 
 ``` {.c .numberLines}
-#include <stdio.h>
 #include <stdarg.h>
 #include <wchar.h>
 #include <time.h>
@@ -242,6 +241,80 @@ Output:
 
 [`printf()`](#man-printf),
 [`vprintf()`](#man-vprintf)
+
+
+[[pagebreak]]
+## `vwscanf()`, `vfwscanf()`, `vswscanf()` {#man-vscanf}
+
+`wscanf()` variants using variable argument lists (`va_list`)
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <stdio.h>   // For vfwscanf()
+#include <stdarg.h>
+#include <wchar.h>
+
+int vwscanf(const wchar_t * restrict format, va_list arg);
+
+int vfwscanf(FILE * restrict stream, const wchar_t * restrict format,
+             va_list arg); 
+
+int vswscanf(const wchar_t * restrict s, const wchar_t * restrict format,
+             va_list arg);
+```
+
+### Description {.unnumbered .unlisted}
+
+These are the wide counterparts to the [`vscanf()`](#man-vscanf)
+collection of functions. See their [reference page for
+details](#man-vscanf).
+
+### Return Value {.unnumbered .unlisted}
+
+Returns the number of items successfully scanned, or `EOF` on some kind
+of input failure.
+
+### Example {.unnumbered .unlisted}
+
+I have to admit I was wracking my brain to think of when you'd ever want
+to use this. The best example I could find was [fl[one on Stack
+Overflow|https://stackoverflow.com/questions/17017331/c99-vscanf-for-dummies/17018046#17018046]]
+that error-checks the return value from `scanf()` against the expected.
+A variant of that is shown below.
+
+``` {.c .numberLines}
+#include <stdarg.h>
+#include <wchar.h>
+#include <assert.h>
+
+int error_check_wscanf(int expected_count, wchar_t *format, ...)
+{
+    va_list va;
+
+    va_start(va, format);
+    int count = vwscanf(format, va);
+    va_end(va);
+
+    // This line will crash the program if the condition is false:
+    assert(count == expected_count);
+
+    return count;
+}
+
+int main(void)
+{
+    int a, b;
+    float c;
+
+    error_check_wscanf(3, L"%d, %d/%f", &a, &b, &c);
+    error_check_wscanf(2, L"%d", &a);
+}
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`wscanf()`](#man-wscanf)
 
 <!--
 [[pagebreak]]
