@@ -248,7 +248,7 @@ Output:
 
 
 [[pagebreak]]
-## `vwscanf()`, `vfwscanf()`, `vswscanf()` {#man-vscanf}
+## `vwscanf()`, `vfwscanf()`, `vswscanf()` {#man-vwscanf}
 
 `wscanf()` variants using variable argument lists (`va_list`)
 
