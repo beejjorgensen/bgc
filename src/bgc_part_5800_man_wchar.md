@@ -33,7 +33,7 @@ Formatted output with a wide string
 ### Synopsis {.unnumbered .unlisted}
 
 ``` {.c}
-#include <stdio.h>
+#include <stdio.h>   // For fwprintf()
 #include <wchar.h>
 
 int wprintf(const wchar_t * restrict format, ...);
@@ -93,7 +93,71 @@ pi = 3.141593
 [`printf()`](#man-printf),
 [`fprintf()`](#man-printf),
 [`sprintf()`](#man-printf),
-[`snprintf()`](#man-printf)
+[`snprintf()`](#man-printf),
+[`vwprintf()`](#man-vwprintf)
+
+[[pagebreak]]
+## `wscanf()` `fwscanf()` `swscanf()` {#man-wscanf}
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <stdio.h>  // for fwscanf()
+#include <wchar.h>
+
+int wscanf(const wchar_t * restrict format, ...);
+
+int fwscanf(FILE * restrict stream, const wchar_t * restrict format, ...);
+
+int swscanf(const wchar_t * restrict s, const wchar_t * restrict format, ...);
+```
+
+### Description {.unnumbered .unlisted}
+
+These are the wide variants of [`scanf()`](#man-scanf),
+[`fscanf()`](#man-scanf), and [`sscanf()`](#man-scanf).
+
+See the [`scanf()`](#man-scanf) page for all the details.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns the number of items successfully scanned, or `EOF` on some kind
+of input failure.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <wchar.h>
+
+int main(void)
+{
+    int quantity;
+    wchar_t item[100];
+
+    wprintf(L"Enter \"quantity: item\"\n");
+    
+    if (wscanf(L"%d:%99ls", &quantity, item) != 2)
+        wprintf(L"Malformed input!\n");
+    else
+        wprintf(L"You entered: %d %ls\n", quantity, item);
+}
+```
+
+Output (input of `12: apples`):
+
+```
+Enter "quantity: item"
+12: apples
+You entered: 12 apples
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`scanf()`](#man-scanf),
+[`sscanf()`](#man-scanf),
+[`fscanf()`](#man-scanf),
+[`vwscanf()`](#man-vwscanf)
 
 <!--
 [[pagebreak]]
