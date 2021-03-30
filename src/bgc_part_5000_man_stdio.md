@@ -255,10 +255,13 @@ is opened with mode "`r+b`", so it's suitable for reading, writing, and
 binary data.
 
 By using a little magic, the temp file is automatically deleted when it
-is `close()`'d or when your program exits. (Specifically, `tmpfile()`
-unlinks the file right after it opens it. If you don't know what that
-means, it won't affect your `tmpfile()` skill, but hey, be curious! It's
-for your own good!)
+is `close()`'d or when your program exits. (Specifically, in Unix terms,
+`tmpfile()`
+[fl[_unlinks_|https://man.archlinux.org/man/unlinkat.2.en#DESCRIPTION]]
+the file right after it opens it. This means that it's primed to be
+deleted from disk, but still exists because your process still has it
+open. As soon as your process exits, all open files are closed, and the
+temp file vanishes into the ether.)
 
 ### Return Value {.unnumbered .unlisted}
 
