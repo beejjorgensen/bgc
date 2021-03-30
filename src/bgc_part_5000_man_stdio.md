@@ -1834,6 +1834,10 @@ doesn't allow you to specify the length of the buffer to store the
 string in. This would allow people to keep entering data past the end of
 your buffer, and believe me, this would be Bad News.
 
+And that's what the `size` parameter in `fgets()` is for. `fgets()` will
+read at most `size-1` characters and then stick a `NUL` terminator on
+after that.
+
 I was going to add another reason, but that's basically the primary and
 only reason not to use `gets()`. As you might suspect, `fgets()` allows
 you to specify a maximum string length.
