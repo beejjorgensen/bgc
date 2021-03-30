@@ -54,6 +54,9 @@ See those pages for exact substantial usage.
 These are the same except the `format` string is a wide character
 string instead of a multibyte string.
 
+And that `swprintf()` is analogous to `snprintf()` in that they both
+take the size of the destination array as an argument.
+
 And one more thing: the precision specified for a `%s` specifier
 corresponds to the number of wide characters printed, not the number of
 bytes. If you know of other difference, let me know.
@@ -91,9 +94,6 @@ pi = 3.141593
 ### See Also {.unnumbered .unlisted}
 
 [`printf()`](#man-printf),
-[`fprintf()`](#man-printf),
-[`sprintf()`](#man-printf),
-[`snprintf()`](#man-printf),
 [`vwprintf()`](#man-vwprintf)
 
 [[pagebreak]]
@@ -155,9 +155,93 @@ You entered: 12 apples
 ### See Also {.unnumbered .unlisted}
 
 [`scanf()`](#man-scanf),
-[`sscanf()`](#man-scanf),
-[`fscanf()`](#man-scanf),
 [`vwscanf()`](#man-vwscanf)
+
+[[pagebreak]]
+## `vwprintf()` `vfwprintf()` `vswprintf()` {#man-vwprintf}
+
+`wprintf()` variants using variable argument lists (`va_list`)
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <stdio.h>   // For vfwprintf()
+#include <stdarg.h>
+#include <wchar.h>
+
+int vwprintf(const wchar_t * restrict format, va_list arg);
+
+int vswprintf(wchar_t * restrict s, size_t n,
+              const wchar_t * restrict format, va_list arg); 
+
+int vfwprintf(FILE * restrict stream, const wchar_t * restrict format,
+              va_list arg);
+```
+
+### Description {.unnumbered .unlisted}
+
+These functions are the wide character variants of the
+[`vprintf()`](#man-vprintf), functions. You can [refer to that reference
+page](#man-vprintf) for more details.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns the number of wide characters stored, or a negative value on
+error.
+
+### Example {.unnumbered .unlisted}
+
+In this example, we make our own version of `wprintf()` called
+`wlogger()` that timestamps output. Notice how the calls to `wlogger()`
+have all the bells and whistles of `wprintf()`.
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <stdarg.h>
+#include <wchar.h>
+#include <time.h>
+
+int wlogger(wchar_t *format, ...)
+{
+    va_list va;
+    time_t now_secs = time(NULL);
+    struct tm *now = gmtime(&now_secs);
+
+    // Output timestamp in format "YYYY-MM-DD hh:mm:ss : "
+    wprintf(L"%04d-%02d-%02d %02d:%02d:%02d : ",
+        now->tm_year + 1900, now->tm_mon + 1, now->tm_mday,
+        now->tm_hour, now->tm_min, now->tm_sec);
+
+    va_start(va, format);
+    int result = vwprintf(format, va);
+    va_end(va);
+
+    wprintf(L"\n");
+
+    return result;
+}
+
+int main(void)
+{
+    int x = 12;
+    float y = 3.2;
+
+    wlogger(L"Hello!");
+    wlogger(L"x = %d and y = %.2f", x, y);
+}
+```
+
+Output:
+
+```
+2021-03-30 04:25:49 : Hello!
+2021-03-30 04:25:49 : x = 12 and y = 3.20
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`printf()`](#man-printf),
+[`vprintf()`](#man-vprintf)
 
 <!--
 [[pagebreak]]
