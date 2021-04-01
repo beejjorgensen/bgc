@@ -532,6 +532,47 @@ int main(void)
 [`fputc()`](#man-putc),
 [`errno`](#errno)
 
+[[pagebreak]]
+## `fputws()` {#man-example}
+
+Write a wide string to the console or to a file
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <stdio.h>
+#include <wchar.h>
+
+int fputws(const wchar_t * restrict s, FILE * restrict stream);
+```
+
+### Description {.unnumbered .unlisted}
+
+This is the wide version of [`fputs()`](#man-fputs).
+
+Pass in a wide string and an output stream, and it will so be written.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns a non-negative value on success, or `EOF` on error.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <wchar.h>
+
+int main(void)
+{
+    fputws(L"Hello, world!\n", stdout);
+}
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`fputwc()`](#man-putwc)
+[`fputs()`](#man-puts)
+
 <!--
 [[pagebreak]]
 ## `example()` {#man-example}
