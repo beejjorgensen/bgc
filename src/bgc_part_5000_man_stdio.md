@@ -399,7 +399,7 @@ And we didn't error check it because we're too lazy!
 ## `fclose()` {#man-fclose}
 
 The opposite of `fopen()`---closes a file when you're done with it so
-that it frees system resources.
+that it frees system resources
 
 ### Synopsis {.unnumbered .unlisted}
 
@@ -794,7 +794,7 @@ fclose(fp);
 
 ## `printf()`, `fprintf()`, `sprintf()`, `snprintf()` {#man-printf}
 
-Print a formatted string to the console or to a file.
+Print a formatted string to the console or to a file
 
 ### Synopsis {.unnumbered .unlisted}
 
@@ -1233,7 +1233,7 @@ printf("%5d %5.2f %c\n", a, b, d); /* "  100  2.71 X" */
 ## `scanf()`, `fscanf()`, `sscanf()` {#man-scanf}
 
 Read formatted string, character, or numeric data from the
-console or from a file.
+console or from a file
 
 ### Synopsis {.unnumbered .unlisted}
 
@@ -1759,7 +1759,7 @@ int main(void)
 [[pagebreak]]
 ## `getc()`, `fgetc()`, `getchar()` {#man-getc}
 
-Get a single character from the console or from a file.
+Get a single character from the console or from a file
 
 ### Synopsis {.unnumbered .unlisted}
 
@@ -2001,7 +2001,7 @@ int main(void)
 [[pagebreak]]
 ## `puts()`, `fputs()` {#man-puts}
 
-Write a string to the console or to a file.
+Write a string to the console or to a file
 
 ### Synopsis {.unnumbered .unlisted}
 
@@ -2049,7 +2049,7 @@ int main(void)
 [[pagebreak]]
 ## `ungetc()` {#man-ungetc}
 
-Pushes a character back into the input stream.
+Pushes a character back into the input stream
 
 ### Synopsis {.unnumbered .unlisted}
 
@@ -2143,7 +2143,7 @@ int main(void)
 [[pagebreak]]
 ## `fread()` {#man-fread}
 
-Read binary data from a file.
+Read binary data from a file
 
 ### Synopsis {.unnumbered .unlisted}
 
@@ -2221,7 +2221,7 @@ int main(void)
 [[pagebreak]]
 ## `fwrite()` {#man-fwrite}
 
-Write binary data to a file.
+Write binary data to a file
 
 ### Synopsis {.unnumbered .unlisted}
 
@@ -2275,7 +2275,7 @@ int main(void)
 ## `fgetpos()`, `fsetpos()` {#man-fgetpos}
 
 Get the current position in a file, or set the current position in a
-file. Just like `ftell()` and `fseek()` for most systems.
+file. Just like `ftell()` and `fseek()` for most systems
 
 ### Synopsis {.unnumbered .unlisted}
 
@@ -2332,7 +2332,7 @@ fsetpos(fp, &pos);   // now restore the position to where we saved
 [[pagebreak]]
 ## `fseek()`, `rewind()` {#man-fseek}
 
-Position the file pointer in anticipition of the next read or write.
+Position the file pointer in anticipition of the next read or write
 
 ### Synopsis {.unnumbered .unlisted}
 
@@ -2410,7 +2410,7 @@ rewind(fp);               // seek to the beginning of the file
 [[pagebreak]]
 ## `ftell()` {#man-ftell}
 
-Tells you where a particular file is about to read from or write to.
+Tells you where a particular file is about to read from or write to
 
 ### Synopsis {.unnumbered .unlisted}
 
@@ -2463,7 +2463,7 @@ fseek(fp, pos, SEEK_SET);
 [[pagebreak]]
 ## `feof()`, `ferror()`, `clearerr()` {#man-feof}
 
-Determine if a file has reached end-of-file or if an error has occurred.
+Determine if a file has reached end-of-file or if an error has occurred
 
 ### Synopsis {.unnumbered .unlisted}
 
