@@ -2086,20 +2086,11 @@ failure, it returns `EOF`.
 
 ### Example {.unnumbered .unlisted}
 
-``` {.c .numberLines}
-// read a piece of punctuation, then everything after it up to the next
-// piece of punctuation. return the punctuation, and store the rest
-// in a string
-//
-// sample input: !foo#bar*baz
-//
-// output:
-//
-// !: foo
-// #: bar
-// *: baz
-//
+This example reads a piece of punctuation, then everything after it up
+to the next piece of punctuation. It returns the leading punctuation,
+and stores the rest in a string.
 
+``` {.c .numberLines}
 #include <stdio.h>
 #include <ctype.h>
 
@@ -2134,6 +2125,20 @@ int main(void)
         printf("%c: %s\n", c, s);
     }
 }
+```
+
+Sample Input:
+
+```
+!foo#bar*baz
+```
+
+Sample output:
+
+```
+!: foo
+#: bar
+*: baz
 ```
 
 ### See Also {.unnumbered .unlisted}
