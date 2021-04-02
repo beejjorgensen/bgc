@@ -687,7 +687,10 @@ Stream is wide-oriented
 -->
 
 [[pagebreak]]
-## `ungetc()` {#man-example}
+
+# `ungetwc()` {#man-ungetwc}
+
+Pushes a wide character back into the input stream
 
 ### Synopsis {.unnumbered .unlisted}
 
@@ -700,15 +703,85 @@ wint_t ungetwc(wint_t c, FILE *stream);
 
 ### Description {.unnumbered .unlisted}
 
+This is the wide character variant of [`ungetc()`](#man-ungetc).
+
+It performs the reverse operation of [`fgetwc()`](#man-getwc), pushing a
+character back on the input stream.
+
+The spec guarantees you can do this one time in a row. You can probably
+do it more times, but it's up to the implementation. If you do too many
+calls without an intervening read, an error could be returned.
+
+Setting the file position discards any characters pushed by `ungetwc()`
+without being subsequently read.
+
+The end-of-file flag is cleared after a successful call.
+
 ### Return Value {.unnumbered .unlisted}
+
+Returns the value of the pushed character on success, or `WEOF` on failure.
 
 ### Example {.unnumbered .unlisted}
 
+This example reads a piece of punctuation, then everything after it up
+to the next piece of punctuation. It returns the leading punctuation,
+and stores the rest in a string.
+
 ``` {.c .numberLines}
+#include <stdio.h>
+#include <wctype.h>
+#include <wchar.h>
+
+wint_t read_punctstring(FILE *fp, wchar_t *s)
+{
+    wint_t origpunct, c;
+    
+    origpunct = fgetwc(fp);
+
+    if (origpunct == WEOF)  // return EOF on end-of-file
+        return WEOF;
+
+    while (c = fgetwc(fp), !iswpunct(c) && c != WEOF)
+        *s++ = c;  // save it in the string
+
+    *s = L'\0'; // nul-terminate the string
+
+    // if we read punctuation last, ungetc it so we can fgetc it next
+    // time:
+    if (iswpunct(c))
+        ungetwc(c, fp);
+
+    return origpunct;
+}
+
+int main(void)
+{
+    wchar_t s[128];
+    wint_t c;
+
+    while ((c = read_punctstring(stdin, s)) != WEOF) {
+        wprintf(L"%lc: %ls\n", c, s);
+    }
+}
+```
+
+Sample Input:
+
+```
+!foo#bar*baz
+```
+
+Sample output:
+
+```
+!: foo
+#: bar
+*: baz
 ```
 
 ### See Also {.unnumbered .unlisted}
 
+[`fgetwc()`](#man-getwc),
 [`ungetc()`](#man-ungetc)
 
 <!--
