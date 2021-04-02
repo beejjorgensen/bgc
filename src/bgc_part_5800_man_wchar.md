@@ -573,6 +573,144 @@ int main(void)
 [`fputwc()`](#man-putwc)
 [`fputs()`](#man-puts)
 
+[[pagebreak]]
+## `fwide()` {#man-fwide}
+
+Get or set the orientation of the stream
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <stdio.h>
+#include <wchar.h>
+
+int fwide(FILE *stream, int mode);
+```
+
+### Description {.unnumbered .unlisted}
+
+Streams can be either wide-oriented (meaning the wide functions are in
+use) or byte-oriented (that the regular multibyte functions are in use).
+Or, before an orientation is chosen, unoriented.
+
+There are two ways to set the orientation of an unoriented stream:
+
+* Implicitly: just use a function like `printf()` (byte oriented) or
+  `wprintf()` (wide oriented), and the orientation will be set.
+
+* Explicitly: use this function to set it.
+
+You can set the orientation for the stream by passing different numbers
+to `mode`:
+
+|`mode`|Description|
+|-|-|
+|`0`|Do not alter the orientation|
+|`-1`|Set stream to byte-oriented|
+|`1`|Set stream to wide-oriented|
+
+(I said `-1` and `1` there, but really it could be any positive or
+negative number.)
+
+Most people choose the wide or byte functions (`printf()` or
+`wprintf()`) and just start using them and never use `fwide()` to set
+the orientation.
+
+And once the orientation is set, you can't change it. So you can't use
+`fwide()` for that, either.
+
+So what can you use it for?
+
+You can _test_ to see what orientation a stream is in by passing `0` as
+the `mode` and checking the return value.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns greater than zero if the stream is wide-oriented.
+
+Returns less than zero if the stream is byte-oriented.
+
+Returns zero if the stream is unoriented.
+
+### Example {.unnumbered .unlisted}
+
+Example setting to byte-oriented:
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <wchar.h>
+
+int main(void)
+{
+    printf("Hello world!\n");  // Implicitly set to byte
+
+    int mode = fwide(stdout, 0);
+
+    printf("Stream is %s-oriented\n", mode < 0? "byte": "wide");
+}
+```
+
+Output:
+
+```
+Hello world!
+Stream is byte-oriented
+```
+
+Example setting to wide-oriented:
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <wchar.h>
+
+int main(void)
+{
+    wprintf(L"Hello world!\n");  // Implicitly set to wide
+
+    int mode = fwide(stdout, 0);
+
+    wprintf(L"Stream is %ls-oriented\n", mode < 0? L"byte": L"wide");
+}
+```
+
+Output:
+
+```
+Hello world!
+Stream is wide-oriented
+```
+
+<!--
+### See Also {.unnumbered .unlisted}
+
+[`example()`](#man-example),
+-->
+
+[[pagebreak]]
+## `ungetc()` {#man-example}
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <stdio.h>
+#include <wchar.h>
+
+wint_t ungetwc(wint_t c, FILE *stream);
+```
+
+### Description {.unnumbered .unlisted}
+
+### Return Value {.unnumbered .unlisted}
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`ungetc()`](#man-ungetc)
+
 <!--
 [[pagebreak]]
 ## `example()` {#man-example}
