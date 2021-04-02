@@ -2863,7 +2863,7 @@ long double nanl(const char *tagp);
 
 These functions return a quiet NaN^[A _quiet NaN_ is one that doesn't
 raise any exceptions.]. It is produced as if calling
-[`strtod()`](#strtod-man) with `"NAN"` (or a variant thereof) as an
+[`strtod()`](#man-strtod) with `"NAN"` (or a variant thereof) as an
 argument.
 
 `tagp` points to a string which could be several things, including
