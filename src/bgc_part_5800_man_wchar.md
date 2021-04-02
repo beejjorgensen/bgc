@@ -688,7 +688,7 @@ Stream is wide-oriented
 
 [[pagebreak]]
 
-# `ungetwc()` {#man-ungetwc}
+## `ungetwc()` {#man-ungetwc}
 
 Pushes a wide character back into the input stream
 
@@ -783,6 +783,83 @@ Sample output:
 
 [`fgetwc()`](#man-getwc),
 [`ungetc()`](#man-ungetc)
+
+[[pagebreak]]
+## `wcstod()` `wcstof()` `wcstold()` {#man-wcstod}
+
+Convert a wide string to a floating point number
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <wchar.h>
+
+double wcstod(const wchar_t * restrict nptr, wchar_t ** restrict endptr);
+
+float wcstof(const wchar_t * restrict nptr, wchar_t ** restrict endptr);
+
+long double wcstold(const wchar_t * restrict nptr, wchar_t ** restrict endptr);
+```
+
+### Description {.unnumbered .unlisted}
+
+These are the wide counterparts to the [`strtod()`](#man-strtod) family
+of functions. See [their reference pages for details](#man-strtod).
+
+### Return Value {.unnumbered .unlisted}
+
+Returns the string converted to a floating point value.
+
+Returns `0` if there's no valid number in the string.
+
+On overflow, returns an apporpriately-signed `HUGE_VAL`, `HUGE_VALF`. or
+`HUGE_VALL` depending on the return type, and `errno` is set to
+`ERANGE`.
+
+On underflow, returns a number no greater than the smallest normalized
+positive number, appropriately signed. The implemention _might_ set
+`errno` to `ERANGE`.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+#include <wchar.h>
+
+int main(void)
+{
+    wchar_t *inp = L"   123.4567beej";
+    wchar_t *badchar;
+
+    double val = wcstod(inp, &badchar);
+
+    wprintf(L"Converted string to %f\n", val);
+    wprintf(L"Encountered bad characters: %ls\n", badchar);
+
+    val = wcstod(L"987.654321beej", NULL);
+    wprintf(L"Ignoring bad chars: %f\n", val);
+
+    val = wcstod(L"11.2233", &badchar);
+
+    if (*badchar == L'\0')
+        wprintf(L"No bad chars: %f\n", val);
+    else
+        wprintf(L"Found bad chars: %f, %ls\n", val, badchar);
+}
+```
+
+Output:
+
+```
+Converted string to 123.456700
+Encountered bad characters: beej
+Ignoring bad chars: 987.654321
+No bad chars: 11.223300
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`wcstol()`](#man-wcstol),
+[`strtod()`](#man-strtod)
 
 <!--
 [[pagebreak]]
