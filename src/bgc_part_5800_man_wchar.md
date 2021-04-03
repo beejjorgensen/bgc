@@ -861,6 +861,90 @@ No bad chars: 11.223300
 [`wcstol()`](#man-wcstol),
 [`strtod()`](#man-strtod)
 
+[[pagebreak]]
+## `wcstol()` `wcstoll()` `wcstoul()` `wcstoull()` {#man-wcstol}
+
+Convert a wide string to an integer value
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <wchar.h>
+
+long int wcstol(const wchar_t * restrict nptr,
+                wchar_t ** restrict endptr, int base);
+
+long long int wcstoll(const wchar_t * restrict nptr,
+                      wchar_t ** restrict endptr, int base);
+
+unsigned long int wcstoul(const wchar_t * restrict nptr,
+                          wchar_t ** restrict endptr, int base);
+
+unsigned long long int wcstoull(const wchar_t * restrict nptr,
+                                wchar_t ** restrict endptr, int base);
+```
+
+### Description {.unnumbered .unlisted}
+
+These are the wide counterparts to the [`strtol()`](#man-strtol) family
+of functions, so see [their reference pages for the
+details](#man-strtol).
+
+### Return Value {.unnumbered .unlisted}
+
+Returns the integer value of the string.
+
+If nothing can be found, `0` is returned.
+
+If the result is out of range, the value returned is one of `LONG_MIN`,
+`LONG_MAX`, `LLONG_MIN`, `LLONG_MAX`, `ULONG_MAX` or `ULLONG_MAX`, as
+appropriate. And `errno` is set to `ERANGE`.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+#include <wchar.h>
+
+int main(void)
+{
+    // All output in decimal (base 10)
+
+    wprintf(L"%ld\n", wcstol(L"123", NULL, 0));     // 123
+    wprintf(L"%ld\n", wcstol(L"123", NULL, 10));    // 123
+    wprintf(L"%ld\n", wcstol(L"101010", NULL, 2));  // binary, 42
+    wprintf(L"%ld\n", wcstol(L"123", NULL, 8));     // octal, 83
+    wprintf(L"%ld\n", wcstol(L"123", NULL, 16));    // hex, 291
+
+    wprintf(L"%ld\n", wcstol(L"0123", NULL, 0));    // octal, 83
+    wprintf(L"%ld\n", wcstol(L"0x123", NULL, 0));   // hex, 291
+
+    wchar_t *badchar;
+    long int x = wcstol(L"   1234beej", &badchar, 0);
+
+    wprintf(L"Value is %ld\n", x);                  // Value is 1234
+    wprintf(L"Bad chars at \"%ls\"\n", badchar);    // Bad chars at "beej"
+}
+```
+
+Output:
+
+```
+123
+123
+42
+83
+291
+83
+291
+Value is 1234
+Bad chars at "beej"
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`wcstod()`](#man-wcstod),
+[`strtol()`](#man-strtol)
+
 <!--
 [[pagebreak]]
 ## `example()` {#man-example}
