@@ -945,6 +945,64 @@ Bad chars at "beej"
 [`wcstod()`](#man-wcstod),
 [`strtol()`](#man-strtol)
 
+[[pagebreak]]
+## `wcscpy()` `wcsncpy()` {#man-wcscpy}
+
+Copy a wide string
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <wchar.h>
+
+wchar_t *wcscpy(wchar_t * restrict s1, const wchar_t * restrict s2);
+
+wchar_t *wcsncpy(wchar_t * restrict s1,
+                 const wchar_t * restrict s2, size_t n);
+```
+
+### Description {.unnumbered .unlisted}
+
+These are the wide versions of [`strcpy()`](#man-strcpy) and
+[`strncpy()`](#man-strcpy).
+
+They'll copy a string up to a wide NUL. Or, in the case of the safer
+`wcsncpy()`, until then or until `n` wide characters are copied.
+
+If the string in `s1` is shorter than `n`, `wcsncpy()` will pad `s2`
+with wide NUL characters until the `n`th wide character is reached.
+
+Even though `wcsncpy()` is safer because it will never overrun the end
+of `s2` (assuming you set `n` correctly), it's still unsafe a NUL is not
+found in `s1` in the first `n` characters. In that case, `s2` will not
+be NUL-terminated. Always make sure `n` is greater than the string
+length of `s1`!
+
+### Return Value {.unnumbered .unlisted}
+
+Returns `s1`.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+#include <wchar.h>
+
+int main(void)
+{
+    wchar_t *s1 = L"Hello!";
+    wchar_t s2[10];
+
+    wcsncpy(s2, s1, 10);
+
+    wprintf(L"\"%ls\"\n", s2);  // "Hello!"
+}
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`strcpy()`](#man-strcpy),
+[`strncpy()`](#man-strcpy)
+
 <!--
 [[pagebreak]]
 ## `example()` {#man-example}
