@@ -309,7 +309,7 @@ if (strcmp(s1, s3) == 0)
 // so you might as well get used to it:
 
 if (!strcmp(s1, s3))
-    printf("The strings are the same!")
+    printf("The strings are the same!");
 
 if (!strncmp(s1, s2, 6))
     printf("The first 6 characters of s1 and s2 are the same");
