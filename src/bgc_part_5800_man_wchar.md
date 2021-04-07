@@ -1000,8 +1000,73 @@ int main(void)
 
 ### See Also {.unnumbered .unlisted}
 
+[`wmemcpy()`](#man-wmemcpy),
+[`wmemmove()`](#man-wmemcpy)
 [`strcpy()`](#man-strcpy),
 [`strncpy()`](#man-strcpy)
+
+[[pagebreak]]
+## `wmemcpy()` `wmemmove()` {#man-wmemcpy}
+
+Copy wide characters
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <wchar.h>
+
+wchar_t *wmemcpy(wchar_t * restrict s1,
+                 const wchar_t * restrict s2, size_t n);
+
+wchar_t *wmemmove(wchar_t *s1, const wchar_t *s2, size_t n);
+```
+
+### Description {.unnumbered .unlisted}
+
+These are the wide versions of [`memcpy()`](#man-memcpy) and
+[`memmove()`](#man-memcpy).
+
+They copy `n` wide characters from `s2` to `s1`.
+
+They're the same except that `wmemmove()` is guaranteed to work with
+overlapping memory regions, and `wmemcpy()` is not.
+
+### Return Value {.unnumbered .unlisted}
+
+Both functions return the pointer `s1`.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+#include <wchar.h>
+
+int main(void)
+{
+    wchar_t s[100] = L"Goats";
+    wchar_t t[100];
+
+    wmemcpy(t, s, 6);       // Copy non-overlapping memory
+
+    wmemmove(s + 2, s, 6);  // Copy overlapping memory
+
+    wprintf(L"s is \"%ls\"\n", s);
+    wprintf(L"t is \"%ls\"\n", t);
+}
+```
+
+Output:
+
+```
+s is "GoGoats"
+t is "Goats"
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`wcscpy()`](#man-wcscpy),
+[`wcsncpy()`](#man-wcscpy),
+[`memcpy()`](#man-memcpy),
+[`memmove()`](#man-memcpy)
 
 <!--
 [[pagebreak]]
