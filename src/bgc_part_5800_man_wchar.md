@@ -533,7 +533,7 @@ int main(void)
 [`errno`](#errno)
 
 [[pagebreak]]
-## `fputws()` {#man-example}
+## `fputws()` {#man-fputws}
 
 Write a wide string to the console or to a file
 
@@ -1069,7 +1069,7 @@ t is "Goats"
 [`memmove()`](#man-memcpy)
 
 [[pagebreak]]
-## `wcscat()` `wcsncat()` {#man-example}
+## `wcscat()` `wcsncat()` {#man-wcscat}
 
 Concatenate wide strings
 
