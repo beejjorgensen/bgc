@@ -1216,9 +1216,65 @@ The first 6 characters of s1 and s2 are the same
 
 ### See Also {.unnumbered .unlisted}
 
+[`wcscoll()`](#man-wcscoll),
 [`memcmp()`](#man-memcmp),
 [`strcmp()`](#man-strcmp),
 [`strncmp()`](#man-strcmp)
+
+[[pagebreak]]
+## `wcscoll()` {#man-wcscoll}
+
+Compare two wide strings accounting for locale
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <wchar.h>
+
+int wcscoll(const wchar_t *s1, const wchar_t *s2);
+```
+
+### Description {.unnumbered .unlisted}
+
+This is the wide version of [`strcoll()`](#man-strcoll). See [`that
+reference page`](#man-strcoll) for details.
+
+This is slower than `wcscmp()`, so only use it if you need the
+locale-specific compare.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns zero if both regions are equal in this locale.
+
+Returns a negative number if the region pointed to by `s1` is less than
+`s2` in this locale.
+
+Returns a positive number if the region pointed to by `s1` is greater
+than `s2` in this locale.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+#include <wchar.h>
+#include <locale.h>
+
+int main(void)
+{
+    setlocale(LC_ALL, "");
+
+    // If your source character set doesn't support "é" in a string
+    // you can replace it with `\u00e9`, the Unicode code point
+    // for "é".
+
+    wprintf(L"%d\n", wcscmp(L"é", L"f"));   // Reports é > f, yuck.
+    wprintf(L"%d\n", wcscoll(L"é", L"f"));  // Reports é < f, yay!
+}
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`wcscmp()`](#man-wcscmp),
+[`strcoll()`](#man-strcoll)
 
 <!--
 [[pagebreak]]
