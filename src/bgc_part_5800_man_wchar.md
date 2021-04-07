@@ -1099,6 +1099,8 @@ Note that `wcsncat()` always adds a NUL terminator to the end, even if
 
 ### Return Value {.unnumbered .unlisted}
 
+Both functions return the pointer `s1`.
+
 ### Example {.unnumbered .unlisted}
 
 ``` {.c .numberLines}
@@ -1124,6 +1126,99 @@ int main(void)
 
 [`strcat()`](#man-strcat),
 [`strncat()`](#man-strcat)
+
+[[pagebreak]]
+## `wcscmp()`, `wcsncmp()`, `wmemcmp()` {#man-wcscmp}
+
+Compare wide strings or memory
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <wchar.h>
+
+int wcscmp(const wchar_t *s1, const wchar_t *s2);
+
+int wcsncmp(const wchar_t *s1, const wchar_t *s2, size_t n);
+
+int wmemcmp(const wchar_t *s1, const wchar_t *s2, size_t n);
+
+```
+
+### Description {.unnumbered .unlisted}
+
+These are the wide variants of [`memcmp()`](#man-memcmp),
+[`strcmp()`](#man-strcmp), and [`strncmp()`](#man-strcmp).
+
+`wcscmp()` and `wcsncmp()` both compare strings until a NUL character.
+
+`wcsncmp()` also has the additional restriction that it will only
+compare the first `n` characters.
+
+`wmemcmp()` is like `wcsncmp()` except it won't stop at a NUL.
+
+The comparison is done against the character value (which might (or
+might not) be its Unicode code point).
+
+### Return Value {.unnumbered .unlisted}
+
+Returns zero if both regions are equal.
+
+Returns a negative number if the region pointed to by `s1` is less than
+`s2`.
+
+Returns a positive number if the region pointed to by `s1` is greater
+than `s2`.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+#include <wchar.h>
+
+int main(void)
+{
+    wchar_t *s1 = L"Muffin";
+    wchar_t *s2 = L"Muffin Sandwich";
+    wchar_t *s3 = L"Muffin";
+
+    wprintf(L"%d\n", wcscmp(L"Biscuits", L"Kittens")); // <0 since 'B' < 'K'
+    wprintf(L"%d\n", wcscmp(L"Kittens", L"Biscuits")); // >0 since 'K' > 'B'
+
+    if (wcscmp(s1, s2) == 0)
+        wprintf(L"This won't get printed because the strings differ\n");
+
+    if (wcscmp(s1, s3) == 0)
+        wprintf(L"This will print because s1 and s3 are the same\n");
+
+    // this is a little weird...but if the strings are the same, it'll
+    // return zero, which can also be thought of as "false". Not-false
+    // is "true", so (!wcscmp()) will be true if the strings are the
+    // same. yes, it's odd, but you see this all the time in the wild
+    // so you might as well get used to it:
+
+    if (!wcscmp(s1, s3))
+        wprintf(L"The strings are the same!\n");
+
+    if (!wcsncmp(s1, s2, 6))
+        wprintf(L"The first 6 characters of s1 and s2 are the same\n");
+}
+```
+
+Output:
+
+```
+-1
+1
+This will print because s1 and s3 are the same
+The strings are the same!
+The first 6 characters of s1 and s2 are the same
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`memcmp()`](#man-memcmp),
+[`strcmp()`](#man-strcmp),
+[`strncmp()`](#man-strcmp)
 
 <!--
 [[pagebreak]]
