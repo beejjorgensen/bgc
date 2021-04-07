@@ -1274,7 +1274,96 @@ int main(void)
 ### See Also {.unnumbered .unlisted}
 
 [`wcscmp()`](#man-wcscmp),
+[`wcsxfrm()`](#man-wcsxfrm),
 [`strcoll()`](#man-strcoll)
+
+[[pagebreak]]
+## `wcsxfrm()` {#man-wcsxfrm}
+
+Transform a wide string for comparing based on locale
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <wchar.h>
+
+size_t wcsxfrm(wchar_t * restrict s1,
+               const wchar_t * restrict s2, size_t n);
+```
+
+### Description {.unnumbered .unlisted}
+
+This is the wide variant of [`strxfrm()`](#man-strxfrm). See
+[that reference page](#man-strxfrm) for details.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns the length of the transformed wide string in wide characters.
+
+If the return value is greater than `n`, all bets are off for the
+result in `s1`.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+#include <wchar.h>
+#include <locale.h>
+#include <malloc.h>
+
+// Transform a string for comparison, returning a malloc'd
+// result
+wchar_t *get_xfrm_str(wchar_t *s)
+{
+    int len = wcsxfrm(NULL, s, 0) + 1;
+    wchar_t *d = malloc(len * sizeof(wchar_t));
+
+    wcsxfrm(d, s, len);
+
+    return d;
+}
+
+// Does half the work of a regular wcscoll() because the second
+// string arrives already transformed.
+int half_wcscoll(wchar_t *s1, wchar_t *s2_transformed)
+{
+    wchar_t *s1_transformed = get_xfrm_str(s1);
+
+    int result = wcscmp(s1_transformed, s2_transformed);
+
+    free(s1_transformed);
+
+    return result;
+}
+
+int main(void)
+{
+    setlocale(LC_ALL, "");
+
+    // Pre-transform the string to compare against
+    wchar_t *s = get_xfrm_str(L"éfg");
+
+    // Repeatedly compare against "éfg" 
+    wprintf(L"%d\n", half_wcscoll(L"fgh", s));  // "fgh" > "éfg"
+    wprintf(L"%d\n", half_wcscoll(L"àbc", s));  // "àbc" < "éfg"
+    wprintf(L"%d\n", half_wcscoll(L"ĥij", s));  // "ĥij" > "éfg"
+    
+    free(s);
+}
+```
+
+Output:
+
+``
+1
+-1
+1
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`wcscmp()`](#man-wcscmp),
+[`wcscoll()`](#man-wcscoll),
+[`strxfrm()`](#man-strxfrm)
 
 <!--
 [[pagebreak]]
