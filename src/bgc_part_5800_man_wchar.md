@@ -1353,7 +1353,7 @@ int main(void)
 
 Output:
 
-``
+```
 1
 -1
 1
