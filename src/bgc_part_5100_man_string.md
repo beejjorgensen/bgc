@@ -174,7 +174,7 @@ dest[sizeof(dest)-1] = '\0'; // terminate
 [[pagebreak]]
 ## `strcat()`, `strncat()` {#man-strcat}
 
-Concatenate two strings into a single string.
+Concatenate two strings into a single string
 
 ### Synopsis {.unnumbered .unlisted}
 
@@ -217,7 +217,7 @@ the string-oriented functions.
 ### Example {.unnumbered .unlisted}
 
 ``` {.c .numberLines}
-char dest[20] = "Hello";
+char dest[30] = "Hello";
 char *src = ", World!";
 char numbers[] = "12345678";
 
@@ -240,7 +240,7 @@ and `numbers`; this is just fine with string functions.
 [[pagebreak]]
 ## `strcmp()`, `strncmp()`, `memcmp()` {#man-strcmp}
 
-Compare two strings or memory regions and return a difference.
+Compare two strings or memory regions and return a difference
 
 ### Synopsis {.unnumbered .unlisted}
 
@@ -521,7 +521,7 @@ int main(void)
 [[pagebreak]]
 ## `strchr()`, `strrchr()`, `memchr()` {#man-strchr}
 
-Find a character in a string.
+Find a character in a string
 
 ### Synopsis {.unnumbered .unlisted}
 
@@ -599,7 +599,7 @@ for(p = strchr(str, 'B'); p != NULL; p = strchr(p + 1, 'B')) {
 ## `strspn()`, `strcspn()` {#man-strspn}
 
 Return the length of a string consisting entirely of a set of
-characters, or of not a set of characters.
+characters, or of not a set of characters
 
 ### Synopsis {.unnumbered .unlisted}
 
@@ -699,7 +699,7 @@ char *p = strpbrk(s1, s2);  // p points to the o
 [[pagebreak]]
 ## `strstr()` {#man-strstr}
 
-Find a string in another string.
+Find a string in another string
 
 ### Synopsis {.unnumbered .unlisted}
 
@@ -744,7 +744,7 @@ p = strstr(str, "wombat");
 [[pagebreak]]
 ## `strtok()` {#man-strtok}
 
-Tokenize a string.
+Tokenize a string
 
 ### Synopsis {.unnumbered .unlisted}
 
@@ -935,7 +935,7 @@ Error 2 opening file: No such file or directory
 [[pagebreak]]
 ## `strlen()` {#man-strlen}
 
-Returns the length of a string.
+Returns the length of a string
 
 ### Synopsis {.unnumbered .unlisted}
 
