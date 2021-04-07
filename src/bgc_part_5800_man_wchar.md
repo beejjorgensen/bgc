@@ -1068,6 +1068,63 @@ t is "Goats"
 [`memcpy()`](#man-memcpy),
 [`memmove()`](#man-memcpy)
 
+[[pagebreak]]
+## `wcscat()` `wcsncat()` {#man-example}
+
+Concatenate wide strings
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <wchar.h>
+
+wchar_t *wcscat(wchar_t * restrict s1, const wchar_t * restrict s2);
+
+wchar_t *wcsncat(wchar_t * restrict s1,
+                 const wchar_t * restrict s2, size_t n);
+```
+
+### Description {.unnumbered .unlisted}
+
+These are the wide variants of [`strcat()`](#man-strcat) and
+[`strncat()`](#man-strcat).
+
+They concatenate `s2` onto the end of `s1`.
+
+They're the same except `wcsncat()` gives you the option to limit the
+number of wide characters appended.
+
+Note that `wcsncat()` always adds a NUL terminator to the end, even if
+`n` characters were appended. So be sure to leave room for that.
+
+### Return Value {.unnumbered .unlisted}
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+#include <wchar.h>
+
+int main(void)
+{
+    wchar_t dest[30] = L"Hello";
+    wchar_t *src = L", World!";
+    wchar_t numbers[] = L"12345678";
+
+    wprintf(L"dest before strcat: \"%ls\"\n", dest); // "Hello"
+
+    wcscat(dest, src);
+    wprintf(L"dest after strcat:  \"%ls\"\n", dest); // "Hello, world!"
+
+    wcsncat(dest, numbers, 3); // strcat first 3 chars of numbers
+    wprintf(L"dest after strncat: \"%ls\"\n", dest); // "Hello, world!123"
+}
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`strcat()`](#man-strcat),
+[`strncat()`](#man-strcat)
+
 <!--
 [[pagebreak]]
 ## `example()` {#man-example}
