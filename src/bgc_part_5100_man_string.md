@@ -638,18 +638,28 @@ except `reject` (for `strcspn()`).
 ### Example {.unnumbered .unlisted}
 
 ``` {.c .numberLines}
-char str1[] = "a banana";
-char str2[] = "the bolivian navy on manuvers in the south pacific";
+#include <stdio.h>
+#include <string.h>
 
-// how many letters in str1 until we reach something that's not a vowel?
-n = strspn(str1, "aeiou");  // n == 1, just "a"
+int main(void)
+{
+    char str1[] = "a banana";
+    char str2[] = "the bolivian navy on maenuvers in the south pacific";
+    int n;
 
-// how many letters in str1 until we reach something that's not a, b,
-// or space?
-n = strspn(str1, "ab "); // n == 4, "a ba"
+    // how many letters in str1 until we reach something that's not a vowel?
+    n = strspn(str1, "aeiou");
+    printf("%d\n", n);  // n == 1, just "a"
 
-// how many letters in str2 before we get a "y"?
-n = strcspn(str2, "y"); // n = 16, "the bolivian nav"
+    // how many letters in str1 until we reach something that's not a, b,
+    // or space?
+    n = strspn(str1, "ab ");
+    printf("%d\n", n);  // n == 4, "a ba"
+
+    // how many letters in str2 before we get a "y"?
+    n = strcspn(str2, "y");
+    printf("%d\n", n);  // n = 16, "the bolivian nav"
+}
 ```
 
 ### See Also {.unnumbered .unlisted}
@@ -688,12 +698,20 @@ string isn't found.
 ### Example {.unnumbered .unlisted}
 
 ``` {.c .numberLines}
-//  p points here after strpbrk
-//              v
-char *s1 = "Hello, world!";
-char *s2 = "dow!";  // Match any of these chars
+#include <stdio.h>
+#include <string.h>
 
-char *p = strpbrk(s1, s2);  // p points to the o
+int main(void)
+{
+    //  p points here after strpbrk
+    //              v
+    char *s1 = "Hello, world!";
+    char *s2 = "dow!";  // Match any of these chars
+
+    char *p = strpbrk(s1, s2);  // p points to the o
+
+    printf("%s\n", p);  // "o, world!"
+}
 ```
 
 ### See Also {.unnumbered .unlisted}
