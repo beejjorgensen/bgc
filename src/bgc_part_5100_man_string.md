@@ -747,14 +747,21 @@ You get back a pointer to the occurrence of the `substr` inside the
 ### Example {.unnumbered .unlisted}
 
 ``` {.c .numberLines}
-char *str = "The quick brown fox jumped over the lazy dogs.";
-char *p;
+#include <stdio.h>
+#include <string.h>
 
-p = strstr(str, "lazy");
-printf("%s\n", p); // "lazy dogs."
+int main(void)
+{
+    char *str = "The quick brown fox jumped over the lazy dogs.";
+    char *p;
 
-// p is NULL after this, since the string "wombat" isn't in str:
-p = strstr(str, "wombat");
+    p = strstr(str, "lazy");
+    printf("%s\n", p == NULL? "null": p); // "lazy dogs."
+
+    // p is NULL after this, since the string "wombat" isn't in str:
+    p = strstr(str, "wombat");
+    printf("%s\n", p == NULL? "null": p); // "null"
+}
 ```
 
 ### See Also {.unnumbered .unlisted}
