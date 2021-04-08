@@ -562,38 +562,43 @@ Returns a pointer to the occurrence of the letter in the string, or
 ### Example {.unnumbered .unlisted}
 
 ``` {.c .numberLines}
-// "Hello, world!"
-//       ^  ^   ^
-//       A  B   C
+#include <stdio.h>
+#include <string.h>
 
-char *str = "Hello, world!";
-char *p;
+int main(void)
+{
+    // "Hello, world!"
+    //       ^  ^   ^
+    //       A  B   C
 
-p = strchr(str, ',');       // p now points at position A
-p = strrchr(str, 'o');      // p now points at position B
+    char *str = "Hello, world!";
+    char *p;
 
-p = memchr(str, '!', 13);   // p now points at position C
-```
+    p = strchr(str, ',');       // p now points at position A
+    p = strrchr(str, 'o');      // p now points at position B
 
-``` {.c .numberLines}
-// repeatedly find all occurrences of the letter 'B'
-char *str = "A BIG BROWN BAT BIT BEEJ";
-char *p;
+    p = memchr(str, '!', 13);   // p now points at position C
 
-for(p = strchr(str, 'B'); p != NULL; p = strchr(p + 1, 'B')) {
-    printf("Found a 'B' here: %s\n", p);
+    // repeatedly find all occurrences of the letter 'B'
+    str = "A BIG BROWN BAT BIT BEEJ";
+
+    for(p = strchr(str, 'B'); p != NULL; p = strchr(p + 1, 'B')) {
+        printf("Found a 'B' here: %s\n", p);
+    }
+
+    // output is:
+    //
+    // Found a 'B' here: BIG BROWN BAT BIT BEEJ
+    // Found a 'B' here: BROWN BAT BIT BEEJ
+    // Found a 'B' here: BAT BIT BEEJ
+    // Found a 'B' here: BIT BEEJ
+    // Found a 'B' here: BEEJ
 }
-
-// output is:
-//
-// Found a 'B' here: BIG BROWN BAT BIT BEEJ
-// Found a 'B' here: BROWN BAT BIT BEEJ
-// Found a 'B' here: BAT BIT BEEJ
-// Found a 'B' here: BIT BEEJ
-// Found a 'B' here: BEEJ
 ```
 
+<!--
 ### See Also {.unnumbered .unlisted}
+-->
 
 [[pagebreak]]
 ## `strspn()`, `strcspn()` {#man-strspn}
