@@ -1365,6 +1365,79 @@ Output:
 [`wcscoll()`](#man-wcscoll),
 [`strxfrm()`](#man-strxfrm)
 
+[[pagebreak]]
+## `wcschr()` `wcsrchr()` {#man-wcschr}
+
+Find a wide character in a wide string
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <wchar.h>
+
+wchar_t *wcschr(const wchar_t *s, wchar_t c);
+
+wchar_t *wcsrchr(const wchar_t *s, wchar_t c);
+
+wchar_t *wmemchr(const wchar_t *s, wchar_t c, size_t n);
+```
+
+### Description {.unnumbered .unlisted}
+
+These are the wide equivalents to [`strchr()`](#man-strchr),
+[`strrchr()`](#man-strchr), and [`memchr()`](#man-strchr).
+
+They search for wide characters in a wide string from the front
+(`wcschr()`), the end (`wcsrchr()`) or for an arbitrary number of wide
+characters (`wmemchr()`).
+
+### Return Value {.unnumbered .unlisted}
+
+All three functions return a pointer to the wide character found, or
+`NULL` if the character, sadly, isn't found.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+#include <wchar.h>
+
+int main(void)
+{
+    // "Hello, world!"
+    //       ^  ^   ^
+    //       A  B   C
+
+    wchar_t *str = L"Hello, world!";
+    wchar_t *p;
+
+    p = wcschr(str, ',');       // p now points at position A
+    p = wcsrchr(str, 'o');      // p now points at position B
+
+    p = wmemchr(str, '!', 13);   // p now points at position C
+
+    // repeatedly find all occurrences of the letter 'B'
+    str = L"A BIG BROWN BAT BIT BEEJ";
+
+    for(p = wcschr(str, 'B'); p != NULL; p = wcschr(p + 1, 'B')) {
+        wprintf(L"Found a 'B' here: %ls\n", p);
+    }
+
+    // output is:
+    //
+    // Found a 'B' here: BIG BROWN BAT BIT BEEJ
+    // Found a 'B' here: BROWN BAT BIT BEEJ
+    // Found a 'B' here: BAT BIT BEEJ
+    // Found a 'B' here: BIT BEEJ
+    // Found a 'B' here: BEEJ
+}
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`strchr()`](#man-strchr),
+[`strrchr()`](#man-strchr),
+[`memchr()`](#man-strchr)
+
 <!--
 [[pagebreak]]
 ## `example()` {#man-example}
