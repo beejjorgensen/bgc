@@ -1438,6 +1438,122 @@ int main(void)
 [`strrchr()`](#man-strchr),
 [`memchr()`](#man-strchr)
 
+[[pagebreak]]
+## `wcsspn()` `wcscspn()` {#man-example}
+
+Return the length of a wide string consisting entirely of a set of wide
+characters, or of not a set of wide characters
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <wchar.h>
+
+size_t wcsspn(const wchar_t *s1, const wchar_t *s2);
+
+size_t wcscspn(const wchar_t *s1, const wchar_t *s2);
+```
+
+### Description {.unnumbered .unlisted}
+
+The are the wide character counterparts to [`strspn()`] (#man-strspn)and
+[`strcspn()`](#man-strspn).
+
+They compute the length of the string pointed to by `s1` consisting
+entirely of the characters found in `s2`. Or, in the case of
+`wcscspn()`, the characters _not_ found in `s2`.
+
+### Return Value {.unnumbered .unlisted}
+
+The length of the string pointed to by `s1` consisting solely of the
+characters in `s2` (in the case of `wcsspn()`) or of the characters
+_not_ in `s2` (in th ecase of `wcscspn()`).
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+#include <wchar.h>
+
+int main(void)
+{
+    wchar_t str1[] = L"a banana";
+    wchar_t str2[] = L"the bolivian navy on maneuvers in the south pacific";
+    int n;
+
+    // how many letters in str1 until we reach something that's not a vowel?
+    n = wcsspn(str1, L"aeiou");
+    wprintf(L"%d\n", n);  // n == 1, just "a"
+
+    // how many letters in str1 until we reach something that's not a, b,
+    // or space?
+    n = wcsspn(str1, L"ab ");
+    wprintf(L"%d\n", n);  // n == 4, "a ba"
+
+    // how many letters in str2 before we get a "y"?
+    n = wcscspn(str2, L"y");
+    wprintf(L"%d\n", n);  // n = 16, "the bolivian nav"
+}
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`wcschr()`](#man-wcschr),
+[`wcsrchr()`](#man-wcschr),
+[`strspn()`](#man-strspn),
+[`strrspn()`](#man-strrspn)
+
+[[pagebreak]]
+## `wcspbrk()` {#man-wcspbrk}
+
+Search a wide string for one of a set of wide characters
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <wchar.h>
+
+wchar_t *wcspbrk(const wchar_t *s1, const wchar_t *s2);
+```
+
+### Description {.unnumbered .unlisted}
+
+This is the wide character variant of [`strpbrk()`](#man-strpbrk).
+
+It finds the first occurrance of any of a set of wide characters in a
+wide string.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns a pointer to the first character in the string `s1` that exists
+in the string `s2`.
+
+Or `NULL` if none of the characters in `s2` can be found in `s1`.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+#include <wchar.h>
+
+int main(void)
+{
+    //  p points here after wcspbrk
+    //                  v
+    wchar_t *s1 = L"Hello, world!";
+    wchar_t *s2 = L"dow!";  // Match any of these chars
+
+    wchar_t *p = wcspbrk(s1, s2);  // p points to the o
+
+    wprintf(L"%ls\n", p);  // "o, world!"
+}
+
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`wcschr()`](#man-wcschr),
+[`wmemchr()`](#man-wmemchr),
+[`strpbrk()`](#man-strpbrk)
+
 <!--
 [[pagebreak]]
 ## `example()` {#man-example}
