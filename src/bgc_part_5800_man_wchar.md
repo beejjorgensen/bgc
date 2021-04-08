@@ -1545,13 +1545,12 @@ int main(void)
 
     wprintf(L"%ls\n", p);  // "o, world!"
 }
-
 ```
 
 ### See Also {.unnumbered .unlisted}
 
 [`wcschr()`](#man-wcschr),
-[`wmemchr()`](#man-wmemchr),
+[`wmemchr()`](#man-wcschr),
 [`strpbrk()`](#man-strpbrk)
 
 <!--
