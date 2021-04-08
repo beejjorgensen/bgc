@@ -1553,6 +1553,58 @@ int main(void)
 [`wmemchr()`](#man-wcschr),
 [`strpbrk()`](#man-strpbrk)
 
+[[pagebreak]]
+## `wcsstr()` {#man-wcsstr}
+
+Find a wide string in another wide string
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <wchar.h>
+
+wchar_t *wcsstr(const wchar_t *s1, const wchar_t *s2);
+```
+
+### Description {.unnumbered .unlisted}
+
+This is the wide variant of [`strstr()`](#man-strstr).
+
+It locates a substring in a string.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns a pointer to the location in `s1` that contains `s2`.
+
+Or `NULL` if `s2` cannot be found in `s1`.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+#include <wchar.h>
+
+int main(void)
+{
+    wchar_t *str = L"The quick brown fox jumped over the lazy dogs.";
+    wchar_t *p;
+
+    p = wcsstr(str, L"lazy");
+    wprintf(L"%ls\n", p == NULL? L"null": p); // "lazy dogs."
+
+    // p is NULL after this, since the string "wombat" isn't in str:
+    p = wcsstr(str, L"wombat");
+    wprintf(L"%ls\n", p == NULL? L"null": p); // "null"
+}
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`wcschr()`](#man-wcschr),
+[`wcsrchr()`](#man-wcschr),
+[`wcsspn()`](#man-wcsspn),
+[`wcscspn()`](#man-wcsspn),
+[`strstr()`](#man-strstr)
+
 <!--
 [[pagebreak]]
 ## `example()` {#man-example}
