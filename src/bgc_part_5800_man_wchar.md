@@ -859,7 +859,8 @@ No bad chars: 11.223300
 ### See Also {.unnumbered .unlisted}
 
 [`wcstol()`](#man-wcstol),
-[`strtod()`](#man-strtod)
+[`strtod()`](#man-strtod),
+[`errno`](#errno)
 
 [[pagebreak]]
 ## `wcstol()` `wcstoll()` `wcstoul()` `wcstoull()` {#man-wcstol}
@@ -943,7 +944,8 @@ Bad chars at "beej"
 ### See Also {.unnumbered .unlisted}
 
 [`wcstod()`](#man-wcstod),
-[`strtol()`](#man-strtol)
+[`strtol()`](#man-strtol),
+[`errno`](#errno)
 
 [[pagebreak]]
 ## `wcscpy()` `wcsncpy()` {#man-wcscpy}
@@ -2121,8 +2123,10 @@ This is the restartable counterpart to [`wctomb()`](#man-wctomb).
 It converts individual characters from wide to multibyte, tracking the
 conversion state in the variable pointed to by `ps`.
 
-The destination array `s` should be at least `MB_CUR_MAX` bytes in
-size---you won't get anything bigger back from this function.
+The destination array `s` should be at least `MB_CUR_MAX`^[This is a
+variable, not a macro, so if you use it to define an array, it'll be a
+variable-length array.] bytes in size---you won't get anything bigger
+back from this function.
 
 Note that the values in this result array won't be NUL-terminated.
 
@@ -2190,7 +2194,141 @@ int main(void)
 ### See Also {.unnumbered .unlisted}
 
 [`mbrtowc()`](#man-mbrtowc),
-[`wctomb()`](#man-wctomb)
+[`wctomb()`](#man-wctomb),
+[`errno`](#errno)
+
+[[pagebreak]]
+## `mbsrtowcs()` {#man-mbsrtowcs}
+
+Convert a multibyte string to a wide character string restartably
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <wchar.h>
+
+size_t mbsrtowcs(wchar_t * restrict dst, const char ** restrict src,
+                 size_t len, mbstate_t * restrict ps);
+```
+
+### Description {.unnumbered .unlisted}
+
+This is the restartable version of [`mbstowcs()`](#man-mbstowcs).
+
+It converts a multibyte string to a wide character string.
+
+The result is put in the buffer pointed to by `dst`, and the pointer
+`src` is updated to indicate how much of the string was consumed (unless
+`dst` is `NULL`).
+
+At most `len` wide characters will be stored.
+
+This also takes a pointer to its own `mbstate_t` variable in `ps` for
+holding the conversion state.
+
+You can set `dst` to `NULL` if you only care about the return value.
+This could be useful for getting the number of characters in a multibyte
+string.
+
+In the normal case, the `src` string will be consumed up to the NUL
+character, and the results will be stored in the `dst` buffer, including
+the wide NUL character. In this case, the pointer pointed to by `src`
+will be set to `NULL`. And the conversion state will be set to the
+initial conversion state.
+
+If things go wrong because the source string isn't a valid sequence of
+characters, conversion will stop and the pointer pointed to by `src`
+will be set to the address just after the last successfully-translated
+multibyte character.
+
+### Return Value {.unnumbered .unlisted}
+
+If successful, returns the number of characters converted, not including
+any NUL terminator.
+
+If the multibyte sequence is invalid, the function returns
+`(size_t)(-1)` and `errno` is set to `EILSEQ`.
+
+### Example {.unnumbered .unlisted}
+
+Here we'll convert the string "€5 ± π" into a wide character string:
+
+``` {.c .numberLines}
+#include <locale.h>  // For setlocale()
+#include <string.h>  // For memset()
+#include <wchar.h>
+
+#define WIDE_STR_SIZE 10
+
+int main(void)
+{
+    const char *mbs = "€5 ± π";  // That's the exact price range
+
+    wchar_t wcs[WIDE_STR_SIZE];
+
+    setlocale(LC_ALL, "");
+    
+    mbstate_t state;
+    memset(&state, 0, sizeof state);
+
+    size_t count = mbsrtowcs(wcs, &mbs, WIDE_STR_SIZE, &state);
+
+    wprintf(L"Wide string L\"%ls\" is %d characters\n", wcs, count);
+}
+```
+
+Output:
+
+```
+Wide string L"€5 ± π" is 6 characters
+```
+
+Here's another example of using `mbsrtowcs()` to get the length in
+characters of a multibyte string even if the string is full of multibyte
+characters. This is in contrast to `strlen()`, which returns the total
+number of bytes in the string.
+
+``` {.c .numberLines}
+#include <stdio.h>   // For printf()
+#include <locale.h>  // For setlocale()
+
+#include <string.h>  // For memset()
+#include <stdint.h>  // For SIZE_MAX
+#include <wchar.h>
+
+size_t mbstrlen(const char *mbs)
+{
+    mbstate_t state;
+
+    memset(&state, 0, sizeof state);
+
+    return mbsrtowcs(NULL, &mbs, SIZE_MAX, &state);
+}
+
+int main(void)
+{
+    setlocale(LC_ALL, "");
+    
+    char *mbs = "€5 ± π";  // That's the exact price range
+
+    printf("\"%s\" is %zu characters...\n", mbs, mbstrlen(mbs)); 
+    printf("but it's %zu bytes!\n", strlen(mbs));
+}
+```
+
+Output on my system:
+
+```
+"€5 ± π" is 6 characters...
+but it's 10 bytes!
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`mbrtowc()`](#man-mbrtowc),
+[`mbstowcs()`](#man-mbstowcs),
+[`strlen()`](#man-strlen),
+[`errno`](#errno)
 
 <!--
 [[pagebreak]]
