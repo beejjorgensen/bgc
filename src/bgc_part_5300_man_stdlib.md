@@ -1743,7 +1743,7 @@ int main(void)
 
     bytes = mbtowc(&wc, "€", 5);
 
-    printf("€ takes %d bytes as wide char L'%lc'\n", bytes, wc);
+    printf("L'%lc' takes %d bytes as multibyte char '€'\n", wc, bytes);
 }
 ```
 
@@ -1751,7 +1751,7 @@ Output on my system:
 
 ```
 State dependency: 0
-€ takes 3 bytes as wide char L'€'
+L'€' takes 3 bytes as multibyte char '€'
 ```
 
 ### See Also {.unnumbered .unlisted}
