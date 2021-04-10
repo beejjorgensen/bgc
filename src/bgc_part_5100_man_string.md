@@ -813,33 +813,39 @@ returned.
 ### Example {.unnumbered .unlisted}
 
 ``` {.c .numberLines}
-// break up the string into a series of space or
-// punctuation-separated words
-char *str = "Where is my bacon, dude?";
-char *token;
+#include <stdio.h>
+#include <string.h>
 
-// Note that the following if-do-while construct is very very
-// very very very common to see when using strtok().
+int main(void)
+{
+    // break up the string into a series of space or
+    // punctuation-separated words
+    char str[] = "Where is my bacon, dude?";
+    char *token;
 
-// grab the first token (making sure there is a first token!)
-if ((token = strtok(str, ".,?! ")) != NULL) {
-    do {
-        printf("Word: \"%s\"\n", token);
+    // Note that the following if-do-while construct is very very
+    // very very very common to see when using strtok().
 
-        // now, the while continuation condition grabs the
-        // next token (by passing NULL as the first param)
-        // and continues if the token's not NULL:
-    } while ((token = strtok(NULL, ".,?! ")) != NULL);
+    // grab the first token (making sure there is a first token!)
+    if ((token = strtok(str, ".,?! ")) != NULL) {
+        do {
+            printf("Word: \"%s\"\n", token);
+
+            // now, the while continuation condition grabs the
+            // next token (by passing NULL as the first param)
+            // and continues if the token's not NULL:
+        } while ((token = strtok(NULL, ".,?! ")) != NULL);
+    }
+
+    // output is:
+    //
+    // Word: "Where"
+    // Word: "is"
+    // Word: "my"
+    // Word: "bacon"
+    // Word: "dude"
+    //
 }
-
-// output is:
-//
-// Word: "Where"
-// Word: "is"
-// Word: "my"
-// Word: "bacon"
-// Word: "dude"
-//
 ```
 
 ### See Also {.unnumbered .unlisted}
@@ -991,11 +997,17 @@ different than the number of characters in a multibyte string.
 ### Example {.unnumbered .unlisted}
 
 ``` {.c .numberLines}
-char *s = "Hello, world!"; // 13 characters
+#include <stdio.h>
+#include <string.h>
 
-// prints "The string is 13 characters long.":
+int main(void)
+{
+    char *s = "Hello, world!"; // 13 characters
 
-printf("The string is %d characters long.\n", strlen(s));
+    // prints "The string is 13 characters long.":
+
+    printf("The string is %zu characters long.\n", strlen(s));
+}
 ```
 
 ### See Also {.unnumbered .unlisted}
