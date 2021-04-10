@@ -83,8 +83,11 @@ have to consider any copyright issues when merging changes.
   * stdnoreturn
   * tgmath
 * Atomic
+* _Static_assert
+* Anonymous structs in unions
 * __STDC_WANT_LIB_EXT
 * make primer
+* array init: int a[MAX] = { 1, 3, 5, 7, 9, [MAX-5] = 8, 6, 4, 2, 0 };
 * Exercises
 
 ### Bug fixes
