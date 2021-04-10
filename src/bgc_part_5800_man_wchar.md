@@ -1605,6 +1605,593 @@ int main(void)
 [`wcscspn()`](#man-wcsspn),
 [`strstr()`](#man-strstr)
 
+[[pagebreak]]
+## `wcstok()` {#man-wcstok}
+
+Tokenize a wide string
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <wchar.h>
+wchar_t *wcstok(wchar_t * restrict s1, const wchar_t * restrict s2,
+                wchar_t ** restrict ptr); 
+```
+
+### Description {.unnumbered .unlisted}
+
+This is the wide version of [`strtok()`](#man-strtok).
+
+And, like that one, it modifies the string `s1`. So make a copy of it
+first if you want to preserve the original.
+
+One key difference is that `wcstok()` can be threadsafe because you pass
+in the pointer `ptr` to the current state of the transformation. This
+gets initializers for you when `s1` is initially passed in as
+non-`NULL`. (Subsequent calls with a `NULL` `s1` cause the state to
+update.)
+
+### Return Value {.unnumbered .unlisted}
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+#include <wchar.h>
+
+int main(void)
+{
+    // break up the string into a series of space or
+    // punctuation-separated words
+    wchar_t str[] = L"Where is my bacon, dude?";
+    wchar_t *token;
+    wchar_t *state;
+
+    // Note that the following if-do-while construct is very very
+    // very very very common to see when using strtok().
+
+    // grab the first token (making sure there is a first token!)
+    if ((token = wcstok(str, L".,?! ", &state)) != NULL) {
+        do {
+            wprintf(L"Word: \"%ls\"\n", token);
+
+            // now, the while continuation condition grabs the
+            // next token (by passing NULL as the first param)
+            // and continues if the token's not NULL:
+        } while ((token = wcstok(NULL, L".,?! ", &state)) != NULL);
+    }
+
+    // output is:
+    //
+    // Word: "Where"
+    // Word: "is"
+    // Word: "my"
+    // Word: "bacon"
+    // Word: "dude"
+    //
+}
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`strtok()`](#man-strtok)
+
+[[pagebreak]]
+## `wcslen()` {#man-wcslen}
+
+Returns the length of a wide string
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <wchar.h>
+
+size_t wcslen(const wchar_t *s);
+```
+
+### Description {.unnumbered .unlisted}
+
+This is the wide counterpart to [`strlen()`](#man-strlen).
+
+### Return Value {.unnumbered .unlisted}
+
+Returns the number of wide characters before the wide NUL terminator.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+#include <wchar.h>
+
+int main(void)
+{
+    wchar_t *s = L"Hello, world!"; // 13 characters
+
+    // prints "The string is 13 characters long.":
+
+    wprintf(L"The string is %zu characters long.\n", wcslen(s));
+}
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`strlen()`](#man-strlen)
+
+[[pagebreak]]
+## `wcsftime()` {#man-wcsftime}
+
+Formatted date and time output
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <time.h>
+#include <wchar.h>
+
+size_t wcsftime(wchar_t * restrict s, size_t maxsize,
+                const wchar_t * restrict format,
+                const struct tm * restrict timeptr);
+```
+
+### Description {.unnumbered .unlisted}
+
+This is the wide equivalent to [`strftime()`](#man-strftime). See that
+reference page for details.
+
+`maxsize` here refers to the maximum number of wide characters that can
+be in the result string.
+
+### Return Value {.unnumbered .unlisted}
+
+If successful, returns the number of wide characters written.
+
+If not successful because the result couldn't fit in the space alloted,
+`0` is returned and the contents of the string could be anything.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+#include <wchar.h>
+#include <time.h>
+
+#define BUFSIZE 128
+
+int main(void)
+{
+    wchar_t s[BUFSIZE];
+    time_t now = time(NULL);
+
+    // %c: print date as per current locale
+    wcsftime(s, BUFSIZE, L"%c", localtime(&now));
+    wprintf(L"%ls\n", s);   // Sun Feb 28 22:29:00 2021
+
+    // %A: full weekday name
+    // %B: full month name
+    // %d: day of the month
+    wcsftime(s, BUFSIZE, L"%A, %B %d", localtime(&now));
+    wprintf(L"%ls\n", s);   // Sunday, February 28
+
+    // %I: hour (12 hour clock)
+    // %M: minute
+    // %S: second
+    // %p: AM or PM
+    wcsftime(s, BUFSIZE, L"It's %I:%M:%S %p", localtime(&now));
+    wprintf(L"%ls\n", s);   // It's 10:29:00 PM
+
+    // %F: ISO 8601 yyyy-mm-dd
+    // %T: ISO 8601 hh:mm:ss
+    // %z: ISO 8601 timezone offset
+    wcsftime(s, BUFSIZE, L"ISO 8601: %FT%T%z", localtime(&now));
+    wprintf(L"%ls\n", s);   // ISO 8601: 2021-02-28T22:29:00-0800
+}
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`strftime()`](#man-strftime)
+
+[[pagebreak]]
+## `btowc()` `wctob()` {#man-btowc}
+
+Convert a single byte character to a wide character
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <wchar.h>
+
+wint_t btowc(int c);
+
+int wctob(wint_t c);
+```
+
+### Description {.unnumbered .unlisted}
+
+These functions convert between single byte characters and wide
+characters, and vice-versa.
+
+Even though `int`s are involved, don't let this mislead you; they're
+effectively converted to `unsigned char`s internally.
+
+The characters in the basic character set are guaranteed to be a single
+byte.
+
+### Return Value {.unnumbered .unlisted}
+
+`btowc()` returns the single-byte character as a wide character. Returns
+`WEOF` if `EOF` is passed in, or if the byte doesn't correspond to a
+valid wide character.
+
+`wctob()` returns the wide character as a single-byte character. Returns
+`EOF` if `WEOF` is passed in, or if the wide character doesn't
+correspond to a value single-byte character.
+
+See [`mbtowc()`](#man-mbtowc) and [`wctomb()`](#man-wctomb) for
+multibyte to wide character conversion.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+#include <wchar.h>
+
+int main(void)
+{
+    wint_t wc = btowc('B');    // Convert single byte to wide char
+
+    wprintf(L"Wide character: %lc\n", wc);
+
+    unsigned char c = wctob(wc);  // Convert back to single byte
+
+    wprintf(L"Single-byte character: %c\n", c);
+}
+```
+
+Output:
+
+```
+Wide character: B
+Single-byte character: B
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`mbtowc()`](#man-mbtowc),
+[`wctomb()`](#man-wctomb)
+
+[[pagebreak]]
+## `mbsinit()` {#man-mbsinit}
+
+Test if an `mbstate_t` is in the initial conversion state
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <wchar.h>
+
+int mbsinit(const mbstate_t *ps);
+```
+
+### Description {.unnumbered .unlisted}
+
+For a given conversion state in a `mbstate_t` variable, this function
+determines if it's in the initial conversion state.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns non-zero if the value pointed to by `ps` is in the initial
+conversion state, or if `ps` is `NULL`.
+
+Returns `0` if the value pointed to by `ps` is **not** in the initial
+conversion state.
+
+### Example {.unnumbered .unlisted}
+
+For me, this example doesn't do anything exciting, saying that the
+`mbstate_t` variable is always in the initial state. Yay.
+
+But if have a stateful encoding like 2022-JP, try messing around with
+this to see if you can get into an intermediate state.
+
+This program has a bit of code at the top that reports if your locale's
+encoding requires any state.
+
+``` {.c .numberLines}
+#include <locale.h>   // For setlocale()
+#include <string.h>   // For memset()
+#include <stdlib.h>   // For mbtowc()
+#include <wchar.h>
+
+int main(void)
+{
+    mbstate_t state;
+    wchar_t wc[128];
+
+    setlocale(LC_ALL, "");
+
+    int is_state_dependent = mbtowc(NULL, NULL, 0);
+
+    wprintf(L"Is encoding state dependent? %d\n", is_state_dependent);
+
+    memset(&state, 0, sizeof state);  // Set to initial state
+
+    wprintf(L"In initial conversion state? %d\n", mbsinit(&state));
+
+    mbrtowc(wc, "B", 5, &state);
+
+    wprintf(L"In initial conversion state? %d\n", mbsinit(&state));
+}
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`mbtowc()`](#man-mbtowc),
+[`wctomb()`](#man-wctomb),
+[`mbrtowc()`](#man-mbrtowc),
+[`wcrtomb()`](#man-wcrtomb)
+
+[[pagebreak]]
+## `mbrlen()` {#man-mbrlen}
+
+Compute the number of bytes in a multibyte character, restartably
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <wchar.h>
+
+size_t mbrlen(const char * restrict s, size_t n, mbstate_t * restrict ps);
+```
+
+### Description {.unnumbered .unlisted}
+
+This is the restartable version of [`mblen()`](#man-mblen).
+
+It inspects at most `n` bytes of the string `s` to see how many bytes in
+this character.
+
+The conversion state is stored in `ps`.
+
+This function doesn't have the functionality of `mblen()` that allowed
+you to query if this character encoding was stateful and to reset the
+internal state.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns the number of bytes required for this multibyte character.
+
+Returns `(size_t)(-1)` if the data in `s` is not a valid multibyte
+character.
+
+Returns `(size_t)(-2)` if the data is `s` is a valid but not complete
+multibyte character.
+
+### Example {.unnumbered .unlisted}
+
+If your character set doesn't support the Euro symbol "€", substitute
+the Unicode escape sequence `\u20ac`, below.
+
+``` {.c .numberLines}
+#include <locale.h>   // For setlocale()
+#include <string.h>   // For memset()
+#include <wchar.h>
+
+int main(void)
+{
+    mbstate_t state;
+    int len;
+
+    setlocale(LC_ALL, "");
+
+    memset(&state, 0, sizeof state);  // Set to initial state
+
+    len = mbrlen("B", 5, &state);
+
+    wprintf(L"Length of 'B' is %d byte(s)\n", len);
+
+    len = mbrlen("€", 5, &state);
+
+    wprintf(L"Length of '€' is %d byte(s)\n", len);
+}
+```
+
+Output:
+
+```
+Length of 'B' is 1 byte(s)
+Length of '€' is 3 byte(s)
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`mblen()`](#man-mblen)
+
+[[pagebreak]]
+## `mbrtowc()` {#man-mbrtowc}
+
+Convert multibyte to wide characters restartably
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <wchar.h>
+
+size_t mbrtowc(wchar_t * restrict pwc, const char * restrict s,
+               size_t n, mbstate_t * restrict ps);
+```
+
+### Description {.unnumbered .unlisted}
+
+This is the restartable counterpart to [`mbtowc()`](#man-mbtowc).
+
+It converts individual characters from multibyte to wide, tracking the
+ conversion state in the variable pointed to by `ps`.
+
+At most `n` bytes are inspected for conversion to a wide character.
+
+These two variants are identical and cause the state pointed to by `ps`
+to be set to the initial conversion state:
+
+``` {.c}
+mbrtowc(NULL, NULL, 0, &state);
+mbrtowc(NULL, "", 1, &state);
+```
+
+Also, if you're just interested in the length in bytes of the multibyte
+character, you can pass `NULL` for `pwc` and nothing will be stored for
+the wide character:
+
+``` {.c}
+int len = mbrtowc(NULL, "€", 5, &state);
+```
+
+This function doesn't have the functionality of `mbtowc()` that allowed
+you to query if this character encoding was stateful and to reset the
+internal state.
+
+### Return Value {.unnumbered .unlisted}
+
+On success, returns a positive number corresponding to the number of
+bytes in the multibyte character.
+
+Returns `0` if the character encoded is a wide NUL character.
+
+Returns `(size_t)(-1)` if the data in `s` is not a valid multibyte
+character.
+
+Returns `(size_t)(-2)` if the data is `s` is a valid but not complete
+multibyte character.
+
+### Example {.unnumbered .unlisted}
+
+If your character set doesn't support the Euro symbol "€", substitute
+the Unicode escape sequence `\u20ac`, below.
+
+``` {.c .numberLines}
+#include <string.h>  // For memset()
+#include <stdlib.h>  // For mbtowc()
+#include <locale.h>  // For setlocale()
+#include <wchar.h>
+
+int main(void)
+{
+    mbstate_t state;
+
+    memset(&state, 0, sizeof state);
+
+    setlocale(LC_ALL, "");
+
+    wprintf(L"State dependency: %d\n", mbtowc(NULL, NULL, 0));
+
+    wchar_t wc;
+    int bytes;
+
+    bytes = mbrtowc(&wc, "€", 5, &state);
+
+    wprintf(L"L'%lc' takes %d bytes as multibyte char '€'\n", wc, bytes);
+}
+```
+
+Output on my system:
+
+```
+State dependency: 0
+L'€' takes 3 bytes as multibyte char '€'
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`mbtowc()`](#man-mbtowc),
+[`wcrtomb()`](#man-wcrtomb)
+
+[[pagebreak]]
+## `wctombr()` {#man-wcrtomb}
+
+Convert wide to multibyte characters restartably
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <wchar.h>
+
+size_t wcrtomb(char * restrict s, wchar_t wc, mbstate_t * restrict ps);
+```
+
+### Description {.unnumbered .unlisted}
+
+This is the restartable counterpart to [`wctomb()`](#man-wctomb).
+
+It converts individual characters from wide to multibyte, tracking the
+conversion state in the variable pointed to by `ps`.
+
+The destination array `s` should be at least `MB_CUR_MAX` bytes in
+size---you won't get anything bigger back from this function.
+
+Note that the values in this result array won't be NUL-terminated.
+
+If you pass a wide NUL character in, the result will contain any bytes
+needed to restore the conversion state to its initial state followed by
+a NUL character, and the state pointed to by `ps` will be reset to its
+initial state:
+
+``` {.c}
+// Reset state
+wcrtomb(mb, L'\0', &state)
+```
+
+If you don't care about the results (i.e. you're just interested in
+resetting the state or getting the return value), you can do this by
+passing `NULL` for `s`:
+
+``` {.c}
+wcrtomb(NULL, L'\0', &state);                // Reset state
+
+int byte_count = wctomb(NULL, "X", &state);  // Count bytes in 'X'
+```
+
+This function doesn't have the functionality of `wctomb()` that allowed
+you to query if this character encoding was stateful and to reset the
+internal state.
+
+### Return Value {.unnumbered .unlisted}
+
+On success, returns the number of bytes needed to encode this wide
+character in the current locale.
+
+If the input is an invalid wide character, `errno` will be set to
+`EILSEQ` and the function returns `(size_t)(-1)`. If this happens, all
+bets are off for the conversion state, so you might as well reset it.
+
+### Example {.unnumbered .unlisted}
+
+If your character set doesn't support the Euro symbol "€", substitute
+the Unicode escape sequence `\u20ac`, below.
+
+``` {.c .numberLines}
+#include <string.h>  // For memset()
+#include <stdlib.h>  // For mbtowc()
+#include <locale.h>  // For setlocale()
+#include <wchar.h>
+
+int main(void)
+{
+    mbstate_t state;
+
+    memset(&state, 0, sizeof state);
+
+    setlocale(LC_ALL, "");
+
+    wprintf(L"State dependency: %d\n", mbtowc(NULL, NULL, 0));
+
+    char mb[10] = {0};
+    int bytes = wcrtomb(mb, L'€', &state);
+
+    wprintf(L"L'€' takes %d bytes as multibyte char '%s'\n", bytes, mb);
+}
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`mbrtowc()`](#man-mbrtowc),
+[`wctomb()`](#man-wctomb)
+
 <!--
 [[pagebreak]]
 ## `example()` {#man-example}
