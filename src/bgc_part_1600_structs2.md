@@ -12,6 +12,116 @@ them in this chapter.
 If you're good with `struct` basics, you can round out your knowledge
 here.
 
+## Initializers of Nested `struct`s and Arrays
+
+Remember how you could [initialize structure members along these
+lines](#struct-initializers)?
+
+``` {.c}
+struct foo x = {.a=12, .b=3.14};
+```
+
+Turns out we have more power in these initializers than we'd originally
+shared. Exciting!
+
+For one thing, if you have a nested substructure like the following, you
+can initialize members of that substructure by following the variable
+names down the line:
+
+``` {.c}
+struct foo x = {.a.b.c=12};
+```
+
+Let's look at an example:
+
+``` {.c .numberLines}
+#include <stdio.h>
+
+struct cabin_information {
+    int window_count;
+    int o2level;
+};
+
+struct spaceship {
+    char *manufacturer;
+    struct cabin_information ci;
+};
+
+int main(void)
+{
+    struct spaceship s = {
+        .manufacturer="General Products",
+        .ci.window_count = 8,   // <-- NESTED INITIALIZER!
+        .ci.o2level = 21
+    };
+
+    printf("%s: %d seats, %d%% oxygen\n",
+        s.manufacturer, s.ci.window_count, s.ci.o2level);
+}
+```
+
+Check out lines 16-17! That's where we're initializing members of the
+`struct cabin_information` in the definition of `s`, our `struct
+spaceship`.
+
+And here is another option for that same initializer---this time we'll
+do something more standard-looking, but either approach works:
+
+``` {.c .numberLines startFrom="15"}
+    struct spaceship s = {
+        .manufacturer="General Products",
+        .ci={
+            .window_count = 8,
+            .o2level = 21
+        }
+    };
+```
+
+Now, as if the above information isn't spectacular enough, we can also
+mix in array initializers in there, too.
+
+Let's change this up to get an array of passenger information in there,
+and we can check out how the initializers work in there, too.
+
+``` {.c .numberLines}
+#include <stdio.h>
+
+struct passenger {
+    char *name;
+    int covid_vaccinated; // Boolean
+};
+
+#define MAX_PASSENGERS 8
+
+struct spaceship {
+    char *manufacturer;
+    struct passenger passenger[MAX_PASSENGERS];
+};
+
+int main(void)
+{
+    struct spaceship s = {
+        .manufacturer="General Products",
+        .passenger = {
+            // Initialize a field at a time
+            [0].name = "Gridley, Lewis",
+            [0].covid_vaccinated = 0,
+
+            // Or all at once
+            [7] = {.name="Brown, Teela", .covid_vaccinated=1},
+        }
+    };
+
+    printf("Passengers for %s ship:\n", s.manufacturer);
+
+    for (int i = 0; i < MAX_PASSENGERS; i++)
+        if (s.passenger[i].name != NULL)
+            printf("    %s (%svaccinated)\n",
+                s.passenger[i].name,
+                s.passenger[i].covid_vaccinated? "": "not ");
+}
+```
+
 ## Anonymous `struct`s
 
 These are "the `struct` with no name". We also mention these in the
