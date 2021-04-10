@@ -65,7 +65,7 @@ printf("Price (USD):    %f\n", saturn.price);
 printf("Top Speed (km): %d\n", saturn.speed);
 ```
 
-## Struct Initializers
+## Struct Initializers {#struct-initializers}
 
 That example in the previous section was a little unwieldy. There must
 be a better way to initialize that `struct` variable!
