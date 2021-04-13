@@ -2254,7 +2254,7 @@ If the multibyte sequence is invalid, the function returns
 Here we'll convert the string "€5 ± π" into a wide character string:
 
 ``` {.c .numberLines}
-#include <locale.h>  // For setlocale()
+ginclude <locale.h>  // For setlocale()
 #include <string.h>  // For memset()
 #include <wchar.h>
 
@@ -2327,7 +2327,147 @@ but it's 10 bytes!
 
 [`mbrtowc()`](#man-mbrtowc),
 [`mbstowcs()`](#man-mbstowcs),
+[`wcsrtowmb()`](#man-wcsrtomb),
 [`strlen()`](#man-strlen),
+[`errno`](#errno)
+
+[[pagebreak]]
+## `wcsrtombs()` {#man-wcsrtombs}
+
+Convert a wide character string to a multibyte string restartably
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <wchar.h>
+
+size_t wcsrtombs(char * restrict dst, const wchar_t ** restrict src,
+                 size_t len, mbstate_t * restrict ps);
+```
+
+### Description {.unnumbered .unlisted}
+
+If you have a wide character string, you can convert it to a multibyte
+character string in the current locale using this function.
+
+At most `len` bytes of data will be stored in the buffer pointed to by
+`dst`. Conversion will stop just after the NUL terminator is copied, or
+`len` bytes get copied, or some other error occurs.
+
+If `dst` is a `NULL` pointer, no result is stored. You might do this if
+you're just interested in the return value (nominally the number of
+bytes this would use in a multibyte string, not including the NUL
+terminator).
+
+If `dst` is not a `NULL` pointer, the pointer pointed to by `src` will
+get modified to indicate how much of the data was copied. If it contains
+`NULL` at the end, it means everything went well. In this case, the
+state `ps` will be set to the initial conversion state.
+
+If `len` was reached or an error occurred, it'll point one address past
+`dst+len`.
+
+### Return Value {.unnumbered .unlisted}
+
+If everything goes well, returns the number of bytes needed for the
+multibyte string, not counting the NUL terminator.
+
+If any character in the string doesn't correspond to a valid multibyte
+character in the currently locale, it returns `(size_t)(-1)` and
+`EILSEQ` is stored in `errno`.
+
+
+### Example {.unnumbered .unlisted}
+
+Here we'll convert the wide string "€5 ± π" into a multibyte character
+string:
+
+``` {.c .numberLines}
+#include <locale.h>  // For setlocale()
+#include <string.h>  // For memset()
+#include <wchar.h>
+
+#define MB_STR_SIZE 20
+
+int main(void)
+{
+    const wchar_t *wcs = L"€5 ± π";  // That's the exact price range
+
+    char mbs[MB_STR_SIZE];
+
+    setlocale(LC_ALL, "");
+    
+    mbstate_t state;
+    memset(&state, 0, sizeof state);
+
+    size_t count = wcsrtombs(mbs, &wcs, MB_STR_SIZE, &state);
+
+    wprintf(L"Multibyte string \"%s\" is %d bytes\n", mbs, count);
+}
+```
+
+Here's another example helper function that `malloc()`s just enough
+memory to hold the converted string, then returns the result. (Which
+must later be freed, of course, to prevent leaking memory.)
+
+``` {.c .numberLines}
+#include <stdlib.h>  // For malloc()
+#include <locale.h>  // For setlocale()
+#include <string.h>  // For memset()
+#include <stdint.h>  // For SIZE_MAX
+#include <wchar.h>
+
+char *get_mb_string(const wchar_t *wcs)
+{
+    setlocale(LC_ALL, "");
+
+    mbstate_t state;
+    memset(&state, 0, sizeof state);
+
+    // Need a copy of this because wcsrtombs changes it
+    const wchar_t *p = wcs;
+
+    // Compute the number of bytes needed to hold the result
+    size_t bytes_needed = wcsrtombs(NULL, &p, SIZE_MAX, &state);
+
+    // If we didn't get a good full conversion, forget it
+    if (bytes_needed == (size_t)(-1))
+        return NULL;
+
+    // Allocate space for result
+    char *mbs = malloc(bytes_needed + 1);  // +1 for NUL terminator
+
+    // Set conversion state to initial state
+    memset(&state, 0, sizeof state);
+
+    // Convert and store result
+    wcsrtombs(mbs, &wcs, bytes_needed + 1, &state);
+
+    // Make sure things went well
+    if (wcs != NULL) {
+        free(mbs);
+        return NULL;
+    }
+
+    // Success!
+    return mbs;
+}
+
+int main(void)
+{
+    char *mbs = get_mb_string(L"€5 ± π");
+
+    wprintf(L"Multibyte result: \"%s\"\n", mbs);
+
+    free(mbs);
+}
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`wcrtomb()`](#man-wcrtomb),
+[`wcstombs()`](#man-wcstombs),
+[`mbsrtowcs()`](#man-mbsrtowcs),
 [`errno`](#errno)
 
 <!--
