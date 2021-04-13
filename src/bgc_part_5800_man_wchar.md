@@ -5,6 +5,66 @@
 
 # `<wchar.h>` Wide Character Handling {#wchar}
 
+|Function|Description|
+|------|-------------------------|
+|[`btowc()`](#man-btowc)|Convert a single byte character to a wide character|
+|[`fgetwc()`](#man-getwc)|Get a wide character from a wide stream|
+|[`fgetws()`](#man-fgetws)|Read a wide string from a wide stream|
+|[`fputwc()`](#man-putwc)|Write a wide character to a wide stream|
+|[`fputws()`](#man-fputws)|Write a wide string to a wide stream|
+|[`fwide()`](#man-fwide)|Get or set the orientation of the stream|
+|[`fwprintf()`](#man-wprintf)|Formatted wide output to a wide stream|
+|[`fwscanf()`](#man-wscanf)|Formatted wide input from a wide stream|
+|[`getwchar()`](#man-getwc)|Get a wide character from `stdin`|
+|[`getwc()`](#man-getwc)|Get a wide character from `stdin`|
+|[`mbrlen()`](#man-mbrlen)|Compute the number of bytes in a multibyte character restartably|
+|[`mbrtowc()`](#man-mbrtowc)|Convert multibyte to wide characters restartably|
+|[`mbsinit()`](#man-mbsinit)|Test if an `mbstate_t` is in the initial conversion state|
+|[`mbsrtowcs()`](#man-mbsrtowcs)|Convert a multibyte string to a wide character string restartably|
+|[`putwchar()`](#man-putwc)|Write a wide character to `stdout`|
+|[`putwc()`](#man-putwc)|Write a wide character to `stdout`|
+|[`swprintf()`](#man-wprintf)|Formatted wide output to a wide string|
+|[`swscanf()`](#man-wscanf)|Formatted wide input from a wide string|
+|[`ungetwc()`](#man-ungetwc)|Pushes a wide character back into the input stream|
+|[`vfwprintf()`](#man-wprintf)|Variadic formatted wide output to a wide stream|
+|[`vfwscanf()`](#man-wscanf)|Variadic formatted wide input from a wide stream|
+|[`vswprintf()`](#man-wprintf)|Variadic formatted wide output to a wide string|
+|[`vswscanf()`](#man-wscanf)|Variadic formatted wide input from a wide string|
+|[`vwprintf()`](#man-wprintf)|Variadic formatted wide output|
+|[`vwscanf()`](#man-wscanf)|Variadic formatted wide input|
+|[`wcscat()`](#man-wcscat)|Concatenate wide strings dangerously|
+|[`wcschr()`](#man-wcschr)|Find a wide character in a wide string|
+|[`wcscmp()`](#man-wcscmp)|Compare wide strings|
+|[`wcscoll()`](#man-wcscoll)|Compare two wide strings accounting for locale|
+|[`wcscpy()`](#man-wcscpy)|Copy a wide string dangerously|
+|[`wcscspn()`](#man-wcsspn)|Count characters not from a start at the front of a wide string|
+|[`wcsftime()`](#man-wcsftime)|Formatted date and time output|
+|[`wcslen()`](#man-wcslen)|Returns the length of a wide string|
+|[`wcsncat()`](#man-wcscat)|Concatenate wide strings more safely|
+|[`wcsncmp()`](#man-wcscmp)|Compare wide strings, length limited|
+|[`wcsncpy()`](#man-wcscpy)|Copy a wide string more safely|
+|[`wcspbrk()`](#man-wcspbrk)|Search a wide string for one of a set of wide characters|
+|[`wcsrchr()`](#man-wcschr)|Find a wide character in a wide string from the end|
+|[`wcsrtombs()`](#man-wcsrtombs)|Convert a wide character string to a multibyte string restartably|
+|[`wcsspn()`](#man-wcsspn)|Count characters from a set at the front of a wide string|
+|[`wcsstr()`](#man-wcsstr)|Find a wide string in another wide string|
+|[`wcstod()`](#man-wcstod)|Convert a wide string to a `double`|
+|[`wcstof()`](#man-wcstod)|Convert a wide string to a `float`|
+|[`wcstok()`](#man-wcstok)|Tokenize a wide string|
+|[`wcstold()`](#man-wcstod)|Convert a wide string to a `long double`|
+|[`wcstoll()`](#man-wcstol)|Convert a wide string to a `long long`|
+|[`wcstol()`](#man-wcstol)|Convert a wide string to a `long`|
+|[`wcstoull()`](#man-wcstol)|Convert a wide string to an `unsigned long long`|
+|[`wcstoul()`](#man-wcstol)|Convert a wide string to an `unsigned long`|
+|[`wcsxfrm()`](#man-wcsxfrm)|Transform a wide string for comparing based on locale|
+|[`wctob()`](#man-btowc)|Convert a wide character to a single byte character|
+|[`wctombr()`](#man-wcrtomb)|Convert wide to multibyte characters restartably|
+|[`wmemcmp()`](#man-wcscmp)|Compare wide characters in memory|
+|[`wmemcpy()`](#man-wmemcpy)|Copy wide character memory|
+|[`wmemmove()`](#man-wmemcpy)|Copy wide character memory, potentially overlapping|
+|[`wprintf()`](#man-wprintf)|Formatted wide output|
+|[`wscanf()`](#man-wscanf)|Formatted wide input|
+
 These are the wide character variants of the functions found in
 [`<stdio.h>`](#man-stdio).
 
@@ -28,6 +88,20 @@ wchar_t c = L'B';
 This header also introduces a type `wint_t` that is used by the
 character I/O functions. It's a type that can hold any single wide
 character, but _also_ the macro `WEOF` to indicate wide end-of-file.
+
+## Restartable Functions
+
+Finally, a note on the "restartable" functions that are included here.
+When conversion is happening, some encodings require C to keep track of
+some _state_ about the progress of the conversion so far.
+
+For a lot of the functions, C uses an internal variable for the state
+that is shared between function calls. The problem is if you're writing
+multithreaded code, this state might get trampled by other threads.
+
+To avoid this, each thread needs to maintain its own state in a variable
+of the opaque type `mbstate_t`. And the "restartable" functions allow
+you to pass in this state so that each thread can use their own.
 
 [[pagebreak]]
 ## `wprintf()`, `fwprintf()`, `swprintf()` {#man-wprintf}
@@ -102,6 +176,8 @@ pi = 3.141593
 
 [[pagebreak]]
 ## `wscanf()` `fwscanf()` `swscanf()` {#man-wscanf}
+
+Scan a wide stream or wide string for formatted input
 
 ### Synopsis {.unnumbered .unlisted}
 
@@ -395,7 +471,7 @@ int main(void)
 [[pagebreak]]
 ## `fgetws()` {#man-fgetws}
 
-Read a wide string from console or file
+Read a wide string from a file
 
 ### Synopsis {.unnumbered .unlisted}
 
@@ -535,7 +611,7 @@ int main(void)
 [[pagebreak]]
 ## `fputws()` {#man-fputws}
 
-Write a wide string to the console or to a file
+Write a wide string to a file
 
 ### Synopsis {.unnumbered .unlisted}
 
@@ -687,7 +763,6 @@ Stream is wide-oriented
 -->
 
 [[pagebreak]]
-
 ## `ungetwc()` {#man-ungetwc}
 
 Pushes a wide character back into the input stream
@@ -1441,7 +1516,7 @@ int main(void)
 [`memchr()`](#man-strchr)
 
 [[pagebreak]]
-## `wcsspn()` `wcscspn()` {#man-example}
+## `wcsspn()` `wcscspn()` {#man-wcsspn}
 
 Return the length of a wide string consisting entirely of a set of wide
 characters, or of not a set of wide characters
