@@ -74,12 +74,18 @@ digit (`0`-`9`).
 ### Example {.unnumbered .unlisted}
 
 ``` {.c .numberLines}
-//             testing this char
-//                      v
-printf("%s\n", isalnum('a')? "yes": "no");  // yes
-printf("%s\n", isalnum('B')? "yes": "no");  // yes
-printf("%s\n", isalnum('5')? "yes": "no");  // yes
-printf("%s\n", isalnum('?')? "yes": "no");  // no
+#include <stdio.h>
+#include <ctype.h>
+
+int main(void)
+{
+    //             testing this char
+    //                      v
+    printf("%s\n", isalnum('a')? "yes": "no");  // yes
+    printf("%s\n", isalnum('B')? "yes": "no");  // yes
+    printf("%s\n", isalnum('5')? "yes": "no");  // yes
+    printf("%s\n", isalnum('?')? "yes": "no");  // no
+}
 ```
 
 ### See Also {.unnumbered .unlisted}
@@ -134,12 +140,18 @@ Or for any of the other crazy stuff in the description, above.
 ### Example {.unnumbered .unlisted}
 
 ``` {.c .numberLines}
-//             testing this char
-//                      v
-printf("%s\n", isalpha('a')? "yes": "no");  // yes
-printf("%s\n", isalpha('B')? "yes": "no");  // yes
-printf("%s\n", isalpha('5')? "yes": "no");  // no
-printf("%s\n", isalpha('?')? "yes": "no");  // no
+#include <stdio.h>
+#include <ctype.h>
+
+int main(void)
+{
+    //             testing this char
+    //                      v
+    printf("%s\n", isalpha('a')? "yes": "no");  // yes
+    printf("%s\n", isalpha('B')? "yes": "no");  // yes
+    printf("%s\n", isalpha('5')? "yes": "no");  // no
+    printf("%s\n", isalpha('?')? "yes": "no");  // no
+}
 ```
 
 ### See Also {.unnumbered .unlisted}
@@ -175,13 +187,19 @@ words in a single line.
 ### Example {.unnumbered .unlisted}
 
 ``` {.c .numberLines}
-//             testing this char
-//                      v
-printf("%s\n", isblank(' ')? "yes": "no");   // yes
-printf("%s\n", isblank('\t')? "yes": "no");  // yes
-printf("%s\n", isblank('\n')? "yes": "no");  // no
-printf("%s\n", isblank('a')? "yes": "no");   // no
-printf("%s\n", isblank('?')? "yes": "no");   // no
+#include <stdio.h>
+#include <ctype.h>
+
+int main(void)
+{
+    //             testing this char
+    //                      v
+    printf("%s\n", isblank(' ')? "yes": "no");   // yes
+    printf("%s\n", isblank('\t')? "yes": "no");  // yes
+    printf("%s\n", isblank('\n')? "yes": "no");  // no
+    printf("%s\n", isblank('a')? "yes": "no");   // no
+    printf("%s\n", isblank('?')? "yes": "no");   // no
+}
 ```
 
 ### See Also {.unnumbered .unlisted}
