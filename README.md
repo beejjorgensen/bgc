@@ -61,8 +61,6 @@ have to consider any copyright issues when merging changes.
 ## TODO
 
 * More man pages
-  * wchar
-  * wctype
   * uchar
   * signal
   * fenv
