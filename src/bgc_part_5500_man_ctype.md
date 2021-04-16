@@ -221,7 +221,7 @@ int iscntrl(int c);
 
 ### Description {.unnumbered .unlisted}
 
-A _control character_ is a local-specific non-printing character.
+A _control character_ is a locale-specific non-printing character.
 
 For the "C" locale, this means control characters are in the range 0x00
 to 0x1F (the character right before SPACE) and 0x7F (the DEL character).
@@ -236,15 +236,21 @@ Returns true if `c` is a control character.
 ### Example {.unnumbered .unlisted}
 
 ``` {.c .numberLines}
-//             testing this char
-//                      v
-printf("%s\n", iscntrl('\t')? "yes": "no");  // yes (tab)
-printf("%s\n", iscntrl('\n')? "yes": "no");  // yes (newline)
-printf("%s\n", iscntrl('\r')? "yes": "no");  // yes (return)
-printf("%s\n", iscntrl('\a')? "yes": "no");  // yes (bell)
-printf("%s\n", iscntrl(' ')? "yes": "no");   // no
-printf("%s\n", iscntrl('a')? "yes": "no");   // no
-printf("%s\n", iscntrl('?')? "yes": "no");   // no
+#include <stdio.h>
+#include <ctype.h>
+
+int main(void)
+{
+    //             testing this char
+    //                      v
+    printf("%s\n", iscntrl('\t')? "yes": "no");  // yes (tab)
+    printf("%s\n", iscntrl('\n')? "yes": "no");  // yes (newline)
+    printf("%s\n", iscntrl('\r')? "yes": "no");  // yes (return)
+    printf("%s\n", iscntrl('\a')? "yes": "no");  // yes (bell)
+    printf("%s\n", iscntrl(' ')? "yes": "no");   // no
+    printf("%s\n", iscntrl('a')? "yes": "no");   // no
+    printf("%s\n", iscntrl('?')? "yes": "no");   // no
+}
 ```
 
 ### See Also {.unnumbered .unlisted}
@@ -277,13 +283,19 @@ Returns true if the character is a digit, unsurprisingly.
 ### Example {.unnumbered .unlisted}
 
 ``` {.c .numberLines}
-//             testing this char
-//                      v
-printf("%s\n", isdigit('0')? "yes": "no");   // yes
-printf("%s\n", isdigit('5')? "yes": "no");   // yes
-printf("%s\n", isdigit('a')? "yes": "no");   // no
-printf("%s\n", isdigit('B')? "yes": "no");   // no
-printf("%s\n", isdigit('?')? "yes": "no");   // no
+#include <stdio.h>
+#include <ctype.h>
+
+int main(void)
+{
+    //             testing this char
+    //                      v
+    printf("%s\n", isdigit('0')? "yes": "no");   // yes
+    printf("%s\n", isdigit('5')? "yes": "no");   // yes
+    printf("%s\n", isdigit('a')? "yes": "no");   // no
+    printf("%s\n", isdigit('B')? "yes": "no");   // no
+    printf("%s\n", isdigit('?')? "yes": "no");   // no
+}
 ```
 
 ### See Also {.unnumbered .unlisted}
@@ -316,14 +328,20 @@ Returns true if `c` is any printable character that isn't a space
 ### Example {.unnumbered .unlisted}
 
 ``` {.c .numberLines}
-//             testing this char
-//                      v
-printf("%s\n", isgraph('0')? "yes": "no");   // yes
-printf("%s\n", isgraph('a')? "yes": "no");   // yes
-printf("%s\n", isgraph('B')? "yes": "no");   // yes
-printf("%s\n", isgraph('?')? "yes": "no");   // yes
-printf("%s\n", isgraph(' ')? "yes": "no");   // no
-printf("%s\n", isgraph('\n')? "yes": "no");  // no
+#include <stdio.h>
+#include <ctype.h>
+
+int main(void)
+{
+    //             testing this char
+    //                      v
+    printf("%s\n", isgraph('0')? "yes": "no");   // yes
+    printf("%s\n", isgraph('a')? "yes": "no");   // yes
+    printf("%s\n", isgraph('B')? "yes": "no");   // yes
+    printf("%s\n", isgraph('?')? "yes": "no");   // yes
+    printf("%s\n", isgraph(' ')? "yes": "no");   // no
+    printf("%s\n", isgraph('\n')? "yes": "no");  // no
+}
 ```
 
 ### See Also {.unnumbered .unlisted}
