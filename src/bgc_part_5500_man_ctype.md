@@ -380,13 +380,19 @@ Returns true if the character is lowercase.
 ### Example {.unnumbered .unlisted}
 
 ``` {.c .numberLines}
-//             testing this char
-//                      v
-printf("%s\n", islower('c')? "yes": "no");   // yes
-printf("%s\n", islower('0')? "yes": "no");   // no
-printf("%s\n", islower('B')? "yes": "no");   // no
-printf("%s\n", islower('?')? "yes": "no");   // no
-printf("%s\n", islower(' ')? "yes": "no");   // no
+#include <stdio.h>
+#include <ctype.h>
+
+int main(void)
+{
+    //             testing this char
+    //                      v
+    printf("%s\n", islower('c')? "yes": "no");   // yes
+    printf("%s\n", islower('0')? "yes": "no");   // no
+    printf("%s\n", islower('B')? "yes": "no");   // no
+    printf("%s\n", islower('?')? "yes": "no");   // no
+    printf("%s\n", islower(' ')? "yes": "no");   // no
+}
 ```
 
 ### See Also {.unnumbered .unlisted}
@@ -421,12 +427,18 @@ Returns true if the character is printable, including space (`' '`).
 ### Example {.unnumbered .unlisted}
 
 ``` {.c .numberLines}
-//             testing this char
-//                      v
-printf("%s\n", isprint('c')? "yes": "no");   // yes
-printf("%s\n", isprint('0')? "yes": "no");   // yes
-printf("%s\n", isprint(' ')? "yes": "no");   // yes
-printf("%s\n", isprint('\r')? "yes": "no");  // no
+#include <stdio.h>
+#include <ctype.h>
+
+int main(void)
+{
+    //             testing this char
+    //                      v
+    printf("%s\n", isprint('c')? "yes": "no");   // yes
+    printf("%s\n", isprint('0')? "yes": "no");   // yes
+    printf("%s\n", isprint(' ')? "yes": "no");   // yes
+    printf("%s\n", isprint('\r')? "yes": "no");  // no
+}
 ```
 
 ### See Also {.unnumbered .unlisted}
@@ -467,14 +479,21 @@ True if the character is punctuation.
 ### Example {.unnumbered .unlisted}
 
 ``` {.c .numberLines}
-//             testing this char
-//                      v
-printf("%s\n", ispunct(',')? "yes": "no");   // yes
-printf("%s\n", ispunct('!')? "yes": "no");   // yes
-printf("%s\n", ispunct('c')? "yes": "no");   // no
-printf("%s\n", ispunct('0')? "yes": "no");   // no
-printf("%s\n", ispunct(' ')? "yes": "no");   // no
-printf("%s\n", ispunct('\n')? "yes": "no");  // no
+#include <stdio.h>
+#include <ctype.h>
+
+int main(void)
+{
+    //             testing this char
+    //                      v
+    printf("%s\n", ispunct(',')? "yes": "no");   // yes
+    printf("%s\n", ispunct('!')? "yes": "no");   // yes
+    printf("%s\n", ispunct('c')? "yes": "no");   // no
+    printf("%s\n", ispunct('0')? "yes": "no");   // no
+    printf("%s\n", ispunct(' ')? "yes": "no");   // no
+    printf("%s\n", ispunct('\n')? "yes": "no");  // no
+}
+
 ```
 
 ### See Also {.unnumbered .unlisted}
