@@ -300,6 +300,160 @@ int main(void)
 [`iswspace()`](#man-iswspace),
 [`isgraph()`](#man-isgraph)
 
+[[pagebreak]]
+## `iswlower()` {#man-iswlower}
+
+Tests if a wide character is lowercase
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <wctype.h>
+
+int iswlower(wint_t wc);
+```
+
+### Description {.unnumbered .unlisted}
+
+Tests if a character is lowercase, in the range `a`-`z`.
+
+In other locales, there could be other lowercase characters. In all
+cases, to be lowercase, the following must be true:
+
+```
+!iswcntrl(c) && !iswdigit(c) && !iswpunct(c) && !iswspace(c)
+```
+
+### Return Value {.unnumbered .unlisted}
+
+Returns true if the wide character is lowercase.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+#include <wchar.h>
+#include <wctype.h>
+
+int main(void)
+{
+    //                   testing this char
+    //                           v
+    wprintf(L"%ls\n", iswlower(L'c')? L"yes": L"no");   // yes
+    wprintf(L"%ls\n", iswlower(L'0')? L"yes": L"no");   // no
+    wprintf(L"%ls\n", iswlower(L'B')? L"yes": L"no");   // no
+    wprintf(L"%ls\n", iswlower(L'?')? L"yes": L"no");   // no
+    wprintf(L"%ls\n", iswlower(L' ')? L"yes": L"no");   // no
+}
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`islower()`](#man-islower),
+[`iswupper()`](#man-isupper),
+[`iswalpha()`](#man-isalpha),
+[`towupper()`](#man-toupper),
+[`towlower()`](#man-tolower)
+
+[[pagebreak]]
+## `iswprint()` {#man-iswprint}
+
+Tests if a wide character is printable
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <wctype.h>
+
+int iswprint(wint_t wc);
+```
+
+### Description {.unnumbered .unlisted}
+
+Tests if a wide character is printable, including space (`' '`). So like
+`isgraph()`, except space isn't left out in the cold.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns true if the wide character is printable, including space (`' '`).
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+#include <wchar.h>
+#include <wctype.h>
+
+int main(void)
+{
+    //                   testing this char
+    //                           v
+    wprintf(L"%ls\n", iswprint(L'c')? L"yes": L"no");   // yes
+    wprintf(L"%ls\n", iswprint(L'0')? L"yes": L"no");   // yes
+    wprintf(L"%ls\n", iswprint(L' ')? L"yes": L"no");   // yes
+    wprintf(L"%ls\n", iswprint(L'\r')? L"yes": L"no");  // no
+}
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`isprint()`](#man-isprint),
+[`iswgraph()`](#man-iswgraph),
+[`iswcntrl()`](#man-iswcntrl)
+
+[[pagebreak]]
+## `iswpunct()` {#man-iswpunct}
+
+Test if a wide character is punctuation
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <wctype.h>
+
+int iswpunct(wint_t wc);
+```
+
+### Description {.unnumbered .unlisted}
+
+Tests if a wide character is punctuation.
+
+In the "C" locale, this means:
+
+``` {.c}
+!isspace(c) && !isalnum(c)
+```
+
+In other locales, there could be other punctuation characters (but they
+also can't be space or alphanumeric).
+
+### Return Value {.unnumbered .unlisted}
+
+True if the wide character is punctuation.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+#include <wchar.h>
+#include <wctype.h>
+
+int main(void)
+{
+    //                   testing this char
+    //                           v
+    wprintf(L"%ls\n", iswpunct(L',')? L"yes": L"no");   // yes
+    wprintf(L"%ls\n", iswpunct(L'!')? L"yes": L"no");   // yes
+    wprintf(L"%ls\n", iswpunct(L'c')? L"yes": L"no");   // no
+    wprintf(L"%ls\n", iswpunct(L'0')? L"yes": L"no");   // no
+    wprintf(L"%ls\n", iswpunct(L' ')? L"yes": L"no");   // no
+    wprintf(L"%ls\n", iswpunct(L'\n')? L"yes": L"no");  // no
+}
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`ispunct()`](#man-ispunct),
+[`iswspace()`](#man-iswspace),
+[`iswalnum()`](#man-iswalnum)
+
 <!--
 [[pagebreak]]
 ## `example()` {#man-example}
