@@ -416,20 +416,19 @@ int iswpunct(wint_t wc);
 
 Tests if a wide character is punctuation.
 
-In the "C" locale, this means:
+This means for any given locale:
 
 ``` {.c}
 !isspace(c) && !isalnum(c)
 ```
-
-In other locales, there could be other punctuation characters (but they
-also can't be space or alphanumeric).
 
 ### Return Value {.unnumbered .unlisted}
 
 True if the wide character is punctuation.
 
 ### Example {.unnumbered .unlisted}
+
+Results may vary based on locale.
 
 ``` {.c .numberLines}
 #include <wchar.h>
@@ -453,6 +452,64 @@ int main(void)
 [`ispunct()`](#man-ispunct),
 [`iswspace()`](#man-iswspace),
 [`iswalnum()`](#man-iswalnum)
+
+[[pagebreak]]
+## `iswspace()` {#man-iswspace}
+
+Test if a wide character is whitespace
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <wctype.h>
+
+int iswspace(wint_t wc);
+```
+
+### Description {.unnumbered .unlisted}
+
+Tests if `c` is a whitespace character. These are probably:
+
+* Space (`' '`)
+* Formfeed (`'\f'`)
+* Newline (`'\n'`)
+* Carriage Return (`'\r'`)
+* Horizontal Tab (`'\t'`)
+* Vertical Tab (`'\v'`)
+
+Other locales might specify other whitespace characters. `iswalnum()`,
+`iswgraph()`, and `iswpunct()` are all false for all whitespace
+characters.
+
+### Return Value {.unnumbered .unlisted}
+
+True if the character is whitespace.
+
+### Example {.unnumbered .unlisted}
+
+Results may vary based on locale.
+
+``` {.c .numberLines}
+#include <wchar.h>
+#include <wctype.h>
+
+int main(void)
+{
+    //                   testing this char
+    //                           v
+    wprintf(L"%ls\n", iswspace(L' ')? L"yes": L"no");   // yes
+    wprintf(L"%ls\n", iswspace(L'\n')? L"yes": L"no");  // yes
+    wprintf(L"%ls\n", iswspace(L'\t')? L"yes": L"no");  // yes
+    wprintf(L"%ls\n", iswspace(L',')? L"yes": L"no");   // no
+    wprintf(L"%ls\n", iswspace(L'!')? L"yes": L"no");   // no
+    wprintf(L"%ls\n", iswspace(L'c')? L"yes": L"no");   // no
+}
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`isspace()`](#man-isspace),
+[`iswblank()`](#man-iswblank)
 
 <!--
 [[pagebreak]]
