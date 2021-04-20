@@ -154,7 +154,7 @@ end-of-file (`EOF`), and `EOF` is potentially an integer. If you don't
 get `EOF` as a return value, you can safely store the result in a
 `char`.
 
-[[pagebreak]]
+[[manbreak]]
 
 ## `remove()` {#man-remove}
 
@@ -191,7 +191,7 @@ remove("/disks/d/Windows/system.ini");
 
 [`rename()`](#man-rename)
 
-[[pagebreak]]
+[[manbreak]]
 ## `rename()` {#man-rename}
 
 Renames a file and optionally moves it to a new location
@@ -233,7 +233,7 @@ rename("/tmp/evidence.txt", "/home/beej/nothing.txt");
 
 [`remove()`](#man-remove)
 
-[[pagebreak]]
+[[manbreak]]
 
 ## `tmpfile()` {#man-tmpfile}
 
@@ -295,7 +295,7 @@ int main(void)
 [`fclose()`](#man-fclose),
 [`tmpnam()`](#man-tmpnam)
 
-[[pagebreak]]
+[[manbreak]]
 
 ## `tmpnam()` {#man-tmpnam}
 
@@ -394,7 +394,7 @@ And we didn't error check it because we're too lazy!
 [`fopen()`](#man-fopen),
 [`tmpfile()`](#man-tmpfile)
 
-[[pagebreak]]
+[[manbreak]]
 
 ## `fclose()` {#man-fclose}
 
@@ -445,7 +445,7 @@ fclose(fp);   // pretty simple, huh.
 
 [`fopen()`](#man-fopen)
 
-[[pagebreak]]
+[[manbreak]]
 
 ## `fflush()` {#man-fflush}
 
@@ -535,7 +535,7 @@ int main(void)
 [`setbuf()`](#man-setbuf),
 [`setvbuf()`](#man-setbuf)
 
-[[pagebreak]]
+[[manbreak]]
 
 ## `fopen()` {#man-fopen}
 
@@ -612,7 +612,7 @@ int main(void)
 [`fclose()`](#man-fclose),
 [`freopen()`](#man-freopen)
 
-[[pagebreak]]
+[[manbreak]]
 
 ## `freopen()` {#man-freopen}
 
@@ -686,7 +686,7 @@ int main(void)
 [`fclose()`](#man-fclose),
 [`fopen()`](#man-fopen)
 
-[[pagebreak]]
+[[manbreak]]
 
 ## `setbuf()`, `setvbuf()` {#man-setbuf}
 
@@ -790,7 +790,7 @@ fclose(fp);
 
 [`fflush()`](#man-fflush)
 
-[[pagebreak]]
+[[manbreak]]
 
 ## `printf()`, `fprintf()`, `sprintf()`, `snprintf()` {#man-printf}
 
@@ -1228,7 +1228,7 @@ printf("%5d %5.2f %c\n", a, b, d); /* "  100  2.71 X" */
 [`sprintf()`](#man-printf),
 [`vprintf()`](#man-vprintf)
 
-[[pagebreak]]
+[[manbreak]]
 
 ## `scanf()`, `fscanf()`, `sscanf()` {#man-scanf}
 
@@ -1560,7 +1560,7 @@ scanf("%10c", s);
 [`vsscanf()`](#man-vsscanf),
 [`vfscanf()`](#man-vfscanf)
 
-[[pagebreak]]
+[[manbreak]]
 ## `vprintf()`, `vfprintf()`, `vsprintf()`, `vsnprintf()` {#man-vprintf}
 
 `printf()` variants using variable argument lists (`va_list`)
@@ -1675,7 +1675,7 @@ Output:
 ### See Also {.unnumbered .unlisted}
 [`printf()`](#man-printf)
 
-[[pagebreak]]
+[[manbreak]]
 ## `vscanf()`, `vfscanf()`, `vsscanf()` {#man-vscanf}
 
 `scanf()` variants using variable argument lists (`va_list`)
@@ -1756,7 +1756,7 @@ int main(void)
 ### See Also {.unnumbered .unlisted}
 [`scanf()`](#man-scanf)
 
-[[pagebreak]]
+[[manbreak]]
 ## `getc()`, `fgetc()`, `getchar()` {#man-getc}
 
 Get a single character from the console or from a file
@@ -1831,7 +1831,7 @@ int main(void)
 
 ### See Also {.unnumbered .unlisted}
 
-[[pagebreak]]
+[[manbreak]]
 ## `gets()`, `fgets()` {#man-gets}
 
 Read a string from console or file
@@ -1944,7 +1944,7 @@ fgets(s, 20, stdin); // read a maximum of 20 bytes from stdin
 [`fputs()`](#man-puts),
 [`ungetc()`](#man-ungetc)
 
-[[pagebreak]]
+[[manbreak]]
 ## `putc()`, `fputc()`, `putchar()` {#man-putc}
 
 Write a single character to the console or to a file
@@ -1998,7 +1998,7 @@ int main(void)
 
 ### See Also {.unnumbered .unlisted}
 
-[[pagebreak]]
+[[manbreak]]
 ## `puts()`, `fputs()` {#man-puts}
 
 Write a string to the console or to a file
@@ -2046,7 +2046,7 @@ int main(void)
 
 ### See Also {.unnumbered .unlisted}
 
-[[pagebreak]]
+[[manbreak]]
 ## `ungetc()` {#man-ungetc}
 
 Pushes a character back into the input stream
@@ -2145,7 +2145,7 @@ Sample output:
 
 [`fgetc()`](#man-getc)
 
-[[pagebreak]]
+[[manbreak]]
 ## `fread()` {#man-fread}
 
 Read binary data from a file
@@ -2223,7 +2223,7 @@ int main(void)
 [`feof()`](#man-feof),
 [`ferror()`](#man-feof)
 
-[[pagebreak]]
+[[manbreak]]
 ## `fwrite()` {#man-fwrite}
 
 Write binary data to a file
@@ -2276,7 +2276,7 @@ int main(void)
 [`fopen()`](#man-fopen),
 [`fread()`](#man-fread)
 
-[[pagebreak]]
+[[manbreak]]
 ## `fgetpos()`, `fsetpos()` {#man-fgetpos}
 
 Get the current position in a file, or set the current position in a
@@ -2334,7 +2334,7 @@ fsetpos(fp, &pos);   // now restore the position to where we saved
 [`ftell()`](#man-ftell),
 [`rewind()`](#man-fseek)
 
-[[pagebreak]]
+[[manbreak]]
 ## `fseek()`, `rewind()` {#man-fseek}
 
 Position the file pointer in anticipition of the next read or write
@@ -2412,7 +2412,7 @@ rewind(fp);               // seek to the beginning of the file
 [`fgetpos()`](#man-fgetpos),
 [`fsetpos()`](#man-fgetpos)
 
-[[pagebreak]]
+[[manbreak]]
 ## `ftell()` {#man-ftell}
 
 Tells you where a particular file is about to read from or write to
@@ -2465,7 +2465,7 @@ fseek(fp, pos, SEEK_SET);
 [`fgetpos()`](#man-fgetpos),
 [`fsetpos()`](#man-fgetpos)
 
-[[pagebreak]]
+[[manbreak]]
 ## `feof()`, `ferror()`, `clearerr()` {#man-feof}
 
 Determine if a file has reached end-of-file or if an error has occurred
@@ -2532,7 +2532,7 @@ int main(void)
 [`fopen()`](#man-fopen),
 [`fread()`](#man-fread)
 
-[[pagebreak]]
+[[manbreak]]
 ## `perror()` {#man-perror}
 
 Print the last error message to `stderr`
@@ -2629,7 +2629,7 @@ fseek again, EBADF: Bad file descriptor
 
 
 <!--
-[[pagebreak]]
+[[manbreak]]
 ## `vprintf()`, `vfprintf()`, `vsprintf()`, `vsnprintf()` {#man-vprintf}
 
 ### Synopsis {.unnumbered .unlisted}
