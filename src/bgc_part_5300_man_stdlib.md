@@ -83,7 +83,7 @@ And there you have it. Just a lot of fun, useful functions in here.
 Let's check 'em out!
 
 
-[[pagebreak]]
+[[manbreak]]
 ## `atof()` {#man-atof}
 
 Convert a string to a floating point value
@@ -135,7 +135,7 @@ Returns the string converted to a `double`.
 [`atoi()`](#man-atoi),
 [`strtod()`](#man-strtod)
 
-[[pagebreak]]
+[[manbreak]]
 ## `atoi()`, `atol()`, `atoll()` {#man-atoi}
 
 Convert an integer in a string into a integer type
@@ -197,7 +197,7 @@ printf("%d\n", x);  // 3490
 [`atof()`](#man-atof),
 [`strtol()`](#man-strtol)
 
-[[pagebreak]]
+[[manbreak]]
 ## `strtod()`, `strtof()`, `strtold()` {#man-strtod}
 
 Convert a string to a floating point number
@@ -323,7 +323,7 @@ No bad chars: 11.223300
 [`atof()`](#man-atof),
 [`strtol()`](#man-strtol)
 
-[[pagebreak]]
+[[manbreak]]
 ## `strtol()`, `strtoll()`, `strtoul()`, `strtoull()` {#man-strtol}
 
 Convert a string to an integer
@@ -439,7 +439,7 @@ Bad chars at "beej"
 [`strtod()`](#man-strtod),
 [`setlocale()`](#man-setlocale)
 
-[[pagebreak]]
+[[manbreak]]
 ## `rand()` {#man-rand}
 
 Return a pseudorandom number
@@ -525,7 +525,7 @@ RAND_MAX = 2147483647
 
 [`srand()`](#man-srand)
 
-[[pagebreak]]
+[[manbreak]]
 ## `srand()` {#man-srand}
 
 Seed the built-in pseudorandom number generator
@@ -615,7 +615,7 @@ Output from a subsequent run:
 [`time()`](#man-time)
 
 
-[[pagebreak]]
+[[manbreak]]
 ## `aligned_alloc()` {#man-aligned_alloc}
 
 Allocate specifically-aligned memory
@@ -687,7 +687,7 @@ int main(void)
 [`calloc()`](#man-malloc),
 [`free()`](#man-free)
 
-[[pagebreak]]
+[[manbreak]]
 ## `calloc()`, `malloc()` {#man-malloc}
 
 Allocate memory for arbitrary use
@@ -764,7 +764,7 @@ free(q);
 [`aligned_alloc()`](#man-aligned_alloc),
 [`free()`](#man-free)
 
-[[pagebreak]]
+[[manbreak]]
 ## `free()` {#man-free}
 
 Free a memory region
@@ -818,7 +818,7 @@ free(p);
 [`calloc()`](#man-malloc),
 [`aligned_alloc()`](#man-aligned_alloc)
 
-[[pagebreak]]
+[[manbreak]]
 ## `realloc()` {#man-realloc}
 
 Resize a previously allocated stretch of memory
@@ -887,7 +887,7 @@ free(p);
 [`malloc()`](#man-malloc),
 [`calloc()`](#man-malloc)
 
-[[pagebreak]]
+[[manbreak]]
 ## `abort()` {#man-abort}
 
 Abruptly end program execution
@@ -944,7 +944,7 @@ zsh: abort (core dumped)  ./foo
 
 [`signal()`](#man-signal)
 
-[[pagebreak]]
+[[manbreak]]
 ## `atexit()`, `at_quick_exit()` {#man-atexit}
 
 Set up handlers to run when the program exits
@@ -1057,7 +1057,7 @@ int main(void)
 [`exit()`](#man-exit),
 [`quick_exit()`](#man-quick_exit)
 
-[[pagebreak]]
+[[manbreak]]
 ## `exit()`, `quick_exit()`, `_Exit()` {#man-exit}
 
 Exit the currently-running program
@@ -1129,7 +1129,7 @@ _Exit(2);
 [`atexit()`](#man-atexit),
 [`at_quick_exit()`](#man-atexit)
 
-[[pagebreak]]
+[[manbreak]]
 ## `getenv()` {#man-getenv}
 
 Get the value of an environment variable
@@ -1180,7 +1180,7 @@ PATH is /usr/bin:/usr/local/bin:/usr/sbin:/home/beej/.cargo/bin [...]
 [`example()`](#man-example),
 -->
 
-[[pagebreak]]
+[[manbreak]]
 ## `system()` {#man-system}
 
 Run an external program
@@ -1253,7 +1253,7 @@ All done!
 [`example()`](#man-example),
 -->
 
-[[pagebreak]]
+[[manbreak]]
 ## `bsearch()` {#man-bsearch}
 
 Binary Search (maybe) an array of objects
@@ -1359,7 +1359,7 @@ Found 32
 [`qsort()`](#man-qsort)
 
 
-[[pagebreak]]
+[[manbreak]]
 ## `qsort()` {#man-qsort}
 
 Quicksort (maybe) some data
@@ -1464,7 +1464,7 @@ Found 17!
 [`strcmp()`](#man-strcmp),
 [`bsearch()`](#man-bsearch)
 
-[[pagebreak]]
+[[manbreak]]
 ## `abs()`, `labs()`, `llabs()` {#man-abs}
 
 Compute the absolute value of an integer
@@ -1515,7 +1515,7 @@ Output:
 [`fabs()`](#man-fabs)
 
 
-[[pagebreak]]
+[[manbreak]]
 ## `div()`, `ldiv()`, `lldiv()` {#man-div}
 
 Compute the quotient and remainder of two numbers
@@ -1616,7 +1616,7 @@ Output:
 [`remainder()`](#man-remainder)
 
 
-[[pagebreak]]
+[[manbreak]]
 ## `mblen()` {#man-mblen}
 
 Return the number of bytes in a multibyte character
@@ -1687,7 +1687,7 @@ Bytes for &: 1
 [`setlocale()`](#man-setlocale)
 
 
-[[pagebreak]]
+[[manbreak]]
 ## `mbtowc()` {#man-mbtowc}
 
 Convert a multibyte character to a wide character
@@ -1761,7 +1761,7 @@ L'€' takes 3 bytes as multibyte char '€'
 [`wcstombs()`](#man-wcstombs),
 [`setlocale()`](#man-setlocale)
 
-[[pagebreak]]
+[[manbreak]]
 ## `wctomb()` {#man-wctomb}
 
 Convert a wide character to a multibyte character
@@ -1839,7 +1839,7 @@ L'€' takes 3 bytes as multibyte char '€'
 [`setlocale()`](#man-setlocale)
 
 
-[[pagebreak]]
+[[manbreak]]
 ## `mbstowcs()` {#man-mbstowcs}
 
 Convert a multibyte string to a wide character string
@@ -1940,7 +1940,7 @@ Byte count   : 16
 [`setlocale()`](#man-setlocale)
 
 
-[[pagebreak]]
+[[manbreak]]
 ## `wcstombs()` {#man-wcstombs}
 
 Convert a wide character string to a multibyte string
@@ -2034,7 +2034,7 @@ Byte count : 16
 [`setlocale()`](#man-setlocale)
 
 <!--
-[[pagebreak]]
+[[manbreak]]
 ## `example()`, `example()`, `example()` {#man-example}
 
 ### Synopsis {.unnumbered .unlisted}

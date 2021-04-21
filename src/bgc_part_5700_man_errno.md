@@ -33,7 +33,7 @@ take on. [fl[Unix defines a bunch
 more|https://man.archlinux.org/man/errno.3.en]], [fl[as does
 Windows|https://docs.microsoft.com/en-us/cpp/c-runtime-library/errno-constants?view=msvc-160]].
 
-[[pagebreak]]
+[[manbreak]]
 ## `errno` {#man-errno}
 
 Holds the error status of the last call

@@ -42,7 +42,7 @@ from the "C" locale, and might vary if you've set a different locale.
 Note that wide characters have their own set of classification
 functions, so don't try to use these on `wchar_t`s. Or _else_!
 
-[[pagebreak]]
+[[manbreak]]
 ## `isalnum()` {#man-isalnum}
 
 Tests if a character is alphabetic or is a digit
@@ -94,7 +94,7 @@ int main(void)
 [`isdigit()`](#man-isdigit)
 
 
-[[pagebreak]]
+[[manbreak]]
 ## `isalpha()` {#man-isalpha}
 
 Returns true if a character is alphabetic
@@ -158,7 +158,7 @@ int main(void)
 
 [`isalnum()`](#man-isalnum)
 
-[[pagebreak]]
+[[manbreak]]
 ## `isblank()` {#man-isblank}
 
 Tests if a character is word-separating whitespace
@@ -206,7 +206,7 @@ int main(void)
 
 [`isspace()`](#man-isspace)
 
-[[pagebreak]]
+[[manbreak]]
 ## `iscntrl()` {#man-iscntrl}
 
 Test if a character is a control character
@@ -259,7 +259,7 @@ int main(void)
 [`isprint()`](#man-isprint)
 
 
-[[pagebreak]]
+[[manbreak]]
 ## `isdigit()` {#man-isdigit}
 
 Tests if a character is a digit
@@ -303,7 +303,7 @@ int main(void)
 [`isalnum()`](#man-isalnum),
 [`isxdigit()`](#man-isxdigit)
 
-[[pagebreak]]
+[[manbreak]]
 ## `isgraph()` {#man-isgraph}
 
 Tests if the character is printable and not a space
@@ -349,7 +349,7 @@ int main(void)
 [`iscntrl()`](#man-iscntrl),
 [`isprint()`](#man-isprint)
 
-[[pagebreak]]
+[[manbreak]]
 ## `islower()` {#man-islower}
 
 Tests if a character is lowercase
@@ -402,7 +402,7 @@ int main(void)
 [`toupper()`](#man-toupper),
 [`tolower()`](#man-tolower)
 
-[[pagebreak]]
+[[manbreak]]
 ## `isprint()` {#man-isprint}
 
 Tests if a character is printable
@@ -446,7 +446,7 @@ int main(void)
 [`isgraph()`](#man-isgraph),
 [`iscntrl()`](#man-iscntrl)
 
-[[pagebreak]]
+[[manbreak]]
 ## `ispunct()` {#man-ispunct}
 
 Test if a character is punctuation
@@ -501,7 +501,7 @@ int main(void)
 [`isspace()`](#man-isspace),
 [`isalnum()`](#man-isalnum)
 
-[[pagebreak]]
+[[manbreak]]
 ## `isspace()` {#man-isspace}
 
 Test if a character is whitespace
@@ -555,7 +555,7 @@ int main(void)
 
 [`isblank()`](#man-isblank)
 
-[[pagebreak]]
+[[manbreak]]
 ## `isupper()` {#man-isupper}
 
 Tests if a character is uppercase
@@ -602,7 +602,7 @@ printf("%s\n", isupper(' ')? "yes": "no");   // no
 [`toupper()`](#man-toupper),
 [`tolower()`](#man-tolower)
 
-[[pagebreak]]
+[[manbreak]]
 ## `isxdigit()` {#man-isxdigit}
 
 Tests if a character is a hexadecimal digit
@@ -640,7 +640,7 @@ printf("%s\n", isxdigit('?')? "yes": "no");   // no
 
 [`isdigit()`](#man-isdigit)
 
-[[pagebreak]]
+[[manbreak]]
 ## `tolower()` {#man-tolower}
 
 Convert a letter to lowercase
@@ -681,7 +681,7 @@ printf("%c\n", tolower('!'));  // ! (unchanged)
 [`islower()`](#man-islower),
 [`isupper()`](#man-isupper)
 
-[[pagebreak]]
+[[manbreak]]
 ## `toupper()` {#man-toupper}
 
 Convert a letter to uppercase
@@ -723,7 +723,7 @@ printf("%c\n", toupper('!'));  // ! (unchanged)
 [`isupper()`](#man-isupper)
 
 <!--
-[[pagebreak]]
+[[manbreak]]
 ## `example()` {#man-example}
 
 ### Synopsis {.unnumbered .unlisted}

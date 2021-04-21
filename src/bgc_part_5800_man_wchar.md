@@ -103,7 +103,7 @@ To avoid this, each thread needs to maintain its own state in a variable
 of the opaque type `mbstate_t`. And the "restartable" functions allow
 you to pass in this state so that each thread can use their own.
 
-[[pagebreak]]
+[[manbreak]]
 ## `wprintf()`, `fwprintf()`, `swprintf()` {#man-wprintf}
 
 Formatted output with a wide string
@@ -174,7 +174,7 @@ pi = 3.141593
 [`printf()`](#man-printf),
 [`vwprintf()`](#man-vwprintf)
 
-[[pagebreak]]
+[[manbreak]]
 ## `wscanf()` `fwscanf()` `swscanf()` {#man-wscanf}
 
 Scan a wide stream or wide string for formatted input
@@ -237,7 +237,7 @@ You entered: 12 apples
 [`scanf()`](#man-scanf),
 [`vwscanf()`](#man-vwscanf)
 
-[[pagebreak]]
+[[manbreak]]
 ## `vwprintf()` `vfwprintf()` `vswprintf()` {#man-vwprintf}
 
 `wprintf()` variants using variable argument lists (`va_list`)
@@ -323,7 +323,7 @@ Output:
 [`vprintf()`](#man-vprintf)
 
 
-[[pagebreak]]
+[[manbreak]]
 ## `vwscanf()`, `vfwscanf()`, `vswscanf()` {#man-vwscanf}
 
 `wscanf()` variants using variable argument lists (`va_list`)
@@ -396,7 +396,7 @@ int main(void)
 
 [`wscanf()`](#man-wscanf)
 
-[[pagebreak]]
+[[manbreak]]
 ## `getwc()` `fgetwc()` `getwchar()` {#man-getwc}
 
 Get a wide character from an input stream
@@ -468,7 +468,7 @@ int main(void)
 [`fgetws`](#man-fgetws),
 [`errno`](#errno)
 
-[[pagebreak]]
+[[manbreak]]
 ## `fgetws()` {#man-fgetws}
 
 Read a wide string from a file
@@ -535,7 +535,7 @@ prepended numbers):
 [`fgetwc()`](#man-fgetwc),
 [`fgets()`](#man-gets)
 
-[[pagebreak]]
+[[manbreak]]
 ## `putwchar()` `putwc()` `fputwc()` {#man-putwc}
 
 Write a single wide character to the console or to a file
@@ -608,7 +608,7 @@ int main(void)
 [`fputc()`](#man-putc),
 [`errno`](#errno)
 
-[[pagebreak]]
+[[manbreak]]
 ## `fputws()` {#man-fputws}
 
 Write a wide string to a file
@@ -649,7 +649,7 @@ int main(void)
 [`fputwc()`](#man-putwc)
 [`fputs()`](#man-puts)
 
-[[pagebreak]]
+[[manbreak]]
 ## `fwide()` {#man-fwide}
 
 Get or set the orientation of the stream
@@ -762,7 +762,7 @@ Stream is wide-oriented
 [`example()`](#man-example),
 -->
 
-[[pagebreak]]
+[[manbreak]]
 ## `ungetwc()` {#man-ungetwc}
 
 Pushes a wide character back into the input stream
@@ -859,7 +859,7 @@ Sample output:
 [`fgetwc()`](#man-getwc),
 [`ungetc()`](#man-ungetc)
 
-[[pagebreak]]
+[[manbreak]]
 ## `wcstod()` `wcstof()` `wcstold()` {#man-wcstod}
 
 Convert a wide string to a floating point number
@@ -937,7 +937,7 @@ No bad chars: 11.223300
 [`strtod()`](#man-strtod),
 [`errno`](#errno)
 
-[[pagebreak]]
+[[manbreak]]
 ## `wcstol()` `wcstoll()` `wcstoul()` `wcstoull()` {#man-wcstol}
 
 Convert a wide string to an integer value
@@ -1022,7 +1022,7 @@ Bad chars at "beej"
 [`strtol()`](#man-strtol),
 [`errno`](#errno)
 
-[[pagebreak]]
+[[manbreak]]
 ## `wcscpy()` `wcsncpy()` {#man-wcscpy}
 
 Copy a wide string
@@ -1082,7 +1082,7 @@ int main(void)
 [`strcpy()`](#man-strcpy),
 [`strncpy()`](#man-strcpy)
 
-[[pagebreak]]
+[[manbreak]]
 ## `wmemcpy()` `wmemmove()` {#man-wmemcpy}
 
 Copy wide characters
@@ -1145,7 +1145,7 @@ t is "Goats"
 [`memcpy()`](#man-memcpy),
 [`memmove()`](#man-memcpy)
 
-[[pagebreak]]
+[[manbreak]]
 ## `wcscat()` `wcsncat()` {#man-wcscat}
 
 Concatenate wide strings
@@ -1204,7 +1204,7 @@ int main(void)
 [`strcat()`](#man-strcat),
 [`strncat()`](#man-strcat)
 
-[[pagebreak]]
+[[manbreak]]
 ## `wcscmp()`, `wcsncmp()`, `wmemcmp()` {#man-wcscmp}
 
 Compare wide strings or memory
@@ -1298,7 +1298,7 @@ The first 6 characters of s1 and s2 are the same
 [`strcmp()`](#man-strcmp),
 [`strncmp()`](#man-strcmp)
 
-[[pagebreak]]
+[[manbreak]]
 ## `wcscoll()` {#man-wcscoll}
 
 Compare two wide strings accounting for locale
@@ -1354,7 +1354,7 @@ int main(void)
 [`wcsxfrm()`](#man-wcsxfrm),
 [`strcoll()`](#man-strcoll)
 
-[[pagebreak]]
+[[manbreak]]
 ## `wcsxfrm()` {#man-wcsxfrm}
 
 Transform a wide string for comparing based on locale
@@ -1442,7 +1442,7 @@ Output:
 [`wcscoll()`](#man-wcscoll),
 [`strxfrm()`](#man-strxfrm)
 
-[[pagebreak]]
+[[manbreak]]
 ## `wcschr()` `wcsrchr()` {#man-wcschr}
 
 Find a wide character in a wide string
@@ -1515,7 +1515,7 @@ int main(void)
 [`strrchr()`](#man-strchr),
 [`memchr()`](#man-strchr)
 
-[[pagebreak]]
+[[manbreak]]
 ## `wcsspn()` `wcscspn()` {#man-wcsspn}
 
 Return the length of a wide string consisting entirely of a set of wide
@@ -1579,7 +1579,7 @@ int main(void)
 [`strspn()`](#man-strspn),
 [`strrspn()`](#man-strrspn)
 
-[[pagebreak]]
+[[manbreak]]
 ## `wcspbrk()` {#man-wcspbrk}
 
 Search a wide string for one of a set of wide characters
@@ -1630,7 +1630,7 @@ int main(void)
 [`wmemchr()`](#man-wcschr),
 [`strpbrk()`](#man-strpbrk)
 
-[[pagebreak]]
+[[manbreak]]
 ## `wcsstr()` {#man-wcsstr}
 
 Find a wide string in another wide string
@@ -1682,7 +1682,7 @@ int main(void)
 [`wcscspn()`](#man-wcsspn),
 [`strstr()`](#man-strstr)
 
-[[pagebreak]]
+[[manbreak]]
 ## `wcstok()` {#man-wcstok}
 
 Tokenize a wide string
@@ -1752,7 +1752,7 @@ int main(void)
 
 [`strtok()`](#man-strtok)
 
-[[pagebreak]]
+[[manbreak]]
 ## `wcslen()` {#man-wcslen}
 
 Returns the length of a wide string
@@ -1792,7 +1792,7 @@ int main(void)
 
 [`strlen()`](#man-strlen)
 
-[[pagebreak]]
+[[manbreak]]
 ## `wcsftime()` {#man-wcsftime}
 
 Formatted date and time output
@@ -1865,7 +1865,7 @@ int main(void)
 
 [`strftime()`](#man-strftime)
 
-[[pagebreak]]
+[[manbreak]]
 ## `btowc()` `wctob()` {#man-btowc}
 
 Convert a single byte character to a wide character
@@ -1933,7 +1933,7 @@ Single-byte character: B
 [`mbtowc()`](#man-mbtowc),
 [`wctomb()`](#man-wctomb)
 
-[[pagebreak]]
+[[manbreak]]
 ## `mbsinit()` {#man-mbsinit}
 
 Test if an `mbstate_t` is in the initial conversion state
@@ -2004,7 +2004,7 @@ int main(void)
 [`mbrtowc()`](#man-mbrtowc),
 [`wcrtomb()`](#man-wcrtomb)
 
-[[pagebreak]]
+[[manbreak]]
 ## `mbrlen()` {#man-mbrlen}
 
 Compute the number of bytes in a multibyte character, restartably
@@ -2080,7 +2080,7 @@ Length of '€' is 3 byte(s)
 
 [`mblen()`](#man-mblen)
 
-[[pagebreak]]
+[[manbreak]]
 ## `mbrtowc()` {#man-mbrtowc}
 
 Convert multibyte to wide characters restartably
@@ -2178,7 +2178,7 @@ L'€' takes 3 bytes as multibyte char '€'
 [`mbtowc()`](#man-mbtowc),
 [`wcrtomb()`](#man-wcrtomb)
 
-[[pagebreak]]
+[[manbreak]]
 ## `wctombr()` {#man-wcrtomb}
 
 Convert wide to multibyte characters restartably
@@ -2272,7 +2272,7 @@ int main(void)
 [`wctomb()`](#man-wctomb),
 [`errno`](#errno)
 
-[[pagebreak]]
+[[manbreak]]
 ## `mbsrtowcs()` {#man-mbsrtowcs}
 
 Convert a multibyte string to a wide character string restartably
@@ -2406,7 +2406,7 @@ but it's 10 bytes!
 [`strlen()`](#man-strlen),
 [`errno`](#errno)
 
-[[pagebreak]]
+[[manbreak]]
 ## `wcsrtombs()` {#man-wcsrtombs}
 
 Convert a wide character string to a multibyte string restartably
@@ -2546,7 +2546,7 @@ int main(void)
 [`errno`](#errno)
 
 <!--
-[[pagebreak]]
+[[manbreak]]
 ## `example()` {#man-example}
 
 ### Synopsis {.unnumbered .unlisted}

@@ -45,7 +45,7 @@ In this section you'll find functions for pulling substrings out of
 strings, concatenating strings together, getting the length of a string,
 and so forth and so on.
 
-[[pagebreak]]
+[[manbreak]]
 ## `memcpy()`, `memmove()` {#man-memcpy}
 
 Copy bytes of memory from one location to another
@@ -96,7 +96,7 @@ memmove(s + 2, s, 6);  // Copy overlapping memory
 [`strcpy()`](#man-strcpy),
 [`strncpy()`](#man-strcpy)
 
-[[pagebreak]]
+[[manbreak]]
 ## `strcpy()`, `strncpy()` {#man-strcpy}
 
 Copy a string
@@ -171,7 +171,7 @@ dest[sizeof(dest)-1] = '\0'; // terminate
 [`strcat()`](#man-strcat),
 [`strncat()`](#man-strcat)
 
-[[pagebreak]]
+[[manbreak]]
 ## `strcat()`, `strncat()` {#man-strcat}
 
 Concatenate two strings into a single string
@@ -237,7 +237,7 @@ and `numbers`; this is just fine with string functions.
 
 [`strlen()`](#man-strlen)
 
-[[pagebreak]]
+[[manbreak]]
 ## `strcmp()`, `strncmp()`, `memcmp()` {#man-strcmp}
 
 Compare two strings or memory regions and return a difference
@@ -320,7 +320,7 @@ if (!strncmp(s1, s2, 6))
 [`memcmp()`](#man-memcmp),
 [`qsort()`](#man-qsort)
 
-[[pagebreak]]
+[[manbreak]]
 ## `strcoll()` {#man-strcoll}
 
 Compare two strings accounting for locale
@@ -379,7 +379,7 @@ int main(void)
 
 [`strcmp()`](#man-strcmp)
 
-[[pagebreak]]
+[[manbreak]]
 ## `strxfrm()` {#man-strxfrm}
 
 Transform a string for comparing based on locale
@@ -518,7 +518,7 @@ int main(void)
 ### See Also {.unnumbered .unlisted}
 [`strcoll()`](#man-strcoll)
 
-[[pagebreak]]
+[[manbreak]]
 ## `strchr()`, `strrchr()`, `memchr()` {#man-strchr}
 
 Find a character in a string
@@ -600,7 +600,7 @@ int main(void)
 ### See Also {.unnumbered .unlisted}
 -->
 
-[[pagebreak]]
+[[manbreak]]
 ## `strspn()`, `strcspn()` {#man-strspn}
 
 Return the length of a string consisting entirely of a set of
@@ -667,7 +667,7 @@ int main(void)
 [`strchr()`](#man-strchr),
 [`strrchr()`](#man-strchr)
 
-[[pagebreak]]
+[[manbreak]]
 ## `strpbrk()` {#man-strpbrk}
 
 Search a string for one of a set of characters
@@ -719,7 +719,7 @@ int main(void)
 [`strchr()`](#man-strchr),
 [`memchr()`](#man-strchr)
 
-[[pagebreak]]
+[[manbreak]]
 ## `strstr()` {#man-strstr}
 
 Find a string in another string
@@ -771,7 +771,7 @@ int main(void)
 [`strspn()`](#man-strspn),
 [`strcspn()`](#man-strspn)
 
-[[pagebreak]]
+[[manbreak]]
 ## `strtok()` {#man-strtok}
 
 Tokenize a string
@@ -856,7 +856,7 @@ int main(void)
 [`strcspn()`](#man-strspn)
 
 
-[[pagebreak]]
+[[manbreak]]
 ## `memset()` {#man-memset}
 
 Set a region of memory to a certain value
@@ -902,7 +902,7 @@ b.grams == 0;          // True
 [`memcpy()`](#man-memcpy),
 [`memmove()`](#man-memcpy)
 
-[[pagebreak]]
+[[manbreak]]
 ## `strerror()` {#man-strerror}
 
 Get a string version of an error number
@@ -968,7 +968,7 @@ Error 2 opening file: No such file or directory
 
 [`perror()`](#man-perror)
 
-[[pagebreak]]
+[[manbreak]]
 ## `strlen()` {#man-strlen}
 
 Returns the length of a string
@@ -1013,7 +1013,7 @@ int main(void)
 ### See Also {.unnumbered .unlisted}
 
 <!--
-[[pagebreak]]
+[[manbreak]]
 ## `vprintf()`, `vfprintf()`, `vsprintf()`, `vsnprintf()` {#man-vprintf}
 
 ### Synopsis {.unnumbered .unlisted}

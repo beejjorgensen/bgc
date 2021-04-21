@@ -245,7 +245,7 @@ The initial value of the `FP_CONTRACT` pragma varies from system to
 system.
 
 
-[[pagebreak]]
+[[manbreak]]
 ## `fpclassify()` {#man-fpclassify}
 
 Return the classification of a given floating point number.
@@ -341,7 +341,7 @@ sqrt(-1): not a number
 [`isnormal()`](#man-isnan),
 [`signbit()`](#man-signbit)
 
-[[pagebreak]]
+[[manbreak]]
 ## `isfinite()`, `isinf()`, `isnan()`, `isnormal()` {#man-isnan}
 
 Return true if a number matches a classification.
@@ -400,7 +400,7 @@ int main(void)
 [`signbit()`](#man-signbit),
 
 
-[[pagebreak]]
+[[manbreak]]
 ## `signbit()` {#man-signbit}
 
 Return the sign of a number.
@@ -439,7 +439,7 @@ printf("%d\n", signbit(-37.0));   // 1
 [`copysign()`](#man-copysign)
 
 
-[[pagebreak]]
+[[manbreak]]
 ## `acos()`, `acosf()`, `acosl()` {#man-acos}
 
 Calculate the arc cosine of a number.
@@ -494,7 +494,7 @@ ldacosx = acosl((long double)0.3);
 [`cos()`](#man-cos)
 
 
-[[pagebreak]]
+[[manbreak]]
 ## `asin()`, `asinf()`, `asinl()` {#man-asin}
 
 Calculate the arc sine of a number.
@@ -549,7 +549,7 @@ ldasinx = asinl((long double)0.3);
 [`sin()`](#man-sin)
 
 
-[[pagebreak]]
+[[manbreak]]
 ## `atan()`, `atanf()`, `atanl()`, `atan2()`, `atan2f()`, `atan2l()` {#man-atan}
 
 Calculate the arc tangent of a number.
@@ -613,7 +613,7 @@ ldatanx = atan2l((long double)0.3);
 [`asin()`](#man-asin),
 [`atan()`](#man-acos)
 
-[[pagebreak]]
+[[manbreak]]
 ## `cos()`, `cosf()`, `cosl()` {#man-cos}
 
 Calculate the cosine of a number.
@@ -664,7 +664,7 @@ ldsinx = sinl((long double)3.490);
 [`tan()`](#man-tan),
 [`acos()`](#man-acos)
 
-[[pagebreak]]
+[[manbreak]]
 ## `sin()`, `sinf()`, `sinl()` {#man-sin}
 
 Calculate the sine of a number.
@@ -715,7 +715,7 @@ ldsinx = sinl((long double)3.490);
 [`tan()`](#man-tan),
 [`asin()`](#man-asin)
 
-[[pagebreak]]
+[[manbreak]]
 ## `tan()`, `tanf()`, `tanl()` {#man-tan}
 
 Calculate the tangent of a number.
@@ -767,7 +767,7 @@ ldtanx = tanl((long double)3.490);
 [`atan()`](#man-atan),
 [`atan2()`](#man-atan)
 
-[[pagebreak]]
+[[manbreak]]
 ## `acosh()`, `acoshf()`, `acoshl()` {#man-acosh}
 
 Compute arc hyperbolic cosine.
@@ -805,7 +805,7 @@ printf("acosh 1.8 = %f\n", acosh(1.8));  // 1.192911
 
 [`asinh()`](#man-asinh)
 
-[[pagebreak]]
+[[manbreak]]
 ## `asinh()`, `asinhf()`, `asinhl()` {#man-asinh}
 
 Compute arc hyperbolic sine.
@@ -842,7 +842,7 @@ printf("acosh 1.8 = %f\n", asinh(1.8));  // 1.350441
 
 [`acosh()`](#man-acosh)
 
-[[pagebreak]]
+[[manbreak]]
 ## `atanh()`, `atanhf()`, `atanhl()` {#man-atanh}
 
 Compute the arc hyperbolic tangent.
@@ -880,7 +880,7 @@ printf("atanh 0.5 = %f\n", atanh(0.5));  // 0.549306
 [`asinh()`](#man-asinh)
 
 
-[[pagebreak]]
+[[manbreak]]
 ## `cosh()`, `coshf()`, `coshl()` {#man-cosh}
 
 Compute the hyperbolic cosine.
@@ -917,7 +917,7 @@ printf("cosh 0.5 = %f\n", cosh(0.5));  // 1.127626
 [`sinh()`](#man-sinh),
 [`tanh()`](#man-tanh)
 
-[[pagebreak]]
+[[manbreak]]
 ## `tanh()`, `tanhf()`, `tanhl()` {#man-tanh}
 
 Compute the hyperbolic tangent.
@@ -955,7 +955,7 @@ printf("tanh 0.5 = %f\n", tanh(0.5));  // 0.462117
 [`cosh()`](#man-cosh),
 [`sinh()`](#man-sinh)
 
-[[pagebreak]]
+[[manbreak]]
 ## `exp()`, `expf()`, `expl()` {#man-exp}
 
 Compute $e$ raised to a power.
@@ -999,7 +999,7 @@ printf("exp(2) = %f\n", exp(2));  // 7.389056
 [`pow()`](#man-pow),
 [`log()`](#man-log)
 
-[[pagebreak]]
+[[manbreak]]
 ## `exp2()`, `exp2f()`, `exp2l()` {#man-exp2}
 
 Compute 2 to a power.
@@ -1044,7 +1044,7 @@ printf("2^0.5 = %f\n", exp2(0.5));  // 2^0.5 = 1.414214
 [`pow()`](#man-pow)
 
 
-[[pagebreak]]
+[[manbreak]]
 ## `expm1()`, `expm1f()`, `expm1l()` {#man-expm1}
 
 Compute $e^x-1$.
@@ -1088,7 +1088,7 @@ printf("%f\n", expm1(2.34));  // 9.381237
 [`exp()`](#man-exp)
 
 
-[[pagebreak]]
+[[manbreak]]
 ## `frexp()`, `frexpf()`, `frexpl()` {#man-frexp}
 
 Break a number into its fraction part and exponent (as a power of 2).
@@ -1166,7 +1166,7 @@ Output:
 [`modf()`](#man-modf)
 
 
-[[pagebreak]]
+[[manbreak]]
 ## `ilogb()`, `ilogbf()`, `ilogbl()` {#man-ilogb}
 
 Return the exponent of a floating point number.
@@ -1225,7 +1225,7 @@ printf("%d\n", ilogb(255));  // 7
 [`logb()`](#man-logb)
 
 
-[[pagebreak]]
+[[manbreak]]
 ## `ldexp()`, `ldexpf()`, `ldexpl()` {#man-ldexp}
 
 Multiply a number by an integral power of 2.
@@ -1270,7 +1270,7 @@ Output:
 [`exp()`](#man-exp)
 
 
-[[pagebreak]]
+[[manbreak]]
 ## `log()`, `logf()`, `logl()` {#man-log}
 
 Compute the natural logarithm.
@@ -1313,7 +1313,7 @@ printf("%f\n", log(e));       // 1.000000
 [`log10()`](#man-log10),
 [`logp1()`](#man-log10)
 
-[[pagebreak]]
+[[manbreak]]
 ## `log10()`, `log10f()`, `log10l()` {#man-log10}
 
 Compute the log-base-10 of a number.
@@ -1355,7 +1355,7 @@ printf("%f\n", log10(10));       // 1.000000
 [`pow()`](#man-pow),
 [`log()`](#man-log)
 
-[[pagebreak]]
+[[manbreak]]
 ## `logp1()`, `logp1f()`, `logp1l()` {#man-logp1}
 
 Compute the natural logarithm of a number plus 1.
@@ -1417,7 +1417,7 @@ Small log()  : 0.00995033085316809164
 [`log()`](#man-log)
 
 
-[[pagebreak]]
+[[manbreak]]
 ## `log2()`, `log2f()`, `log2l()` {#man-log2}
 
 Compute the base-2 logarithm of a number.
@@ -1459,7 +1459,7 @@ printf("%f\n", log2(256));     // 8.000000
 
 [`log()`](#man-log)
 
-[[pagebreak]]
+[[manbreak]]
 ## `logb()`, `logbf()`, `logbl()` {#man-logb}
 
 Extract the exponent of a number given `FLT_RADIX`.
@@ -1513,7 +1513,7 @@ FLT_RADIX = 2
 [`ilogb()`](#man-ilogb)
 
 
-[[pagebreak]]
+[[manbreak]]
 ## `modf()`, `modff()`, `modfl()` {#man-modf}
 
 Extract the integral and fractional parts of a number.
@@ -1591,7 +1591,7 @@ Fractional part: -0.456000
 
 [`frexp()`](#man-frexp)
 
-[[pagebreak]]
+[[manbreak]]
 ## `scalbn()`, `scalbnf()`, `scalbnl()` `scalbln()`, `scalblnf()`, `scalblnl()` {#man-scalb}
 
 Efficiently compute $x\times r^n$, where $r$ is `FLT_RADIX`.
@@ -1676,7 +1676,7 @@ scalbn(10.2, 20.7) = 10695475.200000
 [`pow()`](#man-pow)
 
 
-[[pagebreak]]
+[[manbreak]]
 ## `cbrt()`, `cbrtf()`, `cbrtl()` {#man-cbrt}
 
 Compute the cube root.
@@ -1718,7 +1718,7 @@ cbrt(1729.03) = 12.002384
 [`sqrt()`](#man-sqrt),
 [`pow()`](#man-pow)
 
-[[pagebreak]]
+[[manbreak]]
 ## `fabs()`, `fabsf()`, `fabsl()` {#man-fabs}
 
 Compute the absolute value.
@@ -1760,7 +1760,7 @@ printf("fabs(-3490.0) = %f\n", fabs(3490.0));  // 3490.000000
 [`abs()`](#man-abs),
 [`copysign()`](#man-copysign)
 
-[[pagebreak]]
+[[manbreak]]
 ## `hypot()`, `hypotf()`, `hypotl()` {#man-hypot}
 
 Compute the length of the hypotenuse of a triangle.
@@ -1804,7 +1804,7 @@ printf("%f\n", hypot(3, 4));  // 5.000000
 
 [`sqrt()`](#man-sqrt)
 
-[[pagebreak]]
+[[manbreak]]
 ## `pow()`, `powf()`, `powl()` {#man-pow}
 
 Compute a value raised to a power.
@@ -1855,7 +1855,7 @@ printf("%f\n", pow(2, 0.5));  // sqrt 2 = 1.414214
 [`sqrt()`](#man-sqrt),
 [`cbrt()`](#man-cbrt)
 
-[[pagebreak]]
+[[manbreak]]
 ## `sqrt()` {#man-sqrt}
 
 Calculate the square root of a number.
@@ -1928,7 +1928,7 @@ distance between points (x1, y1) and (x2, y2): 40.54
 [`hypot()`](#man-hypot),
 [`pow()`](#man-pow)
 
-[[pagebreak]]
+[[manbreak]]
 ## `erf()`, `erff()`, `erfl()` {#man-erf}
 
 Compute the error function of the given value.
@@ -1981,7 +1981,7 @@ Output:
 
 [`erfc()`](#man-erfc)
 
-[[pagebreak]]
+[[manbreak]]
 ## `erfc()`, `erfcf()`, `erfcl()` {#man-erfc}
 
 Compute the complementary error function of a value.
@@ -2042,7 +2042,7 @@ Output:
 
 [`erf()`](#man-erf)
 
-[[pagebreak]]
+[[manbreak]]
 ## `lgamma()`, `lgammaf()`, `lgammal()` {#man-lgamma}
 
 Compute the natural logarithm of the absolute value of $\Gamma(x)$.
@@ -2096,7 +2096,7 @@ Output:
 
 [`tgamma()`](#man-tgamma)
 
-[[pagebreak]]
+[[manbreak]]
 ## `tgamma()`, `tgammaf()`, `tgammal()` {#man-tgamma}
 
 Compute the gamma function, $\Gamma(x)$.
@@ -2149,7 +2149,7 @@ Output:
 
 [`lgamma()`](#man-lgamma)
 
-[[pagebreak]]
+[[manbreak]]
 ## `ceil()`, `ceilf()`, `ceill()` {#man-ceil}
 
 Ceiling---return the next whole number not smaller than the given number.
@@ -2200,7 +2200,7 @@ printf("%f\n", ceil(-3.1));  // -3.000000
 [`floor()`](#man-floor),
 [`round()`](#man-round)
 
-[[pagebreak]]
+[[manbreak]]
 ## `floor()`, `floorf()`, `floorl()` {#man-floor}
 
 Compute the largest whole number not larger than the given value.
@@ -2252,7 +2252,7 @@ printf("%f\n", floor(-3.1));  // -4.000000
 [`round()`](#man-round)
 
 
-[[pagebreak]]
+[[manbreak]]
 ## `nearbyint()`, `nearbyint()`, `nearbyint()` {#man-nearbyint}
 
 Rounds a value in the current rounding direction.
@@ -2314,7 +2314,7 @@ int main(void)
 [`fesetround()`](#man-fesetround),
 [`fegetround()`](#man-fegetround)
 
-[[pagebreak]]
+[[manbreak]]
 ## `rint()`, `rintf()`, `rintl()` {#man-rint}
 
 Rounds a value in the current rounding direction.
@@ -2371,7 +2371,7 @@ int main(void)
 [`fesetround()`](#man-fesetround),
 [`fegetround()`](#man-fegetround)
 
-[[pagebreak]]
+[[manbreak]]
 ## `lrint()`, `lrintf()`, `lrintl()` `llrint()`, `llrintf()`, `llrintl()` {#man-lrint}
 
 Returns `x` rounded in the current rounding direction as an integer.
@@ -2440,7 +2440,7 @@ int main(void)
 [`fesetround()`](#man-fesetround),
 [`fegetround()`](#man-fegetround)
 
-[[pagebreak]]
+[[manbreak]]
 ## `round()`, `roundf()`, `roundl()` {#man-round}
 
 Round a number in the good old-fashioned way.
@@ -2489,7 +2489,7 @@ printf("%f\n", round(-1.14));  // -1.000000
 [`lrint()`](#man-lrint),
 [`trunc()`](#man-trunc)
 
-[[pagebreak]]
+[[manbreak]]
 ## `lround()`, `lroundf()`, `lroundl()` `llround()`, `llroundf()`, `llroundl()` {#man-lround}
 
 Round a number in the good old-fashioned way, returning an integer.
@@ -2545,7 +2545,7 @@ printf("%ld\n", lround(-1.14));  // -1
 [`lrint()`](#man-lrint),
 [`trunc()`](#man-trunc)
 
-[[pagebreak]]
+[[manbreak]]
 ## `trunc()`, `truncf()`, `truncl()` {#man-trunc}
 
 Truncate the fractional part off a floating point value.
@@ -2590,7 +2590,7 @@ printf("%f\n", trunc(-1.14));  // -1.000000
 [`rint()`](#man-lrint),
 [`lrint()`](#man-lrint)
 
-[[pagebreak]]
+[[manbreak]]
 ## `fmod()`, `fmodf()`, `fmodl()` {#man-fmod}
 
 Compute the floating point remainder.
@@ -2635,7 +2635,7 @@ printf("%f\n", fmod(9.2, 5.1));   //  4.100000
 
 [`remainder()`](#man-remainder)
 
-[[pagebreak]]
+[[manbreak]]
 ## `remainder()`, `remainderf()`, `remainderl()` {#man-remainder}
 
 Compute the remainder IEC 60559-style.
@@ -2702,7 +2702,7 @@ printf("%f\n", remainder(4.3, 4));  //  0.300000
 [`fmod()`](#man-fmod),
 [`remquo()`](#man-remquo)
 
-[[pagebreak]]
+[[manbreak]]
 ## `remquo()`, `remquof()`, `remquol()` {#man-remquo}
 
 Compute the remainder and (some of the) quotient.
@@ -2797,7 +2797,7 @@ printf("%d remainder %f\n", quo, rem);  // 6 remainder -0.750000
 
 [`remainder()`](#man-remainder)
 
-[[pagebreak]]
+[[manbreak]]
 ## `copysign()`, `copysignf()`, `copysignl()` {#man-copysign}
 
 Copy the sign of one value into another.
@@ -2842,7 +2842,7 @@ printf("%f\n", copysign(x, z)); //  34.900000
 
 [`signbit()`](#man-signbit)
 
-[[pagebreak]]
+[[manbreak]]
 ## `nan()`, `nanf()`, `nanl()` {#man-nan}
 
 Return `NAN`.
@@ -2919,7 +2919,7 @@ printf("%f\n", nan("!"));      // nan
 
 [`strtod()`](#man-strtod)
 
-[[pagebreak]]
+[[manbreak]]
 ## `nextafter()`, `nextafterf()`, `nextafterl()` {#man-nextafter}
 
 Get the next (or previous) representable floating point value.
@@ -2977,7 +2977,7 @@ Output on my system:
 
 [`nexttoward()`](#man-nexttoward)
 
-[[pagebreak]]
+[[manbreak]]
 ## `nextoward()`, `nextowardf()`, `nextowardl()` {#man-nextoward}
 
 Get the next (or previous) representable floating point value.
@@ -3022,7 +3022,7 @@ Output on my system:
 
 [`nextafter()`](#man-nextafter)
 
-[[pagebreak]]
+[[manbreak]]
 ## `fdim()`, `fdimf()`, `fdiml()` {#man-fdim}
 
 Return the positive difference between two numbers clamped at 0.
@@ -3064,7 +3064,7 @@ printf("%f\n", fdim(3.0, 10.0));   // 0.000000, clamped
 [`example()`](#man-example),
 -->
 
-[[pagebreak]]
+[[manbreak]]
 ## `fmax()`, `fmax()`, `fmax()`, `fmin()`, `fmin()`, `fmin()` {#man-fmax}
 
 Return the maximum or minimum of two numbers.
@@ -3113,7 +3113,7 @@ printf("%f\n", fmax(3.0, 10.0));   // 10.000000
 [`example()`](#man-example),
 -->
 
-[[pagebreak]]
+[[manbreak]]
 ## `fma()`, `fmaf()`, `fmal()` {#man-fma}
 
 Floating (AKA "Fast") multiply and add.
@@ -3167,7 +3167,7 @@ printf("%f\n", fma(1.0, 2.0, 3.0));  // 5.000000
 [`example()`](#man-example),
 -->
 
-[[pagebreak]]
+[[manbreak]]
 ## `isgreater()`, `isgreaterequal()`, `isless()`, `islessequal()` {#man-isgreater}
 
 Floating point comparison macros.
@@ -3224,7 +3224,7 @@ printf("%d\n", islessequal(10.0, 3.0));      // 0
 [`islessgreater()`](#man-islessgreater),
 [`isunordered()`](#man-isunordered)
 
-[[pagebreak]]
+[[manbreak]]
 ## `islessgreater()` {#man-islessgreater}
 
 Test if a floating point number is less than or greater than another.
@@ -3273,7 +3273,7 @@ printf("%d\n", islessgreater(10.0, 10.0));  // 0
 [`islessequal()`](#man-isgreater),
 [`isunordered()`](#man-isunordered)
 
-[[pagebreak]]
+[[manbreak]]
 ## `isunordered()` {#man-isunordered}
 
 Macro returns true if either floating point argument is NaN.
@@ -3320,7 +3320,7 @@ printf("%d\n", isunordered(NAN, NAN));       // 1
 [`islessgreater()`](#man-islessgreater)
 
 <!--
-[[pagebreak]]
+[[manbreak]]
 ## `example()`, `example()`, `example()` {#man-example}
 
 ### Synopsis {.unnumbered .unlisted}

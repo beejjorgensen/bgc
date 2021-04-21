@@ -70,7 +70,7 @@ pointer to a `static` memory region. They both might return the same
 pointer. If you need thread safety, you'll need a mutex across them. If
 you need both results at once, copy the `struct` to another.
 
-[[pagebreak]]
+[[manbreak]]
 ## `clock()` {#man-clock}
 
 How much processor time has been used by this process
@@ -146,7 +146,7 @@ CPU time: 1.863078
 [`timespec_get()`](#man-timespec_get)
 
 
-[[pagebreak]]
+[[manbreak]]
 ## `difftime()` {#man-difftime}
 
 Compute the difference between two times
@@ -215,7 +215,7 @@ Output:
 [`mktime()`](#man-mktime)
 
 
-[[pagebreak]]
+[[manbreak]]
 ## `mktime()` {#man-mktime}
 
 Convert a `struct tm` into a `time_t`
@@ -309,7 +309,7 @@ UTC        : Mon Apr 12 12:00:04 1982
 [`localtime()`](#man-localtime),
 [`gmtime()`](#man-gmtime)
 
-[[pagebreak]]
+[[manbreak]]
 ## `time()` {#man-time}
 
 Get the current calendar time
@@ -360,7 +360,7 @@ The local time is Mon Mar  1 18:45:14 2021
 [`gmtime()`](#man-gmtime),
 [`ctime()`](#man-ctime)
 
-[[pagebreak]]
+[[manbreak]]
 ## `timespec_get()` {#man-timespec_get}
 
 Get a higher resolution time, probably now
@@ -490,7 +490,7 @@ struct timespec ld_to_timespec(long double t)
 [`mtx_timedlock()`](#man-mtx_timedlock),
 [`cnd_timedwait()`](#man-cnd_timedwait)
 
-[[pagebreak]]
+[[manbreak]]
 ## `asctime()` {#man-asctime}
 
 Return a human-readable version of a `struct tm`
@@ -555,7 +555,7 @@ UTC  : Tue Mar  2 05:17:34 2021
 [`localtime()`](#man-localtime),
 [`gmtime()`](#man-gmtime)
 
-[[pagebreak]]
+[[manbreak]]
 ## `ctime()` {#man-ctime}
 
 Return a human-readable version of a `time_t`
@@ -616,7 +616,7 @@ Local: Mon Mar  1 21:32:23 2021
 
 [`asctime()`](#man-asctime)
 
-[[pagebreak]]
+[[manbreak]]
 ## `gmtime()` {#man-gmtime}
 
 Convert a calendar time into a UTC broken-down time
@@ -673,7 +673,7 @@ Local: Mon Mar  1 21:40:05 2021
 [`asctime()`](#man-asctime),
 [`strftime()`](#man-strftime)
 
-[[pagebreak]]
+[[manbreak]]
 ## `localtime()` {#man-localtime}
 
 Convert a calendar time into a broken-down local time
@@ -729,7 +729,7 @@ UTC  : Tue Mar  2 05:40:05 2021
 [`asctime()`](#man-asctime),
 [`strftime()`](#man-strftime)
 
-[[pagebreak]]
+[[manbreak]]
 ## `strftime()` {#man-strftime}
 
 Formatted date and time output
@@ -924,7 +924,7 @@ int main(void)
 [`asctime()`](#man-asctime)
 
 <!--
-[[pagebreak]]
+[[manbreak]]
 ## `example()`, `example()`, `example()` {#man-example}
 
 ### Synopsis {.unnumbered .unlisted}

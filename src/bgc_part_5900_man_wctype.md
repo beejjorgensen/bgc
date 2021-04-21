@@ -7,8 +7,8 @@
 
 This is like [`<ctype.h>`](#ctype) except for wide characters.
 
-[[pagebreak]]
-## `example()` {#man-iswalnum}
+[[manbreak]]
+## `iswalnum()` {#man-iswalnum}
 
 Test if a wide character is alphanumeric.
 
@@ -54,7 +54,7 @@ int main(void)
 [`iswdigit()`](#man-iswdigit),
 [`isalnum()`](#man-isalnum)
 
-[[pagebreak]]
+[[manbreak]]
 ## `iswalpha()` {#man-iswalpha}
 
 Tests if a wide character is alphabetic
@@ -103,7 +103,7 @@ int main(void)
 [`isalpha()`](#man-isalpha)
 
 
-[[pagebreak]]
+[[manbreak]]
 ## `iswblank()` {#man-iswblank}
 
 Tests if this is a wide blank character
@@ -151,7 +151,7 @@ int main(void)
 [`iswspace()`](#man-iswspace),
 [`isblank()`](#man-isblank)
 
-[[pagebreak]]
+[[manbreak]]
 ## `iswcntrl()` {#man-iswcntrl}
 
 Tests if this is a wide control character.
@@ -207,7 +207,7 @@ int main(void)
 
 [`iscntrl()`](#man-iscntrl)
 
-[[pagebreak]]
+[[manbreak]]
 ## `iswdigit()` {#man-iswdigit}
 
 Test if this wide character is a digit
@@ -251,8 +251,8 @@ int main(void)
 [`iswalnum()`](#man-iswalnum),
 [`isdigit()`](#man-isdigit)
 
-[[pagebreak]]
-## `example()` {#man-example}
+[[manbreak]]
+## `iswgraph()` {#man-iswgraph}
 
 Test to see if a wide character is a printable non-space
 
@@ -300,7 +300,7 @@ int main(void)
 [`iswspace()`](#man-iswspace),
 [`isgraph()`](#man-isgraph)
 
-[[pagebreak]]
+[[manbreak]]
 ## `iswlower()` {#man-iswlower}
 
 Tests if a wide character is lowercase
@@ -354,7 +354,7 @@ int main(void)
 [`towupper()`](#man-toupper),
 [`towlower()`](#man-tolower)
 
-[[pagebreak]]
+[[manbreak]]
 ## `iswprint()` {#man-iswprint}
 
 Tests if a wide character is printable
@@ -399,7 +399,7 @@ int main(void)
 [`iswgraph()`](#man-iswgraph),
 [`iswcntrl()`](#man-iswcntrl)
 
-[[pagebreak]]
+[[manbreak]]
 ## `iswpunct()` {#man-iswpunct}
 
 Test if a wide character is punctuation
@@ -453,7 +453,7 @@ int main(void)
 [`iswspace()`](#man-iswspace),
 [`iswalnum()`](#man-iswalnum)
 
-[[pagebreak]]
+[[manbreak]]
 ## `iswspace()` {#man-iswspace}
 
 Test if a wide character is whitespace
@@ -512,7 +512,7 @@ int main(void)
 [`iswblank()`](#man-iswblank)
 
 <!--
-[[pagebreak]]
+[[manbreak]]
 ## `example()` {#man-example}
 
 ### Synopsis {.unnumbered .unlisted}
