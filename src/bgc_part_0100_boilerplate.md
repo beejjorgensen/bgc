@@ -100,7 +100,7 @@ command line tools.
 
 There are a lot of compilers out there, and virtually all of them will
 work for this book. And for those not in the know, a C++ compiler will
-compile C most code, so it'll work for the purposes of this guide.
+compile most C code, so it'll work for the purposes of this guide.
 
 ## Official Homepage
 
