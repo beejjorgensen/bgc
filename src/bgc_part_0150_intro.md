@@ -126,9 +126,9 @@ this header file. Basically, if we tried to use `printf()` without
 `#include <stdio.h>`, the compiler would have complained to us about it.
 
 How did I know I needed to `#include <stdio.h>` for `printf()`? Answer:
-it's in the documentation. If you're on a Unix system, `man printf` and
-it'll tell you right at the top of the man page what header files are
-required. Or see the reference section in this book. `:-)`
+it's in the documentation. If you're on a Unix system, `man 3 printf`
+and it'll tell you right at the top of the man page what header files
+are required. Or see the reference section in this book. `:-)`
 
 Holy moly. That was all to cover the first line! But, let's face it, it
 has been completely dissected. No mystery shall remain!
