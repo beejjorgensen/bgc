@@ -46,7 +46,7 @@ programming language thing?
 
 Well, to be quite honest, I'm not even sure what the above code does.
 It's a snippet from one of the entries in the 2001 [fl[International
-Obfuscated C Code Contest|http://www.ioccc.org/]], a wonderful
+Obfuscated C Code Contest|https://www.ioccc.org/]], a wonderful
 competition wherein the entrants attempt to write the most unreadable C
 code possible, with often surprising results.
 
@@ -100,12 +100,12 @@ command line tools.
 
 There are a lot of compilers out there, and virtually all of them will
 work for this book. And for those not in the know, a C++ compiler will
-compile C most code, so it'll work for the purposes of this guide.
+compile most C code, so it'll work for the purposes of this guide.
 
 ## Official Homepage
 
 This official location of this document is
-[fl[http://beej.us/guide/bgc/|http://beej.us/guide/bgc/]]. Maybe
+[fl[https://beej.us/guide/bgc/|https://beej.us/guide/bgc/]]. Maybe
 this'll change in the future, but it's more likely that all the other
 guides are migrated off Chico State computers.
 
@@ -159,7 +159,7 @@ Jorgensen" Hall.
 With specific exceptions for source code and translations, below, this
 work is licensed under the Creative Commons Attribution-Noncommercial-No
 Derivative Works 3.0 License. To view a copy of this license, visit
-[`http://creativecommons.org/licenses/by-nc-nd/3.0/`](http://creativecommons.org/licenses/by-nc-nd/3.0/)
+[`https://creativecommons.org/licenses/by-nc-nd/3.0/`](https://creativecommons.org/licenses/by-nc-nd/3.0/)
 or send a letter to Creative Commons, 171 Second Street, Suite 300, San
 Francisco, California, 94105, USA.
 
