@@ -5,7 +5,32 @@
 
 # `<wctype.h>` Wide Character Classification and Transformation {#wctype}
 
+|Function|Description|
+|--------|----------------------|
+|[`iswalnum()`](#man-iswalnum)|Test if a wide character is alphanumeric.|
+|[`iswalpha()`](#man-iswalpha)|Tests if a wide character is alphabetic|
+|[`iswblank()`](#man-iswblank)|Tests if this is a wide blank character|
+|[`iswcntrl()`](#man-iswcntrl)|Tests if this is a wide control character.|
+|[`iswctype()`](#man-iswctype)|Determine wide character classification|
+|[`iswdigit()`](#man-iswdigit)|Test if this wide character is a digit|
+|[`iswgraph()`](#man-iswgraph)|Test to see if a wide character is a printable non-space|
+|[`iswlower()`](#man-iswlower)|Tests if a wide character is lowercase|
+|[`iswprint()`](#man-iswprint)|Tests if a wide character is printable|
+|[`iswpunct()`](#man-iswpunct)|Test if a wide character is punctuation|
+|[`iswspace()`](#man-iswspace)|Test if a wide character is whitespace|
+|[`iswupper()`](#man-iswupper)|Tests if a wide character is uppercase|
+|[`iswxdigit()`](#man-iswxdigit)|Tests if a wide character is a hexadecimal digit|
+|[`towctrans()`](#man-towctrans)|Convert wide characters to upper or lowercase|
+|[`towlower()`](#man-towlower)|Convert an uppercase wide character to lowercase|
+|[`towupper()`](#man-towupper)|Convert a lowercase wide character to uppercase|
+|[`wctrans()`](#man-wctrans)|Helper function for `towctrans()`|
+|[`wctype()`](#man-wctype)|Helper function for `iswctype()`|
+
 This is like [`<ctype.h>`](#ctype) except for wide characters.
+
+With it you can test for character classifications (like "is this
+character whitespace?") or do basic character conversions (like "force
+this character to lowercase").
 
 [[manbreak]]
 ## `iswalnum()` {#man-iswalnum}
@@ -728,8 +753,7 @@ Yes! 'x' is alnum!
 [[manbreak]]
 ## `wctype()` {#man-wctype}
 
-Return a value for use with `iswctype()` corresponding to the given
-character classification
+Helper function for `iswctype()`
 
 ### Synopsis {.unnumbered .unlisted}
 
@@ -820,6 +844,293 @@ Yes! 'x' is alnum!
 ### See Also {.unnumbered .unlisted}
 
 [`iswctype()`](#man-iswctype)
+
+[[manbreak]]
+## `towlower()` {#man-towlower}
+
+Convert an uppercase wide character to lowercase
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <wctype.h>
+
+wint_t towlower(wint_t wc);
+```
+
+### Description {.unnumbered .unlisted}
+
+If the character is upper (i.e. `iswupper(c)` is true), this function
+returns the corresponding lowercase letter.
+
+Different locales might have different upper and lowercase letters.
+
+### Return Value {.unnumbered .unlisted}
+
+If the letter `wc` is uppercase, a lowercase version of that letter will
+be returned according to the current locale.
+
+If the letter is not uppercase, `wc` is returned unchanged.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+#include <wchar.h>
+#include <wctype.h>
+
+int main(void)
+{
+    //                  changing this char
+    //                           v
+    wprintf(L"%lc\n", towlower(L'B'));  // b (made lowercase!)
+    wprintf(L"%lc\n", towlower(L'e'));  // e (unchanged)
+    wprintf(L"%lc\n", towlower(L'!'));  // ! (unchanged)
+}
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`tolower()`](#man-tolower),
+[`towupper()`](#man-towupper),
+[`iswlower()`](#man-iswlower),
+[`iswupper()`](#man-iswupper)
+
+[[manbreak]]
+## `towupper()` {#man-towupper}
+
+Convert a lowercase wide character to uppercase
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <wctype.h>
+
+wint_t towupper(wint_t wc);
+```
+
+### Description {.unnumbered .unlisted}
+
+If the character is upper (i.e. `iswupper(c)` is true), this function
+returns the corresponding lowercase letter.
+
+Different locales might have different upper and lowercase letters.
+
+### Return Value {.unnumbered .unlisted}
+
+If the letter `wc` is lowercase, an uppercase version of that letter
+will be returned according to the current locale.
+
+If the letter is not lowercase, `wc` is returned unchanged.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+#include <wchar.h>
+#include <wctype.h>
+
+int main(void)
+{
+    //                  changing this char
+    //                           v
+    wprintf(L"%lc\n", towupper(L'B'));  // B (unchanged)
+    wprintf(L"%lc\n", towupper(L'e'));  // E (made uppercase!)
+    wprintf(L"%lc\n", towupper(L'!'));  // ! (unchanged)
+}
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`toupper()`](#man-toupper),
+[`towlower()`](#man-towlower),
+[`iswlower()`](#man-iswlower),
+[`iswupper()`](#man-iswupper)
+
+[[manbreak]]
+## `towctrans()` {#man-towctrans}
+
+Convert wide characters to upper or lowercase
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <wctype.h>
+
+wint_t towctrans(wint_t wc, wctrans_t desc);
+```
+
+### Description {.unnumbered .unlisted}
+
+This is the Swiss Army knife of character conversion functions; it's all
+the other ones rolled into one. And by "all the other ones" I mean
+`towupper()` and `towlower()`, since those are the only ones there are.
+
+You call it with something like this:
+
+``` {.c}
+if (towctrans(c, wctrans("toupper")))  // or "tolower"
+```
+
+and it behaves just like you'd called:
+
+``` {.c}
+towupper(c);
+```
+
+The difference is that you can specify the type of conversion you want
+to do as a string at runtime, which might be convenient.
+
+`towctrans()` relies on the return value from the
+[`wctrans()`](#man-wctrans) call to get its work done.
+
+|`towctrans()` call|Hard-coded equivalent|
+|-|-|
+|`towctrans(c, wctrans("toupper"))`|`towupper(c)`|
+|`towctrans(c, wctrans("tolower"))`|`towlower(c)`|
+
+See the [`wctrans()` documentation](#man-wctrans) for how that helper
+function works.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns the character `wc` as if run through `towupper()` or
+`towlower()`, depending on the value of `desc`.
+
+If the character already matches the classification, it is returned
+as-is.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+#include <stdio.h>  // for fflush(stdout)
+#include <wchar.h>
+#include <wctype.h>
+
+int main(void)
+{
+    wchar_t c;        // Holds a single wide character (to test)
+    char desc[128];   // Holds the conversion type
+
+    // Get the character and conversion type from the user
+    wprintf(L"Enter a character and conversion type: ");
+    fflush(stdout);
+    wscanf(L"%lc %s", &c, desc);
+
+    // Compute the type from the given conversion type
+    wctrans_t t = wctrans(desc);
+
+    if (t == 0)
+        // If the type is 0, it's an unknown conversion type
+        wprintf(L"Unknown conversion: \"%s\"\n", desc);
+    else {
+        // Otherwise, let's do the conversion
+        wint_t result = towctrans(c, t);
+        wprintf(L"'%lc' -> %s -> '%lc'\n", c, desc, result);
+    }
+}
+```
+
+Output on my system:
+
+```
+Enter a character and conversion type: b toupper
+'b' -> toupper -> 'B'
+
+Enter a character and conversion type: B toupper
+'B' -> toupper -> 'B'
+
+Enter a character and conversion type: B tolower
+'B' -> tolower -> 'b'
+
+Enter a character and conversion type: ! toupper
+'!' -> toupper -> '!'
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`wctrans()`](#man-wctrans),
+[`towupper()`](#man-towupper),
+[`towlower()`](#man-towlower)
+
+[[manbreak]]
+## `wctrans()` {#man-wctrans}
+
+Helper function for `towctrans()`
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <wctype.h>
+
+wctrans_t wctrans(const char *property);
+```
+
+### Description {.unnumbered .unlisted}
+
+This is a helper function for generating the second argument to
+[`towctrans()`](#man-towctrans).
+
+You can pass in one of two things for the `property`:
+
+* `toupper` to make `towctrans()` behave like `towupper()`
+* `tolower` to make `towctrans()` behave like `towlower()`
+
+### Return Value {.unnumbered .unlisted}
+
+On success, returns a value that can be used as the `desc` argument to
+`towctrans()`.
+
+Otherwise, if the `property` isn't recognized, returns `0`.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+#include <stdio.h>  // for fflush(stdout)
+#include <wchar.h>
+#include <wctype.h>
+
+int main(void)
+{
+    wchar_t c;        // Holds a single wide character (to test)
+    char desc[128];   // Holds the conversion type
+
+    // Get the character and conversion type from the user
+    wprintf(L"Enter a character and conversion type: ");
+    fflush(stdout);
+    wscanf(L"%lc %s", &c, desc);
+
+    // Compute the type from the given conversion type
+    wctrans_t t = wctrans(desc);
+
+    if (t == 0)
+        // If the type is 0, it's an unknown conversion type
+        wprintf(L"Unknown conversion: \"%s\"\n", desc);
+    else {
+        // Otherwise, let's do the conversion
+        wint_t result = towctrans(c, t);
+        wprintf(L"'%lc' -> %s -> '%lc'\n", c, desc, result);
+    }
+}
+```
+
+Output on my system:
+
+```
+Enter a character and conversion type: b toupper
+'b' -> toupper -> 'B'
+
+Enter a character and conversion type: B toupper
+'B' -> toupper -> 'B'
+
+Enter a character and conversion type: B tolower
+'B' -> tolower -> 'b'
+
+Enter a character and conversion type: ! toupper
+'!' -> toupper -> '!'
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`towctrans()`](#man-towctrans)
 
 <!--
 [[manbreak]]
