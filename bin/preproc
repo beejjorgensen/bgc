@@ -31,6 +31,9 @@ import sys
 import re
 import preproc_config
 
+def get_config(k, default=None):
+	return getattr(preproc_config, k, default)
+
 if len(sys.argv) < 3:
     print("usage: preproc infile [infile ... ] outputfile", file=sys.stdout)
     sys.exit(1)
@@ -49,6 +52,9 @@ for infile in infiles:
     filedata.append("\n")  # Put a blank in there in case there's no trailing newline
     fin.close()
 
+wp_path = get_config("WIKIPEDIA_URL", "https://en.wikipedia.org/wiki/")
+man_path = get_config("MAN_URL", "https://man.archlinux.org/man/")
+
 try:
 	wp_path = preproc_config.WIKIPEDIA_URL
 except AttributeError:
@@ -65,6 +71,7 @@ filedata = re.sub(r'\[ix\[(.+?)\]\]', r'\\index{\1}', filedata, flags=re.DOTALL)
 filedata = re.sub(r'\[ixtt\[(.+?)\]\]', r'\\index{\1@\\texttt{\1}}', filedata, flags=re.DOTALL)
 filedata = re.sub(r'\[fl\[(.+?)\|(.+?)\]\]', r'[\1](\2)^[\2]', filedata, flags=re.DOTALL)
 filedata = re.sub(r'\[flw\[(.+?)\|(.+?)\]\]', r'[\1](' + wp_path + r'\2)^[' + wp_path + r'\2]', filedata, flags=re.DOTALL)
+filedata = re.sub(r'\[flm\[(.+?)\|(.+?)\]\]', r'[\1](' + man_path + r'\2)^[' + man_path + r'\2]', filedata, flags=re.DOTALL)
 filedata = re.sub(r'\[flx\[(.+?)\|(.+?)\]\]', r'[\1](' + preproc_config.EXAMPLE_URL + r'\2)^[' + preproc_config.EXAMPLE_URL + r'\2]', filedata, flags=re.DOTALL)
 filedata = re.sub(r'\[flr\[(.+?)\|(.+?)\]\]', r'[\1](https://beej.us/guide/url/\2)^[https://beej.us/guide/url/\2]', filedata, flags=re.DOTALL)
 filedata = re.sub(r'\[flrfc\[(.+?)\|(.+?)\]\]', r'[\1](https://tools.ietf.org/html/rfc\2)^[https://tools.ietf.org/html/rfc\2]', filedata, flags=re.DOTALL)
