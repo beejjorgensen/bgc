@@ -5,7 +5,23 @@
 
 # `<signal.h>` signal handling {#signal}
 
-Handle signals.
+|Function|Description|
+|--------|----------------------|
+|[`signal()`](#man-signal)|Set a signal handler for a given signal|
+|[`raise()`](#man-raise)|Cause a signal to be raised|
+
+Handle signals in a portable way, kind of!
+
+These signals get raised for a variety of reasons such as CTRL-C being
+hit, requests to terminate for external programs, memory access
+violations, and so on.
+
+Your OS likely defines a plethora of other signals, as well.
+
+This system is pretty limited, as seen below. If you're on Unix, it's
+almost certain your OS has far superior signal handling capabilities
+than the C standard library. Check out
+[flm[`sigaction`|sigaction.2.en]].
 
 [[manbreak]]
 ## `signal()` {#man-signal}
@@ -22,14 +38,10 @@ void (*signal(int sig, void (*func)(int)))(int);
 
 ### Description {.unnumbered .unlisted}
 
-How's **that** for a function definition?
+How's _that_ for a function definition?
 
 Let's ignore it for a moment and just talk about what this function
 does.
-
-(Before we start, I'd like to point out that your OS probably has far
-superior signal handling capabilities than the C standard library. For
-instance, Unix-likes should check out `sigaction`.)
 
 When a signal is raised, _something_ is going to happen. This function
 lets you decide to do one of these things when the signal is raised:
@@ -132,12 +144,19 @@ It's up to the implementation, but the signal handler might be reset to
 It's undefined behavior to call `signal()` in a multithreaded program.
 
 It's undefined behavior to return from the handler for `SIGFPE`,
-`SIGILL`, `SIGSEGV`, or any implementation-defined value.
+`SIGILL`, `SIGSEGV`, or any implementation-defined value. You must exit.
 
 The implementation might or might not prevent other signals from arising
 while in the signal handler.
 
 ### Return Value {.unnumbered .unlisted}
+
+On success, `signal()` returns a pointer to the previous signal handler
+set by a call to `signal()` for that particular signal number. If you
+haven't called it set, returns `SIG_DFL`.
+
+On failure, `SIG_ERR` is returned and `errno` is set to a positive
+value.
 
 ### Example {.unnumbered .unlisted}
 
@@ -232,6 +251,80 @@ int main(void)
 
 [`raise()`](#man-raise),
 [`abort()`](#man-abort)
+
+[[manbreak]]
+## `raise()` {#man-raise}
+
+Cause a signal to be raised
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <signal.h>
+
+int raise(int sig);
+```
+
+### Description {.unnumbered .unlisted}
+
+Causes the signal handler for the signal `sig` to be called. If the
+handler is `SIG_DFL` or `SIG_IGN`, then the default action or no action
+happens.
+
+`raise()` returns after the signal handler has finished running.
+
+Interestingly, if you cause a signal to happen with `raise()`, you can
+call library functions from within the signal handler without causing
+undefined behavior. I'm not sure how this fact is practically useful,
+though.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns `0` on success. Nonzero otherwise.
+
+### Example {.unnumbered .unlisted}
+
+This program sets the signal handler, then raises the signal. The signal
+handler fires.
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <signal.h>
+
+void handler(int sig)
+{
+    // Undefined behavior to call printf() if this handler was not
+    // as the result of a raise(), i.e. if you hit CTRL-C.
+
+    printf("Got signal %d!\n", sig);
+
+    // Common to reset the handler just in case the implementation set
+    // it to SIG_DFL when the signal occurred.
+
+    signal(sig, handler);
+}
+
+int main(void)
+{
+    signal(SIGINT, handler);
+
+    raise(SIGINT);
+    raise(SIGINT);
+    raise(SIGINT);
+}
+```
+
+Output:
+
+```
+Got signal 2!
+Got signal 2!
+Got signal 2!
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`signal()`](#man-signal)
 
 <!--
 [[manbreak]]
