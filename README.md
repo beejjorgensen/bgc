@@ -61,11 +61,11 @@ have to consider any copyright issues when merging changes.
 ## TODO
 
 * More man pages
+  * locale
   * uchar
   * fenv
   * float
   * assert
-  * locale
   * limits
   * complex
   * inttypes
