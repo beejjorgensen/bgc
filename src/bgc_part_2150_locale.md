@@ -96,6 +96,7 @@ that has all that juicy information you're looking for.
 
 Here are the fields of `struct lconv` and their meanings.
 
+First, some conventions. An `_p_` means "positive", and `_n_` means
 "negative", and `int_` means "international". Though a lot of these are
 type `char` or `char*`, most (or the strings they point to) are actually
 treated as integers^[Remember that `char` is just a byte-sized
@@ -130,7 +131,7 @@ in the given locale.
 |`char int_p_sign_posn`|International value for `p_sign_posn`.|
 |`char int_n_sign_posn`|International value for `n_sign_posn`.|
 
-### Monetary Digit Grouping
+### Monetary Digit Grouping {#monetary-digit-grouping}
 
 OK, this is a trippy one. `mon_grouping` is a `char*`, so you might be
 thinking it's a string. But in this case, no, it's really an array of
