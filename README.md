@@ -63,7 +63,6 @@ have to consider any copyright issues when merging changes.
 * More man pages
   * uchar
   * fenv
-  * complex
   * float
   * assert
   * limits
