@@ -29,7 +29,7 @@ long double complex cacosl(long double complex z);
 Computes the complex arc-cosine of a complex number.
 
 The complex number `z` will have an imaginary component in the range
-$[0,π]$, and the real component is unbounded.
+$[0,\pi]$, and the real component is unbounded.
 
 There are branch cuts outside the interval $[-1,+1]$ on the real axis.
 
@@ -87,7 +87,7 @@ long double complex casinl(long double complex z);
 Computes the complex arc-sine of a complex number.
 
 The complex number `z` will have an imaginary component in the range
-$[-π/2,+π/2]$, and the real component is unbounded.
+$[-\pi/2,+\pi/2]$, and the real component is unbounded.
 
 There are branch cuts outside the interval $[-1,+1]$ on the real axis.
 
@@ -146,7 +146,7 @@ long double complex catanl(long double complex z);
 Computes the complex arc-tangent of a complex number.
 
 The complex number `z` will have an real component in the range
-$[-π/2,+π/2]$, and the imaginary component is unbounded.
+$[-\pi/2,+\pi/2]$, and the imaginary component is unbounded.
 
 There are branch cuts outside the interval $[-i,+i]$ on the imaginary
 axis.
@@ -345,6 +345,65 @@ Result: -0.027073 + 1.085990i
 [`ccos()`](#man-ccos),
 [`csin()`](#man-csin),
 [`catan()`](#man-catan)
+
+
+[[manbreak]]
+## `cacosh()` `cacoshf()` `cacoshl()` {#man-cacosh}
+
+Compute the complex arc hyperbolic cosine
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <complex.h>
+
+double complex cacosh(double complex z);
+
+float complex cacoshf(float complex z);
+
+long double complex cacoshl(long double complex z);
+```
+
+### Description {.unnumbered .unlisted}
+
+Computes the complex arc hyperbolic cosine of a complex number.
+
+There is a branch cut at values less than $1$ on the real axis.
+
+The return value will be non-negative on the real number axis, and in
+the range $[-i\pi,+i\pi]$.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns the complex arc hyperbolic cosine of `z`.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <complex.h>
+
+int main(void)
+{
+    double complex x = 8 + 1.5708 * I;
+
+    double complex y = cacosh(x);
+
+    printf("Result: %f + %fi\n", creal(y), cimag(y));
+}
+```
+
+Output:
+
+```
+Result: 2.788006 + 0.195321i
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`casinh()`](#man-casinh),
+[`catanh()`](#man-catanh),
+[`acosh()`](#man-acosh)
 
 <!--
 [[manbreak]]
