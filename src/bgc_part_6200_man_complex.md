@@ -371,7 +371,7 @@ Computes the complex arc hyperbolic cosine of a complex number.
 There is a branch cut at values less than $1$ on the real axis.
 
 The return value will be non-negative on the real number axis, and in
-the range $[-i\pi,+i\pi]$.
+the range $[-i\pi,+i\pi]$ on the imaginary axis.
 
 ### Return Value {.unnumbered .unlisted}
 
@@ -404,6 +404,282 @@ Result: 2.788006 + 0.195321i
 [`casinh()`](#man-casinh),
 [`catanh()`](#man-catanh),
 [`acosh()`](#man-acosh)
+
+[[manbreak]]
+## `casinh()` `casinhf()` `casinhl()` {#man-casinh}
+
+Compute the complex arc hyperbolic sine
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <complex.h>
+
+double complex casinh(double complex z);
+
+float complex casinhf(float complex z);
+
+long double complex casinhl(long double complex z);
+```
+
+### Description {.unnumbered .unlisted}
+
+Computes the complex arc hyperbolic sine of a complex number.
+
+There are branch cuts outside $[-i,+i]$ on the imaginary axis.
+
+The return value will be unbounded on the real number axis, and in
+the range $[-i\pi/2,+i\pi/2]$ on the imaginary axis.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns the complex arc hyperbolic sine of `z`.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <complex.h>
+
+int main(void)
+{
+    double complex x = 8 + 1.5708 * I;
+
+    double complex y = casinh(x);
+
+    printf("Result: %f + %fi\n", creal(y), cimag(y));
+}
+```
+
+Output:
+
+```
+Result: 2.794970 + 0.192476i
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`cacosh()`](#man-cacosh),
+[`catanh()`](#man-catanh),
+[`asinh()`](#man-asinh)
+
+[[manbreak]]
+## `catanh()` `catanhf()` `catanhl()` {#man-catanh}
+
+Compute the complex arc hyperbolic tangent
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <complex.h>
+
+double complex catanh(double complex z);
+
+float complex catanhf(float complex z);
+
+long double complex catanhl(long double complex z);
+```
+
+### Description {.unnumbered .unlisted}
+
+Computes the complex arc hyperbolic tangent of a complex number.
+
+There are branch cuts outside $[-1,+1]$ on the real axis.
+
+The return value will be unbounded on the real number axis, and in
+the range $[-i\pi/2,+i\pi/2]$ on the imaginary axis.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns the complex arc hyperbolic tangent of `z`.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <complex.h>
+
+int main(void)
+{
+    double complex x = 8 + 1.5708 * I;
+
+    double complex y = catanh(x);
+
+    printf("Result: %f + %fi\n", creal(y), cimag(y));
+}
+```
+
+Output:
+
+```
+Result: 0.120877 + 1.546821i
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`cacosh()`](#man-cacosh),
+[`casinh()`](#man-casinh),
+[`atanh()`](#man-atanh)
+
+[[manbreak]]
+## `ccosh()` `ccoshf()` `ccoshl()` {#man-ccosh}
+
+Compute the complex hyperbolic cosine
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <complex.h>
+
+double complex ccosh(double complex z);
+
+float complex ccoshf(float complex z);
+
+long double complex ccoshl(long double complex z);
+```
+
+### Description {.unnumbered .unlisted}
+
+Computes the complex hyperbolic cosine of a complex number.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns the complex hyperbolic cosine of `z`.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <complex.h>
+
+int main(void)
+{
+    double complex x = 8 + 1.5708 * I;
+
+    double complex y = ccosh(x);
+
+    printf("Result: %f + %fi\n", creal(y), cimag(y));
+}
+```
+
+Output:
+
+```
+Result: -0.005475 + 1490.478826i
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`csinh()`](#man-csinh),
+[`ctanh()`](#man-ctanh),
+[`ccos()`](#man-ccos)
+
+[[manbreak]]
+## `csinh()` `csinhf()` `csinhl()` {#man-csinh}
+
+Compute the complex hyperbolic sine
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <complex.h>
+
+double complex csinh(double complex z);
+
+float complex csinhf(float complex z);
+
+long double complex csinhl(long double complex z);
+```
+
+### Description {.unnumbered .unlisted}
+
+Computes the complex hyperbolic sine of a complex number.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns the complex hyperbolic sine of `z`.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <complex.h>
+
+int main(void)
+{
+    double complex x = 8 + 1.5708 * I;
+
+    double complex y = csinh(x);
+
+    printf("Result: %f + %fi\n", creal(y), cimag(y));
+}
+```
+
+Output:
+
+```
+Result: -0.005475 + 1490.479161i
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`ccosh()`](#man-ccosh),
+[`ctanh()`](#man-ctanh),
+[`csin()`](#man-csin)
+
+
+[[manbreak]]
+## `ctanh()` `ctanhf()` `ctanhl()` {#man-ctanh}
+
+Compute the complex hyperbolic tangent
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <complex.h>
+
+double complex ctanh(double complex z);
+
+float complex ctanhf(float complex z);
+
+long double complex ctanhl(long double complex z);
+```
+
+### Description {.unnumbered .unlisted}
+
+Computes the complex hyperbolic tangent of a complex number.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns the complex hyperbolic tangent of `z`.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <complex.h>
+
+int main(void)
+{
+    double complex x = 8 + 1.5708 * I;
+
+    double complex y = ctanh(x);
+
+    printf("Result: %f + %fi\n", creal(y), cimag(y));
+}
+```
+
+Output:
+
+```
+Result: 1.000000 + -0.000000i
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`ccosh()`](#man-ccosh),
+[`csinh()`](#man-csinh),
+[`ctan()`](#man-ctan)
 
 <!--
 [[manbreak]]
