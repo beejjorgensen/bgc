@@ -681,6 +681,420 @@ Result: 1.000000 + -0.000000i
 [`csinh()`](#man-csinh),
 [`ctan()`](#man-ctan)
 
+[[manbreak]]
+## `cexp()` `cexpf()` `cexpl()` {#man-cexp}
+
+Compute the complex base-$e$ exponential
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <complex.h>
+
+double complex cexp(double complex z);
+
+float complex cexpf(float complex z);
+
+long double complex cexpl(long double complex z);
+```
+
+### Description {.unnumbered .unlisted}
+
+Computes the complex base-$e$ exponential of `z`.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns the complex base-$e$ exponential of `z`.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <complex.h>
+
+int main(void)
+{
+    double complex x = 1 + 2 * I;
+
+    double complex y = cexp(x);
+
+    printf("Result: %f + %fi\n", creal(y), cimag(y));
+}
+```
+
+Output:
+
+```
+Result: -1.131204 + 2.471727i
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`cpow()`](#man-cpow),
+[`clog()`](#man-clog),
+[`exp()`](#man-exp)
+
+[[manbreak]]
+## `clog()` `clogf()` `clogl()` {#man-clog}
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <complex.h>
+
+double complex clog(double complex z);
+
+float complex clogf(float complex z);
+
+long double complex clogl(long double complex z);
+```
+
+### Description {.unnumbered .unlisted}
+
+Compute the base-$e$ complex logarithm of `z`. There is a branch cut on
+the negative real axis.
+
+The returns value is unbounded on the real axis and in the range
+$[-i\pi,+i\pi]$ on the imaginary axis.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns the base-$e$ complex logarithm of `z`.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <complex.h>
+
+int main(void)
+{
+    double complex x = 1 + 2 * I;
+
+    double complex y = clog(x);
+
+    printf("Result: %f + %fi\n", creal(y), cimag(y));
+}
+```
+
+Output:
+
+```
+Result: 0.804719 + 1.107149i
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`cexp()`](#man-cexp),
+[`log()`](#man-log)
+
+[[manbreak]]
+## `cabs()` `cabsf()` `cabsl()` {#man-cabs}
+
+Compute the complex absolute value
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <complex.h>
+
+double cabs(double complex z);
+
+float cabsf(float complex z);
+
+long double cabsl(long double complex z);
+```
+
+### Description {.unnumbered .unlisted}
+
+Computes the complex absolute value of `z`.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns the complex absolute value of `z`.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <complex.h>
+
+int main(void)
+{
+    double complex x = 1 + 2 * I;
+
+    double complex y = cabs(x);
+
+    printf("Result: %f + %fi\n", creal(y), cimag(y));
+}
+```
+
+Output:
+
+```
+Result: 2.236068 + 0.000000i
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`fabs()`](#man-fabs),
+[`abs()`](#man-abs)
+
+[[manbreak]]
+## `csqrt()` `csqrtf()` `csqrtl()` {#man-csqrt}
+
+Compute the complex square root
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <complex.h>
+
+double complex csqrt(double complex z);
+
+float complex csqrtf(float complex z);
+
+long double complex csqrtl(long double complex z);
+```
+
+### Description {.unnumbered .unlisted}
+
+Computes the complex square root of `z`.
+
+There is a branch cut along the negative real axis.
+
+The return value is in the right half of the complex plane and includes
+the imaginary axis.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns the complex square root of `z`.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <complex.h>
+
+int main(void)
+{
+    double complex x = 1 + 2 * I;
+
+    double complex y = csqrt(x);
+
+    printf("Result: %f + %fi\n", creal(y), cimag(y));
+}
+```
+
+Output:
+
+```
+Result: 1.272020 + 0.786151i
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`cpow()`](#man-cpow),
+[`sqrt()`](#man-sqrt)
+
+[[manbreak]]
+## `carg()` `cargf()` `cargl()` {#man-carg}
+
+Compute the complex argument
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <complex.h>
+
+double carg(double complex z);
+
+float cargf(float complex z);
+
+long double cargl(long double complex z);
+```
+
+### Description {.unnumbered .unlisted}
+
+Computes the complex argument (AKA phase angle) of `z`.
+
+There is a branch cut along the negative real axis.
+
+Returns a value in the range $[-\pi,+\pi]$.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns the complex argument of `z`.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <complex.h>
+
+int main(void)
+{
+    double complex x = 1 + 2 * I;
+
+    double y = carg(x);
+
+    printf("Result: %f\n", y);
+}
+```
+
+Output:
+
+```
+Result: 1.107149
+```
+
+<!--
+### See Also {.unnumbered .unlisted}
+
+[`example()`](#man-example),
+-->
+
+[[manbreak]]
+## `cimag()` `cimagf()` `cimagl()` {#man-cimag}
+
+Returns the imaginary part of a complex number
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <complex.h>
+
+double cimag(double complex z);
+
+float cimagf(float complex z);
+
+long double cimagl(long double complex z);
+```
+
+### Description {.unnumbered .unlisted}
+
+Returns the imaginary part of `z`.
+
+As a footnote, the spec points out that any complex number `x` is part
+of the following equivalency:
+
+``` {.c}
+x == creal(x) + cimag(x) * I;
+```
+
+### Return Value {.unnumbered .unlisted}
+
+Returns the imaginary part of `z`.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <complex.h>
+
+int main(void)
+{
+    double complex x = 1 + 2 * I;
+
+    double y = cimag(x);
+
+    printf("Result: %f\n", y);
+}
+```
+
+Output---just the imaginary part:
+
+```
+Result: 2.000000
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`creal()`](#man-creal)
+
+[[manbreak]]
+## `CMPLX()` `CMPLXF()` `CMPLXL()` {#man-CMPLX}
+
+Build a complex value from real and imaginary types
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <complex.h>
+
+double complex CMPLX(double x, double y);
+
+float complex CMPLXF(float x, float y);
+
+long double complex CMPLXL(long double x, long double y);
+```
+
+### Description {.unnumbered .unlisted}
+
+These macros build a complex value from real and imaginary types.
+
+Now I know what you're thinking. "But I can already build a complex
+value from real and imaginary types using the `I` macro, like in the
+example you're about to give us."
+
+``` {.c}
+double complex x = 1 + 2 * I;
+```
+
+And that's true.
+
+But the reality of the matter is weird and complex.
+
+Maybe `I` got undefined, or maybe you redefined it.
+
+Or maybe `I` was defined as `_Complex_I` which doesn't necessarily
+preserve the sign of a zero value.
+
+As the spec points out, these macros build complex numbers as if
+`_Imaginary_I` were defined (thus preserving your zero sign) even if
+it's not. That is, they are defined equivalently to:
+
+``` {.c}
+#define CMPLX(x, y)  ((double complex)((double)(x) + \
+                     _Imaginary_I * (double)(y)))
+
+#define CMPLXF(x, y) ((float complex)((float)(x) + \
+                     _Imaginary_I * (float)(y)))
+
+#define CMPLXL(x, y) ((long double complex)((long double)(x) + \
+                     _Imaginary_I * (long double)(y)))
+```
+
+### Return Value {.unnumbered .unlisted}
+
+Returns the complex number for the given real `x` and imaginary `y`
+components.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <complex.h>
+
+int main(void)
+{
+    double complex x = CMPLX(1, 2);  // Like 1 + 2 * I
+
+    printf("Result: %f + %fi\n", creal(x), cimag(x));
+}
+```
+
+Output:
+
+```
+Result: 1.000000 + 2.000000i
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`creal()`](#man-creal),
+[`cimag()`](#man-cimag)
+
 <!--
 [[manbreak]]
 ## `example()` `example()` `example()` {#man-example}
