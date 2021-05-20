@@ -1095,6 +1095,196 @@ Result: 1.000000 + 2.000000i
 [`creal()`](#man-creal),
 [`cimag()`](#man-cimag)
 
+[[manbreak]]
+## `conj()` `conjf()` `conjl()` {#man-conj}
+
+Compute the conjugate of a complex number
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <complex.h>
+
+double complex conj(double complex z);
+
+float complex conjf(float complex z);
+
+long double complex conjl(long double complex z);
+```
+
+### Description {.unnumbered .unlisted}
+
+This function computes the [flw[complex conjugate|Complex_conjugate]] of
+`z`. Apparently it does this by reversing the sign of the imaginary
+part, but dammit, I'm a programmer not a mathematician, Jim!
+
+### Return Value {.unnumbered .unlisted}
+
+Returns the complex conjugate of `z`
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <complex.h>
+
+int main(void)
+{
+    double complex x = 1 + 2 * I;
+
+    double complex y = conj(x);
+
+    printf("Result: %f + %fi\n", creal(y), cimag(y));
+}
+```
+
+Output:
+
+```
+Result: 1.000000 + -2.000000i
+```
+
+<!--
+### See Also {.unnumbered .unlisted}
+
+[`example()`](#man-example),
+-->
+
+[[manbreak]]
+## `cproj()` `cproj()` `cproj()` {#man-cproj}
+
+Compute the projection of a complex number
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <complex.h>
+
+double complex cproj(double complex z);
+
+float complex cprojf(float complex z);
+
+long double complex cprojl(long double complex z);
+```
+
+### Description {.unnumbered .unlisted}
+
+Computes the projection of `z` onto a [flw[Riemann
+sphere|Riemann_sphere]].
+
+Now we're _really_ outside my expertise. The spec has this to say, which
+I'm quoting verbatim because I'm not knowledgable enough to rewrite it
+sensibly. Hopefully it makes sense to anyone who would need to use this
+function.
+
+> `z` projects to `z` except that all complex infinities (even those with
+> one infinite part and one `NaN` part) project to positive infinity on
+> the real axis. If `z` has an infinite part, then `cproj(z)` is equivalent
+> to
+>
+>     INFINITY + I * copysign(0.0, cimag(z))
+
+So there you have it.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns the projection of `z` onto a Riemann sphere.
+
+### Example {.unnumbered .unlisted}
+
+Fingers crossed this is a remotely sane example...
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <complex.h>
+#include <math.h>
+
+int main(void)
+{
+    double complex x = 1 + 2 * I;
+
+    double complex y = cproj(x);
+
+    printf("Result: %f + %fi\n", creal(y), cimag(y));
+
+    x = INFINITY + 2 * I;
+    y = cproj(x);
+
+    printf("Result: %f + %fi\n", creal(y), cimag(y));
+}
+```
+
+Output:
+
+```
+Result: 1.000000 + 2.000000i
+Result: inf + 0.000000i
+```
+
+<!--
+### See Also {.unnumbered .unlisted}
+
+[`example()`](#man-example),
+-->
+
+[[manbreak]]
+## `creal()` `crealf()` `creall()` {#man-creal}
+
+Returns the real part of a complex number
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <complex.h>
+
+double creal(double complex z);
+
+float crealf(float complex z);
+
+long double creall(long double complex z);
+```
+
+### Description {.unnumbered .unlisted}
+
+Returns the real part of `z`.
+
+As a footnote, the spec points out that any complex number `x` is part
+of the following equivalency:
+
+``` {.c}
+x == creal(x) + cimag(x) * I;
+```
+
+### Return Value {.unnumbered .unlisted}
+
+Returns the real part of `z`.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <complex.h>
+
+int main(void)
+{
+    double complex x = 1 + 2 * I;
+
+    double y = creal(x);
+
+    printf("Result: %f\n", y);
+}
+```
+
+Output---just the real part:
+
+```
+Result: 1.000000
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`cimag()`](#man-cimag)
+
 <!--
 [[manbreak]]
 ## `example()` `example()` `example()` {#man-example}
