@@ -5,7 +5,44 @@
 
 # `<complex.h>` Complex Number Functionality {#complex}
 
-Math functions for complex numbers.
+The complex functions in this reference section come in three flavors
+each: `double complex`, `float complex`, and `long double complex`.
+
+The `float` variants end with `f` and the `long double` variants end
+with `l`, e.g. for complex cosine:
+
+``` {.c}
+ccos()   double complex
+ccosf()  float complex
+ccosl()  long double complex
+```
+
+The table below only lists the `double complex` version for brevity.
+
+|Function|Description|
+|--------|----------------------|
+|[`cacos()`](#man-cacos)|Compute the complex arc-cosine|
+|[`casin()`](#man-casin)|Compute the complex arc-sine|
+|[`catan()`](#man-catan)|Compute the complex arc-tangent|
+|[`ccos()`](#man-ccos)|Compute the complex cosine|
+|[`csin()`](#man-csin)|Compute the complex sine|
+|[`ctan()`](#man-ctan)|Compute the complex tangent|
+|[`cacosh()`](#man-cacosh)|Compute the complex arc hyperbolic cosine|
+|[`casinh()`](#man-casinh)|Compute the complex arc hyperbolic sine|
+|[`catanh()`](#man-catanh)|Compute the complex arc hyperbolic tangent|
+|[`ccosh()`](#man-ccosh)|Compute the complex hyperbolic cosine|
+|[`csinh()`](#man-csinh)|Compute the complex hyperbolic sine|
+|[`ctanh()`](#man-ctanh)|Compute the complex hyperbolic tangent|
+|[`cexp()`](#man-cexp)|Compute the complex base-$e$ exponential|
+|[`clog()`](#man-clog)|Compute the complex logarithm|
+|[`cabs()`](#man-cabs)|Compute the complex absolute value|
+|[`csqrt()`](#man-csqrt)|Compute the complex square root|
+|[`carg()`](#man-carg)|Compute the complex argument|
+|[`cimag()`](#man-cimag)|Returns the imaginary part of a complex number|
+|[`CMPLX()`](#man-CMPLX)|Build a complex value from real and imaginary types|
+|[`conj()`](#man-conj)|Compute the conjugate of a complex number|
+|[`cproj()`](#man-cproj)|Compute the projection of a complex number|
+|[`creal()`](#man-creal)|Returns the real part of a complex number|
 
 [[manbreak]]
 ## `cacos()` `cacosf()` `cacosl()` {#man-cacos}
@@ -736,6 +773,8 @@ Result: -1.131204 + 2.471727i
 
 [[manbreak]]
 ## `clog()` `clogf()` `clogl()` {#man-clog}
+
+Compute the complex logarithm
 
 ### Synopsis {.unnumbered .unlisted}
 
