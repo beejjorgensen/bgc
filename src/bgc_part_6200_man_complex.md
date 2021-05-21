@@ -21,28 +21,127 @@ The table below only lists the `double complex` version for brevity.
 
 |Function|Description|
 |--------|----------------------|
-|[`cacos()`](#man-cacos)|Compute the complex arc-cosine|
-|[`casin()`](#man-casin)|Compute the complex arc-sine|
-|[`catan()`](#man-catan)|Compute the complex arc-tangent|
-|[`ccos()`](#man-ccos)|Compute the complex cosine|
-|[`csin()`](#man-csin)|Compute the complex sine|
-|[`ctan()`](#man-ctan)|Compute the complex tangent|
-|[`cacosh()`](#man-cacosh)|Compute the complex arc hyperbolic cosine|
-|[`casinh()`](#man-casinh)|Compute the complex arc hyperbolic sine|
-|[`catanh()`](#man-catanh)|Compute the complex arc hyperbolic tangent|
-|[`ccosh()`](#man-ccosh)|Compute the complex hyperbolic cosine|
-|[`csinh()`](#man-csinh)|Compute the complex hyperbolic sine|
-|[`ctanh()`](#man-ctanh)|Compute the complex hyperbolic tangent|
-|[`cexp()`](#man-cexp)|Compute the complex base-$e$ exponential|
-|[`clog()`](#man-clog)|Compute the complex logarithm|
 |[`cabs()`](#man-cabs)|Compute the complex absolute value|
-|[`csqrt()`](#man-csqrt)|Compute the complex square root|
+|[`cacos()`](#man-cacos)|Compute the complex arc-cosine|
+|[`cacosh()`](#man-cacosh)|Compute the complex arc hyperbolic cosine|
 |[`carg()`](#man-carg)|Compute the complex argument|
+|[`casin()`](#man-casin)|Compute the complex arc-sine|
+|[`casinh()`](#man-casinh)|Compute the complex arc hyperbolic sine|
+|[`catan()`](#man-catan)|Compute the complex arc-tangent|
+|[`catanh()`](#man-catanh)|Compute the complex arc hyperbolic tangent|
+|[`ccos()`](#man-ccos)|Compute the complex cosine|
+|[`ccosh()`](#man-ccosh)|Compute the complex hyperbolic cosine|
+|[`cexp()`](#man-cexp)|Compute the complex base-$e$ exponential|
 |[`cimag()`](#man-cimag)|Returns the imaginary part of a complex number|
+|[`clog()`](#man-clog)|Compute the complex logarithm|
 |[`CMPLX()`](#man-CMPLX)|Build a complex value from real and imaginary types|
 |[`conj()`](#man-conj)|Compute the conjugate of a complex number|
 |[`cproj()`](#man-cproj)|Compute the projection of a complex number|
 |[`creal()`](#man-creal)|Returns the real part of a complex number|
+|[`csin()`](#man-csin)|Compute the complex sine|
+|[`csinh()`](#man-csinh)|Compute the complex hyperbolic sine|
+|[`csqrt()`](#man-csqrt)|Compute the complex square root|
+|[`ctan()`](#man-ctan)|Compute the complex tangent|
+|[`ctanh()`](#man-ctanh)|Compute the complex hyperbolic tangent|
+
+You can test for complex number support by looking at the
+`__STDC_NO_COMPLEX__` macro. If it's defined, complex numbers aren't
+available.
+
+There are possibly two types of numbers defined: _complex_ and
+_imaginary_. No system I'm currently aware of implements imaginary
+types.
+
+The complex types, which are a real value plus a multiple of $i$, are:
+
+``` {.c}
+float complex
+double complex
+long double complex
+```
+
+The imaginary types, which hold a multiple of $i$, are:
+
+``` {.c}
+float imaginary
+double imaginary
+long double imaginary
+```
+
+The mathematical value $i=\sqrt{-1}$ is represented by the symbol
+`_Complex_I` or `_Imaginary_I`, if it exists.
+
+The The macro `I` will be preferentially set to `_Imaginary_I` (if it
+exists), or to `_Complex_I` otherwise.
+
+You can write imaginary literals (if supported) using this notation:
+
+``` {.c}
+double imaginary x = 3.4 * I;
+```
+
+You can write complex literals using regular complex notation:
+
+``` {.c}
+double complex x = 1.2 + 3.4 * I;
+```
+
+or build them with the `CMPLX()` macro:
+
+``` {.c}
+double complex x = CMPLX(1.2, 3.4);  // Like 1.2 + 3.4 * I
+```
+
+The latter has the advantage of handing special cases of complex numbers
+correctly (like those involving infinity or signed zeroes) as if
+`_Imaginary_I` were present, even if it's not.
+
+All angular values are in radians.
+
+Some functions have discontinuities called _branch cuts_. Now, I'm no
+mathematician so I can't really talk sensibly about this, but if you're
+here, I like to think you know what you're doing when it comes to this
+side of things.
+
+If you system has signed zeroes, you can tell which side of the cut
+you're on by the sign. And you can't if you don't. The spec elaborates:
+
+> Implementations that do not support a signed zero [...] cannot
+> distinguish the sides of branch cuts. These implementations shall map
+> a cut so the function is continuous as the cut is approached coming
+> around the finite endpoint of the cut in a counter clockwise
+> direction. (Branch cuts for the functions specified here have just one
+> finite endpoint.) For example, for the square root function, coming
+> counter clockwise around the finite endpoint of the cut along the
+> negative real axis approaches the cut from above, so the cut maps to
+> the positive imaginary axis.
+
+Finally, there's a pragma called `CX_LIMITED_RANGE` that can be turned
+on and off (default is off). You can turn it on with:
+
+``` {.c}
+#pragma STDC CX_LIMITED_RANGE ON
+```
+
+It allows for certain intermediate operations to underflow, overflow, or
+deal badly with infinity, presumably for a tradeoff in speed. If you're
+sure these types of errors won't occur with the numbers you're using AND
+you're trying to get as much speed out as you can, you could turn this
+macro on.
+
+The spec also elaborates here:
+
+> The purpose of the pragma is to allow the implementation to use the
+> formulas:
+>
+> $(x+iy)\times(u+iv) = (xu-yv)+i(yu+xv)$
+>
+> $(x+iy)/(u+iv) = [(xu+yv)+i(yu-xv)]/(u^2+v^2)$
+>
+> $|x+iy|=\sqrt{x^2+y^2}$
+>
+> where the programmer can determine they are safe.
+
 
 [[manbreak]]
 ## `cacos()` `cacosf()` `cacosl()` {#man-cacos}
