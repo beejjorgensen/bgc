@@ -413,7 +413,7 @@ But by far the most common place you'll see this is in a `for` loop:
 
 ``` {.c}
 for (i = 0; i < 10; i++)
-    printf("i is %d\n");
+    printf("i is %d\n", i);
 ```
 
 But more on that later.
