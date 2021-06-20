@@ -26,7 +26,13 @@ brew install python                     # installs Python3
 brew install pandoc
 brew install mactex                     # installs XeLaTeX
 brew tap homebrew/cask-fonts
-brew install font-liberation.           # installs Liberation fonts
+brew install font-liberation            # installs Liberation fonts
+```
+
+You might have to add something like this to your path to find `xelatex`:
+
+```
+PATH=$PATH:/usr/local/texlive/2021/bin/universal-darwin
 ```
 
 ### Build
