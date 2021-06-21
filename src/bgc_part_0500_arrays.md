@@ -307,7 +307,7 @@ int main(void)
 
 This is so common to do in C that the language allows us a shorthand:
 
-```
+``` {.c .numberLines}
 p = &a[0];  // p points to the array
 
 // is the same as:
