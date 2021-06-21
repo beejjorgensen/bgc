@@ -24,9 +24,15 @@ Mac dependencies install (reopen terminal after doing this):
 xcode-select --install                  # installs make
 brew install python                     # installs Python3
 brew install pandoc
-brew cask install mactex                # installs XeLaTeX
+brew install mactex                     # installs XeLaTeX
 brew tap homebrew/cask-fonts
-brew cask install font-liberation-sans  # installs sans, serif, and mono
+brew install font-liberation            # installs Liberation fonts
+```
+
+You might have to add something like this to your path to find `xelatex`:
+
+```
+PATH=$PATH:/usr/local/texlive/2021/bin/universal-darwin
 ```
 
 ### Build
