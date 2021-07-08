@@ -787,10 +787,10 @@ I want something like this to happen (assuming the `ASSERT()` is on line
 220 of `foo.c`):
 
 ``` {.c}
-if (x < 20) {
+if (!(x < 20)) {
     fprintf(stderr, "foo.c:220: assertion x < 20 failed: ");
     fprintf(stderr, "x must be under 20\n");
-    exit(1)
+    exit(1);
 }
 ```
 
