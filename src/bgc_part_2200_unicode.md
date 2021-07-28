@@ -14,7 +14,7 @@ Most people are basically interested in the deceptively simple question,
 as we'll see, it might already work on your system. Or you might have to
 punt to a third-party library.
 
-We're going to take about a lot of things this chapter---some are
+We're going to talk about a lot of things this chapter---some are
 platform agnostic, and some are C-specific.
 
 Let's get an outline first of what we're going to look at:
@@ -42,7 +42,7 @@ compatibility nightmare.
 
 To escape it, Unicode was invented. One character set to rule them all.
 It extends off into infinity (effectively) so we'll never run out of
-space for new characters. It has Chinese, Latin, Greek, cuniform, chess
+space for new characters. It has Chinese, Latin, Greek, cuneiform, chess
 symbols, emojis... just about everything, really! And more is being
 added all the time!
 
@@ -367,7 +367,7 @@ printf("%zu\n", strlen(s));  // 7!
 The string length of `"€1.23"` is `7`?! Yes! Well, on my system, yes!
 Remember that `strlen()` returns the number of bytes in the string, not
 the number of characters. (When we get to "wide characters", coming up,
-we'll see a way to get the number of characters in the string.)`
+we'll see a way to get the number of characters in the string.)
 
 Note that while C allows individual multibyte `char` constants, the
 behavior of these varies by implementation and your compiler might warn
@@ -556,7 +556,7 @@ functions.
 ### I/O Stream Orientation {#io-stream-orientation}
 
 The tl;dr here is to not mix and match byte-oriented functions (like
-`fprintf()` with wide-oriented functions (like `fwprintf()`). Decide if
+`fprintf()`) with wide-oriented functions (like `fwprintf()`). Decide if
 a stream will be byte-oriented or wide-oriented and stick with those
 types of I/O functions.
 
@@ -806,7 +806,7 @@ mbstowcs(dest, src, 100);  // Parse some stuff
 ```
 
 For I/O, each wide stream manages its own `mbstate_t` and uses that for
-input and output conversions as it goes.`
+input and output conversions as it goes.
 
 And some of the byte-oriented I/O functions like `printf()` and
 `scanf()` keep their own internal state while doing their work.
