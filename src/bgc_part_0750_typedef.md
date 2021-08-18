@@ -146,7 +146,7 @@ app_float f1, f2, f3;
 ```
 
 Then if later you want to change to another type, like `long double`,
-you just nee to change the `typedef`:
+you just need to change the `typedef`:
 
 ``` {.c}
 //        voila!
