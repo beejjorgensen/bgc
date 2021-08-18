@@ -90,7 +90,7 @@ this chapter.
 But what's actually happening, here? How does it work?
 
 Remember from early on that memory is like a big array, where a byte is
-stored at each array index.
+stored at each array index?
 
 And the array index into memory has a few names:
 
