@@ -369,7 +369,7 @@ int main(void)
     // * Count of each "piece" of data
     // * FILE*
 
-    fwrite(bytes, sizeof(char), sizeof bytes, fp);
+    fwrite(bytes, sizeof(char), sizeof(bytes), fp);
 
     fclose(fp);
 }
