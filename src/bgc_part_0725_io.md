@@ -207,7 +207,7 @@ int main(void)
 
     fp = fopen("quote.txt", "r");
 
-    while (fgets(s, sizeof s, fp) != NULL) 
+    while (fgets(s, sizeof(s), fp) != NULL) 
         printf("%d: %s", ++linecount, s);
 
     fclose(fp);
