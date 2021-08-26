@@ -153,8 +153,7 @@ section, below.
 
 ## Copyright and Distribution
 
-Beej's Guide to Network Programming is Copyright © 2021 Brian "Beej
-Jorgensen" Hall.
+Beej's Guide to C is Copyright © 2021 Brian "Beej Jorgensen" Hall.
 
 With specific exceptions for source code and translations, below, this
 work is licensed under the Creative Commons Attribution-Noncommercial-No

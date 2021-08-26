@@ -1,4 +1,4 @@
-# Beej's Guide to Network Programming source markdown
+# Beej's Guide source markdown
 
 ## Beej' extensions to markdown
 
