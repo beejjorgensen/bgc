@@ -239,20 +239,30 @@ More particularly, it tells you the size (in bytes) that the _type of a
 particular expression_ (which might be just a single variable) uses in
 memory.
 
-This can be different on different systems, except for `char` (which is
-always 1 byte).
+This can be different on different systems, except for `char` and its
+variants (which are always 1 byte).
 
 And this might not seem very useful now, but we'll be making reference
 to it here and there, so it's worth covering.
+
+Since this computes the number of bytes needed to store a type, you
+might think it would return an `int`. Or... since the size can't be
+negative, maybe an `unsigned`?
+
+But it turns out C has a special type to represent the return value from
+`sizeof`. It's `size_t`, pronounced "_size tee_"^[The `_t` is short for
+`type`.]. All we know is that it's an unsigned integer type that can
+hold the size in bytes of anything you can give to `sizeof`.
+
+`size_t` shows up a lot of different places where counts of things are
+passed or returned. Think of it as a value that represents a count.
 
 You can take the `sizeof` a variable or expression:
 
 ``` {.c}
 int a = 999;
 
-// %zu is the format specifier for type size_t ("t" is for "type", but
-// it's pronounced "size tee"), which is what is returned by sizeof.
-// More on size_t later.
+// %zu is the format specifier for type size_t
 
 printf("%zu", sizeof a);      // Prints 4 on my system
 printf("%zu", sizeof(2 + 7)); // Prints 4 on my system

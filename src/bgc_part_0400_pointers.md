@@ -43,9 +43,7 @@ can use the `sizeof` operator to determine how many bytes of memory a
 certain type uses.
 
 ``` {.c}
-// %zu is the format specifier for type size_t ("t" is for "type", but
-// it's pronounced "size tee"), which is what is returned by sizeof.
-// More on size_t later.
+// %zu is the format specifier for type size_t
 
 printf("an int uses %zu bytes of memory\n", sizeof(int));
 
