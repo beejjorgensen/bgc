@@ -33,6 +33,19 @@ Note that `char16_t` and `char32_t` _might_ be Unicode. Or not. If
 `char16_t` and `char32_t` use Unicode, respectively. Otherwise they
 don't and the actual value stored depend on the locale. Sorry!
 
+## OS X issue
+
+This header file doesn't exist on OSX---bummer. If you want the types, you can:
+
+``` {.c}
+#include <stdint.h>
+
+typedef int_least16_t char16_t;
+typedef int_least32_t char32_t;
+```
+
+But if you want the functions, that's all you.
+
 [[manbreak]]
 ## `mbrtoc16()` `mbrtoc32()` {#man-mbrtoc}
 
@@ -102,8 +115,40 @@ So subsequent calls to `mbrtoc16()` resolves the _next_ value in the
 surrogate pair and returns `(size_t)(-3)` to let you know this has
 happened.
 
+Finally, if you pass `NULL` for `s`, the call is equivalent to:
+
+``` {.c}
+mbrtoc16(NULL, "", 1, ps)
+```
+
+In that case, nothing happens except the return value---you can use this
+to get the return value if that's all you're interested in.
 
 ### Example {.unnumbered .unlisted}
+
+```
+#include <stdio.h>
+#include <uchar.h>
+#include <locale.h>
+#include <assert.h>
+
+int main(void)
+{
+    char *s = "€64";
+    char16_t pc16;
+    size_t r;
+    mbstate_t mbs;
+
+    setlocale(LC_ALL, "");
+    memset(&mbs, 0, sizeof mbs);
+
+    // Examine the next 8 bytes to see if there's a character in there
+    r = mbrtoc16(&pc16, s, 8, &mbs);
+
+    assert(r == 2);
+
+}
+```
 
 ``` {.c .numberLines}
 #include <stdio.h>  // for fflush(stdout)
