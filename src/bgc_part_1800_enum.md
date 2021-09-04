@@ -49,7 +49,7 @@ enum {
     ORE     // Value is 4
 };
 
-printf("%d %d\n", SHEEP, BRICK);  // 0 2
+printf("%d %d\n", SHEEP, BRICK);  // 0 3
 ```
 
 You can force particular integer values, as we saw earlier:
