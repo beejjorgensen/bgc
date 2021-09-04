@@ -5,8 +5,7 @@
 
 # Variables and Statements
 
-> _"It takes all kinds to make a world, does it not, Padre?"_
->
+> _"It takes all kinds to make a world, does it not, Padre?"_ \
 > _"So it does, my son, so it does."_
 >
 > ---Pirate Captain Thomas Bartholomew Red to the Padre, Pirates
@@ -44,7 +43,8 @@ make a name for it instead, and that's what the variable is.
 
 The reason I'm bringing all this up is twofold:
 
-1. It's going to make it easier to understand pointers later.
+1. It's going to make it easier to understand pointer variables
+   later---they're variables that hold the address of other variables!
 2. Also, it's going to make it easier to understand pointers later.
 
 So a variable is a name for some data that's stored in memory at some
@@ -60,17 +60,10 @@ for variable names, with the following rules:
 * You can't start a variable name with an underscore followed by a
   capital A-Z.
 
-For Unicode, things get a little different, but the basic idea is that
-you can start or continue the variable name with one of the characters
-listed in C11 §D.1, and you can continue but _not_ start a variable name
-with any of the characters listed in C11 §D.2.
-
-Since those are just number ranges, I'm not going to reproduce them
-here. If you're in an environment that supports Unicode, just try it and
-see if it works.
-
-Just don't start a variable name with the "Combining Left Harpoon Above"
-character and you'll be fine.
+For Unicode, just try it. There are some rules in the spec in §D.2 that
+talk about which Unicode codepoint ranges are allowed in which parts of
+identifiers, but that's too much to write about here and is probably
+something you'll never have to think about anyway.
 
 ### Variable Types
 
@@ -78,7 +71,7 @@ Depending on which languages you already have in your toolkit, you might
 or might not be familiar with the idea of types. But C's kinda picky
 about them, so we should do a refresher.
 
-Some example types:
+Some example types, some of the most basic:
 
 |Type|Example|C Type|
 |:---|------:|:-----|
@@ -106,10 +99,10 @@ to it:
 
 int main(void)
 {
-    int i;    /* holds signed integers, e.g. -3, -2, 0, 1, 10 */
-    float f;  /* holds signed floating point numbers, e.g. -3.1416 */
+    int i;    // holds signed integers, e.g. -3, -2, 0, 1, 10
+    float f;  // holds signed floating point numbers, e.g. -3.1416
 
-    printf("Hello, World!\n"); /* ah, blessed familiarity */
+    printf("Hello, World!\n");  // ah, blessed familiarity
 }
 ```
 
@@ -127,7 +120,10 @@ must assume they contain some nonsense number.
 > experience, the indeterminate value is zero... but it can vary from
 > run to run! Never assume the value will be zero, even if you see it
 > is. _Always_ explicitly initialize variables to some value before you
-> use them!
+> use them^[This isn't strictly 100% true. When we get to learning about
+> static storage duration, you'll find the some variables are
+> initialized to zero automatically. But the safe thing to do is always
+> initalize them.].
 
 What's this? You want to store some numbers in those variables? Insanity!
 
@@ -172,12 +168,13 @@ int main(void)
 
 And the output will be:
 
-```shell
+```
 Hello, world!  i = 2 and f = 3.14!
 ```
 
-In this way, `printf()` might be similar to various types of format or
-parameterized strings in other languages you're familiar with.
+In this way, `printf()` might be similar to various types of format
+strings or parameterized strings in other languages you're familiar
+with.
 
 ### Boolean Types
 
@@ -190,7 +187,7 @@ still doesn't.
 
 In C, `0` means "false", and non-zero means "true".
 
-So `1` is true. And `37` is true. And `0` is false.
+So `1` is true. And `-37` is true. And `0` is false.
 
 You can just declare Boolean types as `int`s:
 
@@ -229,65 +226,6 @@ through some of them here.
 
 (There are a bunch more details than this, but we're going to do enough
 in this section to get started.)
-
-### The `sizeof` Operator
-
-This operator tells you the size (in bytes) that a particular variable
-or data type uses in memory.
-
-More particularly, it tells you the size (in bytes) that the _type of a
-particular expression_ (which might be just a single variable) uses in
-memory.
-
-This can be different on different systems, except for `char` and its
-variants (which are always 1 byte).
-
-And this might not seem very useful now, but we'll be making reference
-to it here and there, so it's worth covering.
-
-Since this computes the number of bytes needed to store a type, you
-might think it would return an `int`. Or... since the size can't be
-negative, maybe an `unsigned`?
-
-But it turns out C has a special type to represent the return value from
-`sizeof`. It's `size_t`, pronounced "_size tee_"^[The `_t` is short for
-`type`.]. All we know is that it's an unsigned integer type that can
-hold the size in bytes of anything you can give to `sizeof`.
-
-`size_t` shows up a lot of different places where counts of things are
-passed or returned. Think of it as a value that represents a count.
-
-You can take the `sizeof` a variable or expression:
-
-``` {.c}
-int a = 999;
-
-// %zu is the format specifier for type size_t
-
-printf("%zu", sizeof a);      // Prints 4 on my system
-printf("%zu", sizeof(2 + 7)); // Prints 4 on my system
-printf("%zu", sizeof 3.14);   // Prints 8 on my system
-```
-
-Remember: it's the size in bytes of the _type_ of the expression, not
-the size of the expression itself. That's why the size of `2+7` is the
-same as the size of `a`---they're both type `int`. We'll revisit this
-number `4` in the very next block of code...
-
-...Where we'll see you can take the `sizeof` a type (note the
-parentheses are required around a type name, unlike an expression):
-
-``` {.c}
-printf("%zu", sizeof(int));   // Prints 4 on my system
-printf("%zu", sizeof(char));  // Prints 1 on all systems
-```
-
-It's important to note that `sizeof` is a _compile-time_
-operation^[Except for with variable length arrays---but that's a story
-for another time.]. The result of the expression is determined entirely
-at compiletime, not at runtime.
-
-We'll make use of this later on.
 
 
 ### Arithmetic
@@ -346,11 +284,14 @@ else
     y += 37;
 ```
 
+Compare those two until you see each of the components of the ternary
+operator.
+
 Or, another example that prints if a number stored in `x` is odd or
 even:
 
 ```
-printf("The number %d is %s.\n", x, x % 2 == 0?"even": "odd")
+printf("The number %d is %s.\n", x, x % 2 == 0? "even": "odd")
 ```
 
 The `%s` format specifier in `printf()` means print a string. If the
@@ -530,6 +471,67 @@ if (x >= 12)
 
 but I needed the example!
 
+### The `sizeof` Operator
+
+This operator tells you the size (in bytes) that a particular variable
+or data type uses in memory.
+
+More particularly, it tells you the size (in bytes) that the _type of a
+particular expression_ (which might be just a single variable) uses in
+memory.
+
+This can be different on different systems, except for `char` and its
+variants (which are always 1 byte).
+
+And this might not seem very useful now, but we'll be making reference
+to it here and there, so it's worth covering.
+
+Since this computes the number of bytes needed to store a type, you
+might think it would return an `int`. Or... since the size can't be
+negative, maybe an `unsigned`?
+
+But it turns out C has a special type to represent the return value from
+`sizeof`. It's `size_t`, pronounced "_size tee_"^[The `_t` is short for
+`type`.]. All we know is that it's an unsigned integer type that can
+hold the size in bytes of anything you can give to `sizeof`.
+
+`size_t` shows up a lot of different places where counts of things are
+passed or returned. Think of it as a value that represents a count.
+
+You can take the `sizeof` a variable or expression:
+
+``` {.c}
+int a = 999;
+
+// %zu is the format specifier for type size_t
+
+printf("%zu", sizeof a);      // Prints 4 on my system
+printf("%zu", sizeof(2 + 7)); // Prints 4 on my system
+printf("%zu", sizeof 3.14);   // Prints 8 on my system
+
+// If you need to print out negative size_t values, use %zd
+```
+
+Remember: it's the size in bytes of the _type_ of the expression, not
+the size of the expression itself. That's why the size of `2+7` is the
+same as the size of `a`---they're both type `int`. We'll revisit this
+number `4` in the very next block of code...
+
+...Where we'll see you can take the `sizeof` a type (note the
+parentheses are required around a type name, unlike an expression):
+
+``` {.c}
+printf("%zu", sizeof(int));   // Prints 4 on my system
+printf("%zu", sizeof(char));  // Prints 1 on all systems
+```
+
+It's important to note that `sizeof` is a _compile-time_
+operation^[Except for with variable length arrays---but that's a story
+for another time.]. The result of the expression is determined entirely
+at compiletime, not at runtime.
+
+We'll make use of this later on.
+
 
 ## Flow Control
 
@@ -585,8 +587,8 @@ they aren't.
 // BAD ERROR EXAMPLE
 
 if (x == 10)
-    printf("x is 10\n");
-    printf("And also this happens ALWAYS\n");  // Surprise!! Unconditional!
+    printf("This happens if x is 10\n");
+    printf("This happens ALWAYS\n");  // Surprise!! Unconditional!
 ```
 
 `while` and `for` and the other looping constructs work the same way as
@@ -668,10 +670,14 @@ a look at its closely related cousin, `do-while`.
 
 They are basically the same, except if the loop condition is false on
 the first pass, `do-while` will execute once, but `while` won't execute
-at all. Let's see by example:
+at all. In other words, the test to see whether or not to execute the
+block happens at the _end_ of the block with `do-while`. It happens at
+the _beginning_ of the block with `while`.
+
+Let's see by example:
 
 ``` {.c}
-/* using a while statement: */
+// using a while statement:
 
 i = 10;
 
@@ -681,7 +687,7 @@ while(i < 10) {
     i++;
 }
 
-/* using a do-while statement: */
+// using a do-while statement:
 
 i = 10;
 
@@ -788,7 +794,9 @@ An empty `for` will run forever:
 ``` {.c}
 for(;;) {  // "forever"
     printf("I will print this again and again and again\n" );
-    printf("for all eternity until the cold-death of the universe.\n");
+    printf("for all eternity until the heat-death of the universe.\n");
+
+    printf("Or until you hit CTRL-C.\n");
 }
 ```
 
@@ -912,3 +920,29 @@ you don't want to just roll into the next case^[This was considered
 such hazard that the designers of the Go Programming Language made
 `break` the default; you have to explicitly use Go's `fallthrough`
 statement if you want to fall into the next case.].
+
+Earlier I said that `switch` works with integer types---keep it that
+way. Don't use floating point or string types in there. One loophole-ish
+thing here is that you can use character types because those are
+secretly integers themselves. So this is perfectly acceptable:
+
+``` {.c}
+char c = 'b';
+
+switch (c) {
+    case 'a':
+        printf("It's 'a'!\n");
+        break;
+
+    case 'b':
+        printf("It's 'b'!\n");
+        break;
+
+    case 'c':
+        printf("It's 'c'!\n");
+        break;
+}
+```
+
+Finally, you can use `enum`s in `switch` since they are also integer
+types. But more on that in the `enum` chapter.
