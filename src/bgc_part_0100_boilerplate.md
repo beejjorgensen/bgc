@@ -76,7 +76,7 @@ functions work, and so on.
 If that's not you for whatever reason the best I can hope to provide is
 some pastey entertainment for your reading pleasure. The only thing I
 can reasonably promise is that this guide won't end on a
-cliffhanger...or _will_ it?
+cliffhanger... or _will_ it?
 
 ## Platform and Compiler
 
@@ -99,8 +99,8 @@ you're looking for a more Unix-like experience (recommended!), install
 command line tools.
 
 There are a lot of compilers out there, and virtually all of them will
-work for this book. And for those not in the know, a C++ compiler will
-compile most C code, so it'll work for the purposes of this guide.
+work for this book. And a C++ compiler will compile a lot of (but not
+all!) C code. Best use a proper C compiler if you can.
 
 ## Official Homepage
 
