@@ -95,7 +95,7 @@ to pull the contents of another file and insert it into the code right
 _there_.
 
 Wait---what's a C Preprocessor? Good question. There are two
-stages[^Well, technically there are more than two, but hey, let's
+stages^[Well, technically there are more than two, but hey, let's
 pretend there are two---ignorance is bliss, right?] to compilation: the
 preprocessor and the compiler. Anything that starts with pound sign, or
 "octothorpe", (`#`) is something the preprocessor operates on before the
@@ -124,7 +124,7 @@ What about the rest of the line? What's `<stdio.h>`? That is what is
 known as a _header file_. It's the dot-h at the end that gives it away.
 In fact it's the "Standard I/O" (`stdio`) header file that you will grow
 to know and love. It gives us access to a bunch of I/O
-functionality[^Technically, it contains preprocessor directives and
+functionality^[Technically, it contains preprocessor directives and
 function prototypes (more on that later) for common input and output
 needs.]. For our demo program, we're outputting the string "Hello,
 World!", so we in particular need access to the `printf()` function to
