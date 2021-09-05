@@ -2,7 +2,12 @@
 
 # vim: ts=4:sw=4:nosi:et:tw=72
 -->
-# Pointers---Cower In Fear! { #pointers}
+# Pointers---Cower In Fear! {#pointers}
+
+> _"How do you get to Carnegie Hall?"_ \
+> _"Practice!"_
+>
+> 20th-century joke of unknown origin
 
 Pointers are one of the most feared things in the C language. In fact,
 they are the one thing that makes this language challenging at all. But
@@ -13,8 +18,7 @@ through the keyboard and physically _weld_ your arms permanently in
 place, cursing you to a life at the keyboard in this language from the
 70s!
 
-Well, not really. But they can cause huge headaches if you don't know
-what you're doing when you try to mess with them.
+Really? Well, not really. I'm just trying to set you up for success.
 
 Depending on what language you came from, you might already understand
 the concept of _references_, where a variable refers to an object of
@@ -29,13 +33,15 @@ about when we're talking about the reference or the thing it refers to.
 Computer memory holds data of all kinds, right? It'll hold `float`s,
 `int`s, or whatever you have. To make memory easy to cope with, each
 byte of memory is identified by an integer. These integers increase
-sequentially as you move up through memory. You can think of it as a
-bunch of numbered boxes, where each box holds a byte^[A byte is a number
-made up of no more than 8 binary digits, or _bits_ for short. This means
-in decimal digits just like grandma used to use, it can hold an unsigned
-number between 0 and 255, inclusive.] of data. Or like a big array where
-each element holds a byte, if you come from a language with arrays. The
-number that represents each box is called its _address_.
+sequentially as you move up through memory^[Typically. I'm sure there
+are exceptions out there in the dark corridors of computing history.].
+You can think of it as a bunch of numbered boxes, where each box holds a
+byte^[A byte is a number made up of no more than 8 binary digits, or
+_bits_ for short. This means in decimal digits just like grandma used to
+use, it can hold an unsigned number between 0 and 255, inclusive.] of
+data. Or like a big array where each element holds a byte, if you come
+from a language with arrays. The number that represents each box is
+called its _address_.
 
 Now, not all data types use just a byte. For instance, an `int` is often
 four bytes, as is a `float`, but it really depends on the system. You
@@ -50,14 +56,14 @@ printf("an int uses %zu bytes of memory\n", sizeof(int));
 // That prints "4" for me, but can vary by system.
 ```
 
-When you have a data type that uses more than a byte of memory, the
-bytes that make up the data are always adjacent to one another in
-memory. Sometimes they're in order, and sometimes they're not^[The order
-that bytes come in is referred to as the _endianess_ of the number.
-Common ones are _big endian_ and _little endian_. This usually isn't
-something you need to worry about.], but that's platform-dependent, and
-often taken care of for you without you needing to worry about pesky
-byte orderings.
+> **Memory Fun Facts**: When you have a data type that uses more than a
+> byte of memory, the bytes that make up the data are always adjacent to
+> one another in memory. Sometimes they're in order, and sometimes
+> they're not^[The order that bytes come in is referred to as the
+> _endianess_ of the number. Common ones are _big endian_ and _little
+> endian_. This usually isn't something you need to worry about.], but
+> that's platform-dependent, and often taken care of for you without you
+> needing to worry about pesky byte orderings.
 
 So _anyway_, if we can get on with it and get a drum roll and some
 forboding music playing for the definition of a pointer, _a pointer is a
@@ -83,10 +89,41 @@ thing.
 And a pointer variable holds that address number. Just like a `float`
 variable might hold `3.14159`.
 
-Often, we like to store the address of some data that we have stored in
-a variable, as opposed to any old random address out in memory wherever.
+Imagine you have a bunch of Post-it® notes all numbered in sequence with
+their address. (The first one is at index numbered `0`, the next at
+index `1`, and so on.)
 
-When we have that, we say we have a "pointer to" some data.
+In addition to the number representing their positions, you can also
+write another number of your choice on each. It could be the number of
+dogs you have. Or the number of moons around Mars...
+
+...Or, _it could be the index of another Post-it note!_
+
+If you have written the number of dogs you have, that's just a regular
+variable. But if you wrote the index of another Post-it in there,
+_that's a pointer_. It points to the other note!
+
+Another analogy might be with house addresses. You can have a house with
+certain qualities, yard, metal roof, solar, etc. Or you could have the
+address of that house. The address isn't the same as the house itself.
+One's a full-blown house, and the other is just a few lines of text. But
+the address of the house is a _pointer_ to that house. It's not the
+house itself, but it tells you where to find it.
+
+And we can do the same thing in the computer with data. You can have a
+data variable that's holding some value. And that value is in memory at
+some address. And you could have a different _pointer variable_ hold the
+address of that data variable.
+
+It's not the data variable itself, but, like with a house address, it
+tells us where to find it.
+
+When we have that, we say we have a "pointer to" that data. And we can
+follow the pointer to access the data itself.
+
+(Though it doesn't seem particularly useful yet, this all becomes
+indispensible when used with function calls. Bear with me until we get
+there.)
 
 So if we have an `int`, say, and we want a pointer to it, what we want
 is some way to get the address of that `int`, right? After all, the
@@ -141,7 +178,7 @@ generally. We just care that it's a pointer to `i`.
 
 ## Pointer Types {#pttypes}
 
-Well, this is all well and good. You can now successfully take the
+So... this is all well and good. You can now successfully take the
 address of a variable and print it on the screen. There's a little
 something for the ol' resume, right? Here's where you grab me by the
 scruff of the neck and ask politely what the frick pointers are good
@@ -153,11 +190,11 @@ from our sponsor.
 > `ACME ROBOTIC HOUSING UNIT CLEANING SERVICES. YOUR HOMESTEAD WILL BE
 > DRAMATICALLY IMPROVED OR YOU WILL BE TERMINATED. MESSAGE ENDS.`
 
-Welcome back to another installment of Beej's Guide to Whatever. When we
-met last we were talking about how to make use of pointers. Well, what
-we're going to do is store a pointer off in a variable so that we can
-use it later. You can identify the _pointer type_ because there's an
-asterisk (`*`) before the variable name and after its type:
+Welcome back to another installment of Beej's Guide. When we met last we
+were talking about how to make use of pointers. Well, what we're going
+to do is store a pointer off in a variable so that we can use it later.
+You can identify the _pointer type_ because there's an asterisk (`*`)
+before the variable name and after its type:
 
 ``` {.c .numberLines}
 int main(void)
@@ -167,9 +204,9 @@ int main(void)
 }
 ```
 
-Hey, so we have here a variable that is a pointer itself, and it can
-point to other `int`s. That it, is can hold the address of other `int`s.
-We know it points to `int`s, since it's of type `int*` (read
+Hey, so we have here a variable that is a pointer type, and it can point
+to other `int`s. That it, is can hold the address of other `int`s. We
+know it points to `int`s, since it's of type `int*` (read
 "int-pointer").
 
 When you do an assignment into a pointer variable, the type of the right
@@ -210,9 +247,12 @@ variable"), you can use the original variable through the pointer by
 _dereferencing_ the pointer. (You can think of this as "de-pointering"
 the pointer, but no one ever says "de-pointering".)
 
-What do I mean by "get access to the original variable"? Well, if you
-have a variable called `i`, and you have a pointer to `i` called `p`,
-you can use the dereferenced pointer `p` _exactly as if it were the
+Back to our analogy, this is vaguely like looking at a home address and
+then going to that house.
+
+Now, what do I mean by "get access to the original variable"? Well, if
+you have a variable called `i`, and you have a pointer to `i` called
+`p`, you can use the dereferenced pointer `p` _exactly as if it were the
 original variable `i`_!
 
 You almost have enough knowledge to handle an example. The last tidbit
@@ -237,7 +277,7 @@ int main(void)
     p = &i;  // p now points to i, p holds address of i
 
     i = 10;  // i is now 10
-    *p = 20; // i (yes i!) is now 20!!
+    *p = 20; // the thing p points to (namely i!) is now 20!!
 
     printf("i is %d\n", i);   // prints "20"
     printf("i is %d\n", *p);  // "20"! dereference-p is the same as i!
@@ -252,16 +292,16 @@ of sorts for `i`.
 
 Great, but _why_? Why do any of this?
 
-## Passing Pointers as Parameters {#ptpass}
+## Passing Pointers as Arguments {#ptpass}
 
 Right about now, you're thinking that you have an awful lot of knowledge
 about pointers, but absolutely zero application, right? I mean, what use
 is `*p` if you could just simply say `i` instead?
 
-Well, my feathered friend, the real power of pointers comes into play
-when you start passing them to functions. Why is this a big deal? You
-might recall from before that you could pass all kinds of parameters to
-functions and they'd be dutifully copied onto the stack, and then you
+Well, my friend, the real power of pointers comes into play when you
+start passing them to functions. Why is this a big deal? You might
+recall from before that you could pass all kinds of parameters to
+functions and they'd be dutifully copied into parameters, and then you
 could manipulate local copies of those variables from within the
 function, and then you could return a single value.
 
@@ -270,26 +310,30 @@ the function? I mean, you can only return one thing, right? What if I
 answered that question with another question? ...Er, two questions?
 
 What happens when you pass a pointer as a parameter to a function? Does
-a copy of the pointer get put on the stack? _You bet your sweet peas it
-does._  Remember how earlier I rambled on and on about how _EVERY SINGLE
-PARAMETER_ gets copied onto the stack and the function uses a copy of
-the parameter? Well, the same is true here. The function will get a copy
-of the pointer.
+a copy of the pointer get put into its corresponding parameter? _You bet
+your sweet peas it does._  Remember how earlier I rambled on and on
+about how _EVERY SINGLE ARGUMENT_ gets copied into parameters and the
+function uses a copy of the argument? Well, the same is true here. The
+function will get a copy of the pointer.
 
 But, and this is the clever part: we will have set up the pointer in
-advance to point at a variable...and then the function can dereference
+advance to point at a variable...a nd then the function can dereference
 its copy of the pointer to get back to the original variable! The
 function can't see the variable itself, but it can certainly dereference
 a pointer to that variable!
 
 This is analogous to writing a home address on a piece of paper, and
 then copying that onto another piece of paper. You now have _two_
-pointers to that house. In the case of a function call. one of the
-copies is stored in a pointer variable out in the calling scope, and the
-other is stored in a pointer variable that is the parameter of the
-function.
+pointers to that house, and both are equally good at getting you to the
+house itself.
 
-Example!
+In the case of a function call. one of the copies is stored in a pointer
+variable out in the calling scope, and the other is stored in a pointer
+variable that is the parameter of the function.
+
+Example! Let's revisit our old `increment()` function, but this time
+let's make it so that it actually increments the value out in the
+caller.
 
 ``` {.c .numberLines}
 #include <stdio.h>
@@ -313,19 +357,19 @@ int main(void)
 }
 ```
 
-Ok! There are a couple things to see here...not the least of which is
+Ok! There are a couple things to see here... not the least of which is
 that the `increment()` function takes an `int*` as a parameter. We pass
 it an `int*` in the call by changing the `int` variable `i` to an `int*`
 using the `address-of` operator. (Remember, a pointer holds an address,
 so we make pointers to variables by running them through the
 `address-of` operator.)
 
-The `increment()` function gets a copy of the pointer on the stack. Both
-the original pointer `j` (in `main()`) and the copy of that pointer `p`
-(the parameter in `increment()`) point to the same address, namely the
-one holding the value `i`. (Again, by analogy, like two pieces of paper
-with the same home address written on them.) Dereferencing either will
-allow you to modify the original variable `i`! The function can modify a
+The `increment()` function gets a copy of the pointer. Both the original
+pointer `j` (in `main()`) and the copy of that pointer `p` (the
+parameter in `increment()`) point to the same address, namely the one
+holding the value `i`. (Again, by analogy, like two pieces of paper with
+the same home address written on them.) Dereferencing either will allow
+you to modify the original variable `i`! The function can modify a
 variable in another scope! Rock on!
 
 The above example is often more concisely written in the call just by
@@ -338,12 +382,12 @@ printf("i is %d\n", i);  // prints "11"!
 ```
 
 Pointer enthusiasts will recall from early on in the guide, we used a
-function to read from the keyboard, `scanf()`...and, although you might
+function to read from the keyboard, `scanf()`... and, although you might
 not have recognized it at the time, we used the `address-of` to pass a
 pointer to a value to `scanf()`. We had to pass a pointer, see, because
 `scanf()` reads from the keyboard (typically) and stores the result in a
-variable. The only way it can see that variable that is local to that
-calling function is if we pass a pointer to that variable:
+variable. The only way it can see that variable out in the calling
+function's scope is if we pass a pointer to that variable:
 
 ``` {.c}
 int i = 0;
@@ -382,8 +426,8 @@ creator|Null_pointer#History]], the `NULL` pointer is a good
 [flw[sentinel value|Sentinel_value]] and general indicator that a
 pointer hasn't yet been initialized.
 
-(Of course, the pointer points to garbage unless you explicitly assign
-it to point to an address or `NULL`.)
+(Of course, like other variables, the pointer points to garbage unless
+you explicitly assign it to point to an address or `NULL`.)
 
 ## A Note on Declaring Pointers
 
