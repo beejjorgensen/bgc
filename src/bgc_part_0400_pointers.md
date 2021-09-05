@@ -7,7 +7,7 @@
 > _"How do you get to Carnegie Hall?"_ \
 > _"Practice!"_
 >
-> 20th-century joke of unknown origin
+> ---20th-century joke of unknown origin
 
 Pointers are one of the most feared things in the C language. In fact,
 they are the one thing that makes this language challenging at all. But
