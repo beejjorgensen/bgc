@@ -5,6 +5,12 @@
 
 # Functions {#functions}
 
+> _"Sir, not in an environment such as this. That's why I've also been
+> programmed for over thirty secondary functions that---"_
+>
+> C3PO, before being rudely interrupted, reporting a now-unimpressive
+> number of additional functions, _Star Wars_ script
+
 Very much like other languages you're used to, C has the concept of
 _functions_.
 
@@ -26,7 +32,13 @@ int plus_one(int n)  // The "definition"
 The `int` before the `plus_one` indicates the return type.
 
 The `int n` indicates that this function takes one `int` argument,
-stored in _parameter_ `n`.
+stored in _parameter_ `n`. A parameter is a special type of local
+variable into which the arguments are copied.
+
+I'm going to drive home the point that the arguments are copied into the
+parameters, here. Lots of things in C are easier to understand if you
+know that the parameter is a _copy_ of the argument, not the argument
+itself. More on that in a minute.
 
 Continuing the program down into `main()`, we can see the call to the
 function, where we assign the return value into local variable `j`:
@@ -58,7 +70,7 @@ that the function accepts no arguments.
 You can also return `void` to indicate that you don't return a value:
 
 ``` {.c .numberLines}
-// This function takes no parameters and returns no value:
+// This function takes no arguments and returns no value:
 
 void hello(void)
 {
@@ -73,23 +85,22 @@ int main(void)
 
 ## Passing by Value {#passvalue}
 
-When you pass a value to a function, _a copy of that value_ gets made in
-this magical mystery world known as _the stack_^[Now. _technically
-speaking_, the C specification doesn't say anything about a stack. It's
-true. Your system might not use a stack deep-down for function calls.
-But it either does or looks like it does, and every single C programmer
-on the planet will know what you're talking about when you talk about
-"the stack". It would be just mean for me to keep you in the dark. Plus,
-the stack analogy is excellent for describing how recursion works.].
-(The stack is just a hunk of memory somewhere that the program allocates
-memory on. Some of the stack is used to hold the copies of values that
-are passed to functions.)
+I'd mentioned earlier that when you pass an argument to a function, a
+copy of that argument gets made and stored in the corresponding
+parameter.
 
-For now, the important part is that _a copy_ of the variable
-or value is being passed to the function. The practical upshot of
-this is that since the function is operating on a copy of the value, you
-can't affect the value back in the calling function directly. Like if
-you wanted to increment a value by one, this would NOT work:
+If the argument is a variable, a copy of the value of that variable gets
+made and stored in the parameter.
+
+More generally, the entire argument expression is evaluated and its
+value determined. That value is copied to the parameter.
+
+In any case, the value in the parameter is its own thing. It is
+independent of whatever values or variables you used as arguments when
+you made the function call.
+
+So let's look at an examnple here. Study it and see if you can determine
+the output before running it:
 
 ``` {.c .numberLines}
 void increment(int a)
@@ -102,34 +113,53 @@ int main(void)
     int i = 10;
 
     increment(i);
+
+    printf("i == %d\n", i);  // What does this print?
 }
 ```
 
-You might somewhat sensibly think that the value of `i` after the call
-would be 11, since that's what the `++` does, right? This would be
-incorrect. What is really happening here?
+At first glance, it looks like `i` is `10`, and we pass it to the
+function `increment()`. There the value gets incremented, so when it
+print it, it must be `11`, right?
 
-Well, when you pass `i` to the `increment()` function, a copy gets made
-on the stack, right? It's the copy that `increment()` works on, not the
-original; the original `i` is unaffected. We even gave the copy a name:
-`a`, right? It's right there in the parameter list of the function
-definition. So we increment `a`, sure enough, but what good does that do
-us out in `main()` ? None! Ha!
+> _"Get used to disappointment."_
+>
+> Dread Pirate Roberts, _The Princess Bride_
 
-That's why in the previous example with the `plus_one()` function, we
+But it's not `11`---it prints `10`! How?
+
+It's all about the fact that the expressions you pass to functions get
+_copied_ onto their corresponding parameters. The parameter is a copy,
+not the original.
+
+So `i` is `10` out in `main()`. And we pass it to `increment()`. The
+corresponding parameter is called `a` in that function.
+
+And the copy happens, as if by assignment. Loosely, `a = i`. So at that
+point, `a` is `10`, and `i` out in `main()` is also `10`.
+
+Then we increment `a` to `11`. But we're not touching `i` at all! It
+remains `10`.
+
+Finally, the function is complete. All its local variables are discarded
+(bye, `a`!) and we return to `main()`, where `i` is still `10`.
+
+And we print it, getting `10`, and we're done.
+
+This is why in the previous example with the `plus_one()` function, we
 `return`ed the locally modified value so that we could see it again in
 `main()`.
 
 Seems a little bit restrictive, huh? Like you can only get one piece of
 data back from a function, is what you're thinking. There is, however,
-another way to get data back; C folks call it _passing by reference_.
-But no fancy-schmancy name will distract you from the fact that
-_EVERYTHING_ you pass to a function _WITHOUT EXCEPTION_ is copied onto
-the stack and the function operates on that local copy, _NO MATTER
-WHAT_. Remember that, even when we're talking about this so-called
-passing by reference.
+another way to get data back; C folks call it _passing by reference_ and
+that's a story we'll tell another time.
 
-But that's a story for another time.
+But no fancy-schmancy name will distract you from the fact that
+_EVERYTHING_ you pass to a function _WITHOUT EXCEPTION_ is copied into
+its corresponding parameter, and the function operates on that local
+copy, _NO MATTER WHAT_. Remember that, even when we're talking about
+this so-called passing by reference.
 
 
 ## Function Prototypes {#prototypes}
@@ -180,6 +210,10 @@ You might see these from time to time in older code, but you shouldn't
 ever code one up in new code. Always use `void` to indicate that a
 function takes no parameters. There's never^[Never say "never".] a
 reason to do this in modern code.
+
+If you're good just remembering to put `void` in for empty parameter
+lists in functions and prototypes, you can skip the rest of this
+section.
 
 There are two contexts for this:
 
