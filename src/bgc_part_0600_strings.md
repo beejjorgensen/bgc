@@ -157,7 +157,10 @@ change it!
 You can't, since C doesn't track it for you. And when I say "can't", I
 actually mean "can"^[Though it is true that C doesn't track the length
 of strings.]. There's a function in `<string.h>` called `strlen()` that
-can be used to compute the length of any string.
+can be used to compute the length of any string in bytes^[If you're
+using the basic character set or an 8-bit character set, you're used to
+one character being one byte. This isn't true in all character
+encodings, though.].
 
 ``` {.c .numberLines}
 #include <stdio.h>
@@ -167,7 +170,7 @@ int main(void)
 {
     char *s = "Hello, world!";
 
-    printf("The string is %zu characters long.\n", strlen(s));
+    printf("The string is %zu bytes long.\n", strlen(s));
 }
 ```
 
@@ -177,7 +180,7 @@ so you can use it for integer math. We print `size_t` with `%zu`.
 The above program prints:
 
 ```
-The string is 13 characters long.
+The string is 13 bytes long.
 ```
 
 Great! So it _is_ possible to get the string length!
@@ -227,7 +230,7 @@ char *s = "Hello!";  // Actually "Hello!\0" behind the scenes
 ```
 
 So with this in mind, let's write our own `strlen()` function that
-counts characters in a string until it finds a `NUL`.
+counts `char`s in a string until it finds a `NUL`.
 
 The procedure is to look down the string for a single `NUL` character,
 counting as we go^[Later we'll learn a neater way to do with with
@@ -309,4 +312,5 @@ int main(void)
 Notice with `strcpy()`, the destination pointer is the first argument,
 and the source pointer is the second. A mnemonic I use to remember this
 is that it's the order you would have put `t` and `s` if an assignment
-`=` worked for strings.
+`=` worked for strings, with the source on the right and the destination
+on the left.
