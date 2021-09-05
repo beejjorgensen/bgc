@@ -300,7 +300,7 @@ is `*p` if you could just simply say `i` instead?
 
 Well, my friend, the real power of pointers comes into play when you
 start passing them to functions. Why is this a big deal? You might
-recall from before that you could pass all kinds of parameters to
+recall from before that you could pass all kinds of arguments to
 functions and they'd be dutifully copied into parameters, and then you
 could manipulate local copies of those variables from within the
 function, and then you could return a single value.
@@ -309,7 +309,7 @@ What if you wanted to bring back more than one single piece of data from
 the function? I mean, you can only return one thing, right? What if I
 answered that question with another question? ...Er, two questions?
 
-What happens when you pass a pointer as a parameter to a function? Does
+What happens when you pass a pointer as an argument to a function? Does
 a copy of the pointer get put into its corresponding parameter? _You bet
 your sweet peas it does._  Remember how earlier I rambled on and on
 about how _EVERY SINGLE ARGUMENT_ gets copied into parameters and the
@@ -317,7 +317,7 @@ function uses a copy of the argument? Well, the same is true here. The
 function will get a copy of the pointer.
 
 But, and this is the clever part: we will have set up the pointer in
-advance to point at a variable...a nd then the function can dereference
+advance to point at a variable... and then the function can dereference
 its copy of the pointer to get back to the original variable! The
 function can't see the variable itself, but it can certainly dereference
 a pointer to that variable!
@@ -358,7 +358,7 @@ int main(void)
 ```
 
 Ok! There are a couple things to see here... not the least of which is
-that the `increment()` function takes an `int*` as a parameter. We pass
+that the `increment()` function takes an `int*` as an argument. We pass
 it an `int*` in the call by changing the `int` variable `i` to an `int*`
 using the `address-of` operator. (Remember, a pointer holds an address,
 so we make pointers to variables by running them through the
