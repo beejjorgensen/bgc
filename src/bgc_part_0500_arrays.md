@@ -54,18 +54,24 @@ Hopefully this looks familiar from languages you already know!
 
 ## Getting the Length of an Array
 
-You can't...ish. C doesn't record this information. You have to manage
+You can't...ish. C doesn't record this information^[Since arrays are
+just pointers to the first element of the array under the hood, there's
+no additional information recording the length.]. You have to manage
 it separately in another variable.
 
 When I say "can't", I actually mean there are some circumstances when
 you _can_. There is a trick to get the number of elements in an array in
 the scope in which an array is declared. But, generally speaking, this
-won't work the way you want if you pass the array into a function.
+won't work the way you want if you pass the array into a
+function^[Because when you pass an array to a function, you're actually
+just passing a pointer to the first element of that array, not the
+"entire" array.].
 
 Let's take a look at this trick. The basic idea is that you take the
 `sizeof` the array, and then divide that by the size of each element to
 get the length. For example, if an `int` is 4 bytes, and the array is 32
-bytes long, there must be room for 32/4 or 8 `int`s in there.
+bytes long, there must be room for $\displaystyle \frac{32}/{4}$ or $8$
+`int`s in there.
 
 ``` {.c}
 int x[12];  // 12 ints
@@ -133,7 +139,9 @@ foo.c:6:39: note: (near initialization for ‘a’)
 
 But (fun fact!) you can have _fewer_ items in your initializer than
 there is room for in the array. The remaining elements in the array will
-be automatically initialized with zero.
+be automatically initialized with zero. This is true in general for all
+types of array initializers: if you have an initializer, anything not
+explicitly set to a value will be set to zero.
 
 ``` {.c}
 int a[5] = {22, 37, 3490};
@@ -152,6 +160,41 @@ int a[100] = {0};
 
 Which means, "Make the first element zero, and then automatically make
 the rest zero, as well."
+
+You can set specific array elements in the initializer, as well, by
+specifying an index for the value! When you do this, C will happily keep
+initializing subsequent values for you until the initializer runs out,
+filling everything else with `0`.
+
+To do this, put the index in square brackets with an `=` after, and then
+set the value.
+
+Here's an example where we build an array:
+
+``` {.c}
+int a[10] = {0, 11, 22, [5]=55, 66, 77};
+```
+
+Because we listed index 5 as the start for `55`, the resulting data in
+the array is:
+
+```
+0 11 22 0 0 55 66 77 0 0
+```
+
+You can put simple constant expressions in there, as well.
+
+``` {.c}
+#define COUNT 5
+
+int a[COUNT] = {[COUNT-3]=3, 2, 1};
+```
+
+which gives us:
+
+```
+0 0 3 2 1
+```
 
 Lastly, you can also have C compute the size of the array from the
 initializer, just by leaving the size off:
@@ -233,7 +276,8 @@ int c[4][5][6];
 ```
 
 These are stored in memory in [flw[row-major
-order|Row-_and_column-major_order]].
+order|Row-_and_column-major_order]]. This means with a 2D array, the
+first index listed indicates the row, and the second the column.
 
 You an also use initializers on multidimensional arrays by nesting them:
 
@@ -270,6 +314,22 @@ For output of:
 (1,2) = 7
 (1,3) = 8
 (1,4) = 9
+```
+
+And you can initialize with explicit indexes:
+
+``` {.c}
+// Make a 3x3 identity matrix
+
+int a[3][3] = {[0][0]=1, [1][1]=1, [2][2]=1};
+```
+
+which builds a 2D array like this:
+
+```
+1 0 0
+0 1 0
+0 0 1
 ```
 
 ## Arrays and Pointers
@@ -320,7 +380,7 @@ pointer to the first element of the array! We're going to use this
 extensively in the upcoming examples.
 
 But hold on a second--isn't `p` an `int*`? And `*p` gives us `11`, same
-as `a[0]`? Yessss. You're starting to get a glimpe of how arrays and
+as `a[0]`? Yessss. You're starting to get a glimpse of how arrays and
 pointers are related in C.
 
 
@@ -375,7 +435,7 @@ void times3(int a[], int len)
 void times4(int a[5], int len)
 ```
 
-In C, the first is the most common, by far.
+In usage by C regulars, the first is the most common, by far.
 
 And, in fact, in the latter situation, the compiler doesn't even care
 what number you pass in (other than it has to be greater than zero^[C11
@@ -432,6 +492,10 @@ int main(void)
 }
 ```
 
+Even though we passed the array in as parameter `a` which is type
+`int*`, look at how we access it using array notation with `a[i]`!
+Whaaaat. This is totally allowed.
+
 Later when we talk about the equivalence between arrays and pointers,
 we'll see how this makes a lot more sense. For now, it's enough to know
 that functions can make changes to arrays that are visible out in the
@@ -479,8 +543,9 @@ void print_2D_array(int a[][3])
 ```
 
 The compiler really only needs the second dimension so it can figure out
-how far in memory to skip for each increment of the first dimension.
+how far in memory to skip for each increment of the first dimension. In
+general, it needs to know all the dimensions except the first one.
 
-Also, the compiler does minimal compile-time bounds checking (if you're
-lucky), and C does zero runtime checking of bounds. No seat belts! Don't
-crash!
+Also, remember that the compiler does minimal compile-time bounds
+checking (if you're lucky), and C does zero runtime checking of bounds.
+No seat belts! Don't crash by accessing array elements out of bounds!
