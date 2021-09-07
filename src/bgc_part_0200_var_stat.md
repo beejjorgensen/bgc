@@ -528,7 +528,7 @@ printf("%zu", sizeof(char));  // Prints 1 on all systems
 It's important to note that `sizeof` is a _compile-time_
 operation^[Except for with variable length arrays---but that's a story
 for another time.]. The result of the expression is determined entirely
-at compiletime, not at runtime.
+at compile-time, not at runtime.
 
 We'll make use of this later on.
 
