@@ -3,7 +3,7 @@
 # vim: ts=4:sw=4:nosi:et:tw=72
 -->
 
-# `<assert.h>` Unicode utility functions {#uchar}
+# `<assert.h>` Runtime and Compile-time Diagnostics {#assert}
 
 |Macro|Description|
 |--------|----------------------|
