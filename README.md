@@ -69,7 +69,6 @@ have to consider any copyright issues when merging changes.
 * More man pages
   * fenv
   * float
-  * assert
   * limits
   * inttypes
   * setjmp
