@@ -70,7 +70,7 @@ just passing a pointer to the first element of that array, not the
 Let's take a look at this trick. The basic idea is that you take the
 `sizeof` the array, and then divide that by the size of each element to
 get the length. For example, if an `int` is 4 bytes, and the array is 32
-bytes long, there must be room for $\displaystyle \frac{32}/{4}$ or $8$
+bytes long, there must be room for $\frac{32}{4}$ or $8$
 `int`s in there.
 
 ``` {.c}
