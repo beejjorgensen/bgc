@@ -72,7 +72,7 @@ notably translations of newlines to their different representations^[We
 used to have three different newlines in broad effect: Carriage Return
 (CR, used on old Macs), Linefeed (LF, used on Unix systems), and
 Carriage Return/Linefeed (CRLF, used on Windows systems). Thankfully the
-introduction of OSX, being Unix-based, reduced this number to two.].
+introduction of OS X, being Unix-based, reduced this number to two.].
 Text files are logically a sequence of _lines_ separated by newlines. To
 be portable, your input data should always end with a newline.
 
@@ -112,7 +112,8 @@ See how when we opened the file with `fopen()`, it returned the `FILE*`
 to us so we could use it later.
 
 (I'm leaving it out for brevity, but `fopen()` will return `NULL` if
-something goes wrong, so you should really error check it!)
+something goes wrong, like file-not-found, so you should really error
+check it!)
 
 Also notice the `"r"` that we passed in---this means "open a text stream
 for reading". (There are various strings we can pass to `fopen()` with
@@ -145,9 +146,9 @@ We can use this to read the whole file in a loop.
 int main(void)
 {
     FILE *fp;
+    int c;
 
     fp = fopen("hello.txt", "r");
-    char c;
 
     while ((c = fgetc(fp)) != EOF)
         printf("%c", c);
@@ -158,9 +159,9 @@ int main(void)
 
 (If line 10 is too weird, just break it down starting with the
 innermost-nested parens. The first thing we do is assign the result of
-`fgets()` into `c`, and _then_ we compare that against `EOF`. We've just
-crammed it into a single line. This might look hard to read, but study
-it---it's idiomatic C.)
+`fgetc()` into `c`, and _then_ we compare _that_ against `EOF`. We've
+just crammed it into a single line. This might look hard to read, but
+study it---it's idiomatic C.)
 
 And running this, we see:
 
@@ -245,7 +246,7 @@ Yes, we could read these with `fgets()` and then parse the string with
 files), but in this case, let's just use `fscanf()` and pull it in
 directly.
 
-The `sscanf()` function skips whitespace when reading, and returns `EOF`
+The `fscanf()` function skips leading whitespace when reading, and returns `EOF`
 on end-of-file or error.
 
 ``` {.c .numberLines}
@@ -300,7 +301,7 @@ int main(void)
     fp = fopen("output.txt", "w");
 
     fputc('B', fp);
-    fputc('\n', fp);
+    fputc('\n', fp);   // newline
     fprintf(fp, "x = %d\n", x);
     fputs("Hello, world!\n", fp);
 
@@ -358,7 +359,7 @@ more efficient. But we're going for demo value, here.].
 int main(void)
 {
     FILE *fp;
-    unsigned char bytes[] = {5, 37, 0, 88, 255, 12};
+    unsigned char bytes[6] = {5, 37, 0, 88, 255, 12};
 
     fp = fopen("output.bin", "wb");  // wb mode for "write binary"!
 
@@ -369,7 +370,7 @@ int main(void)
     // * Count of each "piece" of data
     // * FILE*
 
-    fwrite(bytes, sizeof(char), sizeof bytes, fp);
+    fwrite(bytes, sizeof(char), 6, fp);
 
     fclose(fp);
 }
@@ -383,7 +384,7 @@ an array. You can just tell it the size of one record and how many to
 write. 
 
 In the example above, we tell it each record is the size of a `char`,
-and we have 6 of them as computed by `sizeof bytes`.
+and we have 6 of them.
 
 Running the program gives us a file `output.bin`, but opening it in a
 text editor doesn't show anything friendly! It's binary data---not text.
@@ -443,9 +444,9 @@ differently. And the same compiler on different architectures could do
 it differently. And the same compiler on the same architectures could do
 it differently.
 
-What I'm getting at is, it's not portable to just `fwrite()` an entire
-`struct` out to a file when you don't know where the padding will end
-up.
+What I'm getting at is this: it's not portable to just `fwrite()` an
+entire `struct` out to a file when you don't know where the padding will
+end up.
 
 How do we fix this? Hold that thought---we'll look at some ways to do
 this after looking at another related problem.
@@ -505,4 +506,5 @@ allow data from your C programs to interoperate with other languages
 that support the same serialization methods.
 
 Do yourself and everyone a favor! Serialize your binary data when you
-write it to a stream!
+write it to a stream! This will keep things nice and portable, even if
+you transfer data files from one architecture to another.
