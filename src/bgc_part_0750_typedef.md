@@ -100,7 +100,7 @@ structure in a variety of places, and with `typedef` is one of them.
 Let's do the same example with an anonymous structure:
 
 ``` {.c}
-//  anonymous struct!
+//  Anonymous struct! It has no name!
 //         |
 //         v
 //      |----|
@@ -109,7 +109,7 @@ typedef struct {
     int leg_count, speed;
 } animal;                         // <-- new name
 
-//struct animal y;  // ERROR: this no longer works
+//struct animal y;  // ERROR: this no longer works--no such struct!
 animal z;           // This works because "animal" is an alias
 ```
 
@@ -153,7 +153,7 @@ you just need to change the `typedef`:
 //      |---------|
 typedef long double app_float;
 
-// and
+// and no need to change this line:
 
 app_float f1, f2, f3;  // Now these are all long doubles
 ```
@@ -175,6 +175,8 @@ pointer type because you don't see a `*` in the declaration.
 IMHO, it's better to explicitly show that you're declaring a pointer
 type so that other devs can clearly see it and don't mistake `x` for
 having a non-pointer type.
+
+But at last count, say, 832,007 people had a different opinion.
 
 ### `typedef` and Capitalization
 
