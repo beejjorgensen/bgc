@@ -2253,7 +2253,7 @@ printf("%f\n", floor(-3.1));  // -4.000000
 
 
 [[manbreak]]
-## `nearbyint()`, `nearbyint()`, `nearbyint()` {#man-nearbyint}
+## `nearbyint()`, `nearbyintf()`, `nearbyintl()` {#man-nearbyint}
 
 Rounds a value in the current rounding direction.
 
