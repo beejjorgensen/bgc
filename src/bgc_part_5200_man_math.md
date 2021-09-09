@@ -2274,7 +2274,7 @@ long double nearbyintl(long double x);
 This function rounds `x` to the nearest integer in the current rounding
 direction.
 
-The rounding direction can be set with [`fesetround()`](#man-fesetround)
+The rounding direction can be set with [`fesetround()`](#man-fegetround)
 in `<fenv.h>`.
 
 `nearbyint()` won't raise the "inexact" floating point exception.
@@ -2311,7 +2311,7 @@ int main(void)
 [`rint()`](#man-rint),
 [`lrint()`](#man-lrint),
 [`round()`](#man-round),
-[`fesetround()`](#man-fesetround),
+[`fesetround()`](#man-fegetround),
 [`fegetround()`](#man-fegetround)
 
 [[manbreak]]
@@ -2368,11 +2368,11 @@ int main(void)
 [`nearbyint()`](#man-nearbyint),
 [`lrint()`](#man-lrint),
 [`round()`](#man-round),
-[`fesetround()`](#man-fesetround),
+[`fesetround()`](#man-fegetround),
 [`fegetround()`](#man-fegetround)
 
 [[manbreak]]
-## `lrint()`, `lrintf()`, `lrintl()` `llrint()`, `llrintf()`, `llrintl()` {#man-lrint}
+## `lrint()`, `lrintf()`, `lrintl()`, `llrint()`, `llrintf()`, `llrintl()` {#man-lrint}
 
 Returns `x` rounded in the current rounding direction as an integer.
 
@@ -2437,7 +2437,7 @@ int main(void)
 [`nearbyint()`](#man-nearbyint),
 [`rint()`](#man-lrint),
 [`round()`](#man-round),
-[`fesetround()`](#man-fesetround),
+[`fesetround()`](#man-fegetround),
 [`fegetround()`](#man-fegetround)
 
 [[manbreak]]
