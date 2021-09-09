@@ -7,6 +7,13 @@
 
 |Function|Description|
 |--------|----------------------|
+|[`feclearexcept()`](#man-feclearexcept)|Clear floating point exceptions|
+|[`fegetexceptflag()`](#man-fegetexceptflag)|Save the floating point exception flags|
+|[`fesetexceptflag()`](#man-fegetexceptflag)|Restore the floating point exception flags|
+|[`feraiseexcept()`](#man-feraiseexcept)|Raise a floating point exception through software|
+|[`fetestexcept()`](#man-fetestexcept)|Test to see if an exception has occurred|
+|[`fegetround()`](#man-fegetround)|Get the rounding direction|
+|[`fesetround()`](#man-fegetround)|Set the rounding direction|
 
 ## Types and Macros
 
@@ -70,7 +77,7 @@ have (gcc and clang) as of this writing, so though I have built the
 code, below, it's not particularly well-tested.
 
 [[manbreak]]
-## `feclearexcept()` {#man-example}
+## `feclearexcept()` {#man-feclearexcept}
 
 Clear floating point exceptions
 
@@ -194,7 +201,7 @@ int main(void)
 -->
 
 [[manbreak]]
-## `feraiseexcept()` {#man-example}
+## `feraiseexcept()` {#man-feraiseexcept}
 
 Raise a floating point exception through software
 
@@ -254,7 +261,7 @@ int main(void)
 [`fetestexcept()`](#man-fetestexcept)
 
 [[manbreak]]
-## `fetestexcept()` {#man-example}
+## `fetestexcept()` {#man-fetestexcept}
 
 Test to see if an exception has occurred
 
@@ -275,7 +282,6 @@ Returns the bitwise-OR of the exceptions that have been raised.
 
 ### Example {.unnumbered .unlisted}
 
-``` {.c .numberLines}
 This code deliberately raises a division-by-zero exception and then
 detects it.
 
@@ -301,6 +307,115 @@ int main(void)
 
 [`feclearexcept()`](#man-feclearexcept),
 [`feraiseexcept()`](#man-feraiseexcept)
+
+[[manbreak]]
+## `fegetround()` `fesetround()` {#man-fegetround}
+
+Get or set the rounding direction
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+int fegetround(void);
+
+int fesetround(int round);
+```
+
+### Description {.unnumbered .unlisted}
+
+Use these to get or set the rounding direction used by a variety of math
+functions.
+
+Basically when a function "rounds" a number, it wants to know how to do
+it. By default, it does it how we tend to expect: if the fractional part
+is less than 0.5, it rounds down closer to zero, otherwise up farther
+from zero.
+
+|Macro|Description|
+|--------|----------------------|
+|`FE_TONEAREST`|Round to the nearest whole number, the default|
+|`FE_TOWARDZERO`|Round toward zero always|
+|`FE_DOWNWARD`|Round toward the next lesser whole number|
+|`FE_UPWARD`|Round toward the next greater whole number|
+
+Some implementations don't support rounding. If it does, the above
+macros will be defined.
+
+Note that the `round()` function is always "to-nearest" and doesn't pay
+attention to the rounding mode.
+
+### Return Value {.unnumbered .unlisted}
+
+`fegetround()` returns the current rounding direction, or a negative
+value on error.
+
+`fesetround()` returns zero on success, or non-zero on failure.
+
+### Example {.unnumbered .unlisted}
+
+This rounds some numbers 
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <math.h>
+#include <fenv.h>
+
+// Helper function to print the rounding mode
+const char *rounding_mode_str(int mode)
+{
+    switch (mode) {
+        case FE_TONEAREST:  return "FE_TONEAREST";
+        case FE_TOWARDZERO: return "FE_TOWARDZERO";
+        case FE_DOWNWARD:   return "FE_DOWNWARD";
+        case FE_UPWARD:     return "FE_UPWARD";
+    }
+
+    return "Unknown";
+}
+
+int main(void)
+{
+    #pragma STDC FENV_ACCESS ON 
+
+    int rm;
+
+    rm = fegetround();
+
+    printf("%s\n", rounding_mode_str(rm));    // Print current mode
+    printf("%f %f\n", rint(2.1), rint(2.7));  // Try rounding
+
+    fesetround(FE_TOWARDZERO);                // Set the mode
+
+    rm = fegetround();
+
+    printf("%s\n", rounding_mode_str(rm));    // Print it
+    printf("%f %f\n", rint(2.1), rint(2.7));  // Try it now!
+}
+```
+
+Output:
+
+```
+FE_TONEAREST
+2.000000 3.000000
+FE_TOWARDZERO
+2.000000 2.000000
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`nearbyint()`](#man-nearbyint),
+[`nearbyintf()`](#man-nearbyint),
+[`nearbyintl()`](#man-nearbyint),
+[`rint()`](#man-rint),
+[`rintf()`](#man-rint),
+[`rintl()`](#man-rint),
+[`lrint()`](#man-lrint),
+[`lrintf()`](#man-lrint),
+[`lrintl()`](#man-lrint),
+[`llrint()`](#man-lrint),
+[`llrintf()`](#man-lrint),
+[`llrintl()`](#man-lrint)
 
 <!--
 [[manbreak]]
