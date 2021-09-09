@@ -1,7 +1,4 @@
-<!-- Beej's guide to C
-
-# vim: ts=4:sw=4:nosi:et:tw=72
--->
+<!-- Beej's guide to C # vim: ts=4:sw=4:nosi:et:tw=72 -->
 
 # `<fenv.h>` Floating Point Exceptions and Environment {#fenv}
 
@@ -25,8 +22,8 @@ There are two types defined in this header:
 |`fexcept_t`|A set of floating point exceptions
 
 The "environment" can be thought of as the status at this moment of the
-floating point processing system. Things that have gone wrong,
-bookkeeping, etc. It's an opaque type, so you won't be able to access it
+floating point processing system: this includes the exceptions,
+rounding, etc. It's an opaque type, so you won't be able to access it
 directly, and it must be done through the proper functions.
 
 If the functions in question exist on your system (they might not be!),
@@ -84,6 +81,8 @@ Clear floating point exceptions
 ### Synopsis {.unnumbered .unlisted}
 
 ``` {.c}
+#include <fenv.h>
+
 int feclearexcept(int excepts);
 ```
 
@@ -131,6 +130,8 @@ Save or restore the floating point exception flags
 ### Synopsis {.unnumbered .unlisted}
 
 ``` {.c}
+#include <fenv.h>
+
 int fegetexceptflag(fexcept_t *flagp, int excepts);
 
 int fesetexceptflag(fexcept_t *flagp, int excepts);
@@ -208,6 +209,8 @@ Raise a floating point exception through software
 ### Synopsis {.unnumbered .unlisted}
 
 ``` {.c}
+#include <fenv.h>
+
 int feraiseexcept(int excepts);
 ```
 
@@ -268,6 +271,8 @@ Test to see if an exception has occurred
 ### Synopsis {.unnumbered .unlisted}
 
 ``` {.c}
+#include <fenv.h>
+
 int fetestexcept(int excepts);
 ```
 
@@ -316,6 +321,8 @@ Get or set the rounding direction
 ### Synopsis {.unnumbered .unlisted}
 
 ``` {.c}
+#include <fenv.h>
+
 int fegetround(void);
 
 int fesetround(int round);
@@ -417,6 +424,103 @@ FE_TOWARDZERO
 [`llrintf()`](#man-lrint),
 [`llrintl()`](#man-lrint)
 
+[[manbreak]]
+## `fegetenv()` `fesetenv()` {#man-fegetenv}
+
+Save or restore the entire floating point environment
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <fenv.h>
+
+int fegetenv(fenv_t *envp);
+int fesetenv(const fenv_t *envp);
+```
+
+### Description {.unnumbered .unlisted}
+
+You can save the environment (exceptions, rounding direction, etc.) by
+calling `fegetenv()` and restore it with `fesetenv()`.
+
+Use this if you want to restore the state after a function call, i.e.
+hide from the caller that some floating point exceptions or changes
+occurred.
+
+### Return Value {.unnumbered .unlisted}
+
+### Example {.unnumbered .unlisted}
+
+This example saves the environment, messes with the rounding and
+exceptions, then restores it. After the environment is restored, we see
+that the rounding is back to default and the exception is cleared.
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <math.h>
+#include <fenv.h>
+
+void show_status(void)
+{
+    printf("Rounding is FE_TOWARDZERO: %d\n",
+           fegetround() == FE_TOWARDZERO);
+
+    printf("FE_DIVBYZERO is set: %d\n",
+           fetestexcept(FE_DIVBYZERO) != 0);
+}
+
+int main(void)
+{
+    #pragma STDC FENV_ACCESS ON 
+
+    fenv_t env;
+
+    fegetenv(&env);  // Save the environment
+
+    fesetround(FE_TOWARDZERO);    // Change rounding
+    feraiseexcept(FE_DIVBYZERO);  // Raise an exception
+
+    show_status();
+
+    fesetenv(&env);  // Restore the environment
+
+    show_status();
+}
+```
+
+Output:
+
+```
+Rounding is FE_TOWARDZERO: 1
+FE_DIVBYZERO is set: 1
+Rounding is FE_TOWARDZERO: 0
+FE_DIVBYZERO is set: 0
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`example()`](#man-example),
+
+[[manbreak]]
+## `example()` `example()` `example()` {#man-example}
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+```
+
+### Description {.unnumbered .unlisted}
+
+### Return Value {.unnumbered .unlisted}
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`example()`](#man-example),
 <!--
 [[manbreak]]
 ## `example()` `example()` `example()` {#man-example}
