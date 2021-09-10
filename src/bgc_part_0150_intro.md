@@ -172,7 +172,7 @@ the function `printf()`. You can tell this is a function call and not a
 function definition in a number of ways, but one indicator is the lack
 of squirrelly braces after it. And you end the function call with a
 semicolon so the compiler knows it's the end of the expression. You'll
-be putting semicolons after most everything, as you'll see.
+be putting semicolons after almost everything, as you'll see.
 
 You're passing one argument to the function `printf()`: a string to be
 printed when you call it. Oh, yeah---we're calling a function! We rock!
