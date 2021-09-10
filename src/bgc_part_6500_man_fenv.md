@@ -11,6 +11,10 @@
 |[`fetestexcept()`](#man-fetestexcept)|Test to see if an exception has occurred|
 |[`fegetround()`](#man-fegetround)|Get the rounding direction|
 |[`fesetround()`](#man-fegetround)|Set the rounding direction|
+|[`fegetenv()`](#man-fegetenv)|Save the entire floating point environment|
+|[`fesetenv()`](#man-fegetenv)|Restore the entire floating point environment|
+|[`feholdexcept()`](#man-feholdexcept)|Save floating point state and install non-stop mode|
+|[`feupdateenv()`](#man-updateenv)|Restore floating point environment and apply recent exceptions|
 
 ## Types and Macros
 
@@ -449,6 +453,9 @@ occurred.
 
 ### Return Value {.unnumbered .unlisted}
 
+`fegetenv()` and `fesetenv()` return `0` on success, and non-zero
+otherwise.
+
 ### Example {.unnumbered .unlisted}
 
 This example saves the environment, messes with the rounding and
@@ -499,28 +506,190 @@ FE_DIVBYZERO is set: 0
 
 ### See Also {.unnumbered .unlisted}
 
-[`example()`](#man-example),
+[`feholdexcept()`](#man-feholdexcept),
+[`feupdateenv()`](#man-feupdateenv)
 
 [[manbreak]]
-## `example()` `example()` `example()` {#man-example}
+## `feholdexcept()` {#man-example}
+
+Save floating point state and install non-stop mode
 
 ### Synopsis {.unnumbered .unlisted}
 
 ``` {.c}
+#include <fenv.h>
+
+int feholdexcept(fenv_t *envp);
 ```
 
 ### Description {.unnumbered .unlisted}
+
+This is just like `fegetenv()` except that it updates the current
+environment to be in _non-stop_ mode, namely it won't halt on any
+exceptions.
+
+It remains in this state until you restore the state with `fesetenv()`
+or `feupdateenv()`.
+
 
 ### Return Value {.unnumbered .unlisted}
 
 ### Example {.unnumbered .unlisted}
 
+This example saves the environment and goes into non-stop mode, messes
+with the rounding and exceptions, then restores it. After the
+environment is restored, we see that the rounding is back to default and
+the exception is cleared. We'll also be out of non-stop mode.
+
 ``` {.c .numberLines}
+#include <stdio.h>
+#include <math.h>
+#include <fenv.h>
+
+void show_status(void)
+{
+    printf("Rounding is FE_TOWARDZERO: %d\n",
+           fegetround() == FE_TOWARDZERO);
+
+    printf("FE_DIVBYZERO is set: %d\n",
+           fetestexcept(FE_DIVBYZERO) != 0);
+}
+
+int main(void)
+{
+    #pragma STDC FENV_ACCESS ON 
+
+    fenv_t env;
+
+    // Save the environment and don't stop on exceptions
+    feholdexcept(&env);
+
+    fesetround(FE_TOWARDZERO);    // Change rounding
+    feraiseexcept(FE_DIVBYZERO);  // Raise an exception
+
+    show_status();
+
+    fesetenv(&env);  // Restore the environment
+
+    show_status();
+}
 ```
 
 ### See Also {.unnumbered .unlisted}
 
-[`example()`](#man-example),
+[`fegetenv()`](#man-fegetenv),
+[`fesetenv()`](#man-fegetenv),
+[`feupdateenv()`](#man-feupdateenv)
+
+[[manbreak]]
+## `feupdateenv()` {#man-feupdateenv}
+
+Restore floating point environment and apply recent exceptions
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <fenv.h>
+
+int feupdateenv(const fenv_t *envp);
+```
+
+### Description {.unnumbered .unlisted}
+
+This is like `fesetenv()` except that it modifies the passed-in
+environment so that it is updated with exceptions that have happened in
+the meantime.
+
+So let's say you had a function that might raise exceptions, but you
+wanted to hide those in the caller. One option might be to:
+
+1. Save the environment with `fegetenv()` or `feholdexcept()`.
+2. Do whatever you do that might raise exceptions.
+3. Restore the environment with `fesetenv()`, thereby hiding the
+   exceptions that happened in step 2.
+
+But that hides _all_ exceptions. What if you just wanted to hide some of
+them? You could use `feupdateenv()` like this:
+
+1. Save the environment with `fegetenv()` or `feholdexcept()`.
+2. Do whatever you do that might raise exceptions.
+3. Call `feclearexcept()` to clear the exceptions you want to hide from
+   the caller.
+4. Call `feupdateenv()` to restore the previous environment and update
+   it with the other exceptions that have occurred.
+
+So it's like a more capable way of restoring the environment than simply
+`fegetenv()`/`fesetenv()`.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns `0` on success, non-zero otherwise.
+
+### Example {.unnumbered .unlisted}
+
+This program saves state, raises some exceptions, then clears one of the
+exceptions, then restores and updates the state.
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <math.h>
+#include <fenv.h>
+
+void show_status(void)
+{
+    printf("FE_DIVBYZERO: %d\n", fetestexcept(FE_DIVBYZERO) != 0);
+    printf("FE_INVALID  : %d\n", fetestexcept(FE_INVALID) != 0);
+    printf("FE_OVERFLOW : %d\n\n", fetestexcept(FE_OVERFLOW) != 0);
+}
+
+int main(void)
+{
+    #pragma STDC FENV_ACCESS ON 
+
+    fenv_t env;
+
+    feholdexcept(&env);  // Save the environment
+
+    // Pretend some bad math happened here:
+    feraiseexcept(FE_DIVBYZERO);  // Raise an exception
+    feraiseexcept(FE_INVALID);    // Raise an exception
+    feraiseexcept(FE_OVERFLOW);   // Raise an exception
+
+    show_status();
+
+    feclearexcept(FE_INVALID);
+
+    feupdateenv(&env);  // Restore the environment
+
+    show_status();
+}
+```
+
+In the output, at first we have no exceptions. Then we have the three we
+raised. Then after we restore/update the environment, we see the one we
+cleared (`FE_INVALID`) hasn't been applied:
+
+```
+FE_DIVBYZERO: 0
+FE_INVALID  : 0
+FE_OVERFLOW : 0
+
+FE_DIVBYZERO: 1
+FE_INVALID  : 1
+FE_OVERFLOW : 1
+
+FE_DIVBYZERO: 1
+FE_INVALID  : 0
+FE_OVERFLOW : 1
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`fegetenv()`](#man-fegetenv),
+[`fesetenv()`](#man-fegetenv),
+[`feholdexcept()`](#man-feholdexcept),
+[`feclearexcept()`](#man-feclearexcept)
+
 <!--
 [[manbreak]]
 ## `example()` `example()` `example()` {#man-example}
