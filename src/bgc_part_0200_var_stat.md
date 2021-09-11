@@ -99,10 +99,10 @@ to it:
 
 int main(void)
 {
-    int i;    // holds signed integers, e.g. -3, -2, 0, 1, 10
-    float f;  // holds signed floating point numbers, e.g. -3.1416
+    int i;    // Holds signed integers, e.g. -3, -2, 0, 1, 10
+    float f;  // Holds signed floating point numbers, e.g. -3.1416
 
-    printf("Hello, World!\n");  // ah, blessed familiarity
+    printf("Hello, World!\n");  // Ah, blessed familiarity
 }
 ```
 
@@ -233,11 +233,11 @@ in this section to get started.)
 Hopefully these are familiar:
 
 ``` {.c}
-i = i + 3;  // addition (+) and assignment (=) operators, add 3 to i
-i = i - 8;  // subtraction, subtract 8 from i
-i = i * 9;  // multiplication
-i = i / 2;  // division
-i = i % 5;  // modulo (division remainder)
+i = i + 3;  // Addition (+) and assignment (=) operators, add 3 to i
+i = i - 8;  // Subtraction, subtract 8 from i
+i = i * 9;  // Multiplication
+i = i / 2;  // Division
+i = i % 5;  // Modulo (division remainder)
 ```
 
 There are shorthand variants for all of the above. Each of those lines
@@ -632,7 +632,7 @@ while a condition expression is true.
 Let's do one!
 
 ``` {.c}
-// print the following output:
+// Print the following output:
 //
 //   i is now 0!
 //   i is now 1!
@@ -677,7 +677,7 @@ the _beginning_ of the block with `while`.
 Let's see by example:
 
 ``` {.c}
-// using a while statement:
+// Using a while statement:
 
 i = 10;
 
@@ -687,7 +687,7 @@ while(i < 10) {
     i++;
 }
 
-// using a do-while statement:
+// Using a do-while statement:
 
 i = 10;
 
@@ -889,7 +889,7 @@ Turns out we just keep on going into the next `case`! Demo!
 switch (x) {
     case 1:
         printf("1\n");
-        // fall through!
+        // Fall through!
     case 2:
         printf("2\n");
         break;
