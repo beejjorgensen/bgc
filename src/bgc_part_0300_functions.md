@@ -99,7 +99,7 @@ In any case, the value in the parameter is its own thing. It is
 independent of whatever values or variables you used as arguments when
 you made the function call.
 
-So let's look at an examnple here. Study it and see if you can determine
+So let's look at an example here. Study it and see if you can determine
 the output before running it:
 
 ``` {.c .numberLines}
