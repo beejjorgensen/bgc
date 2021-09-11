@@ -228,10 +228,10 @@ type pointer-to-`int` since `i` is an `int` (because address-of `int`
 gives you a pointer to `int`). The address of a thing can be stored in a
 pointer to that thing.
 
-Get it? I know is still doesn't quite make much sense since you haven't
+Get it? I know it still doesn't quite make much sense since you haven't
 seen an actual use for the pointer variable, but we're taking small
 steps here so that no one gets lost. So now, let's introduce you to the
-anti-address-of, operator. It's kind of like what `address-of` would be
+anti-address-of operator. It's kind of like what `address-of` would be
 like in Bizarro World.
 
 
