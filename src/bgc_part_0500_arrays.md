@@ -8,13 +8,13 @@
 > “Should array indices start at 0 or 1?  My compromise of 0.5 was
 > rejected without, I thought, proper consideration.”
 >
-> ---Stan Kelly-Bootle), computer scientist
+> ---Stan Kelly-Bootle, computer scientist
 
 Luckily, C has arrays. I mean, I know it's considered a low-level
 language^[These days, anyway.] but it does at least have the concept of
 arrays built-in. And since a great many languages drew inspiration from C's
 syntax, you're probably already familiar with using `[` and `]` for
-declaring and using arrays in C.
+declaring and using arrays.
 
 But only barely! As we'll find out later, arrays are just syntactic
 sugar in C---they're actually all pointers and stuff deep down. _Freak
