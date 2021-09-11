@@ -1237,5 +1237,5 @@ int run(void *arg)
     // ...
 ```
 
-In this example, no matter how many threads get into the `run()`
+In this example, no matter how many threads get to the `run()`
 function, the `run_once_function()` will only be called a single time.
