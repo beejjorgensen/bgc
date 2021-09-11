@@ -468,7 +468,7 @@ But if the function has a pointer to the data, it is able to manipulate
 that data! So changes that a function makes to an array will be visible
 back out in the caller.
 
-Here's an example where we pass a pointer to an array into a function,
+Here's an example where we pass a pointer to an array to a function,
 the function manipulates the values in that array, and those changes are
 visible out in the caller.
 
