@@ -474,7 +474,7 @@ field^[`super` isn't a keyword, incidentally. I'm just stealing some OOP
 terminology.].
 
 Let's set up an example here. We'll make `struct`s as above, but then
-we'll pass a pointer to a `struct child` into a function that needs a
+we'll pass a pointer to a `struct child` to a function that needs a
 pointer to a `struct parent`... and it'll still work.
 
 ``` {.c .numberLines}
