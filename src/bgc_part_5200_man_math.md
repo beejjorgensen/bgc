@@ -109,7 +109,7 @@ long double powl(long double x, long double y);  // long double
 ```
 
 Remember that parameters are given values as if you assigned into them.
-So if you pass a `double` into `powf()`, it'll choose the closest
+So if you pass a `double` to `powf()`, it'll choose the closest
 `float` it can to hold the double. If the `double` doesn't fit,
 undefined behavior happens.
 
