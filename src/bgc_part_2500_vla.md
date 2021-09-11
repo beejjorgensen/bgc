@@ -218,7 +218,7 @@ Same thing as we did with the second form of one-dimensional VLAs,
 above, but this time we're passing in two dimensions and using those.
 
 In the following example, we build a multiplication table matrix of a
-variable width and height, and then pass it into a function to print it
+variable width and height, and then pass it to a function to print it
 out.
 
 ``` {.c .numberLines}
