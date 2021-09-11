@@ -155,7 +155,7 @@ data back from a function, is what you're thinking. There is, however,
 another way to get data back; C folks call it _passing by reference_ and
 that's a story we'll tell another time.
 
-But no fancy-schmancy name will distract you from the fact that
+But no fancy-schmancy name should distract you from the fact that
 _EVERYTHING_ you pass to a function _WITHOUT EXCEPTION_ is copied into
 its corresponding parameter, and the function operates on that local
 copy, _NO MATTER WHAT_. Remember that, even when we're talking about
