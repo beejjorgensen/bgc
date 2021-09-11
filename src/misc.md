@@ -1358,7 +1358,7 @@ interchanging `int`s and `enum`s.
 We'll be all happy and C-like here, though.)
 
 Note that an `enum` is a type, too. You can
-`typedef` it, you can pass them into functions, and
+`typedef` it, you can pass them to functions, and
 so on, again, just like "normal" types.
 
 Here are some enums and their usage. Remember---treat them just
