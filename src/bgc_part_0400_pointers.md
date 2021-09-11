@@ -60,7 +60,7 @@ printf("an int uses %zu bytes of memory\n", sizeof(int));
 > byte of memory, the bytes that make up the data are always adjacent to
 > one another in memory. Sometimes they're in order, and sometimes
 > they're not^[The order that bytes come in is referred to as the
-> _endianess_ of the number. Common ones are _big endian_ and _little
+> _endianness_ of the number. Common ones are _big endian_ and _little
 > endian_. This usually isn't something you need to worry about.], but
 > that's platform-dependent, and often taken care of for you without you
 > needing to worry about pesky byte orderings.
