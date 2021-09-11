@@ -119,7 +119,7 @@ int main(void)
 ```
 
 At first glance, it looks like `i` is `10`, and we pass it to the
-function `increment()`. There the value gets incremented, so when it
+function `increment()`. There the value gets incremented, so when we
 print it, it must be `11`, right?
 
 > _"Get used to disappointment."_
