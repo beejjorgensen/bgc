@@ -831,7 +831,7 @@ int main(void)
             break;
 
         case 1:
-            printf("You have a singular goat.\n");
+            printf("You have a single goat.\n");
             break;
 
         case 2:
