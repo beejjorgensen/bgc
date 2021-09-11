@@ -917,7 +917,7 @@ if you meant to do that.
 In fact, this is one of the common places to introduce bugs in C
 programs: forgetting to put a `break` in your `case`. You gotta do it if
 you don't want to just roll into the next case^[This was considered
-such hazard that the designers of the Go Programming Language made
+such a hazard that the designers of the Go Programming Language made
 `break` the default; you have to explicitly use Go's `fallthrough`
 statement if you want to fall into the next case.].
 
