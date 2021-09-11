@@ -201,7 +201,7 @@ int main(void)
 
 So there we have `strtoul()` modifying what `badchar` points to in order
 to show us where things went wrong^[We have to pass a pointer to
-`badchar` into `strtoul()` or it won't be able to modify it in any way
+`badchar` to `strtoul()` or it won't be able to modify it in any way
 we can see, analogous to why you have to pass a pointer to an `int` to a
 function if you want that function to be able to change that value of
 that `int`.].
