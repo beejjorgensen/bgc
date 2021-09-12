@@ -223,7 +223,7 @@ Here's an easy one for you!
 Just assign from one to the other!
 
 ``` {.c}
-struct a, b;
+struct car a, b;
 
 b = a;  // Copy the struct
 ```
