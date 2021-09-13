@@ -55,7 +55,7 @@ int main(void)
 ```
 
 > Before I forget, notice that I defined the function before I used it.
-> If hadn't done that, the compiler wouldn't know about it yet when it
+> If I hadn't done that, the compiler wouldn't know about it yet when it
 > compiles `main()` and it would have given an unknown function call
 > error. There is a more proper way to do the above code with _function
 > prototypes_, but we'll talk about that later.
