@@ -483,7 +483,7 @@ memory.
 This can be different on different systems, except for `char` and its
 variants (which are always 1 byte).
 
-And this might not seem very useful now, but we'll be making reference
+And this might not seem very useful now, but we'll be making references
 to it here and there, so it's worth covering.
 
 Since this computes the number of bytes needed to store a type, you
