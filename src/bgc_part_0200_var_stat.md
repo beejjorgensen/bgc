@@ -905,7 +905,7 @@ but then it just continues on to the next line of code... which prints
 
 And then, at last, we hit a `break` so we jump out of the `switch`.
 
-if `x == 2`, then we just it the `case 2`, print `2`, and `break` as
+if `x == 2`, then we just hit the `case 2`, print `2`, and `break` as
 normal.
 
 Not having a `break` is called _fall through_.
