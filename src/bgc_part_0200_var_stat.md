@@ -505,9 +505,9 @@ int a = 999;
 
 // %zu is the format specifier for type size_t
 
-printf("%zu", sizeof a);      // Prints 4 on my system
-printf("%zu", sizeof(2 + 7)); // Prints 4 on my system
-printf("%zu", sizeof 3.14);   // Prints 8 on my system
+printf("%zu\n", sizeof a);      // Prints 4 on my system
+printf("%zu\n", sizeof(2 + 7)); // Prints 4 on my system
+printf("%zu\n", sizeof 3.14);   // Prints 8 on my system
 
 // If you need to print out negative size_t values, use %zd
 ```
@@ -521,8 +521,8 @@ number `4` in the very next block of code...
 parentheses are required around a type name, unlike an expression):
 
 ``` {.c}
-printf("%zu", sizeof(int));   // Prints 4 on my system
-printf("%zu", sizeof(char));  // Prints 1 on all systems
+printf("%zu\n", sizeof(int));   // Prints 4 on my system
+printf("%zu\n", sizeof(char));  // Prints 1 on all systems
 ```
 
 It's important to note that `sizeof` is a _compile-time_
@@ -549,7 +549,7 @@ sequence.
 Let's start with a single statement:
 
 ``` {.c}
-if (x == 10) printf("x is 10");
+if (x == 10) printf("x is 10\n");
 ```
 
 This is also sometimes written on a separate line. (Whitespace is largely
