@@ -783,7 +783,7 @@ condition starts off false.
 > You can use the comma operator to do multiple things in each clause of
 > the `for` loop!
 >
-> ```
+> ``` {.c}
 > for (i = 0, j = 999; i < 10; i++, j--) {
 >     printf("%d, %d\n", i, j);
 > }
