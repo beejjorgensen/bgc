@@ -90,7 +90,7 @@ So here's the deal: if `setjmp()` returns `0`, it means that you've
 successfully set the "bookmark" at that point.
 
 If it returns non-zero, it means you've just returned to the "bookmark"
-set earlier. (And the value returned is the one you pass into
+set earlier. (And the value returned is the one you pass to
 `longjmp()`.)
 
 This way you can tell the difference between setting the bookmark and
