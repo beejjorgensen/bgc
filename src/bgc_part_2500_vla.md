@@ -87,7 +87,7 @@ Some restrictions:
 
 * You can't declare a VLA at file scope, and you can't make a `static`
   one in block scope^[This is due to how VLAs are typically allocated on
-  the stack, where as `static` variables are on the heap. And the whole
+  the stack, whereas `static` variables are on the heap. And the whole
   idea with VLAs is they'll be automatically dellocated when the stack
   frame is popped at the end of the function.].
 * You can't use an initializer list to initialize the array.
@@ -313,7 +313,7 @@ int matrix[3][5];
 foo(3, 5, matrix);   // OK!
 ```
 
-Beware, through: if your dimensions mismatch, you're going to have some
+Beware, though: if your dimensions mismatch, you're going to have some
 undefined behavior going on, likely.
 
 ## `typedef` and VLAs
@@ -371,7 +371,7 @@ But both of these things we'll cover in their respective chapters.
 
 ## General Issues {#vla-general-issues}
 
-VLAs have been banned from the Linux kernel due for a few reasons:
+VLAs have been banned from the Linux kernel due to a few reasons:
 
 * Lots of places they were used should have just been fixed-size.
 * The code behind VLAs is slower (to a degree that most people wouldn't

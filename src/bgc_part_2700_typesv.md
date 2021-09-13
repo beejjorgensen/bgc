@@ -244,7 +244,7 @@ But hopefully that provides a little more clarity on the syntax.
 
 ## Generic Selections
 
-This is an expression that allows you select different pieces of code
+This is an expression that allows you to select different pieces of code
 depending on the _type_ of the first argument to the expression.
 
 We'll look at an example in just a second, but it's important to know
