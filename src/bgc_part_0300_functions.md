@@ -136,7 +136,7 @@ So `i` is `10` out in `main()`. And we pass it to `increment()`. The
 corresponding parameter is called `a` in that function.
 
 And the copy happens, as if by assignment. Loosely, `a = i`. So at that
-point, `a` is `10`, and `i` out in `main()` is also `10`.
+point, `a` is `10`. And out in `main()`, `i` is also `10`.
 
 Then we increment `a` to `11`. But we're not touching `i` at all! It
 remains `10`.
