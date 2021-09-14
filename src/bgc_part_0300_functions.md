@@ -169,11 +169,11 @@ that you had to define the function before you used it, otherwise the
 compiler wouldn't know about it ahead of time, and would bomb out with
 an error.
 
-This isn't quite strictly true. You can notify the compiler in
-advance that you'll be using a function of a certain type that has a
-certain parameter list and that way the function can be defined
-anywhere at all, as long as the _function prototype_ has been
-declared first.
+This isn't quite strictly true. You can notify the compiler in advance
+that you'll be using a function of a certain type that has a certain
+parameter list. That way the function can be defined anywhere (even in a
+different file), as long as the _function prototype_ has been declared
+before you call that function.
 
 Fortunately, the function prototype is really quite easy. It's
 merely a copy of the first line of the function definition with a
@@ -188,6 +188,9 @@ int main(void)
 {
     int i;
     
+    // We can call foo() here before it's definition because the
+    // prototype has already been declared, above!
+
     i = foo();
 }
 
