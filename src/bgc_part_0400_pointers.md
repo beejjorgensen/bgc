@@ -122,7 +122,7 @@ When we have that, we say we have a "pointer to" that data. And we can
 follow the pointer to access the data itself.
 
 (Though it doesn't seem particularly useful yet, this all becomes
-indispensible when used with function calls. Bear with me until we get
+indispensable when used with function calls. Bear with me until we get
 there.)
 
 So if we have an `int`, say, and we want a pointer to it, what we want
