@@ -200,7 +200,7 @@ int foo(void)  // this is the definition, just like the prototype!
 }
 ```
 
-You might notice something about the sample code we've been using...that
+You might notice something about the sample code we've been using... That
 is, we've been using the good old `printf()` function without defining
 it or declaring a prototype! How do we get away with this lawlessness?
 We don't, actually. There is a prototype; it's in that header file
