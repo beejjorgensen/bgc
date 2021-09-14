@@ -445,7 +445,7 @@ The same applies to any part of an array:
 
 ``` {.c}
 register int a[] = {11, 22, 33, 44, 55};
-int p = a;  // COMPILER ERROR! Can't take address of a[0]
+int *p = a;  // COMPILER ERROR! Can't take address of a[0]
 ```
 
 Or dereferencing part of an array:
