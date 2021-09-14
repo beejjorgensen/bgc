@@ -206,7 +206,7 @@ If you want strings longer than 255 characters, option 1 requires at
 least two bytes to store the length. Whereas option 2 only requires one
 byte to terminate the string. So a bit of savings there.
 
-Of course, these days is seems ridiculous to worry about saving a byte
+Of course, these days it seems ridiculous to worry about saving a byte
 (or 3---lots of languages will happily let you have strings that are 4
 gigabytes in length). But back in the day, it was a bigger deal.
 
@@ -233,7 +233,7 @@ So with this in mind, let's write our own `strlen()` function that
 counts `char`s in a string until it finds a `NUL`.
 
 The procedure is to look down the string for a single `NUL` character,
-counting as we go^[Later we'll learn a neater way to do with with
+counting as we go^[Later we'll learn a neater way to do it with
 pointer arithmetic.]:
 
 ``` {.c}
