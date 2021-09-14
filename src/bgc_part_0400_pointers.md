@@ -66,7 +66,7 @@ printf("an int uses %zu bytes of memory\n", sizeof(int));
 > needing to worry about pesky byte orderings.
 
 So _anyway_, if we can get on with it and get a drum roll and some
-forboding music playing for the definition of a pointer, _a pointer is a
+foreboding music playing for the definition of a pointer, _a pointer is a
 variable that holds an address_. Imagine the classical score from 2001:
 A Space Odessey at this point. Ba bum ba bum ba bum BAAAAH!
 
