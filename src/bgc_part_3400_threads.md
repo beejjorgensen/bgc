@@ -71,7 +71,7 @@ Or if you don't care when the thread completes and don't want to wait,
 you can _detach it_.
 
 A thread can explicitly _exit_, or it can implicitly call it quits by
-returning from it's main function.
+returning from its main function.
 
 A thread can also _sleep_ for a period of time, doing nothing while
 other threads run.
@@ -111,7 +111,7 @@ if you don't have anything to pass).
 
 The thread will begin execution on the function you specify.
 
-When you want to wait for a thread to complete, you have to specify it's
+When you want to wait for a thread to complete, you have to specify its
 thread ID so C knows which one to wait for.
 
 So the basic idea is:

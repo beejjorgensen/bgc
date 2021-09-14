@@ -254,10 +254,10 @@ that value to `1`.
 Since `setjmp()` ultimately returns this value, and having `setjmp()`
 return `0` has special meaning, returning `0` is prohibited.
 
-### `longjmp() and Variable Length Arrays
+### `longjmp()` and Variable Length Arrays
 
 If you are in scope of a VLA and `longjmp()` out there, the memory
-allocated to the VAL could leak^[That is, remain allocated until the
+allocated to the VLA could leak^[That is, remain allocated until the
 program ends with no way to free it.].
 
 Same thing happens if you `longjmp()` back over any earlier functions
