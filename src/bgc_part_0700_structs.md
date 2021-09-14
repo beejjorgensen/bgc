@@ -5,8 +5,8 @@
 
 # Structs {#structs}
 
-In C, have something called a `struct`, which is a user-definable type
-that holds multiple pieces of data, potentially of different types.
+In C, we have something called a `struct`, which is a user-definable
+type that holds multiple pieces of data, potentially of different types.
 
 It's a convenient way to bundle multiple variables into a single one.
 This can be beneficial for passing variables to functions (so you just
