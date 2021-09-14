@@ -16,9 +16,9 @@ arrays built-in. And since a great many languages drew inspiration from C's
 syntax, you're probably already familiar with using `[` and `]` for
 declaring and using arrays.
 
-But only barely! As we'll find out later, arrays are just syntactic
-sugar in C---they're actually all pointers and stuff deep down. _Freak
-out!_ But for now, let's just use them as arrays. _Phew_.
+But C only _barely_ has arrays! As we'll find out later, arrays are just
+syntactic sugar in C---they're actually all pointers and stuff deep
+down. _Freak out!_ But for now, let's just use them as arrays. _Phew_.
 
 ## Easy Example
 
