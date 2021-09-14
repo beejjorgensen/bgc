@@ -194,7 +194,7 @@ int main(void)
     i = foo();
 }
 
-int foo(void)  // this is the definition, just like the prototype!
+int foo(void)  // This is the definition, just like the prototype!
 {
     return 3490;
 }
