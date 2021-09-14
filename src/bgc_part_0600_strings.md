@@ -233,7 +233,7 @@ So with this in mind, let's write our own `strlen()` function that
 counts `char`s in a string until it finds a `NUL`.
 
 The procedure is to look down the string for a single `NUL` character,
-counting as we go^[Later we'll learn a neater way to do with with
+counting as we go^[Later we'll learn a neater way to do it with
 pointer arithmetic.]:
 
 ``` {.c}
