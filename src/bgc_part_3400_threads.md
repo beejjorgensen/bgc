@@ -334,7 +334,7 @@ int main(void)
 
 Notice on lines 27-30 we `malloc()` space for an `int` and copy the
 value of `i` into it. Each new thread gets its own freshly-`malloc()`d
-variable and we pass a pointer to that into the `run()` function.
+variable and we pass a pointer to that to the `run()` function.
 
 Once `run()` makes its own copy of the `arg` on line 7, it `free()`s the
 `malloc()`d `int`. And now that it has its own copy, it can do with it
@@ -1237,5 +1237,5 @@ int run(void *arg)
     // ...
 ```
 
-In this example, no matter how many threads get into the `run()`
+In this example, no matter how many threads get to the `run()`
 function, the `run_once_function()` will only be called a single time.

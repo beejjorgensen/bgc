@@ -67,7 +67,7 @@ it separately in another variable.
 When I say "can't", I actually mean there are some circumstances when
 you _can_. There is a trick to get the number of elements in an array in
 the scope in which an array is declared. But, generally speaking, this
-won't work the way you want if you pass the array into a
+won't work the way you want if you pass the array to a
 function^[Because when you pass an array to a function, you're actually
 just passing a pointer to the first element of that array, not the
 "entire" array.].
@@ -468,7 +468,7 @@ But if the function has a pointer to the data, it is able to manipulate
 that data! So changes that a function makes to an array will be visible
 back out in the caller.
 
-Here's an example where we pass a pointer to an array into a function,
+Here's an example where we pass a pointer to an array to a function,
 the function manipulates the values in that array, and those changes are
 visible out in the caller.
 
