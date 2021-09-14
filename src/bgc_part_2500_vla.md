@@ -371,7 +371,7 @@ But both of these things we'll cover in their respective chapters.
 
 ## General Issues {#vla-general-issues}
 
-VLAs have been banned from the Linux kernel due to a few reasons:
+VLAs have been banned from the Linux kernel for a few reasons:
 
 * Lots of places they were used should have just been fixed-size.
 * The code behind VLAs is slower (to a degree that most people wouldn't
