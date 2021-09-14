@@ -68,7 +68,7 @@ printf("an int uses %zu bytes of memory\n", sizeof(int));
 So _anyway_, if we can get on with it and get a drum roll and some
 foreboding music playing for the definition of a pointer, _a pointer is a
 variable that holds an address_. Imagine the classical score from 2001:
-A Space Odessey at this point. Ba bum ba bum ba bum BAAAAH!
+A Space Odyssey at this point. Ba bum ba bum ba bum BAAAAH!
 
 Ok, so maybe a bit overwrought here, yes? There's not a lot of mystery
 about pointers. They are the address of data. Just like an `int`
