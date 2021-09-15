@@ -123,7 +123,7 @@ must assume they contain some nonsense number.
 > use them^[This isn't strictly 100% true. When we get to learning about
 > static storage duration, you'll find the some variables are
 > initialized to zero automatically. But the safe thing to do is always
-> initalize them.].
+> initialize them.].
 
 What's this? You want to store some numbers in those variables? Insanity!
 
@@ -599,7 +599,7 @@ In other words, the `if` is going to run the one thing after the `if`.
 And that one thing can be a single statement or a block of statements.
 
 
-### The `if` statement {#ifstat}
+### The `if`-`else` statement {#ifstat}
 
 We've already been using `if` for multiple examples, since it's likely
 you've seen it in a language before, but here's another:
@@ -623,6 +623,48 @@ else the collection of code in the squirlley braces after the `if` will
 be executed. This sort of _code block_ behavior is common to all
 statements.
 
+Of course, because C is fun this way, you can also do something if the
+condition is false with an `else` clause on your `if`:
+
+``` {.c}
+int i = 99;
+
+if (i == 10)
+    printf("i is 10!\n");
+else {
+    printf("i is decidedly not 10.\n");
+    printf("Which irritates me a little, frankly.\n");
+}
+```
+
+And you can even cascade these to test a variety of conditions, like
+this:
+
+``` {.c}
+int i = 99;
+
+if (i == 10)
+    printf("i is 10!\n");
+
+else if (i == 20)
+    printf("i is 20!\n");
+
+else if (i == 99) {
+    printf("i is 99! My favorite\n");
+    printf("I can't tell you how happy I am.\n");
+    printf("Really.\n");
+}
+    
+else
+    printf("i is some crazy number I've never heard of.\n");
+```
+
+Though if you're going that route, be sure to check out the
+[`switch`](#switch-statement) statement for a potentially better
+solution. The catch is `switch` only works with equality comparisons
+with constant numbers. The above `if`-`else` cascade could check
+inequality, ranges, variables, or anything else you can craft in a
+conditional expression.
 
 ### The `while` statement {#whilestat}
 
@@ -806,7 +848,7 @@ for(;;) {  // "forever"
 }
 ```
 
-### The `switch` Statement
+### The `switch` Statement {#switch-statement}
 
 Depending on what languages you're coming from, you might or might not
 be familiar with `switch`, or C's version might even be more restrictive
