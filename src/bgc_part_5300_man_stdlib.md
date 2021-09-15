@@ -489,7 +489,10 @@ For other more demanding random number work, you might find a library
 like the [fl[GNU Scientific
 Library|https://www.gnu.org/software/gsl/doc/html/rng.html]] of use.
 
-You can explicitly seed the random number generator with `srand()`.
+With most implementations, the numbers produced by `rand()` will be the
+same from run to run. To get around this, you need to start it off in a
+different place by passing a _seed_ into the random number generator.
+You can do this with [`srand()`](#man-srand).
 
 ### Return Value {.unnumbered .unlisted}
 
@@ -502,13 +505,19 @@ distributions. But good enough for the untrained eye, and really common
 in general use when mediocre random number quality is acceptable.
 
 ``` {.c .numberLines}
-printf("RAND_MAX = %d\n", RAND_MAX);
+#include <stdio.h>
+#include <stdlib.h>
 
-printf("0 to 9: %d\n", rand() % 10);
+int main(void)
+{
+    printf("RAND_MAX = %d\n", RAND_MAX);
 
-printf("10 to 44: %d\n", rand() % 35 + 10);
-printf("0 to 0.99999: %f\n", rand() / ((float)RAND_MAX + 1));
-printf("10.5 to 15.7: %f\n", 10.5 + 5.2 * rand() / (float)RAND_MAX);
+    printf("0 to 9: %d\n", rand() % 10);
+
+    printf("10 to 44: %d\n", rand() % 35 + 10);
+    printf("0 to 0.99999: %f\n", rand() / ((float)RAND_MAX + 1));
+    printf("10.5 to 15.7: %f\n", 10.5 + 5.2 * rand() / (float)RAND_MAX);
+}
 ```
 
 Output on my system:
@@ -519,6 +528,25 @@ RAND_MAX = 2147483647
 10 to 44: 21
 0 to 0.99999: 0.783099
 10.5 to 15.7: 14.651888
+```
+
+Example of seeding the RNG with the time:
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+int main(void)
+{
+    // time(NULL) very likely returns the number of seconds since
+    // January 1, 1970:
+
+    srand(time(NULL));
+
+    for (int i = 0; i < 5; i++)
+        printf("%d\n", rand());
+}
 ```
 
 ### See Also {.unnumbered .unlisted}
@@ -559,12 +587,22 @@ random number seed. That single value is used to generate that entire
 random world. And if your friend starts a world with the same seed you
 did, they'll get the same world you did.].
 
+So if you call `srand(3490)` before you start generating numbers with
+`rand()`, you'll get the same sequence every time. `srand(37)` would
+also give you the same sequence every time, but it would be a different
+sequence than the one you got with `srand(3490)`.
+
 But if you can't hardcode the seed (because that would give you the same
 sequence every time), how are you supposed to do this?
 
-It's really common to use the number of seconds since January 1, 1970 to
-seed the generator. This sounds pretty arbitrary except for the fact
-that it's exactly the value returned by the library call `time(NULL)`.
+It's really common to use the number of seconds since January 1, 1970
+(this date is known as the [flw[_Unix epoch_|Unix_time]]) to seed the
+generator. This sounds pretty arbitrary except for the fact that it's
+exactly the value most implementations return from the library call
+`time(NULL)`^[The C spec doesn't say exactly what `time(NULL)` will
+return, but the POSIX spec does! And virtually everyone returns exactly
+that: the number of seconds since epoch.].
+
 We'll do that in the example.
 
 If you don't call `srand()`, it's as if you called `srand(1)`.

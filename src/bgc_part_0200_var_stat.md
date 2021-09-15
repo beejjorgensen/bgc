@@ -731,6 +731,12 @@ int main(void)
 }
 ```
 
+Side note: did you run that more than once? If you did, did you notice
+the same sequence of numbers came up again. And again. And again? This
+is because `rand()` is a pseudorandom number generator that must be
+_seeded_ with a different number in order to generate a different
+sequence. Look up the [`srand()`](#man-srand) function for more details.
+
 ### The `for` statement {#forstat}
 
 Welcome to one of the most popular loops in the world! The `for` loop!
