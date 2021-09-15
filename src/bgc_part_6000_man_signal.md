@@ -38,7 +38,7 @@ void (*signal(int sig, void (*func)(int)))(int);
 
 ### Description {.unnumbered .unlisted}
 
-How's _that_ for a function definition?
+How's _that_ for a function declaration?
 
 Let's ignore it for a moment and just talk about what this function
 does.
