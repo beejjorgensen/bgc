@@ -70,23 +70,18 @@ If we build this with:
 gcc -o foo foo.c bar.c
 ```
 
-we get this warning:
+we get this error:
 
 ```
-warning: implicit declaration of function ‘add’
+error: implicit declaration of function 'add' is invalid in C99
 ```
 
-But if we ignore that (which really we should never do---always get your
-code to build with zero warnings!) and try to run it:
+(Or you might get a warning. Which you should not ignore. Never ignore
+warnings in C; address them all.)
 
-```
-./foo
-5
-```
-
-Indeed, we get the result of $2+3$! Yay!
-
-So... about that warning. Let's fix it.
+If you recall from the [section on prototypes](#prototypes), implicit
+declarations are banned in modern C and there's no legitimate reason to
+introduce them into new code. We should fix it.
 
 What `implicit declaration` means is that we're using a function, namely
 `add()` in this case, without letting C know anything about it ahead of
@@ -110,7 +105,7 @@ int main(void)
 }
 ```
 
-No more warning!
+No more error!
 
 But that's a pain---needing to type in the prototype every time you want
 to use a function. I mean, we used `printf()` right there and didn't
@@ -161,8 +156,17 @@ typing in the function prototype.
 As you might have guessed, `#include` literally includes the named file
 _right there_ in your source code, just as if you'd typed it in.
 
-We're almost there! There's just one more piece of boilerplate we have
-to add.
+And building and running:
+
+```
+./foo
+5
+```
+
+Indeed, we get the result of $2+3$! Yay!
+
+But don't crack open your drink of choice quite yet. We're almost there!
+There's just one more piece of boilerplate we have to add.
 
 ## Dealing with Repeated Includes
 

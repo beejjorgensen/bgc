@@ -200,6 +200,12 @@ int foo(void)  // This is the definition, just like the prototype!
 }
 ```
 
+If you don't declare your function before you use it (either with a
+prototype or its definition), you're performing something called an
+_implicit declaration_. This was allowed in the first C standard (C89),
+and that standard has rules about it, but is no longer allowed today.
+And there is no legitimate reason to rely on it in new code.
+
 You might notice something about the sample code we've been using... That
 is, we've been using the good old `printf()` function without defining
 it or declaring a prototype! How do we get away with this lawlessness?
