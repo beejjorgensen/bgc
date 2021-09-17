@@ -83,6 +83,7 @@ have to consider any copyright issues when merging changes.
   * tgmath
 * Atomic
 * _Static_assert
+* Common initial sequences
 * Anonymous structs in unions
 * __STDC_WANT_LIB_EXT
 * make primer
