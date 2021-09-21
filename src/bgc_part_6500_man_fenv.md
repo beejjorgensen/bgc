@@ -1,4 +1,7 @@
-<!-- Beej's guide to C # vim: ts=4:sw=4:nosi:et:tw=72 -->
+<!-- Beej's guide to C
+
+# vim: ts=4:sw=4:nosi:et:tw=72
+-->
 
 # `<fenv.h>` Floating Point Exceptions and Environment {#fenv}
 
