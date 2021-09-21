@@ -87,7 +87,7 @@ second argument:
 ``` {.c}
 //                   p[]         count
 //           |-----------------|  |
-int s = sum((int []){1, 2, 3, 4}, 4));
+int s = sum((int []){1, 2, 3, 4}, 4);
 ```
 
 Pretty slick!
