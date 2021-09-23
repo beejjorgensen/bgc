@@ -67,6 +67,8 @@ Convert a multibyte character to a `char16_t` or `char32_t` restartably
 ### Synopsis {.unnumbered .unlisted}
 
 ``` {.c}
+#include <uchar.h>
+
 size_t mbrtoc16(char16_t * restrict pc16, const char * restrict s, size_t n,
                 mbstate_t * restrict ps);
 
@@ -247,6 +249,8 @@ Convert a `char16_t` or `char32_t` to a multibyte character restartably
 ### Synopsis {.unnumbered .unlisted}
 
 ``` {.c}
+#include <uchar.h>
+
 size_t c16rtomb(char * restrict s, char16_t c16, mbstate_t * restrict ps);
 
 size_t c32rtomb(char * restrict s, char32_t c32, mbstate_t * restrict ps);

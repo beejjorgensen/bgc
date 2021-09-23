@@ -39,6 +39,8 @@ Bomb out at runtime if a condition fails
 ### Synopsis {.unnumbered .unlisted}
 
 ``` {.c}
+#include <assert.h>
+
 void assert(scalar expression);
 ```
 
@@ -112,6 +114,8 @@ Bomb out at compile-time if a condition fails
 ### Synopsis {.unnumbered .unlisted}
 
 ``` {.c}
+#include <assert.h>
+
 static_assert(constant-expression, string-literal);
 ```
 
