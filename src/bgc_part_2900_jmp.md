@@ -3,7 +3,7 @@
 # vim: ts=4:sw=4:nosi:et:tw=72
 -->
 
-# Long Jumps with `setjmp`, `longjmp`
+# Long Jumps with `setjmp`, `longjmp` {#setjmp-longjmp}
 
 We've already seen `goto`, which jumps in function scope. But
 `longjmp()` allows you to jump back to an earlier point in execution,
@@ -58,15 +58,15 @@ void depth1(void)
 int main(void)
 {
     switch (setjmp(env)) {
-    case 0:
-        printf("Calling into functions, setjmp() returned 0\n");
-        depth1();
-        printf("Returned from functions\n");  // This won't happen
-        break;
+      case 0:
+          printf("Calling into functions, setjmp() returned 0\n");
+          depth1();
+          printf("Returned from functions\n");  // This won't happen
+          break;
 
-    case 3490:
-        printf("Bailed back to main, setjmp() returned 3490\n");
-        break;
+      case 3490:
+          printf("Bailed back to main, setjmp() returned 3490\n");
+          break;
     }
 }
 ```
@@ -171,8 +171,7 @@ Things that aren't restored include, paraphrasing the spec:
 
 * Floating point status flags
 * Open files
-* Any other component of the abstract machine (including values in local
-  variables when `setjmp()` was called)
+* Any other component of the abstract machine
 
 ### You Can't Name Anything `setjmp`
 
