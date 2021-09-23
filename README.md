@@ -69,7 +69,6 @@ have to consider any copyright issues when merging changes.
 * More man pages
   * float
   * inttypes
-  * setjmp
   * iso646
   * stdalign
   * stdarg
