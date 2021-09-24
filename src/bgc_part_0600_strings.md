@@ -130,7 +130,7 @@ char *s = "Hello, world!";
 
 If you try to mutate that string with this:
 
-```
+``` {.c}
 char *s = "Hello, world!";
 
 s[0] = 'z';  // BAD NEWS: tried to mutate a constant string!
@@ -179,7 +179,7 @@ so you can use it for integer math. We print `size_t` with `%zu`.
 
 The above program prints:
 
-```
+``` {.default}
 The string is 13 bytes long.
 ```
 

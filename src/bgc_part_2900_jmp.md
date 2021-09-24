@@ -73,7 +73,7 @@ int main(void)
 
 When run, this outputs:
 
-```
+``` {.default}
 Calling into functions, setjmp() returned 0
 Entering depth 1
 Entering depth 2

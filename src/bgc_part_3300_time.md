@@ -132,7 +132,7 @@ printf("%s", ctime(&now));
 This returns a string with a very specific form that includes a newline
 at the end:
 
-```
+``` {.default}
 Sun Feb 28 18:47:25 2021
 ```
 
@@ -159,7 +159,7 @@ printf("  UTC: %s", asctime(gmtime(&now)));
 
 Output (I'm in Pacific Standard Time, out of daylight ):
 
-```
+``` {.default}
 Local: Sun Feb 28 20:15:27 2021
   UTC: Mon Mar  1 04:15:27 2021
 ```
@@ -202,7 +202,7 @@ printf("Is DST: %d\n", some_time.tm_isdst);
 
 Output:
 
-```
+``` {.default}
 Mon Apr 12 12:00:04 1982
 Is DST: 0
 ```
@@ -331,7 +331,7 @@ printf("%f seconds since epoch\n", float_time);
 
 Example output:
 
-```
+``` {.default}
 1614581530 s, 806325800 ns
 1614581530.806326 seconds since epoch
 ```
@@ -392,7 +392,7 @@ int main(void)
 
 Output:
 
-```
+``` {.default}
 1217996816.000000 seconds (38.596783 years) between events
 ```
 

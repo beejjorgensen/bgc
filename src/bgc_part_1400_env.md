@@ -21,7 +21,7 @@ Many command line utilities accept _command line arguments_. For
 example, if we want to see all files that end in `.txt`, we can type
 something like this on a Unix-like system:
 
-```
+``` {.zsh}
 ls *.txt
 ```
 
@@ -40,7 +40,7 @@ So how can we see what is passed into program from the command line?
 Say we have a program called `add` that adds all numbers passed on the
 command line and prints the result:
 
-```
+``` {.zsh}
 ./add 10 30 5
 45
 ```
@@ -56,13 +56,13 @@ new `main()`!
 Here's a program that prints out all the command line arguments. For
 example, if we name the executable `foo`, we can run it like this:
 
-```
+``` {.zsh}
 ./foo i like turtles
 ```
 
 and we'll see this output:
 
-```
+``` {.default}
 arg 0: ./foo
 arg 1: i
 arg 2: like
@@ -100,13 +100,13 @@ an array of strings, which is exactly what they are, then you can think of
 And so what we're doing in that loop is going through all the `argv`s
 and printing them out one at a time, so for a given input:
 
-```
+``` {.zsh}
 ./foo i like turtles
 ```
 
 we get a corresponding output:
 
-```
+``` {.default}
 arg 0: ./foo
 arg 1: i
 arg 2: like
@@ -145,7 +145,7 @@ int main(int argc, char **argv)
 
 Sample runs:
 
-```
+``` {.zsh}
 $ ./add
 0
 $ ./add 1
@@ -269,7 +269,7 @@ Just a few more things about `argc` and `argv`.
   Normally, if you have a program called `foo` that you've run with
   `./foo`, you might see this in the output of `ps`:
 
-  ```
+  ``` {.default}
    4078 tty1     S      0:00 ./foo
   ```
 
@@ -283,7 +283,7 @@ Just a few more things about `argc` and `argv`.
   and then run `ps` while the program `./foo` is still executing, we'll
   see this instead:
   
-  ```
+  ``` {.default}
    4079 tty1     S      0:00 Hi!  
   ```
 
@@ -372,7 +372,7 @@ int main(int argc, char **argv)
 Now if we try to run this, we get the expected effect until we specify
 exactly the right number of command-line arguments:
 
-```
+``` {.zsh}
 $ ./mult
 usage: mult x y
 
@@ -391,7 +391,7 @@ Bash or another POSIX shell, you can use `echo $?` to see it^[In Windows
 
 Let's try:
 
-```
+``` {.zsh}
 $ ./mult
 usage: mult x y
 $ echo $?
@@ -447,7 +447,7 @@ show you all of them.
 Here's an excerpt from the 61 variables that are defined in my bash
 shell:
 
-```
+``` {.default}
 HISTFILE=/home/beej/.bash_history
 HISTFILESIZE=500
 HISTSIZE=500
@@ -491,7 +491,7 @@ int main(void)
 
 If I run this directly, I get this:
 
-```
+``` {.zsh}
 $ ./foo
 Cannot find the FROTZ environment variable
 ```
@@ -501,13 +501,13 @@ which makes since, since I haven't set it yet.
 In bash, I can set it to something with^[In Windows CMD.EXE, use `set
 FROTZ=value`. In PowerShell, use `$Env:FROTZ=value`.]:
 
-```
+``` {.zsh}
 $ export FROTZ="C is awesome!"
 ```
 
 Then if I run it, I get:
 
-```
+``` {.zsh}
 $ ./foo
 Value: C is awesome!
 ```
@@ -568,7 +568,7 @@ int main(void)
 
 For a bunch of output that looks like this:
 
-```
+``` {.default}
 SHELL=/bin/bash
 COLORTERM=truecolor
 TERM_PROGRAM_VERSION=1.53.2

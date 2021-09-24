@@ -343,7 +343,7 @@ int main(void)
 
 This outputs:
 
-```
+``` {.default}
 i is type int
 l is type long
 f is type float
@@ -376,7 +376,7 @@ PRINT_VAL(s);
 
 you get the output:
 
-```
+``` {.default}
 i = 10
 s = Foo!
 ```
@@ -417,7 +417,7 @@ int main(void)
 
 for the output:
 
-```
+``` {.default}
 i = 10
 f = 3.141590
 s = Hello, world!

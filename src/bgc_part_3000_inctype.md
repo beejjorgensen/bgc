@@ -97,7 +97,7 @@ rules for incomplete types.
 
 Are you getting errors like these?
 
-```
+``` {.default}
 invalid application of ‘sizeof’ to incomplete type
 
 invalid use of undefined type
@@ -175,7 +175,7 @@ int main(void)
 When compiling multiple files, remember to specific all the `.c` files
 to the compiler, but not the `.h` files, e.g.:
 
-```
+``` {.zsh}
 gcc -o foo foo.c bar.c
 ```
 

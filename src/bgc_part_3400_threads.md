@@ -24,7 +24,7 @@ but there we are.
 
 You can test for it like this:
 
-```
+``` {.c}
 #ifdef __STDC_NO_THREADS__
 #error I need threads to build this program!
 #endif
@@ -36,7 +36,7 @@ command line to link the `pthreads` library^[Yes, `pthreads` with a
 "`p`". It's short for POSIX threads, a library that C11 borrowed
 liberally from for its threads implementation.]:
 
-```
+``` {.zsh}
 gcc -std=c11 -o foo foo.c -lpthreads
 ```
 
@@ -193,7 +193,7 @@ thread to complete with `thrd_join()`.
 
 Sample output (yours might vary):
 
-```
+``` {.default}
 Launching a thread
 Doing other things while the thread runs
 Waiting for thread to complete...
@@ -260,7 +260,7 @@ where we make a copy of it.
 
 Simple enough? Here's the output:
 
-```
+``` {.default}
 Launching threads...
 THREAD 2: running!
 THREAD 3: running!
@@ -342,7 +342,7 @@ what it pleases.
 
 And a run shows the result:
 
-```
+``` {.default}
 Launching threads...
 THREAD 0: running!
 THREAD 1: running!
@@ -511,7 +511,7 @@ int main(void)
 
 Here's an example output (though this varies from run to run):
 
-```
+``` {.default}
 Thread 0: x = 10, foo = 10
 Thread 1: x = 10, foo = 10
 Thread 1: Craziness! x != foo! 10 != 11
@@ -559,7 +559,7 @@ int run(void *arg)
 
 And running we get:
 
-```
+``` {.default}
 Thread 0: x = 10, foo = 10
 Thread 1: x = 10, foo = 10
 Thread 2: x = 10, foo = 10
@@ -748,7 +748,7 @@ int main(void)
 
 When I run this, I get something that looks like this:
 
-```
+``` {.default}
 Thread running! 0
 Thread running! 0
 Thread running! 0
@@ -837,7 +837,7 @@ about at the same time.
 
 And now we get proper output!
 
-```
+``` {.default}
 Thread running! 0
 Thread running! 1
 Thread running! 2
@@ -1124,7 +1124,7 @@ int main(void)
 And here's some sample output (individual numbers on lines are my
 input):
 
-```
+``` {.default}
 Thread: is waiting
 1
 1

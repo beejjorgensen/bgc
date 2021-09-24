@@ -73,7 +73,7 @@ void func(int a, ...)   // Literally 3 dots here
 
 Here's some code to demo that:
 
-```
+``` {.c}
 #include <stdio.h>
 
 void func(int a, ...)

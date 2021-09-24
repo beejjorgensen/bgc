@@ -159,7 +159,7 @@ int main(void)
 
 On my computer, this prints:
 
-```shell
+``` {.default}
 The value of i is 10, and its address is 0x7ffda2546fc4
 ```
 

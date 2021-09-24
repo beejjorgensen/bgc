@@ -148,7 +148,7 @@ int main(void)
 
 And when we run it, we get the expected:
 
-```
+``` {.default}
 1 2
 3 4
 5 6
@@ -168,7 +168,7 @@ zero:
 
 which produces:
 
-```
+``` {.default}
 1 2
 3 0
 5 6
@@ -186,7 +186,7 @@ Now let's leave off the entire last middle element:
 
 And now we get this, which might not be what you expect:
 
-```
+``` {.default}
 1 2
 5 6
 0 0
@@ -215,7 +215,7 @@ Basically, what it does is starts filling in elements in row 0, then row
 
 So when we print, it prints in order:
 
-```
+``` {.default}
 1 2
 3 4
 5 6
@@ -229,7 +229,7 @@ If we leave some off:
 
 they fill with `0`:
 
-```
+``` {.default}
 1 2
 3 0
 0 0

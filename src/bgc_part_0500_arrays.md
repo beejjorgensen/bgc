@@ -134,7 +134,7 @@ in there. Sorry, Illinois!
 You should never have more items in your initializer than there is room
 for in the array, or the compiler will get cranky:
 
-```
+``` {.zsh}
 foo.c: In function ‘main’:
 foo.c:6:39: warning: excess elements in array initializer
     6 |     int a[5] = {22, 37, 3490, 18, 95, 999};
@@ -183,7 +183,7 @@ int a[10] = {0, 11, 22, [5]=55, 66, 77};
 Because we listed index 5 as the start for `55`, the resulting data in
 the array is:
 
-```
+``` {.default}
 0 11 22 0 0 55 66 77 0 0
 ```
 
@@ -197,7 +197,7 @@ int a[COUNT] = {[COUNT-3]=3, 2, 1};
 
 which gives us:
 
-```
+``` {.default}
 0 0 3 2 1
 ```
 
@@ -237,7 +237,7 @@ int main(void)
 
 Running it on my computer prints:
 
-```
+``` {.default}
 22
 37
 3490
@@ -308,7 +308,7 @@ int main(void)
 
 For output of:
 
-```
+``` {.default}
 (0,0) = 0
 (0,1) = 1
 (0,2) = 2
@@ -331,7 +331,7 @@ int a[3][3] = {[0][0]=1, [1][1]=1, [2][2]=1};
 
 which builds a 2D array like this:
 
-```
+``` {.default}
 1 0 0
 0 1 0
 0 0 1

@@ -242,7 +242,7 @@ int main(void)
 
 Running that prints:
 
-```
+``` {.default}
 11
 22
 33
@@ -388,7 +388,7 @@ int main(void)
 
 But on my system, this outputs:
 
-```
+``` {.default}
 10
 16
 ```
@@ -431,7 +431,7 @@ int main(void)
 
 For me, this outputs:
 
-```
+``` {.default}
 0
 4
 8
@@ -768,7 +768,7 @@ int main(void)
 
 On my machine, this prints:
 
-```
+``` {.default}
 12
 3.141592
 1078530008

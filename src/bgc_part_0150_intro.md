@@ -189,7 +189,7 @@ So copy that code into a file called `hello.c` and build it. On a
 Unix-like platform (e.g. Linux, BSD, Mac, or WSL), from the command line
 you'll build with a command like so:
 
-```
+``` {.zsh}
 gcc -o hello hello.c
 ```
 
@@ -199,7 +199,7 @@ gcc -o hello hello.c
 After that's done, you should have a file called `hello` that you can
 run with this command:
 
-```
+``` {.default}
 ./hello
 ```
 
@@ -207,7 +207,7 @@ run with this command:
 
 And see what happens:
 
-```
+``` {.default}
 Hello, World! 
 ```
 
@@ -256,7 +256,7 @@ If you have a source file called `hello.c` in the current directory, you
 can build that into a program called `hello` with this command typed in
 a terminal:
 
-```
+``` {.zsh}
 gcc -o hello hello.c
 ```
 
@@ -270,7 +270,7 @@ all together (almost as if they were one file, but the rules are
 actually more complex than that) by putting all the `.c` files on the
 command line:
 
-```
+``` {.zsh}
 gcc -o awesomegame ui.c characters.c npc.c items.c
 ```
 
@@ -329,12 +329,12 @@ line argument. If you want it to be picky about the standard, add
 
 For example:
 
-```
+``` {.zsh}
 gcc -std=c11 -pedantic foo.c
 ```
 
 For this book, I compile programs for C2x with all warnings set:
 
-```
+``` {.zsh}
 gcc -Wall -Wextra -std=c2x -pedantic foo.c
 ```

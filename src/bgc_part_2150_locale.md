@@ -142,7 +142,7 @@ _left_ of the decimal (the whole number part).
 
 For example, we might have:
 
-```
+``` {.default}
   2   1   0
  --- --- ---
 $100,000,000.00
@@ -155,7 +155,7 @@ also has 3.
 So we could describe these groups, from the right (the decimal) to the
 left with a bunch of integer values representing the group sizes:
 
-```
+``` {.default}
 3 3 3
 ```
 
@@ -163,14 +163,14 @@ And that would work for values up to $100,000,000.
 
 But what if we had more? We could keep adding `3`s...
 
-```
+``` {.default}
 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3
 ```
 
 but that's crazy. Luckily, we can specify `0` to indicate that the
 previous group size repeats:
 
-```
+``` {.default}
 3 0
 ```
 
@@ -182,13 +182,13 @@ groupings.
 
 For example:
 
-```
+``` {.default}
 4 3 2 1 0
 ```
 
 would indicate:
 
-```
+``` {.default}
 $1,0,0,0,0,00,000,0000.00
 ```
 
@@ -196,13 +196,13 @@ One more value that can occur is `CHAR_MAX`. This indicates that no more
 grouping should occur, and can appear anywhere in the array, including
 the first value.
 
-```
+``` {.default}
 3 2 CHAR_MAX
 ```
 
 would indicate:
 
-```
+``` {.default}
 100000000,00,000.00
 ```
 
@@ -237,7 +237,7 @@ The `sign_posn` variants are determined by the following values:
 When I get the values on my system, this is what I see (grouping string
 displayed as individual byte values):
 
-```
+``` {.c}
 mon_decimal_point  = "."
 mon_thousands_sep  = ","
 mon_grouping       = 3 3 0

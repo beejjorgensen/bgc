@@ -69,7 +69,7 @@ itself?
 
 Just move the `const` after the asterisk in the declaration:
 
-``` {c.}
+``` {.c}
 int *const p;   // We can't modify "p" with pointer arithmetic
 
 p++;  // Compiler error!
@@ -125,7 +125,7 @@ int *p = &x;
 
 saying something to the effect of:
 
-```
+``` {.default}
 initialization discards 'const' qualifier from pointer type target
 ```
 
@@ -466,7 +466,7 @@ int a = a[2];  // COMPILER WARNING!
 
 with:
 
-```
+``` {.default}
 warning: ISO C forbids subscripting ‘register’ array
 ```
 

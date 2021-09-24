@@ -59,6 +59,7 @@ CROWNQUARTO_AMAZON=--variable geometry:"paperwidth=7.444in,paperheight=9.681in,t
 SIZE_75x925_AMAZON=--variable geometry:"paperwidth=7.5in,paperheight=9.25in,top=1in,bottom=1in,left=1.25in,right=1.25in" # Amazon 7.5" x 9.25"
 BLANKLAST=-A latex/after_blank.latex # add a blank last page
 BW=--no-highlight  # black and white options
+COLOR=--highlight-style=tango   # color options
 
 all: $(HTML) $(BOOKS)
 
@@ -84,7 +85,7 @@ $(GUIDE_ID)-wide.html: $(GUIDE_MD) bg-css-wide.html
 
 $(GUIDE_ID)_usl_c_1.pdf: $(GUIDE_MD)
 	$(PREPROC) $^ $(PREPROC_MD)
-	pandoc $(PDF_OPTS) $(USLETTER) $(ONESIDE) $(PREPROC_MD)
+	pandoc $(PDF_OPTS) $(USLETTER) $(ONESIDE) $(COLOR) $(PREPROC_MD)
 	xelatex $(GUIDE_ID)_temp.tex
 	makeindex $(GUIDE_ID)_temp.idx
 	xelatex $(GUIDE_ID)_temp.tex
@@ -94,7 +95,7 @@ $(GUIDE_ID)_usl_c_1.pdf: $(GUIDE_MD)
 
 $(GUIDE_ID)_usl_c_2.pdf: $(GUIDE_MD)
 	$(PREPROC) $^ $(PREPROC_MD)
-	pandoc $(PDF_OPTS) $(USLETTER) $(TWOSIDE) $(PREPROC_MD)
+	pandoc $(PDF_OPTS) $(USLETTER) $(TWOSIDE) $(COLOR) $(PREPROC_MD)
 	xelatex $(GUIDE_ID)_temp.tex
 	makeindex $(GUIDE_ID)_temp.idx
 	xelatex $(GUIDE_ID)_temp.tex
@@ -104,7 +105,7 @@ $(GUIDE_ID)_usl_c_2.pdf: $(GUIDE_MD)
 
 $(GUIDE_ID)_a4_c_1.pdf: $(GUIDE_MD)
 	$(PREPROC) $^ $(PREPROC_MD)
-	pandoc $(PDF_OPTS) $(A4) $(ONESIDE) $(PREPROC_MD)
+	pandoc $(PDF_OPTS) $(A4) $(ONESIDE) $(COLOR) $(PREPROC_MD)
 	xelatex $(GUIDE_ID)_temp.tex
 	makeindex $(GUIDE_ID)_temp.idx
 	xelatex $(GUIDE_ID)_temp.tex
@@ -114,7 +115,7 @@ $(GUIDE_ID)_a4_c_1.pdf: $(GUIDE_MD)
 
 $(GUIDE_ID)_a4_c_2.pdf: $(GUIDE_MD)
 	$(PREPROC) $^ $(PREPROC_MD)
-	pandoc $(PDF_OPTS) $(A4) $(TWOSIDE) $(PREPROC_MD)
+	pandoc $(PDF_OPTS) $(A4) $(TWOSIDE) $(COLOR) $(PREPROC_MD)
 	xelatex $(GUIDE_ID)_temp.tex
 	makeindex $(GUIDE_ID)_temp.idx
 	xelatex $(GUIDE_ID)_temp.tex
@@ -166,7 +167,7 @@ $(GUIDE_ID)_lulu.md: $(GUIDE_MD)
 	$(PREPROC) $^ $@
 
 $(GUIDE_ID)_lulu.pdf: $(GUIDE_ID)_lulu.md
-	pandoc $(PDF_OPTS) $(TWOSIDE) $(CROWNQUARTO) $(BLANKLAST) $(PREPROC_MD)
+	pandoc $(PDF_OPTS) $(TWOSIDE) $(CROWNQUARTO) $(BLANKLAST) $(COLOR) $(PREPROC_MD)
 	xelatex $(GUIDE_ID)_temp.tex
 	makeindex $(GUIDE_ID)_temp.idx
 	xelatex $(GUIDE_ID)_temp.tex
@@ -178,7 +179,7 @@ $(GUIDE_ID)_amazon.md: $(GUIDE_MD)
 	$(PREPROC) $^ $@
 
 $(GUIDE_ID)_amazon.pdf: $(GUIDE_ID)_amazon.md
-	pandoc $(PDF_OPTS) $(TWOSIDE) $(SIZE_75x925_AMAZON) $(BLANKLAST) $(GUIDE_ID)_amazon.md
+	pandoc $(PDF_OPTS) $(TWOSIDE) $(SIZE_75x925_AMAZON) $(BLANKLAST) $(COLOR) $(GUIDE_ID)_amazon.md
 	xelatex $(GUIDE_ID)_temp.tex
 	makeindex $(GUIDE_ID)_temp.idx
 	xelatex $(GUIDE_ID)_temp.tex

@@ -428,7 +428,7 @@ char *p = realloc(NULL, 3490);
 That could be convenient if you have some kind of allocation loop and
 you don't want to special-case the first `malloc()`.
 
-```
+``` {.c}
 int *p = NULL;
 int length = 0;
 

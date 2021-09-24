@@ -54,8 +54,8 @@ Unix-like system, we could run a program and send just the non-error
 (`stdout`) output to one file, and all the error (`stderr`) output to
 another file.
 
-```
-$ ./foo > output.txt 2> errors.txt   # This command is Unix-specific
+``` {.zsh}
+./foo > output.txt 2> errors.txt   # This command is Unix-specific
 ```
 
 For this reason, you should send serious error messages to `stderr`
@@ -85,7 +85,7 @@ out of it?
 
 Let's create a file called `hello.txt` that has just this in it:
 
-```
+``` {.default}
 Hello, world!
 ```
 
@@ -165,7 +165,7 @@ study it---it's idiomatic C.)
 
 And running this, we see:
 
-```
+``` {.default}
 Hello, world!
 ```
 
@@ -187,7 +187,7 @@ and read it in a line at a time.
 
 Here's a file `quote.txt`:
 
-```
+``` {.default}
 A wise man can learn more from
 a foolish question than a fool
 can learn from a wise answer.
@@ -217,7 +217,7 @@ int main(void)
 
 Which gives the output:
 
-```
+``` {.default}
 1: A wise man can learn more from
 2: a foolish question than a fool
 3: can learn from a wise answer.
@@ -234,7 +234,7 @@ You can do the same thing with `fscanf()`.
 Let's have a file with a series of data records in it. In this case,
 whales, with name, length in meters, and weight in tonnes. `whales.txt`:
 
-```
+``` {.default}
 blue 29.9 173
 right 20.7 135
 gray 14.9 41
@@ -270,7 +270,7 @@ int main(void)
 
 Which gives the result:
 
-```
+``` {.default}
 blue whale, 173 tonnes, 29.9 meters
 right whale, 135 tonnes, 20.7 meters
 gray whale, 41 tonnes, 14.9 meters
@@ -311,7 +311,7 @@ int main(void)
 
 And this produces a file, `output.txt`, with these contents:
 
-```
+``` {.default}
 B
 x = 32
 Hello, world!
@@ -393,7 +393,7 @@ And random binary data I just made up, at that!
 If I run it through a [flw[hex dump|Hex_dump]] program, we can see the
 output as bytes:
 
-```
+``` {.default}
 05 25 00 58 ff 0c
 ```
 
@@ -425,7 +425,7 @@ int main(void)
 
 And, running it, we see our original numbers!
 
-```
+``` {.default}
 5
 37
 0
@@ -472,7 +472,7 @@ Well, it seems like it should be `0x12` followed by `0x34`, right?
 
 But if I run this on my machine and hex dump the result, I get:
 
-```
+``` {.default}
 34 12
 ```
 

@@ -392,7 +392,7 @@ For example, printing out `float`s following this pattern of increasing
 digits, we apparently make it to 8 digits before something goes wrong,
 but after that we're back to 7 correct digits.
 
-```
+``` {.default}
 0.12345
 0.123456
 0.1234567
@@ -491,7 +491,7 @@ Let's assign the 15 significant digit number `0.123456789012345` to `x`,
 and let's assign the 1 significant digit number `0.0000000000000006` to
 `y`.
 
-```
+``` {.default}
 x is exact: 0.12345678901234500    Printed to 17 decimal places
 y is exact: 0.00000000000000060
 ```
@@ -500,7 +500,7 @@ But let's add them together. This should give `0.1234567890123456`, but
 that's more than `DBL_DIG`, so strange things might happen... let's
 look:
 
-```
+``` {.default}
 x + y not quite right: 0.12345678901234559    Should end in 4560!
 ```
 
@@ -510,7 +510,7 @@ this out... that number, above, is exactly representable as it is!
 If we assign `0.12345678901234559` (17 digits) to `z` and print it, we
 get:
 
-```
+``` {.default}
 z is exact: 0.12345678901234559   17 digits correct! More than DBL_DIG!
 ```
 
@@ -741,7 +741,7 @@ notation", so these are equivalent:
 
 You can print a number in this notation with `%e`:
 
-```
+``` {.c}
 printf("%e\n", 123456.0);  // Prints 1.234560e+05
 ```
 

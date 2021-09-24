@@ -162,7 +162,7 @@ printf("Doesn't it??!\n");
 
 When I compile this, I get this warning:
 
-```
+``` {.zsh}
 foo.c: In function ‘main’:
 foo.c:5:23: warning: trigraph ??! converted to | [-Wtrigraphs]
     5 |     printf("Doesn't it??!\n");
@@ -171,7 +171,7 @@ foo.c:5:23: warning: trigraph ??! converted to | [-Wtrigraphs]
 
 And running it gives this unlikely result:
 
-```
+``` {.default}
 Doesn't it|
 ```
 
@@ -240,7 +240,7 @@ printf("\xE2\x80\xA2 Bullet 3\n");
 Produces the following output if you're on a UTF-8 console (or probably
 garbage if you're not):
 
-```
+``` {.default}
 • Bullet 1
 • Bullet 2
 • Bullet 3

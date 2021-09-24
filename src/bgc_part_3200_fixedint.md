@@ -100,7 +100,7 @@ optional.
 There's a type you can use that holds the largest representable integers
 available on the system, both signed and unsigned:
 
-```
+``` {.c}
 intmax_t
 uintmax_t
 ```

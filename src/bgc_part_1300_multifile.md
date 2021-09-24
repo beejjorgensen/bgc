@@ -26,7 +26,7 @@ source.
 To compile them, you'll need to specify all the sources on the command
 line:
 
-```
+``` {.zsh}
 # output file   source files
 #     v            v
 #   |----| |---------|
@@ -66,13 +66,13 @@ different source file! It's in `bar.c`, while the call to it is in
 
 If we build this with:
 
-```
+``` {.zsh}
 gcc -o foo foo.c bar.c
 ```
 
 we get this error:
 
-```
+``` {.default}
 error: implicit declaration of function 'add' is invalid in C99
 ```
 
@@ -158,7 +158,7 @@ _right there_ in your source code, just as if you'd typed it in.
 
 And building and running:
 
-```
+``` {.zsh}
 ./foo
 5
 ```
@@ -184,7 +184,7 @@ infinite cycle!
 
 Trying to build such a thing gives an error:
 
-```
+``` {.default}
 error: #include nested depth 200 exceeds maximum of 200
 ```
 
@@ -250,14 +250,14 @@ Object files in Windows have a `.OBJ` extension; in Unix-likes, they're
 
 In gcc, we can build some like this, with the `-c` (compile only!) flag:
 
-```
+``` {.zsh}
 gcc -c foo.c     # produces foo.o
 gcc -c bar.c     # produces bar.o
 ```
 
 And then we can _link_ those together into a single executable:
 
-```
+``` {.zsh}
 gcc -o foo foo.o bar.o
 ```
 
@@ -265,7 +265,7 @@ _Voila_, we've produced an executable `foo` from the two object files.
 
 But you're thinking, why bother? Can't we just:
 
-```
+``` {.zsh}
 gcc -o foo foo.c bar.c
 ```
 

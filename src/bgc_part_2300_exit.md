@@ -91,7 +91,7 @@ int main(void)
 
 And the output is:
 
-```
+``` {.default}
 About to exit...
 Exit handler 2 called!
 Exit handler 1 called!
@@ -142,7 +142,7 @@ int main(void)
 
 Which gives this output:
 
-```
+``` {.default}
 About to quick exit...
 Quick exit handler 2 called!
 Quick exit handler 1 called!
@@ -183,7 +183,7 @@ assert(goats >= 0);  // Can't have negative goats
 In that case, if I try to run it and `goats` falls under `0`, this
 happens:
 
-```
+``` {.default}
 goat_counter: goat_counter.c:8: main: Assertion `goats >= 0' failed.
 Aborted
 ```

@@ -48,7 +48,7 @@ skip_3:
 
 The output is:
 
-```
+``` {.default}
 One
 Two
 Five!
@@ -317,7 +317,7 @@ label:
 
 This will compile and run, but gives me a warning:
 
-```
+``` {.default}
 warning: ‘x’ is used uninitialized in this function
 ```
 
@@ -391,7 +391,7 @@ label:
 
 I get an error:
 
-```
+``` {.default}
 error: jump into scope of identifier with variably modified type
 ```
 

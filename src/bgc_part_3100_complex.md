@@ -37,7 +37,7 @@ Furthermore, there is a macro that indicates adherence to the ISO 60559
 (IEEE 754) standard for floating point math with complex numbers, as
 well as the presence of the `_Imaginary` type.
 
-```
+``` {.c}
 #if __STDC_IEC_559_COMPLEX__ != 1
 #error Need IEC 60559 complex support!
 #endif
@@ -185,7 +185,7 @@ printf("y = %f + %fi\n", creal(y), cimag(y));
 
 for the output:
 
-```
+``` {.default}
 x = 5.000000 + 2.000000i
 y = 10.000000 + 3.000000i
 ```
@@ -228,7 +228,7 @@ int main(void)
 
 for a result of:
 
-```
+``` {.default}
 x + y = 4.000000 + 6.000000i
 x - y = -2.000000 + -2.000000i
 x * y = -5.000000 + 10.000000i
@@ -253,7 +253,7 @@ int main(void)
 
 with the output:
 
-```
+``` {.default}
 x == y = 0
 x != y = 1
 ```

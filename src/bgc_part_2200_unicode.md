@@ -174,7 +174,7 @@ build-time.
 The basic character set for both source and execution will contain
 the following characters:
 
-```
+``` {.default}
 A B C D E F G H I J K L M
 N O P Q R S T U V W X Y Z
 a b c d e f g h i j k l m
@@ -503,7 +503,7 @@ int main(void)
 
 On my system, this outputs:
 
-```
+``` {.default}
 multibyte: "The cost is €1.23" (19 bytes)
 wide char: "The cost is €1.23" (17 characters)
 ```

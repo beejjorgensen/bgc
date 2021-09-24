@@ -168,7 +168,7 @@ int main(void)
 
 And the output will be:
 
-```
+``` {.default}
 Hello, world!  i = 2 and f = 3.14!
 ```
 
@@ -290,7 +290,7 @@ operator.
 Or, another example that prints if a number stored in `x` is odd or
 even:
 
-```
+``` {.c}
 printf("The number %d is %s.\n", x, x % 2 == 0? "even": "odd")
 ```
 
@@ -427,7 +427,7 @@ compare, one to assign.
 
 We can use the comparison expressions with `if` statements:
 
-```
+``` {.c}
 if (a <= 10)
     printf("Success!\n");
 ```

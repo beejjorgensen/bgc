@@ -171,7 +171,7 @@ included up until the `#endif`.
 So because it is defined, the code will be included for compilation and
 the output will be:
 
-```
+``` {.default}
 I'm extra happy!
 OK!
 ```
@@ -185,7 +185,7 @@ If we were to comment out the `#define`, like so:
 then it wouldn't be defined, and the code wouldn't be included in
 compilation. And the output would just be:
 
-```
+``` {.default}
 OK!
 ```
 
@@ -252,7 +252,7 @@ Let's mod the previous example:
 Now if `EXTRA_HAPPY` is not defined, it'll hit the `#else` clause and
 print:
 
-```
+``` {.default}
 I'm just regular
 ```
 
@@ -436,7 +436,7 @@ int main(void)
 
 The output on my system is:
 
-```
+``` {.default}
 This function: main
 This file: foo.c
 This line: 7
@@ -622,7 +622,7 @@ int main(void)
 
 And this gives us the output:
 
-```
+``` {.default}
 2*x^2 + 10*x + 5 = 0
 x = -0.563508 or x = -4.436492
 ```
@@ -662,7 +662,7 @@ The substitution that takes place on line 10 would be:
 
 for output:
 
-```
+``` {.default}
 130 3.140000 Hi! 12
 ```
 
@@ -865,7 +865,7 @@ int main(void)
 
 This has the output:
 
-```
+``` {.default}
 foo.c:23: assertion x < 20 failed: x must be under 20
 ```
 

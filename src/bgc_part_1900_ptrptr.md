@@ -188,6 +188,7 @@ int *****t = &s;  // Type: int *****
 ### Pointer Pointers and `const`
 
 If you recall, declaring a pointer like this:
+
 ``` {.c}
 int *const p;
 ```
@@ -223,7 +224,7 @@ int main(void)
 
 When I build that, I get a warning:
 
-```
+``` {.default}
 warning: initialization discards ‘const’ qualifier from pointer target type
     7 |     int **q = &p;
       |               ^
@@ -256,7 +257,7 @@ We could make `q` even more `const`. As it is, above, we're saying, "`q`
 isn't itself `const`, but the thing it points to is `const`." But we
 could make them both `const`:
 
-```
+``` {.c}
 int x = 3490;
 int *const p = &x;
 int *const *const q = &p;  // More const!
@@ -346,7 +347,7 @@ through that many bytes, printing out the values (in hex for ease).
 Running this gives a bunch of numbers as output. I've annotated it below
 to identify where the values were stored:
 
-```
+``` {.default}
 12  | x.a == 0x12
 
 AB  |
