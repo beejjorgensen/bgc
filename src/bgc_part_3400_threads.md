@@ -87,7 +87,7 @@ now.
 Some of the functions in the standard library (e.g. `asctime()` and
 `strtok()`) return or use `static` data elements that aren't threadsafe.
 But in general unless it's said otherwise, the standard library makes
-an effort to be so^[Per §7.1.4¶5.]
+an effort to be so^[Per §7.1.4¶5.].
 
 But keep an eye out. If a standard library function is maintaining state
 between calls in a variable you don't own, or if a function is returning
