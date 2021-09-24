@@ -8,7 +8,7 @@
 > _"Sir, not in an environment such as this. That's why I've also been
 > programmed for over thirty secondary functions that---"_
 >
-> C3PO, before being rudely interrupted, reporting a now-unimpressive
+> ---C3PO, before being rudely interrupted, reporting a now-unimpressive
 > number of additional functions, _Star Wars_ script
 
 Very much like other languages you're used to, C has the concept of
