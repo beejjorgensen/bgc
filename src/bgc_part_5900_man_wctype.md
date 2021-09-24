@@ -345,7 +345,7 @@ Tests if a character is lowercase, in the range `a`-`z`.
 In other locales, there could be other lowercase characters. In all
 cases, to be lowercase, the following must be true:
 
-```
+``` {.c}
 !iswcntrl(c) && !iswdigit(c) && !iswpunct(c) && !iswspace(c)
 ```
 
@@ -555,7 +555,7 @@ Tests if a character is uppercase in the current locale.
 
 To be uppercase, the following must be true:
 
-```
+``` {.c}
 !iscntrl(c) && !isdigit(c) && !ispunct(c) && !isspace(c)
 ```
 
@@ -735,7 +735,7 @@ int main(void)
 
 Output:
 
-```
+``` {.default}
 Enter a character and character class: 5 digit
 Yes! '5' is digit!
 
@@ -830,7 +830,7 @@ int main(void)
 
 Output:
 
-```
+``` {.default}
 Enter a character and character class: 5 digit
 Yes! '5' is digit!
 
@@ -1031,7 +1031,7 @@ int main(void)
 
 Output on my system:
 
-```
+``` {.default}
 Enter a character and conversion type: b toupper
 'b' -> toupper -> 'B'
 
@@ -1114,7 +1114,7 @@ int main(void)
 
 Output on my system:
 
-```
+``` {.default}
 Enter a character and conversion type: b toupper
 'b' -> toupper -> 'B'
 

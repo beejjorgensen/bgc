@@ -164,7 +164,7 @@ int main(void)
 
 Output:
 
-```
+``` {.default}
 We're all wide for multibyte and wide!
 pi = 3.141593
 ```
@@ -226,7 +226,7 @@ int main(void)
 
 Output (input of `12: apples`):
 
-```
+``` {.default}
 Enter "quantity: item"
 12: apples
 You entered: 12 apples
@@ -312,7 +312,7 @@ int main(void)
 
 Output:
 
-```
+``` {.default}
 2021-03-30 04:25:49 : Hello!
 2021-03-30 04:25:49 : x = 12 and y = 3.20
 ```
@@ -523,7 +523,7 @@ int main(void)
 Example output for a file with these lines in them (without the
 prepended numbers):
 
-```
+``` {.default}
 0001: line 1
 0002: line 2
 0003: something
@@ -728,7 +728,7 @@ int main(void)
 
 Output:
 
-```
+``` {.default}
 Hello world!
 Stream is byte-oriented
 ```
@@ -751,7 +751,7 @@ int main(void)
 
 Output:
 
-```
+``` {.default}
 Hello world!
 Stream is wide-oriented
 ```
@@ -842,13 +842,13 @@ int main(void)
 
 Sample Input:
 
-```
+``` {.default}
 !foo#bar*baz
 ```
 
 Sample output:
 
-```
+``` {.default}
 !: foo
 #: bar
 *: baz
@@ -924,7 +924,7 @@ int main(void)
 
 Output:
 
-```
+``` {.default}
 Converted string to 123.456700
 Encountered bad characters: beej
 Ignoring bad chars: 987.654321
@@ -1004,7 +1004,7 @@ int main(void)
 
 Output:
 
-```
+``` {.default}
 123
 123
 42
@@ -1133,7 +1133,7 @@ int main(void)
 
 Output:
 
-```
+``` {.default}
 s is "GoGoats"
 t is "Goats"
 ```
@@ -1283,7 +1283,7 @@ int main(void)
 
 Output:
 
-```
+``` {.default}
 -1
 1
 This will print because s1 and s3 are the same
@@ -1430,7 +1430,7 @@ int main(void)
 
 Output:
 
-```
+``` {.default}
 1
 -1
 1
@@ -1923,7 +1923,7 @@ int main(void)
 
 Output:
 
-```
+``` {.default}
 Wide character: B
 Single-byte character: B
 ```
@@ -2071,7 +2071,7 @@ int main(void)
 
 Output:
 
-```
+``` {.default}
 Length of 'B' is 1 byte(s)
 Length of '€' is 3 byte(s)
 ```
@@ -2168,7 +2168,7 @@ int main(void)
 
 Output on my system:
 
-```
+``` {.default}
 State dependency: 0
 L'€' takes 3 bytes as multibyte char '€'
 ```
@@ -2354,7 +2354,7 @@ int main(void)
 
 Output:
 
-```
+``` {.default}
 Wide string L"€5 ± π" is 6 characters
 ```
 
@@ -2393,7 +2393,7 @@ int main(void)
 
 Output on my system:
 
-```
+``` {.default}
 "€5 ± π" is 6 characters...
 but it's 10 bytes!
 ```

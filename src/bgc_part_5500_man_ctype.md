@@ -369,7 +369,7 @@ Tests if a character is lowercase, in the range `a`-`z`.
 In other locales, there could be other lowercase characters. In all
 cases, to be lowercase, the following must be true:
 
-```
+``` {.c}
 !iscntrl(c) && !isdigit(c) && !ispunct(c) && !isspace(c)
 ```
 
@@ -575,7 +575,7 @@ Tests if a character is uppercase, in the range `A`-`Z`.
 In other locales, there could be other uppercase characters. In all
 cases, to be uppercase, the following must be true:
 
-```
+``` {.c}
 !iscntrl(c) && !isdigit(c) && !ispunct(c) && !isspace(c)
 ```
 

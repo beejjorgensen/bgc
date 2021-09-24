@@ -1018,7 +1018,7 @@ The above example will print out the values of `a` and `b`, and then
 store the number of characters printed so far into the variable
 `numChars`. The next call to `printf()` prints out that result.
 
-```
+``` {.default}
 3.141590 3490
 The above line contains 13 characters
 ```
@@ -1102,7 +1102,7 @@ printf("%.*f\n", precision, pi);
 
 Which gives:
 
-```
+``` {.default}
 Enter precision: 4
 3.1416
 ```
@@ -1128,7 +1128,7 @@ printf("<<%10d>>\n", 3490);   // right justified
 printf("<<%-10d>>\n", 3490);  // left justified
 ```
 
-```
+``` {.default}
 <<      3490>>
 <<3490      >>
 ```
@@ -1667,7 +1667,7 @@ int main(void)
 
 Output:
 
-```
+``` {.default}
 2021-03-30 04:25:49 : Hello!
 2021-03-30 04:25:49 : x = 12 and y = 3.20
 ```
@@ -2129,13 +2129,13 @@ int main(void)
 
 Sample Input:
 
-```
+``` {.default}
 !foo#bar*baz
 ```
 
 Sample output:
 
-```
+``` {.default}
 !: foo
 #: bar
 *: baz
@@ -2616,7 +2616,7 @@ int main(void)
 
 And the output is:
 
-```shell
+``` {.default}
 fseek: Illegal seek
 fseek again, EBADF: Bad file descriptor
 ```

@@ -960,7 +960,7 @@ int main(void)
 
 Output:
 
-```
+``` {.default}
 Error 2 opening file: No such file or directory
 ```
 

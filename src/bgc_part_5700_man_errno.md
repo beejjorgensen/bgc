@@ -102,7 +102,7 @@ int main(void)
 
 Output:
 
-```
+``` {.default}
 acos: Numerical argument out of domain
 ```
 
@@ -134,7 +134,7 @@ int main(void)
 
 Output:
 
-```
+``` {.default}
 exp: Numerical result out of range
 ```
 
@@ -170,7 +170,7 @@ int main(void)
 
 Output:
 
-```
+``` {.default}
 mbrtowc: Invalid or incomplete multibyte or wide character
 ```
 

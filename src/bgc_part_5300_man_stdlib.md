@@ -311,7 +311,7 @@ else
 
 Output:
 
-```
+``` {.default}
 Converted string to 123.456700
 Encountered bad characters: beej
 Ignoring bad chars: 987.654321
@@ -421,7 +421,7 @@ printf("Bad chars at \"%s\"\n", badchar);  // Bad chars at "beej"
 
 Output:
 
-```
+``` {.default}
 123
 123
 42
@@ -522,7 +522,7 @@ int main(void)
 
 Output on my system:
 
-```
+``` {.default}
 RAND_MAX = 2147483647
 0 to 9: 3
 10 to 44: 21
@@ -629,7 +629,7 @@ int main(void)
 
 Output:
 
-```
+``` {.default}
 4
 20
 22
@@ -639,7 +639,7 @@ Output:
 
 Output from a subsequent run:
 
-```
+``` {.default}
 19
 0
 31
@@ -973,7 +973,7 @@ if (bad_thing) {
 
 On my system, this outputs:
 
-```
+``` {.default}
 This should never have happened!
 zsh: abort (core dumped)  ./foo
 ```
@@ -1060,7 +1060,7 @@ int main(void)
 
 For the output:
 
-```
+``` {.default}
 Exit handler 2 called!
 Exit handler 1 called!
 ```
@@ -1208,7 +1208,7 @@ printf("PATH is %s\n", getenv("PATH"));
 
 Output (truncated in my case):
 
-```
+``` {.default}
 PATH is /usr/bin:/usr/local/bin:/usr/sbin:/home/beej/.cargo/bin [...]
 ```
 
@@ -1267,7 +1267,7 @@ printf("\nAll done!\n");
 
 Output:
 
-```
+``` {.default}
 Here's a directory listing:
 
 total 92
@@ -1385,7 +1385,7 @@ int main(void)
 
 Output:
 
-```
+``` {.default}
 Found 12
 Didn't find 30
 Found 32
@@ -1492,7 +1492,7 @@ int main(void)
 
 Output:
 
-```
+``` {.default}
 1 2 3 6 8 10 13 14 17
 Found 17!
 ```
@@ -1543,7 +1543,7 @@ printf("|4|  = %d\n", abs(4));
 
 Output:
 
-```
+``` {.default}
 |-2| = 2
 |4|  = 4
 ```
@@ -1643,7 +1643,7 @@ printf("64 %% -7 = %d\n", d.rem);
 
 Output:
 
-```
+``` {.default}
 64 / -7 = -9
 64 % -7 = 1
 ```
@@ -1711,7 +1711,7 @@ int main(void)
 
 Output (in my case, the encoding is UTF-8, but your mileage may vary):
 
-```
+``` {.default}
 State dependency: 0
 Bytes for €: 3
 Bytes for é: 2
@@ -1787,7 +1787,7 @@ int main(void)
 
 Output on my system:
 
-```
+``` {.default}
 State dependency: 0
 L'€' takes 3 bytes as multibyte char '€'
 ```
@@ -1864,7 +1864,7 @@ int main(void)
 
 Output on my system:
 
-```
+``` {.default}
 State dependency: 0
 L'€' takes 3 bytes as multibyte char '€'
 ```
@@ -1960,7 +1960,7 @@ int main(void)
 
 Output on my system (byte count will depend on your encoding):
 
-```
+``` {.default}
 Wide string: L"€200 for this spoon?"
 Char count : 20
 Byte count : 22
@@ -2055,7 +2055,7 @@ int main(void)
 
 Output on my system (byte count will depend on your encoding):
 
-```
+``` {.default}
 Wide string: L"€200 for this spoon?"
 Multibyte  : "€200 for this spoon?"
 Byte count : 22

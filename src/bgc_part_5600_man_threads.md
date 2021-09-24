@@ -118,7 +118,7 @@ int main(void)
 
 Output (might vary per run):
 
-```
+``` {.default}
 Thread running!
 Thread running!
 I'll only run once!
@@ -251,7 +251,7 @@ int main(void)
 
 Example run with `cnd_broadcast()`:
 
-```
+``` {.default}
 THREAD 4: waiting
 THREAD 1: waiting
 THREAD 3: waiting
@@ -281,7 +281,7 @@ THREAD 4: signaling thread 5 to run
 
 Example run with `cnd_signal()`:
 
-```
+``` {.default}
 THREAD 4: waiting
 THREAD 1: waiting
 THREAD 3: waiting
@@ -381,7 +381,7 @@ int main(void)
 
 Output:
 
-```
+``` {.default}
 Main creating thread
 Thread: waiting...
 Main: signaling thread
@@ -472,7 +472,7 @@ int main(void)
 
 Output:
 
-```
+``` {.default}
 Main creating thread
 Thread: waiting...
 Main: signaling thread
@@ -564,7 +564,7 @@ int main(void)
 
 Output:
 
-```
+``` {.default}
 Main creating thread
 Thread: waiting...
 Main: signaling thread
@@ -693,7 +693,7 @@ int main(void)
 
 Output:
 
-```
+``` {.default}
 Main creating thread
 Thread: waiting...
 Thread: timed out!
@@ -782,7 +782,7 @@ int main(void)
 
 Output:
 
-```
+``` {.default}
 Main creating thread
 Thread: waiting...
 Main: signaling thread
@@ -865,7 +865,7 @@ int main(void)
 
 Output:
 
-```
+``` {.default}
 Thread: I got 0!
 Thread: I got 1!
 Thread: I got 2!
@@ -972,7 +972,7 @@ int main(void)
 
 Output:
 
-```
+``` {.default}
 Thread: I got 0!
 Thread: I got 1!
 Thread: I got 2!
@@ -1061,7 +1061,7 @@ int main(void)
 
 Output:
 
-```
+``` {.default}
 Thread: I got 0!
 Thread: I got 1!
 Thread: I got 2!
@@ -1185,7 +1185,7 @@ int main(void)
 
 Output:
 
-```
+``` {.default}
 Main creating thread
 Thread: waiting for lock...
 Thread: timed out!
@@ -1283,7 +1283,7 @@ int main(void)
 
 Output (varies by run):
 
-```
+``` {.default}
 Thread 0: grabbed lock!
 Thread 1: lock already taken :(
 Thread 4: lock already taken :(
@@ -1369,7 +1369,7 @@ int main(void)
 
 Output:
 
-```
+``` {.default}
 Thread: I got 0!
 Thread: I got 1!
 Thread: I got 2!
@@ -1414,7 +1414,7 @@ That thread will start running the function you pass a pointer to in
 function that returns an `int` and takes a single `void*` as a
 parameter, i.e.:
 
-```
+``` {.c}
 int thread_run_func(void *arg)
 ```
 
@@ -1475,7 +1475,7 @@ int main(void)
 
 Output (might vary from run to run):
 
-```
+``` {.default}
 Thread 1: I'm alive!!
 Thread 0: I'm alive!!
 Thread 3: I'm alive!!
@@ -1573,7 +1573,7 @@ int main(void)
 
 Output:
 
-```
+``` {.default}
 Come on, you got what you want, Cohaagen! Give deez people ay-ah!
 ```
 
@@ -1585,7 +1585,7 @@ Man--what an ending! And Johnny Cab? So excellent. Anyway!
 
 Output:
 
-```
+``` {.default}
 I'm the first thread!
 I'm not the first!
 ```
@@ -1730,7 +1730,7 @@ int main(void)
 
 Output:
 
-```
+``` {.default}
 I'm the first thread!
 I'm not the first!
 ```
@@ -1820,7 +1820,7 @@ int main(void)
 
 Output:
 
-```
+``` {.default}
 Thread 0 exited with code 0
 Thread 1 exited with code 0
 Thread 2 exited with code 22
@@ -1895,7 +1895,7 @@ int main(void)
 
 Output:
 
-```
+``` {.default}
 Thread 0 exited with code 0
 Thread 1 exited with code 0
 Thread 2 exited with code 22
@@ -2050,7 +2050,7 @@ The output will vary from run to run. Notice that even after
 `thrd_yield()` other threads might not yet be ready to run and the main
 thread will continue.
 
-```
+``` {.default}
 Main thread yielding
 Main thread yielding
 Main thread yielding
@@ -2186,7 +2186,7 @@ int main(void)
 
 Output:
 
-```
+``` {.default}
 TSS string: thread 0! :)
 TSS string: thread 2! :)
 TSS string: thread 1! :)
@@ -2302,7 +2302,7 @@ int main(void)
 
 Output:
 
-```
+``` {.default}
 TSS string: thread 0! :)
 TSS string: thread 2! :)
 TSS string: thread 1! :)
@@ -2418,7 +2418,7 @@ int main(void)
 
 Output:
 
-```
+``` {.default}
 TSS string: thread 0! :)
 TSS string: thread 2! :)
 TSS string: thread 1! :)
@@ -2538,7 +2538,7 @@ int main(void)
 
 Output:
 
-```
+``` {.default}
 TSS string: thread 0! :)
 TSS string: thread 2! :)
 TSS string: thread 1! :)

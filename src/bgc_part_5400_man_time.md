@@ -134,7 +134,7 @@ int main(void)
 
 Output on my system:
 
-```
+``` {.default}
 The 42nd Fibonacci Number is 267914296
 CPU time: 1.863078
 ```
@@ -205,7 +205,7 @@ int main(void)
 
 Output:
 
-```
+``` {.default}
 1217996816.000000 seconds (38.596783 years) between events
 ```
 
@@ -296,7 +296,7 @@ int main(void)
 
 Output (for me in Pacific Time---UTC is 8 hours ahead):
 
-```
+``` {.default}
 Local time : Mon Apr 12 04:00:04 1982
 Is DST     : 0
 Day of week: Monday
@@ -350,7 +350,7 @@ printf("The local time is %s", ctime(&now));
 
 Example output:
 
-```
+``` {.default}
 The local time is Mon Mar  1 18:45:14 2021
 ```
 
@@ -419,7 +419,7 @@ printf("%f seconds since epoch\n", float_time);
 
 Example output:
 
-```
+``` {.default}
 1614654187 s, 825540756 ns
 1614654187.825541 seconds since epoch
 ```
@@ -427,7 +427,7 @@ Example output:
 Here's a helper function to add values to a `struct timespec` that
 handles negative values and nanosecond overflow.
 
-```
+``` {.c}
 #include <stdlib.h>
 
 // Add delta seconds and delta nanoseconds to ts.
@@ -463,7 +463,7 @@ And here are some functions to convert from `long double` to `struct
 timespec` and back, just in case you like thinking in decimals. This is
 more limited in significant figures than using the integer values.
 
-```
+``` {.c}
 #include <math.h>
 
 // Convert a struct timespec into a long double
@@ -508,7 +508,7 @@ char *asctime(const struct tm *timeptr)
 This takes a time in a `struct tm` and returns a string with that date
 in the form:
 
-```
+``` {.default}
 Sun Sep 16 01:03:52 1973
 ```
 
@@ -544,7 +544,7 @@ printf("UTC  : %s", asctime(gmtime(&now)));
 
 Sample output:
 
-```
+``` {.default}
 Local: Mon Mar  1 21:17:34 2021
 UTC  : Tue Mar  2 05:17:34 2021
 ```
@@ -573,7 +573,7 @@ char *ctime(const time_t *timer);
 This takes a time in a `time_t` and returns a string with the local time
 and date in the form:
 
-```
+``` {.default}
 Sun Sep 16 01:03:52 1973
 ```
 
@@ -608,7 +608,7 @@ printf("Local: %s", ctime(&now));
 
 Sample output:
 
-```
+``` {.default}
 Local: Mon Mar  1 21:32:23 2021
 ```
 
@@ -662,7 +662,7 @@ printf("Local: %s", asctime(localtime(&now)));
 
 Sample output:
 
-```
+``` {.default}
 UTC  : Tue Mar  2 05:40:05 2021
 Local: Mon Mar  1 21:40:05 2021
 ```
@@ -718,7 +718,7 @@ printf("UTC  : %s", asctime(gmtime(&now)));
 
 Sample output:
 
-```
+``` {.default}
 Local: Mon Mar  1 21:40:05 2021
 UTC  : Tue Mar  2 05:40:05 2021
 ```
@@ -750,7 +750,7 @@ This is the [`sprintf()`](#man-sprintf) of date and time functions.
 It'll take a `struct tm` and produce a string in just about whatever
 form you desire, for example:
 
-```
+``` {.default}
 2021-03-01
 Monday, March 1 at 9:54 PM
 It's Monday!
@@ -773,7 +773,7 @@ The `format` string works like this, for example:
 
 Which produces:
 
-```
+``` {.default}
 It's Monday, March 1!
 ```
 
@@ -867,7 +867,7 @@ want to use a locale's alternative format. These don't exist for all
 locales. It's one of the format specifies above, with either an `E` or
 `O` prefix:
 
-```
+``` {.default}
 %Ec %EC %Ex %EX %Ey %EY %Od %Oe %OH %OI
 %Om %OM %OS %Ou %OU %OV %Ow %OW %Oy
 ```

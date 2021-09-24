@@ -326,7 +326,7 @@ Output^[This is on my system. Some systems will have different points at
 which numbers become subnormal, or they might not support subnormal
 values at all.]:
 
-```
+``` {.default}
     1.23: normal
      0.0: zero
 sqrt(-1): not a number
@@ -1155,7 +1155,7 @@ printf("1234.56 = %.7f x 2^%d\n", frac, expt);
 
 Output:
 
-```
+``` {.default}
 1234.56 = 0.6028125 x 2^11
 ```
 
@@ -1232,7 +1232,7 @@ Multiply a number by an integral power of 2.
 
 ### Synopsis {.unnumbered .unlisted}
 
-```
+``` {.c}
 #include <math.h>
 
 double ldexp(double x, int exp);
@@ -1260,7 +1260,7 @@ printf("5.67 x 2^7 = %f\n", ldexp(5.67, 7));
 
 Output:
 
-```
+``` {.default}
 1 x 2^10 = 1024.000000
 5.67 x 2^7 = 725.760000
 ```
@@ -1405,7 +1405,7 @@ printf("Small log()  : %.*Lf\n", LDBL_DECIMAL_DIG-1, logl(1 + 0.01));
 
 Output on my system:
 
-```
+``` {.default}
 Big log1p()  : 2.30258509299404568403
 Big log()    : 2.30258509299404568403
 Small log1p(): 0.00995033085316808305
@@ -1502,7 +1502,7 @@ printf("%f\n", logb(256));
 
 Output:
 
-```
+``` {.default}
 FLT_RADIX = 2
 11.000000
 8.000000
@@ -1577,7 +1577,7 @@ int main(void)
 
 Output:
 
-```
+``` {.default}
 Entire number  : 123.456000
 Integral part  : 123.000000
 Fractional part: 0.456000
@@ -1663,7 +1663,7 @@ int main(void)
 
 Output on my system:
 
-```
+``` {.default}
 FLT_RADIX = 2
 
 scalbn(3, 8)       = 512.000000
@@ -1709,7 +1709,7 @@ printf("cbrt(1729.03) = %f\n", cbrt(1729.03));
 
 Output:
 
-```
+``` {.default}
 cbrt(1729.03) = 12.002384
 ```
 
@@ -1918,7 +1918,7 @@ printf("distance between points (x1, y1) and (x2, y2): %.2f\n",
 
 And the output is:
 
-```
+``` {.default}
 square root of 10 is 3.16
 distance between points (x1, y1) and (x2, y2): 40.54
 ```
@@ -1965,7 +1965,7 @@ for (float i = -2; i <= 2; i += 0.5)
 
 Output:
 
-```
+``` {.default}
 -2.0: -0.995322
 -1.5: -0.966105
 -1.0: -0.842701
@@ -2005,7 +2005,7 @@ function|Error_function]] of a value.
 
 This is the same as:
 
-``` {.c
+``` {.c}
 1 - erf(x)
 ```
 
@@ -2026,7 +2026,7 @@ for (float i = -2; i <= 2; i += 0.5)
 
 Output:
 
-```
+``` {.default}
 -2.0: 1.995322
 -1.5: 1.966105
 -1.0: 1.842701
@@ -2081,7 +2081,7 @@ for (float i = 0.5; i <= 4; i += 0.5)
 
 Output:
 
-```
+``` {.default}
 0.5: 0.572365
 1.0: 0.000000
 1.5: -0.120782
@@ -2134,7 +2134,7 @@ for (float i = 0.5; i <= 4; i += 0.5)
 
 Output:
 
-```
+``` {.default}
 0.5: 1.772454
 1.0: 1.000000
 1.5: 0.886227
@@ -2968,7 +2968,7 @@ printf("%.*f\n", DBL_DECIMAL_DIG, nextafter(0.349, 0.0));
 
 Output on my system:
 
-```
+``` {.default}
 0.50000000000000011
 0.34899999999999992
 ```
@@ -3013,7 +3013,7 @@ printf("%.*f\n", DBL_DECIMAL_DIG, nexttoward(0.349, 0.0));
 
 Output on my system:
 
-```
+``` {.default}
 0.50000000000000011
 0.34899999999999992
 ```
