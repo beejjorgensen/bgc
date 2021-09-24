@@ -104,7 +104,7 @@ $f_n=10100101$
 ## `FLT_ROUNDS` Details
 
 This tells you the rounding mode. It can be changed with a call to
-[`fesetround()`](#man-fesetround).
+[`fesetround()`](#man-fegetround).
 
 |Mode|Description|
 |:-:|-|
