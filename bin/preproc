@@ -90,8 +90,8 @@ for line in filedata.splitlines(True):
 	else:
 		this_line_fence = False
 
-	if in_fence and not this_line_fence and not number_lines:
-		fout.write("    ")   # indent
+	#if in_fence and not this_line_fence and not number_lines:
+	#	fout.write("    ")   # indent
 
 	fout.write(line)
 
