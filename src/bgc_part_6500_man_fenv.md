@@ -409,7 +409,7 @@ int main(void)
 
 Output:
 
-```
+``` {.default}
 FE_TONEAREST
 2.000000 3.000000
 FE_TOWARDZERO
@@ -500,7 +500,7 @@ int main(void)
 
 Output:
 
-```
+``` {.default}
 Rounding is FE_TOWARDZERO: 1
 FE_DIVBYZERO is set: 1
 Rounding is FE_TOWARDZERO: 0
@@ -672,7 +672,7 @@ In the output, at first we have no exceptions. Then we have the three we
 raised. Then after we restore/update the environment, we see the one we
 cleared (`FE_INVALID`) hasn't been applied:
 
-```
+``` {.default}
 FE_DIVBYZERO: 0
 FE_INVALID  : 0
 FE_OVERFLOW : 0

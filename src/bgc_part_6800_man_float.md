@@ -215,7 +215,7 @@ int main(void)
 And the output on my machine, starting at `0.123456` and incrementing by
 `0.000001` each time:
 
-```
+``` {.default}
 FLT_DIG = 6
 FLT_DECIMAL_DIG = 9
 
@@ -308,7 +308,7 @@ int main(void)
 
 And here's the output on my machine:
 
-```
+``` {.default}
 FLT_RADIX: 2
 FLT_ROUNDS: 1
 FLT_EVAL_METHOD: 0

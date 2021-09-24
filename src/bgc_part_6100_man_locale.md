@@ -107,7 +107,7 @@ int main(void)
 
 Output on my system:
 
-```
+``` {.default}
 Starting locale: C
 Native locale: en_US.UTF-8
 ```
@@ -284,7 +284,7 @@ int main(void)
 
 Output on my system:
 
-```
+``` {.default}
 mon_decimal_point : .
 mon_thousands_sep : ,
 mon_grouping      : 3 3 0 

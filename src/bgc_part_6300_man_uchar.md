@@ -148,7 +148,7 @@ setting the state in `ps` to the initial conversion state.
 Normal use case example where we get the first two character values from
 the multibyte string `"€Zillion"`:
 
-```
+``` {.c}
 #include <uchar.h>
 #include <stdio.h>   // for printf()
 #include <locale.h>  // for setlocale()
@@ -227,7 +227,7 @@ Output on my system, indicating the first character is represented by
 the pair `(0xd83e, 0xdfc5)` and the second character is represented by
 `0x2a`:
 
-```
+``` {.default}
 4
 0xd83e
 -3
@@ -327,7 +327,7 @@ int main(void)
 
 Output on my system:
 
-```
+``` {.default}
 r == 3
 dest == "€"
 ```

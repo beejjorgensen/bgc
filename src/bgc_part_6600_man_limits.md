@@ -119,7 +119,7 @@ int main(void)
 
 On my 64-bit Intel system with clang, this outputs:
 
-```
+``` {.default}
 CHAR_BIT = 8
 SCHAR_MIN = -128
 SCHAR_MAX = 127

@@ -11,8 +11,8 @@ with a bunch of gotchas. See the [chapter on
 
 |Function|Description|
 |--------|----------------------|
-|`setjmp()`|Bookmark this place to return to later|
 |`longjmp()`|Return to the previously-placed bookmark|
+|`setjmp()`|Bookmark this place to return to later|
 
 There's also a new opaque type, `jmp_buf`, that holds all the
 information needed to pull off this magic trick.
@@ -154,7 +154,7 @@ int main(void)
 
 When run, this outputs:
 
-```
+``` {.default}
 Calling into functions, setjmp() returned 0
 Entering depth 1
 Entering depth 2
@@ -267,7 +267,7 @@ int main(void)
 
 When run, this outputs:
 
-```
+``` {.default}
 Calling into functions, setjmp() returned 0
 Entering depth 1
 Entering depth 2

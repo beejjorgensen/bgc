@@ -180,7 +180,7 @@ int main(void)
 
 Output:
 
-```
+``` {.default}
 You can't hit CTRL-C to exit this program. Try it!
 
 Press return to exit, instead.^C^C^C^C^C^C^C^C^C^C^C
@@ -218,7 +218,7 @@ int main(void)
 
 Output:
 
-```
+``` {.default}
 Got signal 2!
 Got signal 2!
 Got signal 2!
@@ -316,7 +316,7 @@ int main(void)
 
 Output:
 
-```
+``` {.default}
 Got signal 2!
 Got signal 2!
 Got signal 2!

@@ -191,7 +191,7 @@ int main(void)
 
 Output:
 
-```
+``` {.default}
 Result: 0.195321 + -2.788006i
 ```
 
@@ -249,7 +249,7 @@ int main(void)
 
 Output:
 
-```
+``` {.default}
 Result: 1.375476 + 2.788006i
 ```
 
@@ -312,7 +312,7 @@ int main(void)
 
 Output:
 
-```
+``` {.default}
 Result: 1.450947 + 0.023299i
 ```
 
@@ -365,7 +365,7 @@ int main(void)
 
 Output:
 
-```
+``` {.default}
 Result: -0.365087 + -2.276818i
 ```
 
@@ -418,7 +418,7 @@ int main(void)
 
 Output:
 
-```
+``` {.default}
 Result: 2.482485 + -0.334840i
 ```
 
@@ -472,7 +472,7 @@ int main(void)
 
 Output:
 
-```
+``` {.default}
 Result: -0.027073 + 1.085990i
 ```
 
@@ -531,7 +531,7 @@ int main(void)
 
 Output:
 
-```
+``` {.default}
 Result: 2.788006 + 0.195321i
 ```
 
@@ -589,7 +589,7 @@ int main(void)
 
 Output:
 
-```
+``` {.default}
 Result: 2.794970 + 0.192476i
 ```
 
@@ -647,7 +647,7 @@ int main(void)
 
 Output:
 
-```
+``` {.default}
 Result: 0.120877 + 1.546821i
 ```
 
@@ -700,7 +700,7 @@ int main(void)
 
 Output:
 
-```
+``` {.default}
 Result: -0.005475 + 1490.478826i
 ```
 
@@ -753,7 +753,7 @@ int main(void)
 
 Output:
 
-```
+``` {.default}
 Result: -0.005475 + 1490.479161i
 ```
 
@@ -807,7 +807,7 @@ int main(void)
 
 Output:
 
-```
+``` {.default}
 Result: 1.000000 + -0.000000i
 ```
 
@@ -860,7 +860,7 @@ int main(void)
 
 Output:
 
-```
+``` {.default}
 Result: -1.131204 + 2.471727i
 ```
 
@@ -917,7 +917,7 @@ int main(void)
 
 Output:
 
-```
+``` {.default}
 Result: 0.804719 + 1.107149i
 ```
 
@@ -969,7 +969,7 @@ int main(void)
 
 Output:
 
-```
+``` {.default}
 Result: 2.236068 + 0.000000i
 ```
 
@@ -1026,7 +1026,7 @@ int main(void)
 
 Output:
 
-```
+``` {.default}
 Result: 1.272020 + 0.786151i
 ```
 
@@ -1082,7 +1082,7 @@ int main(void)
 
 Output:
 
-```
+``` {.default}
 Result: 1.107149
 ```
 
@@ -1142,7 +1142,7 @@ int main(void)
 
 Output---just the imaginary part:
 
-```
+``` {.default}
 Result: 2.000000
 ```
 
@@ -1224,7 +1224,7 @@ int main(void)
 
 Output:
 
-```
+``` {.default}
 Result: 1.000000 + 2.000000i
 ```
 
@@ -1278,7 +1278,7 @@ int main(void)
 
 Output:
 
-```
+``` {.default}
 Result: 1.000000 + -2.000000i
 ```
 
@@ -1354,7 +1354,7 @@ int main(void)
 
 Output:
 
-```
+``` {.default}
 Result: 1.000000 + 2.000000i
 Result: inf + 0.000000i
 ```
@@ -1415,7 +1415,7 @@ int main(void)
 
 Output---just the real part:
 
-```
+``` {.default}
 Result: 1.000000
 ```
 

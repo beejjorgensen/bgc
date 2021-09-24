@@ -97,7 +97,7 @@ void divide_goat_herd_by(int amount)
 When I run this and pass `0` to the function, I get the following on my
 system (the exact output may vary):
 
-```
+``` {.default}
 Assertion failed: (amount != 0), function divide_goat_herd_by, file foo.c, line 7.
 ```
 
@@ -161,7 +161,7 @@ void some_algorithm(void)
 
 On my system, when I try to compile it, this prints (your output may vary):
 
-```
+``` {.default}
 foo.c:7:5: error: static_assert failed due to requirement '5150 <= 32'
     "ARRAY_SIZE too large"
     static_assert(ARRAY_SIZE <= 32, "ARRAY_SIZE too large");
