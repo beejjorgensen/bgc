@@ -6,7 +6,7 @@
 # `<float.h>` Floating Point Limits {#float}
 
 |Macro|Minimum Magnitude|Description|
-|-----|----------|-----------------------|
+|--|:--:|--------|
 |`FLT_ROUNDS`||Current rounding mode|
 |`FLT_EVAL_METHOD`||Types used for evaluation|
 |`FLT_HAS_SUBNORM`||Subnormal support for `float`|
@@ -40,7 +40,7 @@
 |`LDBL_MAX`|`1E+37`|Largest finite `long double`|
 
 |Macro|Maximum Value|Description|
-|-----|----------|-----------------------|
+|--|:--:|--------|
 |`FLT_EPSILON`|`1E-5`|Difference between 1 and the next biggest representable `float`|
 |`DBL_EPSILON`|`1E-9`|Difference between 1 and the next biggest representable `double`|
 |`LDBL_EPSILON`|`1E-9`|Difference between 1 and the next biggest representable `long double`|
@@ -50,6 +50,10 @@
 |`FLT_TRUE_MIN`|`1E-37`|Minimum positive `float`|
 |`DBL_TRUE_MIN`|`1E-37`|Minimum positive `double`|
 |`LDBL_TRUE_MIN`|`1E-37`|Minimum positive `long double`|
+
+The minimum and maximum values here are from the spec---they should what
+you can at least expect across all platforms. Your super dooper machine
+might do better, still!
 
 ## Background
 
@@ -119,7 +123,7 @@ This basically tells you how floating point values are promoted to
 different types in expressions.
 
 |Method|Description|
-|:-:|-|
+|:--:|-----------------------|
 |`-1`|Indeterminable|
 |`0`|Evaluate all operations and constants to the precision of their respective types|
 |`1`|Evaluate `float` and `double` operations as `double` and `long double` ops as `long double`|
