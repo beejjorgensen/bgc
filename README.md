@@ -70,7 +70,6 @@ have to consider any copyright issues when merging changes.
   * inttypes
   * iso646
   * stdalign
-  * stdarg
   * stdatomic
   * stdbool
   * stddef
