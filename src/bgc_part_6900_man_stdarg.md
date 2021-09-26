@@ -7,10 +7,10 @@
 
 |Macro|Description|
 |--------|----------------------|
-|`va_arg()`|Get the next variable argument|
-|`va_copy()`|Copy a `va_list`, copy its state|
-|``||
-|``||
+|[`va_arg()`](#man-va_arg)|Get the next variable argument|
+|[`va_copy()`](#man-va_copy)|Copy a `va_list` and the work done so far|
+|[`va_end()`](#man-va_end)|Signify we're done processing variable arguments|
+|[`va_start()`](#man-va_start)|Initialize a `va_list` to start variable argument processing|
 
 This header file is what allows you to write functions that take a
 variable number of arguments.
@@ -208,6 +208,153 @@ int main(void)
 ### See Also {.unnumbered .unlisted}
 
 [`va_start()`](#man-va_start),
+[`va_arg()`](#man-va_arg),
+[`va_end()`](#man-va_end)
+
+[[manbreak]]
+## `va_end()` {#man-va_end}
+
+Signify we're done processing variable arguments
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <stdarg.h>
+
+void va_end(va_list ap);
+```
+
+### Description {.unnumbered .unlisted}
+
+After you've `va_start()`ed or `va_copy`'d a new `va_list`, you **must**
+call `va_end()` with it before it goes out of scope. 
+
+You also have to do this if you're going to call `va_start()` or
+`va_copy()` _again_ on a variable you've already done that to.
+
+Them's the rules if you want to avoid undefined behavior.
+
+But just think of it as cleanup. You called `va_start()`, so you'll call
+`va_end()` when you're done.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns nothing.
+
+### Example {.unnumbered .unlisted}
+
+Here's a demo that adds together an arbitrary number of integers. The
+first argument is the number of integers to add together. We'll make use
+of that to figure out how many times we have to call `va_arg()`.
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <stdarg.h>
+
+int add(int count, ...)
+{
+    int total = 0;
+    va_list va;
+
+    va_start(va, count);   // Start with arguments after "count"
+
+    for (int i = 0; i < count; i++) {
+        int n = va_arg(va, int);   // Get the next int
+
+        total += n;
+    }
+
+    va_end(va);  // All done
+
+    return total;
+}
+
+int main(void)
+{
+    printf("%d\n", add(4, 6, 2, -4, 17));  // 6 + 2 - 4 + 17 = 21
+    printf("%d\n", add(2, 22, 44));        // 22 + 44 = 66
+}
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`example()`](#man-example),
+[`va_start()`](#man-va_start),
+[`va_copy()`](#man-va_copy)
+
+[[manbreak]]
+## `va_start()` {#man-va_start}
+
+Initialize a `va_list` to start variable argument processing
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <stdarg.h>
+
+void va_start(va_list ap, parmN);
+```
+
+### Description {.unnumbered .unlisted}
+
+You've declared a variable of type `va_list` to keep track of the
+variable argument processing... now how to initialize it so you can
+start calling `va_arg()` to get those arguments?
+
+`va_start()` to the rescue!
+
+What you do is pass in your `va_list`, here shown as parameter `ap`.
+Just pass the list, not a pointer to it.
+
+Then for the second argument to `va_start()`, you give the name of the
+parameter that you want to start processing arguments _after_. This must
+be the parameter right before the `...` in the argument list.
+
+If you've already called `va_start()` on a particular `va_list` and you
+want to call `va_start()` on it again, you **must** call `va_end()`
+first!
+
+### Return Value {.unnumbered .unlisted}
+
+Returns nothing!
+
+### Example {.unnumbered .unlisted}
+
+Here's a demo that adds together an arbitrary number of integers. The
+first argument is the number of integers to add together. We'll make use
+of that to figure out how many times we have to call `va_arg()`.
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <stdarg.h>
+
+int add(int count, ...)
+{
+    int total = 0;
+    va_list va;
+
+    va_start(va, count);   // Start with arguments after "count"
+
+    for (int i = 0; i < count; i++) {
+        int n = va_arg(va, int);   // Get the next int
+
+        total += n;
+    }
+
+    va_end(va);  // All done
+
+    return total;
+}
+
+int main(void)
+{
+    printf("%d\n", add(4, 6, 2, -4, 17));  // 6 + 2 - 4 + 17 = 21
+    printf("%d\n", add(2, 22, 44));        // 22 + 44 = 66
+}
+```
+
+### See Also {.unnumbered .unlisted}
+
 [`va_arg()`](#man-va_arg),
 [`va_end()`](#man-va_end)
 
