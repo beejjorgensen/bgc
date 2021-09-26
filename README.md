@@ -77,6 +77,7 @@ have to consider any copyright issues when merging changes.
   * stdint
   * stdnoreturn
   * tgmath
+* int m = /* some value */; struct s *p = malloc(sizeof (struct s) + sizeof (double [m])); <--- sizeof!
 * Atomic
 * _Static_assert
 * Common initial sequences
