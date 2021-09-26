@@ -135,6 +135,15 @@ int main(void)
 }
 ```
 
+Like with regular arrays, you can use parentheses with `sizeof()` to get
+the size of a would-be VLA without actually declaring one:
+
+``` {.c}
+int x = 12;
+
+printf("%zu\n", sizeof(int [x]));  // Prints 48 on my system
+```
+
 ## Multidimensional VLAs
 
 You can go ahead and make all kinds of VLAs with one or more dimensions

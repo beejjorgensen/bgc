@@ -110,6 +110,17 @@ a pointer to the first element, and that's what `sizeof` measures. More
 on this in the [Passing Single Dimensional Arrays to
 Functions](#passing1darrays) section, below.
 
+One more thing you can do with `sizeof` and arrays is get the size of an
+array of a fixed number of elements without declaring the array. This is
+like how you can get the size of an `int` with `sizeof(int)`.
+
+For example, to see how many bytes would be needed for an array of 48
+`double`s, you can do this:
+
+``` {.c}
+sizeof(double [48]);
+```
+
 ## Array Initializers
 
 You can initialize an array with constants ahead of time:
