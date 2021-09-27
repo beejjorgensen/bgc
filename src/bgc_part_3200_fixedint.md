@@ -18,7 +18,7 @@ was exactly 32 bits (4 bytes) or at least 16 bits or somesuch?
 
 How can we declare a type that's a certain size?
 
-The header `<stdint>.h` gives us a way.
+The header `<stdint.h>` gives us a way.
 
 ## The Bit-Sized Types
 
