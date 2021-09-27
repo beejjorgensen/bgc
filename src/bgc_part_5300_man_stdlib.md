@@ -437,7 +437,9 @@ Bad chars at "beej"
 
 [`atoi()`](#man-atoi),
 [`strtod()`](#man-strtod),
-[`setlocale()`](#man-setlocale)
+[`setlocale()`](#man-setlocale),
+[`strtoimax()`](#man-strtoimax),
+[`strtoumax()`](#man-strtoimax)
 
 [[manbreak]]
 ## `rand()` {#man-rand}

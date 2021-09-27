@@ -14,13 +14,13 @@ It also gives us handy macros to use.
 
 There are three main classes of types defined here, signed and unsigned:
 
-* Integers of exactly a certain size (`intN_t`, `uintN_t`)
-* Integers that are at least a certain size (`int_leastN_t`,
-  `uint_leastN_t`)
+* Integers of exactly a certain size (`int`_N_`_t`, `uint`_N_`_t`)
+* Integers that are at least a certain size (`int_least`_N_`_t`,
+  `uint_least`_N_`_t`)
 * Integers that are at least a certain size and are as fast as possible
-  (`int_fastN_t`, `uint_fastN_t`)
+  (`int_fast`_N_`_t`, `uint_fast`_N_`_t`)
 
-Where the `N` occurs, you substitute the number of bits, commonly
+Where the _N_ occurs, you substitute the number of bits, commonly
 multiples of 8, e.g. `uint16_t`.
 
 The following types are guaranteed to be defined:
@@ -176,8 +176,8 @@ long int y = 12L;
 unsigned long long int z = 12ULL;
 ```
 
-You can use the macros `INTN_C()` and `UINTN()` where `N` is `8`, `16`,
-`32` or `64`.
+You can use the macros `INT`_N_`_C()` and `UINT`_N_`()` where _N_ is
+`8`, `16`, `32` or `64`.
 
 ``` {.c}
 uint_least16_t x = INT16_C(3490);

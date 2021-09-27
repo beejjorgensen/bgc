@@ -1758,7 +1758,8 @@ printf("fabs(-3490.0) = %f\n", fabs(3490.0));  // 3490.000000
 ### See Also {.unnumbered .unlisted}
 
 [`abs()`](#man-abs),
-[`copysign()`](#man-copysign)
+[`copysign()`](#man-copysign),
+[`imaxabs()`](#man-imaxabs)
 
 [[manbreak]]
 ## `hypot()`, `hypotf()`, `hypotl()` {#man-hypot}
@@ -2795,7 +2796,8 @@ printf("%d remainder %f\n", quo, rem);  // 6 remainder -0.750000
 
 ### See Also {.unnumbered .unlisted}
 
-[`remainder()`](#man-remainder)
+[`remainder()`](#man-remainder),
+[`imaxdiv()`](#man-imaxdiv)
 
 [[manbreak]]
 ## `copysign()`, `copysignf()`, `copysignl()` {#man-copysign}
