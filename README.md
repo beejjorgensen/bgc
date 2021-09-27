@@ -67,20 +67,18 @@ have to consider any copyright issues when merging changes.
 ## TODO
 
 * More man pages
-  * inttypes
+  * stddef
   * iso646
   * stdalign
   * stdatomic
   * stdbool
-  * stddef
   * stdnoreturn
   * tgmath
 * Atomic
-* _Static_assert
+* Memory access ordering
 * Common initial sequences
 * Anonymous structs in unions
 * __STDC_WANT_LIB_EXT
-* make primer
 * Exercises
 
 ### Bug fixes
