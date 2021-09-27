@@ -73,7 +73,6 @@ have to consider any copyright issues when merging changes.
   * stdatomic
   * stdbool
   * stddef
-  * stdint
   * stdnoreturn
   * tgmath
 * Atomic
