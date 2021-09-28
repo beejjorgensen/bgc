@@ -471,7 +471,7 @@ if (x >= 12)
 
 but I needed the example!
 
-### The `sizeof` Operator
+### The `sizeof` Operator {#sizeof-operator}
 
 This operator tells you the size (in bytes) that a particular variable
 or data type uses in memory.

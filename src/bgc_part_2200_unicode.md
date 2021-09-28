@@ -155,7 +155,7 @@ around, obviously.)
 It's probably that last point more than any other that is driving UTF-8
 to take over the world.
 
-## Source and Execution Character Sets
+## Source and Execution Character Sets {#src-exec-charset}
 
 When programming in C, there are (at least) three character sets that
 are in play:
@@ -381,7 +381,7 @@ printf("%x\n", '€');
 printf("%x\n", '\u20ac');
 ```
 
-### Wide Characters
+### Wide Characters {#wide-characters}
 
 If you're not a multibyte character, then you're a _wide character_.
 

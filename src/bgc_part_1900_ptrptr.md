@@ -414,7 +414,7 @@ might not be there---but it probably is.].
 Additionally, if you feel like being signed, you can use `intptr_t` to
 the same effect.
 
-## Pointer Differences
+## Pointer Differences {#ptr_differences}
 
 As you know from the section on pointer arithmetic, you can subtract one
 pointer from another^[Assuming they point to the same array object.] to
