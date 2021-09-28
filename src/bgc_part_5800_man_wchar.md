@@ -1021,8 +1021,8 @@ Bad chars at "beej"
 [`wcstod()`](#man-wcstod),
 [`strtol()`](#man-strtol),
 [`errno`](#errno),
-[`wcstoimax()`(#man-wcstoimax),
-[`wcstoumax()`(#man-wcstoimax)
+[`wcstoimax()`](#man-wcstoimax),
+[`wcstoumax()`](#man-wcstoimax)
 
 [[manbreak]]
 ## `wcscpy()` `wcsncpy()` {#man-wcscpy}
