@@ -83,6 +83,13 @@ $(GUIDE_ID)-wide.html: $(GUIDE_MD) bg-css-wide.html
 	mv $(GUIDE_ID)_temp.html $@
 	rm -f $(GUIDE_ID)_temp*
 
+$(GUIDE_ID)_quick.pdf: $(GUIDE_MD)
+	$(PREPROC) $^ $(PREPROC_MD)
+	pandoc $(PDF_OPTS) $(USLETTER) $(ONESIDE) $(COLOR) $(PREPROC_MD)
+	xelatex $(GUIDE_ID)_temp.tex
+	mv $(GUIDE_ID)_temp.pdf $@
+	rm -f $(GUIDE_ID)_temp*
+
 $(GUIDE_ID)_usl_c_1.pdf: $(GUIDE_MD)
 	$(PREPROC) $^ $(PREPROC_MD)
 	pandoc $(PDF_OPTS) $(USLETTER) $(ONESIDE) $(COLOR) $(PREPROC_MD)
@@ -188,7 +195,7 @@ $(GUIDE_ID)_amazon.pdf: $(GUIDE_ID)_amazon.md
 	rm -f $(GUIDE_ID)_temp*
 
 clean:
-	rm -f $(GUIDE_ID)_temp* bg-css*.html
+	rm -f $(GUIDE_ID)_temp* $(GUIDE_ID)_quick.pdf bg-css*.html
 
 pristine: clean
 	rm -f $(HTML) $(BOOKS)
