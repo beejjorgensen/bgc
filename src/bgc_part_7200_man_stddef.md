@@ -18,7 +18,7 @@ It includes several types and macros.
 |`NULL`|`NULL` pointer, as defined a number of places|
 |[`offsetof`](#man-offsetof)|Get the byte offsets of `struct` or `union` fields|
 
-## `ptrdiff_t` (#man-ptrdiff_t)
+## `ptrdiff_t` {#man-ptrdiff_t}
 
 This holds the different between two pointers. You could store this in
 another type, but the result of a pointer subtraction is an
