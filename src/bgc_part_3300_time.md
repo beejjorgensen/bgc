@@ -5,7 +5,7 @@
 
 # Date and Time Functionality
 
-> "Time is an illusion. Lunchtime doubly so." 
+> "Time is an illusion. Lunchtime doubly so." \
 > ---Ford Prefect, The Hitchhikers Guide to the Galaxy
 
 This isn't too complex, but it can be a little intimidating at first,
