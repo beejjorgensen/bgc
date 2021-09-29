@@ -353,7 +353,7 @@ between two dates.
 In the following example, we have two events that occur some time apart,
 and we use `difftime()` to compute the difference.
 
-``` {.c .localtime}
+``` {.c .numberLines}
 #include <stdio.h>
 #include <time.h>
 
