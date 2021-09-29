@@ -25,7 +25,7 @@ the weeds and we try to see what's there, the behavior is undefined and
 a crash is a common result.
 
 This is a little chicken-and-eggy with [Array/Pointer Equivalence,
-below](#arraypointerrequiv), but we're going to give it a shot, anyway.
+below](#arraypointerequiv), but we're going to give it a shot, anyway.
 
 ### Adding to Pointers
 
