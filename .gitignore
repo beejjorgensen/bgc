@@ -9,6 +9,8 @@ src/bgc.html
 src/bgc-wide.html
 src/bg-css*.html
 src/bgc_*.pdf
+src/split
+src/split-wide
 
 __pycache__
 

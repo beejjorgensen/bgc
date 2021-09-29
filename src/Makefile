@@ -1,7 +1,7 @@
 TITLE="Beej's Guide to C Programming"
 SUBTITLE=""
 AUTHOR='Brian “Beej Jorgensen” Hall'
-VERSION_DATE="v0.6.32, Copyright © September 28, 2021"
+VERSION_DATE="v0.6.33, Copyright © September 29, 2021"
 
 GUIDE_ID=bgc
 
@@ -19,10 +19,13 @@ A4_BW=$(GUIDE_ID)_a4_bw_1.pdf $(GUIDE_ID)_a4_bw_2.pdf
 BOOKS=$(USLETTER_BW) $(USLETTER_COLOR) $(A4_BW) $(A4_COLOR)
 
 HTML=$(GUIDE_ID).html $(GUIDE_ID)-wide.html
+SPLIT_DIRS=split split-wide
 GUIDE_MD=$(sort $(wildcard $(GUIDE_ID)_part_*.md))
 
 PREPROC=../bin/preproc
 PREPROC_MD=$(GUIDE_ID)_temp_preproc.md
+
+SPLIT=../bin/bgsplit.py
 
 COMMON_OPTS= \
 	--variable title:$(TITLE) \
@@ -61,7 +64,7 @@ BLANKLAST=-A latex/after_blank.latex # add a blank last page
 BW=--no-highlight  # black and white options
 COLOR=--highlight-style=tango   # color options
 
-all: $(HTML) $(BOOKS)
+all: $(HTML) split/index.html split-wide/index.html $(BOOKS)
 
 bg-css.html: common-css-src.html
 	cat $^ > $@
@@ -82,6 +85,12 @@ $(GUIDE_ID)-wide.html: $(GUIDE_MD) bg-css-wide.html
 	sed 's/src="\(.*\)\.pdf"/src="\1.svg"/g' $@ > $(GUIDE_ID)_temp.html # use svg images
 	mv $(GUIDE_ID)_temp.html $@
 	rm -f $(GUIDE_ID)_temp*
+
+split/index.html: $(GUIDE_ID).html
+	$(SPLIT) $< split
+
+split-wide/index.html: $(GUIDE_ID)-wide.html
+	$(SPLIT) $< split-wide
 
 $(GUIDE_ID)_quick.pdf: $(GUIDE_MD)
 	$(PREPROC) $^ $(PREPROC_MD)
@@ -199,5 +208,6 @@ clean:
 
 pristine: clean
 	rm -f $(HTML) $(BOOKS)
+	rm -rf $(SPLIT_DIRS)
 
 .PHONY: all, html, clean, pristine
