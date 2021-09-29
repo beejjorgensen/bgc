@@ -916,7 +916,7 @@ the mutex when you already hold the mutex.
 
 And the timeout gives a thread a chance to _try_ to get the lock for a
 while, but then bail out if it can't get it in that timeframe. You use
-the [`mtx_timedlock()`](#man-muted_timedlock) function with `mtx_timed`
+the [`mtx_timedlock()`](#man-mtx_timedlock) function with `mtx_timed`
 mutexes.
 
 ### Return Value {.unnumbered .unlisted}

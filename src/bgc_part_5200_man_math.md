@@ -46,7 +46,7 @@ table to keep your eyeballs from melting out.
 |[`islesseequal()`](#man-isgreater)|True if one argument is less than or equal to another.|
 |[`islessgreater()`](#man-islessgreater)|Test if a floating point number is less than or greater than another.|
 |[`isnan()`](#man-isnan)|True if the number is Not-a-Number.|
-|[`isnormal()`](#man-isnan})|True if the number is normal.|
+|[`isnormal()`](#man-isnan)|True if the number is normal.|
 |[`isunordered()`](#man-isunordered)|Macro returns true if either floating point argument is NaN.|
 |[`ldexp()`](#man-ldexp)|Multiply a number by an integral power of 2.|
 |[`lgamma()`](#man-lgamma)|Compute the natural logarithm of the absolute value of $\Gamma(x)$.|
@@ -61,7 +61,7 @@ table to keep your eyeballs from melting out.
 |[`nan()`](#man-nan)|Return `NAN`.|
 |[`nearbyint()`](#man-nearbyint)|Rounds a value in the current rounding direction.|
 |[`nextafter()`](#man-nextafter)|Get the next (or previous) representable floating point value.|
-|[`nextoward()`](#man-nextoward)|Get the next (or previous) representable floating point value.|
+|[`nexttoward()`](#man-nexttoward)|Get the next (or previous) representable floating point value.|
 |[`pow()`](#man-pow)|Compute a value raised to a power.|
 |[`remainder()`](#man-remainder)|Compute the remainder IEC 60559-style.|
 |[`remquo()`](#man-remquo)|Compute the remainder and (some of the) quotient.|
@@ -915,6 +915,43 @@ printf("cosh 0.5 = %f\n", cosh(0.5));  // 1.127626
 ### See Also {.unnumbered .unlisted}
 
 [`sinh()`](#man-sinh),
+[`tanh()`](#man-tanh)
+
+[[manbreak]]
+## `sinh()`, `sinhf()`, `sinhl()` {#man-sinh}
+
+Compute the hyperbolic sine.
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <math.h>
+
+double sinh(double x);
+
+float sinhf(float x);
+
+long double sinhl(long double x);
+```
+
+### Description {.unnumbered .unlisted}
+
+These functions predictably compute the hyperbolic sine of `x`. A
+range error might occur if `x` is too large.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns the hyperbolic sine of `x`.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+printf("sinh 0.5 = %f\n", sinh(0.5));  // 0.521095
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`sinh()`](#man-cosh),
 [`tanh()`](#man-tanh)
 
 [[manbreak]]
@@ -2770,8 +2807,8 @@ congratulations! :)
 
 ### Return Value {.unnumbered .unlisted}
 
-Returns the same as [`remainder`](#remainder): The IEC 60559 result of
-`x`-remainder-`y`.
+Returns the same as [`remainder`](#man-remainder): The IEC 60559 result
+of `x`-remainder-`y`.
 
 In addition, at least the lowest 3 bits of the quotient will be stored
 in `quo` with the same sign as `x/y`.
@@ -2980,7 +3017,7 @@ Output on my system:
 [`nexttoward()`](#man-nexttoward)
 
 [[manbreak]]
-## `nextoward()`, `nextowardf()`, `nextowardl()` {#man-nextoward}
+## `nexttoward()`, `nexttowardf()`, `nexttowardl()` {#man-nexttoward}
 
 Get the next (or previous) representable floating point value.
 

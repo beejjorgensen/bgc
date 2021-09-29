@@ -979,6 +979,62 @@ Result: 2.236068 + 0.000000i
 [`abs()`](#man-abs)
 
 [[manbreak]]
+## `cpow()` `cpowf()` `cpowl()` {#man-cpow}
+
+Compute complex power
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <complex.h>
+
+double complex cpow(double complex x, double complex y);
+
+float complex cpowf(float complex x, float complex y);
+
+long double complex cpowl(long double complex x,
+                          long double complex y);
+```
+
+### Description {.unnumbered .unlisted}
+
+Computes the complex $x^y$.
+
+There is a branch cut for `x` along the negative real axis.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns the complex $x^y$.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <complex.h>
+
+int main(void)
+{
+    double complex x = 1 + 2 * I;
+    double complex y = 3 + 4 * I;
+
+    double r = cpow(x, y);
+
+    printf("Result: %f + %fi\n", creal(r), cimag(r));
+}
+```
+
+Result:
+
+``` {.default}
+Result: 0.129010 + 0.000000i
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`csqrt()`](#man-csqrt),
+[`cexp()`](#man-cexp)
+
+[[manbreak]]
 ## `csqrt()` `csqrtf()` `csqrtl()` {#man-csqrt}
 
 Compute the complex square root

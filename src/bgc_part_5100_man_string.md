@@ -277,7 +277,8 @@ So if they return `0`, the comparison was equal (i.e. the difference was
 `0`.)
 
 These functions can be used as comparison functions for
-[`qsort()`](#qsort) if you have an array of `char*`s you want to sort.
+[`qsort()`](#man-qsort) if you have an array of `char*`s you want to
+sort.
 
 ### Return Value {.unnumbered .unlisted}
 
@@ -317,7 +318,7 @@ if (!strncmp(s1, s2, 6))
 
 ### See Also {.unnumbered .unlisted}
 
-[`memcmp()`](#man-memcmp),
+[`memcmp()`](#man-strcmp),
 [`qsort()`](#man-qsort)
 
 [[manbreak]]
@@ -1021,5 +1022,5 @@ int main(void)
 ### Return Value {.unnumbered .unlisted}
 ### Example {.unnumbered .unlisted}
 ### See Also {.unnumbered .unlisted}
-[`sprintf()`](#man-sprintf),
+[`sprintf()`](#man-printf),
 -->

@@ -126,8 +126,8 @@ spec doesn't prohibit calling other non-library functions):
 * [`abort()`](#man-abort)
 * [`_Exit()`](#man-exit)
 * [`quick_exit()`](#man-exit)
-* Functions in [`<stdatomic.h>`](#man-stdatomic) when the atomic
-  arguments are lock-free
+* Functions in [`<stdatomic.h>`](#stdatomic) when the atomic arguments
+  are lock-free
 * `signal()` with a first argument equivalent to the argument that was
   passed into the handler
 

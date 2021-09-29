@@ -66,7 +66,7 @@
 |[`wscanf()`](#man-wscanf)|Formatted wide input|
 
 These are the wide character variants of the functions found in
-[`<stdio.h>`](#man-stdio).
+[`<stdio.h>`](#stdio).
 
 Remember that you can't mix-and-match multibyte output functions (like
 [`printf()`](#man-printf)) with wide character output functions (like
@@ -464,7 +464,7 @@ int main(void)
 
 ### See Also {.unnumbered .unlisted}
 
-[`fputwc`](#man-fputwc),
+[`fputwc`](#man-putwc),
 [`fgetws`](#man-fgetws),
 [`errno`](#errno)
 
@@ -532,7 +532,7 @@ prepended numbers):
 
 ### See Also {.unnumbered .unlisted}
 
-[`fgetwc()`](#man-fgetwc),
+[`fgetwc()`](#man-getwc),
 [`fgets()`](#man-gets)
 
 [[manbreak]]
@@ -624,7 +624,7 @@ int fputws(const wchar_t * restrict s, FILE * restrict stream);
 
 ### Description {.unnumbered .unlisted}
 
-This is the wide version of [`fputs()`](#man-fputs).
+This is the wide version of [`fputs()`](#man-puts).
 
 Pass in a wide string and an output stream, and it will so be written.
 
@@ -1226,7 +1226,7 @@ int wmemcmp(const wchar_t *s1, const wchar_t *s2, size_t n);
 
 ### Description {.unnumbered .unlisted}
 
-These are the wide variants of [`memcmp()`](#man-memcmp),
+These are the wide variants of [`memcmp()`](#man-strcmp),
 [`strcmp()`](#man-strcmp), and [`strncmp()`](#man-strcmp).
 
 `wcscmp()` and `wcsncmp()` both compare strings until a NUL character.
@@ -1296,7 +1296,7 @@ The first 6 characters of s1 and s2 are the same
 ### See Also {.unnumbered .unlisted}
 
 [`wcscoll()`](#man-wcscoll),
-[`memcmp()`](#man-memcmp),
+[`memcmp()`](#man-strcmp),
 [`strcmp()`](#man-strcmp),
 [`strncmp()`](#man-strcmp)
 
@@ -1578,8 +1578,7 @@ int main(void)
 
 [`wcschr()`](#man-wcschr),
 [`wcsrchr()`](#man-wcschr),
-[`strspn()`](#man-strspn),
-[`strrspn()`](#man-strrspn)
+[`strspn()`](#man-strspn)
 
 [[manbreak]]
 ## `wcspbrk()` {#man-wcspbrk}
@@ -2404,7 +2403,7 @@ but it's 10 bytes!
 
 [`mbrtowc()`](#man-mbrtowc),
 [`mbstowcs()`](#man-mbstowcs),
-[`wcsrtowmb()`](#man-wcsrtomb),
+[`wcsrtombs()`](#man-wcsrtombs),
 [`strlen()`](#man-strlen),
 [`errno`](#errno)
 

@@ -278,7 +278,6 @@ int main(void)
 
 ### See Also {.unnumbered .unlisted}
 
-[`example()`](#man-example),
 [`va_start()`](#man-va_start),
 [`va_copy()`](#man-va_copy)
 

@@ -41,7 +41,7 @@ printf("%td\n", d);  // Print decimal: 40
 printf("%tX\n", d);  // Print hex:     28
 ```
 
-## `size_t` {#man_size_t}
+## `size_t` {#man-size_t}
 
 This is the type returned by `sizeof` and used in a few other places.
 It's an unsigned integer.

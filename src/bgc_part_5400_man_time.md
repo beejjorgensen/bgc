@@ -746,9 +746,9 @@ size_t strftime(char * restrict s, size_t maxsize,
 
 ### Description {.unnumbered .unlisted}
 
-This is the [`sprintf()`](#man-sprintf) of date and time functions.
-It'll take a `struct tm` and produce a string in just about whatever
-form you desire, for example:
+This is the [`sprintf()`](#man-printf) of date and time functions. It'll
+take a `struct tm` and produce a string in just about whatever form you
+desire, for example:
 
 ``` {.default}
 2021-03-01

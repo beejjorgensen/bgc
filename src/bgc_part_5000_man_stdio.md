@@ -13,7 +13,7 @@
 |[`ferror()`](#man-feof)|Return the file error status|
 |[`fflush()`](#man-fflush)|Flush all buffered output to a file|
 |[`fgetc()`](#man-getc)|Read a character in a file|
-|[`fgetpos()`](#man-fsetpos)|Get the file I/O position|
+|[`fgetpos()`](#man-fgetpos)|Get the file I/O position|
 |[`fgets()`](#man-gets)|Read a line from a file|
 |[`fopen()`](#man-fopen)|Open a file|
 |[`fprintf()`](#man-printf)|Print formatted output to a file|
@@ -23,7 +23,7 @@
 |[`freopen()`](#man-freopen)|Change file associated with a stream|
 |[`fscanf()`](#man-scanf)|Read formatted input from a file|
 |[`fseek()`](#man-fseek)|Set the file I/O position|
-|[`fsetpos()`](#man-fsetpos)|Set the file I/O position|
+|[`fsetpos()`](#man-fgetpos)|Set the file I/O position|
 |[`ftell()`](#man-ftell)|Get the file I/O position|
 |[`fwrite()`](#man-fwrite)|Write binary data to a file|
 |[`getc()`](#man-getc)|Get a character from `stdin`|
@@ -462,7 +462,7 @@ int fflush(FILE *stream);
 ### Description {.unnumbered .unlisted}
 
 When you do standard I/O, as mentioned in the section on the
-[`setvbuf()`](#setvbuf) function, it is usually stored in a buffer until
+[`setvbuf()`](#man-setbuf) function, it is usually stored in a buffer until
 a line has been entered or the buffer is full or the file is closed.
 Sometimes, though, you really want the output to happen _right this
 second_, and not wait around in the buffer. You can force this to happen
@@ -484,7 +484,7 @@ stream? Use your spooky voice: _who knooooows!_
 
 On success, `fflush()` returns zero. If there's an error, it returns
 `EOF` and sets the error condition for the stream (see
-[`ferror()`](#feof).)
+[`ferror()`](#man-feof).)
 
 ### Example {.unnumbered .unlisted}
 
@@ -498,8 +498,8 @@ printing over itself on the same line.
 
 What is the catch and what does this have to do with `fflush()`? The
 catch is that the terminal is most likely "line buffered" (see the
-section on [`setvbuf()`](#setvbuf) for more info), meaning that it won't
-actually display anything until it prints a newline. But we're not
+section on [`setvbuf()`](#man-setbuf) for more info), meaning that it
+won't actually display anything until it prints a newline. But we're not
 printing newlines; we're just printing carriage returns, so we need a
 way to force the output to occur even though we're on the same line.
 Yes, it's `fflush()!`
@@ -733,8 +733,8 @@ _must_ make your call to `setvbuf()` _before_ any I/O operation is
 performed on the stream, or else by then it might be too late.
 
 The next argument, `buf` allows you to make your own buffer space (using
-[`malloc()`](#malloc) or just a `char` array) to use for buffering. If
-you don't care to do this, just set `buf` to `NULL`.
+[`malloc()`](#man-malloc) or just a `char` array) to use for buffering.
+If you don't care to do this, just set `buf` to `NULL`.
 
 Now we get to the real meat of the function: `mode` allows you to choose
 what kind of buffering you want to use on this `stream`. Set it to one
@@ -1555,10 +1555,10 @@ scanf("%10c", s);
 
 ### See Also {.unnumbered .unlisted}
 
-[`sscanf()`](#man-sscanf),
+[`sscanf()`](#man-scanf),
 [`vscanf()`](#man-vscanf),
-[`vsscanf()`](#man-vsscanf),
-[`vfscanf()`](#man-vfscanf)
+[`vsscanf()`](#man-vscanf),
+[`vfscanf()`](#man-vscanf)
 
 [[manbreak]]
 ## `vprintf()`, `vfprintf()`, `vsprintf()`, `vsnprintf()` {#man-vprintf}
@@ -2160,12 +2160,12 @@ size_t fread(void *p, size_t size, size_t nmemb, FILE *stream);
 
 ### Description {.unnumbered .unlisted}
 
-You might remember that you can call [`fopen()`](#fopen) with the "`b`"
-flag in the open mode string to open the file in "binary" mode. Files
-open in not-binary (ASCII or text mode) can be read using standard
-character-oriented calls like [`fgetc()`](#getc) or [`fgets()`](#gets).
-Files open in binary mode are typically read using the `fread()`
-function.
+You might remember that you can call [`fopen()`](#man-fopen) with the
+"`b`" flag in the open mode string to open the file in "binary" mode.
+Files open in not-binary (ASCII or text mode) can be read using standard
+character-oriented calls like [`fgetc()`](#man-getc) or
+[`fgets()`](#man-gets). Files open in binary mode are typically read
+using the `fread()` function.
 
 All this function does is says, "Hey, read this many things where each
 thing is a certain number of bytes, and store the whole mess of them in
@@ -2174,7 +2174,7 @@ memory starting at this pointer."
 This can be very useful, believe me, when you want to do something like
 store 20 `int`s in a file.
 
-But wait---can't you use [`fprintf()`](#printf) with the "`%d`" format
+But wait---can't you use [`fprintf()`](#man-printf) with the "`%d`" format
 specifier to save the `int`s to a text file and store them that way?
 Yes, sure. That has the advantage that a human can open the file and
 read the numbers. It has the disadvantage that it's slower to convert
@@ -2192,8 +2192,8 @@ requested items are read, the return value will be equal to that of the
 parameter `nmemb`. If EOF occurs, the return value will be zero.
 
 To make you confused, it will also return zero if there's an error. You
-can use the functions [`feof()`](#feof) or [`ferror()`](#feof) to tell
-which one really happened.
+can use the functions [`feof()`](#man-feof) or [`ferror()`](#man-feof)
+to tell which one really happened.
 
 ### Example {.unnumbered .unlisted}
 
@@ -2238,9 +2238,9 @@ size_t fwrite(const void *p, size_t size, size_t nmemb, FILE *stream);
 
 ### Description {.unnumbered .unlisted}
 
-This is the counterpart to the [`fread()`](#fread) function. It writes
-blocks of binary data to disk. For a description of what this means, see
-the entry for [`fread()`](#fread).
+This is the counterpart to the [`fread()`](#man-fread) function. It
+writes blocks of binary data to disk. For a description of what this
+means, see the entry for [`fread()`](#man-fread).
 
 ### Return Value {.unnumbered .unlisted}
 
@@ -2427,9 +2427,9 @@ long ftell(FILE *stream);
 
 ### Description {.unnumbered .unlisted}
 
-This function is the opposite of [`fseek()`](#fseek). It tells you where
-in the file the next file operation will occur relative to the beginning
-of the file.
+This function is the opposite of [`fseek()`](#man-fseek). It tells you
+where in the file the next file operation will occur relative to the
+beginning of the file.
 
 It's useful if you want to remember where you are in the file, `fseek()`
 somewhere else, and then come back later. You can take the return value
@@ -2584,9 +2584,9 @@ Returns nothing at all! Sorry!
 
 ### Example {.unnumbered .unlisted}
 
-[`fseek()`](#fseek) returns `-1` on error, and sets `errno`, so let's
-use it. Seeking on `stdin` makes no sense, so it should generate an
-error:
+[`fseek()`](#man-fseek) returns `-1` on error, and sets `errno`, so
+let's use it. Seeking on `stdin` makes no sense, so it should generate
+an error:
 
 ``` {.c .numberLines}
 #include <stdio.h>
@@ -2637,5 +2637,5 @@ fseek again, EBADF: Bad file descriptor
 ### Return Value {.unnumbered .unlisted}
 ### Example {.unnumbered .unlisted}
 ### See Also {.unnumbered .unlisted}
-[`sprintf()`](#man-sprintf),
+[`sprintf()`](#man-printf),
 -->

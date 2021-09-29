@@ -17,7 +17,7 @@
 |[`fegetenv()`](#man-fegetenv)|Save the entire floating point environment|
 |[`fesetenv()`](#man-fegetenv)|Restore the entire floating point environment|
 |[`feholdexcept()`](#man-feholdexcept)|Save floating point state and install non-stop mode|
-|[`feupdateenv()`](#man-updateenv)|Restore floating point environment and apply recent exceptions|
+|[`feupdateenv()`](#man-feupdateenv)|Restore floating point environment and apply recent exceptions|
 
 ## Types and Macros
 
@@ -127,7 +127,7 @@ int main(void)
 ### See Also {.unnumbered .unlisted}
 
 [`feraiseexcept()`](#man-feraiseexcept),
-[`fetestexcept()`](#man-fertestxcept)
+[`fetestexcept()`](#man-fetestexcept)
 
 [[manbreak]]
 ## `fegetexceptflag()` `fesetexceptflag()` {#man-fegetexceptflag}
@@ -513,7 +513,7 @@ FE_DIVBYZERO is set: 0
 [`feupdateenv()`](#man-feupdateenv)
 
 [[manbreak]]
-## `feholdexcept()` {#man-example}
+## `feholdexcept()` {#man-feholdexcept}
 
 Save floating point state and install non-stop mode
 

@@ -678,7 +678,7 @@ Again, this is kind of a painful way of doing things compared to
 `thread_local`, so unless you really need that destructor functionality,
 I'd use that instead.
 
-## Mutexes
+## Mutexes {#mutex}
 
 If you want to only allow a single thread into a critical section of
 code at a time, you can protect that section with a mutex^[Short for

@@ -1095,7 +1095,7 @@ int main(void)
 ### See Also {.unnumbered .unlisted}
 
 [`exit()`](#man-exit),
-[`quick_exit()`](#man-quick_exit)
+[`quick_exit()`](#man-exit)
 
 [[manbreak]]
 ## `exit()`, `quick_exit()`, `_Exit()` {#man-exit}
