@@ -78,5 +78,3 @@ have to consider any copyright issues when merging changes.
 * Anonymous structs in unions
 * __STDC_WANT_LIB_EXT
 * Exercises
-
-### Bug fixes
