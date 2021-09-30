@@ -67,13 +67,12 @@ have to consider any copyright issues when merging changes.
 ## TODO
 
 * More man pages
-  * stdbool
-  * stdalign
   * stdatomic
   * stdnoreturn
   * iso646
   * tgmath
 * Atomic
+* restrict
 * Memory access ordering
 * Common initial sequences
 * Anonymous structs in unions
