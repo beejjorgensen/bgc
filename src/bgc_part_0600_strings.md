@@ -14,9 +14,9 @@ Much like arrays, strings in C _barely exist_.
 
 But let's check it out---it's not really such a big deal.
 
-## Constant Strings
+## String Literals
 
-Before we start, let's talk about constant strings in C. These are
+Before we start, let's talk about string literals in C. These are
 sequences of characters in _double_ quotes (`"`). (Single quotes enclose
 characters, and are a different animal entirely.)
 
@@ -38,17 +38,16 @@ quote at the end of the string.
 
 ## String Variables
 
-Now that we know how to make a constant string, let's assign it to a
+Now that we know how to make a string literal, let's assign it to a
 variable so we can do something with it.
 
 ``` {.c}
 char *s = "Hello, world!";
 ```
 
-Check out that type: pointer to a `char`^[It's actually type `const
-char*`, but we haven't talked about `const` yet.]. The string variable
-`s` is actually a pointer to the first character in that string, namely
-the `H`.
+Check out that type: pointer to a `char`. The string variable `s` is
+actually a pointer to the first character in that string, namely the
+`H`.
 
 And we can print it with the `%s` (for "string") format specifier:
 
@@ -60,12 +59,13 @@ printf("%s\n", s);  // "Hello, world!"
 
 ## String Variables as Arrays
 
-Another option is this, equivalent to the above `char*` usage:
+Another option is this, nearly equivalent to the above `char*` usage:
 
 ``` {.c}
 char s[14] = "Hello, world!";
 
-// or, if we were properly lazy:
+// or, if we were properly lazy and have the compiler
+// figure the length for us:
 
 char s[] = "Hello, world!";
 ```
@@ -112,7 +112,7 @@ arrays and pointers are the same thing, deep down.
 ## String Initializers
 
 We've already seen some examples with initializing string variables with
-constant strings:
+string literals:
 
 ``` {.c}
 char *s = "Hello, world!";
@@ -121,8 +121,8 @@ char t[] = "Hello, again!";
 
 But these two are subtly different.
 
-This one is a pointer to a constant string (i.e. a pointer to the first
-character in a constant string):
+This one is a pointer to a string literal (i.e. a pointer to the first
+character in a string):
 
 ``` {.c}
 char *s = "Hello, world!";
@@ -133,14 +133,14 @@ If you try to mutate that string with this:
 ``` {.c}
 char *s = "Hello, world!";
 
-s[0] = 'z';  // BAD NEWS: tried to mutate a constant string!
+s[0] = 'z';  // BAD NEWS: tried to mutate a string literal!
 ```
 
 The behavior is undefined. Probably, depending on your system, a crash
 will result.
 
-But declaring it as an array is different. This one is a non-constant,
-mutable _copy_ of the constant string that we can change at will
+But declaring it as an array is different. This one is a mutable _copy_
+of the string that we can change at will:
 
 ``` {.c}
 char t[] = "Hello, again!";  // t is an array copy of the string 
@@ -149,8 +149,9 @@ t[0] = 'z'; //  No problem
 printf("%s\n", t);  // "zello, again!"
 ```
 
-So remember: if you have a pointer to a constant string, don't try to
-change it!
+So remember: if you have a pointer to a string literal, don't try to
+change it! And if you use a string in double quotes to initialize an
+array, that's not actually a string literal.
 
 ## Getting String Length
 
@@ -222,8 +223,8 @@ characteristics:
 A `NUL` character can be written in C code as `\0`, though you don't
 often have to do this.
 
-When you include a constant string in your code, the `NUL` character is
-automatically, implicitly included.
+When you include a string in double quotes in your code, the `NUL`
+character is automatically, implicitly included.
 
 ``` {.c}
 char *s = "Hello!";  // Actually "Hello!\0" behind the scenes
