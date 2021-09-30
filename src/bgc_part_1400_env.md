@@ -573,7 +573,6 @@ SHELL=/bin/bash
 COLORTERM=truecolor
 TERM_PROGRAM_VERSION=1.53.2
 LOGNAME=beej
-VSCODE_GIT_ASKPASS_NODE=/home/beej/.vscode-server/bin/ea3859d4ba2f3e577a159bc91e3074c5d85c0523/node
 HOME=/home/beej
 ... etc ...
 ```
