@@ -243,7 +243,7 @@ Let's use an array and pointer with both array and pointer notation:
 
 int main(void)
 {
-    int a[] = {11, 22, 33, 44, 55};  // Add 999 here as a sentinel
+    int a[] = {11, 22, 33, 44, 55};
 
     int *p = a;  // p points to the first element of a, 11
 
