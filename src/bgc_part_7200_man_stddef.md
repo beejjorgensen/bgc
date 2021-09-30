@@ -92,6 +92,8 @@ On my system, this prints:
 Maximum fundamental alignment: 16
 ```
 
+See also [`alignas`](#man-alignas), [`alignof`](#man-alignof).
+
 ## `wchar_t` {#man-wchar_t}
 
 This is analogous to `char`, except it's for [wide
