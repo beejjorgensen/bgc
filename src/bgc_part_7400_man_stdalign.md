@@ -9,7 +9,7 @@ If you're coding up something low-level like a memory allocator that
 interfaces with your OS, you might need this header file. But most C
 devs go their careers without using it.
 
-_Alignment_ is all about multiples of addresses on which objects can
+[flw[_Alignment_|] is all about multiples of addresses on which objects can
 be stored. Can you store this at any address? Or must it be a starting
 address that's divisible by 2? Or 8? Or 16?
 
@@ -49,20 +49,17 @@ _Alignas(constant-expression)
 
 ### Description {.unnumbered .unlisted}
 
-This isn't a function. Rather, it's an _alignment specifier_ that you
-can use with a variable declaration.
-
-If you need your `char` to be aligned like an `int`, you can force it
-like this when you declare it:
+Use this _alignment specifier_ to force the alignment of particular
+variables. For instance, we can declare `c` to be `char`, but aligned as
+if it were an `int`:
 
 ``` {.c}
 char alignas(int) c;
 ```
 
-You can also pass a constant value or expression in for the alignment.
-This has to be something supported by the system, but the spec stops
-short of dictating what values you can put in there. Small powers of 2
-(1, 2, 4, 8, and 16) are generally safe bets.
+You can put a constant integer expression in there, as well. The
+compiler will probably impose limits on what these values can be. Small
+powers of 2 (1, 2, 4, 8, and 16) are generally safe bets.
 
 ``` {.c}
 char alignas(8) c;   // align on 8-byte boundaries
