@@ -9,9 +9,10 @@ If you're coding up something low-level like a memory allocator that
 interfaces with your OS, you might need this header file. But most C
 devs go their careers without using it.
 
-[flw[_Alignment_|] is all about multiples of addresses on which objects can
-be stored. Can you store this at any address? Or must it be a starting
-address that's divisible by 2? Or 8? Or 16?
+[flw[_Alignment_|Data_structure_alignment]] is all about multiples of
+addresses on which objects can be stored. Can you store this at any
+address? Or must it be a starting address that's divisible by 2? Or 8?
+Or 16?
 
 |Name|Description
 |-|-|
