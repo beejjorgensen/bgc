@@ -67,7 +67,6 @@ have to consider any copyright issues when merging changes.
 ## TODO
 
 * More man pages
-  * iso646
   * tgmath
   * stdatomic
 * Atomic
