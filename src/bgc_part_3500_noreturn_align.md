@@ -209,7 +209,7 @@ bar.c: bar's function
 In short, the rules are surprisingly complex. I give myself a good 30%
 chance of having described them correctly.
 
-### `noreturn` and `_Noreturn`
+### `noreturn` and `_Noreturn` {#noreturn}
 
 This indicates to the compiler that a particular function will not ever
 return to its caller, i.e. the program will exit by some mechanism
