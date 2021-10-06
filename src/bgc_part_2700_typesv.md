@@ -242,7 +242,7 @@ one on the line before.
 
 But hopefully that provides a little more clarity on the syntax.
 
-## Generic Selections
+## Generic Selections {#type-generics}
 
 This is an expression that allows you to select different pieces of code
 depending on the _type_ of the first argument to the expression.
