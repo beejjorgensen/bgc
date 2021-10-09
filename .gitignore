@@ -11,6 +11,7 @@ src/bg-css*.html
 src/bgc_*.pdf
 src/split
 src/split-wide
+src/bgc_temp*
 
 __pycache__
 
