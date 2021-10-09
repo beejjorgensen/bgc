@@ -73,9 +73,9 @@ three numbers in order just as if the labels weren't there:
 label_1:
 label_2:
     printf("One\n");
-label 3:
+label_3:
     printf("Two\n");
-label 4:
+label_4:
     printf("Three\n");
 ```
 
