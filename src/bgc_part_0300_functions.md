@@ -124,7 +124,7 @@ print it, it must be `11`, right?
 
 > _"Get used to disappointment."_
 >
-> Dread Pirate Roberts, _The Princess Bride_
+> ---Dread Pirate Roberts, _The Princess Bride_
 
 But it's not `11`---it prints `10`! How?
 
