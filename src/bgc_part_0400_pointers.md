@@ -205,7 +205,7 @@ int main(void)
 ```
 
 Hey, so we have here a variable that is a pointer type, and it can point
-to other `int`s. That it, is can hold the address of other `int`s. We
+to other `int`s. That is, it can hold the address of other `int`s. We
 know it points to `int`s, since it's of type `int*` (read
 "int-pointer").
 
