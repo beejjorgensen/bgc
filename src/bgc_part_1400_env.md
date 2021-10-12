@@ -583,7 +583,7 @@ way to go.
 
 Another non-standard way to get the environment variables is as a
 parameter to `main()`. It works much the same way, but you avoid needing
-to add your `extern` `environ` variable. [flw[Not even the POSIX spec
+to add your `extern` `environ` variable. [fl[Not even the POSIX spec
 supports
 this|https://pubs.opengroup.org/onlinepubs/9699919799/functions/exec.html]]
 as far as I can tell, but it's common in Unix land.
