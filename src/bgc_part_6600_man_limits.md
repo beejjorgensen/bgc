@@ -14,7 +14,7 @@ bad-ass system exceed those, below.
 |`CHAR_BIT`|`8`|Number of bits in a byte|
 |`SCHAR_MIN`|`-127`|Minimum value of a `signed char`|
 |`SCHAR_MAX`|`127`|Maximum value of a `signed char`|
-|`UCHAR_MAX`|`255`|Maximum value of an `unsigned char`[^The minimum value of an `unsigned char` is `0`. Same fo an `unsigned short` and `unsigned long`. Or any unsigned type, for that matter.]|
+|`UCHAR_MAX`|`255`|Maximum value of an `unsigned char`^[The minimum value of an `unsigned char` is `0`. Same fo an `unsigned short` and `unsigned long`. Or any unsigned type, for that matter.]|
 |`CHAR_MIN`|`0` or `SCHAR_MIN`|More detail below|
 |`CHAR_MAX`|`SCHAR_MAX` or `UCHAR_MAX`|More detail below|
 |`MB_LEN_MAX`|`1`|Maximum number of bytes in a multibyte character on any locale|

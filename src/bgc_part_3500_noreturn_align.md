@@ -186,7 +186,7 @@ So the question is, what is the output?
 Seems like when we call `func()` from `foo.c`, it should print "`foo's function`". And
 from `bar.c`, that `func()` should print "`bar's function`".
 
-And if I compile with `gcc` with optimizations[^You can do this with
+And if I compile with `gcc` with optimizations^[You can do this with
 `-O` on the command line.] it will use inline functions, and we'll get
 the expected:
 
