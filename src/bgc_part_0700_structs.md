@@ -129,7 +129,7 @@ There are basically two cases when you'd want to pass a pointer to the
    was passed in, and have those changes show in the caller.
 2. The `struct` is somewhat large and it's more expensive to copy that
    onto the stack than it is to just copy a pointer^[A pointer is likely
-   8 bytes on a 64-bit system.]
+   8 bytes on a 64-bit system.].
 
 For those two reasons, it's far more common to pass a pointer to a
 `struct` to a function, though its by no means illegal to pass the
