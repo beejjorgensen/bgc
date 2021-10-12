@@ -100,7 +100,7 @@ could break all the other code!
 We can be more specific with our initializers:
 
 ``` {.c}
-struct car saturn = {.speed=172, .name="Saturn SL/2"};
+struct car saturn = {.speed=175, .name="Saturn SL/2"};
 ```
 
 Now it's independent of the order in the `struct` declaration. Which is
