@@ -101,7 +101,7 @@ int main(void)
 
     fp = fopen("hello.txt", "r");  // Open file for reading
 
-    char c = fgetc(fp);            // Read a single character
+    int c = fgetc(fp);             // Read a single character
     printf("%c\n", c);             // Print char to stdout
 
     fclose(fp);                    // Close the file when done
@@ -120,7 +120,8 @@ for reading". (There are various strings we can pass to `fopen()` with
 additional meaning, like writing, or appending, and so on.)
 
 After that, we used the `fgetc()` function to get a character from the
-stream.
+stream. You might be wondering why I've made `c` an `int` instead of a
+`char`---hold that thought!
 
 Finally, we close the stream when we're done with it. All streams are
 automatically closed when the program exits, but it's good form and good
@@ -138,7 +139,16 @@ There is a special character defined as a macro: `EOF`. This is what
 `fgetc()` will return when the end of the file has been reached and
 you've attempted to read another character.
 
-We can use this to read the whole file in a loop.
+How about I share that Fun Fact™, now. Turns out `EOF` is the reason why
+`fget()` and functions like it return an `int` instead of a `char`.
+`EOF` isn't a character proper, and its value likely falls outside the
+range of `char`. Since `fgets()` needs to be able to return any byte
+**and** `EOF`, it needs to be a wider type that can hold more values. so
+`int` it is. But unless you're comparing the returned value against
+`EOF`, you can know, deep down, it's a `char`.
+
+All right! Back to reality! We can use this to read the whole file in a
+loop.
 
 ``` {.c .numberLines}
 #include <stdio.h>
@@ -180,7 +190,7 @@ maximum number of bytes to read, and a `FILE*` to read from. It returns
 `NULL` on end-of-file or error. `fgets()` is even nice enough to
 NUL-terminate the string when its done^[If the buffer's not big enough
 to read in an entire line, it'll just stop reading mid-line, and the
-next call to `fgets()` will continue reading the line.].
+next call to `fgets()` will continue reading the rest of the line.].
 
 Let's do a similar loop as before, except let's have a multiline file
 and read it in a line at a time.
