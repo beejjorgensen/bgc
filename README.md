@@ -71,6 +71,11 @@ have to consider any copyright issues when merging changes.
 * Atomic
 * Memory access ordering
 * Common initial sequences
+* More restrict
+  * Accessing the same array in a non-overlapping way
+  * in array-style parameters
+  * in structs
+  * in blocks
 * Anonymous structs in unions
 * __STDC_WANT_LIB_EXT
 * Exercises
