@@ -12,7 +12,7 @@ But we'll push those concepts a little farther this chapter.
 
 ## The `FILE*` Data Type
 
-When we do any kind of I/O in C, we do so though a piece of data that
+When we do any kind of I/O in C, we do so through a piece of data that
 you get in the form of a `FILE*` type. This `FILE*` holds all the
 information needed to communicate with the I/O subsystem about which
 file you have open, where you are in the file, and so on.

@@ -434,7 +434,7 @@ wchar_t c = L'B';
 printf("%ls %lc\n", s, c);
 ```
 
-Now---are those characters stored as Unicode code points, or not?
+Now---are those characters stored are Unicode code points, or not?
 Depends on the implementation. But you can test if they are with the
 macro `__STDC_ISO_10646__`. If this is defined, the answer is, "It's
 Unicode!"

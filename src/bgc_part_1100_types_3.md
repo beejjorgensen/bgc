@@ -284,7 +284,7 @@ mix and match types.
 
 ### The Integer Promotions {#integer-promotions}
 
-In a number of places, if a `int` can be used to represent a value from
+In a number of places, if an `int` can be used to represent a value from
 `char` or `short` (signed or unsigned), that value is _promoted_ up to
 `int`. If it doesn't fit in an `int`, it's promoted to `unsigned int`.
 

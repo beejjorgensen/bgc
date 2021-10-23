@@ -43,7 +43,7 @@ int a[5] = {11, 22, 33, 44, 55};
 int *p = &a[0];  // Or "int *p = a;" works just as well
 ```
 
-The let's print the value there by dereferencing the pointer:
+Then let's print the value there by dereferencing the pointer:
 
 ``` {.c}
 printf("%d\n", *p);  // Prints 11
