@@ -11,7 +11,7 @@ cover them here for the sake of completeness.
 ## Function Specifiers
 
 When you declare a function, you can give the compiler a couple tips
-about how the functions could or will be used. This enables or encourage
+about how the functions could or will be used. This enables or encourages
 the compiler to make certain optimizations.
 
 ### `inline` for Speed---Maybe
