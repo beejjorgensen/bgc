@@ -371,7 +371,7 @@ But more on that later.
 
 ### The Comma Operator
 
-This is an uncommonly-used way to separated expressions that will run
+This is an uncommonly-used way to separate expressions that will run
 left to right:
 
 ``` {.c}

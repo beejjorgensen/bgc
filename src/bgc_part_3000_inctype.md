@@ -172,7 +172,7 @@ int main(void)
 }
 ```
 
-When compiling multiple files, remember to specific all the `.c` files
+When compiling multiple files, remember to specify all the `.c` files
 to the compiler, but not the `.h` files, e.g.:
 
 ``` {.zsh}
