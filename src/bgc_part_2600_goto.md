@@ -265,6 +265,107 @@ Note that we're shutting down in the reverse order that we initialized
 the subsystems. So if subsystem 4 fails to start up, it will shut down
 3, 2, then 1 in that order.
 
+## Tail Call Optimization
+
+Kinda. For recursive functions only.
+
+If you're unfamiliar, [flw[Tail Call Optimization (TCO)|Tail_call]] is a
+way to not waste stack space when calling other functions under very
+specific circumstances. Unfortunately the details are beyond the scope
+of this guide.
+
+But if you have a recursive function you know can be optimized in this
+way, you can make use of this technique. (Note that you can't tail call
+other functions due to the function scope of labels.)
+
+Let's do a straightforward example, factorial.
+
+Here's a recursive version that's not TCO, but it can be!
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <complex.h>
+
+int factorial(int n, int a)
+{
+    if (n == 0)
+        return a;
+
+    return factorial(n - 1, a * n);
+}
+
+int main(void)
+{
+    for (int i = 0; i < 8; i++)
+        printf("%d! == %ld\n", i, factorial(i, 1));
+}
+```
+
+To make it happen, you can replace the call with two steps:
+
+1. Set the values of the parameters to what they'd be on the next call.
+2. `goto` a label on the first line of the function.
+
+Let's try it:
+
+``` {.c .numberLines}
+#include <stdio.h>
+
+int factorial(int n, int a)
+{
+tco:  // add this
+
+    if (n == 0)
+        return a;
+
+    // replace return by setting new parameter values and
+    // goto-ing the beginning of the function
+
+    //return factorial(n - 1, a * n);
+
+    int next_n = n - 1;  // See how these match up with
+    int next_a = a * n;  // the recursive arguments, above?
+
+    n = next_n;   // Set the parameters to the new values
+    a = next_a;
+
+    goto tco;   // And repeat!
+}
+
+int main(void)
+{
+    for (int i = 0; i < 8; i++)
+        printf("%d! == %d\n", i, factorial(i, 1));
+}
+```
+
+I used temporary variables up there to set the next values of the
+parameters before jumping to the start of the function. See how they
+correspond to the recursive arguments that were in the recursive call?
+
+Now, why use temp variables? I could have done this instead:
+
+``` {.c}
+    a *= n;
+    n -= 1;
+
+    goto tco;
+```
+
+and that actually works just fine. But if I carelessly reverse those two
+lines of code:
+
+``` {.c}
+    n -= 1;  // BAD NEWS
+    a *= n;
+```
+
+---now we're in trouble. We modified `n` before using it to modify `a`.
+That's Bad because that's not how it works when you call recursively.
+Using the temporary variables avoids this problem even if you're not
+looking out for it. And the compiler likely optimizes them out, anyway.
+
+
 ## Restarting Interrupted System Calls
 
 This is outside the spec, but commonly seen in Unix-like systems.
