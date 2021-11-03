@@ -400,17 +400,17 @@ standout one is `wchar_t`. It's the main one.
 
 You might be wondering if you can't tell if it's Unicode or not, how
 does that allow you much flexibility in terms of writing code? `wchar_t`
-opens some of those doors, as there are a rich set of function you can
+opens some of those doors, as there are a rich set of functions you can
 use to deal with `wchar_t` strings (like getting the length, etc.)
 without caring about the encoding.
 
 ## Using Wide Characters and `wchar_t`
 
-Time for a new type: `wchar_t`. This is the main wide character typre.
+Time for a new type: `wchar_t`. This is the main wide character type.
 Remember how a `char` is only one byte? And a byte's not enough to
 represent all characters, potentially? Well, this one is enough.
 
-To use `wchar_t`, `#include <wchar.h>`.
+To use `wchar_t`, include `<wchar.h>`.
 
 How many bytes big is it? Well, it's not totally clear. Could be 16
 bits. Could be 32 bits.
@@ -434,7 +434,7 @@ wchar_t c = L'B';
 printf("%ls %lc\n", s, c);
 ```
 
-Now---are those characters stored are Unicode code points, or not?
+Now---are those characters stored as Unicode code points, or not?
 Depends on the implementation. But you can test if they are with the
 macro `__STDC_ISO_10646__`. If this is defined, the answer is, "It's
 Unicode!"
@@ -513,10 +513,11 @@ locale.)
 
 One interesting thing to note is that `mbstowcs()`, in addition to
 converting the multibyte string to wide, returns the length (in
-characters) of the wide character string. And, in fact, it has a special
-mode where it _only_ returns the length-in-characters of a given
-multibyte string: you just pass `NULL` to the destination, and `0` to
-the maximum number of characters to convert (this value is ignored).
+characters) of the wide character string. On POSIX-compliant systems,
+you can take advantage of a special mode where it _only_ returns the
+length-in-characters of a given multibyte string: you just pass `NULL`
+to the destination, and `0` to the maximum number of characters to
+convert (this value is ignored).
 
 (In the code below, I'm using my extended source character set---you
 might have to replace those with `\u` escapes.)
@@ -529,6 +530,8 @@ size_t len_in_chars = mbstowcs(NULL, "§¶°±π€•", 0);
 
 printf("%zu", len_in_chars);  // 7
 ```
+
+Again, that's a non-portable POSIX extension.
 
 And, of course, if you want to convert the other way, it's `wcstombs()`.
 
