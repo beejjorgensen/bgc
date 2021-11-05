@@ -10,6 +10,9 @@
 >
 > ---Paul Atreides and The Reverend Mother Gaius Helen Mohiam, _Dune_
 
+**Caveat: this section needs peer review. It's at the edge of my
+knowledge.**
+
 This is one of the more challenging aspects of multithreading with C.
 But we'll try to take it easy.
 
@@ -251,13 +254,172 @@ Forcing this synchronization is inefficient and can be a lot slower than
 just using a regular variable. This is why we don't use atomics unless
 we have to for a particular application.
 
+So that's the basics. When thread A reads a shared atomic variable that
+thread B has written to, thread A can then see all the memory writes
+thread B did before it wrote to the atomic variable.
+
+Let's look deeper.
+
 ## Acquire and Release
 
+More terminology! It'll pay off to learn this now.
 
+When a thread reads an atomic variable, it is said to be an _acquire_
+operation.
+
+When a thread writes an atomic variable, it is said to be a _release_
+operation.
+
+What are these? Let's line them up with terms you already know:
+
+**Read = Load = Acquire**. Like when you compare an atomic variable or
+read it to copy it ot another value.
+
+**Write = Store = Release**. Like when you assign a value into an atomic
+variable.
+
+C spells out what can happen when around these two operations on atomic
+variables.
+
+The short of this was what we already looked at in the previous section:
+when a thread reads (acquires) an atomic variable that another thread
+has written to (release), all writes to memory in the releasing thread
+are visible to the acquiring thread. It's a way to make sure that all
+the work you've done assigning to and changing regular variables becomes
+visible to other threads.
+
+More details:
+
+With read/load/acquire of a particular atomic variable:
+
+* All writes (atomic or non-atomic) in other threads that happened
+  before the other thread wrote/stored/released this atomic variable are
+  now visible in this thread.
+
+* The new value of the atomic variable set by the other thread is also
+  visible in this thread.
+
+* No reads or writes of any variables/memory in the current thread can
+  be reordered to happen before this acquire. They must resolve after.
+
+* The acquire acts as a one-way barrier when it comes to code
+  reordering; reads and writes in the current thread can be moved down
+  from _after_ the release to _before_ it. But, more importantly for
+  synchronization, nothing can move down from _after_ the acquire to
+  _before_ it.
+
+With write/store/release of a particular atomic variable:
+
+* All writes (atomic or non-atomic) in the current thread that happened
+  before this release become visible to other threads that have
+  read/loaded/acquired the same atomic variable.
+
+* The value written to this atomic variable by this thread is also
+  visible to other threads.
+
+* No reads or writes of any variables/memory in the current thread can
+  be reordered to happen after this release. They must resolve
+  beforehand.
+
+* The release acts as a one-way barrier when it comes to code
+  reordering: reads and writes in the current thread can be moved up
+  from _after_ the release to _before_ it. But, more importantly for
+  synchronization, nothing can move down from _before_ the release to
+  _after_ it.
+
+Again, the upshot is synchronization of memory from one thread to
+another. The second thread can be sure that variables and memory are
+written in the order the programmer intended as long as those writes
+happened before the write to the atomic variable.
+
+```
+int x, y, z;
+atomic_int a = 0;
+
+thread1() {
+    x = 10;
+    y = 20;
+    a = 999;  // Release
+    z = 30;
+}
+
+thread2()
+{
+    while (a != 999) { } // Acquire
+
+    assert(x == 10);  // never asserts
+    assert(y == 20);  // never asserts
+
+    assert(z == 30);  // might assert!!
+}
+```
+
+In the above example, `thread2` can be sure of the values in `x` and `y`
+after it acquires `a` because they were set before `thread1` released
+the atomic `a`.
+
+But `thread2` can't be sure of `z`'s value because it happened after the
+`release`.
+
+An important note: releasing one atomic variable has no effect on
+acquires of different atomic variables. Each variable is isolated from
+the others.
 
 ## Sequential Consistency
 
-## Atomic operators
+You hanging in there? We're through the meat of the simpler usage of
+atomics.
+
+_Sequential consistency_ is what's called a _memory ordering_. There are
+many memory orderings, but sequential consistency is the sanest[^Sanest
+from a programmer perspective.] C has to offer. It is also the default.
+You have to go out of your way to use other memory orderings.
+
+We've talked about how the compiler or CPU can rearrange memory reads
+and writes as long as it follows the _as-if_ rule.
+
+In order for operations to be _sequentially consistent_, rules are
+imposed about the reordering of atomic acquires and releases.
+
+In particular, within a thread, no acquires can be moved after any
+releases. And no releases can be moved before any acquires.
+
+This rule gives a level of sanity to the progression of atomic
+loads/acquires and stores/releases.
+
+More on other crazier memory orders later.
+
+## Atomic Operators
+
+Certain operators on atomic variables give atomic results. And other's
+don't.
+
+Let's start with a counter-example:
+
+``` {.c}
+atomic_int x = 0;
+
+thread1() {
+    x = x + 3;  // NOT atomic!
+}
+```
+
+Since there's a read of `x` on the right hand side of the assignment and
+a write effectively on the left, these are two operations.
+
+But you can use the shorthand `+=` to get an atomic operation:
+
+``` {.c}
+atomic_int x = 0;
+
+thread1() {
+    x += 3;   // ATOMIC!
+}
+```
+
+
+
+
 
 ## Library Functions that automatically synchronize
 
@@ -278,3 +440,9 @@ we have to for a particular application.
   * dependencies, kill_dependency()
 * relaxed
 
+
+## Atomic and Bitfields
+
+## Relaxed
+
+Same order on same atomic variable
