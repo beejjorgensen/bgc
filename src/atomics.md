@@ -10,8 +10,8 @@
 >
 > ---Paul Atreides and The Reverend Mother Gaius Helen Mohiam, _Dune_
 
-**Caveat: this section needs peer review. It's at the edge of my
-knowledge.**
+**[Caveat: this section needs peer review. It's at the edge of my
+knowledge.]**
 
 This is one of the more challenging aspects of multithreading with C.
 But we'll try to take it easy.
@@ -26,6 +26,39 @@ know more than I do.
 
 But there are some weird things out here even in the basics. So hang on,
 everyone, 'cause Kansas is goin' bye-bye.
+
+## Testing for Atomic Support
+
+Atomics are an optional feature. There's a macro `__STDC_NO_ATOMICS__`
+that's `1` if you _don't_ have atomics.
+
+That macro might not exist pre-C11, so we should test the language
+version with `__STDC_VERSION__`. Of course _that_ macro didn't exist in
+C89 (though it was applied retroactively in 1995), so to be extra safe
+we should test that, too.
+
+``` {.c}
+#if defined __STDC_VERSION__ && __STDC_VERSION__ >= 201112L && __STDC_NO_ATOMICS__ == 0
+#define HAS_ATOMICS 1
+#else
+#define HAS_ATOMICS 0
+#endif
+```
+
+And if you want to just bomb out, you can:
+
+``` {.c}
+#if !defined __STDC_VERSION__ || __STDC_VERSION__ < 201112L || __STDC_NO_ATOMICS__ == 1
+#error No atomic support!
+#endif
+```
+
+If those tests pass, then you can safely include `<stdatomic.h>, the
+header on which the rest of this chapter is based. But if there is no
+atomic support, that header might not even exist.
+
+On some systems, you might need to add `-latomic` to the end of your
+compilation command line to use any functions in the header file.
 
 ## Atomic Variables
 
@@ -329,8 +362,7 @@ With write/store/release of a particular atomic variable:
 
 Again, the upshot is synchronization of memory from one thread to
 another. The second thread can be sure that variables and memory are
-written in the order the programmer intended as long as those writes
-happened before the write to the atomic variable.
+written in the order the programmer intended.
 
 ```
 int x, y, z;
@@ -347,8 +379,8 @@ thread2()
 {
     while (a != 999) { } // Acquire
 
-    assert(x == 10);  // never asserts
-    assert(y == 20);  // never asserts
+    assert(x == 10);  // never asserts, x is always 10
+    assert(y == 20);  // never asserts, y is always 20
 
     assert(z == 30);  // might assert!!
 }
@@ -389,9 +421,9 @@ loads/acquires and stores/releases.
 
 More on other crazier memory orders later.
 
-## Atomic Operators
+## Atomic Assignments and Operators
 
-Certain operators on atomic variables give atomic results. And other's
+Certain operators on atomic variables give atomic results. And others
 don't.
 
 Let's start with a counter-example:
@@ -405,9 +437,10 @@ thread1() {
 ```
 
 Since there's a read of `x` on the right hand side of the assignment and
-a write effectively on the left, these are two operations.
+a write effectively on the left, these are two operations. Another
+thread could sneak in the middle.
 
-But you can use the shorthand `+=` to get an atomic operation:
+But you _can_ use the shorthand `+=` to get an atomic operation:
 
 ``` {.c}
 atomic_int x = 0;
@@ -417,9 +450,16 @@ thread1() {
 }
 ```
 
+In particular, the following operators are atomic read-modify-write
+operations with sequential consistency, so use them with gleeful
+abandon. (In the example, `a` is atomic, and `b` is atomic, non-atomic,
+or scalar.)
 
-
-
+``` {.c}
+a++       a--       --a       ++a
+a += b    a -= b    a *= b    a /= b    a %= b
+a %= b    a |= b    a ^= b    a >>= b   a <<= b
+```
 
 ## Library Functions that automatically synchronize
 
@@ -440,9 +480,27 @@ thread1() {
   * dependencies, kill_dependency()
 * relaxed
 
-
-## Atomic and Bitfields
+## Flags
 
 ## Relaxed
 
-Same order on same atomic variable
+## Atomic Type Specifier, Qualifier
+
+_Atomic() -- not array, function, atomic, qualified
+_Atomic -- not array, function
+
+typedef list
+
+## Atomic and Bitfields
+
+
+## Atomic `struct`s and `union`s
+
+Must assign copy to access fields, UB to access field of atomic struct
+
+Implementation Defined if allowed
+
+## Atomic Pointers
+
+
+## `volatile` and Atomics
