@@ -449,6 +449,27 @@ error conditions in messages to developers. The `assert()` macro in
 `<assert.h>` uses these to call out where in the code the assertion
 failed.
 
+#### `__STDC_VERSION__`s
+
+In case you're wondering, here are the version numbers for different
+major releases of the C Language Spec:
+
+|Release|ISO/IEC version|`__STDC_VERSION__`|
+|-|-|-|
+|C89|ISO/IEC 9899:1990|undefined|
+|**C89**|ISO/IEC 9899:1990/Amd.1:1995|`199409L`|
+|**C99**|ISO/IEC 9899:1999|`199901L`|
+|**C11**|ISO/IEC 9899:2011/Amd.1:2012|`201112L`|
+
+Note the macro did not exist originally in C89.
+
+Also note that the plan is that the version numbers will strictly
+increase, so you could always check for, say, "at least C99" with:
+
+``` {.c}
+#if __STDC_VERSION__ >= 1999901L
+```
+
 ### Optional Macros
 
 Your implementation might define these, as well. Or it might not.
