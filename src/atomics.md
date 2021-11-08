@@ -3,7 +3,7 @@
 # vim: ts=4:sw=4:nosi:et:tw=72
 -->
 
-# Atomics
+# Atomics {#chapter-atomics}
 
 > _"They tried and failed, all of them?"_ \
 > _"Oh, no." She shook her head. "They tried and died."_
@@ -33,23 +33,15 @@ Atomics are an optional feature. There's a macro `__STDC_NO_ATOMICS__`
 that's `1` if you _don't_ have atomics.
 
 That macro might not exist pre-C11, so we should test the language
-version with `__STDC_VERSION__`. Of course _that_ macro didn't exist in
-C89 (though it was applied retroactively in 1995), so to be extra safe
-we should test that, too.
+version with `__STDC_VERSION__`[^The `__STDC_VERSION__` macro didn't
+exist in early C89, so if you're worried about that, check it with
+`#ifdef`.].
 
 ``` {.c}
-#if defined __STDC_VERSION__ && __STDC_VERSION__ >= 201112L && __STDC_NO_ATOMICS__ == 0
-#define HAS_ATOMICS 1
-#else
+#if __STDC_VERSION__ < 201112L || __STDC_NO_ATOMICS__ == 1
 #define HAS_ATOMICS 0
-#endif
-```
-
-And if you want to just bomb out, you can:
-
-``` {.c}
-#if !defined __STDC_VERSION__ || __STDC_VERSION__ < 201112L || __STDC_NO_ATOMICS__ == 1
-#error No atomic support!
+#else
+#define HAS_ATOMICS 1
 #endif
 ```
 
@@ -187,6 +179,8 @@ one thread become visible to those in another thread.
 You might think, it's right away, right? But it's not. A number of
 things can go wrong.
 
+This part is a bit weirder.
+
 The compiler might have rearranged memory accesses so that when you
 think you set a value relative to another might not be true. And even if
 the compiler didn't, your CPU might have done it on the fly?
@@ -195,7 +189,9 @@ Which happens first in the following code, the write to `x` or the write
 to `y`?
 
 ``` {.c .numberLines}
-int x, y;
+int x, y;  // global
+
+// ...
 
 x = 2;
 y = 3;
@@ -204,8 +200,8 @@ printf("%d %d\n", x, y);
 ```
 
 Answer: we don't know. The compiler or CPU could silently reverse lines
-3 and 4 and we'd be none-the-wiser. The code would run _as-if_ it were
-executed in the order we explicitly stated.
+3 and 4 and we'd be none-the-wiser. The code would run single-threaded
+_as-if_ it were executed in the order we explicitly stated.
 
 In a multithreaded scenario, we might have something like this pseudocode:
 
@@ -243,8 +239,19 @@ In other words, all bets are off unless we can say, "As of this point, I
 expect all previous writes in another thread to be visible in this
 thread."
 
-That point is called a _synchronization_. And atomic variables
-synchronize by default.
+Two threads _synchronize_ when they agree on the state of shared memory.
+As we've seen, they're not always in agreement. So how do they agree?
+
+Using atomic variables can force the agreement. If a thread writes to an
+atomic variable, it's saying "anyone who reads this atomic variable in
+the future will also see all the changes I made to memory up to and
+including the atomic variable".
+
+Or, in more human terms, let's sit around the conference table and make
+sure we're on the same page as to which pieces of shared memory hold
+what values. You agree that the memory changes that you'd made
+up-to-and-including the atomic store will be visible to me when I do a
+load of the same atomic variable.
 
 So we can easily fix our example:
 
@@ -303,7 +310,8 @@ operation.
 When a thread writes an atomic variable, it is said to be a _release_
 operation.
 
-What are these? Let's line them up with terms you already know:
+What are these? Let's line them up with terms you already know when it
+comes to atomic variables:
 
 **Read = Load = Acquire**. Like when you compare an atomic variable or
 read it to copy it ot another value.
@@ -333,7 +341,7 @@ With read/load/acquire of a particular atomic variable:
   visible in this thread.
 
 * No reads or writes of any variables/memory in the current thread can
-  be reordered to happen before this acquire. They must resolve after.
+  be reordered to happen before this acquire.
 
 * The acquire acts as a one-way barrier when it comes to code
   reordering; reads and writes in the current thread can be moved down
@@ -351,8 +359,7 @@ With write/store/release of a particular atomic variable:
   visible to other threads.
 
 * No reads or writes of any variables/memory in the current thread can
-  be reordered to happen after this release. They must resolve
-  beforehand.
+  be reordered to happen after this release.
 
 * The release acts as a one-way barrier when it comes to code
   reordering: reads and writes in the current thread can be moved up
@@ -407,24 +414,41 @@ many memory orderings, but sequential consistency is the sanest[^Sanest
 from a programmer perspective.] C has to offer. It is also the default.
 You have to go out of your way to use other memory orderings.
 
-We've talked about how the compiler or CPU can rearrange memory reads
-and writes as long as it follows the _as-if_ rule.
+All the stuff we've been talking about so far has happened within the
+realm of sequential consistency.
 
-In order for operations to be _sequentially consistent_, rules are
-imposed about the reordering of atomic acquires and releases.
+We've talked about how the compiler or CPU can rearrange memory reads
+and writes in a single thread as long as it follows the _as-if_ rule.
+
+And we've seen how we can put the brakes on this behavior by
+synchronizing over atomic variables.
+
+Let's formalize just a little more.
+
+If operations are _sequentially consistent_, it means at the end of the
+day, when all is said and done, all the threads can kick up their heels,
+open their beverage of choice, and _all agree on the order in which
+memory changes occurred_. 
+
+One won't say, "But didn't _B_ happen before _A_?" if the rest of them
+say, "_A_ definitely happened before _B_".
 
 In particular, within a thread, no acquires can be moved after any
 releases. And no releases can be moved before any acquires.
 
-This rule gives a level of sanity to the progression of atomic
-loads/acquires and stores/releases.
+This rule gives an additional level of sanity to the progression of
+atomic loads/acquires and stores/releases.
 
-More on other crazier memory orders later.
+Every other memory order in C involves a relaxation of the reordering
+rules, either for acquires/releases or other memory accesses, atomic or
+otherwise. You'd do that if you _really_ knew what you were doing and
+needed the speed boost. _Here be armies of dragons..._
+
+More on that later.
 
 ## Atomic Assignments and Operators
 
-Certain operators on atomic variables give atomic results. And others
-don't.
+Certain operators on atomic variables are atomic. And others don't.
 
 Let's start with a counter-example:
 
@@ -461,12 +485,207 @@ a += b    a -= b    a *= b    a /= b    a %= b
 a %= b    a |= b    a ^= b    a >>= b   a <<= b
 ```
 
-## Library Functions that automatically synchronize
+## Library Functions that Automatically Synchronize
 
-* thrd_create()
-* etc
+So far we've talked about how you can synchronize with atomic variables,
+but it turns out there are a few library functions that do some limited
+behind-the-scenes synchronization, themselves.
+
+``` {.c}
+call_once()      thrd_create()       thrd_join()
+mtx_lock()       mtx_timedlock()     mtx_trylock()
+malloc()         calloc()            realloc()
+aligned_alloc()
+```
+
+[**`call_once()`**](#man-call_once): synchronizes with all subsequent calls
+to `call_once()` for a particular flag. This way subsequent calls can
+rest assured that in another thread set the flag, they will see it.
+
+[**`thrd_create()`**](#man-thrd_create): synchronizes with the beginning
+of the new thread. The new thread can be sure it will see all shared
+memory writes from the parent thread from before the `thrd_create()`
+call.
+
+[**`thrd_join()`**](#man-thrd_join): when a thread dies, it synchronizes
+with this function. The thread that has called `thrd_join()` can be
+assured that it can see all the late thread's shared writes.
+
+[**`mtx_lock()`**](#man-mutex_lock): earlier calls to `mtx_unlock()` on
+the same mutex synchronize on this call. This is the case that most
+mirrors the acquire/release process we've already talked about.
+`mtx_unlock()` performs a release on the mutex variable, assuring any
+subsequent thread that makes an acquire with `mtx_lock()` can see all
+the shared memory changes in the critical section.
+
+[**`mtx_timedlock()`**](#man-mutex_timedlock) and
+[**`mtx_trylock()`**](#man-mutex_trylock): similar to the situation with
+`mtx_lock()`, if this call succeeds, earlier calls to `mtx_unlock()`
+synchronize with this one.
+
+**Dynamic Memory Functions**: if you allocate memory, it synchronizes
+with the previous deallocation of that same memory. And allocations and
+deallocations of that particular memory region happen in a single total
+order that all threads can agree upon. I _think_ the idea here is that
+the deallocation can wipe the region if it chooses, and we want to be
+sure that a subsequent allocation doesn't see the non-wiped data.
+Someone let me know if there's more to it.
+
+## Atomic Type Specifier, Qualifier
+
+Let's talk it down a notch and see what types we have available, and how
+we can even make new atomic types.
+
+First things first, let's look at the built-in atomic types and what
+they are `typedef`'d to. (Spoiler: `_Atomic` is a type qualifier!)
+
+|Atomic type|Longhand equivalent|
+|-|-|
+|`atomic_bool`|`_Atomic _Bool`|
+|`atomic_char`|`_Atomic char`|
+|`atomic_schar`|`_Atomic signed char`|
+|`atomic_uchar`|`_Atomic unsigned char`|
+|`atomic_short`|`_Atomic short`|
+|`atomic_ushort`|`_Atomic unsigned short`|
+|`atomic_int`|`_Atomic int`|
+|`atomic_uint`|`_Atomic unsigned int`|
+|`atomic_long`|`_Atomic long`|
+|`atomic_ulong`|`_Atomic unsigned long`|
+|`atomic_llong`|`_Atomic long long`|
+|`atomic_ullong`|`_Atomic unsigned long long`|
+|`atomic_char16_t`|`_Atomic char16_t`|
+|`atomic_char32_t`|`_Atomic char32_t`|
+|`atomic_wchar_t`|`_Atomic wchar_t`|
+|`atomic_int_least8_t`|`_Atomic int_least8_t`|
+|`atomic_uint_least8_t`|`_Atomic uint_least8_t`|
+|`atomic_int_least16_t`|`_Atomic int_least16_t`|
+|`atomic_uint_least16_t`|`_Atomic uint_least16_t`|
+|`atomic_int_least32_t`|`_Atomic int_least32_t`|
+|`atomic_uint_least32_t`|`_Atomic uint_least32_t`|
+|`atomic_int_least64_t`|`_Atomic int_least64_t`|
+|`atomic_uint_least64_t`|`_Atomic uint_least64_t`|
+|`atomic_int_fast8_t`|`_Atomic int_fast8_t`|
+|`atomic_uint_fast8_t`|`_Atomic uint_fast8_t`|
+|`atomic_int_fast16_t`|`_Atomic int_fast16_t`|
+|`atomic_uint_fast16_t`|`_Atomic uint_fast16_t`|
+|`atomic_int_fast32_t`|`_Atomic int_fast32_t`|
+|`atomic_uint_fast32_t`|`_Atomic uint_fast32_t`|
+|`atomic_int_fast64_t`|`_Atomic int_fast64_t`|
+|`atomic_uint_fast64_t`|`_Atomic uint_fast64_t`|
+|`atomic_intptr_t`|`_Atomic intptr_t`|
+|`atomic_uintptr_t`|`_Atomic uintptr_t`|
+|`atomic_size_t`|`_Atomic size_t`|
+|`atomic_ptrdiff_t`|`_Atomic ptrdiff_t`|
+|`atomic_intmax_t`|`_Atomic intmax_t`|
+|`atomic_uintmax_t`|`_Atomic uintmax_t`|
+
+Use those at will!
+
+But what if you want more?
+
+You can do it either with a type qualifier or type specifier.
+
+First, specifier! It's the keyword `_Atomic` with a type in parens
+after---suitable for use with `typedef`:
+
+``` {.c}
+typedef _Atomic(double) atomic_double;
+
+atomic_double f;
+```
+
+Restrictions on the specifier: the type you're making atomic can't be of
+type array or function, nor can it be atomic or otherwise qualified.
+
+Next, qualifier! It's the keyword `_Atomic` _without_ a type in parens.
+
+As far as I know, these are effectively the same:
+
+``` {.c}
+_Atomic(int) i;   // type specifier
+_Atomic int  j;   // type qualifier
+```
+
+The thing is, you can include other type qualifiers with the latter:
+
+``` {.c}
+_Atomic volatile int k;   // qualified atomic variable
+```
+
+Restrictions on the qualifier: the type you're making atomic can't be of
+type array or function.
 
 ## Lock-Free Atomic Variables {#lock-free-atomic}
+
+Hardware architectures are limited in the amount of data they can
+atomically read and write. It depends on how it's wired together. And it
+varies.
+
+If you use an atomic type, you can be assured that accesses to that type
+will be atomic... but there's a catch: if the hardware can't do it, it's
+done with a lock, instead.
+
+So the atomic access becomes lock-access-unlock, which is rather slower
+and has some implications for signal handlers.
+
+[Atomic flags](#atomic-flags), below, are the only atomic types that are
+guaranteed to be lock-free in all conforming implementations. In typical
+desktop/laptop computer world, other larger types are likely lock-free.
+
+Luckily, we have a couple ways to determine if a particular type is
+a lock-free atomic or not.
+
+First of all, some macros---you can use these at compile time with
+`#if`. They apply to both signed and unsigned types.
+
+|Atomic Type|Lock Free Macro|
+|-|-|
+|`atomic_bool`|`ATOMIC_BOOL_LOCK_FREE`|
+|`atomic_char`|`ATOMIC_CHAR_LOCK_FREE`|
+|`atomic_char16_t`|`ATOMIC_CHAR16_T_LOCK_FREE`|
+|`atomic_char32_t`|`ATOMIC_CHAR32_T_LOCK_FREE`|
+|`atomic_wchar_t`|`ATOMIC_WCHAR_T_LOCK_FREE`|
+|`atomic_short`|`ATOMIC_SHORT_LOCK_FREE`|
+|`atomic_int`|`ATOMIC_INT_LOCK_FREE`|
+|`atomic_long`|`ATOMIC_LONG_LOCK_FREE`|
+|`atomic_llong`|`ATOMIC_LLONG_LOCK_FREE`|
+|`atomic_intptr_t`|`ATOMIC_POINTER_LOCK_FREE`|
+
+These macros can interestingly have _three_ different values:
+
+|Value|Meaning|
+|-|-|
+|`0`|Never lock-free.|
+|`1`|_Sometimes_ lock-free.|
+|`2`|Always lock-free.|
+
+Wait---how can something be _sometimes_ lock-free? This just means the
+answer isn't known at compile-time, but could later be known at runtime.
+Maybe the answer varies depending on whether or not you're running this
+code on Genuine Intel or AMD, or something like that[^I just pulled that
+example out of nowhere. Maybe it doesn't matter on Intel/AMD, but it
+could matter somewhere, dangit!].
+
+But you can always test at runtime with the `atomic_is_lock_free()`
+function.
+
+So why do we care?
+
+### Signal Handlers and Lock Free Atomics
+
+If you read or write a shared variable (static storage duration or
+`_Thread_Local` in a signal handler, it's undefined behavior.
+
+There are, of course, exceptions.
+
+1. You can write to a variable of type `volatile sig_atomic_t`.
+
+2. You can read or write a lock-free atomic variable.
+
+As far as I can tell, lock-free atomic variables are one of the few ways
+you get portably get information out of a signal handler.
+
+## Atomic Flags {#atomic-flags}
 
 ## Signal Handlers
 
@@ -480,19 +699,9 @@ a %= b    a |= b    a ^= b    a >>= b   a <<= b
   * dependencies, kill_dependency()
 * relaxed
 
-## Flags
-
 ## Relaxed
 
-## Atomic Type Specifier, Qualifier
-
-_Atomic() -- not array, function, atomic, qualified
-_Atomic -- not array, function
-
-typedef list
-
 ## Atomic and Bitfields
-
 
 ## Atomic `struct`s and `union`s
 
@@ -501,6 +710,5 @@ Must assign copy to access fields, UB to access field of atomic struct
 Implementation Defined if allowed
 
 ## Atomic Pointers
-
 
 ## `volatile` and Atomics
