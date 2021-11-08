@@ -675,11 +675,11 @@ So why do we care?
 
 If you read or write a shared variable (static storage duration or
 `_Thread_Local` in a signal handler, it's undefined behavior (gasp!)...
-Unless...
+Unless you do one of the following:
 
-1. You can write to a variable of type `volatile sig_atomic_t`.
+1. Write to a variable of type `volatile sig_atomic_t`.
 
-2. You can read or write a lock-free atomic variable.
+2. Read or write a lock-free atomic variable.
 
 As far as I can tell, lock-free atomic variables are one of the few ways
 you get portably get information out of a signal handler.
