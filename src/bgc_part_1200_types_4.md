@@ -249,7 +249,8 @@ volatile int *p;
 
 ### `_Atomic`
 
-This is an optional C feature that we'll talk about another time.
+This is an optional C feature that we'll talk about in [the Atomics
+chapter](#chapter-atomics).
 
 ## Storage-Class Specifiers
 
