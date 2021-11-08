@@ -674,9 +674,8 @@ So why do we care?
 ### Signal Handlers and Lock Free Atomics
 
 If you read or write a shared variable (static storage duration or
-`_Thread_Local` in a signal handler, it's undefined behavior.
-
-There are, of course, exceptions.
+`_Thread_Local` in a signal handler, it's undefined behavior (gasp!)...
+Unless...
 
 1. You can write to a variable of type `volatile sig_atomic_t`.
 
