@@ -599,7 +599,8 @@ type array or function, nor can it be atomic or otherwise qualified.
 
 Next, qualifier! It's the keyword `_Atomic` _without_ a type in parens.
 
-As far as I know, these are effectively the same:
+So these do similar things[^The spec notes that they might differ in
+size, representation, and alignment.]:
 
 ``` {.c}
 _Atomic(int) i;   // type specifier
@@ -667,9 +668,14 @@ example out of nowhere. Maybe it doesn't matter on Intel/AMD, but it
 could matter somewhere, dangit!].
 
 But you can always test at runtime with the `atomic_is_lock_free()`
-function.
+function. This function returns true or false if the particular type is
+atomic right now.
 
 So why do we care?
+
+Lock-free is faster, so maybe there's a speed concern that you'd code
+around another way. Or maybe you need to use an atomic variable in a
+signal handler.
 
 ### Signal Handlers and Lock Free Atomics
 
@@ -684,11 +690,119 @@ Unless you do one of the following:
 As far as I can tell, lock-free atomic variables are one of the few ways
 you get portably get information out of a signal handler.
 
+The spec is a bit vague about the memory order when it comes to
+acquiring or releasing atomic variables in the signal handler. C++ says,
+and it makes sense, that such accesses are unsequenced with respect to
+the rest of the program[^C++ elaborates that if the signal is the result
+of a call to `raise()`, it is sequenced _after_ the `raise()`.]. The
+signal can be raised, after all, at any time. So likely C's behavior is
+similar.
+
 ## Atomic Flags {#atomic-flags}
 
-## Signal Handlers
+There's only one type the standard guarantees will be a lock-free
+atomic: `atomic_flag`. This is an opaque type for
+[flw[test-and-set|Test-and-set]] operations.
+
+It can be either _set_ or _clear_. You can initialize it to clear with:
+
+``` {.c}
+atomic_flag f = ATOMIC_FLAG_INIT;
+```
+
+You can set the flag atomically with `atomic_flag_test_and_set()`, which
+will set the flag and return its previous status as a `_Bool` (true for
+set).
+
+You can clear the flag atomically with `atomic_flag_clear()`.
+
+Here's an example where we init the flag to clear, set it twice, then
+clear it again.
+
+``` {.c}
+#include <stdio.h>
+#include <stdbool.h>
+#include <stdatomic.h>
+
+atomic_flag f = ATOMIC_FLAG_INIT;
+
+int main(void)
+{
+    bool r = atomic_flag_test_and_set(&f);
+    printf("Value was: %d\n", r);           // 0
+
+    r = atomic_flag_test_and_set(&f);
+    printf("Value was: %d\n", r);           // 1
+
+    atomic_flag_clear(&f);
+    r = atomic_flag_test_and_set(&f);
+    printf("Value was: %d\n", r);           // 0
+}
+```
+
+## Atomic `struct`s and `union`s
+
+Using the `_Atomic` qualifier or specifier, you can make atomic
+`struct`s or `union`s! Pretty astounding.
+
+If there's not a lot of data in there (i.e. a handful of bytes), the
+resulting atomic type might be lock-free. Test it with
+`atomic_is_lock_free()`.
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <stdatomic.h>
+
+int main(void)
+{
+    struct point {
+        float x, y;
+    };
+
+    _Atomic(struct point) p;
+
+    printf("Is lock free: %d\n", atomic_is_lock_free(&p));
+}
+```
+
+Here's the catch: you can't access fields of an atomic `struct` or
+`union`... so what's the point? Well, you can atomically _copy_ the entire `struct`
+into a non-atomic variable and then used it. You can atomically copy the
+other way, too.
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <stdatomic.h>
+
+int main(void)
+{
+    struct point {
+        float x, y;
+    };
+
+    _Atomic(struct point) p;
+    struct point t;
+
+    p = (struct point){1, 2};  // Atomic copy
+
+    //printf("%f\n", p.x);  // Error
+
+    t = p;   // Atomic copy
+
+    printf("%f\n", t.x);  // OK!
+}
+```
+
+You can also declare a `struct` where individual fields are atomic.  It
+is implementation defined if atomic types are allowed on bitfields.
+
+## Atomic Pointers
 
 ## Fences
+
+## `volatile` and Atomics
+
+## Atomic and Bitfields
 
 ## Memory Access Order
 
@@ -697,17 +811,3 @@ you get portably get information out of a signal handler.
 * acq consume
   * dependencies, kill_dependency()
 * relaxed
-
-## Relaxed
-
-## Atomic and Bitfields
-
-## Atomic `struct`s and `union`s
-
-Must assign copy to access fields, UB to access field of atomic struct
-
-Implementation Defined if allowed
-
-## Atomic Pointers
-
-## `volatile` and Atomics
