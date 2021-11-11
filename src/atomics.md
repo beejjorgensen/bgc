@@ -798,6 +798,38 @@ is implementation defined if atomic types are allowed on bitfields.
 
 ## Atomic Pointers
 
+Just a note here about placement of `_Atomic` when it comes to pointers.
+
+First, pointers to atomics (i.e. the pointer value is not atomic, but
+the thing it points to is):
+
+``` {.c}
+_Atomic int x;
+_Atomic int *p;  // p is a pointer to an atomic int
+
+p = &x;  // OK!
+```
+
+Second, atomic pointers to non-atomic values (i.e. the pointer value
+itself is atomic, but the thing it points to is not):
+
+``` {.c}
+int x;
+int * _Atomic p;  // p is an atomic pointer to an int
+
+p = &x;  // OK!
+```
+
+Lastly, atomic pointers to atomic values (i.e. the pointer and the thing
+it points to are both atomic):
+
+``` {.c}
+_Atomic int x;
+_Atomic int * _Atomic p;  // p is an atomic pointer to an atomic int
+
+p = &x;  // OK!
+```
+
 ## Fences
 
 ## `volatile` and Atomics
