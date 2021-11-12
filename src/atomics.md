@@ -834,8 +834,6 @@ p = &x;  // OK!
 
 ## `volatile` and Atomics
 
-## Atomic and Bitfields
-
 ## Memory Access Order
 
 * seq cst
