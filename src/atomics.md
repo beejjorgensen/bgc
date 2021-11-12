@@ -426,15 +426,15 @@ synchronizing over atomic variables.
 Let's formalize just a little more.
 
 If operations are _sequentially consistent_, it means at the end of the
-day, when all is said and done, all the threads can kick up their heels,
+day, when all is said and done, all the threads can kick up their feet,
 open their beverage of choice, and _all agree on the order in which
-memory changes occurred_. 
+memory changes occurred during the run_. 
 
 One won't say, "But didn't _B_ happen before _A_?" if the rest of them
 say, "_A_ definitely happened before _B_".
 
-In particular, within a thread, no acquires can be moved after any
-releases. And no releases can be moved before any acquires.
+In particular, within a thread, none of the acquires and releases can be
+reordered with respect to one another.
 
 This rule gives an additional level of sanity to the progression of
 atomic loads/acquires and stores/releases.
@@ -830,14 +830,169 @@ _Atomic int * _Atomic p;  // p is an atomic pointer to an atomic int
 p = &x;  // OK!
 ```
 
+## Memory Order
+
+We've already talked about sequential consistency, which is the sensible
+one of the bunch. But there are a number of other ones:
+
+|`memory_order`|Description|
+|-|-|
+|`memory_order_seq_cst`|Sequential Consistency|
+|`memory_order_acq_rel`|Acquire/Release|
+|`memory_order_release`|Release|
+|`memory_order_acquire`|Acquire|
+|`memory_order_consume`|Consume|
+|`memory_order_relaxed`|Relaxed|
+
+You can specify other ones with certain library functions. For example,
+you can add a value to an atomic variable like this:
+
+``` {.c}
+atomic_int x = 0;
+
+x += 5;  // Sequential consistency, the default
+```
+
+or you can do the same with this library function:
+
+``` {.c}
+atomic_int x = 0;
+
+atomic_fetch_add(&x, 5);  // Sequential consistency, the default
+```
+
+or you can do the same thing with an explicit memory ordering:
+
+``` {.c}
+atomic_int x = 0;
+
+atomic_fetch_add_explicit(&x, 5, memory_order_seq_cst);
+```
+
+But what if we didn't want sequential consistency? And you wanted
+acquire/release instead for whatever reason? Just name it:
+
+``` {.c}
+atomic_int x = 0;
+
+atomic_fetch_add_explicit(&x, 5, memory_order_acq_rel);
+```
+
+**Sequential Consistency**:
+
+* Load operations acquire (see below).
+* Store operations release (see below).
+* Read-modify-write operations acquire then release.
+
+Also, in order to maintain the total order of acquires and releases, no
+acquires or releases will be reordered with respect to each other. In
+particular, no releases will be reordered to be before any acquires.
+
+**Acquire**:
+
+This is what happens on a load/read operation on an atomic variable.
+
+* If another thread released this atomic variable, all the writes that
+  thread did are now visible in this thread.
+
+* Memory accesses in this thread that happen after this load can't be
+  reordered before it.
+
+**Release**:
+
+This is what happens on a store/write of an atomic variable.
+
+* If another thread later acquires this atomic variable, all memory
+  writes in this thread before its atomic write become visible to that
+  other thread.
+
+* Memory accesses in this thread that happen before the release can't
+  be reordered after it.
+
+**Consume**:
+
+This is an odd one, similar to a less-strict version of acquire. It
+affects memory accesses that are _data dependent_ on the atomic
+variable.
+
+Being "data dependent" vaguely means that the atomic variable is used in
+a calculation.
+
+That is, if a thread consumes an atomic variable then all the operations
+in that thread that go on to use that atomic variable will be able to
+see the memory writes in the releasing thread.
+
+Compare to acquire where memory writes in the releasing thread will be
+visible to _all_ operations in the current thread, not just the
+data-dependent ones.
+
+Also like acquire, there is a restriction on which operations can be
+reordered _before_ the consume. With acquire, you couldn't reorder
+anything before it. With consume, you can't reorder anything that
+depends on the loaded atomic value before it.
+
+**Acquire/Release**:
+
+This only applies to read-modify-write operations. It's an acquire and
+release bundled into one.
+
+* An acquire happens for the read.
+* A release happens for the write.
+
+**Relaxed**:
+
+No rules; it's anarchy! Everyone can reorder everything everywhere!
+Dogs and cats living together---mass hysteria!
+
+Actually, there is a rule. Atomic reads and writes are still
+all-or-nothing. But the operations can be reordered whimsically and
+there is zero synchronization between threads.
+
+There are a few use cases for this memory order, which you can find with
+a tiny bit of searching, e.g. simple counters.
+
+And you can use a fence to force synchronization after a bunch of
+relaxed writes.
+
 ## Fences
 
-## `volatile` and Atomics
+You know how the releases and acquires of atomic variables occur as you
+read and write them?
 
-## Memory Access Order
+Well, it's possible to do a release or acquire _without_ an atomic
+variable, as well.
 
-* seq cst
-* acq rel
-* acq consume
-  * dependencies, kill_dependency()
-* relaxed
+This is called a _fence_. So if you want all the writes in a thread to
+be visible elsewhere, you can put up a release fence in one thread and
+an acquire fence in another, just like with how atomic variables work.
+
+Since a consume operation doesn't really make sense on a fence[^Because
+consume is all about the operations that are dependent on the value of
+the acquired atomic variable, and there is no atomic variable with a
+fence.], `memory_order_consume` is treated as an acquire.
+
+You can put up a fence with any specified order:
+
+``` {.c}
+atomic_thread_fence(memory_order_release);
+```
+
+There's also a light version of a fence for use with signal handlers,
+called `atomic_signal_fence()`.
+
+It works just the same way as `atomic_thread_fence()`, except:
+
+* It only deals with visibility of values within the same thread; there
+  is no synchronization with other threads.
+
+* No hardware fence instructions are emitted.
+
+If you want to be sure the side effects of non-atomic operations (and
+relaxed atomic operations) are visible in the signal handler, you can
+use this fence.
+
+The idea is that the signal handler is executing in _this_ thread, not
+another, so this is a lighter-weight way of making sure changes outside
+the signal handler are visible within it (i.e. they haven't been
+reordered).
+
