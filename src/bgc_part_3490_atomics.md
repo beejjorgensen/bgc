@@ -427,8 +427,9 @@ Let's formalize just a little more.
 
 If operations are _sequentially consistent_, it means at the end of the
 day, when all is said and done, all the threads can kick up their feet,
-open their beverage of choice, and _all agree on the order in which
-memory changes occurred during the run_. 
+open their beverage of choice, and all agree on the order in which
+memory changes occurred during the run. And that order is the one
+specified by the code.
 
 One won't say, "But didn't _B_ happen before _A_?" if the rest of them
 say, "_A_ definitely happened before _B_".
@@ -996,3 +997,27 @@ another, so this is a lighter-weight way of making sure changes outside
 the signal handler are visible within it (i.e. they haven't been
 reordered).
 
+## References
+
+If you want to learn more about this stuff, here are some of the things
+that helped me plow through it:
+
+* Herb Sutter's _`atomic<>` Weapons_ talk:
+  * [fl[Part 1|https://channel9.msdn.com/Shows/Going+Deep/Cpp-and-Beyond-2012-Herb-Sutter-atomic-Weapons-1-of-2]]
+  * [fl[part 2|https://channel9.msdn.com/Shows/Going+Deep/Cpp-and-Beyond-2012-Herb-Sutter-atomic-Weapons-2-of-2]]
+
+* [fl[Jeff Preshing's materials|https://preshing.com/archives/]], in particular:
+  * [fl[An Introduction to Lock-Free Programming|https://preshing.com/20120612/an-introduction-to-lock-free-programming/]]
+  * [fl[Acquire and Release Semantics|https://preshing.com/20120913/acquire-and-release-semantics/]]
+  * [fl[The _Happens-Before_ Relation|https://preshing.com/20130702/the-happens-before-relation/]]
+  * [fl[The _Synchronizes-With_ Relation|https://preshing.com/20130823/the-synchronizes-with-relation/]]
+  * [fl[The Purpose of `memory_order_consume` in C++11|https://preshing.com/20140709/the-purpose-of-memory_order_consume-in-cpp11/]]
+  * [fl[You Can Do Any Kind of Atomic Read-Modify-Write Operation|https://preshing.com/20150402/you-can-do-any-kind-of-atomic-read-modify-write-operation/]]
+
+* CPPReference:
+  * [fl[Memory Order|https://en.cppreference.com/w/c/atomic/memory_order]]
+  * [fl[Atomic Types|https://en.cppreference.com/w/c/language/atomic]]
+
+* Bruce Dawson's [fl[Lockless Programming Considerations|https://docs.microsoft.com/en-us/windows/win32/dxtecharts/lockless-programming]]
+
+* The helpful and knowledgeable folks on [fl[r/C_Programming|https://www.reddit.com/r/C_Programming/]]
