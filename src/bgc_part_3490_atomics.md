@@ -33,7 +33,7 @@ Atomics are an optional feature. There's a macro `__STDC_NO_ATOMICS__`
 that's `1` if you _don't_ have atomics.
 
 That macro might not exist pre-C11, so we should test the language
-version with `__STDC_VERSION__`[^The `__STDC_VERSION__` macro didn't
+version with `__STDC_VERSION__`^[The `__STDC_VERSION__` macro didn't
 exist in early C89, so if you're worried about that, check it with
 `#ifdef`.].
 
@@ -45,7 +45,7 @@ exist in early C89, so if you're worried about that, check it with
 #endif
 ```
 
-If those tests pass, then you can safely include `<stdatomic.h>, the
+If those tests pass, then you can safely include `<stdatomic.h>`, the
 header on which the rest of this chapter is based. But if there is no
 atomic support, that header might not even exist.
 
@@ -64,8 +64,8 @@ value. Not half of it. There's no way for one thread to interrupt
 another that is in the _middle_ of an atomic multi-byte write.
 
 It's almost like there's a little lock around the getting and setting of
-that one variable. (And there _might_ be---but probably not. See
-[Lock-Free Atomic Variables](#lock-free-atomic), below.)
+that one variable. (And there _might_ be! See [Lock-Free Atomic
+Variables](#lock-free-atomic), below.)
 
 And on that note, you can get away with never using atomics if you use
 mutexes to lock your critical sections. It's just that there are a
@@ -410,7 +410,7 @@ You hanging in there? We're through the meat of the simpler usage of
 atomics.
 
 _Sequential consistency_ is what's called a _memory ordering_. There are
-many memory orderings, but sequential consistency is the sanest[^Sanest
+many memory orderings, but sequential consistency is the sanest^[Sanest
 from a programmer perspective.] C has to offer. It is also the default.
 You have to go out of your way to use other memory orderings.
 
@@ -599,7 +599,7 @@ type array or function, nor can it be atomic or otherwise qualified.
 
 Next, qualifier! It's the keyword `_Atomic` _without_ a type in parens.
 
-So these do similar things[^The spec notes that they might differ in
+So these do similar things^[The spec notes that they might differ in
 size, representation, and alignment.]:
 
 ``` {.c}
@@ -663,7 +663,7 @@ These macros can interestingly have _three_ different values:
 Wait---how can something be _sometimes_ lock-free? This just means the
 answer isn't known at compile-time, but could later be known at runtime.
 Maybe the answer varies depending on whether or not you're running this
-code on Genuine Intel or AMD, or something like that[^I just pulled that
+code on Genuine Intel or AMD, or something like that^[I just pulled that
 example out of nowhere. Maybe it doesn't matter on Intel/AMD, but it
 could matter somewhere, dangit!].
 
@@ -693,7 +693,7 @@ you get portably get information out of a signal handler.
 The spec is a bit vague about the memory order when it comes to
 acquiring or releasing atomic variables in the signal handler. C++ says,
 and it makes sense, that such accesses are unsequenced with respect to
-the rest of the program[^C++ elaborates that if the signal is the result
+the rest of the program^[C++ elaborates that if the signal is the result
 of a call to `raise()`, it is sequenced _after_ the `raise()`.]. The
 signal can be raised, after all, at any time. So likely C's behavior is
 similar.
