@@ -182,7 +182,14 @@ with open(infile_name) as fp:
                 print(line)
                 badness = True
 
-            return f'<a href="{filename}#{target_id}"'
+            if filename == f"{target_id}.html":
+                # For the first link in a file, just go to the filename
+                href = filename
+            else:
+                # Otherwise go to the subsection
+                href = f"{filename}#{target_id}"
+
+            return f'<a href="{href}"'
 
         line = re.sub(r'<a href="#(.+?)"', anchor_sub, line);
 
