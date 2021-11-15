@@ -902,8 +902,9 @@ hard-to-repro failures.
 * Read-modify-write operations acquire then release.
 
 Also, in order to maintain the total order of acquires and releases, no
-acquires or releases will be reordered with respect to each other. In
-particular, no releases will be reordered to be before any acquires.
+acquires or releases will be reordered with respect to each other. (The
+acquire/release rules do not forbid reordering a release followed by an
+acquire. But the sequentially consistent rules do.)
 
 ### Acquire
 
