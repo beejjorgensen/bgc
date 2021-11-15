@@ -204,7 +204,7 @@ printf("%d %d\n", x, y);
 ```
 
 Answer: we don't know. The compiler or CPU could silently reverse lines
-3 and 4 and we'd be none-the-wiser. The code would run single-threaded
+5 and 6 and we'd be none-the-wiser. The code would run single-threaded
 _as-if_ it were executed in code order.
 
 In a multithreaded scenario, we might have something like this pseudocode:
