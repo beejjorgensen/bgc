@@ -488,8 +488,7 @@ thread can jump in the middle.
 
 In particular, the following operators are atomic read-modify-write
 operations with sequential consistency, so use them with gleeful
-abandon. (In the example, `a` is atomic, and `b` is atomic, non-atomic,
-or scalar.)
+abandon. (In the example, `a` is atomic.)
 
 ``` {.c}
 a++       a--       --a       ++a
