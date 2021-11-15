@@ -230,7 +230,7 @@ Well, if `x` gets assigned `2` _before_ `y` is assigned `3`, then I'd
 expect the output to be the very sensible:
 
 ``` {.default}
-x is now 37
+x is now 2 
 ```
 
 But something sneaky could rearrange lines 4 and 5 causing us to see the
@@ -264,13 +264,13 @@ int x = 0;
 atomic int y = 0;  // Make y atomic
 
 thread1() {
-    x = 37;
-    y = 1;             // Synchronize on write
+    x = 2;
+    y = 3;             // Synchronize on write
 }
 
 thread2() {
-    while (y != 1) {}  // Synchronize on read
-    printf("x is now %d\n", x);  // 37, period.
+    while (y != 3) {}  // Synchronize on read
+    printf("x is now %d\n", x);  // 2, period.
 }
 ```
 
