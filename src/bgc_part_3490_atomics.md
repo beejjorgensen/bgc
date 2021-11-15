@@ -24,8 +24,8 @@ But I won't go down those paths. Not only am I barely qualified to even
 write about them, but I figure if you know you need them, you already
 know more than I do.
 
-But there are some weird things out here even in the basics. So hang on,
-everyone, 'cause Kansas is goin' bye-bye.
+But there are some weird things out here even in the basics. So buckle
+your seatbelts, everyone, 'cause Kansas is goin' bye-bye.
 
 ## Testing for Atomic Support
 
@@ -177,16 +177,21 @@ The next part of our story is all about when certain memory writes in
 one thread become visible to those in another thread.
 
 You might think, it's right away, right? But it's not. A number of
-things can go wrong.
-
-This part is a bit weirder.
+things can go wrong. Weirdly wrong.
 
 The compiler might have rearranged memory accesses so that when you
 think you set a value relative to another might not be true. And even if
-the compiler didn't, your CPU might have done it on the fly?
+the compiler didn't, your CPU might have done it on the fly. Or maybe
+there's something else about this architecture that causes writes on one
+CPU to be delayed before they're visible on another.
 
-Which happens first in the following code, the write to `x` or the write
-to `y`?
+The good news is that we can condense all these potential troubles into
+one: unsynchronized memory accesses can appear out of order depending on
+which thread is doing the observing, as if the lines of code themselves
+had been rearranged.
+
+By way of example, which happens first in the following code, the write
+to `x` or the write to `y`?
 
 ``` {.c .numberLines}
 int x, y;  // global
@@ -201,7 +206,7 @@ printf("%d %d\n", x, y);
 
 Answer: we don't know. The compiler or CPU could silently reverse lines
 3 and 4 and we'd be none-the-wiser. The code would run single-threaded
-_as-if_ it were executed in the order we explicitly stated.
+_as-if_ it were executed in code order.
 
 In a multithreaded scenario, we might have something like this pseudocode:
 
@@ -209,48 +214,47 @@ In a multithreaded scenario, we might have something like this pseudocode:
 int x = 0, y = 0;
 
 thread1() {
-    x = 37;
-    y = 1;
+    x = 2;
+    y = 3;
 }
 
 thread2() {
-    while (y != 1) {}  // spin
-    printf("x is now %d\n", x);  // 37? ...or 0?
+    while (y != 3) {}  // spin
+    printf("x is now %d\n", x);  // 2? ...or 0?
 }
 ```
 
 What is the output from thread 2?
 
-Well, if `x` gets assigned `37` _before_ `y` is assigned `1`, then I'd
+Well, if `x` gets assigned `2` _before_ `y` is assigned `3`, then I'd
 expect the output to be the very sensible:
 
 ``` {.default}
 x is now 37
 ```
 
-But the compiler or CPU could rearrange lines 4 and 5 causing us
-to see the value of `0` for `x` when we print it.
+But something sneaky could rearrange lines 4 and 5 causing us to see the
+value of `0` for `x` when we print it.
 
-Not only all that, but a write to memory might be delayed by the
-hardware as it propagates through the various caches and subsystems that
-make up the enormous complexity of modern RAM.
-
-In other words, all bets are off unless we can say, "As of this point, I
-expect all previous writes in another thread to be visible in this
-thread."
+In other words, all bets are off unless we can somehow say, "As of this
+point, I expect all previous writes in another thread to be visible in
+this thread."
 
 Two threads _synchronize_ when they agree on the state of shared memory.
-As we've seen, they're not always in agreement. So how do they agree?
+As we've seen, they're not always in agreement with the code. So how do
+they agree?
 
-Using atomic variables can force the agreement. If a thread writes to an
-atomic variable, it's saying "anyone who reads this atomic variable in
-the future will also see all the changes I made to memory up to and
+Using atomic variables can force the agreement^[Until I say otherwise,
+I'm speaking generally about _sequentially consistent_ operations. More
+on what that means soon.]. If a thread writes to an atomic variable,
+it's saying "anyone who reads this atomic variable in the future will
+also see all the changes I made to memory (atomic or not) up to and
 including the atomic variable".
 
 Or, in more human terms, let's sit around the conference table and make
 sure we're on the same page as to which pieces of shared memory hold
 what values. You agree that the memory changes that you'd made
-up-to-and-including the atomic store will be visible to me when I do a
+up-to-and-including the atomic store will be visible to me after I do a
 load of the same atomic variable.
 
 So we can easily fix our example:
@@ -271,34 +275,30 @@ thread2() {
 ```
 
 Because the threads synchronize across `y`, all writes in thread 1 that
-happened before the write to `y` are visible in thread 2 after the read
-from `y` (in the `while` loop).
+happened _before_ the write to `y` are visible in thread 2 _after_ the
+read from `y` (in the `while` loop).
 
 It's important to note a couple things here:
 
 1. Nothing sleeps. The synchronization is not a blocking operation. Both
-   threads are running full bore until they exit.
+   threads are running full bore until they exit. Even the one stuck in
+   the spin loop isn't blocking anyone else from running.
 
-2. The synchronization can be thought of as happening when one thread
-   reads an atomic variable another thread wrote. So when thread 2 reads
-   `y`, all previous memory writes in thread 1 (namely setting `x`) will
-   be visible in thread 2.
+2. The synchronization happens when one thread reads an atomic variable
+   another thread wrote. So when thread 2 reads `y`, all previous memory
+   writes in thread 1 (namely setting `x`) will be visible in thread 2.
 
 3. Notice that `x` isn't atomic. That's OK because we're not
    synchronizing over `x`, and the synchronization over `y` when we
-   write it in thread 1 means that all previous writes in thread 1 will
-   become visible to other threads... if those other threads read `y` to
-   synchronize.
+   write it in thread 1 means that all previous writes---including
+   `x`---in thread 1 will become visible to other threads... if those
+   other threads read `y` to synchronize.
 
 Forcing this synchronization is inefficient and can be a lot slower than
 just using a regular variable. This is why we don't use atomics unless
 we have to for a particular application.
 
-So that's the basics. When thread A reads a shared atomic variable that
-thread B has written to, thread A can then see all the memory writes
-thread B did before it wrote to the atomic variable.
-
-Let's look deeper.
+So that's the basics. Let's look deeper.
 
 ## Acquire and Release
 
@@ -314,7 +314,7 @@ What are these? Let's line them up with terms you already know when it
 comes to atomic variables:
 
 **Read = Load = Acquire**. Like when you compare an atomic variable or
-read it to copy it ot another value.
+read it to copy it to another value.
 
 **Write = Store = Release**. Like when you assign a value into an atomic
 variable.
@@ -322,12 +322,18 @@ variable.
 C spells out what can happen when around these two operations on atomic
 variables.
 
-The short of this was what we already looked at in the previous section:
-when a thread reads (acquires) an atomic variable that another thread
-has written to (release), all writes to memory in the releasing thread
-are visible to the acquiring thread. It's a way to make sure that all
-the work you've done assigning to and changing regular variables becomes
-visible to other threads.
+Acquire/release form the basis for the synchronization we just talked
+about.
+
+When a thread acquires an atomic variable, it can see values set in
+another thread that released that same variable.
+
+In other words:
+
+When a thread reads an atomic variable, it can see values set in another
+thread that wrote to that same variable.
+
+The synchronization happens across the acquire/release pair.
 
 More details:
 
@@ -398,7 +404,7 @@ after it acquires `a` because they were set before `thread1` released
 the atomic `a`.
 
 But `thread2` can't be sure of `z`'s value because it happened after the
-`release`.
+release. I
 
 An important note: releasing one atomic variable has no effect on
 acquires of different atomic variables. Each variable is isolated from
@@ -407,7 +413,8 @@ the others.
 ## Sequential Consistency
 
 You hanging in there? We're through the meat of the simpler usage of
-atomics.
+atomics. And since we're not even going to talk about the more complex
+uses here, you can relax a bit.
 
 _Sequential consistency_ is what's called a _memory ordering_. There are
 many memory orderings, but sequential consistency is the sanest^[Sanest
@@ -432,10 +439,11 @@ memory changes occurred during the run. And that order is the one
 specified by the code.
 
 One won't say, "But didn't _B_ happen before _A_?" if the rest of them
-say, "_A_ definitely happened before _B_".
+say, "_A_ definitely happened before _B_". They're all friends, here.
 
 In particular, within a thread, none of the acquires and releases can be
-reordered with respect to one another.
+reordered with respect to one another. This is in addition to the rules
+about what other memory accesses can be reordered around them.
 
 This rule gives an additional level of sanity to the progression of
 atomic loads/acquires and stores/releases.
@@ -445,11 +453,11 @@ rules, either for acquires/releases or other memory accesses, atomic or
 otherwise. You'd do that if you _really_ knew what you were doing and
 needed the speed boost. _Here be armies of dragons..._
 
-More on that later.
+More on that later, but for now, let's stick to the safe and practical.
 
 ## Atomic Assignments and Operators
 
-Certain operators on atomic variables are atomic. And others don't.
+Certain operators on atomic variables are atomic. And others aren't.
 
 Let's start with a counter-example:
 
@@ -463,7 +471,7 @@ thread1() {
 
 Since there's a read of `x` on the right hand side of the assignment and
 a write effectively on the left, these are two operations. Another
-thread could sneak in the middle.
+thread could sneak in the middle and make you unhappy.
 
 But you _can_ use the shorthand `+=` to get an atomic operation:
 
@@ -475,6 +483,9 @@ thread1() {
 }
 ```
 
+In that case, `x` will be atomically incremented by `3`---no other
+thread can jump in the middle.
+
 In particular, the following operators are atomic read-modify-write
 operations with sequential consistency, so use them with gleeful
 abandon. (In the example, `a` is atomic, and `b` is atomic, non-atomic,
@@ -483,7 +494,7 @@ or scalar.)
 ``` {.c}
 a++       a--       --a       ++a
 a += b    a -= b    a *= b    a /= b    a %= b
-a %= b    a |= b    a ^= b    a >>= b   a <<= b
+a &= b    a |= b    a ^= b    a >>= b   a <<= b
 ```
 
 ## Library Functions that Automatically Synchronize
@@ -534,7 +545,7 @@ Someone let me know if there's more to it.
 
 ## Atomic Type Specifier, Qualifier
 
-Let's talk it down a notch and see what types we have available, and how
+Let's take it down a notch and see what types we have available, and how
 we can even make new atomic types.
 
 First things first, let's look at the built-in atomic types and what
@@ -630,7 +641,7 @@ done with a lock, instead.
 So the atomic access becomes lock-access-unlock, which is rather slower
 and has some implications for signal handlers.
 
-[Atomic flags](#atomic-flags), below, are the only atomic types that are
+[Atomic flags](#atomic-flags), below, is the only atomic type that is
 guaranteed to be lock-free in all conforming implementations. In typical
 desktop/laptop computer world, other larger types are likely lock-free.
 
@@ -678,10 +689,10 @@ Lock-free is faster, so maybe there's a speed concern that you'd code
 around another way. Or maybe you need to use an atomic variable in a
 signal handler.
 
-### Signal Handlers and Lock Free Atomics
+### Signal Handlers and Lock-Free Atomics
 
 If you read or write a shared variable (static storage duration or
-`_Thread_Local` in a signal handler, it's undefined behavior (gasp!)...
+`_Thread_Local`) in a signal handler, it's undefined behavior [gasp!]...
 Unless you do one of the following:
 
 1. Write to a variable of type `volatile sig_atomic_t`.
@@ -691,13 +702,13 @@ Unless you do one of the following:
 As far as I can tell, lock-free atomic variables are one of the few ways
 you get portably get information out of a signal handler.
 
-The spec is a bit vague about the memory order when it comes to
-acquiring or releasing atomic variables in the signal handler. C++ says,
-and it makes sense, that such accesses are unsequenced with respect to
-the rest of the program^[C++ elaborates that if the signal is the result
-of a call to `raise()`, it is sequenced _after_ the `raise()`.]. The
-signal can be raised, after all, at any time. So likely C's behavior is
-similar.
+The spec is a bit vague, in my read, about the memory order when it
+comes to acquiring or releasing atomic variables in the signal handler.
+C++ says, and it makes sense, that such accesses are unsequenced with
+respect to the rest of the program^[C++ elaborates that if the signal is
+the result of a call to `raise()`, it is sequenced _after_ the
+`raise()`.]. The signal can be raised, after all, at any time. So I'm
+assuming C's behavior is similar.
 
 ## Atomic Flags {#atomic-flags}
 
@@ -879,7 +890,12 @@ atomic_int x = 0;
 atomic_fetch_add_explicit(&x, 5, memory_order_acq_rel);
 ```
 
-**Sequential Consistency**:
+We'll do a breakdown of the different memory orders, below. Don't mess
+with anything other than sequential consistency unless you know what
+you're doing. It's really easy to make mistakes that will cause rare,
+hard-to-repro failures.
+
+### Sequential Consistency
 
 * Load operations acquire (see below).
 * Store operations release (see below).
@@ -889,7 +905,7 @@ Also, in order to maintain the total order of acquires and releases, no
 acquires or releases will be reordered with respect to each other. In
 particular, no releases will be reordered to be before any acquires.
 
-**Acquire**:
+### Acquire
 
 This is what happens on a load/read operation on an atomic variable.
 
@@ -899,7 +915,7 @@ This is what happens on a load/read operation on an atomic variable.
 * Memory accesses in this thread that happen after this load can't be
   reordered before it.
 
-**Release**:
+### Release
 
 This is what happens on a store/write of an atomic variable.
 
@@ -910,7 +926,7 @@ This is what happens on a store/write of an atomic variable.
 * Memory accesses in this thread that happen before the release can't
   be reordered after it.
 
-**Consume**:
+### Consume
 
 This is an odd one, similar to a less-strict version of acquire. It
 affects memory accesses that are _data dependent_ on the atomic
@@ -932,7 +948,7 @@ reordered _before_ the consume. With acquire, you couldn't reorder
 anything before it. With consume, you can't reorder anything that
 depends on the loaded atomic value before it.
 
-**Acquire/Release**:
+### Acquire/Release
 
 This only applies to read-modify-write operations. It's an acquire and
 release bundled into one.
@@ -940,7 +956,7 @@ release bundled into one.
 * An acquire happens for the read.
 * A release happens for the write.
 
-**Relaxed**:
+### Relaxed
 
 No rules; it's anarchy! Everyone can reorder everything everywhere!
 Dogs and cats living together---mass hysteria!
