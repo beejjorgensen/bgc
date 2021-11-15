@@ -759,12 +759,12 @@ product of the two arguments passed in.
 ``` {.c .numberLines}
 #include <stdio.h>
 
-#define PRINT_NUMS_TO_PRODUCT(a, b) { \
+#define PRINT_NUMS_TO_PRODUCT(a, b) do { \
     int product = (a) * (b); \
     for (int i = 0; i < product; i++) { \
         printf("%d\n", i); \
     } \
-}
+} while(0)
 
 int main(void)
 {
@@ -776,12 +776,59 @@ A couple things to note there:
 
 * Escapes at the end of every line except the last one to indicate that
   the macro continues.
-* Though not strictly necessary, I wrapped the whole thing in curly
-  braces. This did two things:
-  1. Made it look nice.
-  2. Made a new block scope for my `product` variable so it wouldn't
-     conflict with any other existing variables at the outer block
-     scope.
+* The whole thing is wrapped in a `do`-`while(0)` loop with squirrley
+  braces.
+
+The latter point might be a little weird, but it's all about absorbing
+the trailing `;` the coder drops after the macro.
+
+At first I thought that just using squirrely braces would be enough, but
+there's a case where it fails if the coder puts a semicolon after the
+macro. Here's that case:
+
+``` {.c .numberLines}
+#include <stdio.h>
+
+#define FOO(x) { (x)++; }
+
+int main(void)
+{
+    int i = 0;
+
+    if (i == 0)
+        FOO(i);
+    else
+        printf(":-(\n");
+
+    printf("%d\n", i);
+}
+```
+
+Looks simple enough, but it won't build without a syntax error:
+
+``` {.default}
+foo.c:11:5: error: ‘else’ without a previous ‘if’  
+```
+
+Do you see it?
+
+Let's look at the expansion:
+
+``` {.c}
+
+    if (i == 0) {
+        (i)++;
+    };             // <-- Trouble with a capital-T!
+
+    else
+        printf(":-(\n");
+```
+
+The `;` puts an end to the `if` statement, so the `else` is just
+floating out there illegally^[_Breakin' the law... breakin' the
+law..._].
+
+So wrap that multiline macro with a `do`-`while(0)`.
 
 ## Example: An Assert Macro {#my-assert}
 
@@ -822,13 +869,13 @@ using backslash escapes at the end of the line.
 
 ``` {.c}
 #define ASSERT(c, m) \
-{ \
+do { \
     if (!(c)) { \
         fprintf(stderr, __FILE__ ":%d: assertion %s failed: %s\n", \
                         __LINE__, #c, m); \
         exit(1); \
     } \
-}
+} while(0)
 ```
 
 (It looks a little weird with `__FILE__` out front like that, but
@@ -865,13 +912,13 @@ Here's the complete example:
 
 #if ASSERT_ENABLED
 #define ASSERT(c, m) \
-{ \
+do { \
     if (!(c)) { \
         fprintf(stderr, __FILE__ ":%d: assertion %s failed: %s\n", \
                         __LINE__, #c, m); \
         exit(1); \
     } \
-}
+} while(0)
 #else
 #define ASSERT(c, m)  // Empty macro if not enabled
 #endif

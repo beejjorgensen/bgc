@@ -397,11 +397,11 @@ We'll have to make use of some macro magic to do that.
                         // TODO: add more types
                         
 // Macro that prints a variable in the form "name = value"
-#define PRINT_VAL(x) { \
+#define PRINT_VAL(x) do { \
     char fmt[512]; \
     snprintf(fmt, sizeof fmt, #x " = %s\n", FMTSPEC(x)); \
     printf(fmt, (x)); \
-}
+} while(0)
 
 int main(void)
 {
