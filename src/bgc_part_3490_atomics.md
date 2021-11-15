@@ -80,8 +80,7 @@ Before we go further, how do you declare a variable to be atomic?
 
 First, include `<stdatomic.h>`.
 
-This gives us types such as `atomic_int`. (See the [`<stdatomic.h>` types
-reference page](#stdatomic-types) for the complete list.)
+This gives us types such as `atomic_int`.
 
 And then we can simply declare variables to be of that type.
 
@@ -522,15 +521,15 @@ call.
 with this function. The thread that has called `thrd_join()` can be
 assured that it can see all the late thread's shared writes.
 
-[**`mtx_lock()`**](#man-mutex_lock): earlier calls to `mtx_unlock()` on
+[**`mtx_lock()`**](#man-mtx_lock): earlier calls to `mtx_unlock()` on
 the same mutex synchronize on this call. This is the case that most
 mirrors the acquire/release process we've already talked about.
 `mtx_unlock()` performs a release on the mutex variable, assuring any
 subsequent thread that makes an acquire with `mtx_lock()` can see all
 the shared memory changes in the critical section.
 
-[**`mtx_timedlock()`**](#man-mutex_timedlock) and
-[**`mtx_trylock()`**](#man-mutex_trylock): similar to the situation with
+[**`mtx_timedlock()`**](#man-mtx_timedlock) and
+[**`mtx_trylock()`**](#man-mtx_trylock): similar to the situation with
 `mtx_lock()`, if this call succeeds, earlier calls to `mtx_unlock()`
 synchronize with this one.
 
