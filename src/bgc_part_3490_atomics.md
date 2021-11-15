@@ -983,7 +983,7 @@ This is called a _fence_. So if you want all the writes in a thread to
 be visible elsewhere, you can put up a release fence in one thread and
 an acquire fence in another, just like with how atomic variables work.
 
-Since a consume operation doesn't really make sense on a fence[^Because
+Since a consume operation doesn't really make sense on a fence^[Because
 consume is all about the operations that are dependent on the value of
 the acquired atomic variable, and there is no atomic variable with a
 fence.], `memory_order_consume` is treated as an acquire.
