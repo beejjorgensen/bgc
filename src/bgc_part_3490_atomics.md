@@ -590,14 +590,16 @@ they are `typedef`'d to. (Spoiler: `_Atomic` is a type qualifier!)
 |`atomic_intmax_t`|`_Atomic intmax_t`|
 |`atomic_uintmax_t`|`_Atomic uintmax_t`|
 
-Use those at will!
+Use those at will! They're consistent with the atomic aliases found in
+C++, if that helps.
 
 But what if you want more?
 
 You can do it either with a type qualifier or type specifier.
 
 First, specifier! It's the keyword `_Atomic` with a type in parens
-after---suitable for use with `typedef`:
+after^[Apparently C++23 is adding this as a macro.]---suitable for use
+with `typedef`:
 
 ``` {.c}
 typedef _Atomic(double) atomic_double;
