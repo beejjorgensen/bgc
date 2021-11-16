@@ -735,8 +735,27 @@ system. And, indeed, if I ask for the `sizeof` the `union foo`, it tells
 me 4!
 
 The tradeoff is that you can only portably use one of those fields at a
-time. If you try to read from a field that was not the last one written
-to, the behavior is unspecified.
+time.
+
+The spec says (C17 §6.2.6.1¶7):
+
+> When a value is stored in a member of an object of union type, the
+> bytes of the object representation that do not correspond to that
+> member but do correspond to other members take unspecified values.
+
+But it also says (C17 §6.5.2.3¶3 footnote 97):
+
+> If the member used to read the contents of a union object is not the
+> same as the member last used to store a value in the object, the
+> appropriate part of the object representation of the value is
+> reinterpreted as an object representation in the new type as described
+> in 6.2.6 (a process sometimes called “type punning”). This might be a
+> trap representation.
+
+So you can set the value for one member then look at the value for
+another. And you'll get _something_. But the spec doesn't really say
+what. If you know what you're doing, though, you can do [flw[type
+punning|Type_punning]] this way.
 
 Let's take that crazy `union` and first store an `int` in it, then a
 `float`. Then we'll print out the `int` again to see what's in
