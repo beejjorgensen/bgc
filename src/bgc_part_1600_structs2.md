@@ -735,67 +735,46 @@ system. And, indeed, if I ask for the `sizeof` the `union foo`, it tells
 me 4!
 
 The tradeoff is that you can only portably use one of those fields at a
-time.
+time. But you can non-portably write to one and read from another!
 
-The spec says (C17 §6.2.6.1¶7):
+This is called [flw[type punning|Type_punning]], and you'd use it if you
+really knew what you were doing, typically with some kind of low-level
+programming.
 
-> When a value is stored in a member of an object of union type, the
-> bytes of the object representation that do not correspond to that
-> member but do correspond to other members take unspecified values.
-
-But it also says (C17 §6.5.2.3¶3 footnote 97):
-
-> If the member used to read the contents of a union object is not the
-> same as the member last used to store a value in the object, the
-> appropriate part of the object representation of the value is
-> reinterpreted as an object representation in the new type as described
-> in 6.2.6 (a process sometimes called “type punning”). This might be a
-> trap representation.
-
-So you can set the value for one member then look at the value for
-another. And you'll get _something_. But the spec doesn't really say
-what. If you know what you're doing, though, you can do [flw[type
-punning|Type_punning]] this way.
-
-Let's take that crazy `union` and first store an `int` in it, then a
-`float`. Then we'll print out the `int` again to see what's in
-there---even though, since it wasn't the last value we stored, the
-result is unspecified.
+Since the members of a union share the same memory, writing to one
+member necessarily affects the others. And if you read from one what was
+written to another, you get some weird effects.
 
 ``` {.c .numberLines}
 #include <stdio.h>
 
 union foo {
-    int a, b, c, d, e, f;
-    float g, h;
-    char i, j, k, l;
+    float b;
+    short a;
 };
 
 int main(void)
 {
     union foo x;
 
-    x.a = 12;
-    printf("%d\n", x.a);  // OK--x.a was the last thing we stored into
+    x.b = 3.14159;
 
-    x.g = 3.141592;
-    printf("%f\n", x.g);  // OK--x.g was the last thing we stored into
+    printf("%f\n", x.b);  // 3.14159, fair enough
 
-    printf("%d\n", x.a);  // Unspecified behavior!
+    printf("%d\n", x.a);  // But what about this?
 }
 ```
 
-On my machine, this prints:
+On my system, this prints out:
 
-``` {.default}
-12
-3.141592
-1078530008
+```
+3.141590
+4048
 ```
 
-Probably deep down the decimal value `1078530008` is probably the same
-pattern of bits as `3.141592`, but the spec makes no guarantees about
-this.
+because under the hood, the object representation for the float `3.14159`
+was the same as the object representation for the short `4048`. On my
+system. Your results may vary.
 
 ### Pointers to `union`s
 
