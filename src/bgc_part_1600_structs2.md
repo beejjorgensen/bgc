@@ -443,6 +443,7 @@ little weird, because `char` is only 1 byte, right? The compiler is
 putting 3 padding bytes after each `char` so that all the fields are 4
 bytes long. Presumably this will run faster on my CPU.
 
+<!-- removed because of strict aliasing rules
 ## Fake OOP
 
 There's a slightly abusive thing that's sort of OOP-like that you can do
@@ -523,7 +524,7 @@ a `struct parent`.
 
 Again, this works because a pointer to a `struct` has the same value as
 a pointer to the first field in that `struct`.
-
+-->
 
 ## Bit-Fields
 
@@ -830,3 +831,173 @@ All this just lets you know that, under the hood, all these values in a
 `union` start at the same place in memory, and that's the same as where
 the entire `union` is.
 
+### Common Initial Sequences in Unions
+
+If you have a `union` of `struct`s, and all those `struct`s begin with a
+_common initial sequence_, it's valid to access members of that sequence
+from any of the `union` members.
+
+What?
+
+Here are two `struct`s with a common initial sequence:
+
+``` {.c}
+struct a {
+	int x;     //
+	float y;   // Common initial sequence
+
+	char *p;
+};
+
+struct b {
+	int x;     //
+	float y;   // Common initial sequence
+
+	double *p;
+	short z;
+};
+```
+
+Do you see it? It's that they start with `int` followed by
+`float`---that's the common initial sequence. The members in the
+sequence of the `struct`s have to be compatible types. And we see that
+with `x` and `y`, which are `int` and `float` respectively.
+
+Now let's build a union of these:
+
+``` {.c}
+union foo {
+	struct a sa;
+	struct b sb;
+};
+```
+
+What this rule tells us is that we're guaranteed that the members of the
+common initial sequences are interchangeable in code. That is:
+
+* `f.sa.x` is the same as `f.sb.x`.
+
+and
+
+* `f.sa.y` is the same as `f.sb.y`.
+
+Because fields `x` and `y` are both in the common initial sequence.
+
+Also, the names of the members in the common initial sequence don't
+matter---all that matters is that the types are the same.
+
+All together, this allows us a way to safely add some shared information
+between `struct`s in the `union`. The best example of this is probably
+using a field to determine the type of `struct` out of all the `struct`s
+in the `union` that is currently "in use".
+
+That is, if we weren't allowed this and we passed the `union` to some
+function, how would that function know which member of the `union` was
+the one it should look at?
+
+Take a look at these `struct`s. Note the common initial sequence:
+
+``` {.c .numberLines}
+#include <stdio.h>
+
+struct common {
+	int type;   // common initial sequence
+};
+
+struct antelope {
+	int type;   // common initial sequence
+
+	int loudness;
+};
+
+struct octopus {
+	int type;   // common initial sequence
+
+	int sea_creature;
+	float intelligence;
+};
+
+```
+
+Now let's throw them into a `union`:
+
+``` {.c .numberLines startFrom="20"}
+union animal {
+	struct common common;
+	struct antelope antelope;
+	struct octopus octopus;
+};
+
+```
+
+Also, please indulge me these two `#define`s for the demo:
+
+``` {.c .numberLines startFrom="26"}
+#define ANTELOPE 1
+#define OCTOPUS  2
+
+```
+
+So far, nothing special has happened here. It seems like the `type`
+field is completely useless.
+
+But now let's make a generic function that prints a `union animal`. It
+has to someone be able to tell if it's looking at a `struct antelope` or
+a `struct octopus`.
+
+Because of the magic of common initial sequences, it can look up the
+animal type in any of these places for a particular `union animal x`:
+
+``` {.c}
+int type = x.common.type;    \\ or...
+int type = x.antelope.type;  \\ or...
+int type = x.octopus.type;
+```
+
+All those refer to the same value in memory.
+
+And, as you might have guessed, the `struct common` is there so code can
+agnostically look at the type without mentioning a particular animal.
+
+Let's look at the code to print a `union animal`:
+
+``` {.c .numberLines startFrom="29"}
+void print_animal(union animal *x)
+{
+	switch (x->common.type) {
+		case ANTELOPE:
+			printf("Antelope: loudness=%d\n", x->antelope.loudness);
+			break;
+
+		case OCTOPUS:
+			printf("Octopus : sea_creature=%d\n", x->octopus.sea_creature);
+			printf("          intelligence=%f\n", x->octopus.intelligence);
+			break;
+		
+		default:
+			printf("Unknown animal type\n");
+	}
+
+}
+
+int main(void)
+{
+	union animal a = {.antelope.type=ANTELOPE, .antelope.loudness=12};
+	union animal b = {.octopus.type=OCTOPUS, .octopus.sea_creature=1,
+	                                   .octopus.intelligence=12.8};
+
+	print_animal(&a);
+	print_animal(&b);
+}
+```
+
+See how on line 29 we're just passing in the `union`---we have no idea
+what type of animal `struct` is in use within it.
+
+But that's OK! Because on line 31 we check the type to see if it's an
+antelope or an octopus. And then we can look at the proper `struct` to
+get the members.
+
+It's definitely possible to get this same effect using just `struct`s,
+but you can do it this way if you want the memory-saving effects of a
+`union`.
