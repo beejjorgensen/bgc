@@ -161,22 +161,34 @@ printf("%d\n", x);  // 40, if you're lucky
 ### `restrict`
 
 TLDR: you never have to use this and you can ignore it every time you
-see it.
+see it. If you use it correctly, you will likely realize some
+performance gain. If you use it incorrectly, you will realize undefined
+behavior.
 
 `restrict` is a hint to the compiler that a particular piece of memory
-will only be accessed by one pointer and never another. If a developer
-declares a pointer to be `restrict` and then accesses the object it
-points to in another way, the behavior is undefined.
+will only be accessed by one pointer and never another. (That is, there
+will be no aliasing of the particular object the `restrict` pointer
+points to.) If a developer declares a pointer to be `restrict` and then
+accesses the object it points to in another way (e.g. via another
+pointer), the behavior is undefined.
 
 Basically you're telling C, "Hey---I guarantee that this one single
 pointer is the only way I access this memory, and if I'm lying, you can
 pull undefined behavior on me."
 
-And C uses that information to perform certain optimizations.
+And C uses that information to perform certain optimizations. For
+instance, if you're dereferencing the `restrict` pointer repeatedly in a
+loop, C might decide to cache the result in a register and only store
+the final result once the loop completes. If any other pointer referred
+to that same memory and accessed it in the loop, the results would not be
+accurate.
 
-For example, let's write a function to swap two variables, and we'll use
-the `restrict` keyword to assure C that we'll never pass in pointers to
-the same thing. And then let's blow it an try passing in pointers to the
+(Note that `restrict` has no effect if the object pointed to is never
+written to. It's all about optimizations surrounding writes to memory.)
+
+Let's write a function to swap two variables, and we'll use the
+`restrict` keyword to assure C that we'll never pass in pointers to the
+same thing. And then let's blow it an try passing in pointers to the
 same thing.
 
 ``` {.c .numberLines}
@@ -204,11 +216,13 @@ both calls to work safely. But then the compiler might not be able to
 optimize.
 
 `restrict` has block scope, that is, the restriction only lasts for the
-scope its used. If it's in a parameter list for a function, it's in the
+scope it's used. If it's in a parameter list for a function, it's in the
 block scope of that function.
 
-If the restricted pointer points to an array, the restriction covers the
-entire array.
+If the restricted pointer points to an array, it only applies to the
+individual objects in the array. Other pointers could read and write
+from the array as long as they didn't read or write any of the same
+elements as the restricted one.
 
 If it's outside any function in file scope, the restriction covers the
 entire program.
@@ -222,6 +236,18 @@ int printf(const char * restrict format, ...);
 Again, that's just telling the compiler that inside the `printf()`
 function, there will be only one pointer that refers to any part of that
 `format` string.
+
+One last note: if you're using array notation in your function parameter
+for some reason instead of pointer notation, you can use `restrict` like
+so:
+
+``` {.c}
+void foo(int p[restrict])     // With no size
+
+void foo(int p[restrict 10])  // Or with a size
+```
+
+But pointer notation would be more common.
 
 ### `volatile`
 
