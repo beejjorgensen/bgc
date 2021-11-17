@@ -68,14 +68,14 @@ have to consider any copyright issues when merging changes.
 
 * More man pages
   * stdatomic
-* Atomic
-* Memory access ordering
 * Common initial sequences
 * More restrict
   * Accessing the same array in a non-overlapping way
   * in array-style parameters
   * in structs
   * in blocks
+* OOP strict aliasing
 * Anonymous structs in unions
 * __STDC_WANT_LIB_EXT
 * Exercises
+* Index
