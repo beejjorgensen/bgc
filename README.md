@@ -68,14 +68,14 @@ have to consider any copyright issues when merging changes.
 
 * More man pages
   * stdatomic
-* Common initial sequences
 * More restrict
   * Accessing the same array in a non-overlapping way
   * in array-style parameters
   * in structs
   * in blocks
-* OOP strict aliasing
+* strict aliasing
 * Anonymous structs in unions
 * __STDC_WANT_LIB_EXT
 * Exercises
+* EXAMPLE 1 If f is a function returning a structure or union, and x is a member of that structure or union, f().x is a valid postfix expression but is not an lvalue.
 * Index
