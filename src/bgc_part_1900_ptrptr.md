@@ -414,6 +414,205 @@ might not be there---but it probably is.].
 Additionally, if you feel like being signed, you can use `intptr_t` to
 the same effect.
 
+## Casting Pointers to other Pointers
+
+There's only one safe pointer conversion:
+
+1. Converting to `intptr_t` or `uintptr_t`.
+2. Converting to and from `void*`.
+
+TWO! Two safe pointer conversions.
+
+3. Converting to and from `char*`.
+
+THREE! Three safe conversions!
+
+If you cast to a pointer of another type and then access the object it
+points to, the behavior is undefined due to something called _strict
+aliasing_.
+
+Plain old _aliasing_ refers to the ability to have more than one way to
+access the same object. The access points are aliases for each other.
+
+_Strict aliasing_ says you are only allowed to access an object via
+pointers to _compatible types_.
+
+For example, this is definitely allowed:
+
+``` {.c}
+int a = 1;
+int *p = &a;
+```
+
+`p` is a pointer to an `int`, and it points to a compatible
+type---namely `int`---so we're golden.
+
+But the following isn't good because `int` and `float` are not
+compatible types:
+
+``` {.c}
+int a = 1;
+float *p = (float *)&a;
+```
+
+Here's a demo program that does some aliasing. It takes a variable `v`
+of type `int32_t` and aliases it to a pointer to a `struct words`. That
+`struct` has two `int16_t`s in it. These types are incompatible, so
+we're in violation of strict aliasing rules.
+
+Let's see if we can break something.
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <stdint.h>
+
+struct words {
+    int16_t v[2];
+};
+
+void fun(int32_t *pv, struct words *pw)
+{
+    for (int i = 0; i < 5; i++) {
+        (*pv)++;
+
+        // Print the 32-bit value and the 16-bit values:
+
+        printf("%x, %x-%x\n", *pv, pw->v[1], pw->v[0]);
+    }
+}
+
+int main(void)
+{
+    int32_t v = 0x12345678;
+
+    struct words *pw = (struct words *)&v;  // Violates strict aliasing
+
+    fun(&v, pw);
+}
+```
+
+See how I pass in the two incompatible pointers to `fun()`? One of the
+types is `int32_t*` and the other is `struct words*`.
+
+But they both point to the same object: the 32-bit value initialized to
+`0x12345678`.
+
+So if we look at the fields in the `struct words`, we should see the two
+16-bit halves of that number. Right?
+
+And in the `fun()` loop, we increment the pointer to the `int32_t`.
+That's it. But since the `struct` points to that same memory, it, too,
+should be updated to the same value.
+
+So let's run it and get this, with the 32-bit value on the left and the
+two 16-bit portions on the right. It should match^[I'm printing out the
+16-bit values reversed since I'm on a little-endian machine at it makes
+it easier to read here.]:
+
+``` {.default}
+12345679, 1234-5679
+1234567a, 1234-567a
+1234567b, 1234-567b
+1234567c, 1234-567c
+1234567d, 1234-567d
+```
+
+and it does... _UNTIL TOMORROW!_
+
+Let's try it compiling GCC with `-O3` and `-fstrict-aliasing`:
+
+``` {.default}
+12345679, 1234-5678
+1234567a, 1234-5679
+1234567b, 1234-567a
+1234567c, 1234-567b
+1234567d, 1234-567c
+```
+
+They're off by one! But they point to the same memory! How could this
+be? Answer: it's undefined behavior to alias memory like that. _Anything
+is possible_, except not in a good way.
+
+If your code violates strict aliasing rules, whether it works or not
+depends on how someone decides to compile it. And that's a bummer since
+that's beyond your control. Unless you're some kind of omnipotent deity.
+
+Unlikely, sorry.
+
+Speaking of no fun, these rules also break an age-old tradition in C of
+"subclassing" `structs` that have a common initial sequence. Folks used
+to do this with abandon:
+
+``` {.c}
+struct base_class {
+    int a, b;    // Common elements
+};
+
+struct subclass_a {
+    struct base_class super;  // inheritance
+
+    int x, y, z; // specialization
+};
+
+struct subclass_b {
+    struct base_class super;  // inheritance
+
+    float f, g, h; // specialization
+};
+```
+
+And if you had some of these subclasses like this:
+
+``` {.c}
+struct subclass_a sa = {.super.a=1, .super.b=2};
+struct subclass_b sb = {.super.a=3, .super.b=4};
+```
+
+And a function like this, taking a `void*` argument:
+
+``` {.c}
+void print_info(void *vp)
+{
+    struct base_class *p = vp;
+
+    printf("%d %d\n", p->a, p->b);
+}
+```
+
+We know the `struct`s would have the same initial memory layout as the
+base class `structs`, owing to that mix-in being the first member
+declared.
+
+People then felt empowered to call `print_info()` with pointers to
+either subclass `struct` type.
+
+``` {.c}
+print_info(&sa);
+print_info(&sb);
+```
+
+But this breaks the strict aliasing rules since `p` in `print_info()` is
+a pointer to a different type than the actual objects.
+
+So don't do this unless you're OK being non-portable and are sure your
+compiler isn't relying on the strict aliasing rules.
+
+GCC can be forced to not use the strict aliasing rules with
+`-fno-strict-aliasing`. Compiling the demo program, above, with `-O3`
+and this flag causes the output to be as expected.
+
+Lastly, _type punning_ is using pointers of different types to look at
+the same data. Before strict aliasing, this kind of things was fairly
+common:
+
+``` {.c}
+int a = 0x12345678;
+short b = *((short *)&a);   // Violates strict aliasing
+```
+
+If you want to do type punning (relatively) safely, see the section on
+[Unions and Type Punning](#union-type-punning).
+
 ## Pointer Differences {#ptr_differences}
 
 As you know from the section on pointer arithmetic, you can subtract one
