@@ -140,9 +140,9 @@ There is a special character defined as a macro: `EOF`. This is what
 you've attempted to read another character.
 
 How about I share that Fun Fact™, now. Turns out `EOF` is the reason why
-`fget()` and functions like it return an `int` instead of a `char`.
+`fgetc()` and functions like it return an `int` instead of a `char`.
 `EOF` isn't a character proper, and its value likely falls outside the
-range of `char`. Since `fgets()` needs to be able to return any byte
+range of `char`. Since `fgetc()` needs to be able to return any byte
 **and** `EOF`, it needs to be a wider type that can hold more values. so
 `int` it is. But unless you're comparing the returned value against
 `EOF`, you can know, deep down, it's a `char`.
