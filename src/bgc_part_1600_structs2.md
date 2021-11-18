@@ -736,11 +736,15 @@ system. And, indeed, if I ask for the `sizeof` the `union foo`, it tells
 me 4!
 
 The tradeoff is that you can only portably use one of those fields at a
-time. But you can non-portably write to one and read from another!
+time. However...
 
-This is called [flw[type punning|Type_punning]], and you'd use it if you
-really knew what you were doing, typically with some kind of low-level
-programming.
+### Unions and Type Punning {#union-type-punning}
+
+You can non-portably write to one `union` field and read from another!
+
+Doing so is called [flw[type punning|Type_punning]], and you'd use it if
+you really knew what you were doing, typically with some kind of
+low-level programming.
 
 Since the members of a union share the same memory, writing to one
 member necessarily affects the others. And if you read from one what was
