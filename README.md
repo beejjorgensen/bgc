@@ -68,8 +68,6 @@ have to consider any copyright issues when merging changes.
 
 * More man pages
   * stdatomic
-* Anonymous structs in unions
-* EXAMPLE 1 If f is a function returning a structure or union, and x is a member of that structure or union, f().x is a valid postfix expression but is not an lvalue.
 * __STDC_WANT_LIB_EXT
 * C23
 * Exercises
