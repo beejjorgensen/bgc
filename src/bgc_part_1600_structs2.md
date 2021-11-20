@@ -1005,3 +1005,94 @@ get the members.
 It's definitely possible to get this same effect using just `struct`s,
 but you can do it this way if you want the memory-saving effects of a
 `union`.
+
+## Unions and Unnamed Structs
+
+You know how you can have an unnamed `struct`, like this:
+
+``` {.c}
+struct {
+    int x, y;
+} s;
+```
+
+That defines a variable `s` that is of anonymous `struct` type (because
+the `struct` has no name tag), with members `x` and `y`.
+
+So things like this are valid:
+
+``` {.c}
+s.x = 34;
+s.y = 90;
+
+printf("%d %d\n", s.x, s.y);
+```
+
+Turns out you can drop those unnamed `struct`s in `union`s just like you
+might expect:
+
+``` {.c}
+union foo {
+    struct {       // unnamed!
+        int x, y;
+    } a;
+
+    struct {       // unnamed!
+        int z, w;
+    } b;
+};
+```
+
+And then access them as per normal:
+
+``` {.c}
+union foo f;
+
+f.a.x = 1;
+f.a.y = 2;
+f.b.z = 3;
+f.b.w = 4;
+```
+
+No problem!
+
+## Passing and Returning `struct`s and `union`s
+
+You can pass a `struct` or `union` to a function by value (as opposed to
+a pointer to it)---a copy of that object to the parameter will be made
+as if by assignment as per usual.
+
+You can also return a `struct` or `union` from a function and it is
+also passed by value back.
+
+``` {.c .numberLines}
+#include <stdio.h>
+
+struct foo {
+    int x, y;
+};
+
+struct foo f(void)
+{
+    return (struct foo){.x=34, .y=90};
+}
+
+int main(void)
+{
+    struct foo a = f();  // Copy is made
+
+    printf("%d %d\n", a.x, a.y);
+}
+```
+
+Fun fact: if you do this, you can use the `.` operator right off the
+function call:
+
+``` {.c .numberLines startFrom="16"}
+    printf("%d %d\n", f().x, f().y);
+```
+
+(Of course that example calls the function twice, inefficiently.)
+
+And the same holds true for returning pointers to `struct`s and
+`union`s---just be sure to use the `->` arrow operator in that case.
