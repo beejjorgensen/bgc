@@ -68,6 +68,7 @@ have to consider any copyright issues when merging changes.
 
 * More man pages
   * stdatomic
+* atomic_init in atomics chapter?
 * __STDC_WANT_LIB_EXT
 * C23
 * Exercises
