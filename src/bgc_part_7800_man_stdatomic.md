@@ -600,6 +600,60 @@ int main(void)
 [`atomic_load()`](#man-atomic_load),
 [`atomic_load_explicit()`](#man-atomic_load)
 
+[[manbreak]]
+## `atomic_load()` `atomic_load_explicit()` {#man-atomic_load}
+
+Return a value from an atomic variable
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <stdatomic.h>
+
+C atomic_load(const volatile A *object);
+
+C atomic_load_explicit(const volatile A *object, memory_order order);
+```
+
+### Description {.unnumbered .unlisted}
+
+For a pointer to an `object` of type `A`, atomically returns its value
+`C`. This is a generic function that can be used with any type.
+
+The function `atomic_load_explicit()` lets you specify the memory order.
+
+Since this is an "acquire-y" operation, none of the "release-y" memory
+orders are legal. `order` can be only be `memory_order_seq_cst`,
+`memory_order_acquire`, `memory_order_consume`, or
+`memory_order_relaxed`.
+
+`order` cannot be `memory_order_acq_rel` or `memory_order_release`.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns the value stored in `object`.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <stdatomic.h>
+
+int main(void)
+{
+    atomic_int x = 10;
+
+    int v = atomic_load(&x);
+
+    printf("%d\n", v);  // 10
+}
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`atomic_store()`](#man-atomic_store),
+[`atomic_store_explicit()`](#man-atomic_store)
+
 <!--
 [[manbreak]]
 ## `example()` {#man-example}
