@@ -6,10 +6,12 @@
 # `<stdatomic.h>` Atomic-Related Functions {#stdatomic}
 
 |Function|Description|
+|-|-|
 |[`ATOMIC_VAR_INIT()`](#man-ATOMIC_VAR_INIT)|Create an initializer for an atomic variable|
 |[`atomic_init()`](#man-atomic_init)|Initialize an atomic variable|
 |[`kill_dependency()`](#man-kill_dependency)|End a dependency chain|
 |[`atomic_thread_fence()`](#man-atomic_thread_fence)|Set up a fence|
+|[`atomic_signal_fence()`](#man-atomic_signal_fence)|Fence for intra-thread signal handlers|
 
 You might need to add `-latomic` to your compilation command line on
 Unix-like operating systems.
@@ -381,7 +383,78 @@ int main(void)
 ### See Also {.unnumbered .unlisted}
 
 [`atomic_store_explicit()`](#man-atomic_store_explicit),
-[`atomic_load_explicit()`](#man-atomic_load_explicit)
+[`atomic_load_explicit()`](#man-atomic_load_explicit),
+[`atomic_signal_fence()`](#man-atomic_signal_fence)
+
+[[manbreak]]
+## `atomic_signal_fence()` {#man-atomic_signal_fence}
+
+Fence for intra-thread signal handlers
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <stdatomic.h>
+
+void atomic_signal_fence(memory_order order);
+```
+
+### Description {.unnumbered .unlisted}
+
+This works like `atomic_thread_fence()` except its purpose is within in
+a single thread; notably for use in a signal handler in that thread.
+
+Since signals can happen at any time, we might need a way to be certain
+that any writes by the thread that happened before the signal handler be
+visible within that signal handler.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns nothing!
+
+### Example {.unnumbered .unlisted}
+
+Partial demo. (Note that it's technically undefined behavior to call
+`printf()` in a signal handler.)
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <signal.h>
+#include <stdatomic.h>
+
+int global;
+
+void handler(int sig)
+{
+    (void)sig;
+
+    // If this runs before the release, the handler will
+    // potentially see global == 0.
+    //
+    // Otherwise, it will definitely see global == 10.
+
+    atomic_signal_fence(memory_order_acquire);
+
+    printf("%d\n", global);
+}
+
+int main(void)
+{
+    signal(SIGINT, handler);
+
+    global = 10;
+
+    atomic_signal_fence(memory_order_release);
+
+    // If the signal handler runs after the release
+    // it will definitely see the value 10 in global.
+}
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`atomic_thread_fence()`](#man-atomic_thread_fence),
+[`signal()`](#man-signal)
 
 <!--
 [[manbreak]]
