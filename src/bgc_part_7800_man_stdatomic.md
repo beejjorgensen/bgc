@@ -73,7 +73,7 @@ or the `_Atomic()` type specifier:
 _Atomic(double) x;
 ```
 
-## Lock-free Macros
+## Lock-free Macros {#lock-free-macros}
 
 These macros let you know if a type is lock-free or not. Maybe.
 
@@ -456,6 +456,77 @@ int main(void)
 [`atomic_thread_fence()`](#man-atomic_thread_fence),
 [`signal()`](#man-signal)
 
+[[manbreak]]
+## `atomic_is_lock_free()` {#man-atomic_is_lock_free}
+
+Determine if an atomic type is lock free
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <stdatomic.h>
+
+_Bool atomic_is_lock_free(const volatile A *obj);
+```
+
+### Description {.unnumbered .unlisted}
+
+Determines if the variable `obj` of type `A` is lock-free. Can be used
+with any type.
+
+Unlike the [lock-free macros](#lock-free-macros) which can be used at
+compile-time, this is strictly a run-time function. So in places where
+the macros say "maybe", this function will definitely tell you one way
+or another if the atomic variable is lock-free.
+
+This is useful when you're defining your own atomic variables and want
+to know their lock-free status.
+
+### Return Value {.unnumbered .unlisted}
+
+True if the variable is lock-free, false otherwise.
+
+### Example {.unnumbered .unlisted}
+
+Test if a couple `struct`s and an atomic `double` are lock-free. On my
+system, the larger `struct` is too big to be lock-free, but the other
+two are OK.
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <stdatomic.h>
+
+int main(void)
+{
+	struct foo {
+		int x, y;
+	};
+
+	struct bar {
+		int x, y, z;
+	};
+
+	_Atomic(double) a;
+	struct foo b;
+	struct bar c;
+
+	printf("a is lock-free: %d\n", atomic_is_lock_free(&a));
+	printf("b is lock-free: %d\n", atomic_is_lock_free(&b));
+	printf("c is lock-free: %d\n", atomic_is_lock_free(&c));
+}
+```
+
+Output on my system (YMMV):
+
+``` {.default}
+a is lock-free: 1
+b is lock-free: 1
+c is lock-free: 0
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`example()`](#man-example),
 <!--
 [[manbreak]]
 ## `example()` {#man-example}
