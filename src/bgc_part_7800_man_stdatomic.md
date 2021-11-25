@@ -235,7 +235,9 @@ int main(void)
 
 ### See Also {.unnumbered .unlisted}
 
-[`ATOMIC_VAR_INIT()`](#man-ATOMIC_VAR_INIT)
+[`ATOMIC_VAR_INIT()`](#man-ATOMIC_VAR_INIT),
+[`atomic_store()`](#man-atomic_store),
+[`atomic_store_explicit()`](#man-atomic_store)
 
 [[manbreak]]
 ## `kill_dependency()` {#man-kill_dependency}
@@ -526,7 +528,78 @@ c is lock-free: 0
 
 ### See Also {.unnumbered .unlisted}
 
-[`example()`](#man-example),
+[Lock-free Macros](#lock-free-macros)
+
+[[manbreak]]
+## `atomic_store()` `atomic_store_explicit()` {#man-atomic_store}
+
+Store a value in an atomic variable
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <stdatomic.h>
+
+void atomic_store(volatile A *object, C desired);
+
+void atomic_store_explicit(volatile A *object,
+                           C desired, memory_order order);
+```
+
+### Description {.unnumbered .unlisted}
+
+Store a value in an atomic variable, possible synchronized.
+
+This is like a plain assignment, but with more flexibility.
+
+These have the same storage effect for an `atomic_int x`:
+
+``` {.c}
+x = 10;
+atomic_store(&x, 10);
+atomic_store_explicit(&x, 10, memory_order_seq_cst);
+```
+
+But the last function, `atomic_store_explicit()`, lets you specify the
+memory order.
+
+Since this is a "release-y" operation, none of the "acquire-y" memory
+orders are legal. `order` can be only be `memory_order_seq_cst`,
+`memory_order_release`, or `memory_order_relaxed`.
+
+`order` cannot be `memory_order_acq_rel`, `memory_order_acquire`, or
+`memory_order_consume`.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns nothing!
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <stdatomic.h>
+
+int main(void)
+{
+    atomic_int x = 0;
+    atomic_int y = 0;
+
+    atomic_store(&x, 10);
+
+    atomic_store_explicit(&y, 20, memory_order_relaxed);
+
+    // Will print either "10 20" or "10 0":
+    printf("%d %d\n", x, y);
+}
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`atomic_init()`](#man-atomic_init),
+[`atomic_load()`](#man-atomic_load),
+[`atomic_load_explicit()`](#man-atomic_load)
+
 <!--
 [[manbreak]]
 ## `example()` {#man-example}
