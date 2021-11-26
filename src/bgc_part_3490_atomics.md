@@ -10,9 +10,6 @@
 >
 > ---Paul Atreides and The Reverend Mother Gaius Helen Mohiam, _Dune_
 
-**[Caveat: this section needs peer review. It's at the edge of my
-knowledge.]**
-
 This is one of the more challenging aspects of multithreading with C.
 But we'll try to take it easy.
 
