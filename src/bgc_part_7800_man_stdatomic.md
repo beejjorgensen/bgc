@@ -598,7 +598,9 @@ int main(void)
 
 [`atomic_init()`](#man-atomic_init),
 [`atomic_load()`](#man-atomic_load),
-[`atomic_load_explicit()`](#man-atomic_load)
+[`atomic_load_explicit()`](#man-atomic_load),
+[`atomic_exchange()`](#man-atomic_exchange),
+[`atomic_exchange_explicit()`](#man-atomic_exchange)
 
 [[manbreak]]
 ## `atomic_load()` `atomic_load_explicit()` {#man-atomic_load}
@@ -651,6 +653,69 @@ int main(void)
 
 ### See Also {.unnumbered .unlisted}
 
+[`atomic_store()`](#man-atomic_store),
+[`atomic_store_explicit()`](#man-atomic_store)
+
+[[manbreak]]
+## `atomic_exchange()` `atomic_exchange_explicit()` {#man-atomic_exchange}
+
+Replace a value in an atomic object
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <stdatomic.h>
+
+C atomic_exchange(volatile A *object, C desired);
+
+C atomic_exchange_explicit(volatile A *object, C desired,
+                           memory_order order);
+```
+
+### Description {.unnumbered .unlisted}
+
+Sets the value in `object` to `desired`.
+
+`object` is type `A`, some atomic type.
+
+`desired` is type `C`, the respective non-atomic type to `A`.
+
+This is very similar to `atomic_store()`, except the previous value is
+atomically returned.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns the previous value of `object`.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <stdatomic.h>
+
+int main(void)
+{
+    atomic_int x = 10;
+
+    int previous = atomic_exchange(&x, 20);
+
+    printf("x is  %d\n", x);
+    printf("x was %d\n", previous);
+}
+```
+
+Output:
+
+``` {.default}
+x is  20
+x was 10
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`atomic_init()`](#man-atomic_init),
+[`atomic_load()`](#man-atomic_load),
+[`atomic_load_explicit()`](#man-atomic_load),
 [`atomic_store()`](#man-atomic_store),
 [`atomic_store_explicit()`](#man-atomic_store)
 
