@@ -177,3 +177,31 @@ guide to their students.
 
 Contact [`beej@beej.us`](beej@beej.us) for more information.
 
+## Dedication
+
+The hardest things about writing these guides are:
+
+* Learning the material in enough detail to be able to explain it
+* Figuring out the best way to explain it clearly, a seemingly-endless
+  iterative process
+* Putting myself out there as a so-called _authority_, when really
+  I'm just a regular human trying to make sense of it all, just like
+  everyone else
+* Keeping at it when so many other things draw my attention
+
+A lot of people have helped me through this process, and I want to
+acknowledge those who have made this book possible.
+
+* Everyone on the Internet who decided to help share their knowledge in
+  one form or another. The free sharing of instructive information is
+  what makes the Internet the great place that it is.
+* The volunteers at [fl[cppreference.com|https://en.cppreference.com/]]
+  who provide the bridge that leads from the spec to the real world.
+* The helpful and knowledgeable folks on
+  [fl[comp.lang.c|https://groups.google.com/g/comp.lang.c]] and 
+  [fl[r/C_Programming|https://www.reddit.com/r/C_Programming/]] who got
+  me through the tougher parts of the language.
+* Everyone who submitted corrections and pull-requests on everything
+  from misleading instructions to typos.
+
+Thank you! ♥
