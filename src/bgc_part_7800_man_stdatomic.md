@@ -809,6 +809,9 @@ yield better performance on some platforms. When a weak
 compare-and-exchange would require a loop and a strong one would not,
 the strong one is preferable."].
 
+The `_explicit` variants have two memory orders: `success` if `*object`
+is set to `desired`, and `failure` if it is not.
+
 These are test-and-set functions, so you can use `memory_order_acq_rel`
 with the `_explicit` variants.
 
