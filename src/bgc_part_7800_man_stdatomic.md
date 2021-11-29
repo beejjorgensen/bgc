@@ -12,6 +12,17 @@
 |[`kill_dependency()`](#man-kill_dependency)|End a dependency chain|
 |[`atomic_thread_fence()`](#man-atomic_thread_fence)|Set up a fence|
 |[`atomic_signal_fence()`](#man-atomic_signal_fence)|Fence for intra-thread signal handlers|
+|[`atomic_is_lock_free()`](#man-atomic_is_lock_free)|Determine if an atomic type is lock free|
+|[`atomic_store()`](#man-atomic_store)|Store a value in an atomic variable|
+|[`atomic_store_explicit()`](#man-atomic_store)|Store a value in an atomic variable, explicit|
+|[`atomic_load()`](#man-atomic_load)|Return a value from an atomic variable|
+|[`atomic_load_explicit()`](#man-atomic_load)|Return a value from an atomic variable, explicit|
+|[`atomic_exchange()`](#man-atomic_exchange)|Replace a value in an atomic object|
+|[`atomic_exchange_explicit()`](#man-atomic_exchange)|Replace a value in an atomic object, explicit|
+|[`atomic_compare_exchange_strong()`](#man-atomic_compare_exchange)|Atomic compare and exchange, strong|
+|[`atomic_compare_exchange_strong_explicit()`](#man-atomic_compare_exchange)|Atomic compare and exchange, strong, explicit|
+|[`atomic_compare_exchange_weak()`](#man-atomic_compare_exchange)|Atomic compare and exchange, weak|
+|[`atomic_compare_exchange_weak_explicit()`](#man-atomic_compare_exchange)|Atomic compare and exchange, weak, explicit|
 
 You might need to add `-latomic` to your compilation command line on
 Unix-like operating systems.
@@ -600,7 +611,11 @@ int main(void)
 [`atomic_load()`](#man-atomic_load),
 [`atomic_load_explicit()`](#man-atomic_load),
 [`atomic_exchange()`](#man-atomic_exchange),
-[`atomic_exchange_explicit()`](#man-atomic_exchange)
+[`atomic_exchange_explicit()`](#man-atomic_exchange),
+[`atomic_compare_exchange_strong()'](#man-atomic_compare_exchange),
+[`atomic_compare_exchange_strong_explicit()](#man-atomic_compare_exchange),
+[`atomic_compare_exchange_weak()](#man-atomic_compare_exchange),
+[`atomic_compare_exchange_weak_explicit()](#man-atomic_compare_exchange)
 
 [[manbreak]]
 ## `atomic_load()` `atomic_load_explicit()` {#man-atomic_load}
@@ -718,6 +733,147 @@ x was 10
 [`atomic_load_explicit()`](#man-atomic_load),
 [`atomic_store()`](#man-atomic_store),
 [`atomic_store_explicit()`](#man-atomic_store)
+[`atomic_compare_exchange_strong()'](#man-atomic_compare_exchange),
+[`atomic_compare_exchange_strong_explicit()](#man-atomic_compare_exchange),
+[`atomic_compare_exchange_weak()](#man-atomic_compare_exchange),
+[`atomic_compare_exchange_weak_explicit()](#man-atomic_compare_exchange)
+
+[[manbreak]]
+## `atomic_compare_exchange_*()` {#man-atomic_compare_exchange}
+
+Atomic compare and exchange
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <stdatomic.h>
+
+_Bool atomic_compare_exchange_strong(volatile A *object,
+                                     C *expected, C desired);
+
+_Bool atomic_compare_exchange_strong_explicit(volatile A *object,
+                                              C *expected, C desired,
+                                              memory_order success,
+                                              memory_order failure);
+
+_Bool atomic_compare_exchange_weak(volatile A *object,
+                                   C *expected, C desired);
+
+_Bool atomic_compare_exchange_weak_explicit(volatile A *object,
+                                            C *expected, C desired,
+                                            memory_order success,
+                                            memory_order failure);
+```
+
+### Description {.unnumbered .unlisted}
+
+The venerable basis for some many things lock-free: compare and
+exchange.
+
+In the above prototypes, `A` is the type of the atomic object, and `C`
+is the equivalent base type.
+
+Ignoring the `_explicit` versions for a moment, what these do is:
+
+* If the value pointed to by `object` is equal to the value pointed to by
+  `expected`, then the value pointed to by `object` is set to `desired`.
+  And the function returns `true` indicating the exchange did take place.
+
+* Else the value pointed to by `expected` (yes, `expected`) is set to
+  `desired` and the function returns `false` indicating the exchange did
+  not take place.
+
+Pseudocode for the exchange would look like this^[This effectively does
+the same thing, but it's clearly not atomic.]:
+
+``` {.c}
+bool compare_exchange(atomic_A *object, C *expected, C desired)
+{
+    if (*object is the same as *expected) {
+        *object = desired
+        return true
+    }
+
+    *expected = desired
+    return false
+}
+```
+
+The `_weak` variants might spontaneously fail, so even if `*object ==
+*desired`, it might not change the value and will return `false`. So
+you'll want that in a loop if you use it^[The spec says, "This spurious
+failure enables implementation of compare-and-exchange on a broader
+class of machines, e.g. load-locked store-conditional machines."  And
+adds, "When a compare-and-exchange is in a loop, the weak version will
+yield better performance on some platforms. When a weak
+compare-and-exchange would require a loop and a strong one would not,
+the strong one is preferable."].
+
+These are test-and-set functions, so you can use `memory_order_acq_rel`
+with the `_explicit` variants.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns `true` if `*object` was `*expected`. Otherwise, `false`.
+
+### Example {.unnumbered .unlisted}
+
+A contrived example where multiple threads add `2` to a shared value in
+a lock-free way.
+
+(It would be better to use `+= 2` to get this done in real life unless
+you were using some `_explicit` wizardry.)
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <threads.h>
+#include <stdatomic.h>
+
+#define LOOP_COUNT 10000
+
+atomic_int value;
+
+int run(void *arg)
+{
+    (void)arg;
+
+    for(int i = 0; i < LOOP_COUNT; i++) {
+
+        int cur = value;
+        int next;
+
+        do {
+            next = cur + 2;
+        } while (!atomic_compare_exchange_strong(&value, &cur, next));
+    }
+
+    return 0;
+}
+
+int main(void)
+{
+    thrd_t t1, t2;
+
+    thrd_create(&t1, run, NULL);
+    thrd_create(&t2, run, NULL);
+
+    thrd_join(t1, NULL);
+    thrd_join(t2, NULL);
+    
+    printf("%d should equal %d\n", value, LOOP_COUNT * 4);
+}
+```
+
+Just replacing this with `value = value + 2` causes data trampling.
+
+### See Also {.unnumbered .unlisted}
+
+[`atomic_load()`](#man-atomic_load),
+[`atomic_load_explicit()`](#man-atomic_load),
+[`atomic_store()`](#man-atomic_store),
+[`atomic_store_explicit()`](#man-atomic_store),
+[`atomic_exchange()`](#man-atomic_exchange),
+[`atomic_exchange_explicit()`](#man-atomic_exchange)
 
 <!--
 [[manbreak]]
