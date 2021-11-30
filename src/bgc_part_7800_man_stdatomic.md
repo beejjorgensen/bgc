@@ -8,21 +8,31 @@
 |Function|Description|
 |-|-|
 |[`ATOMIC_VAR_INIT()`](#man-ATOMIC_VAR_INIT)|Create an initializer for an atomic variable|
-|[`atomic_init()`](#man-atomic_init)|Initialize an atomic variable|
-|[`kill_dependency()`](#man-kill_dependency)|End a dependency chain|
-|[`atomic_thread_fence()`](#man-atomic_thread_fence)|Set up a fence|
-|[`atomic_signal_fence()`](#man-atomic_signal_fence)|Fence for intra-thread signal handlers|
-|[`atomic_is_lock_free()`](#man-atomic_is_lock_free)|Determine if an atomic type is lock free|
-|[`atomic_store()`](#man-atomic_store)|Store a value in an atomic variable|
-|[`atomic_store_explicit()`](#man-atomic_store)|Store a value in an atomic variable, explicit|
-|[`atomic_load()`](#man-atomic_load)|Return a value from an atomic variable|
-|[`atomic_load_explicit()`](#man-atomic_load)|Return a value from an atomic variable, explicit|
-|[`atomic_exchange()`](#man-atomic_exchange)|Replace a value in an atomic object|
-|[`atomic_exchange_explicit()`](#man-atomic_exchange)|Replace a value in an atomic object, explicit|
 |[`atomic_compare_exchange_strong()`](#man-atomic_compare_exchange)|Atomic compare and exchange, strong|
 |[`atomic_compare_exchange_strong_explicit()`](#man-atomic_compare_exchange)|Atomic compare and exchange, strong, explicit|
 |[`atomic_compare_exchange_weak()`](#man-atomic_compare_exchange)|Atomic compare and exchange, weak|
 |[`atomic_compare_exchange_weak_explicit()`](#man-atomic_compare_exchange)|Atomic compare and exchange, weak, explicit|
+|[`atomic_exchange()`](#man-atomic_exchange)|Replace a value in an atomic object|
+|[`atomic_exchange_explicit()`](#man-atomic_exchange)|Replace a value in an atomic object, explicit|
+|[`atomic_fetch_add()`](#man-atomic_fetch)|Atomically add to an atomic integer|
+|[`atomic_fetch_add_explicit()`](#man-atomic_fetch)|Atomically add to an atomic integer, explicit|
+|[`atomic_fetch_and()`](#man-atomic_fetch)|Atomically bitwise-AND an atomic integer|
+|[`atomic_fetch_and_explicit()`](#man-atomic_fetch)|Atomically bitwise-AND an atomic integer, explicit|
+|[`atomic_fetch_or()`](#man-atomic_fetch)|Atomically bitwise-OR an atomic integer|
+|[`atomic_fetch_or_explicit()`](#man-atomic_fetch)|Atomically bitwise-OR an atomic integer, explicit|
+|[`atomic_fetch_sub()`](#man-atomic_fetch)|Atomically subtract from an atomic integer|
+|[`atomic_fetch_sub_explicit()`](#man-atomic_fetch)|Atomically subtract from an atomic integer, explicit|
+|[`atomic_fetch_xor()`](#man-atomic_fetch)|Atomically bitwise-XOR an atomic integer|
+|[`atomic_fetch_xor_explicit()`](#man-atomic_fetch)|Atomically bitwise-XOR an atomic integer, explicit|
+|[`atomic_init()`](#man-atomic_init)|Initialize an atomic variable|
+|[`atomic_is_lock_free()`](#man-atomic_is_lock_free)|Determine if an atomic type is lock free|
+|[`atomic_load()`](#man-atomic_load)|Return a value from an atomic variable|
+|[`atomic_load_explicit()`](#man-atomic_load)|Return a value from an atomic variable, explicit|
+|[`atomic_signal_fence()`](#man-atomic_signal_fence)|Fence for intra-thread signal handlers|
+|[`atomic_store()`](#man-atomic_store)|Store a value in an atomic variable|
+|[`atomic_store_explicit()`](#man-atomic_store)|Store a value in an atomic variable, explicit|
+|[`atomic_thread_fence()`](#man-atomic_thread_fence)|Set up a fence|
+|[`kill_dependency()`](#man-kill_dependency)|End a dependency chain|
 
 You might need to add `-latomic` to your compilation command line on
 Unix-like operating systems.
@@ -612,10 +622,11 @@ int main(void)
 [`atomic_load_explicit()`](#man-atomic_load),
 [`atomic_exchange()`](#man-atomic_exchange),
 [`atomic_exchange_explicit()`](#man-atomic_exchange),
-[`atomic_compare_exchange_strong()'](#man-atomic_compare_exchange),
-[`atomic_compare_exchange_strong_explicit()](#man-atomic_compare_exchange),
-[`atomic_compare_exchange_weak()](#man-atomic_compare_exchange),
-[`atomic_compare_exchange_weak_explicit()](#man-atomic_compare_exchange)
+[`atomic_compare_exchange_strong()`](#man-atomic_compare_exchange),
+[`atomic_compare_exchange_strong_explicit()`](#man-atomic_compare_exchange),
+[`atomic_compare_exchange_weak()`](#man-atomic_compare_exchange),
+[`atomic_compare_exchange_weak_explicit()`](#man-atomic_compare_exchange),
+[`atomic_fetch_*()`](#man-atomic_fetch)
 
 [[manbreak]]
 ## `atomic_load()` `atomic_load_explicit()` {#man-atomic_load}
@@ -733,10 +744,10 @@ x was 10
 [`atomic_load_explicit()`](#man-atomic_load),
 [`atomic_store()`](#man-atomic_store),
 [`atomic_store_explicit()`](#man-atomic_store)
-[`atomic_compare_exchange_strong()'](#man-atomic_compare_exchange),
-[`atomic_compare_exchange_strong_explicit()](#man-atomic_compare_exchange),
-[`atomic_compare_exchange_weak()](#man-atomic_compare_exchange),
-[`atomic_compare_exchange_weak_explicit()](#man-atomic_compare_exchange)
+[`atomic_compare_exchange_strong()`](#man-atomic_compare_exchange),
+[`atomic_compare_exchange_strong_explicit()`](#man-atomic_compare_exchange),
+[`atomic_compare_exchange_weak()`](#man-atomic_compare_exchange),
+[`atomic_compare_exchange_weak_explicit()`](#man-atomic_compare_exchange)
 
 [[manbreak]]
 ## `atomic_compare_exchange_*()` {#man-atomic_compare_exchange}
@@ -876,7 +887,112 @@ Just replacing this with `value = value + 2` causes data trampling.
 [`atomic_store()`](#man-atomic_store),
 [`atomic_store_explicit()`](#man-atomic_store),
 [`atomic_exchange()`](#man-atomic_exchange),
-[`atomic_exchange_explicit()`](#man-atomic_exchange)
+[`atomic_exchange_explicit()`](#man-atomic_exchange),
+[`atomic_fetch_*()`](#man-atomic_fetch)
+
+[[manbreak]]
+## `atomic_fetch_*()` {#man-atomic_fetch}
+
+Atomically modify atomic variables
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <stdatomic.h>
+
+C atomic_fetch_KEY(volatile A *object, M operand);
+
+C atomic_fetch_KEY_explicit(volatile A *object, M operand,
+                            memory_order order);
+```
+
+### Description {.unnumbered .unlisted}
+
+These are actually a group of 10 functions. You substitute one of the
+following for `KEY` to perform that operation:
+
+`add`, `sub`, `or`, `xor`, or `and`.
+
+So these functions can add or subtract values to or from an atomic
+variable, or can perform bitwise-OR, XOR, or AND on them.
+
+Use it with integer or pointer types. Though the spec is a little vague
+on the matter, other types make C unhappy. It goes out of its way to
+avoid undefined behavior with signed integers, as well:
+
+C18 §7.17.7.5 ¶3:
+
+> For signed integer types, arithmetic is defined to use two’s
+> complement representation with silent wrap-around on overflow; there
+> are no undefined results.
+
+In the synopsis, above, `A` is an atomic type, and `M` is the
+corresponding non-atomic type for `A` (or `ptrdiff_t` for atomic
+pointers), and `C` is the corresponding non-atomic type for `A`.
+
+For example, here are some operations on an `atomic_int`.
+
+``` {.c}
+atomic_fetch_add(&x, 20);
+atomic_fetch_sub(&x, 37);
+atomic_fetch_xor(&x, 3490);
+```
+
+They are the same as `+=`, `-=`, `|=`, `^=` and `&=`, except the return
+value is the _previous_ value of the atomic object. (With the assignment
+operators, the value of the expression is that _after_ its evaluation.)
+
+``` {.c}
+atomic_int x = 10;
+int prev = atomic_fetch_add(&x, 20);
+printf("%d %d\n", prev, x);  // 10 30
+```
+
+versus:
+
+``` {.c}
+atomic_int x = 10;
+int prev = (x += 20);
+printf("%d %d\n", prev, x);  // 30 30
+```
+
+And, of course, the `_explicit` version allows you to specify a memory
+order and all the assignment operators are `memory_order_seq_cst`.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns the previous value of the atomic object before the modification.
+
+### Example {.unnumbered .unlisted}
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <stdatomic.h>
+
+int main(void)
+{
+    atomic_int x = 0;
+    int prev;
+
+    atomic_fetch_add(&x, 3490);
+    atomic_fetch_sub(&x, 12);
+    atomic_fetch_xor(&x, 444);
+    atomic_fetch_or(&x, 12);
+    prev = atomic_fetch_and(&x, 42);
+
+    printf("%d %d\n", prev, x);   // 3118 42
+}
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`atomic_exchange()`](#man-atomic_exchange),
+[`atomic_exchange_explicit()`](#man-atomic_exchange),
+[`atomic_compare_exchange_strong()`](#man-atomic_compare_exchange),
+[`atomic_compare_exchange_strong_explicit()`](#man-atomic_compare_exchange),
+[`atomic_compare_exchange_weak()`](#man-atomic_compare_exchange),
+[`atomic_compare_exchange_weak_explicit()`](#man-atomic_compare_exchange)
+
 
 <!--
 [[manbreak]]
