@@ -7,31 +7,35 @@
 
 |Function|Description|
 |-|-|
-|[`ATOMIC_VAR_INIT()`](#man-ATOMIC_VAR_INIT)|Create an initializer for an atomic variable|
-|[`atomic_compare_exchange_strong()`](#man-atomic_compare_exchange)|Atomic compare and exchange, strong|
 |[`atomic_compare_exchange_strong_explicit()`](#man-atomic_compare_exchange)|Atomic compare and exchange, strong, explicit|
-|[`atomic_compare_exchange_weak()`](#man-atomic_compare_exchange)|Atomic compare and exchange, weak|
+|[`atomic_compare_exchange_strong()`](#man-atomic_compare_exchange)|Atomic compare and exchange, strong|
 |[`atomic_compare_exchange_weak_explicit()`](#man-atomic_compare_exchange)|Atomic compare and exchange, weak, explicit|
-|[`atomic_exchange()`](#man-atomic_exchange)|Replace a value in an atomic object|
+|[`atomic_compare_exchange_weak()`](#man-atomic_compare_exchange)|Atomic compare and exchange, weak|
 |[`atomic_exchange_explicit()`](#man-atomic_exchange)|Replace a value in an atomic object, explicit|
-|[`atomic_fetch_add()`](#man-atomic_fetch)|Atomically add to an atomic integer|
+|[`atomic_exchange()`](#man-atomic_exchange)|Replace a value in an atomic object|
 |[`atomic_fetch_add_explicit()`](#man-atomic_fetch)|Atomically add to an atomic integer, explicit|
-|[`atomic_fetch_and()`](#man-atomic_fetch)|Atomically bitwise-AND an atomic integer|
+|[`atomic_fetch_add()`](#man-atomic_fetch)|Atomically add to an atomic integer|
 |[`atomic_fetch_and_explicit()`](#man-atomic_fetch)|Atomically bitwise-AND an atomic integer, explicit|
-|[`atomic_fetch_or()`](#man-atomic_fetch)|Atomically bitwise-OR an atomic integer|
+|[`atomic_fetch_and()`](#man-atomic_fetch)|Atomically bitwise-AND an atomic integer|
 |[`atomic_fetch_or_explicit()`](#man-atomic_fetch)|Atomically bitwise-OR an atomic integer, explicit|
-|[`atomic_fetch_sub()`](#man-atomic_fetch)|Atomically subtract from an atomic integer|
+|[`atomic_fetch_or()`](#man-atomic_fetch)|Atomically bitwise-OR an atomic integer|
 |[`atomic_fetch_sub_explicit()`](#man-atomic_fetch)|Atomically subtract from an atomic integer, explicit|
-|[`atomic_fetch_xor()`](#man-atomic_fetch)|Atomically bitwise-XOR an atomic integer|
+|[`atomic_fetch_sub()`](#man-atomic_fetch)|Atomically subtract from an atomic integer|
 |[`atomic_fetch_xor_explicit()`](#man-atomic_fetch)|Atomically bitwise-XOR an atomic integer, explicit|
+|[`atomic_fetch_xor()`](#man-atomic_fetch)|Atomically bitwise-XOR an atomic integer|
+|[`atomic_flag_clear_explicit()`](#man-atomic_flag_clear)|Clear an atomic flag, explicit|
+|[`atomic_flag_clear()`](#man-atomic_flag_clear)|Clear an atomic flag|
+|[`atomic_flag_test_and_set_explicit()`](#man-atomic_flag_test_and_set)|Test and set an atomic flag, explicit|
+|[`atomic_flag_test_and_set()`](#man-atomic_flag_test_and_set)|Test and set an atomic flag|
 |[`atomic_init()`](#man-atomic_init)|Initialize an atomic variable|
 |[`atomic_is_lock_free()`](#man-atomic_is_lock_free)|Determine if an atomic type is lock free|
-|[`atomic_load()`](#man-atomic_load)|Return a value from an atomic variable|
 |[`atomic_load_explicit()`](#man-atomic_load)|Return a value from an atomic variable, explicit|
+|[`atomic_load()`](#man-atomic_load)|Return a value from an atomic variable|
 |[`atomic_signal_fence()`](#man-atomic_signal_fence)|Fence for intra-thread signal handlers|
-|[`atomic_store()`](#man-atomic_store)|Store a value in an atomic variable|
 |[`atomic_store_explicit()`](#man-atomic_store)|Store a value in an atomic variable, explicit|
+|[`atomic_store()`](#man-atomic_store)|Store a value in an atomic variable|
 |[`atomic_thread_fence()`](#man-atomic_thread_fence)|Set up a fence|
+|[`ATOMIC_VAR_INIT()`](#man-ATOMIC_VAR_INIT)|Create an initializer for an atomic variable|
 |[`kill_dependency()`](#man-kill_dependency)|End a dependency chain|
 
 You might need to add `-latomic` to your compilation command line on
@@ -127,12 +131,18 @@ at compile-time.
 
 ## Atomic Flag
 
-The `atomic_flag` type is the only time guaranteed to be lock-free.
-Though your PC implementation probably does a lot more.
+The `atomic_flag` opaque type is the only time guaranteed to be
+lock-free. Though your PC implementation probably does a lot more.
 
 It is accessed through the
 [`atomic_flag_test_and_set()`](#man-atomic_flag_test_and_set) and
 [`atomic_flag_clear()`](#man-atomic_flag_clear) functions.
+
+Before use, it can be initialized to a clear state with:
+
+``` {.c}
+atomic_flag f = ATOMIC_FLAG_INIT;
+```
 
 ## Memory Order
 
@@ -342,8 +352,8 @@ This sets up a memory fence with the specified `order`.
 |`memory_order_relaxed`|No fence at all---no point in calling with this|
 
 You might try to avoid using these and just stick with the different
-modes with [`atomic_store_explicit()`](#man-atomic_store_explicit) and
-[`atomic_load_explicit()`](#man-atomic_load_explicit). Or not.
+modes with [`atomic_store_explicit()`](#man-atomic_store) and
+[`atomic_load_explicit()`](#man-atomic_load). Or not.
 
 ### Return Value {.unnumbered .unlisted}
 
@@ -405,8 +415,8 @@ int main(void)
 
 ### See Also {.unnumbered .unlisted}
 
-[`atomic_store_explicit()`](#man-atomic_store_explicit),
-[`atomic_load_explicit()`](#man-atomic_load_explicit),
+[`atomic_store_explicit()`](#man-atomic_store),
+[`atomic_load_explicit()`](#man-atomic_load),
 [`atomic_signal_fence()`](#man-atomic_signal_fence)
 
 [[manbreak]]
@@ -552,7 +562,7 @@ c is lock-free: 0
 [Lock-free Macros](#lock-free-macros)
 
 [[manbreak]]
-## `atomic_store()` `atomic_store_explicit()` {#man-atomic_store}
+## `atomic_store()` {#man-atomic_store}
 
 Store a value in an atomic variable
 
@@ -620,16 +630,16 @@ int main(void)
 [`atomic_init()`](#man-atomic_init),
 [`atomic_load()`](#man-atomic_load),
 [`atomic_load_explicit()`](#man-atomic_load),
-[`atomic_exchange()`](#man-atomic_exchange),
+[`atomic_exchange()`](#man-atomic_exchange), \
 [`atomic_exchange_explicit()`](#man-atomic_exchange),
-[`atomic_compare_exchange_strong()`](#man-atomic_compare_exchange),
+[`atomic_compare_exchange_strong()`](#man-atomic_compare_exchange), \
 [`atomic_compare_exchange_strong_explicit()`](#man-atomic_compare_exchange),
-[`atomic_compare_exchange_weak()`](#man-atomic_compare_exchange),
+[`atomic_compare_exchange_weak()`](#man-atomic_compare_exchange), \
 [`atomic_compare_exchange_weak_explicit()`](#man-atomic_compare_exchange),
 [`atomic_fetch_*()`](#man-atomic_fetch)
 
 [[manbreak]]
-## `atomic_load()` `atomic_load_explicit()` {#man-atomic_load}
+## `atomic_load()` {#man-atomic_load}
 
 Return a value from an atomic variable
 
@@ -683,7 +693,7 @@ int main(void)
 [`atomic_store_explicit()`](#man-atomic_store)
 
 [[manbreak]]
-## `atomic_exchange()` `atomic_exchange_explicit()` {#man-atomic_exchange}
+## `atomic_exchange()` {#man-atomic_exchange}
 
 Replace a value in an atomic object
 
@@ -742,11 +752,11 @@ x was 10
 [`atomic_init()`](#man-atomic_init),
 [`atomic_load()`](#man-atomic_load),
 [`atomic_load_explicit()`](#man-atomic_load),
-[`atomic_store()`](#man-atomic_store),
+[`atomic_store()`](#man-atomic_store), \
 [`atomic_store_explicit()`](#man-atomic_store)
-[`atomic_compare_exchange_strong()`](#man-atomic_compare_exchange),
+[`atomic_compare_exchange_strong()`](#man-atomic_compare_exchange), \
 [`atomic_compare_exchange_strong_explicit()`](#man-atomic_compare_exchange),
-[`atomic_compare_exchange_weak()`](#man-atomic_compare_exchange),
+[`atomic_compare_exchange_weak()`](#man-atomic_compare_exchange), \
 [`atomic_compare_exchange_weak_explicit()`](#man-atomic_compare_exchange)
 
 [[manbreak]]
@@ -911,7 +921,11 @@ C atomic_fetch_KEY_explicit(volatile A *object, M operand,
 These are actually a group of 10 functions. You substitute one of the
 following for `KEY` to perform that operation:
 
-`add`, `sub`, `or`, `xor`, or `and`.
+* `add`
+* `sub`
+* `or`
+* `xor`
+* `and`
 
 So these functions can add or subtract values to or from an atomic
 variable, or can perform bitwise-OR, XOR, or AND on them.
@@ -988,11 +1002,205 @@ int main(void)
 
 [`atomic_exchange()`](#man-atomic_exchange),
 [`atomic_exchange_explicit()`](#man-atomic_exchange),
-[`atomic_compare_exchange_strong()`](#man-atomic_compare_exchange),
+[`atomic_compare_exchange_strong()`](#man-atomic_compare_exchange), \
 [`atomic_compare_exchange_strong_explicit()`](#man-atomic_compare_exchange),
-[`atomic_compare_exchange_weak()`](#man-atomic_compare_exchange),
+[`atomic_compare_exchange_weak()`](#man-atomic_compare_exchange), \
 [`atomic_compare_exchange_weak_explicit()`](#man-atomic_compare_exchange)
 
+
+[[manbreak]]
+## `atomic_flag_test_and_set()` {#man-atomic_flag_test_and_set}
+
+Test and set an atomic flag
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <stdatomic.h>
+
+_Bool atomic_flag_test_and_set(volatile atomic_flag *object);
+
+_Bool atomic_flag_test_and_set_explicit(volatile atomic_flag *object,
+                                        memory_order order);
+```
+
+### Description {.unnumbered .unlisted}
+
+One of the venerable old functions of lock-free programming, this
+function sets the given atomic flag in `object`, and returns the
+previous value of the flag.
+
+As usual, the `_explicit` allows you to specify an alternate memory
+order.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns `true` if the flag was set previously, and `false` if it wasn't.
+
+### Example {.unnumbered .unlisted}
+
+Using test-and-set to implement a spin lock^[Don't use this unless you
+know what you're doing---use the thread mutex functionality instead.
+It'll let your blocked thread sleep and stop chewing up CPU.]:
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <threads.h>
+#include <stdatomic.h>
+
+// Shared non-atomic struct
+struct {
+    int x, y, z;
+} s = {1, 2, 3};
+
+atomic_flag f = ATOMIC_FLAG_INIT;
+
+int run(void *arg)
+{
+    int tid = *(int*)arg;
+
+    printf("Thread %d: waiting for lock...\n", tid);
+
+    while (atomic_flag_test_and_set(&f));
+
+    printf("Thread %d: got lock, s is {%d, %d, %d}\n", tid,
+                                                       s.x, s.y, s.z);
+    s.x = (tid + 1) * 5 + 0;
+    s.y = (tid + 1) * 5 + 1;
+    s.z = (tid + 1) * 5 + 2;
+    printf("Thread %d: set s to {%d, %d, %d}\n", tid, s.x, s.y, s.z);
+
+    printf("Thread %d: releasing lock...\n", tid);
+    atomic_flag_clear(&f);
+
+    return 0;
+}
+
+int main(void)
+{
+    thrd_t t1, t2;
+    int tid[] = {0, 1};
+
+    thrd_create(&t1, run, tid+0);
+    thrd_create(&t2, run, tid+1);
+
+    thrd_join(t1, NULL);
+    thrd_join(t2, NULL);
+}
+```
+
+Example output (varies run to run):
+
+``` {.default}
+Thread 0: waiting for lock...
+Thread 0: got lock, s is {1, 2, 3}
+Thread 1: waiting for lock...
+Thread 0: set s to {5, 6, 7}
+Thread 0: releasing lock...
+Thread 1: got lock, s is {5, 6, 7}
+Thread 1: set s to {10, 11, 12}
+Thread 1: releasing lock...
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`atomic_flag_clear()`](#man-atomic_flag_clear)
+
+[[manbreak]]
+## `atomic_flag_clear()` {#man-atomic_flag_clear}
+
+Clear an atomic flag
+
+### Synopsis {.unnumbered .unlisted}
+
+``` {.c}
+#include <stdatomic.h>
+
+void atomic_flag_clear(volatile atomic_flag *object);
+
+void atomic_flag_clear_explicit(volatile atomic_flag *object,
+                                memory_order order);
+```
+
+### Description {.unnumbered .unlisted}
+
+Clears an atomic flag.
+
+As usual, the `_explicit` allows you to specify an alternate memory
+order.
+
+### Return Value {.unnumbered .unlisted}
+
+Returns nothing!
+
+### Example {.unnumbered .unlisted}
+
+Using test-and-set to implement a spin lock^[Don't use this unless you
+know what you're doing---use the thread mutex functionality instead.
+It'll let your blocked thread sleep and stop chewing up CPU.]:
+
+``` {.c .numberLines}
+#include <stdio.h>
+#include <threads.h>
+#include <stdatomic.h>
+
+// Shared non-atomic struct
+struct {
+    int x, y, z;
+} s = {1, 2, 3};
+
+atomic_flag f = ATOMIC_FLAG_INIT;
+
+int run(void *arg)
+{
+    int tid = *(int*)arg;
+
+    printf("Thread %d: waiting for lock...\n", tid);
+
+    while (atomic_flag_test_and_set(&f));
+
+    printf("Thread %d: got lock, s is {%d, %d, %d}\n", tid,
+                                                       s.x, s.y, s.z);
+    s.x = (tid + 1) * 5 + 0;
+    s.y = (tid + 1) * 5 + 1;
+    s.z = (tid + 1) * 5 + 2;
+    printf("Thread %d: set s to {%d, %d, %d}\n", tid, s.x, s.y, s.z);
+
+    printf("Thread %d: releasing lock...\n", tid);
+    atomic_flag_clear(&f);
+
+    return 0;
+}
+
+int main(void)
+{
+    thrd_t t1, t2;
+    int tid[] = {0, 1};
+
+    thrd_create(&t1, run, tid+0);
+    thrd_create(&t2, run, tid+1);
+
+    thrd_join(t1, NULL);
+    thrd_join(t2, NULL);
+}
+```
+
+Example output (varies run to run):
+
+``` {.default}
+Thread 0: waiting for lock...
+Thread 0: got lock, s is {1, 2, 3}
+Thread 1: waiting for lock...
+Thread 0: set s to {5, 6, 7}
+Thread 0: releasing lock...
+Thread 1: got lock, s is {5, 6, 7}
+Thread 1: set s to {10, 11, 12}
+Thread 1: releasing lock...
+```
+
+### See Also {.unnumbered .unlisted}
+
+[`atomic_flag_test_and_set()`](#man-atomic_flag_test_and_set)
 
 <!--
 [[manbreak]]
