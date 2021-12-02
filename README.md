@@ -66,7 +66,6 @@ have to consider any copyright issues when merging changes.
 
 ## TODO
 
-* __STDC_WANT_LIB_EXT
 * Exercises
 * Index
 * C23
