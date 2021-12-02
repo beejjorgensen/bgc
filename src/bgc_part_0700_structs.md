@@ -236,3 +236,17 @@ and copies the data they point to, as well. A _shallow copy_ just copies
 the pointers, but not the things they point to. C doesn't come with any
 built-in deep copy functionality.]. All fields are copied as-is,
 including pointers to things.
+
+## Comparing `struct`s
+
+There's only one safe way to do it: compare each field one at a time.
+
+You might think you could use [`memcmp()`](#man-strcmp), but that
+doesn't handle the case of the possible [padding
+bytes](#struct-padding-bytes) that might be in there.
+
+If you clear the `struct` to zero first with [`memset()`](#man-memset),
+then it _might_ work, though there could be weird elements that
+[fl[might not compare as you
+expect|https://stackoverflow.com/questions/141720/how-do-you-compare-structs-for-equality-in-c]].
+

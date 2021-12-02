@@ -354,7 +354,7 @@ struct len_string *len_string_from_c_string(char *s)
 }
 ```
 
-## Padding Bytes
+## Padding Bytes {#struct-padding-bytes}
 
 Beware that C is allowed to add padding bytes within or after a `struct`
 as it sees fit. You can't trust that they will be directly adjacent in
