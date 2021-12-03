@@ -28,6 +28,8 @@ bucket|Bit_bucket]] in the sky.
 An example with nested scope:
 
 ``` {.c .numberLines}
+#include <stdio.h>
+
 int main(void)
 {
     int a = 12;         // Local to outer block, but visible in inner block
