@@ -153,14 +153,19 @@ int main(void)
 {
     int i = 10;
 
-    printf("The value of i is %d, and its address is %p\n", i, &i);
+    printf("The value of i is %d\n", i);
+    printf("And its address is %p\n", (void *)&i);
+
+    // %p expects the argument to be a pointer to void
+    // so we cast it to make the compiler happy.
 }
 ```
 
 On my computer, this prints:
 
 ``` {.default}
-The value of i is 10, and its address is 0x7ffda2546fc4
+The value of i is 10
+And its address is 0x7ffddf7072a4
 ```
 
 If you're curious, that hexadecimal number is 140,727,326,896,068 in
