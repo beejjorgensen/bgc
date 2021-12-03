@@ -5,10 +5,12 @@ CCOPTS=-Wall -Wextra
 
 all:
 	$(MAKE) -C examples $@
-	$(MAKE) -C exercises $@
+	#$(MAKE) -C man $@
+	#$(MAKE) -C exercises $@
 
 clean:
 	$(MAKE) -C examples $@
-	$(MAKE) -C exercises $@
+	#$(MAKE) -C man $@
+	#$(MAKE) -C exercises $@
 
 pristine: clean

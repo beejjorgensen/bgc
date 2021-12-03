@@ -6,10 +6,11 @@ BUILDTMP=./build_tmp
 .PHONY: all
 all:
 	$(MAKE) -C src
+	$(MAKE) -C source clean
 
 .PHONY: stage
 stage:
-	mkdir -p $(BUILDDIR)/{pdf,html,translations,examples}
+	mkdir -p $(BUILDDIR)/{pdf,html,translations,source}
 	mkdir -p $(BUILDDIR)/html/$(PACKAGE)
 	cp -v website/* website/.htaccess $(BUILDDIR)
 	cp -v src/$(PACKAGE)*.pdf $(BUILDDIR)/pdf
@@ -22,12 +23,11 @@ stage:
 	( cd $(BUILDDIR)/html; zip -r $(PACKAGE)-wide.zip $(PACKAGE); mv $(PACKAGE) split-wide )
 	#cp -v src/{cs,dataencap}.svg $(BUILDDIR)/html/
 	cp -v translations/*.{pdf,html} $(BUILDDIR)/translations 2>/dev/null || : 
-	cp -v examples/*.c $(BUILDDIR)/examples
-	cp -v examples/{Makefile,README.md} $(BUILDDIR)/examples
-	mkdir -p $(BUILDTMP)/$(PACKAGE)_examples
-	cp -v examples/{Makefile,README.md} examples/*.c $(BUILDTMP)/$(PACKAGE)_examples
-	( cd $(BUILDTMP); zip -r $(PACKAGE)_examples.zip $(PACKAGE)_examples )
-	cp -v $(BUILDTMP)/$(PACKAGE)_examples.zip $(BUILDDIR)/examples
+	cp -rv source/* $(BUILDDIR)/source
+	mkdir -p $(BUILDTMP)/$(PACKAGE)_source
+	cp -rv source/* $(BUILDTMP)/$(PACKAGE)_source
+	( cd $(BUILDTMP); zip -r $(PACKAGE)_source.zip $(PACKAGE)_source )
+	cp -v $(BUILDTMP)/$(PACKAGE)_source.zip $(BUILDDIR)/source
 	rm -rf $(BUILDTMP)
 
 .PHONY: upload
@@ -41,12 +41,12 @@ fastupload: all stage
 .PHONY: pristine
 pristine: clean
 	$(MAKE) -C src $@
-	$(MAKE) -C examples $@
+	$(MAKE) -C source $@
 	rm -rf $(BUILDDIR)
 
 .PHONY: clean
 clean:
 	rm -rf 
 	$(MAKE) -C src $@
-	$(MAKE) -C examples $@
+	$(MAKE) -C source $@
 
