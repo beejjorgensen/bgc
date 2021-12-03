@@ -156,6 +156,8 @@ prints the value out as a float. If it finds a `%s`, it prints a string.
 As such, we can print out the value of various types like so:
 
 ``` {.c .numberLines}
+#include <stdio.h>
+
 int main(void)
 {
     int i = 2;
