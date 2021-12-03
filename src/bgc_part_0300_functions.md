@@ -22,6 +22,8 @@ Let's take a look at a function. This is a function that takes an `int`
 as an argument, and returns an `int`.
 
 ``` {.c .numberLines}
+#include <stdio.h>
+
 int plus_one(int n)  // The "definition"
 {
     return n + 1;
@@ -43,7 +45,7 @@ itself. More on that in a minute.
 Continuing the program down into `main()`, we can see the call to the
 function, where we assign the return value into local variable `j`:
 
-``` {.c .numberLines startFrom="6"}
+``` {.c .numberLines startFrom="8"}
 int main(void)
 {
     int i = 10, j;
@@ -70,6 +72,8 @@ that the function accepts no arguments.
 You can also return `void` to indicate that you don't return a value:
 
 ``` {.c .numberLines}
+#include <stdio.h>
+
 // This function takes no arguments and returns no value:
 
 void hello(void)
@@ -103,6 +107,8 @@ So let's look at an example here. Study it and see if you can determine
 the output before running it:
 
 ``` {.c .numberLines}
+#include <stdio.h>
+
 void increment(int a)
 {
     a++;
@@ -182,6 +188,8 @@ calls a function that is defined later, because a prototype has been
 declared first:
 
 ``` {.c .numberLines}
+#include <stdio.h>
+
 int foo(void);  // This is the prototype!
 
 int main(void)
@@ -192,6 +200,8 @@ int main(void)
     // prototype has already been declared, above!
 
     i = foo();
+    
+    printf("%d\n", i);  // 3490
 }
 
 int foo(void)  // This is the definition, just like the prototype!
