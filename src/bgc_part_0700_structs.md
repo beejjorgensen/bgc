@@ -139,6 +139,8 @@ Let's try passing in a pointer, making a function that will allow you to
 set the `.price` field of the `struct car`:
 
 ``` {.c .numberLines}
+#include <stdio.h>
+
 struct car {
     char *name;
     float price;
@@ -153,7 +155,8 @@ int main(void)
     // more realistic, price:
     set_price(&saturn, 799.99);
 
-    // ... code continues ...
+    printf("Price: %f\n", saturn.price);
+}
 ```
 
 You should be able to come up with the function signature for
