@@ -1,7 +1,6 @@
 CC=gcc
 CCOPTS=-Wall -Wextra -std=c2x -pedantic
-LIBS=-lpthread -latomic
-#LIBS=-lpthread   # Use this if your platform doesn't support atomic
+LIBS=
 
 SRCS=$(wildcard *.c)
 TARGETS=$(SRCS:.c=)
