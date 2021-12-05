@@ -13,6 +13,11 @@ arrays_indexing
 arrays_init
 arrays_oob
 arrays_passfunc
+env_argcargv
+env_argvadder
+env_argvmult
+env_environ
+env_getenv
 fileio_fgetc
 fileio_fgetcloop
 fileio_fgets
@@ -48,8 +53,8 @@ types2_sigfigs
 types3_atof
 types3_badchar
 types3_snprintf
-types3_strtoulbin
 types3_strtoul
+types3_strtoulbin
+types4_staticvar
 var_stat_if
 var_stat_print
-
