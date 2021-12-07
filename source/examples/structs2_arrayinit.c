@@ -18,8 +18,8 @@ int main(void)
         .manufacturer="General Products",
         .passenger = {
             // Initialize a field at a time
-            [0].name = "Gridley, Lewis",
             [0].covid_vaccinated = 0,
+            [0].name = "Gridley, Lewis",
 
             // Or all at once
             [7] = {.name="Brown, Teela", .covid_vaccinated=1},
