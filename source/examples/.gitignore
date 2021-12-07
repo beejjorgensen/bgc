@@ -32,6 +32,8 @@ env_argvmult
 env_env
 env_environ
 env_getenv
+exit_atexit
+exit_atquickexit
 fileio_fgetc
 fileio_fgetcloop
 fileio_fgets
@@ -48,6 +50,10 @@ pointers2_memcpy
 pointers2_memcpyint
 pointers2_mystrlen
 pointers2_qsort
+pointers3_objrepr
+pointers3_ptrfun
+pointers3_ptrfun2
+pointers3_ptrptr
 pointers_addrof
 pointers_byref
 pointers_deref
@@ -55,6 +61,10 @@ scope_block
 scope_forhiding
 scope_global
 scope_hiding
+signal_inthandler
+signal_inthandler2
+signal_sigign
+strings2_oneline
 strings_arrayequiv
 strings_arrayinit
 strings_ptrcopy
@@ -81,5 +91,9 @@ types3_snprintf
 types3_strtoul
 types3_strtoulbin
 types4_staticvar
+unicode_sizecmp
+unicode_sizecmpmbs
 var_stat_if
 var_stat_print
+variadic_add
+variadic_myprintf
