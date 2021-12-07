@@ -18,6 +18,12 @@ int main(void)
         .manufacturer="General Products",
         .passenger = {
             // Initialize a field at a time
+
+			// These fields are in the reverse order of
+			// definition to work around a spurious gcc
+			// warning bug. The order doesn't actually
+			// matter.
+
             [0].covid_vaccinated = 0,
             [0].name = "Gridley, Lewis",
 
