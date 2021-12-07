@@ -98,7 +98,7 @@ equivalent.)
 
 ``` {.c .numberLines}
 #include <stdio.h>
-#include <unistd.h>  // Non-standard Unix-likes only for sleep()
+#include <threads.h>
 
 int main(void)
 {
@@ -107,7 +107,8 @@ int main(void)
 
         fflush(stdout);  // Force output to update
 
-        sleep(1);        // Delay 1 second
+        // Sleep for 1 second
+        thrd_sleep(&(struct timespec){.tv_sec=1}, NULL);
     }
 
     printf("\rLiftoff!             \n");
