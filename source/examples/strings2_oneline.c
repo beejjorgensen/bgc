@@ -1,5 +1,18 @@
 #include <stdio.h>
+#ifdef __APPLE__
+#include <unistd.h>
+#else
 #include <threads.h>
+#endif
+
+void mysleep(int seconds)
+{
+#ifdef __APPLE__
+    sleep(seconds);
+#else
+    thrd_sleep(&(struct timespec){.tv_sec=seconds}, NULL);
+#endif
+}
 
 int main(void)
 {
@@ -9,7 +22,7 @@ int main(void)
         fflush(stdout);  // Force output to update
 
         // Sleep for 1 second
-        thrd_sleep(&(struct timespec){.tv_sec=1}, NULL);
+        mysleep(1);
     }
 
     printf("\rLiftoff!             \n");
