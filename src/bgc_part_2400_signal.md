@@ -61,7 +61,7 @@ int main(void)
 
     signal(SIGINT, SIG_IGN);    // Ignore SIGINT, caused by ^C
 
-    printf("Try hitting ^C...\n");
+    printf("Try hitting ^C... (hit RETURN to exit)\n");
 
     // Wait for a line of input so the program doesn't just exit
     fgets(s, sizeof s, stdin);
@@ -285,29 +285,28 @@ int main(void)
 ```
 
 Undefined behavior again? It's my read that this is, because we have to
-read the value in order to increment and store it. We can do some
-ridiculous contortions so that we're only assigning into the values and
-manage to avoid undefined behavior.
+read the value in order to increment and store it.
+
+If we only want to postpone the exit by one hitting of `CTRL-C`, we can
+do that without too much trouble. But any more postponement would
+require some ridiculous function chaining.
+
+What we'll do is handle it once, and the handler will reset the signal
+to its default behavior (that is, to exit):
 
 ``` {.c .numberLines}
 #include <stdio.h>
 #include <signal.h>
 
-void sigint_handler_2(int signum)
+void sigint_handler(int signum)
 {
     (void)signum;                      // Unused variable warning
     signal(SIGINT, SIG_DFL);           // Reset signal handler
 }
 
-void sigint_handler_1(int signum)
-{
-    (void)signum;                      // Unused variable warning
-    signal(SIGINT, sigint_handler_2);  // Set to second handler
-}
-
 int main(void)
 {
-    signal(SIGINT, sigint_handler_1);
+    signal(SIGINT, sigint_handler);
 
     printf("Hit ^C twice to exit.\n");
 
@@ -315,10 +314,9 @@ int main(void)
 }
 ```
 
-That's pretty ugly, all right. Later when we look at lock-free atomic
-variables, we'll see a way to fix the `count` version (assuming
-lock-free atomic variables are available on your particular system), but
-we're getting into zanyland here.
+Later when we look at lock-free atomic variables, we'll see a way to fix
+the `count` version (assuming lock-free atomic variables are available
+on your particular system).
 
 This is why at the beginning, I was suggesting checking out your OS's
 built-in signal system as a probably-superior alternative.
