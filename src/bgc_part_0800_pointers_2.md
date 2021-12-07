@@ -404,7 +404,7 @@ struct antelopy my_clone_antelope;
 
 // ...
 
-memcpy(&my_clone, &my_antelope, sizeof my_antelope);
+memcpy(&my_clone_antelope, &my_antelope, sizeof my_antelope);
 ```
 
 Look at how versatile `memcpy()` is! If you have a pointer to a source
