@@ -7,7 +7,7 @@
 
 It might surprise you to learn that this builds without error:
 
-``` {.c .numberLines}
+``` {.c}
 extern int a[];
 
 int main(void)
@@ -64,7 +64,7 @@ another node if we haven't finished even declaring the node yet?
 C's allowance for incomplete types makes it possible. We can't declare a
 node, but we _can_ declare a pointer to one, even if it's incomplete!
 
-``` {.c .numberLines}
+``` {.c}
 struct node {
     int val;
     struct node *next;  // struct node is incomplete, but that's OK!
