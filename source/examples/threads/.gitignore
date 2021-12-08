@@ -1,0 +1,11 @@
+# Generate with
+#
+# !!ls *.c | sed s/\.c$//
+threads_demo
+threads_detach
+threads_mutex
+threads_nomutexrace
+threads_race
+threads_run5
+threads_threadlocal
+threads_tss

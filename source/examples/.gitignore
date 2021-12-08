@@ -43,6 +43,7 @@ fileio_fread
 fileio_fscanf
 fileio_fwrite
 fileio_output
+fixedwidth_print
 functions_hello
 functions_plus1
 functions_prototype
@@ -87,6 +88,8 @@ structs2_punning
 structs2_return
 structs2_unionptr
 structs_passfunc
+time_difftime
+time_strftime
 types2_char
 types2_charint
 types2_sigfigs
