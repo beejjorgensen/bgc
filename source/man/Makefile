@@ -1,6 +1,6 @@
 CC=gcc
 CCOPTS=-Wall -Wextra -std=c2x -pedantic
-LIBS=
+LIBS=-lm
 
 SRCS=$(wildcard *.c)
 TARGETS=$(SRCS:.c=)

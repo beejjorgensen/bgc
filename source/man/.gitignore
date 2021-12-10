@@ -2,4 +2,27 @@
 #
 # !!ls *.c | sed s/\.c$//
 assert
+cabs
+cacos
+cacosh
+carg
+casin
+casinh
+catan
+catanh
+ccos
+ccosh
+cexp
+cimag
+clog
+CMPLX
+conj
+cpow
+cproj
+creal
+csin
+csinh
+csqrt
+ctan
+ctanh
 static_assert
