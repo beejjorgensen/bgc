@@ -1,6 +1,7 @@
 # Generate with
 #
 # !!ls *.c | sed s/\.c$//
+alignof_demo
 alloc_alignedalloc
 alloc_mallocfree
 alloc_readline
@@ -44,6 +45,7 @@ fileio_fscanf
 fileio_fwrite
 fileio_output
 fixedwidth_print
+funcspec_noreturn
 functions_hello
 functions_plus1
 functions_prototype
