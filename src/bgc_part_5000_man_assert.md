@@ -82,15 +82,25 @@ assuming we'll never get a `0` passed to us.
 So we assert that `amount != 0`... and if it is, the program aborts/
 
 ``` {.c .numberLines}
-// #define NDEBUG 1   // uncomment this to disable the assert
+//#define NDEBUG 1   // uncomment this to disable the assert
 
+#include <stdio.h>
 #include <assert.h>
+
+int goat_count = 10;
 
 void divide_goat_herd_by(int amount)
 {
     assert(amount != 0);
 
     goat_count /= amount;
+}  
+
+int main(void)
+{
+    divide_goat_herd_by(2);  // OK
+
+    divide_goat_herd_by(0);  // Causes the assert to fire
 }
 ```
 
@@ -98,7 +108,7 @@ When I run this and pass `0` to the function, I get the following on my
 system (the exact output may vary):
 
 ``` {.default}
-Assertion failed: (amount != 0), function divide_goat_herd_by, file foo.c, line 7.
+assert: assert.c:10: divide_goat_herd_by: Assertion `amount != 0' failed.
 ```
 
 ### See Also {.unnumbered .unlisted}
@@ -146,26 +156,31 @@ large. We prevent that eventuality at compile-time by catching it with
 the `static_assert()`.
 
 ``` {.c .numberLines}
+#include <stdio.h>
 #include <assert.h>
 
-#define ARRAY_SIZE 5150
+#define ARRAY_SIZE 16
 
-void some_algorithm(void)
+int main(void)
 {
-    static_assert(ARRAY_SIZE <= 32, "ARRAY_SIZE too large");
+    static_assert(ARRAY_SIZE > 32, "ARRAY_SIZE too small");
 
-    int array[ARRAY_SIZE];
+    int a[ARRAY_SIZE];
 
-    // ...
+    a[32] = 10;
+
+    printf("%d\n", a[32]);
+}
 ```
 
 On my system, when I try to compile it, this prints (your output may vary):
 
 ``` {.default}
-foo.c:7:5: error: static_assert failed due to requirement '5150 <= 32'
-    "ARRAY_SIZE too large"
-    static_assert(ARRAY_SIZE <= 32, "ARRAY_SIZE too large");
-    ^             ~~~~~~~~~~~~~~~~
+In file included from static_assert.c:2:
+static_assert.c: In function ‘main’:
+static_assert.c:8:5: error: static assertion failed: "ARRAY_SIZE too small"
+    8 |     static_assert(ARRAY_SIZE > 32, "ARRAY_SIZE too small");
+      |     ^~~~~~~~~~~~~
 ```
 
 ### See Also {.unnumbered .unlisted}
