@@ -493,7 +493,6 @@ int main(void)
     printf("%s\n", ispunct(' ')? "yes": "no");   // no
     printf("%s\n", ispunct('\n')? "yes": "no");  // no
 }
-
 ```
 
 ### See Also {.unnumbered .unlisted}
@@ -680,11 +679,17 @@ uppercase, returns it unchanged.
 ### Example {.unnumbered .unlisted}
 
 ``` {.c .numberLines}
-//             changing this char
-//                      v
-printf("%c\n", tolower('B'));  // b (made lowercase!)
-printf("%c\n", tolower('e'));  // e (unchanged)
-printf("%c\n", tolower('!'));  // ! (unchanged)
+#include <stdio.h>
+#include <ctype.h>
+
+int main(void)
+{
+    //             changing this char
+    //                      v
+    printf("%c\n", tolower('B'));  // b (made lowercase!)
+    printf("%c\n", tolower('e'));  // e (unchanged)
+    printf("%c\n", tolower('!'));  // ! (unchanged)
+}
 ```
 
 ### See Also {.unnumbered .unlisted}
