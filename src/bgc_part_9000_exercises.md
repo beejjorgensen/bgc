@@ -68,3 +68,33 @@ giving up and looking at the answer.
    where the second number is its previous value plus the first number.
    Print up to 99 in the left column. The last value for `j` will be
    `4950`. [fls[varstat/twofor.c]]
+
+## Functions
+
+1. Write a function that has two integer parameters `x` and `y`, and
+   computes
+
+   $x\times20+x\times y$
+
+   and returns the result. [fls[functions/funcxy.c]]
+
+1. Write a function to compute $\pi$ through Grebory and Leibniz
+   infinite series to a specified number of terms (where the first term
+   is $1/1$ (AKA just $1$), below):
+
+   $\displaystyle\pi=4(\frac{1}{1}-\frac{1}{3}+\frac{1}{5}-\frac{1}{7}+\frac{1}{9}-\cdots)$
+
+   Print out the results of the series for terms 1 to 50. [fls[functions/]]
+
+
+<!--
+1. Write a function that returns the $+$ answer from the quadratic
+   formula for a given `a`, `b`, and `c`.
+
+   $\displaystyle\frac{-b+\sqrt{4ac}}{2a}$
+
+   You can get a square root by including `<math.h>` and calling
+   `sqrt(4*a*c)`. If you're on a Unix-like system, you might have to add
+   `-lm` to the end of your command line to link to the math library.
+   [fls[functions/]]
+-->
