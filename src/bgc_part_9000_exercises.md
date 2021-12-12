@@ -85,7 +85,7 @@ giving up and looking at the answer.
    $\displaystyle\pi=4(\frac{1}{1}-\frac{1}{3}+\frac{1}{5}-\frac{1}{7}+\frac{1}{9}-\cdots)$
 
    Print out the results of the series for terms 1 to 5000. The 5000th
-   iteration should produce $3.141397$. [fls[functions/]]
+   iteration should produce $3.141397$. [fls[functions/pi.c]]
 
 ## Pointers
 
@@ -96,7 +96,7 @@ giving up and looking at the answer.
    would give `1` and `8.2`.
    
    Since you're manipulating the value through the pointers, the result
-   should be visible in the caller.
+   should be visible in the caller. [fls[pointers/pointers.c]]
 
 
 <!--
