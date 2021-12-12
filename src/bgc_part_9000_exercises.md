@@ -66,11 +66,5 @@ giving up and looking at the answer.
    5 15
    ```
    where the second number is its previous value plus the first number.
-   Print up to 99 in the left column. [fls[varstat/]]
-
-1. Use loops to find increasingly accurate fractional estimates of $\pi$.
-
-   $\pi=3.14159265358979$
-
-   For example, $19/6=3.16667$ but $22/7=3.14285$, so is more accurate.
-   What's the most accurate fraction with numerator under 1000? [fls[varstat/]]
+   Print up to 99 in the left column. The last value for `j` will be
+   `4950`. [fls[varstat/twofor.c]]
