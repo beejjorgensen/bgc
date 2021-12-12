@@ -97,9 +97,6 @@ giving up and looking at the answer.
    
    Since you're manipulating the value through the pointers, the result
    should be visible in the caller.
-   
-
-   subtract the 
 
 
 <!--
