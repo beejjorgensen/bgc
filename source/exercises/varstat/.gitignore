@@ -1,0 +1,11 @@
+# Generate with
+#
+# !!ls *.c | sed s/\.c$//
+foo17
+foo17b
+formula1
+formula2
+pi_approx
+postinc
+predec
+whilediv7
