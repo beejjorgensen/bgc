@@ -78,13 +78,28 @@ giving up and looking at the answer.
 
    and returns the result. [fls[functions/funcxy.c]]
 
-1. Write a function to compute $\pi$ through Grebory and Leibniz
+1. Write a function to compute $\pi$ through Gregory and Leibniz
    infinite series to a specified number of terms (where the first term
    is $1/1$ (AKA just $1$), below):
 
    $\displaystyle\pi=4(\frac{1}{1}-\frac{1}{3}+\frac{1}{5}-\frac{1}{7}+\frac{1}{9}-\cdots)$
 
-   Print out the results of the series for terms 1 to 50. [fls[functions/]]
+   Print out the results of the series for terms 1 to 5000. The 5000th
+   iteration should produce $3.141397$. [fls[functions/]]
+
+## Pointers
+
+1. Write a function that takes a pointer to an `int` and a pointer to a
+   `float` as arguments. It should add the `int` to the `float` and
+   subtract the `float` from the `int`. It should appear as if both
+   these happened simultaneously, for example input of `5` and `3.2`
+   would give `1` and `8.2`.
+   
+   Since you're manipulating the value through the pointers, the result
+   should be visible in the caller.
+   
+
+   subtract the 
 
 
 <!--

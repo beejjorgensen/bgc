@@ -1,0 +1,5 @@
+# Generate with
+#
+# !!ls *.c | sed s/\.c$//
+funcxy
+pi
