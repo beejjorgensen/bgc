@@ -11,6 +11,8 @@ all: $(TARGETS)
 
 clean:
 	rm -f $(TARGETS)
+	$(MAKE) -C atomics clean
+	$(MAKE) -C threads clean
 
 pristine: clean
 
