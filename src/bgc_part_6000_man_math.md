@@ -425,8 +425,14 @@ Returns `1` if the sign is negative, otherwise `0`.
 ### Example {.unnumbered .unlisted}
 
 ``` {.c .numberLines}
-printf("%d\n", signbit(3490.0));  // 0
-printf("%d\n", signbit(-37.0));   // 1
+#include <stdio.h>
+#include <math.h>
+
+int main(void)
+{
+	printf("%d\n", signbit(3490.0));  // 0
+	printf("%d\n", signbit(-37.0));   // 1
+}
 ```
 
 ### See Also {.unnumbered .unlisted}
@@ -479,11 +485,20 @@ return value will be NaN. The variants return different types.
 ### Example {.unnumbered .unlisted}
 
 ``` {.c .numberLines}
-double acosx;
-long double ldacosx;
+#include <stdio.h>
+#include <math.h>
 
-acosx = acos(0.2);
-ldacosx = acosl((long double)0.3);
+int main(void)
+{
+	double acosx;
+	long double ldacosx;
+
+	acosx = acos(0.2);
+	ldacosx = acosl(0.3L);
+
+	printf("%f\n", acosx);
+	printf("%Lf\n", ldacosx);
+}
 ```
 
 ### See Also {.unnumbered .unlisted}
@@ -534,11 +549,20 @@ return value will be NaN. The variants return different types.
 ### Example {.unnumbered .unlisted}
 
 ``` {.c .numberLines}
-double asinx;
-long double ldasinx;
+#include <stdio.h>
+#include <math.h>
 
-asinx = asin(0.2);
-ldasinx = asinl((long double)0.3);
+int main(void)
+{
+	double asinx;
+	long double ldasinx;
+
+	asinx = asin(0.2);
+	ldasinx = asinl(0.3L);
+
+	printf("%f\n", asinx);
+	printf("%Lf\n", ldasinx);
+}
 ```
 
 ### See Also {.unnumbered .unlisted}
@@ -597,14 +621,26 @@ The `atan()` functions return the arc tangent of
 ### Example {.unnumbered .unlisted}
 
 ``` {.c .numberLines}
-double atanx;
-long double ldatanx;
+#include <stdio.h>
+#include <math.h>
 
-atanx = atan(0.2);
-ldatanx = atanl((long double)0.3);
+int main(void)
+{
+	double atanx;
+	long double ldatanx;
 
-atanx = atan2(0.2);
-ldatanx = atan2l((long double)0.3);
+	atanx = atan(0.7);
+	ldatanx = atanl(0.3L);
+
+	printf("%f\n", atanx);
+	printf("%Lf\n", ldatanx);
+
+	atanx = atan2(7, 10);
+	ldatanx = atan2l(3L, 10L);
+
+	printf("%f\n", atanx);
+	printf("%Lf\n", ldatanx);
+}
 ```
 
 ### See Also {.unnumbered .unlisted}
@@ -651,11 +687,20 @@ types.
 ### Example {.unnumbered .unlisted}
 
 ``` {.c .numberLines}
-double sinx;
-long double ldsinx;
+#include <stdio.h>
+#include <math.h>
 
-sinx = sin(3490.0); // round and round we go!
-ldsinx = sinl((long double)3.490);
+int main(void)
+{
+	double cosx;
+	long double ldcosx;
+
+	cosx = cos(3490.0); // round and round we go!
+	ldcosx = cosl(3.490L);
+
+	printf("%f\n", cosx);
+	printf("%Lf\n", ldcosx);
+}
 ```
 
 ### See Also {.unnumbered .unlisted}
@@ -702,11 +747,20 @@ types.
 ### Example {.unnumbered .unlisted}
 
 ``` {.c .numberLines}
-double sinx;
-long double ldsinx;
+#include <stdio.h>
+#include <math.h>
 
-sinx = sin(3490.0); // round and round we go!
-ldsinx = sinl((long double)3.490);
+int main(void)
+{
+	double sinx;
+	long double ldsinx;
+
+	sinx = sin(3490.0); // round and round we go!
+	ldsinx = sinl(3.490L);
+
+	printf("%f\n", sinx);
+	printf("%Lf\n", ldsinx);
+}
 ```
 
 ### See Also {.unnumbered .unlisted}
@@ -753,11 +807,20 @@ types.
 ### Example {.unnumbered .unlisted}
 
 ``` {.c .numberLines}
-double tanx;
-long double ldtanx;
+#include <stdio.h>
+#include <math.h>
 
-tanx = tan(3490.0); // round and round we go!
-ldtanx = tanl((long double)3.490);
+int main(void)
+{
+	double tanx;
+	long double ldtanx;
+
+	tanx = tan(3490.0); // round and round we go!
+	ldtanx = tanl(3.490L);
+
+	printf("%f\n", tanx);
+	printf("%Lf\n", ldtanx);
+}
 ```
 
 ### See Also {.unnumbered .unlisted}
@@ -798,7 +861,13 @@ Returns the arc hyperbolic cosince in the range $[0,+\infty]$.
 ### Example {.unnumbered .unlisted}
 
 ``` {.c .numberLines}
-printf("acosh 1.8 = %f\n", acosh(1.8));  // 1.192911
+#include <stdio.h>
+#include <math.h>
+
+int main(void)
+{
+	printf("acosh 1.8 = %f\n", acosh(1.8));  // 1.192911
+}
 ```
 
 ### See Also {.unnumbered .unlisted}
@@ -835,7 +904,13 @@ Returns the arc hyperbolic sine.
 ### Example {.unnumbered .unlisted}
 
 ``` {.c .numberLines}
-printf("acosh 1.8 = %f\n", asinh(1.8));  // 1.350441
+#include <stdio.h>
+#include <math.h>
+
+int main(void)
+{
+	printf("asinh 1.8 = %f\n", asinh(1.8));  // 1.350441
+}
 ```
 
 ### See Also {.unnumbered .unlisted}
@@ -872,7 +947,13 @@ Returns the arc hyperbolic tangent of `x`.
 ### Example {.unnumbered .unlisted}
 
 ``` {.c .numberLines}
-printf("atanh 0.5 = %f\n", atanh(0.5));  // 0.549306
+#include <stdio.h>
+#include <math.h>
+
+int main(void)
+{
+	printf("atanh 0.5 = %f\n", atanh(0.5));  // 0.549306
+}
 ```
 
 ### See Also {.unnumbered .unlisted}
@@ -881,6 +962,7 @@ printf("atanh 0.5 = %f\n", atanh(0.5));  // 0.549306
 
 
 [[manbreak]]
+<!-- MARKER -->
 ## `cosh()`, `coshf()`, `coshl()` {#man-cosh}
 
 Compute the hyperbolic cosine.
