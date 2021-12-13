@@ -2,7 +2,13 @@
 #
 # !!ls *.c | sed s/\.c$//
 CMPLX
+acos
+acosh
+asin
+asinh
 assert
+atan
+atanh
 cabs
 cacos
 cacosh
@@ -17,6 +23,7 @@ cexp
 cimag
 clog
 conj
+cos
 cpow
 cproj
 creal
@@ -35,6 +42,7 @@ feraiseexcept
 fetestexcept
 feupdateenv
 float
+fpclassify
 imaxabs
 imaxdiv
 isalnum
@@ -42,8 +50,12 @@ isalpha
 isblank
 iscntrl
 isdigit
+isfinite
 isgraph
+isinf
 islower
+isnan
+isnormal
 iso646
 isprint
 ispunct
@@ -54,8 +66,11 @@ limits
 localeconv
 perror
 setlocale
+signbit
+sin
 static_assert
 strtoimax
+tan
 tolower
 toupper
 wcstoimax
