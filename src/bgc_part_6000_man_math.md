@@ -54,7 +54,7 @@ table to keep your eyeballs from melting out.
 |[`log10()`](#man-log10)|Compute the log-base-10 of a number.|
 |[`log2()`](#man-log2)|Compute the base-2 logarithm of a number.|
 |[`logb()`](#man-logb)|Extract the exponent of a number given `FLT_RADIX`.|
-|[`logp1()`](#man-logp1)|Compute the natural logarithm of a number plus 1.|
+|[`log1p()`](#man-log1p)|Compute the natural logarithm of a number plus 1.|
 |[`lrint()`](#man-lrint)|Returns `x` rounded in the current rounding direction as an integer.|
 |[`lround()`](#man-lround), [`llround()`](#man-lround)|Round a number in the good old-fashioned way, returning an integer.|
 |[`modf()`](#man-modf)|Extract the integral and fractional parts of a number.|
@@ -962,7 +962,6 @@ int main(void)
 
 
 [[manbreak]]
-<!-- MARKER -->
 ## `cosh()`, `coshf()`, `coshl()` {#man-cosh}
 
 Compute the hyperbolic cosine.
@@ -991,7 +990,13 @@ Returns the hyperbolic cosine of `x`.
 ### Example {.unnumbered .unlisted}
 
 ``` {.c .numberLines}
-printf("cosh 0.5 = %f\n", cosh(0.5));  // 1.127626
+#include <stdio.h>
+#include <math.h>
+
+int main(void)
+{
+	printf("cosh 0.5 = %f\n", cosh(0.5));  // 1.127626
+}
 ```
 
 ### See Also {.unnumbered .unlisted}
@@ -1028,7 +1033,13 @@ Returns the hyperbolic sine of `x`.
 ### Example {.unnumbered .unlisted}
 
 ``` {.c .numberLines}
-printf("sinh 0.5 = %f\n", sinh(0.5));  // 0.521095
+#include <stdio.h>
+#include <math.h>
+
+int main(void)
+{
+	printf("sinh 0.5 = %f\n", sinh(0.5));  // 0.521095
+}
 ```
 
 ### See Also {.unnumbered .unlisted}
@@ -1066,7 +1077,13 @@ Returns the hyperbolic tangent of `x`.
 ### Example {.unnumbered .unlisted}
 
 ``` {.c .numberLines}
-printf("tanh 0.5 = %f\n", tanh(0.5));  // 0.462117
+#include <stdio.h>
+#include <math.h>
+
+int main(void)
+{
+	printf("tanh 0.5 = %f\n", tanh(0.5));  // 0.462117
+}
 ```
 
 ### See Also {.unnumbered .unlisted}
@@ -1107,8 +1124,14 @@ Returns $e^x$.
 ### Example {.unnumbered .unlisted}
 
 ``` {.c .numberLines}
-printf("exp(1) = %f\n", exp(1));  // 2.718282
-printf("exp(2) = %f\n", exp(2));  // 7.389056
+#include <stdio.h>
+#include <math.h>
+
+int main(void)
+{
+    printf("exp(1) = %f\n", exp(1));  // 2.718282
+    printf("exp(2) = %f\n", exp(2));  // 7.389056
+}
 ```
 
 ### See Also {.unnumbered .unlisted}
@@ -1153,9 +1176,15 @@ A range error occurs if `x` is too large.
 ### Example {.unnumbered .unlisted}
 
 ``` {.c .numberLines}
-printf("2^3 = %f\n", exp2(3));      // 2^3 = 8.000000
-printf("2^8 = %f\n", exp2(8));      // 2^8 = 256.000000
-printf("2^0.5 = %f\n", exp2(0.5));  // 2^0.5 = 1.414214
+#include <stdio.h>
+#include <math.h>
+
+int main(void)
+{
+    printf("2^3 = %f\n", exp2(3));      // 2^3 = 8.000000
+    printf("2^8 = %f\n", exp2(8));      // 2^8 = 256.000000
+    printf("2^0.5 = %f\n", exp2(0.5));  // 2^0.5 = 1.414214    
+}
 ```
 
 ### See Also {.unnumbered .unlisted}
@@ -1200,8 +1229,15 @@ Returns $e^x-1$.
 ### Example {.unnumbered .unlisted}
 
 ``` {.c .numberLines}
-printf("%f\n", expm1(2.34));  // 9.381237
+#include <stdio.h>
+#include <math.h>
+
+int main(void)
+{
+    printf("%f\n", expm1(2.34));  // 9.381237
+}
 ```
+
 ### See Also {.unnumbered .unlisted}
 
 [`exp()`](#man-exp)
@@ -1265,11 +1301,17 @@ are both zero.
 ### Example {.unnumbered .unlisted}
 
 ``` {.c .numberLines}
-double frac;
-int expt;
+#include <stdio.h>
+#include <math.h>
 
-frac = frexp(1234.56, &expt);
-printf("1234.56 = %.7f x 2^%d\n", frac, expt);
+int main(void)
+{
+    double frac;
+    int expt;
+
+    frac = frexp(1234.56, &expt);
+    printf("1234.56 = %.7f x 2^%d\n", frac, expt);  
+}
 ```
 
 Output:
@@ -1333,9 +1375,15 @@ The spec goes on to say that the value of `FP_ILOGB0` will be either
 ### Example {.unnumbered .unlisted}
 
 ``` {.c .numberLines}
-printf("%d\n", ilogb(257));  // 8
-printf("%d\n", ilogb(256));  // 8
-printf("%d\n", ilogb(255));  // 7
+#include <stdio.h>
+#include <math.h>
+
+int main(void)
+{
+    printf("%d\n", ilogb(257));  // 8
+    printf("%d\n", ilogb(256));  // 8
+    printf("%d\n", ilogb(255));  // 7
+}
 ```
 
 ### See Also {.unnumbered .unlisted}
@@ -1373,8 +1421,14 @@ Returns $x\times2^{exp}$.
 ### Example {.unnumbered .unlisted}
 
 ``` {.c .numberLines}
-printf("1 x 2^10 = %f\n", ldexp(1, 10));
-printf("5.67 x 2^7 = %f\n", ldexp(5.67, 7));
+#include <stdio.h>
+#include <math.h>
+
+int main(void)
+{
+    printf("1 x 2^10 = %f\n", ldexp(1, 10));
+    printf("5.67 x 2^7 = %f\n", ldexp(5.67, 7));
+}
 ```
 
 Output:
@@ -1421,16 +1475,22 @@ The base-$e$ logarithm of the given value, $\log_ex$, $\ln x$.
 ### Example {.unnumbered .unlisted}
 
 ``` {.c .numberLines}
-const double e = 2.718281828459045;
+#include <stdio.h>
+#include <math.h>
 
-printf("%f\n", log(3490.2));  // 8.157714
-printf("%f\n", log(e));       // 1.000000
+int main(void)
+{
+    const double e = 2.718281828459045;
+
+    printf("%f\n", log(3490.2));  // 8.157714
+    printf("%f\n", log(e));       // 1.000000
+}
 ```
 
 ### See Also {.unnumbered .unlisted}
 [`exp()`](#man-exp),
 [`log10()`](#man-log10),
-[`logp1()`](#man-log10)
+[`log1p()`](#man-log10)
 
 [[manbreak]]
 ## `log10()`, `log10f()`, `log10l()` {#man-log10}
@@ -1465,8 +1525,14 @@ Returns the log base-10 of `x`, $\log_{10}x$.
 ### Example {.unnumbered .unlisted}
 
 ``` {.c .numberLines}
-printf("%f\n", log10(3490.2));   // 3.542850
-printf("%f\n", log10(10));       // 1.000000
+#include <stdio.h>
+#include <math.h>
+
+int main(void)
+{
+    printf("%f\n", log10(3490.2));   // 3.542850
+    printf("%f\n", log10(10));       // 1.000000
+}
 ```
 
 ### See Also {.unnumbered .unlisted}
@@ -1475,7 +1541,7 @@ printf("%f\n", log10(10));       // 1.000000
 [`log()`](#man-log)
 
 [[manbreak]]
-## `logp1()`, `logp1f()`, `logp1l()` {#man-logp1}
+## `log1p()`, `log1pf()`, `log1pl()` {#man-log1p}
 
 Compute the natural logarithm of a number plus 1.
 
@@ -1515,11 +1581,18 @@ Compute some big and small logarithm values to see the difference
 between `log1p()` and `log()`:
 
 ``` {.c .numberLines}
-printf("Big log1p()  : %.*Lf\n", LDBL_DECIMAL_DIG-1, log1pl(9));
-printf("Big log()    : %.*Lf\n", LDBL_DECIMAL_DIG-1, logl(1 + 9));
+#include <stdio.h>
+#include <float.h> // for LDBL_DECIMAL_DIG
+#include <math.h>
 
-printf("Small log1p(): %.*Lf\n", LDBL_DECIMAL_DIG-1, log1pl(0.01));
-printf("Small log()  : %.*Lf\n", LDBL_DECIMAL_DIG-1, logl(1 + 0.01));
+int main(void)
+{
+    printf("Big log1p()  : %.*Lf\n", LDBL_DECIMAL_DIG-1, log1pl(9));
+    printf("Big log()    : %.*Lf\n", LDBL_DECIMAL_DIG-1, logl(1 + 9));
+
+    printf("Small log1p(): %.*Lf\n", LDBL_DECIMAL_DIG-1, log1pl(0.01));
+    printf("Small log()  : %.*Lf\n", LDBL_DECIMAL_DIG-1, logl(1 + 0.01));
+}
 ```
 
 Output on my system:
@@ -1570,8 +1643,14 @@ Returns the base-2 logarithm of the given value, $\log_2 x$.
 ### Example {.unnumbered .unlisted}
 
 ``` {.c .numberLines}
-printf("%f\n", log2(3490.2));  // 11.769094
-printf("%f\n", log2(256));     // 8.000000
+#include <stdio.h>
+#include <math.h>
+
+int main(void)
+{
+    printf("%f\n", log2(3490.2));  // 11.769094
+    printf("%f\n", log2(256));     // 8.000000
+}
 ```
 
 ### See Also {.unnumbered .unlisted}
@@ -1614,9 +1693,16 @@ is `FLT_RADIX`.
 ### Example {.unnumbered .unlisted}
 
 ``` {.c .numberLines}
-printf("FLT_RADIX = %d\n", FLT_RADIX);
-printf("%f\n", logb(3490.2));
-printf("%f\n", logb(256));
+#include <stdio.h>
+#include <float.h>  // For FLT_RADIX
+#include <math.h>
+
+int main(void)
+{
+    printf("FLT_RADIX = %d\n", FLT_RADIX);
+    printf("%f\n", logb(3490.2));
+    printf("%f\n", logb(256));
+}
 ```
 
 Output:
@@ -1823,7 +1909,13 @@ Returns the cube root of `x`, $x^{1/3}$, $\sqrt[3]{x}$.
 ### Example {.unnumbered .unlisted}
 
 ``` {.c .numberLines}
-printf("cbrt(1729.03) = %f\n", cbrt(1729.03));
+#include <stdio.h>
+#include <math.h>
+
+int main(void)
+{
+    printf("cbrt(1729.03) = %f\n", cbrt(1729.03));
+}
 ```
 
 Output:
@@ -1870,8 +1962,14 @@ Returns the absolute value of `x`, $|x|$.
 ### Example {.unnumbered .unlisted}
 
 ``` {.c .numberLines}
-printf("fabs(3490.0)  = %f\n", fabs(3490.0));  // 3490.000000
-printf("fabs(-3490.0) = %f\n", fabs(3490.0));  // 3490.000000
+#include <stdio.h>
+#include <math.h>
+
+int main(void)
+{
+    printf("fabs(3490.0)  = %f\n", fabs(3490.0));  // 3490.000000
+    printf("fabs(-3490.0) = %f\n", fabs(3490.0));  // 3490.000000
+}
 ```
 
 ### See Also {.unnumbered .unlisted}
