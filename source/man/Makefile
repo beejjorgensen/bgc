@@ -1,5 +1,5 @@
 CC=gcc
-CCOPTS=-Wall -Wextra -std=c2x -pedantic
+CCOPTS=-Wall -Wextra -Wno-unknown-pragmas -std=c2x -pedantic
 LIBS=-lm
 
 SRCS=$(wildcard *.c)
