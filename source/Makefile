@@ -1,6 +1,11 @@
 .PHONY: clean
 
 clean:
-	$(MAKE) -C examples clean
-	$(MAKE) -C exercises clean
-	$(MAKE) -C man clean
+	$(MAKE) -C examples $@
+	$(MAKE) -C exercises $@
+	$(MAKE) -C man $@
+
+pristine:
+	$(MAKE) -C examples $@
+	$(MAKE) -C exercises $@
+	$(MAKE) -C man $@
