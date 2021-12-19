@@ -9,6 +9,12 @@ TARGETS=$(SRCS:.c=)
 
 all: $(TARGETS)
 
+tmpnam: tmpnam.c
+	$(CC) $(CCOPTS) -Wno-deprecated -o $@ $< $(LIBS)
+
+fflush: fflush.c
+	$(CC) $(CCOPTS) -Wno-deprecated -o $@ $< $(LIBS) -lpthread
+
 clean:
 	rm -f $(TARGETS)
 	$(MAKE) -C atomics $@
