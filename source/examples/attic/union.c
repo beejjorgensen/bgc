@@ -23,7 +23,7 @@ void print_variable(struct variable *v)
     case 2: // string
         printf("%s\n", v->data.s);
         break;
-	}
+    }
 }
 
 int main(void)

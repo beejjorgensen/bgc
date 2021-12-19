@@ -19,7 +19,7 @@ void on_exit(void)
 int main(void)
 {
 #ifdef __APPLE__
-	printf("Sorry, OSX doesn't have on_quick_exit()\n");
+    printf("Sorry, OSX doesn't have on_quick_exit()\n");
 #else
     at_quick_exit(on_quick_exit_1);
     at_quick_exit(on_quick_exit_2);
