@@ -1,3 +1,6 @@
+somefile.txt
+anotherfile.txt
+
 # Generate with
 #
 # !!ls *.c | sed s/\.c$//
@@ -43,6 +46,7 @@ exp
 exp2
 expm1
 fabs
+fclose
 fdim
 feclearexcept
 fegetenv
@@ -52,11 +56,14 @@ feholdexcept
 feraiseexcept
 fetestexcept
 feupdateenv
+fflush
 float
 fma
 fmin_fmax
 fmod
+fopen
 fpclassify
+freopen
 frexp
 ilogb
 imaxabs
@@ -101,9 +108,12 @@ perror
 ptrdiff_t
 raise
 remainder
+remove
 remquo
+rename
 round
 scalbn
+setbuf
 setjmp
 setlocale
 signal
@@ -115,6 +125,8 @@ static_assert
 strtoimax
 tan
 tanh
+tmpfile
+tmpnam
 tolower
 toupper
 trunc
