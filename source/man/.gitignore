@@ -108,6 +108,7 @@ signal
 signbit
 sin
 sinh
+size_t
 static_assert
 strtoimax
 tan
