@@ -1,5 +1,7 @@
 #include <stdio.h>
+#ifndef __APPLE__
 #include <uchar.h>
+#endif
 #include <string.h>
 #include <stddef.h>
 
@@ -11,6 +13,7 @@ int main(void)
 
     printf("%zu\n", x);
 
+#ifndef __APPLE__
     char16_t a;
     mbstate_t mbs;
     memset(&mbs, 0, sizeof mbs);
@@ -18,4 +21,5 @@ int main(void)
     x = mbrtoc16(&a, "b", 8, &mbs);
 
     printf("%zd\n", x);
+#endif
 }
