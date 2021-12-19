@@ -734,7 +734,7 @@ int main(void)
 
 On line 9, we get the following macro replacement:
 
-``` {.c .numberLines startsWith="9"}
+``` {.c .numberLines startFrom="9"}
     printf("%s = %d\n", "a", 5);
 ```
 
