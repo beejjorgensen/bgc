@@ -3,5 +3,5 @@
 
 int main(void)
 {
-	printf("atanh 0.5 = %f\n", atanh(0.5));  // 0.549306
+    printf("atanh 0.5 = %f\n", atanh(0.5));  // 0.549306
 }

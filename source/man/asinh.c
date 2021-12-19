@@ -3,5 +3,5 @@
 
 int main(void)
 {
-	printf("asinh 1.8 = %f\n", asinh(1.8));  // 1.192911
+    printf("asinh 1.8 = %f\n", asinh(1.8));  // 1.192911
 }

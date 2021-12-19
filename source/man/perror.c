@@ -6,7 +6,7 @@
 
 int main(void)
 {
-	setlocale(LC_ALL, "");
+    setlocale(LC_ALL, "");
 
     char *bad_str = "\xff";  // Probably invalid char in this locale
     wchar_t wc;

@@ -3,11 +3,11 @@
 
 int main(void)
 {
-	int quo;
-	double rem;
+    int quo;
+    double rem;
 
-	rem = remquo(12.75, 2.25, &quo);
+    rem = remquo(12.75, 2.25, &quo);
 
-	printf("%d remainder %f\n", quo, rem);  // 6 remainder -0.750000
+    printf("%d remainder %f\n", quo, rem);  // 6 remainder -0.750000
 }
 

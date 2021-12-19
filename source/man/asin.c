@@ -3,13 +3,13 @@
 
 int main(void)
 {
-	double asinx;
-	long double ldasinx;
+    double asinx;
+    long double ldasinx;
 
-	asinx = asin(0.2);
-	ldasinx = asinl(0.3L);
+    asinx = asin(0.2);
+    ldasinx = asinl(0.3L);
 
-	printf("%f\n", asinx);
-	printf("%Lf\n", ldasinx);
+    printf("%f\n", asinx);
+    printf("%Lf\n", ldasinx);
 }
 

@@ -11,6 +11,7 @@ asinh
 assert
 atan
 atanh
+bool
 cabs
 cacos
 cacosh
@@ -95,6 +96,7 @@ nan
 nextafter
 nexttoward
 perror
+ptrdiff_t
 raise
 remainder
 remquo

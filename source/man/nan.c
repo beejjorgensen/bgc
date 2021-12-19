@@ -3,8 +3,8 @@
 
 int main(void)
 {
-	printf("%f\n", nan(""));       // nan
-	printf("%f\n", nan("goats"));  // nan
-	printf("%f\n", nan("!"));      // nan
+    printf("%f\n", nan(""));       // nan
+    printf("%f\n", nan("goats"));  // nan
+    printf("%f\n", nan("!"));      // nan
 }
 
