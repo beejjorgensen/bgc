@@ -91,10 +91,12 @@ log2
 logb
 lrint
 lround
+max_align_t
 modf
 nan
 nextafter
 nexttoward
+offsetof
 perror
 ptrdiff_t
 raise
