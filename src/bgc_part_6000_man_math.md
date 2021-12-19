@@ -1861,8 +1861,8 @@ Returns $x\times r^n$, where $r$ is `FLT_RADIX`.
 int main(void)
 {
     printf("FLT_RADIX = %d\n\n", FLT_RADIX);
-    printf("scalbn(3, 8)       = %f\n", scalbn(2, 8));
-    printf("scalbn(10.2, 20.7) = %f\n", scalbn(10.2, 20.7));
+    printf("scalbn(3, 8)      = %f\n", scalbn(2, 8));
+    printf("scalbnf(10.2, 20) = %f\n", scalbnf(10.2, 20));
 }
 ```
 
@@ -2692,11 +2692,17 @@ The rounded value of `x`.
 ### Example {.unnumbered .unlisted}
 
 ``` {.c .numberLines}
-printf("%f\n", round(3.14));   // 3.000000
-printf("%f\n", round(3.5));    // 4.000000
+#include <stdio.h>
+#include <math.h>
 
-printf("%f\n", round(-1.5));   // -2.000000
-printf("%f\n", round(-1.14));  // -1.000000
+int main(void)
+{
+	printf("%f\n", round(3.14));   // 3.000000
+	printf("%f\n", round(3.5));    // 4.000000
+
+	printf("%f\n", round(-1.5));   // -2.000000
+	printf("%f\n", round(-1.14));  // -1.000000
+}
 ```
 
 ### See Also {.unnumbered .unlisted}
@@ -2748,11 +2754,17 @@ Returns the rounded value of `x` as an integer.
 ### Example {.unnumbered .unlisted}
 
 ``` {.c .numberLines}
-printf("%ld\n", lround(3.14));   // 3
-printf("%ld\n", lround(3.5));    // 4
+#include <stdio.h>
+#include <math.h>
 
-printf("%ld\n", lround(-1.5));   // -2
-printf("%ld\n", lround(-1.14));  // -1
+int main(void)
+{
+	printf("%ld\n", lround(3.14));   // 3
+	printf("%ld\n", lround(3.5));    // 4
+
+	printf("%ld\n", lround(-1.5));   // -2
+	printf("%ld\n", lround(-1.14));  // -1
+}
 ```
 
 ### See Also {.unnumbered .unlisted}
@@ -2794,11 +2806,17 @@ Returns the truncated floating point number.
 ### Example {.unnumbered .unlisted}
 
 ``` {.c .numberLines}
-printf("%f\n", trunc(3.14));   // 3.000000
-printf("%f\n", trunc(3.8));    // 3.000000
+#include <stdio.h>
+#include <math.h>
 
-printf("%f\n", trunc(-1.5));   // -1.000000
-printf("%f\n", trunc(-1.14));  // -1.000000
+int main(void)
+{
+	printf("%f\n", trunc(3.14));   // 3.000000
+	printf("%f\n", trunc(3.8));    // 3.000000
+
+	printf("%f\n", trunc(-1.5));   // -1.000000
+	printf("%f\n", trunc(-1.14));  // -1.000000
+}
 ```
 
 ### See Also {.unnumbered .unlisted}
@@ -2845,8 +2863,14 @@ Returns the remainder of $\frac{x}{y}$ with the same sign as `x`.
 ### Example {.unnumbered .unlisted}
 
 ``` {.c .numberLines}
-printf("%f\n", fmod(-9.2, 5.1));  // -4.100000
-printf("%f\n", fmod(9.2, 5.1));   //  4.100000
+#include <stdio.h>
+#include <math.h>
+
+int main(void)
+{
+	printf("%f\n", fmod(-9.2, 5.1));  // -4.100000
+	printf("%f\n", fmod(9.2, 5.1));   //  4.100000
+}
 ```
 
 ### See Also {.unnumbered .unlisted}
@@ -2911,8 +2935,14 @@ The IEC 60559 result of `x`-remainder-`y`.
 ### Example {.unnumbered .unlisted}
 
 ``` {.c .numberLines}
-printf("%f\n", remainder(3.7, 4));  // -0.300000
-printf("%f\n", remainder(4.3, 4));  //  0.300000
+#include <stdio.h>
+#include <math.h>
+
+int main(void)
+{
+	printf("%f\n", remainder(3.7, 4));  // -0.300000
+	printf("%f\n", remainder(4.3, 4));  //  0.300000
+}
 ```
 
 ### See Also {.unnumbered .unlisted}
@@ -3003,12 +3033,18 @@ But instead of stealing it, I'll just post a simple example here and you
 can visit their site for a real one.
 
 ``` {.c .numberLines}
-int quo;
-double rem;
+#include <stdio.h>
+#include <math.h>
 
-rem = remquo(12.75, 2.25, &quo);
+int main(void)
+{
+	int quo;
+	double rem;
 
-printf("%d remainder %f\n", quo, rem);  // 6 remainder -0.750000
+	rem = remquo(12.75, 2.25, &quo);
+
+	printf("%d remainder %f\n", quo, rem);  // 6 remainder -0.750000
+}
 ```
 
 ### See Also {.unnumbered .unlisted}
@@ -3049,12 +3085,18 @@ Returns a value with the magnitude of `x` and the sign of `y`.
 ### Example {.unnumbered .unlisted}
 
 ``` {.c .numberLines}
-double x = 34.9;
-double y = -999.9;
-double z = 123.4;
+#include <stdio.h>
+#include <math.h>
 
-printf("%f\n", copysign(x, y)); // -34.900000
-printf("%f\n", copysign(x, z)); //  34.900000
+int main(void)
+{
+	double x = 34.9;
+	double y = -999.9;
+	double z = 123.4;
+
+	printf("%f\n", copysign(x, y)); // -34.900000
+	printf("%f\n", copysign(x, z)); //  34.900000
+}
 ```
 
 ### See Also {.unnumbered .unlisted}
@@ -3129,9 +3171,15 @@ your system.
 ### Example {.unnumbered .unlisted}
 
 ``` {.c .numberLines}
-printf("%f\n", nan(""));       // nan
-printf("%f\n", nan("goats"));  // nan
-printf("%f\n", nan("!"));      // nan
+#include <stdio.h>
+#include <math.h>
+
+int main(void)
+{
+	printf("%f\n", nan(""));       // nan
+	printf("%f\n", nan("goats"));  // nan
+	printf("%f\n", nan("!"));      // nan
+}
 ```
 
 ### See Also {.unnumbered .unlisted}
@@ -3181,8 +3229,14 @@ If `x` equals `y`, returns `y`. And also `x`, I suppose.
 ### Example {.unnumbered .unlisted}
 
 ``` {.c .numberLines}
-printf("%.*f\n", DBL_DECIMAL_DIG, nextafter(0.5, 1.0));
-printf("%.*f\n", DBL_DECIMAL_DIG, nextafter(0.349, 0.0));
+#include <stdio.h>
+#include <math.h>
+
+int main(void)
+{
+	printf("%.*f\n", DBL_DECIMAL_DIG, nextafter(0.5, 1.0));
+	printf("%.*f\n", DBL_DECIMAL_DIG, nextafter(0.349, 0.0));
+}
 ```
 
 Output on my system:
@@ -3226,8 +3280,15 @@ Returns the same as [`nextafter()`](#man-nextafter) except if `x` equals
 ### Example {.unnumbered .unlisted}
 
 ``` {.c .numberLines}
-printf("%.*f\n", DBL_DECIMAL_DIG, nexttoward(0.5, 1.0));
-printf("%.*f\n", DBL_DECIMAL_DIG, nexttoward(0.349, 0.0));
+#include <stdio.h>
+#include <float.h>
+#include <math.h>
+
+int main(void)
+{
+	printf("%.*f\n", DBL_DECIMAL_DIG, nexttoward(0.5, 1.0));
+	printf("%.*f\n", DBL_DECIMAL_DIG, nexttoward(0.349, 0.0));
+}
 ```
 
 Output on my system:
@@ -3273,8 +3334,14 @@ Otherwise it returns `0`.
 ### Example {.unnumbered .unlisted}
 
 ``` {.c .numberLines}
-printf("%f\n", fdim(10.0, 3.0));   // 7.000000
-printf("%f\n", fdim(3.0, 10.0));   // 0.000000, clamped
+#include <stdio.h>
+#include <math.h>
+
+int main(void)
+{
+	printf("%f\n", fdim(10.0, 3.0));   // 7.000000
+	printf("%f\n", fdim(3.0, 10.0));   // 0.000000, clamped
+}
 ```
 
 <!--
@@ -3322,8 +3389,14 @@ above.
 ### Example {.unnumbered .unlisted}
 
 ``` {.c .numberLines}
-printf("%f\n", fmin(10.0, 3.0));   //  3.000000
-printf("%f\n", fmax(3.0, 10.0));   // 10.000000
+#include <stdio.h>
+#include <math.h>
+
+int main(void)
+{
+	printf("%f\n", fmin(10.0, 3.0));   //  3.000000
+	printf("%f\n", fmax(3.0, 10.0));   // 10.000000
+}
 ```
 
 <!--
@@ -3432,10 +3505,16 @@ Passing an integer or any other type is undefined behavior.
 ### Example {.unnumbered .unlisted}
 
 ``` {.c .numberLines}
-printf("%d\n", isgreater(10.0, 3.0));        // 1
-printf("%d\n", isgreaterequal(10.0, 10.0));  // 1
-printf("%d\n", isless(10.0, 3.0));           // 0
-printf("%d\n", islessequal(10.0, 3.0));      // 0
+#include <stdio.h>
+#include <math.h>
+
+int main(void)
+{
+	printf("%d\n", isgreater(10.0, 3.0));        // 1
+	printf("%d\n", isgreaterequal(10.0, 10.0));  // 1
+	printf("%d\n", isless(10.0, 3.0));           // 0
+	printf("%d\n", islessequal(10.0, 3.0));      // 0
+}
 ```
 
 ### See Also {.unnumbered .unlisted}
@@ -3479,9 +3558,15 @@ Returns `(x < y) || (x > y)`.
 ### Example {.unnumbered .unlisted}
 
 ``` {.c .numberLines}
-printf("%d\n", islessgreater(10.0, 3.0));   // 1
-printf("%d\n", islessgreater(10.0, 30.0));  // 1
-printf("%d\n", islessgreater(10.0, 10.0));  // 0
+#include <stdio.h>
+#include <math.h>
+
+int main(void)
+{
+	printf("%d\n", islessgreater(10.0, 3.0));   // 1
+	printf("%d\n", islessgreater(10.0, 30.0));  // 1
+	printf("%d\n", islessgreater(10.0, 10.0));  // 0
+}
 ```
 
 ### See Also {.unnumbered .unlisted}
@@ -3523,10 +3608,15 @@ This macro returns true if one or both of the arguments are NaN.
 ### Example {.unnumbered .unlisted}
 
 ``` {.c .numberLines}
-printf("%d\n", isunordered(1.0, 2.0));       // 0
-printf("%d\n", isunordered(1.0, sqrt(-1)));  // 1
-printf("%d\n", isunordered(NAN, 30.0));      // 1
-printf("%d\n", isunordered(NAN, NAN));       // 1
+#include <stdio.h>
+#include <math.h>
+
+int main(void)
+{
+	printf("%d\n", isunordered(1.0, 2.0));       // 0
+	printf("%d\n", isunordered(1.0, sqrt(-1)));  // 1
+	printf("%d\n", isunordered(NAN, 30.0));      // 1
+	printf("%d\n", isunordered(NAN, NAN));       // 1
 }
 ```
 

@@ -1,6 +1,7 @@
 # Generate with
 #
 # !!ls *.c | sed s/\.c$//
+CMPLX
 acos
 acosh
 asin
@@ -22,8 +23,8 @@ ccosh
 cexp
 cimag
 clog
-CMPLX
 conj
+copysign
 cos
 cosh
 cpow
@@ -35,10 +36,11 @@ csqrt
 ctan
 ctanh
 errno
-exp2
 exp
+exp2
 expm1
 fabs
+fdim
 feclearexcept
 fegetenv
 fegetexcept
@@ -48,6 +50,9 @@ feraiseexcept
 fetestexcept
 feupdateenv
 float
+fma
+fmin_fmax
+fmod
 fpclassify
 frexp
 ilogb
@@ -60,7 +65,9 @@ iscntrl
 isdigit
 isfinite
 isgraph
+isgreater
 isinf
+islessgreater
 islower
 isnan
 isnormal
@@ -68,18 +75,27 @@ iso646
 isprint
 ispunct
 isspace
+isunordered
 isupper
 isxdigit
 ldexp
 limits
 localeconv
+log
 log10
 log1p
 log2
 logb
-log
+lrint
+lround
 modf
+nan
+nextafter
+nexttoward
 perror
+remainder
+remquo
+round
 scalbn
 setlocale
 signbit
@@ -91,4 +107,6 @@ tan
 tanh
 tolower
 toupper
+trunc
 wcstoimax
+
