@@ -1,4 +1,6 @@
-.PHONY: clean
+.PHONY: clean pristine all
+
+all:
 
 clean:
 	$(MAKE) -C examples $@
