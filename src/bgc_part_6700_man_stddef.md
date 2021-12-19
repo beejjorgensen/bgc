@@ -25,20 +25,27 @@ another type, but the result of a pointer subtraction is an
 implementation-defined type; you can be maximally portable by using
 `ptrdiff_t`.
 
-``` {.c}
-int cats[100];
+``` {.c .numberLines}
+#include <stdio.h>
+#include <stddef.h>
 
-int *f = cats + 20;
-int *g = cats + 60;
+int main(void)
+{
+	int cats[100];
 
-ptrdiff_t d = g - f;  // difference is 40
+	int *f = cats + 20;
+	int *g = cats + 60;
+
+	ptrdiff_t d = g - f;  // difference is 40
+
 ```
 
 And you can print it by prefixing the integer format specifier with `t`:
 
-``` {.c}
-printf("%td\n", d);  // Print decimal: 40
-printf("%tX\n", d);  // Print hex:     28
+``` {.c .numberLines startFrom="13"}
+	printf("%td\n", d);  // Print decimal: 40
+	printf("%tX\n", d);  // Print hex:     28
+}
 ```
 
 ## `size_t` {#man-size_t}
@@ -48,20 +55,35 @@ It's an unsigned integer.
 
 You can print it using the `z` prefix in `printf()`:
 
-``` {.c}
-size_t x = sizeof(int);
+``` {.c .numberLines}
+#include <stdio.h>
+#include <uchar.h>
+#include <string.h>
+#include <stddef.h>
 
-printf("%zu\n", x);
+int main(void)
+{
+    size_t x;
+
+    x = sizeof(int);
+
+    printf("%zu\n", x);
+
 ```
 
 Some functions return negative numbers cast to `size_t` as error values
 (such as [`mbrtoc16()`](#man-mbrtoc16)). If you want to print these as
 negative values, you can do it with `%zd`:
 
-``` {.c}
-size_t x = mbrtoc16(&a, "b", 8, &ps);
+``` {.c .numberLines startFrom="14"}
+    char16_t a;
+    mbstate_t mbs;
+    memset(&mbs, 0, sizeof mbs);
 
-printf("%zd\n", x);
+    x = mbrtoc16(&a, "b", 8, &mbs);
+
+    printf("%zd\n", x);
+}
 ```
 
 ## `max_align_t` {#man-max_align_t}
