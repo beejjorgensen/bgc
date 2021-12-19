@@ -93,11 +93,14 @@ nan
 nextafter
 nexttoward
 perror
+raise
 remainder
 remquo
 round
 scalbn
+setjmp
 setlocale
+signal
 signbit
 sin
 sinh
@@ -109,4 +112,3 @@ tolower
 toupper
 trunc
 wcstoimax
-
