@@ -1,26 +1,24 @@
 #include <stdio.h>
-#include <string.h>
-#include <wchar.h>
-#include <errno.h>
-#include <locale.h>
+#include <errno.h> // must include this to see "errno" in this example
 
 int main(void)
 {
-    setlocale(LC_ALL, "");
+    if (fseek(stdin, 10L, SEEK_SET) < 0)
+        perror("fseek");
 
-    char *bad_str = "\xff";  // Probably invalid char in this locale
-    wchar_t wc;
-    size_t result;
-    mbstate_t ps;
+    fclose(stdin); // stop using this stream
 
-    memset(&ps, 0, sizeof ps);
+    if (fseek(stdin, 20L, SEEK_CUR) < 0) {
 
-    result = mbrtowc(&wc, bad_str, 1, &ps);
+        // specifically check errno to see what kind of
+        // error happened...this works on Linux, but your
+        // mileage may vary on other systems!
 
-    if (result == (size_t)(-1))
-        perror("mbrtowc");  // mbrtowc: Illegal byte sequence
-    else
-        printf("Converted to L'%lc'\n", wc);
-
-    return 0;
+        if (errno == EBADF) {
+            perror("fseek again, EBADF");
+        } else {
+            perror("fseek again");
+        }
+    }
 }
+
