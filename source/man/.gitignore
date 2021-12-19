@@ -4,6 +4,8 @@
 CMPLX
 acos
 acosh
+alignas
+alignof
 asin
 asinh
 assert
@@ -111,4 +113,8 @@ tanh
 tolower
 toupper
 trunc
+va_arg
+va_copy
+va_end
+va_start
 wcstoimax

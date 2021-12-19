@@ -1,0 +1,16 @@
+# Generate with
+#
+# !!ls *.c | sed s/\.c$//
+ATOMIC_VAR_INIT
+atomic_compare_exchange
+atomic_exchange
+atomic_fetch
+atomic_flag_clear
+atomic_flag_test_and_set
+atomic_init
+atomic_is_lock_free
+atomic_load
+atomic_signal_fence
+atomic_store
+atomic_thread_fence
+kill_dependency
