@@ -3,12 +3,12 @@
 
 int main(void)
 {
-	double tanx;
-	long double ldtanx;
+    double tanx;
+    long double ldtanx;
 
-	tanx = tan(3490.0); // round and round we go!
-	ldtanx = tanl(3.490L);
+    tanx = tan(3490.0); // round and round we go!
+    ldtanx = tanl(3.490L);
 
-	printf("%f\n", tanx);
-	printf("%Lf\n", ldtanx);
+    printf("%f\n", tanx);
+    printf("%Lf\n", ldtanx);
 }
