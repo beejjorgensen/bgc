@@ -53,7 +53,7 @@ for infile in infiles:
     fin.close()
 
 wp_path = get_config("WIKIPEDIA_URL", "https://en.wikipedia.org/wiki/")
-man_path = get_config("MAN_URL", "https://man.archlinux.org/man/")
+man_path = get_config("MAN_URL", "https://man.archlinux.org/man/core/man-pages/")
 
 try:
 	wp_path = preproc_config.WIKIPEDIA_URL
