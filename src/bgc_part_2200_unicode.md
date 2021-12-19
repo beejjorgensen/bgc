@@ -884,8 +884,20 @@ potentially.
 
 To use, include `<uchar.h>`. (That's "u", not "w".)
 
-You can declare a string or character of these types with the `u` and
-`U` prefixes:
+This header file doesn't exist on OS X---bummer. If you just want the
+types, you can:
+
+``` {.c}
+#include <stdint.h>
+
+typedef int_least16_t char16_t;
+typedef int_least32_t char32_t;
+```
+
+But if you also want the functions, that's all on you.
+
+Assuming you're still good to go, you can declare a string or character
+of these types with the `u` and `U` prefixes:
 
 ``` {.c}
 char16_t *s = u"Hello, world!";
