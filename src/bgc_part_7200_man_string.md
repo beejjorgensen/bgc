@@ -83,12 +83,17 @@ convenience.
 ### Example {.unnumbered .unlisted}
 
 ``` {.c .numberLines}
-char s[100] = "Goats";
-char t[100];
+#include <string.h>
 
-memcpy(t, s, 6);       // Copy non-overlapping memory
+int main(void)
+{
+    char s[100] = "Goats";
+    char t[100];
 
-memmove(s + 2, s, 6);  // Copy overlapping memory
+    memcpy(t, s, 6);       // Copy non-overlapping memory
+
+    memmove(s + 2, s, 6);  // Copy overlapping memory
+}
 ```
 
 ### See Also {.unnumbered .unlisted}
@@ -142,27 +147,32 @@ Both functions return `dest` for your convenience, at no extra charge.
 ### Example {.unnumbered .unlisted}
 
 ``` {.c .numberLines}
-char *src = "hockey hockey hockey hockey hockey hockey hockey hockey";
-char dest[20];
+#include <string.h>
 
-int len;
+int main(void)
+{
+    char *src = "hockey hockey hockey hockey hockey hockey hockey hockey";
+    char dest[20];
 
-strcpy(dest, "I like "); // dest is now "I like "
+    int len;
 
-len = strlen(dest);
+    strcpy(dest, "I like "); // dest is now "I like "
 
-// tricky, but let's use some pointer arithmetic and math to append
-// as much of src as possible onto the end of dest, -1 on the length to
-// leave room for the terminator:
-strncpy(dest+len, src, sizeof(dest)-len-1);
+    len = strlen(dest);
 
-// remember that sizeof() returns the size of the array in bytes
-// and a char is a byte:
-dest[sizeof(dest)-1] = '\0'; // terminate
+    // tricky, but let's use some pointer arithmetic and math to append
+    // as much of src as possible onto the end of dest, -1 on the length to
+    // leave room for the terminator:
+    strncpy(dest+len, src, sizeof(dest)-len-1);
 
-// dest is now:       v null terminator
-// I like hockey hocke 
-// 01234567890123456789012345
+    // remember that sizeof() returns the size of the array in bytes
+    // and a char is a byte:
+    dest[sizeof(dest)-1] = '\0'; // terminate
+
+    // dest is now:       v null terminator
+    // I like hockey hocke 
+    // 01234567890123456789012345
+}
 ```
 
 ### See Also {.unnumbered .unlisted}
@@ -217,17 +227,23 @@ the string-oriented functions.
 ### Example {.unnumbered .unlisted}
 
 ``` {.c .numberLines}
-char dest[30] = "Hello";
-char *src = ", World!";
-char numbers[] = "12345678";
+#include <stdio.h>
+#include <string.h>
 
-printf("dest before strcat: \"%s\"\n", dest); // "Hello"
+int main(void)
+{
+    char dest[30] = "Hello";
+    char *src = ", World!";
+    char numbers[] = "12345678";
 
-strcat(dest, src);
-printf("dest after strcat:  \"%s\"\n", dest); // "Hello, world!"
+    printf("dest before strcat: \"%s\"\n", dest); // "Hello"
 
-strncat(dest, numbers, 3); // strcat first 3 chars of numbers
-printf("dest after strncat: \"%s\"\n", dest); // "Hello, world!123"
+    strcat(dest, src);
+    printf("dest after strcat:  \"%s\"\n", dest); // "Hello, world!"
+
+    strncat(dest, numbers, 3); // strcat first 3 chars of numbers
+    printf("dest after strncat: \"%s\"\n", dest); // "Hello, world!123"
+}
 ```
 
 Notice I mixed and matched pointer and array notation there with `src`
@@ -290,30 +306,36 @@ than than in `s2`.
 ### Example {.unnumbered .unlisted}
 
 ``` {.c .numberLines}
-char *s1 = "Muffin";
-char *s2 = "Muffin Sandwich";
-char *s3 = "Muffin";
+#include <stdio.h>
+#include <string.h>
 
-strcmp("Biscuits", "Kittens"); // returns < 0 since 'B' < 'K'
-strcmp("Kittens", "Biscuits"); // returns > 0 since 'K' > 'B'
+int main(void)
+{
+    char *s1 = "Muffin";
+    char *s2 = "Muffin Sandwich";
+    char *s3 = "Muffin";
 
-if (strcmp(s1, s2) == 0)
-    printf("This won't get printed because the strings differ");
+    strcmp("Biscuits", "Kittens"); // returns < 0 since 'B' < 'K'
+    strcmp("Kittens", "Biscuits"); // returns > 0 since 'K' > 'B'
 
-if (strcmp(s1, s3) == 0)
-    printf("This will print because s1 and s3 are the same");
+    if (strcmp(s1, s2) == 0)
+        printf("This won't get printed because the strings differ");
 
-// this is a little weird...but if the strings are the same, it'll
-// return zero, which can also be thought of as "false". Not-false
-// is "true", so (!strcmp()) will be true if the strings are the
-// same. yes, it's odd, but you see this all the time in the wild
-// so you might as well get used to it:
+    if (strcmp(s1, s3) == 0)
+        printf("This will print because s1 and s3 are the same");
 
-if (!strcmp(s1, s3))
-    printf("The strings are the same!");
+    // this is a little weird...but if the strings are the same, it'll
+    // return zero, which can also be thought of as "false". Not-false
+    // is "true", so (!strcmp()) will be true if the strings are the
+    // same. yes, it's odd, but you see this all the time in the wild
+    // so you might as well get used to it:
 
-if (!strncmp(s1, s2, 6))
-    printf("The first 6 characters of s1 and s2 are the same");
+    if (!strcmp(s1, s3))
+        printf("The strings are the same!");
+
+    if (!strncmp(s1, s2, 6))
+        printf("The first 6 characters of s1 and s2 are the same");
+}
 ```
 
 ### See Also {.unnumbered .unlisted}
@@ -473,7 +495,7 @@ greater than `n`, the results in `s1` are meaningless.
 #include <stdio.h>
 #include <string.h>
 #include <locale.h>
-#include <malloc.h>
+#include <stdlib.h>
 
 // Transform a string for comparison, returning a malloc'd
 // result
@@ -586,15 +608,17 @@ int main(void)
     for(p = strchr(str, 'B'); p != NULL; p = strchr(p + 1, 'B')) {
         printf("Found a 'B' here: %s\n", p);
     }
-
-    // output is:
-    //
-    // Found a 'B' here: BIG BROWN BAT BIT BEEJ
-    // Found a 'B' here: BROWN BAT BIT BEEJ
-    // Found a 'B' here: BAT BIT BEEJ
-    // Found a 'B' here: BIT BEEJ
-    // Found a 'B' here: BEEJ
 }
+```
+
+Output:
+
+``` {.default}
+Found a 'B' here: BIG BROWN BAT BIT BEEJ
+Found a 'B' here: BROWN BAT BIT BEEJ
+Found a 'B' here: BAT BIT BEEJ
+Found a 'B' here: BIT BEEJ
+Found a 'B' here: BEEJ
 ```
 
 <!--
@@ -837,16 +861,17 @@ int main(void)
             // and continues if the token's not NULL:
         } while ((token = strtok(NULL, ".,?! ")) != NULL);
     }
-
-    // output is:
-    //
-    // Word: "Where"
-    // Word: "is"
-    // Word: "my"
-    // Word: "bacon"
-    // Word: "dude"
-    //
 }
+```
+
+Output:
+
+``` {.default}
+Word: "Where"
+Word: "is"
+Word: "my"
+Word: "bacon"
+Word: "dude"
 ```
 
 ### See Also {.unnumbered .unlisted}
@@ -883,19 +908,25 @@ The most common usage is to zero out an array or `struct`.
 ### Example {.unnumbered .unlisted}
 
 ``` {.c .numberLines}
-struct banana {
-    float ripeness;
-    char *peel_color;
-    int grams;
-};
+#include <stdio.h>
+#include <string.h>
 
-struct banana b;
+int main(void)
+{
+    struct banana {
+        float ripeness;
+        char *peel_color;
+        int grams;
+    };
 
-memset(&b, 0, sizeof b);
+    struct banana b;
 
-b.ripeness == 0.0;     // True
-b.peel_color == NULL;  // True
-b.grams == 0;          // True
+    memset(&b, 0, sizeof b);
+
+    printf("%d\n", b.ripeness == 0.0);     // True
+    printf("%d\n", b.peel_color == NULL);  // True
+    printf("%d\n", b.grams == 0);          // True
+}
 ```
 
 ### See Also {.unnumbered .unlisted}
