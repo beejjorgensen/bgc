@@ -12,6 +12,7 @@ acosh
 alignas
 aligned_alloc
 alignof
+asctime
 asin
 asinh
 assert
@@ -35,6 +36,7 @@ ccos
 ccosh
 cexp
 cimag
+clock
 clog
 conj
 copysign
@@ -48,6 +50,8 @@ csinh
 csqrt
 ctan
 ctanh
+ctime
+difftime
 div
 errno
 exit
@@ -84,6 +88,7 @@ ftell
 fwrite
 getc
 getenv
+gmtime
 ilogb
 imaxabs
 imaxdiv
@@ -110,6 +115,7 @@ isxdigit
 ldexp
 limits
 localeconv
+localtime
 log
 log10
 log1p
@@ -124,6 +130,7 @@ mbstowcs
 mbtowc
 memcpy_memmove
 memset
+mktime
 modf
 nan
 nextafter
@@ -162,6 +169,7 @@ strcmp
 strcoll
 strcpy
 strerror
+strftime
 strlen
 strpbrk
 strspn
@@ -175,6 +183,8 @@ system
 tan
 tanh
 tgmath
+time
+timespec_get
 tmpfile
 tmpnam
 tolower
