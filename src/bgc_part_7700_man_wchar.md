@@ -438,10 +438,10 @@ If an invalid byte sequence is encountered, `errno` is set to `ILSEQ`.
 
 ### Example {.unnumbered .unlisted}
 
-``` {.c .numberLines}
-// read all characters from a file, outputting only the letter 'b's
-// it finds in the file
+Reads all the characters from a file, outputting only the letter 'b's it
+finds in the file:
 
+``` {.c .numberLines}
 #include <stdio.h>
 #include <wchar.h>
 
@@ -578,10 +578,10 @@ If it's an encoding error, `errno` will be set to `EILSEQ`.
 
 ### Example {.unnumbered .unlisted}
 
-``` {.c .numberLines}
-// read all characters from a file, outputting only the letter 'b's
-// it finds in the file
+Read all characters from a file, outputting only the letter 'b's it
+finds in the file:
 
+``` {.c .numberLines}
 #include <stdio.h>
 #include <wchar.h>
 
@@ -1387,7 +1387,7 @@ result in `s1`.
 ``` {.c .numberLines}
 #include <wchar.h>
 #include <locale.h>
-#include <malloc.h>
+#include <stdlib.h>
 
 // Transform a string for comparison, returning a malloc'd
 // result
@@ -1500,15 +1500,17 @@ int main(void)
     for(p = wcschr(str, 'B'); p != NULL; p = wcschr(p + 1, 'B')) {
         wprintf(L"Found a 'B' here: %ls\n", p);
     }
-
-    // output is:
-    //
-    // Found a 'B' here: BIG BROWN BAT BIT BEEJ
-    // Found a 'B' here: BROWN BAT BIT BEEJ
-    // Found a 'B' here: BAT BIT BEEJ
-    // Found a 'B' here: BIT BEEJ
-    // Found a 'B' here: BEEJ
 }
+```
+
+Output:
+
+``` {.default}
+Found a 'B' here: BIG BROWN BAT BIT BEEJ
+Found a 'B' here: BROWN BAT BIT BEEJ
+Found a 'B' here: BAT BIT BEEJ
+Found a 'B' here: BIT BEEJ
+Found a 'B' here: BEEJ
 ```
 
 ### See Also {.unnumbered .unlisted}
@@ -1737,16 +1739,17 @@ int main(void)
             // and continues if the token's not NULL:
         } while ((token = wcstok(NULL, L".,?! ", &state)) != NULL);
     }
-
-    // output is:
-    //
-    // Word: "Where"
-    // Word: "is"
-    // Word: "my"
-    // Word: "bacon"
-    // Word: "dude"
-    //
 }
+```
+
+Output:
+
+``` {.default}
+Word: "Where"
+Word: "is"
+Word: "my"
+Word: "bacon"
+Word: "dude"
 ```
 
 ### See Also {.unnumbered .unlisted}
@@ -2180,7 +2183,7 @@ L'€' takes 3 bytes as multibyte char '€'
 [`wcrtomb()`](#man-wcrtomb)
 
 [[manbreak]]
-## `wctombr()` {#man-wcrtomb}
+## `wcrtomb()` {#man-wcrtomb}
 
 Convert wide to multibyte characters restartably
 
@@ -2330,7 +2333,7 @@ If the multibyte sequence is invalid, the function returns
 Here we'll convert the string "€5 ± π" into a wide character string:
 
 ``` {.c .numberLines}
-ginclude <locale.h>  // For setlocale()
+#include <locale.h>  // For setlocale()
 #include <string.h>  // For memset()
 #include <wchar.h>
 
