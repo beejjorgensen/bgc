@@ -343,9 +343,15 @@ times.
 ### Example {.unnumbered .unlisted}
 
 ``` {.c .numberLines}
-time_t now = time(NULL);
+#include <stdio.h>
+#include <time.h>
 
-printf("The local time is %s", ctime(&now));
+int main(void)
+{
+    time_t now = time(NULL);
+
+    printf("The local time is %s", ctime(&now));
+}
 ```
 
 Example output:
@@ -536,10 +542,16 @@ Returns a pointer to the human-readable date string.
 ### Example {.unnumbered .unlisted}
 
 ``` {.c .numberLines}
-time_t now = time(NULL);
+#include <stdio.h>
+#include <time.h>
 
-printf("Local: %s", asctime(localtime(&now)));
-printf("UTC  : %s", asctime(gmtime(&now)));
+int main(void)
+{
+    time_t now = time(NULL);
+
+    printf("Local: %s", asctime(localtime(&now)));
+    printf("UTC  : %s", asctime(gmtime(&now)));
+}
 ```
 
 Sample output:
@@ -654,10 +666,16 @@ obtained.
 ### Example {.unnumbered .unlisted}
 
 ``` {.c .numberLines}
-time_t now = time(NULL);
+#include <stdio.h>
+#include <time.h>
 
-printf("UTC  : %s", asctime(gmtime(&now)));
-printf("Local: %s", asctime(localtime(&now)));
+int main(void)
+{
+    time_t now = time(NULL);
+
+    printf("UTC  : %s", asctime(gmtime(&now)));
+    printf("Local: %s", asctime(localtime(&now)));
+}
 ```
 
 Sample output:
@@ -710,10 +728,16 @@ be obtained.
 ### Example {.unnumbered .unlisted}
 
 ``` {.c .numberLines}
-time_t now = time(NULL);
+#include <stdio.h>
+#include <time.h>
 
-printf("Local: %s", asctime(localtime(&now)));
-printf("UTC  : %s", asctime(gmtime(&now)));
+int main(void)
+{
+    time_t now = time(NULL);
+
+    printf("Local: %s", asctime(localtime(&now)));
+    printf("UTC  : %s", asctime(gmtime(&now)));
+}
 ```
 
 Sample output:
