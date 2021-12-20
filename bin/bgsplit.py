@@ -50,7 +50,7 @@ class BGHTMLParser(html.parser.HTMLParser):
             self.chapter_list.append(self.chapter_id)
 
         if tag == "section" \
-            and 'class' in attrs and attrs['class'] == "footnotes":
+            and 'class' in attrs and attrs['class'] == "footnotes footnotes-end-of-document":
 
             self.chapter_id = "footnotes"
 
@@ -109,7 +109,7 @@ with open(infile_name) as fp:
             chapter_list_index = 0
 
         # Check for footnotes page
-        elif line_equal(line, '<section class="footnotes" role="doc-endnotes">'):
+        elif line_equal(line, '<section class="footnotes footnotes-end-of-document" role="doc-endnotes">'):
             new_filename = "footnotes.html"
             chapter_list_index = None
 
@@ -163,8 +163,12 @@ with open(infile_name) as fp:
 
                 nav_html = f'<div class="bg-nav-outer">{nav_html}</div>'
 
-            # Write the header nav
-            outfile.write(nav_html + "\n<hr>\n")
+                # Write the header nav
+                outfile.write(nav_html + "\n<hr>\n")
+
+            elif "footnotes.html" in outfile.name:
+                outfile.write("<h1>Footnotes</h1>\n")
+
 
             new_filename = None
 
