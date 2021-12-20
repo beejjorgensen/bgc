@@ -126,8 +126,15 @@ Returns the string converted to a `double`.
 ### Example {.unnumbered .unlisted}
 
 ``` {.c .numberLines}
+#include <stdio.h>
+#include <stdlib.h>
+
+int main(void)
+{
     double x = atof("3.141593");
+
     printf("%f\n", x);  // 3.141593
+}
 ```
 
 ### See Also {.unnumbered .unlisted}
@@ -188,8 +195,15 @@ Returns an integer result corresponding to the return type.
 ### Example {.unnumbered .unlisted}
 
 ``` {.c .numberLines}
-int x = atof("3490");
-printf("%d\n", x);  // 3490
+#include <stdio.h>
+#include <stdlib.h>
+
+int main(void)
+{
+    int x = atoi("3490");
+
+    printf("%d\n", x);  // 3490
+}
 ```
 
 ### See Also {.unnumbered .unlisted}
@@ -290,23 +304,29 @@ with the input sign. `errno` may be set to `ERANGE`.
 ### Example {.unnumbered .unlisted}
 
 ``` {.c .numberLines}
-char *inp = "   123.4567beej";
-char *badchar;
+#include <stdio.h>
+#include <stdlib.h>
 
-double val = strtod(inp, &badchar);
+int main(void)
+{
+    char *inp = "   123.4567beej";
+    char *badchar;
 
-printf("Converted string to %f\n", val);
-printf("Encountered bad characters: %s\n", badchar);
+    double val = strtod(inp, &badchar);
 
-val = strtod("987.654321beej", NULL);
-printf("Ignoring bad chars: %f\n", val);
+    printf("Converted string to %f\n", val);
+    printf("Encountered bad characters: %s\n", badchar);
 
-val = strtod("11.2233", &badchar);
+    val = strtod("987.654321beej", NULL);
+    printf("Ignoring bad chars for result: %f\n", val);
 
-if (*badchar == '\0')
-    printf("No bad chars: %f\n", val);
-else
-    printf("Found bad chars: %f, %s\n", val, badchar);
+    val = strtod("11.2233", &badchar);
+
+    if (*badchar == '\0')
+        printf("No bad chars: %f\n", val);
+    else
+        printf("Found bad chars: %f, %s\n", val, badchar);
+}
 ```
 
 Output:
@@ -401,22 +421,28 @@ If there's overflow, one of these values will be returned: `LONG_MIN`,
 ### Example {.unnumbered .unlisted}
 
 ``` {.c .numberLines}
-// All output in decimal (base 10)
+#include <stdio.h>
+#include <stdlib.h>
 
-printf("%ld\n", strtol("123", NULL, 0));      // 123
-printf("%ld\n", strtol("123", NULL, 10));     // 123
-printf("%ld\n", strtol("101010", NULL, 2));   // binary, 42
-printf("%ld\n", strtol("123", NULL, 8));      // octal, 83
-printf("%ld\n", strtol("123", NULL, 16));     // hex, 291
+int main(void)
+{
+    // All output in decimal (base 10)
 
-printf("%ld\n", strtol("0123", NULL, 0));     // octal, 83
-printf("%ld\n", strtol("0x123", NULL, 0));    // hex, 291
+    printf("%ld\n", strtol("123", NULL, 0));      // 123
+    printf("%ld\n", strtol("123", NULL, 10));     // 123
+    printf("%ld\n", strtol("101010", NULL, 2));   // binary, 42
+    printf("%ld\n", strtol("123", NULL, 8));      // octal, 83
+    printf("%ld\n", strtol("123", NULL, 16));     // hex, 291
 
-char *badchar;
-long int x = strtol("   1234beej", &badchar, 0);
+    printf("%ld\n", strtol("0123", NULL, 0));     // octal, 83
+    printf("%ld\n", strtol("0x123", NULL, 0));    // hex, 291
 
-printf("Value is %ld\n", x);               // Value is 1234
-printf("Bad chars at \"%s\"\n", badchar);  // Bad chars at "beej"
+    char *badchar;
+    long int x = strtol("   1234beej", &badchar, 0);
+
+    printf("Value is %ld\n", x);               // Value is 1234
+    printf("Bad chars at \"%s\"\n", badchar);  // Bad chars at "beej"
+}
 ```
 
 Output:
@@ -781,22 +807,27 @@ Both functions return a pointer to the shiny, newly-allocated memory. Or
 Comparison of `malloc()` and `calloc()` for allocating 5 `int`s:
 
 ``` {.c .numberLines}
-// Allocate space for 5 ints
-int *p = malloc(5 * sizeof(int));
+#include <stdlib.h>
 
-p[0] = 12;
-p[1] = 30;
+int main(void)
+{
+    // Allocate space for 5 ints
+    int *p = malloc(5 * sizeof(int));
 
-// Allocate space for 5 ints
-// (Also clear that memory to 0)
-int *q = calloc(5, sizeof(int));
+    p[0] = 12;
+    p[1] = 30;
 
-q[0] = 12;
-q[1] = 30;
+    // Allocate space for 5 ints
+    // (Also clear that memory to 0)
+    int *q = calloc(5, sizeof(int));
 
-// All done
-free(p);
-free(q);
+    q[0] = 12;
+    q[1] = 30;
+
+    // All done
+    free(p);
+    free(q);
+}
 ```
 
 ### See Also {.unnumbered .unlisted}
@@ -842,14 +873,19 @@ Returns nothing!
 ### Example {.unnumbered .unlisted}
 
 ``` {.c .numberLines}
-// Allocate space for 5 ints
-int *p = malloc(5 * sizeof(int));
+#include <stdlib.h>
 
-p[0] = 12;
-p[1] = 30;
+int main(void)
+{
+    // Allocate space for 5 ints
+    int *p = malloc(5 * sizeof(int));
 
-// Free that space
-free(p);
+    p[0] = 12;
+    p[1] = 30;
+
+    // Free that space
+    free(p);
+}
 ```
 
 ### See Also {.unnumbered .unlisted}
@@ -902,24 +938,30 @@ to the `ptr` passed in, or it might be some other location.
 ### Example {.unnumbered .unlisted}
 
 ``` {.c .numberLines}
-// Allocate space for 5 ints
-int *p = malloc(5 * sizeof(int));
+#include <stdio.h>
+#include <stdlib.h>
 
-p[0] = 12;
-p[1] = 30;
+int main(void)
+{
+    // Allocate space for 5 ints
+    int *p = malloc(5 * sizeof(int));
 
-// Reallocate for 10 bytes
-int *new_p = realloc(p, 10 * sizeof(int));
+    p[0] = 12;
+    p[1] = 30;
 
-if (new_p == NULL) {
-    printf("Error reallocing\n");
-} else {
-    p = new_p;  // It's good; let's keep it
-    p[7] = 99;
+    // Reallocate for 10 bytes
+    int *new_p = realloc(p, 10 * sizeof(int));
+
+    if (new_p == NULL) {
+        printf("Error reallocing\n");
+    } else {
+        p = new_p;  // It's good; let's keep it
+        p[7] = 99;
+    }
+
+    // All done
+    free(p);
 }
-
-// All done
-free(p);
 ```
 
 ### See Also {.unnumbered .unlisted}
@@ -966,10 +1008,18 @@ This function never returns.
 ### Example {.unnumbered .unlisted}
 
 ``` {.c .numberLines}
-if (bad_thing) {
-    printf("This should never have happened!\n");
-    fflush(stdout);  // Make sure the message goes out
-    abort();
+#include <stdio.h>
+#include <stdlib.h>
+
+int main(void)
+{
+    int bad_thing = 1;
+
+    if (bad_thing) {
+        printf("This should never have happened!\n");
+        fflush(stdout);  // Make sure the message goes out
+        abort();
+    }
 }
 ```
 
@@ -1146,6 +1196,8 @@ Defined exit statuses are:
 |`EXIT_FAILURE`|Oh noes! Definitely failure!|
 |Any positive value|Generally indicates another failure of some kind|
 
+OS X note: `quick_exit()` is not supported.
+
 ### Return Value {.unnumbered .unlisted}
 
 None of these functions ever return.
@@ -1153,15 +1205,24 @@ None of these functions ever return.
 ### Example {.unnumbered .unlisted}
 
 ``` {.c .numberLines}
-exit(EXIT_SUCCESS);
-```
+#include <stdlib.h>
 
-``` {.c .numberLines}
-quick_exit(EXIT_FAILURE);
-```
+int main(void)
+{
+    int contrived_exit_type = 1;
 
-``` {.c .numberLines}
-_Exit(2);
+    switch(contrived_exit_type) {
+        case 1:
+            exit(EXIT_SUCCESS);
+
+        case 2:
+            // Not supported in OS X
+            quick_exit(EXIT_SUCCESS);
+
+        case 3:
+            _Exit(2);
+    }
+}
 ```
 
 ### See Also {.unnumbered .unlisted}
@@ -1205,7 +1266,13 @@ variable doesn't exist.
 ### Example {.unnumbered .unlisted}
 
 ``` {.c .numberLines}
-printf("PATH is %s\n", getenv("PATH"));
+#include <stdio.h>
+#include <stdlib.h>
+
+int main(void)
+{
+    printf("PATH is %s\n", getenv("PATH"));
+}
 ```
 
 Output (truncated in my case):
@@ -1260,11 +1327,17 @@ Otherwise returns an implementation-defined value.
 ### Example {.unnumbered .unlisted}
 
 ``` {.c .numberLines}
-printf("Here's a directory listing:\n\n");
+#include <stdio.h>
+#include <stdlib.h>
 
-system("ls -l");   // Run this command and return
+int main(void)
+{
+    printf("Here's a directory listing:\n\n");
 
-printf("\nAll done!\n");
+    system("ls -l");   // Run this command and return
+
+    printf("\nAll done!\n");
+}
 ```
 
 Output:
@@ -1539,8 +1612,14 @@ Returns the absolute value of `j`, $|j|$.
 ### Example {.unnumbered .unlisted}
 
 ``` {.c .numberLines}
-printf("|-2| = %d\n", abs(-2));
-printf("|4|  = %d\n", abs(4));
+#include <stdio.h>
+#include <stdlib.h>
+
+int main(void)
+{
+    printf("|-2| = %d\n", abs(-2));
+    printf("|4|  = %d\n", abs(4));
+}
 ```
 
 Output:
@@ -1637,10 +1716,16 @@ fields loaded with the quotient and remainder of the operation of
 ### Example {.unnumbered .unlisted}
 
 ``` {.c .numberLines}
-div_t d = div(64, -7);
+#include <stdio.h>
+#include <stdlib.h>
 
-printf("64 / -7 = %d\n", d.quot);
-printf("64 %% -7 = %d\n", d.rem);
+int main(void)
+{
+    div_t d = div(64, -7);
+
+    printf("64 / -7 = %d\n", d.quot);
+    printf("64 %% -7 = %d\n", d.rem);
+}
 ```
 
 Output:
