@@ -142,7 +142,7 @@ int main(void)
 
 Killer. We've stored a value. Let's print it.
 
-We're going to do that by passing _two_ amazing parameters to the
+We're going to do that by passing _two_ amazing arguments to the
 `printf()` function. The first argument is a string that describes what
 to print and how to print it (called the _format string_), and the
 second is the value to print, namely whatever is in the variable `i`.
