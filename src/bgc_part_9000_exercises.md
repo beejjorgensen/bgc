@@ -128,9 +128,10 @@ giving up and looking at the answer.
    initialized to zero. [fls[arrays/init312.c]]
 
 1. Write a function that checks a [flw[tie-tac-toe|Tic-tac-toe]] board
-   for a winner. A `0` on the $3\times3$ board means no one has moved there
-   yet. A `1` means "X" has moved there, and a `2` means "O" has. Return
-   `0`, `1`, or `2` for no winners, "X" won, or "O" won, respectively.
+   for a winner. A `0` on the $3\times3$ board means no one has moved
+   there yet. A `1` means "X" has moved there, and a `2` means "O" has.
+   Return `0`, `1`, or `2` for no winners, "X" won, or "O" won,
+   respectively. [fls[arrays/tictactoe.c]]
 
 <!--
 1. Write a function that returns the $+$ answer from the quadratic
