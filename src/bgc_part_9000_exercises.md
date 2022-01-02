@@ -108,6 +108,30 @@ giving up and looking at the answer.
    printf("%d, %d\n", a, b); // Should print 20, 10
    ```
 
+   [fls[pointers/swap.c]]
+
+## Arrays
+
+1. Declare and initialize an `int` array containing the following
+   values:
+
+   ``` {.default}
+   10, 5, 2, 30, 97, 64
+   ```
+
+   Write a function `sum()` that accepts the array and its length as
+   arguments. Have the function return the sum of the elements in the
+   array (which is `208`). [fls[arrays/sum.c]]
+
+1. Declare an array of 2048 elements with an initializer that sets the
+   element at index `312` to `3490`. All other elements should be
+   initialized to zero. [fls[arrays/init312.c]]
+
+1. Write a function that checks a [flw[tie-tac-toe|Tic-tac-toe]] board
+   for a winner. A `0` on the $3\times3$ board means no one has moved there
+   yet. A `1` means "X" has moved there, and a `2` means "O" has. Return
+   `0`, `1`, or `2` for no winners, "X" won, or "O" won, respectively.
+
 <!--
 1. Write a function that returns the $+$ answer from the quadratic
    formula for a given `a`, `b`, and `c`.
