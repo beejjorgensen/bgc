@@ -98,6 +98,15 @@ giving up and looking at the answer.
    Since you're manipulating the value through the pointers, the result
    should be visible in the caller. [fls[pointers/pointers.c]]
 
+1. Write a function that takes two `int*` arguments and swaps them.
+
+   ``` {.c}
+   int a = 10, b = 20;
+
+   swap(&a, &b);
+
+   printf("%d, %d\n", a, b); // Should print 20, 10
+   ```
 
 <!--
 1. Write a function that returns the $+$ answer from the quadratic
