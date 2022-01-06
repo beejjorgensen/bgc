@@ -315,8 +315,8 @@ read it to copy it to another value.
 **Write = Store = Release**. Like when you assign a value into an atomic
 variable.
 
-C spells out what can happen when around these two operations on atomic
-variables.
+When using atomic variables with these acquire/release semantics, C
+spells out what can happen when.
 
 Acquire/release form the basis for the synchronization we just talked
 about.
@@ -335,9 +335,9 @@ More details:
 
 With read/load/acquire of a particular atomic variable:
 
-* All writes (atomic or non-atomic) in other threads that happened
-  before the other thread wrote/stored/released this atomic variable are
-  now visible in this thread.
+* All writes (atomic or non-atomic) in another thread that happened
+  before that other thread wrote/stored/released this atomic variable
+  are now visible in this thread.
 
 * The new value of the atomic variable set by the other thread is also
   visible in this thread.
@@ -374,7 +374,7 @@ another. The second thread can be sure that variables and memory are
 written in the order the programmer intended.
 
 ```
-int x, y, z;
+int x, y, z = 0;
 atomic_int a = 0;
 
 thread1() {
@@ -391,7 +391,7 @@ thread2()
     assert(x == 10);  // never asserts, x is always 10
     assert(y == 20);  // never asserts, y is always 20
 
-    assert(z == 30);  // might assert!!
+    assert(z == 0);  // might assert!!
 }
 ```
 
@@ -400,7 +400,8 @@ after it acquires `a` because they were set before `thread1` released
 the atomic `a`.
 
 But `thread2` can't be sure of `z`'s value because it happened after the
-release. I
+release. Maybe the assignment to `z` got moved before the assignment to
+`a`.
 
 An important note: releasing one atomic variable has no effect on
 acquires of different atomic variables. Each variable is isolated from
