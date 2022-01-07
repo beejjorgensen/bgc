@@ -133,6 +133,18 @@ giving up and looking at the answer.
    Return `0`, `1`, or `2` for no winners, "X" won, or "O" won,
    respectively. [fls[arrays/tictactoe.c]]
 
+## Strings
+
+1. Write a function that reverses a string in-place. Have it return the
+   same pointer that was passed in. [fls[strings/reverse.c]]
+
+1. Write a function that returns true if a string is entirely uppercase.
+   Hint: see the [`isupper()`](#man-isupper) function.
+   [fls[strings/str_isupper.c]]
+
+1. Write a function that returns a pointer to the first occurrence of a
+   letter in a string.  [fls[strings/my_strchr.c]]
+
 <!--
 1. Write a function that returns the $+$ answer from the quadratic
    formula for a given `a`, `b`, and `c`.
