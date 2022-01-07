@@ -6,6 +6,7 @@ clean:
 	$(MAKE) -C pointers $@
 	$(MAKE) -C varstat $@
 	$(MAKE) -C arrays $@
+	$(MAKE) -C strings $@
 
 pristine:
 	$(MAKE) -C functions $@
@@ -13,3 +14,4 @@ pristine:
 	$(MAKE) -C pointers $@
 	$(MAKE) -C varstat $@
 	$(MAKE) -C arrays $@
+	$(MAKE) -C strings $@
