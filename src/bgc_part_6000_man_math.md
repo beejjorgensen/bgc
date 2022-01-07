@@ -3351,7 +3351,7 @@ int main(void)
 -->
 
 [[manbreak]]
-## `fmax()`, `fmax()`, `fmax()`, `fmin()`, `fmin()`, `fmin()` {#man-fmax}
+## `fmax()`, `fmaxf()`, `fmaxl()`, `fmin()`, `fminf()`, `fminl()` {#man-fmax}
 
 Return the maximum or minimum of two numbers.
 
