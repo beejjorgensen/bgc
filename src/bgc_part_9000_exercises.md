@@ -143,7 +143,8 @@ giving up and looking at the answer.
    [fls[strings/str_isupper.c]]
 
 1. Write a function that returns a pointer to the first occurrence of a
-   letter in a string.  [fls[strings/my_strchr.c]]
+   letter in a string. If the character doesn't appear in the string,
+   return `NULL`. [fls[strings/my_strchr.c]]
 
 <!--
 1. Write a function that returns the $+$ answer from the quadratic
