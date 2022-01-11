@@ -8,6 +8,7 @@ clean:
 	$(MAKE) -C arrays $@
 	$(MAKE) -C strings $@
 	$(MAKE) -C structs $@
+	$(MAKE) -C io $@
 
 pristine:
 	$(MAKE) -C functions $@
@@ -17,3 +18,4 @@ pristine:
 	$(MAKE) -C arrays $@
 	$(MAKE) -C strings $@
 	$(MAKE) -C structs $@
+	$(MAKE) -C io $@

@@ -1,7 +1,7 @@
 #include <stdio.h>
 
 struct point {
-    double x, y;
+    float x, y;
 };
 
 struct point add_points(struct point a, struct point b)
