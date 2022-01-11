@@ -73,7 +73,8 @@ filedata = re.sub(r'\[fl\[(.+?)\|(.+?)\]\]', r'[\1](\2)^[\2]', filedata, flags=r
 filedata = re.sub(r'\[flw\[(.+?)\|(.+?)\]\]', r'[\1](' + wp_path + r'\2)^[' + wp_path + r'\2]', filedata, flags=re.DOTALL)
 filedata = re.sub(r'\[flm\[(.+?)\|(.+?)\]\]', r'[\1](' + man_path + r'\2)^[' + man_path + r'\2]', filedata, flags=re.DOTALL)
 filedata = re.sub(r'\[flx\[(.+?)\|(.+?)\]\]', r'[\1](' + preproc_config.EXAMPLE_URL + r'\2)^[' + preproc_config.EXAMPLE_URL + r'\2]', filedata, flags=re.DOTALL)
-filedata = re.sub(r'\[fls\[(.+?)\]\]', r'([Solution.](' + preproc_config.EXERCISE_URL + r'\1)^[' + preproc_config.EXERCISE_URL + r'\1])', filedata, flags=re.DOTALL)
+filedata = re.sub(r'\[fls\[(.+?)\|(.+?)\]\]', r'[\1](' + preproc_config.EXERCISE_URL + r'\2)^[' + preproc_config.EXERCISE_URL + r'\2]', filedata, flags=re.DOTALL)
+filedata = re.sub(r'\[flsol\[(.+?)\]\]', r'([Solution.](' + preproc_config.EXERCISE_URL + r'\1)^[' + preproc_config.EXERCISE_URL + r'\1])', filedata, flags=re.DOTALL)
 filedata = re.sub(r'\[flr\[(.+?)\|(.+?)\]\]', r'[\1](https://beej.us/guide/url/\2)^[https://beej.us/guide/url/\2]', filedata, flags=re.DOTALL)
 filedata = re.sub(r'\[flrfc\[(.+?)\|(.+?)\]\]', r'[\1](https://tools.ietf.org/html/rfc\2)^[https://tools.ietf.org/html/rfc\2]', filedata, flags=re.DOTALL)
 
