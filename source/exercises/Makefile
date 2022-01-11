@@ -7,6 +7,7 @@ clean:
 	$(MAKE) -C varstat $@
 	$(MAKE) -C arrays $@
 	$(MAKE) -C strings $@
+	$(MAKE) -C structs $@
 
 pristine:
 	$(MAKE) -C functions $@
@@ -15,3 +16,4 @@ pristine:
 	$(MAKE) -C varstat $@
 	$(MAKE) -C arrays $@
 	$(MAKE) -C strings $@
+	$(MAKE) -C structs $@

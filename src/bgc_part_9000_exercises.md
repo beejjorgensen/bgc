@@ -146,6 +146,17 @@ giving up and looking at the answer.
    letter in a string. If the character doesn't appear in the string,
    return `NULL`. [fls[strings/my_strchr.c]]
 
+## Structs
+
+1. Write a `struct point` that has two `double` members called `x` and `y`,
+   useful for storing a 2D point. Write a function that adds two `struct
+   point`s together by adding their individual components. It should
+   return a `struct point` as the result.
+
+1. Do the same thing, except pass pointers to the `struct point`s into
+   the function. Have the function modify the first point so that it is
+   the sum of the first and second points.
+
 <!--
 1. Write a function that returns the $+$ answer from the quadratic
    formula for a given `a`, `b`, and `c`.
