@@ -204,6 +204,40 @@ giving up and looking at the answer.
 
    [flsol[typedef/vector3d.c]]
 
+## Pointers II
+
+1. Write `my_strchr()`, a function that returns a pointer to the first
+   instance of a character in a string, like [`strchr()`](#man-strchr).
+   Use pointer arithmetic to implement this.
+   [flsol[pointers2/my_strchr.c]]
+
+1. Write `my_strrchr()`, a function that returns a pointer to the last
+   instance of a character in a string, like [`strrchr()`](#man-strchr).
+   Use pointer arithmetic to implement this.
+   [flsol[pointers2/my_strrchr.c]]
+
+1. Write a function `object_sum()` that computes the sum of the bytes of
+   the object pointed to by a `void*` parameter.
+
+   ``` {.c}
+   int object_sum(void *p, size_t count)
+   ```
+
+   ``` {.c}
+   int t;
+   float x = 3.14159;
+   int y = 3490;
+
+   t = object_sum(&x, sizeof x);
+   t = object_sum(&y, sizeof y);
+   ```
+
+   [flsol[pointers2/object_sum.c]]
+
+1. Write a comparison function that sorts an `int` array with `qsort()`
+   in ascending order. Write another comparison function that sorts it
+   in descending order.  [flsol[pointers2/int_qsort.c]]
+
 <!--
 1. Write a function that returns the $+$ answer from the quadratic
    formula for a given `a`, `b`, and `c`.

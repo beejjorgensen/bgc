@@ -1,0 +1,6 @@
+# Generate with
+#
+# !!ls *.c | sed s/\.c$//
+my_strchr
+my_strrchr
+object_sum

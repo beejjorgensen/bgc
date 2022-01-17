@@ -1,4 +1,4 @@
-.PHONY: clean
+.PHONY: clean pristine
 
 clean:
 	$(MAKE) -C functions $@
@@ -10,6 +10,7 @@ clean:
 	$(MAKE) -C structs $@
 	$(MAKE) -C io $@
 	$(MAKE) -C typedef $@
+	$(MAKE) -C pointers2 $@
 
 pristine:
 	$(MAKE) -C functions $@
@@ -21,3 +22,4 @@ pristine:
 	$(MAKE) -C structs $@
 	$(MAKE) -C io $@
 	$(MAKE) -C typedef $@
+	$(MAKE) -C pointers2 $@
