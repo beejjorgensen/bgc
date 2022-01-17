@@ -9,6 +9,7 @@ clean:
 	$(MAKE) -C strings $@
 	$(MAKE) -C structs $@
 	$(MAKE) -C io $@
+	$(MAKE) -C typedef $@
 
 pristine:
 	$(MAKE) -C functions $@
@@ -19,3 +20,4 @@ pristine:
 	$(MAKE) -C strings $@
 	$(MAKE) -C structs $@
 	$(MAKE) -C io $@
+	$(MAKE) -C typedef $@

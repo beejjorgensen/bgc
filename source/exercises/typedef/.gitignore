@@ -1,0 +1,4 @@
+# Generate with
+#
+# !!ls *.c | sed s/\.c$//
+vector3d

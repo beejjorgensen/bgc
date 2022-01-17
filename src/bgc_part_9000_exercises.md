@@ -175,6 +175,35 @@ giving up and looking at the answer.
 
    [flsol[io/point_avg.c]]
 
+## Typedef
+
+1. Write a `typedef` that creates a new type called `vector3d` for this
+   `struct`:
+
+   ``` {.c}
+   struct {
+      float x, y, z;
+   };
+   ```
+
+   Write a function called `dot3d` that computes and returns the vector
+   dot product of two `vector3d`s. This function should accept two
+   pointers to `vector3d`s as arguments, so it could be called with:
+
+   ``` {.c}
+   float result = dot3d(&v1, &v2);
+   ```
+
+   The vector dot product of two vectors is the sum of the products of
+   the `x`, `y`, and `z` components:
+
+   $v_1=(x_1,y_1,z_1)$\
+   $v_2=(x_2,y_2,z_2)$
+
+   $v_1\cdot v_2 = x_1\times x_2 + y_1\times y_2 + z_1\times z_2$
+
+   [flsol[typedef/vector3d.c]]
+
 <!--
 1. Write a function that returns the $+$ answer from the quadratic
    formula for a given `a`, `b`, and `c`.
