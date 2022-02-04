@@ -238,6 +238,17 @@ giving up and looking at the answer.
    in ascending order. Write another comparison function that sorts it
    in descending order.  [flsol[pointers2/int_qsort.c]]
 
+## Manual Memory Allocation
+
+1. Write a program that allocates space for an array of 10 `int`s, then
+   fills that array for each index with the index number times 10.
+   [flsol[manmem/tenints.c]]
+
+1. Write a program that reads a file of arbitrary size into memory and
+   returns a pointer to the data without knowing the file size in
+   advance. The [`fread()`](#man-fread) function might help here.
+   [flsol[manmem/readfile.c]]
+
 <!--
 1. Write a function that returns the $+$ answer from the quadratic
    formula for a given `a`, `b`, and `c`.
