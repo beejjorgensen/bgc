@@ -6,7 +6,9 @@ int compar_ascending(const void *a, const void *b)
     const int *ai = a;
     const int *bi = b;
 
-    return *ai - *bi;
+    if (*ai > *bi) return 1;
+    if (*ai < *bi) return -1;
+    return 0;
 }
 
 int compar_descending(const void *a, const void *b)
@@ -14,7 +16,9 @@ int compar_descending(const void *a, const void *b)
     const int *ai = a;
     const int *bi = b;
 
-    return *bi - *ai;
+    if (*ai > *bi) return -1;
+    if (*ai < *bi) return 1;
+    return 0;
 }
 
 void print_array(int a[], int count)

@@ -539,7 +539,13 @@ int compar(const void *elem1, const void *elem2)
 
     // Let's sort ascending by leg_count, so we'll return the difference
     // in the leg_counts
-    return animal1->leg_count - animal2->leg_count;
+    if (animal1->leg_count > animal2->leg_count)
+        return 1;
+    
+    if (animal1->leg_count < animal2->leg_count)
+        return -1;
+
+    return 0;
 }
 
 int main(void)

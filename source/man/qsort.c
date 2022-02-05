@@ -5,7 +5,9 @@ int compar(const void *elem0, const void *elem1)
 {
     const int *x = elem0, *y = elem1;  // Need ints, not voids
 
-    return *x - *y;
+    if (*x > *y) return 1;
+    if (*x < *y) return -1;
+    return 0;
 }
 
 int main(void)
