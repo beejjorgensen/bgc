@@ -60,5 +60,8 @@ int main(void)
         putchar(data[i]);
     }
 
+    // readfile() malloc()'d the data, so we must free it
+    free(data);
+
     fclose(fp);
 }
