@@ -34,6 +34,12 @@ representable in an `unsigned char`. Otherwise it's (dun dun DUUNNNN)
 undefined behavior. So you can forget about passing in your UTF-8
 multibyte characters.
 
+You can portably avoid this undefined behavior by casting the arguments
+to these functions to `(unsigned char)`. This is irksome and ugly,
+admittedly. The values in the [basic character set]{#src-exec-charset}
+are all safe to use since they're positive values that fit into an
+`unsigned char`.
+
 Also, the behavior of these functions varies based on locale.
 
 In many of the pages in this section, I give some examples. These are

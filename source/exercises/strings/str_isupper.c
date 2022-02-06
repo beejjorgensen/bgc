@@ -4,7 +4,8 @@
 int str_isupper(char *s)
 {
     while (*s != '\0')
-        if (!isupper(*s++))
+        // cast to unsigned char to avoid undefined behavior
+        if (!isupper((unsigned char)*s++))
             return 0;
 
     return 1;
