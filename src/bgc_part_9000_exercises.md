@@ -249,6 +249,73 @@ giving up and looking at the answer.
    advance. The [`fread()`](#man-fread) function might help here.
    [flsol[manmem/readfile.c]]
 
+## Scope
+
+1. What will this code print?
+
+   ``` {.c .numberLines}
+   #include <stdio.h>
+
+   int total = 0;
+
+   void add(int x)
+   {
+       total += x;
+       printf("Total is now %d\n", total);
+   }
+
+   int main(void)
+   {
+       for (int i = 0; i < 3; i++)
+           add(i);
+   }
+   ```
+
+   Answer^[`Total is now` with values `1`, `3`, `5`. `total` is at file
+   scope so each call to `add()` affects it.].
+
+1. What will this code print?
+
+   ``` {.c .numberLines}
+   #include <stdio.h>
+
+   int main(void)
+   {
+       int i = 0;
+
+       if (1 < 2) {  // always true
+           int i = 0;
+        
+           i += 5;
+       }
+
+       i += 5;
+
+       printf("%d\n", i);
+   }
+   ```
+
+   Answer^[`5`--the first increase in `i` is on a variable that hides
+   the one at outer scope.].
+
+1. What will this code print?
+
+   ``` {.c .numberLines}
+   #include <stdio.h>
+
+   int main(void)
+   {
+       for (int i = 0; i < 3; i++) {
+           for (int i = 0; i < 2; i++) {
+               printf("Hi there!\n");
+           }
+       }
+   }
+   ```
+
+   Answer^[Prints `Hi there` six times. The inner declaration of `i`
+   hides the outer one.].
+
 <!--
 1. Write a function that returns the $+$ answer from the quadratic
    formula for a given `a`, `b`, and `c`.
