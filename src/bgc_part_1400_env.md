@@ -233,7 +233,7 @@ int main(int argc, char **argv)
     // unused variable argc:
     (void)argc;
 
-    for (char **p = argv; *p != NULL; p++) {
+    for (char **p = argv + 1; *p != NULL; p++) {
         int value = atoi(*p);  // Use strtol() for better error handling
 
         total += value;
