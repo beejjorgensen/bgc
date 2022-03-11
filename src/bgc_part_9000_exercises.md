@@ -316,6 +316,59 @@ giving up and looking at the answer.
    Answer^[Prints `Hi there` six times. The inner declaration of `i`
    hides the outer one.].
 
+## Types II
+
+1. Write a program that initializes an `unsigned char` to `0`. Then, in
+   a loop, increment that value a total of 260 times, printing it out
+   each time.
+
+   What happens as you pass 255^[Assuming your machine has 8-bit
+   bytes.]?
+
+   Answer^[Wraps around like an odometer from 255 to 0. This happens
+   because 255 is binary `11111111`---all 8 bits are `1`, so adding one
+   more gets us to `100000000`. But that's 9 bits, too big to fit in
+   your byte. The highest bit is thrown out, leaving us with binary
+   `00000000`. All unsigned types will do this when they are incremented
+   from their highest value.].  [flsol[types2/overflow.c]]
+
+## Types III
+
+1. Write a function that prints out the whole number portion of a
+   floating pointer number, followed by a `+` sign, followed by the
+   fractional part of the number. For example, given the `float` value
+   `3.14159`, it should print:
+
+   ``` {.default}
+   3+0.14159
+   ```
+
+   Try to do this without any string manipulation, just numerically.
+
+   [flsol[types3/cutfrac.c]]
+
+1. Write your own function that converts a string to an integer without
+   using any of the built-in conversion functions (like `atoi()` or
+   `strtol()`).
+
+   ``` {.c}
+   int my_atoi(char *s)
+   {
+        // TODO
+   }
+
+   printf("%d\n", my_atoi("3490"));
+   ````
+
+   For bonus points:
+
+   * Make it skip leading whitespace---see the
+     [`isspace()`](#man-isspace) function
+   * Make it stop on the first non-numeric character---see the
+     [`isdigit()`](#man-isdigit) function
+   * Make it handle negative numbers
+
+   [flsol[types3/my_atoi.c]]
 <!--
 1. Write a function that returns the $+$ answer from the quadratic
    formula for a given `a`, `b`, and `c`.
@@ -327,3 +380,4 @@ giving up and looking at the answer.
    `-lm` to the end of your command line to link to the math library.
    [flsol[functions/]]
 -->
+
