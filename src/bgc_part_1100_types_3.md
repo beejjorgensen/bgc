@@ -237,6 +237,78 @@ So there you have it. The `atoi()`-style functions are good in a
 controlled pinch, but the `strtol()`-style functions give you far more
 control over error handling and the base of the input.
 
+## `char` Conversions
+
+What if you have a single character with a digit in it, like `'5'`...
+Is that the same as the value `5`?
+
+Let's try it and see.
+
+``` {.c}
+printf("%d %d\n", 5, '5');
+```
+
+On my UTF-8 system, this prints:
+
+``` {.default}
+5 53
+```
+
+So... no. And 53? What is that? That's the UTF-8 (and ASCII) code point
+for the character symbol `'5'`[^Each character has a value associated
+with it for any given character encoding scheme.]
+
+So how do we convert the character `'5'` (which apparently has value 53)
+into the value `5`?
+
+With one clever trick, that's how!
+
+The C Standard guarantees that these character will have code points
+that are in sequence and in this order:
+
+``` {.default}
+0  1  2  3  4  5  6  7  8  9
+```
+
+Ponder for a second--how can we use that? Spoilers ahead...
+
+Let's take a look at the characters and their code points in UTF-8:
+
+``` {.default}
+0  1  2  3  4  5  6  7  8  9
+48 49 50 51 52 53 54 55 56 57
+```
+
+You see there that `'5'` is `53`, just like we were getting. And `'0'`
+is `48`.
+
+So we can subtract `'0'` from any digit character to get its numeric
+value:
+
+``` {.c}
+char c = '6';
+
+int x = c;  // x has value 54, the code point for '6'
+
+int y = c - '0'; // y has value 6, just like we want
+```
+
+And we can convert the other way, too, just by adding the value on.
+
+``` {.c}
+int x = 6;
+
+char c = x + '0';  // c has value 54
+
+printf("%d\n", c);  // prints 54
+printf("%c\n", c);  // prints 6 with %c
+```
+
+You might think this is a weird way to do this conversion, and by
+today's standards, it certainly is. But back in the olden days when
+computers were made literally out of wood, this was the method for doing
+this conversion. And it wasn't broke, so C never fixed it.
+
 ## Numeric Conversions
 
 ### Boolean
@@ -453,6 +525,11 @@ long x = 3490;
 long *p = &x;
 unsigned char *c = (unsigned char *)p;
 ```
+
+A third place it's often required is with the character conversion
+functions in [`<ctype.h>`](#ctype) where you should cast
+questionably-signed values to `unsigned char` to avoid undefined
+behavior.
 
 Again, casting is rarely _needed_ in practice. If you find yourself
 casting, there might be another way to do the same thing, or maybe
