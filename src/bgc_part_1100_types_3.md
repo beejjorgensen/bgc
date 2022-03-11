@@ -255,7 +255,7 @@ On my UTF-8 system, this prints:
 ```
 
 So... no. And 53? What is that? That's the UTF-8 (and ASCII) code point
-for the character symbol `'5'`[^Each character has a value associated
+for the character symbol `'5'`^[Each character has a value associated
 with it for any given character encoding scheme.]
 
 So how do we convert the character `'5'` (which apparently has value 53)
