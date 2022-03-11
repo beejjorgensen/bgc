@@ -357,7 +357,7 @@ giving up and looking at the answer.
         // TODO
    }
 
-   printf("%d\n", my_atoi("3490"));
+   printf("%d\n", my_atoi("3490"));  // prints 3490
    ````
 
    For bonus points:
@@ -369,6 +369,7 @@ giving up and looking at the answer.
    * Make it handle negative numbers
 
    [flsol[types3/my_atoi.c]]
+
 <!--
 1. Write a function that returns the $+$ answer from the quadratic
    formula for a given `a`, `b`, and `c`.
