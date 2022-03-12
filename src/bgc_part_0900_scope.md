@@ -140,7 +140,7 @@ Note that if `shared` were declared at the bottom of the file, it
 wouldn't compile. It has to be declared _before_ any functions use it.
 
 There are ways to further modify items at file scope, namely with
-(static)[#static] and (extern)[#extern], but we'll talk more about those
+[static](#static) and [extern](#extern), but we'll talk more about those
 later.
 
 ## `for`-loop Scope
