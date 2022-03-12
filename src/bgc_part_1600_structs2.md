@@ -946,7 +946,7 @@ So far, nothing special has happened here. It seems like the `type`
 field is completely useless.
 
 But now let's make a generic function that prints a `union animal`. It
-has to someone be able to tell if it's looking at a `struct antelope` or
+has to somehow be able to tell if it's looking at a `struct antelope` or
 a `struct octopus`.
 
 Because of the magic of common initial sequences, it can look up the

@@ -496,7 +496,7 @@ $ ./foo
 Cannot find the FROTZ environment variable
 ```
 
-which makes since, since I haven't set it yet.
+which makes sense, since I haven't set it yet.
 
 In bash, I can set it to something with^[In Windows CMD.EXE, use `set
 FROTZ=value`. In PowerShell, use `$Env:FROTZ=value`.]:
