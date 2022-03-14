@@ -420,6 +420,21 @@ giving up and looking at the answer.
    gcc -Wall -Wextra  -o runner runner.c total.c
    ```
 
+   [flsol[types4/runner.c]] [flsol[types4/total.c]]
+
+## Multifile Projects
+
+1. Modify the exercise for Types IV, above, to use a header file
+   `total.h`.
+
+   Be sure to use the `#ifdef` wrapper on the header file.
+
+   Bonus points for compiling the C files to object files before linking
+   them all together.
+
+   [flsol[multifile/runner.c]] [flsol[multifile/total.c]]
+   [flsol[multifile/total.h]]
+
 <!--
 1. Write a function that returns the $+$ answer from the quadratic
    formula for a given `a`, `b`, and `c`.
