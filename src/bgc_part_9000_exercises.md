@@ -370,6 +370,56 @@ giving up and looking at the answer.
 
    [flsol[types3/my_atoi.c]]
 
+## Types IV
+
+1. This is going to be a two-file project. One file contains
+   functionality to add numbers to a running total. The other calls that
+   functionality.
+   
+   The main file `runner.c` will contain the following:
+
+   ``` {.c .numberLines}
+   // runner.c
+
+   #include <stdio.h>
+
+   int main(void)
+   {
+      for (int i = 0; i < 10; i++)
+         add(i);
+
+      printf("Total is %d over %d calls\n", total(), count);
+   }
+   ```
+
+   The file `total.c` will have three things that are callable from
+   other source files:
+
+   1. A function called `void add(int x)`. This will add on to the
+      running total that starts at `0`.
+   2. A function called `int total(void)` that returns the total so far.
+   3. A shared global variable called `count` that returns the number of
+      times `add()` has been called.
+
+   Implement the functionality in `total.c` and then modify `runner.c`
+   so it can call the functions `add()` and `total()` and can see the
+   variable `count`.
+
+   Make sure that `total()` is the only way `runner.c` can get the
+   total.
+   
+   You'll have to make use of `static` and `extern` to solve this one.
+
+   Normally this is a case where we'd use a [header
+   file](#includes-func-protos), but we haven't talked about those yet.
+
+   You can compile two files together by specifying them both on the
+   command line:
+
+   ``` {.default}
+   gcc -Wall -Wextra  -o runner runner.c total.c
+   ```
+
 <!--
 1. Write a function that returns the $+$ answer from the quadratic
    formula for a given `a`, `b`, and `c`.
