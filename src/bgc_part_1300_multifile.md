@@ -12,7 +12,7 @@ all compiled and linked together into a single executable.
 In this chapter we'll check out some of the common patterns and
 practices for putting together larger projects.
 
-## Includes and Function Prototypes
+## Includes and Function Prototypes  {#includes-func-protos}
 
 A really common situation is that some of your functions are defined in
 one file, and you want to call them from another.
