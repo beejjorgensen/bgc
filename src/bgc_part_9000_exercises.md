@@ -435,6 +435,33 @@ giving up and looking at the answer.
    [flsol[multifile/runner.c]] [flsol[multifile/total.c]]
    [flsol[multifile/total.h]]
 
+## The Outside Environment
+
+1. Write a program that prints out the values of the environment
+   variables that are specified on the command line.
+
+   If the variable isn't set, it should print out the message `no such
+   variable`.
+   
+   For example:
+
+   ``` {.default}
+   $ ./printenv HOME LANG FOOBAR PATH
+   ```
+   ``` {.default}
+   HOME=/Users/beej
+   LANG=en_US.UTF-8
+   FOOBAR: no such variable
+   PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
+   ```
+
+   (`HOME`, `LANG`, and `PATH` are variables commonly-set by the shell,
+   so it's likely they're already there for you.)
+
+   You'll want to use [`getenv()`](#man-getenv) for this one.
+
+   [flsol[env/printenv.c]]
+
 <!--
 1. Write a function that returns the $+$ answer from the quadratic
    formula for a given `a`, `b`, and `c`.
