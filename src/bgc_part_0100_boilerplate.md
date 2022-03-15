@@ -46,7 +46,8 @@ programming language thing?
 
 Well, to be quite honest, I'm not even sure what the above code does.
 It's a snippet from one of the entries in the 2001 [fl[International
-Obfuscated C Code Contest|https://www.ioccc.org/]], a wonderful
+Obfuscated C Code Contest|https://www.ioccc.org/]][i[International
+Obfuscated C Code Contest]], a wonderful
 competition wherein the entrants attempt to write the most unreadable C
 code possible, with often surprising results.
 
@@ -74,9 +75,9 @@ We're going to assume you know what variables are, what loops do, how
 functions work, and so on.
 
 If that's not you for whatever reason the best I can hope to provide is
-some pastey entertainment for your reading pleasure. The only thing I
-can reasonably promise is that this guide won't end on a
-cliffhanger... or _will_ it?
+some honest entertainment for your reading pleasure. The only thing I
+can reasonably promise is that this guide won't end on a cliffhanger...
+or _will_ it?
 
 ## Platform and Compiler
 
