@@ -23,6 +23,19 @@ flr = footnote link to redirect https://beej.us/guide/url/id
 [flr[link|id]] [link](https://beej.us/guide/url/id)^[https://beej.us/guide/url/id]
 [flrfc[link|num]] [link](https://tools.ietf.org/html/rfcnum)^[https://tools.ietf.org/html/rfcnum]
 
+
+[i[entry]]
+[i[entry]flags]
+[i[entry|replacement]flags]
+
+flags for page number i: italic, b: bold, or a combination.
+flags for replacement T: typewriter, I: italic, B: bold, or a combination.
+
+entry can have a bang path: "entry!subentry"
+
+[isee[entry|see]]
+[iseealso[entry|see also]]
+
 Also puts a blank line between files.
 
 """
@@ -62,6 +75,44 @@ except AttributeError:
 
 filedata = '\n'.join(filedata)
 
+def i_replace(m):
+
+	#print(f">>>> {m.groups()}")
+
+	def escape(s):
+		return re.sub(r'([_#])', r'\\\1', s)
+
+	"""Index [i[]] tag replacer."""
+	entry = m.group('entry')
+	flags = m.group('flags')
+	repl = m.group('repl')
+
+	flags = flags if flags is not None else ''
+	repl = repl if repl is not None else ''
+
+	entry = escape(entry)
+	repl = escape(repl)
+
+	if repl == '' and ('T' in flags or 'I' in flags or 'B' in flags):
+		repl = entry
+
+	if 'b' in flags:
+		entry += '|textbf'
+	if 'i' in flags:
+		entry += '|textit'
+
+	if repl != '':
+		if 'T' in flags:
+			repl = '\\texttt{' + repl + '}'
+		if 'I' in flags:
+			repl = '\\textsl{' + repl + '}'
+		if 'B' in flags:
+			repl = '\\textbf{' + repl + '}'
+
+		repl = '@' + repl
+
+	return '\\index{' + entry + repl + '}'
+
 filedata = re.sub(r'\t', "    ", filedata, flags=re.DOTALL)
 filedata = re.sub(r'\[nobr\[(.+?)\]\]', nobr_replace, filedata, flags=re.DOTALL)
 filedata = re.sub(r'\[\[pagebreak\]\]', r'\\newpage', filedata, flags=re.DOTALL)
@@ -77,6 +128,7 @@ filedata = re.sub(r'\[fls\[(.+?)\|(.+?)\]\]', r'[\1](' + preproc_config.EXERCISE
 filedata = re.sub(r'\[flsol\[(.+?)\]\]', r'([Solution.](' + preproc_config.EXERCISE_URL + r'\1)^[' + preproc_config.EXERCISE_URL + r'\1])', filedata, flags=re.DOTALL)
 filedata = re.sub(r'\[flr\[(.+?)\|(.+?)\]\]', r'[\1](https://beej.us/guide/url/\2)^[https://beej.us/guide/url/\2]', filedata, flags=re.DOTALL)
 filedata = re.sub(r'\[flrfc\[(.+?)\|(.+?)\]\]', r'[\1](https://tools.ietf.org/html/rfc\2)^[https://tools.ietf.org/html/rfc\2]', filedata, flags=re.DOTALL)
+filedata = re.sub(r'\[i\[(?P<entry>.+?)(?:\|(?P<repl>.+?))?\](?P<flags>.*?)\]', i_replace, filedata, flags=re.DOTALL)
 
 fout = open(outfile, "w")
 in_fence = False
