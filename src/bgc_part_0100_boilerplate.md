@@ -28,6 +28,10 @@
 [nh[llroundf]]
 [nh[llroundl]]
 
+<!-- Index see alsos -->
+\index{String|see {\texttt{char *}}}
+\index{Ternary Operator|see {\texttt{?:}}}
+
 # Foreword
 
 No point in wasting words here, folks, let's jump straight into the C

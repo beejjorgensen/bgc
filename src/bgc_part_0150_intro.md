@@ -186,7 +186,7 @@ at the end of the string? Well, most characters in the string will print
 out just like they are stored. But there are certain characters that you
 can't print on screen well that are embedded as two-character backslash
 codes. One of the most popular is `\n` (read "backslash-N") that
-corresponds to the _newline_[i[Newline]] character. This is the
+corresponds to the _newline_[i[`\n` newline]] character. This is the
 character that causes further printing to continue at the beginning of
 the next line instead of the current.  It's like hitting return at the
 end of the line.

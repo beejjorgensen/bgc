@@ -20,9 +20,9 @@ clear what we're talking about.
 
 ## Variables
 
-It's said that "variables hold values". But another way to think about
-it is that a variable is a human-readable name that refers to some data
-in memory.
+[i[Variables]]It's said that "variables hold values". But another way to
+think about it is that a variable is a human-readable name that refers
+to some data in memory.
 
 We're going to take a second here and take a peek down the rabbit hole
 that is pointers. Don't worry about it.
@@ -52,8 +52,8 @@ address.
 
 ### Variable Names
 
-You can use any characters in the range 0-9, A-Z, a-z, and underscore
-for variable names, with the following rules:
+[i[Variables]]You can use any characters in the range 0-9, A-Z, a-z, and
+underscore for variable names, with the following rules:
 
 * You can't start a variable with a digit 0-9.
 * You can't start a variable name with two underscores.
@@ -67,9 +67,9 @@ something you'll never have to think about anyway.
 
 ### Variable Types
 
-Depending on which languages you already have in your toolkit, you might
-or might not be familiar with the idea of types. But C's kinda picky
-about them, so we should do a refresher.
+[i[Types]]Depending on which languages you already have in your toolkit,
+you might or might not be familiar with the idea of types. But C's kinda
+picky about them, so we should do a refresher.
 
 Some example types, some of the most basic:
 
@@ -80,9 +80,10 @@ Some example types, some of the most basic:
 |Character (single)|`'c'`|`char`|
 |String|`"Hello, world!"`|`char *`^[Read this as "pointer to a char" or "char pointer". "Char" for character. Though I can't find a study, it seems anecdotally most people pronounce this as "char", a minority say "car", and a handful say "care". We'll talk more about pointers later.]|
 
-C makes an effort to convert automatically between most numeric types
-when you ask it to. But other than that, all conversions are manual,
-notably between string and numeric.
+[i[int]T][i[float]T][i[char]T][i[char *]T]C makes an effort to convert
+automatically between most numeric types when you ask it to. But other
+than that, all conversions are manual, notably between string and
+numeric.
 
 Almost all of the types in C are variants on these types.
 
@@ -143,15 +144,17 @@ int main(void)
 Killer. We've stored a value. Let's print it.
 
 We're going to do that by passing _two_ amazing arguments to the
-`printf()` function. The first argument is a string that describes what
-to print and how to print it (called the _format string_), and the
-second is the value to print, namely whatever is in the variable `i`.
+`printf()`[i[printf()]T] function. The first argument is a string that
+describes what to print and how to print it (called the _format
+string_), and the second is the value to print, namely whatever is in
+the variable `i`.
 
-`printf()` hunts through the format string for a variety of special
-sequences which start with a percent sign (`%`) that tell it what to
-print. For example, if it finds a `%d`, it looks to the next parameter
-that was passed, and prints it out as an integer. If it finds a `%f`, it
-prints the value out as a float. If it finds a `%s`, it prints a string.
+`printf()`[i[printf()]T] hunts through the format string for a variety
+of special sequences which start with a percent sign (`%`) that tell it
+what to print. For example, if it finds a `%d`, it looks to the next
+parameter that was passed, and prints it out as an integer. If it finds
+a `%f`, it prints the value out as a float. If it finds a `%s`, it
+prints a string.
 
 As such, we can print out the value of various types like so:
 
@@ -174,15 +177,15 @@ And the output will be:
 Hello, world!  i = 2 and f = 3.14!
 ```
 
-In this way, `printf()` might be similar to various types of format
-strings or parameterized strings in other languages you're familiar
-with.
+In this way, `printf()`[i[printf()]T] might be similar to various types
+of format strings or parameterized strings in other languages you're
+familiar with.
 
 ### Boolean Types
 
-C has Boolean types, true or false?
+C has Boolean[i[Boolean]] types, true or false?
 
-1!
+`1`!
 
 Historically, C didn't have a Boolean type, and some might argue it
 still doesn't.
@@ -201,9 +204,9 @@ if (x) {
 }
 ```
 
-If you `#include <stdbool.h>`, you also get access to some symbolic
-names that might make things look more familiar, namely a `bool` type
-and `true` and `false` values:
+If you `#include <stdbool.h>`[i[stdbool.h]T], you also get access to
+some symbolic names that might make things look more familiar, namely a
+`bool`[i[bool]T] type and `true`[i[true]T] and `false`[i[false]T] values:
 
 ``` {.c .numberLines}
 #include <stdio.h>
@@ -232,7 +235,7 @@ in this section to get started.)
 
 ### Arithmetic
 
-Hopefully these are familiar:
+[i[Arithmetic Operators]]Hopefully these are familiar:
 
 ``` {.c}
 i = i + 3;  // Addition (+) and assignment (=) operators, add 3 to i
@@ -253,15 +256,15 @@ i /= 2;  // Same as "i = i / 2"
 i %= 5;  // Same as "i = i % 5"
 ```
 
-There is no exponentiation. You'll have to use one of the `pow()`
-function variants from `math.h`.
+There is no exponentiation. You'll have to use one of the
+`pow()`[i[pow()]T] function variants from `math.h`.
 
 Let's get into some of the weirder stuff you might not have in your
 other languages!
 
 ### Ternary Operator
 
-C also includes the _ternary operator_. This is an expression
+C also includes the _ternary operator_[i[?:]T]. This is an expression
 whose value depends on the result of a conditional embedded in it.
 
 ``` {.c}
@@ -290,7 +293,7 @@ Compare those two until you see each of the components of the ternary
 operator.
 
 Or, another example that prints if a number stored in `x` is odd or
-even:
+even[i[?:]T]:
 
 ``` {.c}
 printf("The number %d is %s.\n", x, x % 2 == 0? "even": "odd")
