@@ -82,7 +82,9 @@ def i_replace(m):
 
 	def escape(s):
 		s = re.sub(r'\\', r'{\\backslash}', s)
-		s = re.sub(r'([_#])', r'\\\1', s)
+		s = re.sub(r'([&_#%])', r'\\\1', s)
+		s = re.sub(r'([!@])', r'"\1', s)
+		s = re.sub(r'\|', r'\\textbar{}', s)
 
 		return s
 
@@ -152,7 +154,7 @@ filedata = re.sub(r'\[fls\[(.+?)\|(.+?)\]\]', r'[\1](' + preproc_config.EXERCISE
 filedata = re.sub(r'\[flsol\[(.+?)\]\]', r'([Solution.](' + preproc_config.EXERCISE_URL + r'\1)^[' + preproc_config.EXERCISE_URL + r'\1])', filedata, flags=re.DOTALL)
 filedata = re.sub(r'\[flr\[(.+?)\|(.+?)\]\]', r'[\1](https://beej.us/guide/url/\2)^[https://beej.us/guide/url/\2]', filedata, flags=re.DOTALL)
 filedata = re.sub(r'\[flrfc\[(.+?)\|(.+?)\]\]', r'[\1](https://tools.ietf.org/html/rfc\2)^[https://tools.ietf.org/html/rfc\2]', filedata, flags=re.DOTALL)
-filedata = re.sub(r'\[i\[(?P<entry>.+?)(?:\|(?P<repl>.+?))?\](?P<flags>.*?)\]', i_replace, filedata, flags=re.DOTALL)
+filedata = re.sub(r'\[i\[(?P<entry>.+?)(?:@(?P<repl>.+?))?\](?P<flags>.*?)\]', i_replace, filedata, flags=re.DOTALL)
 
 fout = open(outfile, "w")
 in_fence = False
