@@ -235,9 +235,12 @@ in this section to get started.)
 
 ### Arithmetic
 
-[i[Arithmetic Operators]]Hopefully these are familiar:[i[`+` addition
-operator]] [i[`-` subtraction operator]] [i[`*` multiplication
-operator]] [i[`/` division operator]] [i[`%` modulus operator]]
+[i[Arithmetic Operators]]Hopefully these are familiar:
+[i[`+` addition operator]] 
+[i[`-` subtraction operator]]
+[i[`*` multiplication operator]] 
+[i[`/` division operator]]
+[i[`%` modulus operator]]
 
 ``` {.c}
 i = i + 3;  // Addition (+) and assignment (=) operators, add 3 to i
@@ -302,20 +305,20 @@ even[i[`?:` ternary operator]]:
 printf("The number %d is %s.\n", x, x % 2 == 0? "even": "odd")
 ```
 
-The `%s` format specifier in `printf()` means print a string. If the
-expression `x % 2` evaluates to `0`, the value of the entire ternary
-expression evaluates to the string `"even"`. Otherwise it evaluates to
-the string `"odd"`. Pretty cool!
+The `%s` format specifier in `printf()`[i[printf()]T] means print a
+string. If the expression `x % 2` evaluates to `0`, the value of the
+entire ternary expression evaluates to the string `"even"`. Otherwise it
+evaluates to the string `"odd"`. Pretty cool!
 
 It's important to note that the ternary operator isn't flow control like
 the `if` statement is. It's just an expression that evaluates to a value.
-
 
 ### Pre-and-Post Increment-and-Decrement
 
 Now, let's mess with another thing that you might not have seen.
 
 These are the legendary post-increment and post-decrement operators:
+[i[`++` increment operator]] [i[`--` decrement operator]]
 
 ``` {.c}
 i++;        // Add one to i (post-increment)
@@ -332,6 +335,7 @@ i -= 1;        // Subtract one from i
 but they're more subtly different than that, the clever scoundrels.
 
 Let's take a look at this variant, pre-increment and pre-decrement:
+[i[`++` increment operator]] [i[`--` decrement operator]]
 
 ``` {.c}
 ++i;        // Add one to i (pre-increment)
@@ -380,7 +384,7 @@ But more on that later.
 ### The Comma Operator
 
 This is an uncommonly-used way to separate expressions that will run
-left to right:
+left to right: [i[`,` comma operator]]
 
 ``` {.c}
 x = 10, y = 20;  // First assign 10 to x, then 20 to y
@@ -420,6 +424,11 @@ We'll revisit that later.
 ### Conditional Operators
 
 For Boolean values, we have a raft of standard operators:
+[i[Comparison operators]] [i[`==` equality operator]]
+[i[`!=` inequality operator]]
+[i[`<` less than operator]]
+[i[`>` greater than operator]] [i[`<=` less or equal operator]]
+[i[`>=` less or equal operator]]
 
 ``` {.c}
 a == b;  // True if a is equivalent to b
@@ -444,6 +453,9 @@ if (a <= 10)
 
 We can chain together or alter conditional expressions with Boolean
 operators for _and_, _or_, and _not_.
+[i[`&&` boolean AND]]
+[i[`!` boolean NOT]]
+[i[`||` boolean OR]]
 
 |Operator|Boolean meaning|
 |:------:|:-------------:|
