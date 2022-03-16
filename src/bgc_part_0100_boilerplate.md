@@ -30,7 +30,13 @@
 
 <!-- Index see alsos -->
 \index{String|see {\texttt{char *}}}
-\index{Ternary Operator|see {\texttt{?:}}}
+\index{Newline|see {\texttt{{\backslash}n} newline}}
+\index{Ternary Operator|see {\texttt{?:} ternary operator}}
+\index{Addition|see {\texttt{+} addition operator}}
+\index{Subtraction|see {\texttt{-} subtraction operator}}
+\index{Multiplication|see {\texttt{*} multiplication operator}}
+\index{Division|see {\texttt{/} division operator}}
+\index{Modulus|see {\texttt{%} modulus operator}}
 
 # Foreword
 

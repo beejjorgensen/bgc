@@ -179,7 +179,7 @@ function call with a semicolon so the compiler knows it's the end of the
 expression. You'll be putting semicolons after almost everything, as
 you'll see.
 
-You're passing one argument to the function `printf()`[i[printf()]T]: a
+You're passing one argument to the function `printf()`[i[`printf()`]]: a
 string to be printed when you call it. Oh, yeah---we're calling a
 function! We rock!  Wait, wait---don't get cocky. What's that crazy `\n`
 at the end of the string? Well, most characters in the string will print

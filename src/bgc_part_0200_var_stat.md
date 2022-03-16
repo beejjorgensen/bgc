@@ -235,7 +235,9 @@ in this section to get started.)
 
 ### Arithmetic
 
-[i[Arithmetic Operators]]Hopefully these are familiar:
+[i[Arithmetic Operators]]Hopefully these are familiar:[i[`+` addition
+operator]] [i[`-` subtraction operator]] [i[`*` multiplication
+operator]] [i[`/` division operator]] [i[`%` modulus operator]]
 
 ``` {.c}
 i = i + 3;  // Addition (+) and assignment (=) operators, add 3 to i
@@ -264,8 +266,9 @@ other languages!
 
 ### Ternary Operator
 
-C also includes the _ternary operator_[i[?:]T]. This is an expression
-whose value depends on the result of a conditional embedded in it.
+C also includes the _ternary operator_[i[`?:` ternary operator]]. This
+is an expression whose value depends on the result of a conditional
+embedded in it.
 
 ``` {.c}
 // If x > 10, add 17 to y. Otherwise add 37 to y.
@@ -293,7 +296,7 @@ Compare those two until you see each of the components of the ternary
 operator.
 
 Or, another example that prints if a number stored in `x` is odd or
-even[i[?:]T]:
+even[i[`?:` ternary operator]]:
 
 ``` {.c}
 printf("The number %d is %s.\n", x, x % 2 == 0? "even": "odd")
