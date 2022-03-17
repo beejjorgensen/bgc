@@ -26,16 +26,15 @@ flr = footnote link to redirect https://beej.us/guide/url/id
 
 [i[entry]]
 [i[entry]flags]
-[i[entry|replacement]flags]
 
-flags for page number: i: italic, b: bold, or a combination.
+flags for page number: i: italic, b: bold, (: open range ): close range
 flags for replacement: T: typewriter, I: italic, B: bold, or a combination.
 
 Backticks can delimit typewriter text:
 
 [i[`\n` newline]]
 
-entry can have a bang path: "entry!subentry"
+entry can have subentries: "entry-->subentry"
 
 Also puts a blank line between files.
 
@@ -103,41 +102,60 @@ def i_replace(m):
 			else:
 				result += c
 
+		if not opener:
+			raise Exception("unmatched '`' in index entry")
+
 		return result
 
+	def get_entry_repl(entry, flags):
+		entry = escape(entry)
+
+		if 'T' in flags or 'I' in flags or 'B' in flags or '`' in entry:
+			repl = entry
+		else:
+			repl = ''
+
+		entry = re.sub(r'`', '', entry)
+		repl = code_replace(repl)
+
+		if repl != '':
+			if 'T' in flags:
+				repl = '\\texttt{' + repl + '}'
+			if 'I' in flags:
+				repl = '\\textsl{' + repl + '}'
+			if 'B' in flags:
+				repl = '\\textbf{' + repl + '}'
+
+			repl = '@' + repl
+
+		return (entry, repl)
+
+
 	"""Index [i[]] tag replacer."""
-	entry = m.group('entry')
+	entryfull = m.group('entry')
 	flags = m.group('flags')
-	repl = m.group('repl')
 
 	flags = flags if flags is not None else ''
-	repl = repl if repl is not None else ''
 
-	entry = escape(entry)
-	repl = escape(repl)
+	entries = []
 
-	if repl == '' and ('T' in flags or 'I' in flags or 'B' in flags or '`' in entry):
-		repl = entry
+	for entry in entryfull.split('-->'):
+		entries.append("".join(get_entry_repl(entry, flags)))
 
-	entry = re.sub(r'`', '', entry)
-	repl = code_replace(repl)
+	result = '\\index{' + "!".join(entries)
 
 	if 'b' in flags:
-		entry += '|textbf'
+		result += '|textbf'
 	if 'i' in flags:
-		entry += '|textit'
+		result += '|textit'
+	if '(' in flags:
+		result += '|('
+	if ')' in flags:
+		result += '|)'
 
-	if repl != '':
-		if 'T' in flags:
-			repl = '\\texttt{' + repl + '}'
-		if 'I' in flags:
-			repl = '\\textsl{' + repl + '}'
-		if 'B' in flags:
-			repl = '\\textbf{' + repl + '}'
+	result += '}'
 
-		repl = '@' + repl
-
-	return '\\index{' + entry + repl + '}'
+	return result
 
 filedata = re.sub(r'\t', "    ", filedata, flags=re.DOTALL)
 filedata = re.sub(r'\[nobr\[(.+?)\]\]', nobr_replace, filedata, flags=re.DOTALL)
@@ -154,7 +172,7 @@ filedata = re.sub(r'\[fls\[(.+?)\|(.+?)\]\]', r'[\1](' + preproc_config.EXERCISE
 filedata = re.sub(r'\[flsol\[(.+?)\]\]', r'([Solution.](' + preproc_config.EXERCISE_URL + r'\1)^[' + preproc_config.EXERCISE_URL + r'\1])', filedata, flags=re.DOTALL)
 filedata = re.sub(r'\[flr\[(.+?)\|(.+?)\]\]', r'[\1](https://beej.us/guide/url/\2)^[https://beej.us/guide/url/\2]', filedata, flags=re.DOTALL)
 filedata = re.sub(r'\[flrfc\[(.+?)\|(.+?)\]\]', r'[\1](https://tools.ietf.org/html/rfc\2)^[https://tools.ietf.org/html/rfc\2]', filedata, flags=re.DOTALL)
-filedata = re.sub(r'\[i\[(?P<entry>.+?)(?:@(?P<repl>.+?))?\](?P<flags>.*?)\]', i_replace, filedata, flags=re.DOTALL)
+filedata = re.sub(r'\[i\[(?P<entry>.+?)\](?P<flags>.*?)\]', i_replace, filedata, flags=re.DOTALL)
 
 fout = open(outfile, "w")
 in_fence = False
