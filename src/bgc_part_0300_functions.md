@@ -8,18 +8,18 @@
 > _"Sir, not in an environment such as this. That's why I've also been
 > programmed for over thirty secondary functions that---"_
 >
-> ---C3PO, before being rudely interrupted, reporting a now-unimpressive
-> number of additional functions, _Star Wars_ script
+> ---C3PO[i[C3PO]], before being rudely interrupted, reporting a
+> now-unimpressive number of additional functions, _Star Wars_ script
 
 Very much like other languages you're used to, C has the concept of
-_functions_.
+_functions_[i[Functions]].
 
-Functions can accept a variety of _arguments_ and return a value. One
-important thing, though: the arguments and return value types are
-predeclared---because that's how C likes it!
+Functions can accept a variety of _arguments_[i[Function arguments]] and
+return a value. One important thing, though: the arguments and return
+value types are predeclared---because that's how C likes it!
 
 Let's take a look at a function. This is a function that takes an `int`
-as an argument, and returns an `int`.
+as an argument, and returns[i[`return` statement]] an `int`.
 
 ``` {.c .numberLines}
 #include <stdio.h>
@@ -34,8 +34,8 @@ int plus_one(int n)  // The "definition"
 The `int` before the `plus_one` indicates the return type.
 
 The `int n` indicates that this function takes one `int` argument,
-stored in _parameter_ `n`. A parameter is a special type of local
-variable into which the arguments are copied.
+stored in _parameter_ `n`[i[Function parameters]]. A parameter is a
+special type of local variable into which the arguments are copied.
 
 I'm going to drive home the point that the arguments are copied into the
 parameters, here. Lots of things in C are easier to understand if you
@@ -62,12 +62,12 @@ int main(void)
 > error. There is a more proper way to do the above code with _function
 > prototypes_, but we'll talk about that later.
 
-Also notice that `main()` is a function!
+Also notice that `main()`[i[`main()`]] is a function!
 
 It returns an `int`.
 
-But what's this `void` thing? This is a keyword that's used to indicate
-that the function accepts no arguments.
+But what's this `void`[i[`void` type]] thing? This is a keyword that's
+used to indicate that the function accepts no arguments.
 
 You can also return `void` to indicate that you don't return a value:
 
@@ -89,9 +89,9 @@ int main(void)
 
 ## Passing by Value {#passvalue}
 
-I'd mentioned earlier that when you pass an argument to a function, a
-copy of that argument gets made and stored in the corresponding
-parameter.
+[i[Pass by value]]I'd mentioned earlier that when you pass an argument
+to a function, a copy of that argument gets made and stored in the
+corresponding parameter.
 
 If the argument is a variable, a copy of the value of that variable gets
 made and stored in the parameter.
@@ -170,10 +170,10 @@ this so-called passing by reference.
 
 ## Function Prototypes {#prototypes}
 
-So if you recall back in the ice age a few sections ago, I mentioned
-that you had to define the function before you used it, otherwise the
-compiler wouldn't know about it ahead of time, and would bomb out with
-an error.
+[i[Function prototypes]]So if you recall back in the ice age a few
+sections ago, I mentioned that you had to define the function before you
+used it, otherwise the compiler wouldn't know about it ahead of time,
+and would bomb out with an error.
 
 This isn't quite strictly true. You can notify the compiler in advance
 that you'll be using a function of a certain type that has a certain
@@ -212,9 +212,10 @@ int foo(void)  // This is the definition, just like the prototype!
 
 If you don't declare your function before you use it (either with a
 prototype or its definition), you're performing something called an
-_implicit declaration_. This was allowed in the first C standard (C89),
-and that standard has rules about it, but is no longer allowed today.
-And there is no legitimate reason to rely on it in new code.
+_implicit declaration_[i[Implicit declaration]]. This was allowed in the
+first C standard (C89), and that standard has rules about it, but is no
+longer allowed today. And there is no legitimate reason to rely on it in
+new code.
 
 You might notice something about the sample code we've been using... That
 is, we've been using the good old `printf()` function without defining
@@ -226,9 +227,9 @@ legit, officer!
 ## Empty Parameter Lists
 
 You might see these from time to time in older code, but you shouldn't
-ever code one up in new code. Always use `void` to indicate that a
-function takes no parameters. There's never^[Never say "never".] a
-reason to do this in modern code.
+ever code one up in new code. Always use `void`[i[`void` type]] to
+indicate that a function takes no parameters. There's never^[Never say
+"never".] a reason to do this in modern code.
 
 If you're good just remembering to put `void` in for empty parameter
 lists in functions and prototypes, you can skip the rest of this
@@ -253,7 +254,8 @@ you'd indicated `void` (C11 §6.7.6.3¶14), the `void` type is there for a
 reason. Use it.
 
 But in the case of a function prototype, there is a _significant_
-difference between using `void` and not:
+difference between using `void`[i[`void` type-->in function prototypes]]
+and not:
 
 ``` {.c}
 void foo();

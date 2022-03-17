@@ -252,6 +252,11 @@ i = i % 5;  // Modulo (division remainder)
 
 There are shorthand variants for all of the above. Each of those lines
 could more tersely be written as:
+[i[`+=` assignment operator]] 
+[i[`-=` assignment operator]]
+[i[`*=` assignment operator]] 
+[i[`/=` assignment operator]]
+[i[`%=` assignment operator]]
 
 ``` {.c}
 i += 3;  // Same as "i = i + 3", add 3 to i
@@ -493,15 +498,15 @@ but I needed the example!
 
 ### The `sizeof` Operator {#sizeof-operator}
 
-This operator tells you the size (in bytes) that a particular variable
-or data type uses in memory.
+[i[`sizeof` operator]]This operator tells you the size (in bytes) that a
+particular variable or data type uses in memory.
 
 More particularly, it tells you the size (in bytes) that the _type of a
 particular expression_ (which might be just a single variable) uses in
 memory.
 
-This can be different on different systems, except for `char` and its
-variants (which are always 1 byte).
+This can be different on different systems, except for `char`[i[`char`]]
+and its variants (which are always 1 byte).
 
 And this might not seem very useful now, but we'll be making references
 to it here and there, so it's worth covering.
@@ -511,9 +516,9 @@ might think it would return an `int`. Or... since the size can't be
 negative, maybe an `unsigned`?
 
 But it turns out C has a special type to represent the return value from
-`sizeof`. It's `size_t`, pronounced "_size tee_"^[The `_t` is short for
-`type`.]. All we know is that it's an unsigned integer type that can
-hold the size in bytes of anything you can give to `sizeof`.
+`sizeof`. It's `size_t`[i[`size_t`]], pronounced "_size tee_"^[The `_t`
+is short for `type`.]. All we know is that it's an unsigned integer type
+that can hold the size in bytes of anything you can give to `sizeof`.
 
 `size_t` shows up a lot of different places where counts of things are
 passed or returned. Think of it as a value that represents a count.
@@ -545,10 +550,10 @@ printf("%zu\n", sizeof(int));   // Prints 4 on my system
 printf("%zu\n", sizeof(char));  // Prints 1 on all systems
 ```
 
-It's important to note that `sizeof` is a _compile-time_
-operation^[Except for with variable length arrays---but that's a story
-for another time.]. The result of the expression is determined entirely
-at compile-time, not at runtime.
+It's important to note that `sizeof`[i[`sizeof` operator]] is a
+_compile-time_ operation^[Except for with variable length arrays---but
+that's a story for another time.]. The result of the expression is
+determined entirely at compile-time, not at runtime.
 
 We'll make use of this later on.
 
@@ -566,7 +571,7 @@ After something like an `if` or `while` statement, you can either put a single
 statement to be executed, or a block of statements to all be executed in
 sequence.
 
-Let's start with a single statement:
+Let's start with a single statement:[i[`if` statement]]
 
 ``` {.c}
 if (x == 10) printf("x is 10\n");
@@ -644,7 +649,8 @@ be executed. This sort of _code block_ behavior is common to all
 statements.
 
 Of course, because C is fun this way, you can also do something if the
-condition is false with an `else` clause on your `if`:
+condition is false with an `else` clause on your `if`[i[`if`-`else`
+statement]]:
 
 ``` {.c}
 int i = 99;
@@ -688,8 +694,8 @@ conditional expression.
 
 ### The `while` statement {#whilestat}
 
-`while` is your average run-of-the-mill looping construct. Do a thing
-while a condition expression is true.
+`while`[i[`while` statement]] is your average run-of-the-mill looping
+construct. Do a thing while a condition expression is true.
 
 Let's do one!
 
@@ -728,7 +734,8 @@ while (1) {
 ### The `do-while` statement {#dowhilestat}
 
 So now that we've gotten the `while` statement under control, let's take
-a look at its closely related cousin, `do-while`.
+a look at its closely related cousin, `do-while`[i[`do`-`while`
+statement]].
 
 They are basically the same, except if the loop condition is false on
 the first pass, `do-while` will execute once, but `while` won't execute
@@ -801,7 +808,8 @@ sequence. Look up the [`srand()`](#man-srand) function for more details.
 
 ### The `for` statement {#forstat}
 
-Welcome to one of the most popular loops in the world! The `for` loop!
+Welcome to one of the most popular loops in the world! The `for`
+loop![i[`for` statement]]
 
 This is a great loop if you know the number of times you want to loop in
 advance.
@@ -871,14 +879,15 @@ for(;;) {  // "forever"
 ### The `switch` Statement {#switch-statement}
 
 Depending on what languages you're coming from, you might or might not
-be familiar with `switch`, or C's version might even be more restrictive
-than you're used to. This is a statement that allows you to take a
-variety of actions depending on the value of an integer expression.
+be familiar with `switch`[i[`switch` statement]], or C's version might
+even be more restrictive than you're used to. This is a statement that
+allows you to take a variety of actions depending on the value of an
+integer expression.
 
 Basically, it evaluates an expression to an integer value, jumps to the
-`case` that corresponds to that value. Execution resumes from that
-point. If a `break` statement is encountered, then execution jumps out
-of the `switch`.
+`case`[i[`case` statement]] that corresponds to that value. Execution
+resumes from that point. If a `break`[i[`break` statement]] statement is
+encountered, then execution jumps out of the `switch`.
 
 Let's do an example where the user enters a number of goats and we print
 out a gut-feel of how many goats that is.
@@ -917,8 +926,8 @@ In that example, if the user enters, say, `2`, the `switch` will jump to
 the `case 2` and execute from there. When (if) it hits a `break`, it
 jumps out of the `switch`.
 
-Also, you might see that `default` label there at the bottom. This is
-what happens when no cases match.
+Also, you might see that `default`[i[`default` label]] label there at
+the bottom. This is what happens when no cases match.
 
 Every `case`, including `default`, is optional. And they can occur in
 any order, but it's really typical for `default`, if any, to be listed
@@ -951,7 +960,8 @@ Remember how `break` causes us to jump out of the switch?
 
 Well, what happens if we _don't_ `break`?
 
-Turns out we just keep on going into the next `case`! Demo!
+Turns out we just keep on going into the next `case`! Demo![i[Fall
+through]]
 
 ``` {.c}
 switch (x) {
@@ -1012,5 +1022,5 @@ switch (c) {
 }
 ```
 
-Finally, you can use `enum`s in `switch` since they are also integer
-types. But more on that in the `enum` chapter.
+Finally, you can use `enum`s[i[`enum` type]] in `switch` since they are
+also integer types. But more on that in the `enum` chapter.
