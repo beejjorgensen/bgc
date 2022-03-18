@@ -9,9 +9,9 @@
 >
 > ---20th-century joke of unknown origin
 
-Pointers are one of the most feared things in the C language. In fact,
-they are the one thing that makes this language challenging at all. But
-why?
+[i[Pointers](]Pointers are one of the most feared things in the C
+language. In fact, they are the one thing that makes this language
+challenging at all. But why?
 
 Because they, quite honestly, can cause electric shocks to come up
 through the keyboard and physically _weld_ your arms permanently in
@@ -41,7 +41,7 @@ _bits_ for short. This means in decimal digits just like grandma used to
 use, it can hold an unsigned number between 0 and 255, inclusive.] of
 data. Or like a big array where each element holds a byte, if you come
 from a language with arrays. The number that represents each box is
-called its _address_.
+called its _address_[i[Memory address]].
 
 Now, not all data types use just a byte. For instance, an `int` is often
 four bytes, as is a `float`, but it really depends on the system. You
@@ -130,21 +130,22 @@ is some way to get the address of that `int`, right? After all, the
 pointer just holds the _address of_ the data. What operator do you
 suppose we'd use to find the _address of_ the `int`?
 
-Well, by a shocking surprise that must come as something of a shock to
-you, gentle reader, we use the `address-of` operator (which happens to
-be an ampersand: "`&`") to find the address of the data. Ampersand.
+[i[`&` address-of operator](]Well, by a shocking surprise that must come
+as something of a shock to you, gentle reader, we use the `address-of`
+operator (which happens to be an ampersand: "`&`")to find the address of
+the data. Ampersand.
 
 So for a quick example, we'll introduce a new _format specifier_ for
 `printf()` so you can print a pointer. You know already how `%d` prints
-a decimal integer, yes? Well, `%p` prints a pointer. Now, this pointer
-is going to look like a garbage number (and it might be printed in
-hexadecimal^[That is, base 16 with digits 0, 1, 2, 3, 4, 5, 6, 7, 8, 9,
-A, B, C, D, E, and F.] instead of decimal), but it is merely the index
-into memory the data is stored in. (Or the index into memory that the
-first byte of data is stored in, if the data is multi-byte.)  In
-virtually all circumstances, including this one, the actual value of the
-number printed is unimportant to you, and I show it here only for
-demonstration of the `address-of` operator.
+a decimal integer, yes? Well, `%p`[i[`printf()`-->with pointers]] prints
+a pointer. Now, this pointer is going to look like a garbage number (and
+it might be printed in hexadecimal^[That is, base 16 with digits 0, 1,
+2, 3, 4, 5, 6, 7, 8, 9, A, B, C, D, E, and F.] instead of decimal), but
+it is merely the index into memory the data is stored in. (Or the index
+into memory that the first byte of data is stored in, if the data is
+multi-byte.)  In virtually all circumstances, including this one, the
+actual value of the number printed is unimportant to you, and I show it
+here only for demonstration of the `address-of` operator.
 
 ``` {.c .numberLines}
 #include <stdio.h>
@@ -167,6 +168,7 @@ On my computer, this prints:
 The value of i is 10
 And its address is 0x7ffddf7072a4
 ```
+[i[`&` address-of operator])]
 
 If you're curious, that hexadecimal number is 140,727,326,896,068 in
 decimal (base 10 just like Grandma used to use). That's the index into
@@ -183,11 +185,11 @@ generally. We just care that it's a pointer to `i`.
 
 ## Pointer Types {#pttypes}
 
-So... this is all well and good. You can now successfully take the
-address of a variable and print it on the screen. There's a little
-something for the ol' resume, right? Here's where you grab me by the
-scruff of the neck and ask politely what the frick pointers are good
-for.
+[i[Pointer types](]So... this is all well and good. You can now
+successfully take the address of a variable and print it on the screen.
+There's a little something for the ol' resume, right? Here's where you
+grab me by the scruff of the neck and ask politely what the frick
+pointers are good for.
 
 Excellent question, and we'll get to that right after these messages
 from our sponsor.
@@ -237,15 +239,14 @@ Get it? I know it still doesn't quite make much sense since you haven't
 seen an actual use for the pointer variable, but we're taking small
 steps here so that no one gets lost. So now, let's introduce you to the
 anti-address-of operator. It's kind of like what `address-of` would be
-like in Bizarro World.
-
+like in Bizarro World.[i[Pointer types])]
 
 ## Dereferencing {#deref}
 
-A pointer variable can be thought of as _referring_ to another variable
-by pointing to it. It's rare you'll hear anyone in C land talking about
-"referring" or "references", but I bring it up just so that the name of
-this operator will make a little more sense.
+[i[Dereferencing](]A pointer variable can be thought of as _referring_
+to another variable by pointing to it. It's rare you'll hear anyone in C
+land talking about "referring" or "references", but I bring it up just
+so that the name of this operator will make a little more sense.
 
 When you have a pointer to a variable (roughly "a reference to a
 variable"), you can use the original variable through the pointer by
@@ -260,11 +261,13 @@ you have a variable called `i`, and you have a pointer to `i` called
 `p`, you can use the dereferenced pointer `p` _exactly as if it were the
 original variable `i`_!
 
-You almost have enough knowledge to handle an example. The last tidbit
-you need to know is actually this: what is the dereference operator? It
-is the asterisk, again: `*`. Now, don't get this confused with the
-asterisk you used in the pointer declaration, earlier. They are the same
-character, but they have different meanings in different
+[i[`*` indirection operator](]You almost have enough knowledge to handle
+an example. The last tidbit you need to know is actually this: what is
+the dereference operator?  It's actually called the _indirection
+operator_, because you're accessing values indirectly via the pointer.
+And it is the asterisk, again: `*`. Now, don't get this confused with
+the asterisk you used in the pointer declaration, earlier. They are the
+same character, but they have different meanings in different
 contexts^[That's not all! It's used in `/*comments*/` and multiplication
 and in function prototypes with variable length arrays! It's all the
 same `*`, but the context gives it different meaning.].
@@ -290,18 +293,19 @@ int main(void)
 ```
 
 Remember that `p` holds the address of `i`, as you can see where we did
-the assignment to `p` on line 8. What the dereference operator does is
+the assignment to `p` on line 8. What the indirection operator does is
 tells the computer to _use the object the pointer points to_ instead of
 using the pointer itself. In this way, we have turned `*p` into an alias
-of sorts for `i`.
+of sorts for `i`.[i[Dereferencing])][i[`*` indirection operator])]
 
 Great, but _why_? Why do any of this?
 
 ## Passing Pointers as Arguments {#ptpass}
 
-Right about now, you're thinking that you have an awful lot of knowledge
-about pointers, but absolutely zero application, right? I mean, what use
-is `*p` if you could just simply say `i` instead?
+[i[Pointers-->as arguments](]Right about now, you're thinking that you
+have an awful lot of knowledge about pointers, but absolutely zero
+application, right? I mean, what use is `*p` if you could just simply
+say `i` instead?
 
 Well, my friend, the real power of pointers comes into play when you
 start passing them to functions. Why is this a big deal? You might
@@ -403,13 +407,13 @@ printf("i is %d\n", i);  // prints "i is 12"
 
 See, `scanf()` dereferences the pointer we pass it in order to modify
 the variable it points to. And now you know why you have to put that
-pesky ampersand in there!
+pesky ampersand in there![i[Pointers-->as arguments])]
 
 ## The `NULL` Pointer
 
-Any pointer variable of any pointer type can be set to a special value
-called `NULL`. This indicates that this pointer doesn't point to
-anything.
+[i[`NULL` pointer](b]Any pointer variable of any pointer type can be set
+to a special value called `NULL`. This indicates that this pointer
+doesn't point to anything.
 
 ``` {.c}
 int *p;
@@ -433,11 +437,12 @@ pointer hasn't yet been initialized.
 
 (Of course, like other variables, the pointer points to garbage unless
 you explicitly assign it to point to an address or `NULL`.)
+[i[`NULL` pointer])b]
 
 ## A Note on Declaring Pointers
 
-The syntax for declaring a pointer can get a little weird. Let's look at
-this example:
+[i[Pointers-->declarations](]The syntax for declaring a pointer can get
+a little weird. Let's look at this example:
 
 ``` {.c}
 int a;
@@ -495,12 +500,12 @@ int *a, b, c, *d, e, *f, g, h, *i;
 
 I'll drop the answer in a footnote^[The pointer type variables are `a`,
 `d`, `f`, and `i`, because those are the ones with `*` in front of
-them.].
+them.].[i[Pointers-->declarations])]
 
 ## `sizeof` and Pointers
 
-Just a little bit of syntax here that might be confusing and you might
-see from time to time.
+[i[Pointers-->with `sizeof`](]Just a little bit of syntax here that
+might be confusing and you might see from time to time.
 
 Recall that `sizeof` operates on the _type_ of the expression.
 
@@ -514,4 +519,4 @@ sizeof *p    // *p is type int, so returns size of `int`
 
 You might see code with that last `sizeof` in there. Just remember that
 `sizeof` is all about the type of the expression, not the variables in
-the expression themselves.
+the expression themselves.[i[Pointers-->with `sizeof`])][i[Pointers])]
