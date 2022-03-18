@@ -156,11 +156,11 @@ a bit of a powerhouse.
 The returned structure contains _tons_ of information about the locale.
 Here are the fields of `struct lconv` and their meanings.
 
-First, some conventions. An `_p_` means "positive", and `_n_` means
-"negative", and `int_` means "international". Though a lot of these are
-type `char` or `char*`, most (or the strings they point to) are actually
-treated as integers^[Remember that `char` is just a byte-sized
-integer.].
+First, some conventions. In the field names, below, a `_p_` means
+"positive", and `_n_` means "negative", and `int_` means
+"international". Though a lot of these are type `char` or `char*`, most
+(or the strings they point to) are actually treated as
+integers^[Remember that `char` is just a byte-sized integer.].
 
 Before we go further, know that `CHAR_MAX` (from `<limits.h>`) is the
 maximum value that can be held in a `char`. And that many of the
