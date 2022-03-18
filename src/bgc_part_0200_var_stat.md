@@ -20,7 +20,7 @@ clear what we're talking about.
 
 ## Variables
 
-[i[Variables]]It's said that "variables hold values". But another way to
+[i[Variables](]It's said that "variables hold values". But another way to
 think about it is that a variable is a human-readable name that refers
 to some data in memory.
 
@@ -52,8 +52,8 @@ address.
 
 ### Variable Names
 
-[i[Variables]]You can use any characters in the range 0-9, A-Z, a-z, and
-underscore for variable names, with the following rules:
+[i[Variables](]You can use any characters in the range 0-9, A-Z, a-z,
+and underscore for variable names, with the following rules:
 
 * You can't start a variable with a digit 0-9.
 * You can't start a variable name with two underscores.
@@ -63,7 +63,7 @@ underscore for variable names, with the following rules:
 For Unicode, just try it. There are some rules in the spec in §D.2 that
 talk about which Unicode codepoint ranges are allowed in which parts of
 identifiers, but that's too much to write about here and is probably
-something you'll never have to think about anyway.
+something you'll never have to think about anyway.[i[Variables])]
 
 ### Variable Types
 
@@ -73,6 +73,7 @@ picky about them, so we should do a refresher.
 
 Some example types, some of the most basic:
 
+[i[`int`]][i[`float`]][i[`char`]][i[`char *`]]
 |Type|Example|C Type|
 |:---|------:|:-----|
 |Integer|`3490`|`int`|
@@ -80,10 +81,9 @@ Some example types, some of the most basic:
 |Character (single)|`'c'`|`char`|
 |String|`"Hello, world!"`|`char *`^[Read this as "pointer to a char" or "char pointer". "Char" for character. Though I can't find a study, it seems anecdotally most people pronounce this as "char", a minority say "car", and a handful say "care". We'll talk more about pointers later.]|
 
-[i[int]T][i[float]T][i[char]T][i[char *]T]C makes an effort to convert
-automatically between most numeric types when you ask it to. But other
-than that, all conversions are manual, notably between string and
-numeric.
+C makes an effort to convert automatically between most numeric types
+when you ask it to. But other than that, all conversions are manual,
+notably between string and numeric.
 
 Almost all of the types in C are variants on these types.
 
@@ -112,10 +112,10 @@ and they're both uninitialized. One holds an integer number, and the
 other holds a floating point number (a real number, basically, if you
 have a math background).
 
-Uninitialized variables have indeterminate value^[Colloquially, we say
-they have "random" values, but they aren't truly---or even
-pseudo-truly---random numbers.]. They have to be initialized or else you
-must assume they contain some nonsense number.
+[i[Variables-->uninitialized]]Uninitialized variables have indeterminate
+value^[Colloquially, we say they have "random" values, but they aren't
+truly---or even pseudo-truly---random numbers.]. They have to be
+initialized or else you must assume they contain some nonsense number.
 
 > This is one of the places C can "get you". Much of the time, in my
 > experience, the indeterminate value is zero... but it can vary from
@@ -129,6 +129,7 @@ must assume they contain some nonsense number.
 What's this? You want to store some numbers in those variables? Insanity!
 
 Let's go ahead and do that:
+[i[`=` assignment operator]]
 
 ``` {.c .numberLines}
 int main(void)
@@ -143,18 +144,17 @@ int main(void)
 
 Killer. We've stored a value. Let's print it.
 
-We're going to do that by passing _two_ amazing arguments to the
-`printf()`[i[printf()]T] function. The first argument is a string that
-describes what to print and how to print it (called the _format
+[i[`printf()`](]We're going to do that by passing _two_ amazing
+arguments to the `printf()` function. The first argument is a string
+that describes what to print and how to print it (called the _format
 string_), and the second is the value to print, namely whatever is in
 the variable `i`.
 
-`printf()`[i[printf()]T] hunts through the format string for a variety
-of special sequences which start with a percent sign (`%`) that tell it
-what to print. For example, if it finds a `%d`, it looks to the next
-parameter that was passed, and prints it out as an integer. If it finds
-a `%f`, it prints the value out as a float. If it finds a `%s`, it
-prints a string.
+`printf()` hunts through the format string for a variety of special
+sequences which start with a percent sign (`%`) that tell it what to
+print. For example, if it finds a `%d`, it looks to the next parameter
+that was passed, and prints it out as an integer. If it finds a `%f`, it
+prints the value out as a float. If it finds a `%s`, it prints a string.
 
 As such, we can print out the value of various types like so:
 
@@ -177,13 +177,13 @@ And the output will be:
 Hello, world!  i = 2 and f = 3.14!
 ```
 
-In this way, `printf()`[i[printf()]T] might be similar to various types
-of format strings or parameterized strings in other languages you're
-familiar with.
+In this way, `printf()` might be similar to various types of format
+strings or parameterized strings in other languages you're familiar
+with.  [i[`printf()`])]
 
 ### Boolean Types
 
-C has Boolean[i[Boolean]] types, true or false?
+[i[Boolean types](]C has Boolean types, true or false?
 
 `1`!
 
@@ -204,9 +204,10 @@ if (x) {
 }
 ```
 
-If you `#include <stdbool.h>`[i[stdbool.h]T], you also get access to
+If you `#include <stdbool.h>`[i[`stdbool.h`]], you also get access to
 some symbolic names that might make things look more familiar, namely a
-`bool`[i[bool]T] type and `true`[i[true]T] and `false`[i[false]T] values:
+`bool`[i[`bool`]] type and `true`[i[`true`]] and `false`[i[`false`]]
+values:
 
 ``` {.c .numberLines}
 #include <stdio.h>
@@ -222,9 +223,11 @@ int main(void) {
 ```
 
 But these are identical to using integer values for true and false.
-They're just a facade to make things look nice.
+They're just a facade to make things look nice.[i[Boolean types])]
 
 ## Operators and Expressions {#operators}
+
+<!-- indexing bookmark -->
 
 C operators should be familiar to you from other languages. Let's blast
 through some of them here.

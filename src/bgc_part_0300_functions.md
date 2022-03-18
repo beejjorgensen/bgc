@@ -170,7 +170,7 @@ this so-called passing by reference.
 
 ## Function Prototypes {#prototypes}
 
-[i[Function prototypes]]So if you recall back in the ice age a few
+[i[Function prototypes](]So if you recall back in the ice age a few
 sections ago, I mentioned that you had to define the function before you
 used it, otherwise the compiler wouldn't know about it ahead of time,
 and would bomb out with an error.
@@ -222,7 +222,7 @@ is, we've been using the good old `printf()` function without defining
 it or declaring a prototype! How do we get away with this lawlessness?
 We don't, actually. There is a prototype; it's in that header file
 `stdio.h` that we included with `#include`, remember? So we're still
-legit, officer!
+legit, officer![i[Function prototypes])]
 
 ## Empty Parameter Lists
 
