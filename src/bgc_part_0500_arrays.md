@@ -395,7 +395,7 @@ Just referring to the array name in isolation is the same as getting a
 pointer to the first element of the array! We're going to use this
 extensively in the upcoming examples.
 
-But hold on a second--isn't `p` an `int*`? And `*p` gives us `11`, same
+But hold on a second---isn't `p` an `int*`? And `*p` gives us `11`, same
 as `a[0]`? Yessss. You're starting to get a glimpse of how arrays and
 pointers are related in C.
 
