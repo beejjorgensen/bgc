@@ -11,8 +11,9 @@
 > ---C3PO[i[C3PO]], before being rudely interrupted, reporting a
 > now-unimpressive number of additional functions, _Star Wars_ script
 
+[i[Functions](]
 Very much like other languages you're used to, C has the concept of
-_functions_[i[Functions]].
+_functions_.
 
 Functions can accept a variety of _arguments_[i[Function arguments]] and
 return a value. One important thing, though: the arguments and return
@@ -89,7 +90,7 @@ int main(void)
 
 ## Passing by Value {#passvalue}
 
-[i[Pass by value]]I'd mentioned earlier that when you pass an argument
+[i[Pass by value]()]I'd mentioned earlier that when you pass an argument
 to a function, a copy of that argument gets made and stored in the
 corresponding parameter.
 
@@ -166,7 +167,7 @@ _EVERYTHING_ you pass to a function _WITHOUT EXCEPTION_ is copied into
 its corresponding parameter, and the function operates on that local
 copy, _NO MATTER WHAT_. Remember that, even when we're talking about
 this so-called passing by reference.
-
+[i[Pass by value])]
 
 ## Function Prototypes {#prototypes}
 
@@ -226,6 +227,7 @@ legit, officer![i[Function prototypes])]
 
 ## Empty Parameter Lists
 
+[i[Empty parameter lists]]
 You might see these from time to time in older code, but you shouldn't
 ever code one up in new code. Always use `void`[i[`void` type]] to
 indicate that a function takes no parameters. There's never^[Never say
@@ -268,3 +270,5 @@ effectively turns off all that type checking.
 
 With a prototype **definitely** use `void` when you have an empty
 parameter list.
+
+[i[Functions])]
