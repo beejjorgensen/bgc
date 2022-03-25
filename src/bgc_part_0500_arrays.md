@@ -10,6 +10,7 @@
 >
 > ---Stan Kelly-Bootle, computer scientist
 
+[i[Arrays](]
 Luckily, C has arrays. I mean, I know it's considered a low-level
 language^[These days, anyway.] but it does at least have the concept of
 arrays built-in. And since a great many languages drew inspiration from C's
@@ -24,6 +25,7 @@ down. _Freak out!_ But for now, let's just use them as arrays. _Phew_.
 
 Let's just crank out an example:
 
+[i[Arrays-->indexing](]
 ``` {.c .numberLines}
 #include <stdio.h>
 
@@ -49,16 +51,18 @@ When you declare an array, you have to give it a size. And the size has
 to be fixed^[Again, not really, but variable-length arrays---of which
 I'm not really a fan---are a story for another time.].
 
-In the above example, we made an array of 4 floats. The value in the
+In the above example, we made an array of 4 `float`s. The value in the
 square brackets in the declaration lets us know that.
 
 Later on in subsequent lines, we access the values in the array, setting
 them or getting them, again with square brackets.
+[i[Arrays-->indexing])]
 
 Hopefully this looks familiar from languages you already know!
 
 ## Getting the Length of an Array
 
+[i[Arrays-->getting the length](]
 You can't...ish. C doesn't record this information^[Since arrays are
 just pointers to the first element of the array under the hood, there's
 no additional information recording the length.]. You have to manage
@@ -73,10 +77,10 @@ just passing a pointer to the first element of that array, not the
 "entire" array.].
 
 Let's take a look at this trick. The basic idea is that you take the
-`sizeof` the array, and then divide that by the size of each element to
-get the length. For example, if an `int` is 4 bytes, and the array is 32
-bytes long, there must be room for $\frac{32}{4}$ or $8$
-`int`s in there.
+[i[`sizeof` operator-->with arrays](]`sizeof` the array, and then divide
+that by the size of each element to get the length. For example, if an
+`int` is 4 bytes, and the array is 32 bytes long, there must be room for
+$\frac{32}{4}$ or $8$ `int`s in there.
 
 ``` {.c}
 int x[12];  // 12 ints
@@ -120,9 +124,12 @@ For example, to see how many bytes would be needed for an array of 48
 ``` {.c}
 sizeof(double [48]);
 ```
+[i[`sizeof` operator-->with arrays])]
+[i[Arrays-->getting the length])]
 
 ## Array Initializers
 
+[i[Array initializers](]
 You can initialize an array with constants ahead of time:
 
 ``` {.c .numberLines}
@@ -222,9 +229,11 @@ int a[3] = {22, 37, 3490};
 
 int a[] = {22, 37, 3490};  // Left the size off!
 ```
+[i[Array initializers])]
 
 ## Out of Bounds!
 
+[i[Arrays-->out of bounds](]
 C doesn't stop you from accessing arrays out of bounds. It might not
 even warn you.
 
@@ -280,9 +289,11 @@ Short version: don't do anything that causes undefined behavior.
 Ever^[There are a lot of things that cause undefined behavior, not just
 out-of-bounds array accesses. This is what makes the C language so
 _exciting_.].
+[i[Arrays-->out of bounds])]
 
 ## Multidimensional Arrays
 
+[i[Arrays-->multidimensional](]
 You can add as many dimensions as you want to your arrays.
 
 ``` {.c}
@@ -347,9 +358,11 @@ which builds a 2D array like this:
 0 1 0
 0 0 1
 ```
+[i[Arrays-->multidimensional])]
 
 ## Arrays and Pointers
 
+[i[Arrays-->as pointers](]
 [_Casually_] So... I kinda might have mentioned up there that arrays
 were pointers, deep down? We should take a shallow dive into that now so
 that things aren't completely confusing. Later on, we'll look at what
@@ -398,10 +411,11 @@ extensively in the upcoming examples.
 But hold on a second---isn't `p` an `int*`? And `*p` gives us `11`, same
 as `a[0]`? Yessss. You're starting to get a glimpse of how arrays and
 pointers are related in C.
-
+[i[Arrays-->as pointers])]
 
 ### Passing Single Dimensional Arrays to Functions {#passing1darrays}
 
+[i[Arrays-->passing to functions](]
 Let's do an example with a single dimensional array. I'm going to write
 a couple functions that we can pass the array to that do different
 things.
@@ -468,9 +482,11 @@ enforce anything at all.
 Now that I've said that, the size of the array in the function
 declaration actually _does_ matter when you're passing multidimensional
 arrays into functions, but let's come back to that.
+[i[Arrays-->passing to functions])]
 
 ### Changing Arrays in Functions
 
+[i[Arrays-->modifying within functions](]
 We've said that arrays are just pointers in disguise. This means that if
 you pass an array to a function, you're likely passing a pointer to the
 first element in the array.
@@ -516,10 +532,11 @@ Later when we talk about the equivalence between arrays and pointers,
 we'll see how this makes a lot more sense. For now, it's enough to know
 that functions can make changes to arrays that are visible out in the
 caller.
-
+[i[Arrays-->modifying within functions])]
 
 ### Passing Multidimensional Arrays to Functions
 
+[i[Arrays-->passing to functions](]
 The story changes a little when we're talking about multidimensional
 arrays. C needs to know all the dimensions (except the first one) so it
 has enough information to know where in memory to look to find a value.
@@ -565,3 +582,4 @@ general, it needs to know all the dimensions except the first one.
 Also, remember that the compiler does minimal compile-time bounds
 checking (if you're lucky), and C does zero runtime checking of bounds.
 No seat belts! Don't crash by accessing array elements out of bounds!
+[i[Arrays-->passing to functions])] [i[Arrays])]
