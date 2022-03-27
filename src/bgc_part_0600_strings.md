@@ -5,7 +5,7 @@
 
 # Strings
 
-Finally! Strings! What could be simpler?
+[i[Strings]<]Finally! Strings! What could be simpler?
 
 Well, turns out strings aren't actually strings in C. That's right!
 They're pointers! Of course they are!
@@ -16,9 +16,9 @@ But let's check it out---it's not really such a big deal.
 
 ## String Literals
 
-Before we start, let's talk about string literals in C. These are
-sequences of characters in _double_ quotes (`"`). (Single quotes enclose
-characters, and are a different animal entirely.)
+[i[String literals]<]Before we start, let's talk about string literals
+in C. These are sequences of characters in _double_ quotes (`"`).
+(Single quotes enclose characters, and are a different animal entirely.)
 
 Examples:
 
@@ -34,12 +34,12 @@ The last one has quotes embedded within it, but you see each is preceded
 by (we say "escaped by") a backslash (`\`) indicating that a literal
 quote belongs in the string at this point. This is how the C compiler
 can tell the difference between printing a double quote and the double
-quote at the end of the string.
+quote at the end of the string.[i[String literals]>]
 
 ## String Variables
 
-Now that we know how to make a string literal, let's assign it to a
-variable so we can do something with it.
+[i[String variables]<]Now that we know how to make a string literal,
+let's assign it to a variable so we can do something with it.
 
 ``` {.c}
 char *s = "Hello, world!";
@@ -56,9 +56,11 @@ char *s = "Hello, world!";
 
 printf("%s\n", s);  // "Hello, world!"
 ```
+[i[String variables]>]
 
 ## String Variables as Arrays
 
+[i[String variables-->as arrays]<]
 Another option is this, nearly equivalent to the above `char*` usage:
 
 ``` {.c}
@@ -108,9 +110,11 @@ And we still can use array notation to get the job done when printing it
 out! This is surprising, but is still only because we haven't talked
 about array/pointer equivalence yet. But this is yet another hint that
 arrays and pointers are the same thing, deep down.
+[i[String variables-->as arrays]>]
 
 ## String Initializers
 
+[i[Strings-->initializers]<]
 We've already seen some examples with initializing string variables with
 string literals:
 
@@ -152,9 +156,11 @@ printf("%s\n", t);  // "zello, again!"
 So remember: if you have a pointer to a string literal, don't try to
 change it! And if you use a string in double quotes to initialize an
 array, that's not actually a string literal.
+[i[Strings-->initializers]>]
 
 ## Getting String Length
 
+[i[Strings-->getting the length]<]
 You can't, since C doesn't track it for you. And when I say "can't", I
 actually mean "can"^[Though it is true that C doesn't track the length
 of strings.]. There's a function in `<string.h>` called `strlen()` that
@@ -185,12 +191,14 @@ The string is 13 bytes long.
 ```
 
 Great! So it _is_ possible to get the string length!
+[i[Strings-->getting the length]>]
 
 But... if C doesn't track the length of the string anywhere, how does it
 know how long the string is?
 
 ## String Termination
 
+[i[Strings-->termination]<]
 C does strings a little differently than many programming languages, and
 in fact differently than almost every modern programming language.
 
@@ -250,9 +258,11 @@ int my_strlen(char *s)
 ```
 
 And that's basically how the built-in `strlen()` gets the job done.
+[i[Strings-->termination]>]
 
 ## Copying a String
 
+[i[Strings-->copying]<]
 You can't copy a string through the assignment operator (`=`). All that
 does is make a copy of the pointer to the first character... so you end
 up with two pointers to the same string:
@@ -315,3 +325,4 @@ and the source pointer is the second. A mnemonic I use to remember this
 is that it's the order you would have put `t` and `s` if an assignment
 `=` worked for strings, with the source on the right and the destination
 on the left.
+[i[Strings-->copying]>][i[Strings]>]

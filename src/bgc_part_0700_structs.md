@@ -5,6 +5,7 @@
 
 # Structs {#structs}
 
+[i[`struct`]<]
 In C, we have something called a `struct`, which is a user-definable
 type that holds multiple pieces of data, potentially of different types.
 
@@ -22,6 +23,7 @@ data members, and no methods.
 
 ## Declaring a Struct
 
+[i[`struct`-->declaring]<]
 You can declare a `struct` in your code like so:
 
 ``` {.c}
@@ -67,9 +69,11 @@ printf("Top Speed (km): %d\n", saturn.speed);
 
 There on the first lines, we set the values in the `struct car`, and
 then in the next bit, we print those values out.
+[i[`struct`-->declaring]>]
 
 ## Struct Initializers {#struct-initializers}
 
+[i[`struct`-->initializers]<]
 That example in the previous section was a little unwieldy. There must
 be a better way to initialize that `struct` variable!
 
@@ -109,10 +113,11 @@ safer code, for sure.
 Similar to array initializers, any missing field designators are
 initialized to zero (in this case, that would be `.price`, which I've
 omitted).
-
+[i[`struct`-->initializers]>]
 
 ## Passing Structs to Functions
 
+[i[`struct`-->passing to functions]<]
 You can do a couple things to pass a `struct` to a function.
 
 1. Pass the `struct`.
@@ -199,8 +204,12 @@ void set_price(struct car *c, float new_price) {
 And that works! But it's a little clunky to type all those parens and
 the asterisk. C has some syntactic sugar called the _arrow operator_
 that helps with that.
+[i[`struct`-->passing to functions]>]
 
 ## The Arrow Operator
+
+[i[`->` arrow operator]<]
+The arrow operator helps refer to fields in pointers to `struct`s.
 
 ``` {.c}
 void set_price(struct car *c, float new_price) {
@@ -212,15 +221,15 @@ void set_price(struct car *c, float new_price) {
 }
 ```
 
-The arrow operator helps refer to fields in pointers to `struct`s.
-
 So when accessing fields, when do we use dot and when do we use arrow?
 
 * If you have a `struct`, use dot (`.`).
 * If you have a pointer to a `struct`, use arrow (`->`).
+[i[`->` arrow operator]>]
 
 ## Copying and Returning `struct`s
 
+[i[`struct`-->copying]<]
 Here's an easy one for you!
 
 Just assign from one to the other!
@@ -239,9 +248,11 @@ and copies the data they point to, as well. A _shallow copy_ just copies
 the pointers, but not the things they point to. C doesn't come with any
 built-in deep copy functionality.]. All fields are copied as-is,
 including pointers to things.
+[i[`struct`-->copying]>]
 
 ## Comparing `struct`s
 
+[i[`struct`-->comparing]<]
 There's only one safe way to do it: compare each field one at a time.
 
 You might think you could use [`memcmp()`](#man-strcmp), but that
@@ -252,4 +263,5 @@ If you clear the `struct` to zero first with [`memset()`](#man-memset),
 then it _might_ work, though there could be weird elements that
 [fl[might not compare as you
 expect|https://stackoverflow.com/questions/141720/how-do-you-compare-structs-for-equality-in-c]].
-
+[i[`struct`-->comparing]>]
+[i[`struct`]>]

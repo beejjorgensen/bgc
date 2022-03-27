@@ -5,6 +5,7 @@
 
 # File Input/Output
 
+[i[File I/O]<]
 We've already seen a couple examples of I/O with `scanf()` and
 `printf()` for doing I/O at the console (screen/keyboard).
 
@@ -12,6 +13,7 @@ But we'll push those concepts a little farther this chapter.
 
 ## The `FILE*` Data Type
 
+[i[`FILE*` data type]<]
 When we do any kind of I/O in C, we do so through a piece of data that
 you get in the form of a `FILE*` type. This `FILE*` holds all the
 information needed to communicate with the I/O subsystem about which
@@ -27,6 +29,9 @@ We'll see in a moment how to go from having a filename to getting an
 open `FILE*` for it, but first I want to mention three streams that are
 already open for you and ready for use.
 
+[i[`stdin` standard input]<]
+[i[`stdout` standard output]<]
+[i[`stderr` standard error]<]
 |`FILE*` name|Description|
 |-|-|
 |`stdin`|Standard Input, generally the keyboard by default|
@@ -60,11 +65,16 @@ another file.
 
 For this reason, you should send serious error messages to `stderr`
 instead of `stdout`.
+[i[`stdin` standard input]>]
+[i[`stdout` standard output]>]
+[i[`stderr` standard error]>]
 
 More on how to do that later.
+[i[`FILE*` data type]<]
 
 ## Reading Text Files
 
+[i[File I/O-->text files, reading]<]
 Streams are largely categorized two different ways: _text_ and _binary_.
 
 Text streams are allowed to do significant translation of the data, most
@@ -92,6 +102,9 @@ Hello, world!
 And let's write a program to open the file, read a character out of it,
 and then close the file when we're done. That's the game plan!
 
+[i[`fopen()`]<]
+[i[`fgetc()`]<]
+[i[`fclose()`]<]
 ``` {.c .numberLines}
 #include <stdio.h>
 
@@ -118,23 +131,28 @@ check it!)
 Also notice the `"r"` that we passed in---this means "open a text stream
 for reading". (There are various strings we can pass to `fopen()` with
 additional meaning, like writing, or appending, and so on.)
+[i[`fopen()`]>]
 
 After that, we used the `fgetc()` function to get a character from the
 stream. You might be wondering why I've made `c` an `int` instead of a
 `char`---hold that thought!
+[i[`fgetc()`]>]
 
 Finally, we close the stream when we're done with it. All streams are
 automatically closed when the program exits, but it's good form and good
 housekeeping to explicitly close any files yourself when done with them.
+[i[`fclose()`]>]
 
-The `FILE*` keeps track of our position in the file. So subsequent calls
-to `fgetc()` would get the next character in the file, and then the
-next, until the end.
+The [i[`FILE*` data type]]`FILE*` keeps track of our position in the
+file. So subsequent calls to `fgetc()` would get the next character in
+the file, and then the next, until the end.
 
 But that sounds like a pain. Let's see if we can make it easier.
+[i[File I/O-->text files, reading]>]
 
 ## End of File: `EOF`
 
+[i[`EOF` end of file]<]
 There is a special character defined as a macro: `EOF`. This is what
 `fgetc()` will return when the end of the file has been reached and
 you've attempted to read another character.
@@ -150,6 +168,9 @@ range of `char`. Since `fgetc()` needs to be able to return any byte
 All right! Back to reality! We can use this to read the whole file in a
 loop.
 
+[i[`fopen()`]<]
+[i[`fgetc()`]<]
+[i[`fclose()`]<]
 ``` {.c .numberLines}
 #include <stdio.h>
 
@@ -166,12 +187,15 @@ int main(void)
     fclose(fp);
 }
 ```
+[i[`fopen()`]>]
+[i[`fclose()`]>]
 
 (If line 10 is too weird, just break it down starting with the
 innermost-nested parens. The first thing we do is assign the result of
 `fgetc()` into `c`, and _then_ we compare _that_ against `EOF`. We've
 just crammed it into a single line. This might look hard to read, but
 study it---it's idiomatic C.)
+[i[`fgetc()`]>]
 
 And running this, we see:
 
@@ -181,16 +205,19 @@ Hello, world!
 
 But still, we're operating a character at a time, and lots of text files
 make more sense at the line level. Let's switch to that.
+[i[`EOF` end of file]>]
 
 ### Reading a Line at a Time
 
-So how can we get an entire line at once? `fgets()` to the rescue! For
-arguments, it takes a pointer to a `char` buffer to hold bytes, a
-maximum number of bytes to read, and a `FILE*` to read from. It returns
-`NULL` on end-of-file or error. `fgets()` is even nice enough to
+[i[File I/O-->line by line]<]
+So how can we get an entire line at once? [i[`fgets()`]<]`fgets()` to
+the rescue! For arguments, it takes a pointer to a `char` buffer to hold
+bytes, a maximum number of bytes to read, and a `FILE*` to read from. It
+returns `NULL` on end-of-file or error. `fgets()` is even nice enough to
 NUL-terminate the string when its done^[If the buffer's not big enough
 to read in an entire line, it'll just stop reading mid-line, and the
-next call to `fgets()` will continue reading the rest of the line.].
+next call to `fgets()` will continue reading the rest of the
+line.].[i[`fgets()`]>]
 
 Let's do a similar loop as before, except let's have a multiline file
 and read it in a line at a time.
@@ -207,6 +234,7 @@ can learn from a wise answer.
 And here's some code that reads that file a line at a time and prints
 out a line number before each one:
 
+[i[`fgets()`]<]
 ``` {.c .numberLines}
 #include <stdio.h>
 
@@ -224,6 +252,7 @@ int main(void)
     fclose(fp);
 }
 ```
+[i[`fgets()`]>]
 
 Which gives the output:
 
@@ -233,12 +262,15 @@ Which gives the output:
 3: can learn from a wise answer.
 4:                   --Bruce Lee
 ```
+[i[File I/O-->line by line]>]
 
 ## Formatted Input
 
+[i[File I/O-->formatted input]<]
 You know how you can get formatted output with `printf()` (and, thus,
 `fprintf()` like we'll see, below)?
 
+[i[`fscanf()`]<]
 You can do the same thing with `fscanf()`.
 
 Let's have a file with a series of data records in it. In this case,
@@ -251,13 +283,13 @@ gray 14.9 41
 humpback 16.0 30
 ```
 
-Yes, we could read these with `fgets()` and then parse the string with
-`sscanf()` (and in some ways that's more resilient against corrupted
-files), but in this case, let's just use `fscanf()` and pull it in
-directly.
+Yes, we could read these with [i[`fgets()`]]`fgets()` and then parse the
+string with `sscanf()` (and in some ways that's more resilient against
+corrupted files), but in this case, let's just use `fscanf()` and pull
+it in directly.
 
-The `fscanf()` function skips leading whitespace when reading, and returns `EOF`
-on end-of-file or error.
+The `fscanf()` function skips leading whitespace when reading, and
+returns `EOF` on end-of-file or error.
 
 ``` {.c .numberLines}
 #include <stdio.h>
@@ -277,6 +309,7 @@ int main(void)
     fclose(fp);
 }
 ```
+[i[`fscanf()`]>]
 
 Which gives the result:
 
@@ -286,9 +319,14 @@ right whale, 135 tonnes, 20.7 meters
 gray whale, 41 tonnes, 14.9 meters
 humpback whale, 30 tonnes, 16.0 meters
 ```
+[i[File I/O-->formatted input]>]
 
 ## Writing Text Files
 
+[i[File I/O-->text files, writing]<]
+[i[`fputc()`]<]
+[i[`fputs()`]<]
+[i[`fprintf()`]<]
 In much the same way we can use `fgetc()`, `fgets()`, and `fscanf()` to
 read text streams, we can use `fputc()`, `fputs()`, and `fprintf()` to
 write text streams.
@@ -318,6 +356,9 @@ int main(void)
     fclose(fp);
 }
 ```
+[i[`fputc()`]>]
+[i[`fputs()`]>]
+[i[`fprintf()`]>]
 
 And this produces a file, `output.txt`, with these contents:
 
@@ -335,9 +376,11 @@ fp = stdout;
 
 and the program would have outputted to the console instead of to a
 file. Try it!
+[i[File I/O-->text files, writing]>]
 
 ## Binary File I/O
 
+[i[File I/O-->binary files]<]
 So far we've just been talking text files. But there's that other beast
 we mentioned early on called _binary_ files, or binary streams.
 
@@ -354,8 +397,10 @@ characters, and the NUL character is the end-of-string marker in C, it's
 rare that people use the `fprintf()`-and-friends functions to operate on
 binary files.
 
-Instead the most common functions are `fread()` and `fwrite()`. The
-functions read and write a specified number of bytes to the stream.
+[i[`fwrite()`]<]
+Instead the most common functions are [i[`fread()`]]`fread()` and
+`fwrite()`. The functions read and write a specified number of bytes to
+the stream.
 
 To demo, we'll write a couple programs. One will write a sequence of
 byte values to disk all at once. And the second program will read a byte
@@ -385,6 +430,7 @@ int main(void)
     fclose(fp);
 }
 ```
+[i[`fwrite()`]>]
 
 Those two middle arguments to `fwrite()` are pretty odd. But basically
 what we want to tell the function is, "We have items that are _this_
@@ -414,6 +460,7 @@ But now let's try to read them back in with a different program. This
 one will open the file for binary reading (`"rb"` mode) and will read
 the bytes one at a time in a loop.
 
+[i[`fread()`]<]
 `fread()` has the neat feature where it returns the number of bytes
 read, or `0` on EOF. So we can loop until we see that, printing numbers
 as we go.
@@ -432,6 +479,7 @@ int main(void)
         printf("%d\n", c);
 }
 ```
+[i[`fread()`]>]
 
 And, running it, we see our original numbers!
 
@@ -445,9 +493,11 @@ And, running it, we see our original numbers!
 ```
 
 Woo hoo!
+[i[File I/O-->binary files]>]
 
 ### `struct` and Number Caveats
 
+[i[File I/O-->with `struct`s]<]
 As we saw in the `struct`s section, the compiler is free to add padding
 to a `struct` as it sees fit. And different compilers might do this
 differently. And the same compiler on different architectures could do
@@ -457,10 +507,12 @@ it differently.
 What I'm getting at is this: it's not portable to just `fwrite()` an
 entire `struct` out to a file when you don't know where the padding will
 end up.
+[i[File I/O-->with `struct`s]>]
 
 How do we fix this? Hold that thought---we'll look at some ways to do
 this after looking at another related problem.
 
+[i[File I/O-->with numeric values]<]
 Numbers!
 
 Turns out all architectures don't represent numbers in memory the same
@@ -489,8 +541,9 @@ But if I run this on my machine and hex dump the result, I get:
 They're reversed! What gives?
 
 This has something to do with what's called the
-[flw[_endianess_|Endianess]] of the architecture. Some write the most
-significant bytes first, and some the least significant bytes first.
+[i[Endianess]][flw[_endianess_|Endianess]] of the architecture. Some
+write the most significant bytes first, and some the least significant
+bytes first.
 
 This means that if you write a multibyte number out straight from
 memory, you can't do it in a portable way^[And this is why I used
@@ -500,13 +553,14 @@ shrewdly.].
 A similar problem exists with floating point. Most systems use the same
 format for their floating point numbers, but some do not. No guarantees!
 
+[i[File I/O-->with `struct`s]<]
 So... how can we fix all these problems with numbers and `struct`s to
 get our data written in a portable way?
 
-The summary is to _serialize_ the data, which is a general term that
-means to take all the data and write it out in a format that you
-control, that is well-known, and programmable to work the same way on
-all platforms.
+The summary is to [i[Data serialization]]_serialize_ the data, which is
+a general term that means to take all the data and write it out in a
+format that you control, that is well-known, and programmable to work
+the same way on all platforms.
 
 As you might imagine, this is a solved problem. There are a bunch of
 serialization libraries you can take advantage of, such as Google's
@@ -518,3 +572,6 @@ that support the same serialization methods.
 Do yourself and everyone a favor! Serialize your binary data when you
 write it to a stream! This will keep things nice and portable, even if
 you transfer data files from one architecture to another.
+[i[File I/O-->with `struct`s]>]
+[i[File I/O-->with numeric values]>]
+[i[File I/O]>]
