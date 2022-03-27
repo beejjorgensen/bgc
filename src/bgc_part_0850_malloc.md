@@ -5,6 +5,7 @@
 
 # Manual Memory Allocation
 
+[i[Manual memory management[<]
 This is one of the big areas where C likely diverges from languages you
 already know: _manual memory management_.
 
@@ -18,10 +19,12 @@ memory associated with it will be freed.
 
 But C's not like that, entirely.
 
+[i[Automatic variables]<]
 Of course, in C, some variables are automatically allocated and
 deallocated when they come into scope and leave scope. We call these
 automatic variables. They're your average run-of-the-mill block scope
 "local" variables. No problem.
+[i[Automatic variables]>]
 
 But what if you want something to persist longer than a particular
 block? This is where manual memory management comes into play.
@@ -45,16 +48,21 @@ So how do we do this? We're going to learn a couple new functions, and
 make use of the `sizeof` operator to help us learn how many bytes to
 allocate.
 
+[i[The stack]<]
+[i[The heap]<]
 In common C parlance, devs say that automatic local variables are
 allocated "on the stack", and manually-allocated memory is "on the
 heap". The spec doesn't talk about either of those things, but all C
 devs will know what you're talking about if you bring them up.
+[i[The heap]>]
+[i[The stack]>]
 
 All functions we're going to learn in this chapter can be found in
 `<stdlib.h>`.
 
 ## Allocating and Deallocating, `malloc()` and `free()`
 
+[i[`malloc()`]<]
 The `malloc()` function accepts a number of bytes to allocate, and
 returns a void pointer to that block of newly-allocated memory.
 
@@ -62,10 +70,13 @@ Since it's a `void*`, you can assign it into whatever pointer type you
 want... normally this will correspond in some way to the number of bytes
 you're allocating.
 
+[i[`sizeof` operator-->with `malloc()`]<]
 So... how many bytes should I allocate? We can use `sizeof` to help with
 that. If we want to allocate enough room for a single `int`, we can use
 `sizeof(int)` and pass that to `malloc()`.
+[i[`sizeof` operator-->with `malloc()`]>]
 
+[i[`free()`]<]
 After we're done with some allocated memory, we can call `free()` to
 indicate we're done with that memory and it can be used for something
 else. As an argument, you pass the same pointer you got from `malloc()`
@@ -88,12 +99,14 @@ free(p);  // All done with that memory
 
 //*p = 3490;  // ERROR: undefined behavior! Use after free()!
 ```
+[i[`free()`]>]
 
 Now, in that contrived example, there's really no benefit to it. We
 could have just used an automatic `int` and it would have worked. But
 we'll see how the ability to allocate memory this way has its
 advantages, especially with more complex data structures.
 
+[i[`sizeof` operator-->with `malloc()`]<]
 One more thing you'll commonly see takes advantage of the fact that
 `sizeof` can give you the size of the result type of any constant
 expression. So you could put a variable name in there, too, and use
@@ -102,9 +115,12 @@ that. Here's an example of that, just like the previous one:
 ``` {.c}
 int *p = malloc(sizeof *p);  // *p is an int, so same as sizeof(int)
 ```
+[i[`sizeof` operator-->with `malloc()`]>]
+[i[`malloc()`]>]
 
 ## Error Checking
 
+[i[`malloc()`-->error checking]<]
 All the allocation functions return a pointer to the newly-allocated
 stretch of memory, or `NULL` if the memory cannot be allocated for some
 reason.
@@ -135,9 +151,11 @@ if ((x = malloc(sizeof(int) * 10)) == NULL)
     // do something here to handle it
 }
 ```
+[i[`malloc()`-->error checking]>]
 
 ## Allocating Space for an Array
 
+[i[`malloc()`-->and arrays]<]
 We've seen how to allocate space for a single thing; now what about for
 a bunch of them in an array?
 
@@ -162,6 +180,7 @@ But we can just multiply the size of the thing we want by the number of
 elements we want, and then access them using either pointer or array
 notation. Example!
 
+[i[`sizeof` operator-->with `malloc()`]<]
 ``` {.c .numberLines}
 #include <stdio.h>
 #include <stdlib.h>
@@ -194,9 +213,12 @@ sizeof(int) * 10
 
 And this trick works for every type. Just pass it to `sizeof` and
 multiply by the size of the array.
+[i[`sizeof` operator-->with `malloc()`]>]
+[i[`malloc()`-->and arrays]>]
 
 ## An Alternative: `calloc()`
 
+[i[`calloc()`]<]
 This is another allocation function that works similarly to `malloc()`,
 with two key differences:
 
@@ -220,9 +242,11 @@ memset(q, 0, sizeof(int) * 10);   // set to 0
 
 Again, the result is the same for both except `malloc()` doesn't zero
 the memory by default.
+[i[`calloc()`]>]
 
 ## Changing Allocated Size with `realloc()`
 
+[i[`realloc()`]<]
 If you've already allocated 10 `int`s, but later you decide you need 20,
 what can you do?
 
@@ -305,6 +329,7 @@ Also if line 7 is looking weird, with that `sizeof *p` in there,
 remember that `sizeof` works on the size of the type of the expression.
 And the type of `*p` is `float`, so that line is equivalent to
 `sizeof(float)`.
+[i[`realloc()`]>]
 
 
 ### Reading in Lines of Arbitrary Length
@@ -418,6 +443,7 @@ Finally you might note that `readline()` returns a pointer to a
 
 ### `realloc()` with `NULL`
 
+[i[`realloc()`-->with `NULL` argument]<]
 Trivia time! These two lines are equivalent:
 
 ``` {.c}
@@ -444,9 +470,11 @@ while (!done) {
 
 In that example, we didn't need an initial `malloc()` since `p` was
 `NULL` to start.
+[i[`realloc()`-->with `NULL` argument]>]
 
 ## Aligned Allocations
 
+[i[Memory alignment]<]
 You probably aren't going to need to use this.
 
 And I don't want to get too far off in the weeds talking about it right
@@ -470,6 +498,7 @@ But there might be times that you know that some data can be aligned at
 a smaller boundary, or must be aligned at a larger one for some reason.
 I imagine this is more common with embedded systems programming.
 
+[i[`aligned_alloc()`]<]
 In those cases, you can specify an alignment with `aligned_alloc()`.
 
 The alignment is an integer power of two greater than zero, so `2`, `4`,
@@ -506,6 +535,7 @@ I want to throw a note here about `realloc()` and `aligned_alloc()`.
 `realloc()` doesn't have any alignment guarantees, so if you need to get
 some aligned reallocated space, you'll have to do it the hard way with
 `memcpy()`.
+[i[`aligned_alloc()`]>]
 
 Here's a non-standard `aligned_realloc()` function, if you need it:
 
@@ -531,3 +561,5 @@ void *aligned_realloc(void *ptr, size_t old_size, size_t alignment, size_t size)
 Note that it _always_ copies data, taking time, while real `realloc()`
 will avoid that if it can. So this is hardly efficient. Avoid needing to
 reallocate custom-aligned data.
+[i[Memory alignment]>]
+[i[Manual memory management[>]
