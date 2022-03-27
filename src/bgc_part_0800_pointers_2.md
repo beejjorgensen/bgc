@@ -5,6 +5,7 @@
 
 # Pointers II: Arithmetic {#pointers2}
 
+[i[Pointers-->arithmetic]<]
 Time to get more into it with a number of new pointer topics! If you're
 not up to speed with pointers, [check out the first section in the guide
 on the matter](#pointers).
@@ -158,6 +159,7 @@ until it points to `999` and we quit.
 
 ### Subtracting Pointers
 
+[i[Pointers-->subtracting]<]
 You can subtract a value from a pointer to get to earlier address, as
 well, just like we were adding to them before.
 
@@ -206,10 +208,11 @@ int main(void)
 
 Remember that you can only use pointer subtraction between two pointers
 that point to the same array!
-
+[i[Pointers-->subtracting]>]
 
 ## Array/Pointer Equivalence {#arraypointerequiv}
 
+[i[Pointers-->array equivalence]<]
 We're finally ready to talk about this! We've seen plenty of examples of
 places where we've intermixed array notation, but let's give out the
 _fundamental formula of array/pointer equivalence_:
@@ -302,9 +305,11 @@ And it's also why these two function signatures are equivalent:
 int my_strlen(char *s)    // Works!
 int my_strlen(char s[])   // Works, too!
 ```
+[i[Pointers-->array equivalence]>]
 
 ## `void` Pointers
 
+[i[`void*` void pointers]<]
 You've already seen the `void` keyword used with functions, but this is
 an entirely separate, unrelated animal.
 
@@ -315,6 +320,7 @@ I know. Bear with me just a second.
 
 There are basically two use cases for this.
 
+[i[`memcpy()`]<]
 1. A function is going to operate on something byte-by-byte. For
    example, `memcpy()` copies bytes of memory from one pointer to
    another, but those pointers can point to any type. `memcpy()` takes
@@ -413,6 +419,7 @@ want to copy, you can copy _any type of data_.
 
 Imagine if we didn't have `void*`. We'd have to write specialized
 `memcpy()` functions for each type:
+[i[`memcpy()`]>]
 
 ``` {.c}
 memcpy_int(int *a, int *b, int count);
@@ -433,6 +440,7 @@ about the type and is still able to do things with it.
 But with great power comes great responsibility. Maybe not _that_ great
 in this case, but there are some limits.
 
+[i[`void*` void pointer-->caveats]<]
 1. You cannot do pointer arithmetic on a `void*`.
 2. You cannot dereference a `void*`.
 3. You cannot use the arrow operator on a `void*`, since it's also a
@@ -446,6 +454,7 @@ And if you think about it, these rules make sense. All those operations
 rely on knowing the `sizeof` the type of data pointed to, and with
 `void*`, we don't know the size of the data being pointed to---it could
 be anything!
+[i[`void*` void pointer-->caveats]>]
 
 But wait---if you can't dereference a `void*` what good can it ever do
 you?
@@ -468,6 +477,7 @@ printf("%c\n", *p);  // ERROR--cannot dereference void*!
 printf("%c\n", *q);  // Prints "X"
 ```
 
+[i[`memcpy()]<]
 Let's write our own `memcpy()` to try this out. We can copy bytes
 (`char`s), and we know the number of bytes because it's passed in.
 
@@ -506,8 +516,9 @@ the destination string just in case the caller wants to use it.
 Now that we've done that, I just want to quickly point out that we can
 use this technique to iterate over the bytes of _any_ object in C,
 `float`s, `struct`s, or anything!
+[i[`memcpy()]>]
 
-
+[i[`qsort()]<]
 [Let's]{#qsort-example} run one more real-world example with the
 built-in `qsort()` routine that can sort _anything_ thanks to the magic
 of `void*`s.
@@ -581,3 +592,6 @@ you have in your array to be sorted, it can sort anything. And it does
 this without needing to have the types of the items hardcoded in there
 anywhere. `qsort()` just rearranges blocks of bytes based on the results
 of the `compar()` function you passed in.
+[i[`qsort()]>]
+[i[`void*` void pointers]>]
+[i[Pointers-->arithmetic]>]
