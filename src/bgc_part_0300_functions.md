@@ -11,7 +11,7 @@
 > ---C3PO[i[C3PO]], before being rudely interrupted, reporting a
 > now-unimpressive number of additional functions, _Star Wars_ script
 
-[i[Functions](]
+[i[Functions]<]
 Very much like other languages you're used to, C has the concept of
 _functions_.
 
@@ -167,11 +167,11 @@ _EVERYTHING_ you pass to a function _WITHOUT EXCEPTION_ is copied into
 its corresponding parameter, and the function operates on that local
 copy, _NO MATTER WHAT_. Remember that, even when we're talking about
 this so-called passing by reference.
-[i[Pass by value])]
+[i[Pass by value]>]
 
 ## Function Prototypes {#prototypes}
 
-[i[Function prototypes](]So if you recall back in the ice age a few
+[i[Function prototypes]<]So if you recall back in the ice age a few
 sections ago, I mentioned that you had to define the function before you
 used it, otherwise the compiler wouldn't know about it ahead of time,
 and would bomb out with an error.
@@ -223,7 +223,7 @@ is, we've been using the good old `printf()` function without defining
 it or declaring a prototype! How do we get away with this lawlessness?
 We don't, actually. There is a prototype; it's in that header file
 `stdio.h` that we included with `#include`, remember? So we're still
-legit, officer![i[Function prototypes])]
+legit, officer![i[Function prototypes]>]
 
 ## Empty Parameter Lists
 
@@ -271,4 +271,4 @@ effectively turns off all that type checking.
 With a prototype **definitely** use `void` when you have an empty
 parameter list.
 
-[i[Functions])]
+[i[Functions]>]

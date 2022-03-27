@@ -9,7 +9,7 @@
 >
 > ---20th-century joke of unknown origin
 
-[i[Pointers](]Pointers are one of the most feared things in the C
+[i[Pointers]<]Pointers are one of the most feared things in the C
 language. In fact, they are the one thing that makes this language
 challenging at all. But why?
 
@@ -130,7 +130,7 @@ is some way to get the address of that `int`, right? After all, the
 pointer just holds the _address of_ the data. What operator do you
 suppose we'd use to find the _address of_ the `int`?
 
-[i[`&` address-of operator](]Well, by a shocking surprise that must come
+[i[`&` address-of operator]<]Well, by a shocking surprise that must come
 as something of a shock to you, gentle reader, we use the `address-of`
 operator (which happens to be an ampersand: "`&`")to find the address of
 the data. Ampersand.
@@ -168,7 +168,7 @@ On my computer, this prints:
 The value of i is 10
 And its address is 0x7ffddf7072a4
 ```
-[i[`&` address-of operator])]
+[i[`&` address-of operator]>]
 
 If you're curious, that hexadecimal number is 140,727,326,896,068 in
 decimal (base 10 just like Grandma used to use). That's the index into
@@ -185,7 +185,7 @@ generally. We just care that it's a pointer to `i`.
 
 ## Pointer Types {#pttypes}
 
-[i[Pointer types](]So... this is all well and good. You can now
+[i[Pointer types]<]So... this is all well and good. You can now
 successfully take the address of a variable and print it on the screen.
 There's a little something for the ol' resume, right? Here's where you
 grab me by the scruff of the neck and ask politely what the frick
@@ -239,11 +239,11 @@ Get it? I know it still doesn't quite make much sense since you haven't
 seen an actual use for the pointer variable, but we're taking small
 steps here so that no one gets lost. So now, let's introduce you to the
 anti-address-of operator. It's kind of like what `address-of` would be
-like in Bizarro World.[i[Pointer types])]
+like in Bizarro World.[i[Pointer types]>]
 
 ## Dereferencing {#deref}
 
-[i[Dereferencing](]A pointer variable can be thought of as _referring_
+[i[Dereferencing]<]A pointer variable can be thought of as _referring_
 to another variable by pointing to it. It's rare you'll hear anyone in C
 land talking about "referring" or "references", but I bring it up just
 so that the name of this operator will make a little more sense.
@@ -261,7 +261,7 @@ you have a variable called `i`, and you have a pointer to `i` called
 `p`, you can use the dereferenced pointer `p` _exactly as if it were the
 original variable `i`_!
 
-[i[`*` indirection operator](]You almost have enough knowledge to handle
+[i[`*` indirection operator]<]You almost have enough knowledge to handle
 an example. The last tidbit you need to know is actually this: what is
 the dereference operator?  It's actually called the _indirection
 operator_, because you're accessing values indirectly via the pointer.
@@ -296,13 +296,13 @@ Remember that `p` holds the address of `i`, as you can see where we did
 the assignment to `p` on line 8. What the indirection operator does is
 tells the computer to _use the object the pointer points to_ instead of
 using the pointer itself. In this way, we have turned `*p` into an alias
-of sorts for `i`.[i[Dereferencing])][i[`*` indirection operator])]
+of sorts for `i`.[i[Dereferencing]>][i[`*` indirection operator]>]
 
 Great, but _why_? Why do any of this?
 
 ## Passing Pointers as Arguments {#ptpass}
 
-[i[Pointers-->as arguments](]Right about now, you're thinking that you
+[i[Pointers-->as arguments]<]Right about now, you're thinking that you
 have an awful lot of knowledge about pointers, but absolutely zero
 application, right? I mean, what use is `*p` if you could just simply
 say `i` instead?
@@ -407,7 +407,7 @@ printf("i is %d\n", i);  // prints "i is 12"
 
 See, `scanf()` dereferences the pointer we pass it in order to modify
 the variable it points to. And now you know why you have to put that
-pesky ampersand in there![i[Pointers-->as arguments])]
+pesky ampersand in there![i[Pointers-->as arguments]>]
 
 ## The `NULL` Pointer
 
@@ -441,7 +441,7 @@ you explicitly assign it to point to an address or `NULL`.)
 
 ## A Note on Declaring Pointers
 
-[i[Pointers-->declarations](]The syntax for declaring a pointer can get
+[i[Pointers-->declarations]<]The syntax for declaring a pointer can get
 a little weird. Let's look at this example:
 
 ``` {.c}
@@ -500,11 +500,11 @@ int *a, b, c, *d, e, *f, g, h, *i;
 
 I'll drop the answer in a footnote^[The pointer type variables are `a`,
 `d`, `f`, and `i`, because those are the ones with `*` in front of
-them.].[i[Pointers-->declarations])]
+them.].[i[Pointers-->declarations]>]
 
 ## `sizeof` and Pointers
 
-[i[Pointers-->with `sizeof`](]Just a little bit of syntax here that
+[i[Pointers-->with `sizeof`]<]Just a little bit of syntax here that
 might be confusing and you might see from time to time.
 
 Recall that `sizeof` operates on the _type_ of the expression.
@@ -519,4 +519,4 @@ sizeof *p    // *p is type int, so returns size of `int`
 
 You might see code with that last `sizeof` in there. Just remember that
 `sizeof` is all about the type of the expression, not the variables in
-the expression themselves.[i[Pointers-->with `sizeof`])][i[Pointers])]
+the expression themselves.[i[Pointers-->with `sizeof`]>][i[Pointers]>]

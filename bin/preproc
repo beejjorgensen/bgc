@@ -27,7 +27,7 @@ flr = footnote link to redirect https://beej.us/guide/url/id
 [i[entry]]
 [i[entry]flags]
 
-flags for page number: i: italic, b: bold, (: open range ): close range
+flags for page number: i: italic, b: bold, <: open range >: close range
 flags for replacement: T: typewriter, I: italic, B: bold, or a combination.
 
 Backticks can delimit typewriter text:
@@ -148,9 +148,9 @@ def i_replace(m):
 		result += '|textbf'
 	if 'i' in flags:
 		result += '|textit'
-	if '(' in flags:
+	if '<' in flags:
 		result += '|('
-	if ')' in flags:
+	if '>' in flags:
 		result += '|)'
 
 	result += '}'

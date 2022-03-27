@@ -20,7 +20,7 @@ clear what we're talking about.
 
 ## Variables
 
-[i[Variables](]It's said that "variables hold values". But another way to
+[i[Variables]<]It's said that "variables hold values". But another way to
 think about it is that a variable is a human-readable name that refers
 to some data in memory.
 
@@ -56,7 +56,7 @@ address.
 
 ### Variable Names
 
-[i[Variables](]You can use any characters in the range 0-9, A-Z, a-z,
+[i[Variables]<]You can use any characters in the range 0-9, A-Z, a-z,
 and underscore for variable names, with the following rules:
 
 * You can't start a variable with a digit 0-9.
@@ -67,7 +67,7 @@ and underscore for variable names, with the following rules:
 For Unicode, just try it. There are some rules in the spec in §D.2 that
 talk about which Unicode codepoint ranges are allowed in which parts of
 identifiers, but that's too much to write about here and is probably
-something you'll never have to think about anyway.[i[Variables])]
+something you'll never have to think about anyway.[i[Variables]>]
 
 ### Variable Types
 
@@ -148,7 +148,7 @@ int main(void)
 
 Killer. We've stored a value. Let's print it.
 
-[i[`printf()`](]We're going to do that by passing _two_ amazing
+[i[`printf()`]<]We're going to do that by passing _two_ amazing
 arguments to the `printf()` function. The first argument is a string
 that describes what to print and how to print it (called the _format
 string_), and the second is the value to print, namely whatever is in
@@ -183,11 +183,11 @@ Hello, world!  i = 2 and f = 3.14!
 
 In this way, `printf()` might be similar to various types of format
 strings or parameterized strings in other languages you're familiar
-with.  [i[`printf()`])]
+with.  [i[`printf()`]>]
 
 ### Boolean Types
 
-[i[Boolean types](]C has Boolean types, true or false?
+[i[Boolean types]<]C has Boolean types, true or false?
 
 `1`!
 
@@ -227,7 +227,7 @@ int main(void) {
 ```
 
 But these are identical to using integer values for true and false.
-They're just a facade to make things look nice.[i[Boolean types])]
+They're just a facade to make things look nice.[i[Boolean types]>]
 
 ## Operators and Expressions {#operators}
 
@@ -271,11 +271,11 @@ There is no exponentiation. You'll have to use one of the
 `pow()`[i[pow()]T] function variants from `math.h`.
 
 Let's get into some of the weirder stuff you might not have in your
-other languages![i[Arithmetic Operators])]
+other languages![i[Arithmetic Operators]>]
 
 ### Ternary Operator
 
-[i[`?:` ternary operator](]C also includes the _ternary operator_. This
+[i[`?:` ternary operator]<]C also includes the _ternary operator_. This
 is an expression whose value depends on the result of a conditional
 embedded in it.
 
@@ -318,11 +318,11 @@ evaluates to the string `"odd"`. Pretty cool!
 
 It's important to note that the ternary operator isn't flow control like
 the `if` statement is. It's just an expression that evaluates to a value.
-[i[`?:` ternary operator])]
+[i[`?:` ternary operator]>]
 
 ### Pre-and-Post Increment-and-Decrement
 
-[i[`++` increment operator](] [i[`--` decrement operator](]
+[i[`++` increment operator]<] [i[`--` decrement operator]<]
 Now, let's mess with another thing that you might not have seen.
 
 These are the legendary post-increment and post-decrement operators:
@@ -386,11 +386,11 @@ for (i = 0; i < 10; i++)
 ```
 
 But more on that later.
-[i[`++` increment operator])] [i[`--` decrement operator])]
+[i[`++` increment operator]>] [i[`--` decrement operator]>]
 
 ### The Comma Operator
 
-[i[`,` comma operator](]
+[i[`,` comma operator]<]
 This is an uncommonly-used way to separate expressions that will run
 left to right:
 
@@ -427,11 +427,11 @@ for (i = 0, j = 10; i < 100; i++, j++)
 ```
 
 We'll revisit that later.
-[i[`,` comma operator])]
+[i[`,` comma operator]>]
 
 ### Conditional Operators
 
-[i[Conditional Operators](]
+[i[Conditional Operators]<]
 For Boolean values, we have a raft of standard operators:
 [i[Comparison operators]] [i[`==` equality operator]]
 [i[`!=` inequality operator]] [i[`<` less than operator]]
@@ -456,11 +456,11 @@ We can use the comparison expressions with `if` statements:
 if (a <= 10)
     printf("Success!\n");
 ```
-[i[Conditional Operators])]
+[i[Conditional Operators]>]
 
 ### Boolean Operators
 
-[i[Boolean Operators](]
+[i[Boolean Operators]<]
 We can chain together or alter conditional expressions with Boolean
 operators for _and_, _or_, and _not_.
 [i[`&&` boolean AND]]
@@ -500,11 +500,11 @@ if (x >= 12)
 ```
 
 but I needed the example!
-[i[Boolean Operators])]
+[i[Boolean Operators]>]
 
 ### The `sizeof` Operator {#sizeof-operator}
 
-[i[`sizeof` operator](]
+[i[`sizeof` operator]<]
 This operator tells you the size (in bytes) that a
 particular variable or data type uses in memory.
 
@@ -522,7 +522,7 @@ Since this computes the number of bytes needed to store a type, you
 might think it would return an `int`. Or... since the size can't be
 negative, maybe an `unsigned`?
 
-[i[`size_t`](]
+[i[`size_t`]<]
 But it turns out C has a special type to represent the return value from
 `sizeof`. It's `size_t`, pronounced "_size tee_"^[The `_t` is short for
 `type`.]. All we know is that it's an unsigned integer type that can
@@ -530,7 +530,7 @@ hold the size in bytes of anything you can give to `sizeof`.
 
 `size_t` shows up a lot of different places where counts of things are
 passed or returned. Think of it as a value that represents a count.
-[i[`size_t`])]
+[i[`size_t`]>]
 
 You can take the `sizeof` a variable or expression:
 
@@ -565,12 +565,12 @@ for another time.]. The result of the expression is determined entirely
 at compile-time, not at runtime.
 
 We'll make use of this later on.
-[i[`sizeof` operator])]
+[i[`sizeof` operator]>]
 
 
 ## Flow Control
 
-[i[Flow Control](]
+[i[Flow Control]<]
 Booleans are all good, but of course we're nowhere if we can't control
 program flow. Let's take a look at a number of constructs: `if`, `for`,
 `while`, and `do-while`.
@@ -582,7 +582,7 @@ After something like an `if` or `while` statement, you can either put a single
 statement to be executed, or a block of statements to all be executed in
 sequence.
 
-[i[`if` statement](]
+[i[`if` statement]<]
 Let's start with a single statement:
 
 ``` {.c}
@@ -634,12 +634,12 @@ an `if`, wrap them up in squirrelly braces.
 
 In other words, the `if` is going to run the one thing after the `if`.
 And that one thing can be a single statement or a block of statements.
-[i[`if` statement])]
+[i[`if` statement]>]
 
 
 ### The `if`-`else` statement {#ifstat}
 
-[i[`if`-`else` statement](]
+[i[`if`-`else` statement]<]
 We've already been using `if` for multiple examples, since it's likely
 you've seen it in a language before, but here's another:
 
@@ -704,11 +704,11 @@ solution. The catch is `switch` only works with equality comparisons
 with constant numbers. The above `if`-`else` cascade could check
 inequality, ranges, variables, or anything else you can craft in a
 conditional expression.
-[i[`if`-`else` statement])]
+[i[`if`-`else` statement]>]
 
 ### The `while` statement {#whilestat}
 
-[i[`while` statement](]
+[i[`while` statement]<]
 `while` is your average run-of-the-mill looping
 construct. Do a thing while a condition expression is true.
 
@@ -744,12 +744,12 @@ while (1) {
     printf("1 is always true, so this repeats forever.\n");
 }
 ```
-[i[`while` statement])]
+[i[`while` statement]>]
 
 
 ### The `do-while` statement {#dowhilestat}
 
-[i[`do`-`while` statement](]
+[i[`do`-`while` statement]<]
 So now that we've gotten the `while` statement under control, let's take
 a look at its closely related cousin, `do-while`.
 
@@ -821,11 +821,11 @@ the same sequence of numbers came up again. And again. And again? This
 is because `rand()` is a pseudorandom number generator that must be
 _seeded_ with a different number in order to generate a different
 sequence. Look up the [`srand()`](#man-srand) function for more details.
-[i[`do`-`while` statement])]
+[i[`do`-`while` statement]>]
 
 ### The `for` statement {#forstat}
 
-[i[`for` statement](]
+[i[`for` statement]<]
 Welcome to one of the most popular loops in the world! The `for`
 loop!
 
@@ -893,19 +893,19 @@ for(;;) {  // "forever"
     printf("Or until you hit CTRL-C.\n");
 }
 ```
-[i[`for` statement])]
+[i[`for` statement]>]
 
 ### The `switch` Statement {#switch-statement}
 
-[i[`switch` statement](]
+[i[`switch` statement]<]
 Depending on what languages you're coming from, you might or might not
 be familiar with `switch`, or C's version might even be more restrictive
 than you're used to. This is a statement that allows you to take a
 variety of actions depending on the value of an integer expression.
 
 Basically, it evaluates an expression to an integer value, jumps to the
-[i[`case` statement](]`case` that corresponds to that value. Execution
-resumes from that point. If a `break`[i[`break` statement](] statement is
+[i[`case` statement]<]`case` that corresponds to that value. Execution
+resumes from that point. If a `break`[i[`break` statement]<] statement is
 encountered, then execution jumps out of the `switch`.
 
 Let's do an example where the user enters a number of goats and we print
@@ -943,14 +943,14 @@ int main(void)
 
 In that example, if the user enters, say, `2`, the `switch` will jump to
 the `case 2` and execute from there. When (if) it hits a `break`, it
-jumps out of the `switch`. [i[`break` statement])]
+jumps out of the `switch`. [i[`break` statement]>]
 
 Also, you might see that `default`[i[`default` label]] label there at
 the bottom. This is what happens when no cases match.
 
 Every `case`, including `default`, is optional. And they can occur in
 any order, but it's really typical for `default`, if any, to be listed
-last.[i[`case` statement])]
+last.[i[`case` statement]>]
 
 So the whole thing acts like an `if`-`else` cascade:
 
@@ -975,10 +975,10 @@ With some key differences:
 There's one more neat thing about switch that you sometimes see that is
 quite interesting: _fall through_.
 
-[i[`break` statement](]
+[i[`break` statement]<]
 Remember how `break` causes us to jump out of the switch?
 
-[i[Fall through](]
+[i[Fall through]<]
 Well, what happens if we _don't_ `break`?
 
 Turns out we just keep on going into the next `case`! Demo!
@@ -1011,7 +1011,7 @@ Not having a `break` is called _fall through_.
 ProTip: _ALWAYS_ put a comment in the code where you intend to fall
 through, like I did above. It will save other programmers from wondering
 if you meant to do that.
-[i[Fall through])]
+[i[Fall through]>]
 
 In fact, this is one of the common places to introduce bugs in C
 programs: forgetting to put a `break` in your `case`. You gotta do it if
@@ -1019,7 +1019,7 @@ you don't want to just roll into the next case^[This was considered
 such a hazard that the designers of the Go Programming Language made
 `break` the default; you have to explicitly use Go's `fallthrough`
 statement if you want to fall into the next case.].
-[i[`break` statement])]
+[i[`break` statement]>]
 
 Earlier I said that `switch` works with integer types---keep it that
 way. Don't use floating point or string types in there. One loophole-ish
@@ -1047,6 +1047,6 @@ switch (c) {
 Finally, you can use [i[`enum` keyword]]`enum`s[i[`enum` type]] in
 `switch` since they are also integer types. But more on that in the
 `enum` chapter.
-[i[`switch` statement])]
-[i[`break` statement])]
-[i[Flow Control])]
+[i[`switch` statement]>]
+[i[`break` statement]>]
+[i[Flow Control]>]

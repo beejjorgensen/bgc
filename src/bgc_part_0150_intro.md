@@ -83,33 +83,33 @@ We're going to don our long-sleeved heavy-duty rubber gloves, grab a
 scalpel, and rip into this thing to see what makes it tick. So, scrub
 up, because here we go. Cutting very gently...
 
-[i[Comments](]Let's get the easy thing out of the way: anything between
+[i[Comments]<]Let's get the easy thing out of the way: anything between
 the digraphs `/*` and `*/` is a comment and will be completely ignored
 by the compiler. Same goes for anything on a line after a `//`. This
 allows you to leave messages to yourself and others, so that when you
 come back and read your code in the distant future, you'll know what the
 heck it was you were trying to do. Believe me, you will forget; it
-happens.[i[Comments])]
+happens.[i[Comments]>]
 
-[i[C Preprocessor](][i[`#include`](]Now, what is this `#include`? GROSS!
+[i[C Preprocessor]<][i[`#include`]<]Now, what is this `#include`? GROSS!
 Well, it tells the C Preprocessor to pull the contents of another file
 and insert it into the code right _there_.
 
 Wait---what's a C Preprocessor? Good question. There are two
 stages^[Well, technically there are more than two, but hey, let's
 pretend there are two---ignorance is bliss, right?] to compilation: the
-preprocessor and the compiler. [i[Octothorpe](]Anything that starts with
+preprocessor and the compiler. [i[Octothorpe]<]Anything that starts with
 pound sign, or "octothorpe", (`#`) is something the
 preprocessor[i[Preprocessor]] operates on before the compiler even gets
 started. Common _preprocessor directives_, as they're called, are
 `#include` and `#define`.[i[`#define`]] More on that
-later.[i[`#include`])][i[C Preprocessor])]
+later.[i[`#include`]>][i[C Preprocessor]>]
 
 Before we go on, why would I even begin to bother pointing out that a
 pound sign is called an octothorpe? The answer is simple: I think the
 word octothorpe is so excellently funny, I have to gratuitously spread
 its name around whenever I get the opportunity.  Octothorpe. Octothorpe,
-octothorpe, octothorpe.[i[Octothorpe])]
+octothorpe, octothorpe.[i[Octothorpe]>]
 
 So _anyway_. After the C preprocessor has finished preprocessing
 everything, the results are ready for the compiler to take them and
@@ -123,7 +123,7 @@ know that your source runs through the preprocessor, then the output of
 that runs through the compiler, then that produces an executable for you
 to run.
 
-What about the rest of the line? [i[`stdio.h`](]What's `<stdio.h>`? That
+What about the rest of the line? [i[`stdio.h`]<]What's `<stdio.h>`? That
 is what is known as a _header file_. It's the dot-h at the end that
 gives it away.  In fact it's the "Standard I/O" (`stdio`) header file
 that you will grow to know and love. It gives us access to a bunch of
@@ -132,14 +132,14 @@ function prototypes (more on that later) for common input and output
 needs.]. For our demo program, we're outputting the string "Hello,
 World!", so we in particular need access to the `printf()`[i[printf()]T]
 function to do this. The `<stdio.h>` file gives us this access.
-Basically, if we tried to use [i[`printf()`](] without `#include
+Basically, if we tried to use [i[`printf()`]<] without `#include
 <stdio.h>`, the compiler would have complained to us about it.
 
 How did I know I needed to `#include <stdio.h>` for
-`printf()`?[i[`printf()`])] Answer: it's in the documentation. If you're
+`printf()`?[i[`printf()`]>] Answer: it's in the documentation. If you're
 on a Unix system, `man 3 printf` and it'll tell you right at the top of
 the man page what header files are required. Or see the reference
-section in this book. `:-)` [i[`stdio.h`])]
+section in this book. `:-)` [i[`stdio.h`]>]
 
 Holy moly. That was all to cover the first line! But, let's face it, it
 has been completely dissected. No mystery shall remain!
@@ -150,7 +150,7 @@ lines to go.
 Welcome back from your break! I know you didn't really take a break; I
 was just humoring you.
 
-[i[`main()`](]The next line is `main()`. This is the definition of the
+[i[`main()`]<]The next line is `main()`. This is the definition of the
 function `main()`; everything between the squirrelly braces (`{` and
 `}`) is part of the function definition.
 
@@ -170,27 +170,27 @@ program will exit, and you'll be back at your command prompt.
 So now we know that that program has brought in a header file,
 `stdio.h`[i[stdio.h]T], and declared a `main()` function
 that will execute when the program is started. What are the goodies in
-`main()`[i[`main()`])]?
+`main()`[i[`main()`]>]?
 
 I am so happy you asked. Really! We only have the one goodie: a call to
-the function [i[`printf()`](]`printf()`. You can tell this is a function
+the function [i[`printf()`]<]`printf()`. You can tell this is a function
 call and not a function definition in a number of ways, but one
 indicator is the lack of squirrelly braces after it. And you end the
 function call with a semicolon so the compiler knows it's the end of the
 expression. You'll be putting semicolons after almost everything, as
 you'll see.
 
-You're passing one argument to the function `printf()`[i[`printf()`])]:
+You're passing one argument to the function `printf()`[i[`printf()`]>]:
 a string to be printed when you call it. Oh, yeah---we're calling a
 function! We rock!  Wait, wait---don't get cocky. [i[`\n`
-newline](]What's that crazy `\n` at the end of the string? Well, most
+newline]<]What's that crazy `\n` at the end of the string? Well, most
 characters in the string will print out just like they are stored. But
 there are certain characters that you can't print on screen well that
 are embedded as two-character backslash codes. One of the most popular
 is `\n` (read "backslash-N") that corresponds to the _newline_
 character. This is the character that causes further printing to
 continue at the beginning of the next line instead of the current.  It's
-like hitting return at the end of the line.[i[`\n` newline])]
+like hitting return at the end of the line.[i[`\n` newline]>]
 
 So copy that code into a file called `hello.c` and build it. On a
 Unix-like platform (e.g. Linux, BSD, Mac, or WSL), from the command line
@@ -219,11 +219,11 @@ And see what happens:
 Hello, World! 
 ```
 
-It's done and tested! Ship it![i[Hello, world])]
+It's done and tested! Ship it![i[Hello, world]>]
 
 ## Compilation Details
 
-[i[Compilation](]Let's talk a bit more about how to build C programs,
+[i[Compilation]<]Let's talk a bit more about how to build C programs,
 and what happens behind the scenes there.
 
 Like other languages, C has _source code_. But, depending on what
@@ -260,7 +260,7 @@ So how do we do command line builds?
 
 ## Building with `gcc`
 
-[i[`gcc`](]If you have a source file called `hello.c` in the current
+[i[`gcc`]<]If you have a source file called `hello.c` in the current
 directory, you can build that into a program called `hello` with this
 command typed in a terminal:
 
@@ -281,12 +281,12 @@ command line:
 ``` {.zsh}
 gcc -o awesomegame ui.c characters.c npc.c items.c
 ```
-[i[`gcc`])]
+[i[`gcc`]>]
 
 and they'll all get built together into a big executable.
 
 That's enough to get started---later we'll talk details about multiple
-source files, object files, and all kinds of fun stuff.[i[Compilation])]
+source files, object files, and all kinds of fun stuff.[i[Compilation]>]
 
 ## Building with `clang`
 
@@ -295,7 +295,7 @@ wrapper is also installed so you can run `gcc` and have it still work.
 
 ## Building from IDEs
 
-[i[Integrated Development Environment](]If you're using an _Integrated
+[i[Integrated Development Environment]<]If you're using an _Integrated
 Development Environment_ (IDE), you probably don't have to build from
 the command line. 
 
@@ -309,11 +309,11 @@ get the command line tools, Google for "XCode command line tools" and
 you'll find instructions for installing them.
 
 For getting started, I encourage you to also try to build from the
-command line---it's history![i[Integrated Development Environment])]
+command line---it's history![i[Integrated Development Environment]>]
 
 ## C Versions
 
-[i[Language versions](]C has come a long way over the years, and it had
+[i[Language versions]<]C has come a long way over the years, and it had
 many named version numbers to describe which dialect of
 the language you're using.
 
@@ -334,7 +334,7 @@ But here's a more complete table:
 |C17, C18|Bugfix update to C11. C17 seems to be the official name, but the publication was delayed until 2018. As far as I can tell, these two are interchangeable, with C17 being preferred.|
 |C2x|What's coming next! Expected to eventually become C21.|
 
-[i[`gcc`](]You can force GCC to use one of these standards with the
+[i[`gcc`]<]You can force GCC to use one of these standards with the
 `-std=` command line argument. If you want it to be picky about the
 standard, add `-pedantic`.
 
@@ -349,4 +349,4 @@ For this book, I compile programs for C2x with all warnings set:
 ``` {.zsh}
 gcc -Wall -Wextra -std=c2x -pedantic foo.c
 ```
-[i[`gcc`])]
+[i[`gcc`]>]
