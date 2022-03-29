@@ -5,10 +5,12 @@
 
 # Scope {#scope}
 
+[i[Scope]<]
 Scope is all about what variables are visible in what contexts.
 
 ## Block Scope
 
+[i[Scope-->block]<]
 This is the scope of almost all the variables devs define. It includes
 what other languages might call "function scope", i.e. variables that
 are declared inside functions.
@@ -74,6 +76,7 @@ the block, but this is no longer the case in the C99 standard.
 
 ### Variable Hiding
 
+[i[Variable hiding]<]
 If you have a variable named the same thing at an inner scope as one at
 an outer scope, the one at the inner scope takes precedence at long as
 you're running in the inner scope. That is, it _hides_ the one at outer
@@ -101,9 +104,12 @@ there at line 7, not so much as a `for` or `if` statement to kick it
 off! This is perfectly legal. Sometimes a dev will want to group a bunch
 of local variables together for a quick computation and will do this,
 but it's rare to see.
+[i[Variable hiding]>]
+[i[Scope-->block]>]
 
 ## File Scope
 
+[i[Scope-->file]<]
 If you define a variable outside of a block, that variable has _file
 scope_. It's visible in all functions in the file that come after it,
 and shared between them. (An exception is if a block defines a variable
@@ -142,9 +148,11 @@ wouldn't compile. It has to be declared _before_ any functions use it.
 There are ways to further modify items at file scope, namely with
 [static](#static) and [extern](#extern), but we'll talk more about those
 later.
+[i[Scope-->file]>]
 
 ## `for`-loop Scope
 
+[i[Scope-->`for` loop]<]
 I really don't know what to call this, as C11 §6.8.5.3¶1 doesn't give it
 a proper name. We've done it already a few times in this guide, as well.
 It's when you declare a variable inside the first clause of a
@@ -177,10 +185,13 @@ int main(void)
     }
 }
 ```
+[i[Scope-->`for` loop]>]
 
 ## A Note on Function Scope
 
+[i[Scope-->function]<]
 The C spec does refer to _function scope_, but it's used exclusively
 with _labels_, something we haven't discussed yet. More on that another
 day.
-
+[i[Scope-->function]>]
+[i[Scope]>]
