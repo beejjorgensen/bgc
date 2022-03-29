@@ -469,6 +469,18 @@ giving up and looking at the answer.
    result of the macro should be integer type.
 
    [flsol[cpp/macro2.c]]
+
+1. Write code that prints out `C89`, `C99`, or `C11 or higher`
+   corresponding to your current C version.
+
+   [flsol[cpp/cversion.c]]
+
+1. Have a program `#define` a numeric value for `X`. Use conditional
+   compilation to either print `X is greater than 30` if that is true.
+   Otherwise, print out the values from `0` up to `X-1`.
+
+   [flsol[cpp/condcomp.c]]
+
 <!--
 1. Write a function that returns the $+$ answer from the quadratic
    formula for a given `a`, `b`, and `c`.
