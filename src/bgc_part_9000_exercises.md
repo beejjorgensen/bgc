@@ -462,6 +462,13 @@ giving up and looking at the answer.
 
    [flsol[env/printenv.c]]
 
+## The C Preprocessor
+
+1. Write a macro that takes two arguments, multiplies them together,
+   then adds the current source code line number to the product. The
+   result of the macro should be integer type.
+
+   [flsol[cpp/macro2.c]]
 <!--
 1. Write a function that returns the $+$ answer from the quadratic
    formula for a given `a`, `b`, and `c`.
