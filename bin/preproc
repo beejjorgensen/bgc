@@ -103,7 +103,7 @@ def i_replace(m):
 				result += c
 
 		if not opener:
-			raise Exception("unmatched '`' in index entry")
+			raise Exception("unmatched '`' in index entry: " + s)
 
 		return result
 
