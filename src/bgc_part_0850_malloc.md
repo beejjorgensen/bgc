@@ -5,7 +5,7 @@
 
 # Manual Memory Allocation
 
-[i[Manual memory management[<]
+[i[Manual memory management]<]
 This is one of the big areas where C likely diverges from languages you
 already know: _manual memory management_.
 
@@ -562,4 +562,4 @@ Note that it _always_ copies data, taking time, while real `realloc()`
 will avoid that if it can. So this is hardly efficient. Avoid needing to
 reallocate custom-aligned data.
 [i[Memory alignment]>]
-[i[Manual memory management[>]
+[i[Manual memory management]>]

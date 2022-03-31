@@ -11,11 +11,12 @@ the types department!
 
 ## Signed and Unsigned Integers
 
+[i[Types-->signed and unsigned]<]
 So far we've used `int` as a _signed_ type, that is, a value that can be
 either negative or positive. But C also has specific _unsigned_ integer
 types that can only hold positive numbers.
 
-These types are prefaced by the keyword `unsigned`.
+These types are prefaced by the keyword [i[`unsigned` type]<]`unsigned`.
 
 ``` {.c}
 int a;           // signed
@@ -58,9 +59,13 @@ the following limits on integer range:
 Notice that the largest positive `unsigned int` is approximately twice
 as large as the largest positive `int`. So you can get some flexibility
 there.
+[i[`unsigned` type]>]
+[i[Types-->signed and unsigned]>]
 
 ## Character Types
 
+[i[Types-->character]<]
+[i[`char`]<]
 Remember `char`? The type we can use to hold a single character?
 
 ``` {.c}
@@ -99,6 +104,8 @@ this flexibility.
 But assuming your bytes in C are 8 bits, like they are for virtually all
 machines in the world that you'll ever see, the range of a `char` is...
 
+[i[`unsigned char`]<]
+[i[`signed char`]<]
 ---So before I can tell you, it turns out that `char`s might be signed
 or unsigned depending on your compiler. Unless you explicitly specify.
 
@@ -126,6 +133,8 @@ So, assuming those constraints, we can finally figure our ranges:
 |`unsigned char`|`0`|`255`|
 
 And the ranges for `char` are implementation-defined.
+[i[`unsigned char`]>]
+[i[`signed char`]>]
 
 Let me get this straight. `char` is actually a number, so can we do math
 on it?
@@ -143,6 +152,7 @@ int main(void)
 }
 ```
 
+[i[`'` single quote]<]
 What about those constant characters in single quotes, like `'B'`? How
 does that have a numeric value?
 
@@ -173,6 +183,9 @@ used|List_of_information_system_character_sets]]. One of the most
 popular character sets today is [flw[Unicode|Unicode]] (which is a
 superset of ASCII), so for your basic 0-9, A-Z, a-z and punctuation,
 you'll almost certainly get the ASCII values out of them.
+[i[`'` single quote]>]
+[i[`char`]>]
+[i[Types-->character]>]
 
 ## More Integer Types: `short`, `long`, `long long`
 
@@ -194,6 +207,9 @@ different. The header file `<limits.h>` defines macros that hold the
 minimum and maximum integer values; rely on that to be sure, and _never
 hardcode or assume these values_.
 
+[i[`short`]<]
+[i[`long`]<]
+[i[`long long`]<]
 These additional types are `short int`, `long int`, and `long long int`.
 Commonly, when using these types, C developers leave the `int` part off
 (e.g. `long long`), and the compiler is perfectly happy.
@@ -277,6 +293,9 @@ unsigned.
 
 Also notice there's no minimum macro for the `unsigned`
 variants---they're just `0`.
+[i[`short`]>]
+[i[`long`]>]
+[i[`long long`]>]
 
 ## More Float: `double` and `long double`
 
@@ -348,6 +367,8 @@ more precision we have `double`. And for even more precision, we have
 The spec doesn't go into how many bytes of storage each type should
 take, but on my system, we can see the relative size increases:
 
+[i[`double`]<]
+[i[`long double`]<]
 |Type|`sizeof`|
 |:-|-:|
 |`float`|4|
@@ -366,9 +387,12 @@ figure that out.
 It gets a little wonky if you are using a base-2 (binary) system for
 storing the numbers (which is virtually everyone on the planet, probably
 including you), but bear with me while we figure it out.
+[i[`double`]>]
+[i[`long double`]>]
 
 ### How Many Decimal Digits?
 
+[i[Significant digits]<]
 The million dollar question is, "How many significant decimal digits can
 I store in a given floating point type so that I get out the same
 decimal number when I print it?"
@@ -377,11 +401,18 @@ The number of decimal digits you can store in a floating point type and
 surely get the same number back out when you print it is given by these
 macros:
 
+[i[`FLT_DIG`]<]
+[i[`DBL_DIG`]<]
+[i[`LDBL_DIG`]<]
+
 |Type|Decimal Digits You Can Store|Minimum|My System|
 |:-|-:|-:|
 |`float`|`FLT_DIG`|6|6|
 |`double`|`DBL_DIG`|10|15|
 |`long double`|`LDBL_DIG`|10|18|
+
+[i[`DBL_DIG`]>]
+[i[`LDBL_DIG`]>]
 
 On my system, `FLT_DIG` is 6, so I can be sure that if I print out a 6
 digit `float`, I'll get the same thing back. (It could be more
@@ -447,6 +478,8 @@ them back correctly.
 
 So that's the story. `FLT_DIG`. The End.
 
+[i[`FLT_DIG`]>]
+
 ...Or is it?
 
 ### Converting to Decimal and Back
@@ -476,12 +509,20 @@ Sometimes it might only be a few. But to be sure, you'll want to convert
 to decimal with a certain safe number of decimal places. That number is
 encoded in the following macros:
 
+[i[`FLT_DECMIAL_DIG`]<]
+[i[`DBL_DECMIAL_DIG`]<]
+[i[`LDBL_DECMIAL_DIG`]<]
+[i[`DECMIAL_DIG`]<]
+
 |Macro|Description|
 |-|-|
 |`FLT_DECIMAL_DIG`|Number of decimal digits encoded in a `float`.|
 |`DBL_DECIMAL_DIG`|Number of decimal digits encoded in a `double`.|
 |`LDBL_DECIMAL_DIG`|Number of decimal digits encoded in a `long double`.|
 |`DECIMAL_DIG`|Same as the widest encoding, `LDBL_DECIMAL_DIG`.|
+
+[i[`LDBL_DECMIAL_DIG`]>]
+[i[`DECMIAL_DIG`]>]
 
 Let's see an example where `DBL_DIG` is 15 (so that's all we can have in
 a constant), but `DBL_DECIMAL_DIG` is 17 (so we have to convert to 17
@@ -518,15 +559,20 @@ If we'd truncated `z` down to 15 digits, it wouldn't have been the same
 number. That's why to preserve all the bits of a `double`, we need
 `DBL_DECIMAL_DIG` and not just the lesser `DBL_DIG`.
 
+[i[`DBL_DECMIAL_DIG`]>]
+
 All that being said, it's clear that when we're messing with decimal
-numbers in general, it's not safe to print more than `FLT_DIG`,
-`DBL_DIG`, or `LDBL_DIG` digits to be sensible in relation to the
+numbers in general, it's not safe to print more than
+[i[`FLT_DIG`]]`FLT_DIG`, [i[`DBL_DIG`]]`DBL_DIG`, or
+[i[`LDBL_DIG`]]`LDBL_DIG` digits to be sensible in relation to the
 original base 10 numbers and any subsequent math.
 
 But when converting from `float` to a decimal representation and _back_
 to `float`, definitely use `FLT_DECIMAL_DIG` to do that so that all the
 bits are preserved exactly.
+[i[`FLT_DECMIAL_DIG`]>]
 
+[i[Significant digits]>]
 
 ## Constant Numeric Types
 
@@ -539,6 +585,8 @@ is, and how to force it to choose a specific type.
 In addition to good ol' decimal like Grandma used to bake, C also
 supports constants of different bases.
 
+[i[`0x` hexadecimal]<]
+
 If you lead a number with `0x`, it is read as a hex number:
 
 ``` {.c}
@@ -548,6 +596,10 @@ int b = 0x1a2b;   // Case doesn't matter for hex digits
 printf("%x", a);  // Print a hex number, "1a2b"
 ```
 
+[i[`0x` hexadecimal]>]
+
+
+[i[`0` octal]<]
 If you lead a number with a `0`, it is read as an octal number:
 
 ``` {.c}
@@ -566,7 +618,11 @@ int y = 00111;  // Decimal 73 (Octal 111)
 int z = 01111;  // Decimal 585 (Octal 1111)
 ```
 
+[i[`0` octal]>]
+
 #### A Note on Binary
+
+[i[`0b` binary]<]
 
 An unofficial extension^[It's really surprising to me that C doesn't
 have this in the spec yet. In the C99 Rationale document, they write, "A
@@ -585,7 +641,11 @@ printf("%d\n", x);   // Prints 42 decimal
 There's no `printf()` format specifier for printing a binary number. You
 have to do it a character at a time with bitwise operators.
 
+[i[`0b` binary]>]
+
 ### Integer Constants
+
+[i[Integer constants]<]
 
 You can force a constant integer to be a certain type by appending a
 suffix to it that indicates the type.
@@ -593,6 +653,12 @@ suffix to it that indicates the type.
 We'll do some assignments to demo, but most often devs leave off the
 suffixes unless needed to be precise. The compiler is pretty good at
 making sure the types are compatible.
+
+[i[`U` unsigned constant]<]
+[i[`L` long constant]<]
+[i[`LL` long long constant]<]
+[i[`UL` unsigned long constant]<]
+[i[`ULL` unsigned long long constant]<]
 
 ``` {.c}
 int           x = 1234;
@@ -678,18 +744,32 @@ And then goes on to show this table:
 |and `ll` or `LL`|                        |                         |
 +----------------+------------------------+-------------------------+
 
+[i[`L` long constant]>]
+[i[`LL` long long constant]>]
+[i[`UL` unsigned long constant]>]
+[i[`ULL` unsigned long long constant]>]
+
 What that's saying is that, for example, if you specify a number like
 `123456789U`, first C will see if it can be `unsigned int`. If it
 doesn't fit there, it'll try `unsigned long int`. And then `unsigned
 long long int`. It'll use the smallest type that can hold the number.
 
+[i[`U` unsigned constant]>]
+
+[i[Integer constants]>]
+
 ### Floating Point Constants
+
+[i[Floating point constants]<]
 
 You'd think that a floating point constant like `1.23` would have a
 default type of `float`, right?
 
 Surprise! Turns out unsuffiexed floating point numbers are type
 `double`! Happy belated birthday!
+
+[i[`F` float constant]<]
+[i[`L` long double constant]<]
 
 You can force it to be of type `float` by appending an `f` (or
 `F`---it's case-insensitive). You can force it to be of type `long
@@ -709,6 +789,9 @@ double x      = 3.14;
 long double x = 3.14L;
 ```
 
+[i[`F` float constant]>]
+[i[`L` long double constant]>]
+
 This whole time, though, we've just been doing this, right?
 
 ``` {.c}
@@ -719,7 +802,11 @@ Isn't the left a `float` and the right a `double`? Yes! But C's pretty
 good with automatic numeric conversions, so it's more common to have an
 unsuffixed floating point constant than not. More on that later.
 
+[i[Floating point constants]>]
+
 #### Scientific Notation
+
+[i[Scientific notation]<]
 
 Remember earlier when we talked about how a floating point number can be
 represented by a significand, base, and exponent?
@@ -770,7 +857,11 @@ A couple little fun facts about scientific notation:
   1.2345e10L
   ```
 
+[i[Scientific notation]>]
+
 #### Hexadecimal Floating Point Constants
+
+[i[Hex floating point constants]<]
 
 But wait, there's more floating to be done!
 
@@ -795,3 +886,6 @@ double x = 0xa.1p3;
 printf("%a\n", x);  // 0x1.42p+6
 printf("%f\n", x);  // 80.500000
 ```
+
+[i[Hex floating point constants]>]
+

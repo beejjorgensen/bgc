@@ -477,7 +477,7 @@ printf("%c\n", *p);  // ERROR--cannot dereference void*!
 printf("%c\n", *q);  // Prints "X"
 ```
 
-[i[`memcpy()]<]
+[i[`memcpy()`]<]
 Let's write our own `memcpy()` to try this out. We can copy bytes
 (`char`s), and we know the number of bytes because it's passed in.
 
@@ -516,9 +516,9 @@ the destination string just in case the caller wants to use it.
 Now that we've done that, I just want to quickly point out that we can
 use this technique to iterate over the bytes of _any_ object in C,
 `float`s, `struct`s, or anything!
-[i[`memcpy()]>]
+[i[`memcpy()`]>]
 
-[i[`qsort()]<]
+[i[`qsort()`]<]
 [Let's]{#qsort-example} run one more real-world example with the
 built-in `qsort()` routine that can sort _anything_ thanks to the magic
 of `void*`s.
@@ -592,6 +592,6 @@ you have in your array to be sorted, it can sort anything. And it does
 this without needing to have the types of the items hardcoded in there
 anywhere. `qsort()` just rearranges blocks of bytes based on the results
 of the `compar()` function you passed in.
-[i[`qsort()]>]
+[i[`qsort()`]>]
 [i[`void*` void pointers]>]
 [i[Pointers-->arithmetic]>]
