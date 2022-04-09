@@ -5,6 +5,8 @@
 
 # Types III: Conversions
 
+[i[Type conversions]<]
+
 In this chapter, we want to talk all about converting from one type to
 another. C has a variety of ways of doing this, and some might be a
 little different that you're used to in other languages.
@@ -13,6 +15,8 @@ Before we talk about how to make conversions happen, let's talk about
 how they work when they _do_ happen.
 
 ## String Conversions
+
+[i[Type conversions-->strings]<]
 
 Unlike many languages, C doesn't do string-to-number (and vice-versa)
 conversions in quite as streamlined a manner as it does numeric
@@ -237,7 +241,11 @@ So there you have it. The `atoi()`-style functions are good in a
 controlled pinch, but the `strtol()`-style functions give you far more
 control over error handling and the base of the input.
 
+[i[Type conversions-->strings]>]
+
 ## `char` Conversions
+
+[i[Type conversions-->`char`]<]
 
 What if you have a single character with a digit in it, like `'5'`...
 Is that the same as the value `5`?
@@ -309,13 +317,21 @@ today's standards, it certainly is. But back in the olden days when
 computers were made literally out of wood, this was the method for doing
 this conversion. And it wasn't broke, so C never fixed it.
 
+[i[Type conversions-->`char`]>]
+
 ## Numeric Conversions
 
+[i[Type conversions-->numeric]<]
+
 ### Boolean
+
+[i[Type conversions-->Boolean]]
 
 If you convert a zero to `bool`, the result is `0`. Otherwise it's `1`.
 
 ### Integer to Integer Conversions
+
+[i[Type conversions-->integer]<]
 
 If an integer type is converted to unsigned and doesn't fit in it, the
 unsigned result wraps around odometer-style until it fits in the
@@ -335,6 +351,8 @@ for both these numbers is binary `11000000`.]
 
 ### Integer and Floating Point Conversions
 
+[i[Type conversions-->floating point]<]
+
 If a floating point type is converted to an integer type, the fractional
 part is discarded with prejudice^[Not really---it's just discarded
 regularly.].
@@ -349,7 +367,12 @@ can.
 Again, though, if the original value can't be represented, it's undefined
 behavior.
 
+[i[Type conversions-->floating point]>]
+[i[Type conversions-->integer]>]
+
 ## Implicit Conversions
+
+[i[Type conversions-->implicit]<]
 
 These are conversions the compiler does automatically for you when you
 mix and match types.
@@ -434,7 +457,11 @@ void *p = &x;  // &x is type int*, but we store it in a void*
 int *q = p;    // p is void*, but we store it in an int*
 ```
 
+[i[Type conversions-->implicit]>]
+
 ## Explicit Conversions
+
+[i[Type conversions-->explicit]<]
 
 These are conversions from type to type that you have to ask for; the
 compiler won't do it for you.
@@ -444,7 +471,11 @@ another with an `=`.
 
 You can also convert explicitly with a _cast_.
 
+[i[Type conversions-->numeric]>]
+
 ### Casting
+
+[i[Type conversions-->casting]<]
 
 You can explicitly change the type of an expression by putting a new
 type in parentheses in front of it. Some C devs frown on the practice
@@ -537,3 +568,7 @@ you're casting unnecessarily.
 
 Or maybe it is necessary. Personally, I try to avoid it, but am not
 afraid to use it if I have to.
+
+[i[Type conversions-->explicit]>]
+[i[Type conversions-->casting]>]
+[i[Type conversions]>]

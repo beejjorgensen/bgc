@@ -11,10 +11,14 @@ These are the _type qualifiers_ and _storage-class specifiers_.
 
 ## Type Qualifiers
 
+[i[Type Qualifiers]<]
+
 These are going to allow you to declare constant values, and also to
 give the compiler optimization hints that it can use.
 
 ### `const`
+
+[i[`const`]<]
 
 This is the most common type qualifier you'll see. It means the variable
 is constant, and any attempt to modify it will result in a very angry
@@ -39,6 +43,8 @@ void foo(const int x)
 
 #### `const` and Pointers
 
+[i[`const`-->and pointers]<]
+
 This one gets a little funky, because there are two usages that have two
 meanings when it comes to pointers.
 
@@ -59,8 +65,7 @@ Somewhat confusingly, these two things are equivalent:
 
 ``` {.c}
 const int *p;  // Can't modify what p points to
-int const *p;  // Can't modify what p points to, just like the previous line
-```
+int const *p;  // Can't modify what p points to, just like the previous line ```
 
 Great, so we can't change the thing the pointer points to, but we can
 change the pointer itself. What if we want the other way around? We want
@@ -113,7 +118,11 @@ p++;     // Error!
 (*p)++;  // Error!
 ```
 
+[i[`const`-->and pointers]>]
+
 #### `const` Correctness
+
+[i[`const`-->correctness]<]
 
 One more thing I have to mention is that the compiler will warn on
 something like this:
@@ -158,7 +167,12 @@ int *p = &x;
 printf("%d\n", x);  // 40, if you're lucky
 ```
 
+[i[`const`-->correctness]>]
+[i[`const`]>]
+
 ### `restrict`
+
+[i[`restrict`]<]
 
 TLDR: you never have to use this and you can ignore it every time you
 see it. If you use it correctly, you will likely realize some
@@ -249,7 +263,11 @@ void foo(int p[restrict 10])  // Or with a size
 
 But pointer notation would be more common.
 
+[i[`restrict`]>]
+
 ### `volatile`
+
+[i[`volatile`]<]
 
 You're unlikely to see or need this unless you're dealing with hardware
 directly.
@@ -278,12 +296,19 @@ volatile int *p;
 This is an optional C feature that we'll talk about in [the Atomics
 chapter](#chapter-atomics).
 
+[i[`volatile`]>]
+[i[Type Qualifiers]>]
+
 ## Storage-Class Specifiers
+
+[i[Storage-Class Specifiers]<]
 
 Storage-class specifiers are similar to type quantifiers. They give the
 compiler more information about the type of a variable.
 
 ### `auto`
+
+[i[`auto`]<]
 
 You barely ever see this keyword, since `auto` is the default for block
 scope variables. It's implied.
@@ -307,9 +332,13 @@ of "random" or "garbage" data, though neither of those really makes me
 happy. In any case, you won't know what's in it unless you initialize
 it.
 
+[i[`auto`]>]
+
 Always initialize all automatic variables before use!
 
 ### `static` {#static}
+
+[i[`static`]<]
 
 This keyword has two meanings, depending on if the variable is file
 scope or block scope.
@@ -317,6 +346,8 @@ scope or block scope.
 Let's start with block scope.
 
 #### `static` in Block Scope
+
+[i[`static`-->in block scope]<]
 
 In this case, we're basically saying, "I just want a single instance of
 this variable to exist, shared between calls."
@@ -362,7 +393,11 @@ static int foo = 0;  // So the `0` assignment is redundant
 Finally, be advised that if you're writing multithreaded programs, you
 have to be sure you don't let multiple threads trample the same variable.
 
+[i[`static`-->in block scope]>]
+
 #### `static` in File Scope
+
+[i[`static`-->in file scope]<]
 
 When you get out to file scope, outside any blocks, the meaning rather
 changes.
@@ -376,7 +411,12 @@ only in this file.
 
 More on that in the section about building with multiple source files.
 
+[i[`static`-->in file scope]>]
+[i[`static`]>]
+
 ### `extern` {#extern}
+
+[i[`extern`]<]
 
 The `extern` storage-class specifier gives us a way to refer to objects
 in other source files.
@@ -437,7 +477,11 @@ A final note about `extern` on functions. For functions, `extern` is the
 default, so it's redundant. You can declare a function `static` if you
 only want it visible in a single source file.
 
+[i[`extern`]>]
+
 ### `register`
+
+[i[`register`]<]
 
 This is a keyword to hint to the compiler that this variable is
 frequently-used, and should be made as fast as possible to access. The
@@ -517,7 +561,11 @@ specified the `register` keyword. Not only that, but the spec allows
 them to just treat it as if you'd typed `auto`, if they want. So no
 guarantees.
 
+[i[`register`]>]
+
 ### `_Thread_local`
+
+[i[`_Thread_local`]<]
 
 When you're using multiple threads and you have some variables in either
 global or `static` block scope, this is a way to make sure that each
@@ -531,3 +579,6 @@ Also, if you include `<threads.h>`, you can use the rather more
 palatable `thread_local` as an alias for the uglier `_Thread_local`.
 
 More information can be found in the [Threads section](#thread-local).
+
+[i[`_Thread_local`]>]
+[i[Storage-Class Specifiers]>]

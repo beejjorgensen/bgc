@@ -309,7 +309,7 @@ int my_strlen(char s[])   // Works, too!
 
 ## `void` Pointers
 
-[i[`void*` void pointers]<]
+[i[`void*` void pointer]<]
 You've already seen the `void` keyword used with functions, but this is
 an entirely separate, unrelated animal.
 
@@ -593,5 +593,5 @@ this without needing to have the types of the items hardcoded in there
 anywhere. `qsort()` just rearranges blocks of bytes based on the results
 of the `compar()` function you passed in.
 [i[`qsort()`]>]
-[i[`void*` void pointers]>]
+[i[`void*` void pointer]>]
 [i[Pointers-->arithmetic]>]
