@@ -5,6 +5,8 @@
 
 # Multifile Projects
 
+[i[Multifile projects]<]
+
 So far we've been looking at toy programs that for the most part fit in
 a single file. But complex C programs are made up of many files that are
 all compiled and linked together into a single executable.
@@ -13,6 +15,9 @@ In this chapter we'll check out some of the common patterns and
 practices for putting together larger projects.
 
 ## Includes and Function Prototypes  {#includes-func-protos}
+
+[i[Multifile projects-->includes]<]
+[i[Multifile projects-->function prototypes]<]
 
 A really common situation is that some of your functions are defined in
 one file, and you want to call them from another.
@@ -168,6 +173,8 @@ Indeed, we get the result of $2+3$! Yay!
 But don't crack open your drink of choice quite yet. We're almost there!
 There's just one more piece of boilerplate we have to add.
 
+[i[Multifile projects-->function prototypes]>]
+
 ## Dealing with Repeated Includes
 
 It's not uncommon that a header file will itself `#include` other
@@ -225,7 +232,14 @@ int add(int, int);
 This will effectively cause the header file to be included only a single
 time, no matter how many places try to `#include` it.
 
+[i[Multifile projects-->includes]>]
+
 ## `static` and `extern`
+
+[i[`static`]<]
+[i[`extern`]<]
+[i[Multifile projects-->`static`]<]
+[i[Multifile projects-->`extern`]<]
 
 When it comes to multifile projects, you can make sure file-scope
 variables and functions are _not_ visible from other source files with
@@ -236,8 +250,14 @@ And you can refer to objects in other files with `extern`.
 For more info, check out the sections in the book on the
 [`static`](#static) and [`extern`](#extern) storage-class specifiers.
 
+[i[`static`]>]
+[i[`extern`]>]
+[i[Multifile projects-->`static`]>]
+[i[Multifile projects-->`extern`]>]
 
 ## Compiling with Object Files
+
+[i[Object files]<]
 
 This isn't part of the spec, but it's 99.999% common in the C world.
 
@@ -247,6 +267,8 @@ into an executable yet.
 
 Object files in Windows have a `.OBJ` extension; in Unix-likes, they're
 `.o`.
+
+[i[`gcc`]<]
 
 In gcc, we can build some like this, with the `-c` (compile only!) flag:
 
@@ -271,6 +293,8 @@ gcc -o foo foo.c bar.c
 
 and kill two [flw[boids|Boids]] with one stone?
 
+[i[`gcc`]>]
+
 For little programs, that's fine. I do it all the time.
 
 But for larger programs, we can take advantage of the fact that
@@ -292,3 +316,6 @@ don't have to be touched.
 In other words, by only rebuilding the object files we need to, we cut
 down on compilation times radically. (Unless of course you're doing a
 "clean" build, in which case all the object files have to be created.)
+
+[i[Object files]>]
+[i[Multifile projects]>]
