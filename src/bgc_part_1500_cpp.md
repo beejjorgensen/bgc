@@ -300,6 +300,9 @@ I'm just regular
 
 ### General Conditional: `#if`, `#elif`
 
+[i[`#if`]<]
+[i[`#elif`]<]
+
 This works very much like the `#ifdef` and `#ifndef` directives in that
 you can also have an `#else` and the whole thing wraps up with `#endif`.
 
@@ -328,6 +331,8 @@ int main(void)
 }
 ```
 
+[i[`#elif`]>]
+
 Again, for the unmatched `#if` clauses, the compiler won't even see
 those lines. For the above code, after the preprocessor gets finished
 with it, all the compiler sees is:
@@ -348,6 +353,8 @@ One hackish thing this is used for is to comment out large numbers of
 lines quickly^[You can't always just wrap the code in `/*` `*/` comments
 because those won't nest.].
 
+[i[`#if 0`]<]
+
 If you put an `#if 0` ("if false") at the front of the block to be
 commented out and an `#endif` at the end, you can get this effect:
 
@@ -357,6 +364,8 @@ commented out and an `#endif` at the end, you can get this effect:
     printf("commented out"); // by the #if 0
 #endif
 ```
+
+[i[`#if 0`]>]
 
 You might have noticed that there's no `#elifdef` or `#elifndef`
 directives. How can we get the same effect with `#if`? That is, what if
@@ -377,6 +386,7 @@ use with an `#if` statement.
 
 These are equivalent:
 
+[i[`#if defined`]<]
 ``` {.c}
 #ifdef FOO
 #if defined FOO
@@ -416,9 +426,13 @@ can be replaced with:
 #endif
 ```
 
+[i[`#if defined`]>]
+[i[`#if`]>]
 [i[Conditional compilation]>]
 
 ### Losing a Macro: `#undef`
+
+[i[`#undef`]<]
 
 If you've defined something but you don't need it any longer, you can
 undefine it with `#undef`.
@@ -442,7 +456,11 @@ int main(void)
 }
 ```
 
+[i[`#undef`]>]
+
 ## Built-in Macros
+
+[i[Preprocessor-->predefined macros]<]
 
 The standard defines a lot of built-in macros that you can test and use
 for conditional compilation. Let's look at those here.
@@ -452,6 +470,13 @@ for conditional compilation. Let's look at those here.
 
 These are all defined:
 
+[i[`__DATE__` macro]<]
+[i[`__TIME__` macro]<]
+[i[`__FILE__` macro]<]
+[i[`__LINE__` macro]<]
+[i[`__func__` identifier]<]
+[i[`__STDC_VERSION__` macro]<]
+
 |Macro|Description|
 |-|-|
 |`__DATE__`|The date of compilation---like when you're compiling this file---in `Mmm dd yyyy` format|
@@ -459,8 +484,8 @@ These are all defined:
 |`__FILE__`|A string containing this file's name|
 |`__LINE__`|The line number of the file this macro appears on|
 |`__func__`|The name of the function this appears in, as a string^[This isn't really a macro---it's technically an identifier. But it's the only predefined identifier and it feels very macro-like, so I'm including it here. Like a rebel.]|
-|`__STDC__`|Defined with `1` if this is a standard C compiler|
-|`__STDC_HOSTED__`|This will be `1` if the compiler is a _hosted implementation_^[A hosted implementation basically means you're running the full C standard, probably on an operating system of some kind. Which you probably are. If you're running on bare metal in some kind of embedded system, you're probably on a _standalone implementation_.], otherwise `0`|
+|[i[`__STDC__` macro]]`__STDC__`|Defined with `1` if this is a standard C compiler|
+|[i[`__STDC_HOSTED__` macro]]`__STDC_HOSTED__`|This will be `1` if the compiler is a _hosted implementation_^[A hosted implementation basically means you're running the full C standard, probably on an operating system of some kind. Which you probably are. If you're running on bare metal in some kind of embedded system, you're probably on a _standalone implementation_.], otherwise `0`|
 |`__STDC_VERSION__`|This version of C, a constant `long int` in the form `yyyymmL`, e.g. `201710L`|
 
 Let's put these together.
@@ -478,6 +503,9 @@ int main(void)
 }
 ```
 
+[i[`__DATE__` macro]>]
+[i[`__TIME__` macro]>]
+
 The output on my system is:
 
 ``` {.default}
@@ -493,7 +521,13 @@ error conditions in messages to developers. The `assert()` macro in
 `<assert.h>` uses these to call out where in the code the assertion
 failed.
 
+[i[`__FILE__` macro]>]
+[i[`__LINE__` macro]>]
+[i[`__func__` identifier]>]
+
 #### `__STDC_VERSION__`s
+
+[i[Language versions]<]
 
 In case you're wondering, here are the version numbers for different
 major releases of the C Language Spec:
@@ -514,26 +548,33 @@ increase, so you could always check for, say, "at least C99" with:
 #if __STDC_VERSION__ >= 1999901L
 ```
 
+[i[Language versions]>]
+[i[`__STDC_VERSION__` macro]>]
+
 ### Optional Macros
 
 Your implementation might define these, as well. Or it might not.
 
 |Macro|Description|
 |-|-|
-|`__STDC_ISO_10646__`|If defined, `wchar_t` holds Unicode values, otherwise something else|
-|`__STDC_MB_MIGHT_NEQ_WC__`|A `1` indicates that the values in multibyte characters might not map equally to values in wide characters|
-|`__STDC_UTF_16__`|A `1` indicates that the system uses UTF-16 encoding in type `char16_t`|
-|`__STDC_UTF_32__`|A `1` indicates that the system uses UTF-32 encoding in type `char32_t`|
-|`__STDC_ANALYZABLE__`|A `1` indicates the code is analyzable^[OK, I know that was a cop-out answer. Basically there's an optional extension compilers can implement wherein they agree to limit certain types of undefined behavior so that the C code is more amenable to static code analysis. It is unlikely you'll need to use this.]|
-|`__STDC_IEC_559__`|`1` if IEEE-754 (aka IEC 60559) floating point is supported|
-|`__STDC_IEC_559_COMPLEX__`|`1` if IEC 60559 complex floating point is supported|
-|`__STDC_LIB_EXT1__`|`1` if this implementation supports a variety of "safe" alternate standard library functions (they have `_s` suffixes on the name)|
-|`__STDC_NO_ATOMICS__`|`1` if this implementation does **not** support `_Atomic` or `<stdatomic.h>`|
-|`__STDC_NO_COMPLEX__`|`1` if this implementation does **not** support complex types or `<complex.h>`|
-|`__STDC_NO_THREADS__`|`1` if this implementation does **not** support `<threads.h>`|
-|`__STDC_NO_VLA__`|`1` if this implementation does **not** support variable-length arrays|
+|[i[`__STDC_ISO_10646__` macro]]`__STDC_ISO_10646__`|If defined, `wchar_t` holds Unicode values, otherwise something else|
+|[i[`__STDC_MB_MIGHT_NEQ_WC__` macro]]`__STDC_MB_MIGHT_NEQ_WC__`|A `1` indicates that the values in multibyte characters might not map equally to values in wide characters|
+|[i[`__STDC_UTF_16__` macro]]`__STDC_UTF_16__`|A `1` indicates that the system uses UTF-16 encoding in type `char16_t`|
+|[i[`__STDC_UTF_32__` macro]]`__STDC_UTF_32__`|A `1` indicates that the system uses UTF-32 encoding in type `char32_t`|
+|[i[`__STDC_ANALYZABLE__` macro]]`__STDC_ANALYZABLE__`|A `1` indicates the code is analyzable^[OK, I know that was a cop-out answer. Basically there's an optional extension compilers can implement wherein they agree to limit certain types of undefined behavior so that the C code is more amenable to static code analysis. It is unlikely you'll need to use this.]|
+|[i[`__STDC_IEC_559__` macro]]`__STDC_IEC_559__`|`1` if IEEE-754 (aka IEC 60559) floating point is supported|
+|[i[`__STDC_IEC_559_COMPLEX__` macro]]`__STDC_IEC_559_COMPLEX__`|`1` if IEC 60559 complex floating point is supported|
+|[i[`__STDC_LIB_EXT1__` macro]]`__STDC_LIB_EXT1__`|`1` if this implementation supports a variety of "safe" alternate standard library functions (they have `_s` suffixes on the name)|
+|[i[`__STDC_NO_ATOMICS__` macro]]`__STDC_NO_ATOMICS__`|`1` if this implementation does **not** support `_Atomic` or `<stdatomic.h>`|
+|[i[`__STDC_NO_COMPLEX__` macro]]`__STDC_NO_COMPLEX__`|`1` if this implementation does **not** support complex types or `<complex.h>`|
+|[i[`__STDC_NO_THREADS__` macro]]`__STDC_NO_THREADS__`|`1` if this implementation does **not** support `<threads.h>`|
+|[i[`__STDC_NO_VLA__` macro]]`__STDC_NO_VLA__`|`1` if this implementation does **not** support variable-length arrays|
+
+[i[Preprocessor-->predefined macros]>]
 
 ## Macros with Arguments
+
+[i[Preprocessor-->macros with arguments]<]
 
 Macros are more powerful than simple substitution, though. You can set
 them up to take arguments that are substituted in, as well.
@@ -547,6 +588,8 @@ platform. You can define different keywords for one platform or another.
 ### Macros with One Argument
 
 Let's start with a simple one that squares a number:
+
+[i[`#define`]<]
 
 ``` {.c .numberLines}
 #include <stdio.h>
@@ -699,6 +742,8 @@ $2\times-0.563508^2+10\times-0.563508+5\approx0.000003$
 
 ### Macros with Variable Arguments
 
+[i[Preprocessor-->macros with variable arguments]<]
+
 There's also a way to have a variable number of arguments passed to a
 macro, using ellipses (`...`) after the known, named arguments. When the
 macro is expanded, all of the extra arguments will be in a
@@ -739,7 +784,13 @@ You can also "stringify" `__VA_ARGS__` by putting a `#` in front of it:
 printf("%s\n", X(1,2,3));  // Prints "1, 2, 3"
 ```
 
+[i[`#define`]>]
+[i[Preprocessor-->macros with variable arguments]>]
+[i[Preprocessor-->macros with arguments]>]
+
 ### Stringification
+
+[i[`#` stringification]<]
 
 Already mentioned, just above, you can turn any argument into a string
 by preceding it with a `#` in the replacement text.
@@ -782,7 +833,11 @@ On line 9, we get the following macro replacement:
     printf("%s = %d\n", "a", 5);
 ```
 
+[i[`#` stringification]>]
+
 ### Concatenation
+
+[i[`##` concatenation]<]
 
 We can concatenate two arguments together with `##`, as well. Fun times!
 
@@ -792,13 +847,19 @@ We can concatenate two arguments together with `##`, as well. Fun times!
 printf("%f\n", CAT(3.14, 1592));   // 3.141592
 ```
 
+[i[`##` concatenation]>]
+
 ## Multiline Macros
+
+[i[Preprocessor-->multiline macros]<]
 
 It's possible to continue a macro to multiple lines if you escape the
 newline with a backslash (`\`).
 
 Let's write a multiline macro that prints numbers from `0` to the
 product of the two arguments passed in.
+
+[i[`do`-`while` statement-->in multiline macros]<]
 
 ``` {.c .numberLines}
 #include <stdio.h>
@@ -873,6 +934,9 @@ floating out there illegally^[_Breakin' the law... breakin' the
 law..._].
 
 So wrap that multiline macro with a `do`-`while(0)`.
+
+[i[`do`-`while` statement-->in multiline macros]>]
+[i[Preprocessor-->multiline macros]>]
 
 ## Example: An Assert Macro {#my-assert}
 
@@ -983,6 +1047,8 @@ foo.c:23: assertion x < 20 failed: x must be under 20
 
 ## The `#error` Directive
 
+[i[`#error` directive]<]
+
 This directive causes the compiler to error out as soon as it sees it.
 
 Commonly, this is used inside a conditional to prevent compilation
@@ -994,11 +1060,18 @@ unless some prerequisites are met:
 #endif
 ```
 
+[i[`#error` directive]>]
+[i[`#warning` directive]<]
+
 Some compilers have a non-standard complementary `#warning` directive
 that will output a warning but not stop compilation, but this is not in
 the C11 spec.
 
+[i[`#warning` directive]>]
+
 ## The `#pragma` Directive {#pragma}
+
+[i[`#pragma` directive]<]
 
 This is one funky directive, short for "pragmatic". You can use it to
 do... well, anything your compiler supports you doing with it.
@@ -1007,6 +1080,8 @@ Basically the only time you're going to add this to your code is if some
 documentation tells you to do so.
 
 ### Non-Standard Pragmas
+
+[i[`#pragma` directive-->nonstandard pragmas]<]
 
 Here's one non-standard example of using `#pragma` to cause the compiler
 to execute a `for` loop in parallel with multiple threads (if the
@@ -1022,6 +1097,8 @@ corners of the globe.
 
 All unrecognized `#pragma`s are ignored by the compiler.
 
+[i[`#pragma` directive-->nonstandard pragmas]>]
+
 ### Standard Pragmas
 
 There are also a few standard ones, and these start with `STDC`, and
@@ -1035,10 +1112,13 @@ The `on-off` portion can be either `ON`, `OFF`, or `DEFAULT`.
 
 And the `pragma_name` can be one of these:
 
+[i[`FP_CONTRACT` pragma]<]
+[i[`CX_LIMITED_RANGE` pragma]<]
+
 |Pragma Name|Description|
 |-|-|
 |`FP_CONTRACT`|Allow floating point expressions to be contracted into a single operation to avoid rounding errors that might occur from multiple operations.|
-|`FENV_ACCESS`|Set to `ON` if you plan to access the floating point status flags. If `OFF`, the compiler might perform optimizations that cause the values in the flags to be inconsistent or invalid.|
+|[i[`FENV_ACCESS` pragma]]`FENV_ACCESS`|Set to `ON` if you plan to access the floating point status flags. If `OFF`, the compiler might perform optimizations that cause the values in the flags to be inconsistent or invalid.|
 |`CX_LIMITED_RANGE`|Set to `ON` to allow the compiler to skip overflow checks when performing complex arithmetic. Defaults to `OFF`.|
 
 For example:
@@ -1047,6 +1127,8 @@ For example:
 #pragma STDC FP_CONTRACT OFF
 #pragma STDC CX_LIMITED_RANGE ON
 ```
+
+[i[`FP_CONTRACT` pragma]>]
 
 As for `CX_LIMITED_RANGE`, the spec points out:
 
@@ -1061,7 +1143,11 @@ As for `CX_LIMITED_RANGE`, the spec points out:
 >
 > where the programmer can determine they are safe.
 
+[i[`CX_LIMITED_RANGE` pragma]>]
+
 ### `_Pragma` Operator
+
+[i[`_Pragma` operator]<]
 
 This is another way to declare a pragma that you could use in a macro.
 
@@ -1072,13 +1158,22 @@ These are equivalent:
 _Pragma("\"Unnecessary\" quotes")
 ```
 
+[i[`_Pragma` operator-->in a macro]<]
+
 This can be used in a macro, if need be:
 
 ``` {.c}
 #define PRAGMA(x) _Pragma(#x)
 ```
 
+[i[`_Pragma` operator-->in a macro]>]
+[i[`_Pragma` operator]>]
+[i[`#pragma` directive]>]
+
 ## The `#line` Directive
+
+[i[`#line` directive]<]
+[i[`__LINE__` macro]<]
 
 This allows you to override the values for `__LINE__` and `__FILE__`. If
 you want.
@@ -1097,13 +1192,19 @@ To override the line number to, say 300:
 
 and `__LINE__` will keep counting up from there.
 
+[i[`__LINE__` macro]>]
+
 To override the line number and the filename:
 
 ``` {.c}
 #line 300 "newfilename"
 ```
 
+[i[`#line` directive]>]
+
 ## The Null Directive
+
+[i[`#` null directive]<]
 
 A `#` on a line by itself is ignored by the preprocessor. Now, to be
 entirely honest, I don't know what the use case is for this.
@@ -1144,4 +1245,5 @@ the specification doesn't seem to say this is standard behavior.
 My searches for rationale aren't bearing much fruit. So I'm going to
 just say this is some good ol' fashioned C esoterica.
 
+[i[`#` null directive]>]
 [i[Preprocessor]>]
