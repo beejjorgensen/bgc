@@ -5,6 +5,8 @@
 
 # `struct`s II: More Fun with `struct`s
 
+[i[`struct`]<]
+
 Turns out there's a lot more you can do with `struct`s than we've talked
 about, but it's just a big pile of miscellaneous things. So we'll throw
 them in this chapter.
@@ -13,6 +15,8 @@ If you're good with `struct` basics, you can round out your knowledge
 here.
 
 ## Initializers of Nested `struct`s and Arrays
+
+[i[`struct`-->initializers]<]
 
 Remember how you could [initialize structure members along these
 lines](#struct-initializers)?
@@ -122,7 +126,11 @@ int main(void)
 }
 ```
 
+[i[`struct`-->initializers]>]
+
 ## Anonymous `struct`s
+
+[i[`struct`-->anonymous]<]
 
 These are "the `struct` with no name". We also mention these in the
 [`typedef`](#typedef-struct) section, but we'll refresh here.
@@ -187,7 +195,11 @@ declaration.
 
 But that's just, like, my opinion, man.
 
+[i[`struct`-->anonymous]>]
+
 ## Self-Referential `struct`s
+
+[i[`struct`-->self-referential]<]
 
 For any graph-like data structure, it's useful to be able to have
 pointers to the connected nodes/vertices. But this means that in the
@@ -248,7 +260,11 @@ Running that prints:
 33
 ```
 
+[i[`struct`-->self-referential]>]
+
 ## Flexible Array Members
+
+[i[`struct`-->flexible array members]<]
 
 Back in the good old days, when people carved C code out of wood, some
 folks thought would be neat if they could allocate `struct`s that had
@@ -290,6 +306,8 @@ the `struct`.
 strcpy(s->data, "Hello, world!");  // Won't crash. Probably.
 ```
 
+[i[Arrays-->zero length]<]
+
 In fact, there was a common compiler workaround for doing this, where
 you'd allocate a zero length array at the end:
 
@@ -315,6 +333,8 @@ strcpy(s->data, "Hello, world!");  // Won't crash. Probably.
 But, of course, actually accessing the data beyond the end of that array
 is undefined behavior! In these modern times, we no longer deign to
 resort to such savagery.
+
+[i[Arrays-->zero length]>]
 
 Luckily for us, we can still get the same effect with C99 and later, but
 now it's legal.
@@ -354,7 +374,11 @@ struct len_string *len_string_from_c_string(char *s)
 }
 ```
 
+[i[`struct`-->flexible array members]>]
+
 ## Padding Bytes {#struct-padding-bytes}
+
+[i[`struct`-->padding bytes]<]
 
 Beware that C is allowed to add padding bytes within or after a `struct`
 as it sees fit. You can't trust that they will be directly adjacent in
@@ -398,7 +422,11 @@ it be more performant. Maybe you got different output with your
 compiler, but unless you're forcing it, you can't be sure there's no
 padding.
 
+[i[`struct`-->padding bytes]>]
+
 ## `offsetof`
+
+[i[`offsetof()` macro]<]
 
 In the previous section, we saw that the compiler could inject padding
 bytes at will inside a structure.
@@ -442,6 +470,8 @@ indicating that we're using 4 bytes for each of the fields. It's a
 little weird, because `char` is only 1 byte, right? The compiler is
 putting 3 padding bytes after each `char` so that all the fields are 4
 bytes long. Presumably this will run faster on my CPU.
+
+[i[`offsetof()` macro]>]
 
 <!-- removed because of strict aliasing rules
 ## Fake OOP
@@ -527,6 +557,8 @@ a pointer to the first field in that `struct`.
 -->
 
 ## Bit-Fields
+
+[i[`struct`-->bit fields]<]
 
 In my experience, these are rarely used, but you might see them out
 there from time to time, especially in lower-level applications that
@@ -708,7 +740,11 @@ puts `a` and `b` in one `unsigned int`, and `c` and `d` in another
 `unsigned int`. Two total, for a size of 8 bytes on my system (`unsigned
 int`s are 4 bytes each).
 
+[i[`struct`-->bit fields]>]
+
 ## Unions
+
+[i[`union`]<]
 
 These are basically just like `struct`s, except the fields overlap in
 memory. The `union` will be only large enough for the largest field, and
@@ -739,6 +775,8 @@ The tradeoff is that you can only portably use one of those fields at a
 time. However...
 
 ### Unions and Type Punning {#union-type-punning}
+
+[i[`union`-->type punning]<]
 
 You can non-portably write to one `union` field and read from another!
 
@@ -781,7 +819,11 @@ because under the hood, the object representation for the float `3.14159`
 was the same as the object representation for the short `4048`. On my
 system. Your results may vary.
 
+[i[`union`-->type punning]>]
+
 ### Pointers to `union`s
+
+[i[`union`-->pointers to]<]
 
 If you have a pointer to a `union`, you can cast that pointer to any of
 the types of the fields in that `union` and get the values out that way.
@@ -835,7 +877,11 @@ All this just lets you know that, under the hood, all these values in a
 `union` start at the same place in memory, and that's the same as where
 the entire `union` is.
 
+[i[`union`-->pointers to]>]
+
 ### Common Initial Sequences in Unions
+
+[i[`union`-->common initial sequences]<]
 
 If you have a `union` of `struct`s, and all those `struct`s begin with a
 _common initial sequence_, it's valid to access members of that sequence
@@ -1006,7 +1052,11 @@ It's definitely possible to get this same effect using just `struct`s,
 but you can do it this way if you want the memory-saving effects of a
 `union`.
 
+[i[`union`-->common initial sequences]>]
+
 ## Unions and Unnamed Structs
+
+[i[`union`-->and unnamed `struct`s]<]
 
 You know how you can have an unnamed `struct`, like this:
 
@@ -1056,7 +1106,12 @@ f.b.w = 4;
 
 No problem!
 
+[i[`union`-->and unnamed `struct`s]>]
+
 ## Passing and Returning `struct`s and `union`s
+
+[i[`union`-->passing and returning]<]
+[i[`struct`-->passing and returning]<]
 
 You can pass a `struct` or `union` to a function by value (as opposed to
 a pointer to it)---a copy of that object to the parameter will be made
@@ -1096,3 +1151,8 @@ function call:
 
 And the same holds true for returning pointers to `struct`s and
 `union`s---just be sure to use the `->` arrow operator in that case.
+
+[i[`union`-->passing and returning]>]
+[i[`struct`-->passing and returning]>]
+[i[`union`]>]
+[i[`struct`]>]

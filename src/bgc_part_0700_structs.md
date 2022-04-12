@@ -117,7 +117,7 @@ omitted).
 
 ## Passing Structs to Functions
 
-[i[`struct`-->passing to functions]<]
+[i[`struct`-->passing and returning]<]
 You can do a couple things to pass a `struct` to a function.
 
 1. Pass the `struct`.
@@ -204,7 +204,7 @@ void set_price(struct car *c, float new_price) {
 And that works! But it's a little clunky to type all those parens and
 the asterisk. C has some syntactic sugar called the _arrow operator_
 that helps with that.
-[i[`struct`-->passing to functions]>]
+[i[`struct`-->passing and returning]>]
 
 ## The Arrow Operator
 
