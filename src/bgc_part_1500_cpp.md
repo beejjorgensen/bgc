@@ -5,6 +5,8 @@
 
 # The C Preprocessor
 
+[i[Preprocessor]<]
+
 Before your program gets compiled, it actually runs through a phase
 called _preprocessing_. It's almost like there's a language _on top_ of
 the C language that runs first. And it outputs the C code, which then
@@ -12,14 +14,16 @@ gets compiled.
 
 We've already seen this to an extent with `#include`! That's the C
 Preprocessor! Where it sees that directive, it includes the named file
-right there, just as if you'd typed it in there. And _then_ the
-compiler builds the whole thing.
+right there, just as if you'd typed it in there. And _then_ the compiler
+builds the whole thing.
 
 But it turns out it's a lot more powerful than just being able to
 include things. You can define _macros_ that are substituted... and even
 macros that take arguments!
 
 ## `#include`
+
+[i[`#include`]<]
 
 Let's start with the one we've already seen a bunch. This is, of course,
 a way to include other sources in your source. Very commonly used with
@@ -40,6 +44,8 @@ can include with angle brackets:
 
 The angle brackets tell C, "Hey, don't look in the current directory for
 this header file---look in the system-wide include directory instead."
+
+[i[`#include`-->local files]<]
 
 Which, of course, implies that there must be a way to include local
 files from the current directory. And there is: with double quotes:
@@ -62,12 +68,19 @@ It's undefined behavior! Use forward slash (`/`) only, even on Windows.
 In summary, used angle brackets (`<` and `>`) for the system includes,
 and use double quotes (`"`) for your personal includes.
 
+[i[`#include`-->local files]>]
+[i[`#include`]>]
+
 ## Simple Macros
+
+[i[Preprocessor-->macros]<]
 
 A _macro_ is an identifier that gets _expanded_ to another piece of code
 before the compiler even sees it. Think of it like a placeholder---when
 the preprocessor sees one of those identifiers, it replaces it with
 another value that you've defined.
+
+[i[`#define`]<]
 
 We do this with `#define` (often read "pound define"). Here's an
 example:
@@ -122,6 +135,8 @@ nothing. We'll see a use for this later.
 It's conventional to write macro names in `ALL_CAPS` even though that's
 not technically required.
 
+[i[`#define`-->versus `const`]<]
+
 Overall, this gives you a way to define constant values that are
 effectively global and can be used _any_ place. Even in those places
 where a `const` variable won't work, e.g. in `switch` `case`s and fixed
@@ -133,7 +148,13 @@ better than `#define` macro in the general case.
 It can also be used to replace or modify keywords, a concept completely
 foreign to `const`, though this practice should be used sparingly.
 
+[i[`#define`-->versus `const`]>]
+[i[`#define`]>]
+[i[Preprocessor-->macros]>]
+
 ## Conditional Compilation
+
+[i[Conditional compilation]<]
 
 It's possible to get the preprocessor to decide whether or not to
 present certain blocks of code to the compiler, or just remove them
@@ -146,6 +167,9 @@ similar to `if`-`else` statements.
 
 First of all, let's try to compile specific code depending on whether or
 not a macro is even defined.
+
+[i[`#ifdef`]<]
+[i[`#endif`]<]
 
 ``` {.c .numberLines}
 #include <stdio.h>
@@ -167,6 +191,9 @@ In that example, we define `EXTRA_HAPPY` (to be nothing, but it _is_
 defined), then on line 8 we check to see if it is defined with an
 `#ifdef` directive. If it is defined, the subsequent code will be
 included up until the `#endif`.
+
+[i[`#ifdef`]>]
+[i[`#endif`]>]
 
 So because it is defined, the code will be included for compilation and
 the output will be:
@@ -200,6 +227,9 @@ There's also the negative sense of "if defined": "if not defined", or
 `#ifndef`. We could change the previous example to read to output
 different things based on whether or not something was defined:
 
+[i[`#ifndef`]<]
+[i[`#endif`]<]
+
 ``` {.c .numberLines startFrom="8"}
 #ifdef EXTRA_HAPPY
     printf("I'm extra happy!\n");
@@ -225,6 +255,9 @@ int x = 12;
 #endif  // Last line of myheader.h
 ```
 
+[i[`#ifndef`]>]
+[i[`#endif`]>]
+
 This demonstrates how a macro persists across files and multiple
 `#include`s. If it's not yet defined, let's define it and compile the
 whole header file.
@@ -236,8 +269,13 @@ removed.
 
 ### `#else`
 
+[i[`#else`]<]
+
 But that's not all we can do! There's also an `#else` that we can throw
 in the mix.
+
+[i[`#ifdef`]<]
+[i[`#endif`]<]
 
 Let's mod the previous example:
 
@@ -248,6 +286,10 @@ Let's mod the previous example:
     printf("I'm just regular\n");
 #endif
 ```
+
+[i[`#ifdef`]>]
+[i[`#else`]>]
+[i[`#endif`]>]
 
 Now if `EXTRA_HAPPY` is not defined, it'll hit the `#else` clause and
 print:
@@ -373,6 +415,8 @@ can be replaced with:
     x = 3;
 #endif
 ```
+
+[i[Conditional compilation]>]
 
 ### Losing a Macro: `#undef`
 
@@ -1099,3 +1143,5 @@ the specification doesn't seem to say this is standard behavior.
 
 My searches for rationale aren't bearing much fruit. So I'm going to
 just say this is some good ol' fashioned C esoterica.
+
+[i[Preprocessor]>]

@@ -17,6 +17,8 @@ chapter.
 
 ## Command Line Arguments
 
+[i[Command line arguments]<]
+
 Many command line utilities accept _command line arguments_. For
 example, if we want to see all files that end in `.txt`, we can type
 something like this on a Unix-like system:
@@ -75,6 +77,10 @@ arguments themselves follow directly.
 
 Source:
 
+[i[`argc`]<]
+[i[`argv`]<]
+[i[`main()`-->command line options]<]
+
 ``` {.c .numberLines}
 #include <stdio.h>
 
@@ -90,7 +96,8 @@ Whoa! What's going on with the `main()` function signature? What's
 `argc` and `argv`^[Since they're just regular parameter names, you don't
 actually have to call them `argc` and `argv`. But it's so very idiomatic
 to use those names, if you get creative, other C programmers will look
-at you with a suspicious eye, indeed!] (pronounced _arg-c_ and _arg-v_)?
+at you with a suspicious eye, indeed!] (pronounced _arg-cee_ and
+_arg-vee_)?
 
 Let's start with the easy one first: `argc`. This is the _argument count_,
 including the program name, itself. If you think of all the arguments as
@@ -142,6 +149,9 @@ int main(int argc, char **argv)
     printf("%d\n", total);
 }
 ```
+
+[i[`main()`-->command line options]>]
+[i[`argc`]>]
 
 Sample runs:
 
@@ -248,6 +258,8 @@ style floating around, as well.
 
 ### Fun Facts
 
+[i[`argc`]<]
+
 Just a few more things about `argc` and `argv`.
 
 * Some environments might not set `argv[0]` to the program name. If it's
@@ -289,7 +301,13 @@ Just a few more things about `argc` and `argv`.
 
   This behavior is not in the spec and is highly system-dependent.
 
+[i[`argc`]>]
+[i[`argv`]>]
+[i[Command line arguments]>]
+
 ## Exit Status {#exit-status}
+
+[i[Exit status]<]
 
 Did you notice that the function signatures for `main()` have it
 returning type `int`? What's that all about? It has to do with a thing
@@ -301,11 +319,13 @@ Now, there are a number of ways a program can exit in C, including
 
 All of these methods accept an `int` as an argument.
 
+[i[`main()`-->returning from]<]
 Side note: did you see that in basically all my examples, even though
 `main()` is supposed to return an `int`, I don't actually `return`
 anything? In any other function, this would be illegal, but there's a
 special case in C: if execution reaches the end of `main()` without
 finding a `return`, it automatically does a `return 0`.
+[i[`main()`-->returning from]>]
 
 But what does the `0` mean? What other numbers can we put there? And how
 are they used?
@@ -343,6 +363,9 @@ status.
 Now, the C spec allows for two different status values, which have macro
 names defined in `<stdlib.h>`:
 
+[i[`EXIT_SUCCESS`]<]
+[i[`EXIT_FAILURE`]<]
+
 |Status|Description|
 |-|-|
 |`EXIT_SUCCESS` or `0`|Program terminated successfully.|
@@ -369,6 +392,9 @@ int main(int argc, char **argv)
 }
 ```
 
+[i[`EXIT_SUCCESS`]>]
+[i[`EXIT_FAILURE`]>]
+
 Now if we try to run this, we get the expected effect until we specify
 exactly the right number of command-line arguments:
 
@@ -382,6 +408,8 @@ usage: mult x y
 $ ./mult 3 4
 12
 ```
+
+[i[Exit status-->obtaining from shell]<]
 
 But that doesn't really show the exit status that we returned, does it?
 We can get the shell to print it out, though. Assuming you're running
@@ -408,9 +436,11 @@ $ echo $?
 0
 ```
 
-Interesting! We see that on my system, `EXIT_FAILURE` is `1`. The spec
-doesn't spell this out, so it could be any number. But try it; it's
-probably `1` on your system, too.
+[i[Exit status-->obtaining from shell]>]
+
+Interesting! We see that on my system, [i[`EXIT_FAILURE`]]`EXIT_FAILURE`
+is `1`. The spec doesn't spell this out, so it could be any number. But
+try it; it's probably `1` on your system, too.
 
 ### Other Exit Status Values
 
@@ -432,7 +462,11 @@ AND the code with `0xff`, effectively clamping it to that range.
 You can script the shell to later use these status codes to make
 decisions about what to do next.
 
+[i[Exit status]>]
+
 ## Environment Variables {#env-var}
+
+[i[Environment variables]<]
 
 Before I get into this, I need to warn you that C doesn't specify what
 an environment variable is. So I'm going to describe the environment
@@ -465,6 +499,8 @@ convert the string with something like `atoi()` or `strtol()`.].
 So, _anyway_! Long story short, it's possible to get these values from
 inside your C program.
 
+[i[`getenv()`]<]
+
 Let's write a program that uses the standard `getenv()` function to look
 up a value that you set in the shell.
 
@@ -488,6 +524,8 @@ int main(void)
     printf("Value: %s\n", val);
 }
 ```
+
+[i[`getenv()`]>]
 
 If I run this directly, I get this:
 
@@ -520,8 +558,10 @@ get it in your C code and modify your behavior accordingly.
 This isn't standard, but a lot of systems provide ways to set
 environment variables.
 
-If on a Unix-like, look up the documentation for `putenv()`, `setenv()`,
-and `unsetenv()`. On Windows, see `_putenv()`.
+If on a Unix-like, look up the documentation for
+[i[`putenv()`]]`putenv()`, [i[`setenv()`]]`setenv()`, and
+[i[`unsetenv()`]]`unsetenv()`. On Windows, see
+[i[`_putenv()`]]`_putenv()`.
 
 ### Unix-like Alternative Environment Variables
 
@@ -529,6 +569,8 @@ If you're on a Unix-like system, odds are you have another couple ways
 of getting access to environment variables. Note that although the spec
 points this out as a common extension, it's not truly part of the
 C standard. It is, however, part of the POSIX standard.
+
+[i[`environ` variable]<]
 
 One of these is a variable called `environ` that must be declared like
 so:
@@ -581,6 +623,9 @@ Use `getenv()` if at all possible because it's more portable. But if you
 have to iterate over environment variables, using `environ` might be the
 way to go.
 
+[i[`environ` variable]>]
+[i[`env` parameter]<]
+
 Another non-standard way to get the environment variables is as a
 parameter to `main()`. It works much the same way, but you avoid needing
 to add your `extern` `environ` variable. [fl[Not even the POSIX spec
@@ -609,3 +654,6 @@ int main(int argc, char **argv, char **env)  // <-- env!
 
 Just like using `environ` but _even less portable_. It's good to have
 goals.
+
+[i[`env` parameter]>]
+[i[Environment variables]>]
