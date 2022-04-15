@@ -18,6 +18,8 @@ We're going to peer into that rabbit hole, but not go in. ...Yet!
 
 ## Escape Sequences
 
+[i[Escape sequences]<]
+
 We're used to strings and characters with regular letters, punctuation,
 and numbers:
 
@@ -34,6 +36,8 @@ a character that's a single quote? We clearly can't do this:
 char t = ''';
 ```
 
+[i[`\` backslash escape]<]
+
 To do these things, we use something called _escape sequences_. These
 are the backslash character (`\`) followed by another character. The two
 (or more) characters together have special meaning.
@@ -41,12 +45,16 @@ are the backslash character (`\`) followed by another character. The two
 For our single quote character example, we can put an escape (that is,
 `\`) in front of the central single quote to solve it:
 
+[i[`\'` single quote]<]
+
 ``` {.c}
 char t = '\'';
 ```
 
 Now C knows that `\'` means just a regular quote we want to print, not
 the end of the character sequence.
+
+[i[`\'` single quote]>]
 
 You can say either "backslash" or "escape" in this context ("escape that
 quote") and C devs will know what you're talking about. Also, "escape"
@@ -60,10 +68,10 @@ up that number, but it's probably not far off] of all escapes.
 
 |Code|Description|
 |--|------------|
-|`\n`|Newline character---when printing, continue subsequent output on the next line|
-|`\'`|Single quote---used for a single quote character constant|
-|`\"`|Double quote---used for a double quote in a string literal|
-|`\\`|Backslash---used for a literal `\` in a string or character|
+|[i[`\n` newline]]`\n`|Newline character---when printing, continue subsequent output on the next line|
+|[i[`\'` single quote]]`\'`|Single quote---used for a single quote character constant|
+|[i[`\"` double quote]]`\"`|Double quote---used for a double quote in a string literal|
+|[i[`\\` backslash]]`\\`|Backslash---used for a literal `\` in a string or character|
 
 Here are some examples of the escapes and what they output when printed.
 
@@ -79,15 +87,18 @@ But there are more escapes! You just don't see these as often.
 
 |Code|Description|
 |--|------------|
-|`\a`|Alert. This makes the terminal make a sound or flash, or both!|
-|`\b`|Backspace. Moves the cursor back a character. Doesn't delete the character.|
-|`\f`|Formfeed. This moves to the next "page", but that doesn't have much modern meaning. On my system, this behaves like `\v`.|
-|`\r`|Return. Move to the beginning of the same line.|
-|`\t`|Horizontal tab. Moves to the next horizontal tab stop. On my machine, this lines up on columns that are multiples of 8, but YMMV.|
-|`\v`|Vertical tab. Moves to the next vertical tab stop. On my machine, this moves to the same column on the next line.|
-|`\?`|Literal question mark. Sometimes you need this to avoid trigraphs, as shown below.|
+|[i[`\a` alert]]`\a`|Alert. This makes the terminal make a sound or flash, or both!|
+|[i[`\b` backspace]]`\b`|Backspace. Moves the cursor back a character. Doesn't delete the character.|
+|[i[`\f` formfeed]]`\f`|Formfeed. This moves to the next "page", but that doesn't have much modern meaning. On my system, this behaves like `\v`.|
+|[i[`\r` carriage return]]`\r`|Return. Move to the beginning of the same line.|
+|[i[`\t` tab]]`\t`|Horizontal tab. Moves to the next horizontal tab stop. On my machine, this lines up on columns that are multiples of 8, but YMMV.|
+|[i[`\v` vertical tab]]`\v`|Vertical tab. Moves to the next vertical tab stop. On my machine, this moves to the same column on the next line.|
+|[i[`\?` question mark]]`\?`|Literal question mark. Sometimes you need this to avoid trigraphs, as shown below.|
 
 #### Single Line Status Updates
+
+[i[`\b` backspace]<]
+[i[`\r` carriage return]<]
 
 A use case for `\b` or `\r` is to show status updates that appear on the
 same line on the screen and don't cause the display to scroll. Here's an
@@ -127,6 +138,8 @@ column narrower. Try it without the space to see what I mean.
 And we wrap it up with a `\b` to back up over that space so the cursor
 sits at the exact end of the line in an aesthetically-pleasing way.
 
+[i[`\b` backspace]>]
+
 Note that line 14 also has a lot of spaces at the end to overwrite the
 characters that were already there from the countdown.
 
@@ -138,7 +151,11 @@ without this line, the program would just sit there until `Liftoff!`
 and then print everything all in one instant. `fflush()` overrides this
 behavior and forces output to happen _right now_.
 
+[i[`\r` carriage return]>]
+
 #### The Question Mark Escape
+
+[i[`\?` question mark]<]
 
 Why bother with this? After all, this works just fine:
 
@@ -153,6 +170,8 @@ printf("Doesn't it\?\n");   // Note \?
 ```
 
 So what's the point??!
+
+[i[Trigraphs]<]
 
 Let's get more emphatic with another question mark and an exclamation
 point:
@@ -195,6 +214,9 @@ And then it compiles and works as-expected.
 These days, of course, no one ever uses trigraphs. But that whole `??!`
 does sometimes appear if you decide to use it in a string for emphasis.
 
+[i[Trigraphs]>]
+[i[`\?` question mark]>]
+
 ### Numeric Escapes
 
 In addition, there are ways to specify numeric constants or other
@@ -209,15 +231,17 @@ digit count.
 
 |Code|Description|
 |--|------------|
-|`\123`|Embed the byte with octal value `123`, 3 digits exactly.|
-|`\x4D`|Embed the byte with hex value `4D`, 2 digits.|
-|`\u2620`|Embed the Unicode character at code point with hex value `2620`, 4 digits.|
-|`\U0001243F`|Embed the Unicode character at code point with hex value `1243F`, 8 digits.|
+|[i[`\123` octal value]]`\123`|Embed the byte with octal value `123`, 3 digits exactly.|
+|[i[`\x12` hexadecimal value]]`\x4D`|Embed the byte with hex value `4D`, 2 digits.|
+|[i[`\u1234` Unicode character]]`\u2620`|Embed the Unicode character at code point with hex value `2620`, 4 digits.|
+|[i[`\U12345678` Unicode character]]`\U0001243F`|Embed the Unicode character at code point with hex value `1243F`, 8 digits.|
 
 Here's an example of the less-commonly used octal notation to represent
 the letter `B` in between `A` and `C`. Normally this would be used for
 some kind of special unprintable character, but we have other ways to do
 that, below, and this is just an octal demo:
+
+[i[`\123` octal value]<]
 
 ``` {.c}
 printf("A\102C\n");  // 102 is `B` in ASCII/UTF-8
@@ -226,6 +250,10 @@ printf("A\102C\n");  // 102 is `B` in ASCII/UTF-8
 Note there's no leading zero on the octal number when you include it
 this way. But it does need to be three characters, so pad with leading
 zeros if you need to.
+
+[i[`\123` octal value]>]
+
+[i[`\x12` hexadecimal value]<]
 
 But far more common is to use hex constants these days. Here's a demo
 that you shouldn't use, but it demos embedding the UTF-8 bytes 0xE2,
@@ -247,6 +275,12 @@ garbage if you're not):
 • Bullet 3
 ```
 
+[i[`\x12` hexadecimal value]>]
+
+
+[i[`\u1234` Unicode character]<]
+[i[`\U12345678` Unicode character]<]
+
 But that's a crummy way to do Unicode. You can use the escapes `\u`
 (16-bit) or `\U` (32-bit) to just refer to Unicode by code point number.
 The bullet is `2022` (hex) in Unicode, so you can do this and get more
@@ -261,10 +295,17 @@ printf("\u2022 Bullet 3\n");
 Be sure to pad `\u` with enough leading zeros to get to four characters,
 and `\U` with enough to get to eight.
 
+[i[`\u1234` Unicode character]>]
+
 For example, that bullet could be done with `\U` and four leading zeros:
 
 ``` {.c}
 printf("\U00002022 Bullet 1\n");
 ```
 
+[i[`\U12345678` Unicode character]>]
+
 But who has time to be that verbose?
+
+[i[`\` backslash escape]>]
+[i[Escape sequences]>]
