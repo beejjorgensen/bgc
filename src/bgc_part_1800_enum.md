@@ -5,6 +5,8 @@
 
 # Enumerated Types: `enum`
 
+[i[`enum` enumerated types]<]
+
 C offers us another way to have constant integer values by name: `enum`.
 
 For example:
@@ -35,6 +37,8 @@ Let's tear into this more.
 ## Behavior of `enum`
 
 ### Numbering
+
+[i[`enum` enumerated types-->numbering order]<]
 
 `enum`s are automatically numbered unless you override them.
 
@@ -88,6 +92,8 @@ enum {
 }
 ```
 
+[i[`enum` enumerated types-->numbering order]>]
+
 ### Trailing Commas
 
 This is perfectly fine, if that's your style:
@@ -105,11 +111,15 @@ be pleased to see it.
 
 ### Scope
 
+[i[`enum` enumerated types-->scope]<]
+
 `enum`s scope as you'd expect. If at file scope, the whole file can see
 it. If in a block, it's local to that block.
 
 It's really common for `enum`s to be defined in header files so they can
 be `#include`d at file scope.
+
+[i[`enum` enumerated types-->scope]>]
 
 ### Style
 
@@ -204,3 +214,5 @@ enum resource {   // <-- type is now "enum resource"
 
 In short, `enum`s are a great way to write nice, scoped, typed, clean
 code.
+
+[i[`enum` enumerated types]>]

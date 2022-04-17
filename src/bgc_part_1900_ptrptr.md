@@ -12,6 +12,8 @@ starting on this stuff.
 
 ## Pointers to Pointers
 
+[i[Pointers-->to pointers]<]
+
 If you can have a pointer to a variable, and a variable can be a
 pointer, can you have a pointer to a variable that it itself a pointer?
 
@@ -185,7 +187,11 @@ int ****s = &r;   // Type: int ****, you get the idea
 int *****t = &s;  // Type: int *****
 ```
 
+[i[Pointers-->to pointers]>]
+
 ### Pointer Pointers and `const`
+
+[i[Pointers-->to pointers, `const`]<]
 
 If you recall, declaring a pointer like this:
 
@@ -266,7 +272,11 @@ int *const *const q = &p;  // More const!
 And that works, too. Now we can't modify `q`, or the pointer `q` points
 to.
 
+[i[Pointers-->to pointers, `const`]>]
+
 ## Multibyte Values {#multibyte-values}
+
+[i[Pointers-->to multibyte values]<]
 
 We kinda hinted at this in a variety of places earlier, but clearly not
 every value can be stored in a single byte of memory. Things take up
@@ -376,7 +386,11 @@ dictate anything about this representation.].
 So that's a little peek under the hood at the bytes of a more complex
 entity in memory.
 
+[i[Pointers-->to multibyte values]>]
+
 ## The `NULL` Pointer and Zero
+
+[i[`NULL` pointer-->zero equivalence]<]
 
 These things can be used interchangeably:
 
@@ -396,7 +410,11 @@ pointer points to_ to `'\0'`, and that's right.)
 assigned into another pointer, it is converted to a null pointer of the
 same type.
 
+[i[`NULL` pointer-->zero equivalence]>]
+
 ## Pointers as Integers
+
+[i[Pointers-->as integers]<]
 
 You can cast pointers to integers and vice-versa (since a pointer is
 just an index into memory), but you probably only ever need to do this
@@ -414,7 +432,11 @@ might not be there---but it probably is.].
 Additionally, if you feel like being signed, you can use `intptr_t` to
 the same effect.
 
+[i[Pointers-->as integers]>]
+
 ## Casting Pointers to other Pointers
+
+[i[Pointers-->casting]<]
 
 There's only one safe pointer conversion:
 
@@ -613,7 +635,11 @@ short b = *((short *)&a);   // Violates strict aliasing
 If you want to do type punning (relatively) safely, see the section on
 [Unions and Type Punning](#union-type-punning).
 
+[i[Pointers-->casting]>]
+
 ## Pointer Differences {#ptr_differences}
+
+[i[Pointers-->subtracting]<]
 
 As you know from the section on pointer arithmetic, you can subtract one
 pointer from another^[Assuming they point to the same array object.] to
@@ -621,6 +647,8 @@ get the difference between them in count of array elements.
 
 Now the _type of that difference_ is something that's up to the
 implementation, so it could vary from system to system.
+
+[i[`ptrdiff_t` type]<]
 
 To be more portable, you can store the result in a variable of type
 `ptrdiff_t` defined in `<stddef.h>`.
@@ -634,6 +662,7 @@ int *g = cats + 60;
 ptrdiff_t d = g - f;  // difference is 40
 ```
 
+[i[`ptrdiff_t` type-->printing]<]
 And you can print it by prefixing the integer format specifier with `t`:
 
 ``` {.c}
@@ -641,7 +670,13 @@ printf("%td\n", d);  // Print decimal: 40
 printf("%tX\n", d);  // Print hex:     28
 ```
 
+[i[`ptrdiff_t` type-->printing]>]
+[i[`ptrdiff_t` type]>]
+[i[Pointers-->subtracting]>]
+
 ## Pointers to Functions
+
+[i[Pointers-->to functions]<]
 
 Functions are just collections of machine instructions in memory, so
 there's no reason we can't get a pointer to the first instruction of the
@@ -792,3 +827,5 @@ it's a pointer to a function.
 Finally, jump back to the _Pointers II_ chapter for a
 pointer-to-function [example using the built-in
 `qsort()`](#qsort-example).
+
+[i[Pointers-->to functions]>]
