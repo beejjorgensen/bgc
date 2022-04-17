@@ -81,6 +81,7 @@ def i_replace(m):
 
 	def escape(s):
 		s = re.sub(r'\\', r'{\\backslash}', s)
+		s = re.sub(r'(\^)', r'\\^{}', s)
 		s = re.sub(r'([&_#%])', r'\\\1', s)
 		s = re.sub(r'([!@])', r'"\1', s)
 		s = re.sub(r'\|', r'\\textbar{}', s)
