@@ -5,6 +5,8 @@
 
 # Variadic Functions
 
+[i[Variadic functions]<]
+
 _Variadic_ is a fancy word for functions that take arbitrary numbers of
 arguments.
 
@@ -63,6 +65,8 @@ Let's see how they work!
 
 So how does it work, syntactically?
 
+[i[`...` variadic arguments]<]
+
 What you do is put all the arguments that _must_ be passed first (and
 remember there has to be at least one) and after that, you put `...`.
 Just like this:
@@ -87,6 +91,8 @@ int main(void)
 }
 ```
 
+[i[`...` variadic arguments]>]
+
 So, great, we can get that first argument that's in variable `a`, but
 what about the rest of the arguments? How do you get to them?
 
@@ -94,11 +100,18 @@ Here's where the fun begins!
 
 ## Getting the Extra Arguments
 
-You're going to want to include `<stdarg.h>` to make any of this work.
+You're going to want to include [i[`<stdarg.h>`]] `<stdarg.h>` to make
+any of this work.
+
+[i[`va_list` type]<]
 
 First things first, we're going to use a special variable of type
 `va_list` (variable argument list) to keep track of which variable we're
 accessing at a time.
+
+[i[`va_start()` macro]<]
+[i[`va_arg()` macro]<]
+[i[`va_end()` macro]<]
 
 The idea is that we first start processing arguments with a call to
 `va_start()`, process each argument in turn with `va_arg()`, and then,
@@ -144,6 +157,9 @@ int main(void)
 }
 ```
 
+[i[`va_start()` macro]>]
+[i[`va_end()` macro]>]
+
 When `printf()` is called, it uses the number of `%d`s (or whatever) in
 the format string to know how many more arguments there are!
 
@@ -162,12 +178,16 @@ that holds information about which argument we're going to get next with
 `va_list` variable is a placeholder that's keeping track of progress so
 far.
 
+[i[`va_start()` macro]<]
+
 But we have to initialize that variable to some sensible value. That's
 where `va_start()` comes into play.
 
 When we called `va_start(va, count)`, above, we were saying, "Initialize
 the `va` variable to point to the variable argument _immediately after_
 `count`."
+
+[i[`va_end()` macro]<]
 
 And that's _why_ we need to have at least one named variable in our
 argument list^[Honestly, it would be possible to remove that limitation
@@ -201,6 +221,12 @@ So the standard progression is:
 * Repeatedly `va_arg()` to get the values
 * `va_end()` to deinitialize your `va_list` variable
 
+[i[`va_start()` macro]>]
+[i[`va_end()` macro]>]
+[i[`va_arg()` macro]>]
+
+[i[`va_copy()` macro]<]
+
 I also mentioned `va_copy()` up there; it makes a copy of your `va_list`
 variable in the exact same state. That is, if you haven't started with
 `va_arg()` with the source variable, the new one won't be started,
@@ -210,7 +236,11 @@ will also reflect that.
 `va_copy()` can be useful if you need to scan ahead through the
 arguments but need to also remember your current place.
 
+[i[`va_copy()` macro]>]
+
 ## Library Functions That Use `va_list`s
+
+[i[`va_list` type-->passing to functions]<]
 
 One of the other uses for these is pretty cool: writing your own custom
 `printf()` variant. It would be a pain to have to handle all those
@@ -219,6 +249,8 @@ format specifiers right? All zillion of them?
 Luckily, there are `printf()` variants that accept a working `va_list`
 as an argument. You can use these to wrap up and make your own custom
 `printf()`s!
+
+[i[`vprintf()` function]<]
 
 These functions start with the letter `v`, such as `vprintf()`,
 `vfprintf()`, `vsprintf()`, and `vsnprintf()`. Basically all your
@@ -260,5 +292,11 @@ variable, and then just passed it right into `vprintf()`. And it knows
 just want to do with it, because it has all the `printf()` smarts
 built-in.
 
+[i[`vprintf()` function]>]
+
 We still have to call `va_end()` when we're done, though, so don't
 forget that!
+
+[i[`va_list` type-->passing to functions]>]
+[i[`va_list` type]>]
+[i[Variadic functions]>]
