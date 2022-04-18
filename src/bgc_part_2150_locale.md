@@ -5,6 +5,8 @@
 
 # Locale and Internationalization
 
+[i[Locale]<]
+
 _Localization_ is the process of making your app ready to work well in
 different locales (or countries).
 
@@ -32,14 +34,16 @@ But we'll do our best!
 
 ## Setting the Localization, Quick and Dirty
 
-For these calls, include `<locale.h>`.
+For these calls, include [i[`<locale.h>`]] `<locale.h>`.
 
 There is basically one thing you can portably do here in terms of
 declaring a specific locale. This is likely what you want to do if
 you're going to do locale anything:
 
+[i[`setlocale()`]<]
+
 ``` {.c}
-set_locale(LC_ALL, "");  // Use this environment's locale for everything
+setlocale(LC_ALL, "");  // Use this environment's locale for everything
 ```
 
 You'll want to call that so that the program gets initialized with your
@@ -49,7 +53,7 @@ Getting into more details, there is one more thing you can do and stay
 portable:
 
 ``` {.c}
-set_locale(LC_ALL, "C");  // Use the default C locale
+setlocale(LC_ALL, "C");  // Use the default C locale
 ```
 
 but that's called by default every time your program starts, so there's
@@ -70,7 +74,11 @@ By passing in an empty string (`""`) for the second argument, you're
 telling C, "Hey, figure out what the current locale on this system is so
 I don't have to tell you."
 
+[i[`setlocale()`]>]
+
 ## Getting the Monetary Locale Settings
+
+[i[Locale-->money]<]
 
 Because moving green pieces of paper around promises to be the key to
 happiness^["This planet has---or rather had---a problem, which was this:
@@ -82,6 +90,8 @@ paper that were unhappy." ---The Hitchhiker's Guide to the Galaxy,
 Douglas Adams], let's talk about monetary locale. When you're writing
 portable code, you have to know what to type for cash, right? Whether
 that's "$", "€", "¥", or "£".
+
+[i[`localeconv()`]<]
 
 How can you write that code without going insane? Luckily, once you call
 `setlocale(LC_ALL, "")`, you can just look these up with a call to
@@ -131,7 +141,11 @@ in the given locale.
 |`char int_p_sign_posn`|International value for `p_sign_posn`.|
 |`char int_n_sign_posn`|International value for `n_sign_posn`.|
 
+[i[`localeconv()`]>]
+
 ### Monetary Digit Grouping {#monetary-digit-grouping}
+
+[i[`localeconv()`-->`mon_grouping`]<]
 
 OK, this is a trippy one. `mon_grouping` is a `char*`, so you might be
 thinking it's a string. But in this case, no, it's really an array of
@@ -211,7 +225,11 @@ for example.
 And simply having `CHAR_MAX` in the first array position would tell you
 there was to be no grouping at all.
 
+[i[`localeconv()`-->`mon_grouping`]>]
+
 ### Separators and Sign Position
+
+[i[`localeconv()`-->`sep_by_space`]<]
 
 All the `sep_by_space` variants deal with spacing around the currency
 sign. Valid values are:
@@ -231,6 +249,9 @@ The `sign_posn` variants are determined by the following values:
 |`2`|Put the sign string after the currency symbol and value.|
 |`3`|Put the sign string directly in front of the currency symbol.|
 |`4`|Put the sign string directly behind the currency symbol.|
+
+[i[`localeconv()`-->`sep_by_space`]>]
+[i[Locale-->money]>]
 
 ### Example Values
 
@@ -269,18 +290,22 @@ precise about which _parts_ of the locale you're setting.
 
 Let's take a look at the values you can see for these:
 
+
+
 |Macro|Description|
 |----|--------------|
-|`LC_ALL`|Set all of the following to the given locale.|
-|`LC_COLLATE`|Controls the behavior of the `strcoll()` and `strxfrm()` functions.|
-|`LC_CTYPE`|Controls the behavior of the character-handling functions^[Except for `isdigit()` and `isxdigit()`.].|
-|`LC_MONETARY`|Controls the values returned by `localeconv()`.|
-|`LC_NUMERIC`|Controls the decimal point for the `printf()` family of functions.|
-|`LC_TIME`|Controls time formatting of the `strftime()` and `wcsftime()` time and date printing functions.|
+|[i[`setlocale()`-->`LC_ALL`]]`LC_ALL`|Set all of the following to the given locale.|
+|[i[`setlocale()`-->`LC_COLLATE`]]`LC_COLLATE`|Controls the behavior of the `strcoll()` and `strxfrm()` functions.|
+|[i[`setlocale()`-->`LC_CTYPE`]]`LC_CTYPE`|Controls the behavior of the character-handling functions^[Except for `isdigit()` and `isxdigit()`.].|
+|[i[`setlocale()`-->`LC_MONETARY`]]`LC_MONETARY`|Controls the values returned by `localeconv()`.|
+|[i[`setlocale()`-->`LC_NUMERIC`]]`LC_NUMERIC`|Controls the decimal point for the `printf()` family of functions.|
+|[i[`setlocale()`-->`LC_TIME`]]`LC_TIME`|Controls time formatting of the `strftime()` and `wcsftime()` time and date printing functions.|
 
-It's pretty common to see `LC_ALL` being set, but, hey, at least you
-have options.
+It's pretty common to see [i[`setlocale()`-->`LC_ALL`]] `LC_ALL` being
+set, but, hey, at least you have options.
 
-Also I should point out that `LC_CTYPE` is one of the biggies because it
-ties into wide characters, a significant can of worms that we'll talk about
-later.
+Also I should point out that [i[`setlocale()`-->`LC_CTYPE`]] `LC_CTYPE`
+is one of the biggies because it ties into wide characters, a
+significant can of worms that we'll talk about later.
+
+[i[Locale]>]
