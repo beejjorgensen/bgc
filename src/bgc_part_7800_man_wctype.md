@@ -910,8 +910,8 @@ wint_t towupper(wint_t wc);
 
 ### Description {.unnumbered .unlisted}
 
-If the character is upper (i.e. `iswupper(c)` is true), this function
-returns the corresponding lowercase letter.
+If the character is lower (i.e. `iswlower(c)` is true), this function
+returns the corresponding uppercase letter.
 
 Different locales might have different upper and lowercase letters.
 
