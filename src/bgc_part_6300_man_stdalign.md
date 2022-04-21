@@ -184,7 +184,7 @@ int main(void)
     printf("long long  : %zu\n", alignof(long long));
     printf("double     : %zu\n", alignof(double));
     printf("long double: %zu\n", alignof(long double));
-    printf("struct t   : %zu\n", alignof(long double));
+    printf("struct t   : %zu\n", alignof(struct t));
     printf("max_align_t: %zu\n", alignof(max_align_t));
 }
 ```
