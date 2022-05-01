@@ -21,8 +21,8 @@ bad-ass system exceed those, below.
 |`SHRT_MIN`|`-32767`|Minimum value of a `short`|
 |`SHRT_MAX`|`32767`|Maximum value of a `short`|
 |`USHRT_MAX`|`65535`|Maximum value of an `unsigned short`|
-|`INT_MIN`|`-32768`|Minimum vale of an `int`|
-|`INT_MAX`|`32768`|Maximum value of an `int`|
+|`INT_MIN`|`-32767`|Minimum vale of an `int`|
+|`INT_MAX`|`32767`|Maximum value of an `int`|
 |`UINT_MAX`|`65535`|Maximum value of an `unsigned int`|
 |`LONG_MIN`|`-2147483647`|Minimum value of a `long`|
 |`LONG_MAX`|`2147483647`|Maximum value of a `long`|
