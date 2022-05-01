@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <title>Why Beej's Guide to C doesn't use Bing (or DuckDuckGo)</title>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/gif" href="/guide/favicon.gif"/>
+    <link rel="stylesheet" type="text/css" href="index.css"/>
+
+    <style>
+    .centerpage {
+        max-width: 40em;
+        margin: 0 auto;
+    }
+    .slug {
+        width: 1ex;
+        height: 1ex;
+        background: black;
+        display: inline-block;
+        margin-left: 0.5ex;
+    }
+    blockquote {
+        border-left: 0.3em solid #ddd;
+        padding-left: 1ex;
+        color: #555;
+    }
+    </style>
+</head>
+
+<body>
+
+<div class="centerpage">
+    <h1>Why Beej's Guide to C doesn't use Bing (or DuckDuckGo)</h1>
+
+    <p>First: an apology for being clickbaity. I love DuckDuckGo. I want
+    to use DDG to search <a href="https://beej.us/guide/bgc/">Beej's
+    Guide to C</a>. This really isn't their fault. It's Microsoft's.
+
+    <p>See, DDG relies on Bing, and Bing won't index this site for
+    some reason.
+
+    <p>So DDG is <a
+    href="https://duckduckgo.com/?q=site%3Ahttps%3A%2F%2Fbeej.us%2Fguide%2Fbgc%2F&ia=web">blind
+    to this content</a>. And <a
+    href="https://www.bing.com/search?q=site%3Ahttps%3A%2F%2Fbeej.us%2Fguide%2Fbgc&form=QBLH&sp=-1&pq=site%3Ahttps%3A%2F%2Fbeej.us%2Fguide%2Fbg&sc=0-29&qs=n&sk=">so
+    is Bing</a>.
+
+    <p>Here's Google's search of the C guide (try searching for "<tt>acos</tt>"):
+
+    <script async src="https://cse.google.com/cse.js?cx=ae3393718e443f40f">
+    </script>
+    <div class="gcse-search"></div>
+
+    And here's DDG's:
+
+    <p><form style="margin-left:1em" method="get" id="ddgSearch" action="https://duckduckgo.com/">
+        <input type="hidden" name="sites" value="https://beej.us/guide/bgc/html/split/"/>
+        <input type="hidden" name="k7" value="#ffffff"/>
+        <input type="hidden" name="k8" value="#222222"/>
+        <input type="hidden" name="k9" value="#00278e"/>
+        <input type="hidden" name="kx" value="#20692b"/>
+        <input type="hidden" name="kj" value="#fafafa"/>
+        <input type="hidden" name="kt" value="p"/>
+        <input style="border-color:#ddd;width:30em" type="text" name="q" placeholder="Search Beej's Guide to C..." aria-label="Search Beej's Guide to C on DuckDuckGo"/>
+        <button type="submit">Search</button>
+    </form>
+
+    <p>(I know I can turn off the Google logo in the search, but I've
+    left it in there just to rub salt in Microsoft's wound.)
+
+    <p>I've added a sitemap (which wasn't required), I'm not trying to
+    do any SEO scamming, and I've done all kinds of stuff through
+    Microsoft's webmaster tools to try to fix it, but it always reports:
+
+    <blockquote>
+    The inspected URL is known to Bing but has some issues which are
+    preventing indexation. We recommend you to follow <a
+    href="https://www.bing.com/webmasters/help/webmasters-guidelines-30fba23a">Bing
+    Webmaster Guidelines</a> to increase your chances of indexation.
+    </blockquote>
+
+    <p>It's worth noting that Bing has no trouble with any of my other
+    guides.
+
+    <p>The only thing I can see in Microsoft's documentation that I
+    might be in violation of is their prohibition on sites that are
+    too similar. The landing page for this guide is, indeed, very
+    similar to that of the other guides, but the similarity stops
+    there; the content is completely different. I'm not going to
+    start throwing in random keyboard cat GIFs just to make the
+    landing page different enough to fool Microsoft's filter, if that
+    even is the problem.
+
+    <p>Running MS's diagnostic let me know that I was missing the
+    <tt>lang</tt> attribute in my <tt>&lt;html&gt;</tt> tag, but that
+    was it. (I've added it, but if Bing restricted sites based on that,
+    99% of the web would remain unindexed.)
+
+    <p>So I contacted them in a last-chance <a
+    href="https://en.wikipedia.org/wiki/Hail_Mary_pass">Hail Mary</a>.
+
+    <p>They said they'd get back within <b>10</b> days. (They put the
+    "10" in bold in their reply to my submission.)
+
+    <p>And just <b>18</b> days later, I got a reply:
+
+    <blockquote>
+    <p>Thank you for your patience!
+
+    <p>After further review, it appears that your site
+    https://beej.us/guide/bgc/ did not meet the standards set by
+    Bing the last time it was crawled.
+
+    <p>Bing constantly prioritizes the content to be indexed that
+    will drive highest users satisfaction. Please review our Bing
+    Webmaster Guidelines, to better understand criteria for most
+    valuable content.
+
+    </blockquote>
+
+    <p>Maybe it's just not "valuable content". If me spending years
+    writing a book on C and giving it away for free with no ads isn't
+    valuable content to Bing, it just goes to show how much they hate
+    the language. 😜
+
+    <p>But if they're not indexing this, you have to wonder what other
+    content they aren't giving you.
+
+    <p>Fix your broken algorithm, Microsoft. That way I can stop
+    advertising your best friend, Google. Wouldn't that make you
+    happy?<span class="slug"></span>
+
+</div>
+
+</html>
+
