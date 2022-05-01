@@ -55,7 +55,7 @@
 
     And here's DDG's:
 
-    <p><form style="margin-left:1em" method="get" id="ddgSearch" action="https://duckduckgo.com/">
+    <p><form method="get" id="ddgSearch" action="https://duckduckgo.com/">
         <input type="hidden" name="sites" value="https://beej.us/guide/bgc/html/split/"/>
         <input type="hidden" name="k7" value="#ffffff"/>
         <input type="hidden" name="k8" value="#222222"/>
@@ -63,8 +63,15 @@
         <input type="hidden" name="kx" value="#20692b"/>
         <input type="hidden" name="kj" value="#fafafa"/>
         <input type="hidden" name="kt" value="p"/>
-        <input style="border-color:#ddd;width:30em" type="text" name="q" placeholder="Search Beej's Guide to C..." aria-label="Search Beej's Guide to C on DuckDuckGo"/>
+        <table style="margin:0 1em">
+        <tr>
+        <td style="width:100%">
+        <input style="width:calc(100% - 1em)" type="text" name="q" placeholder="Search Beej's Guide to C..." aria-label="Search Beej's Guide to C on DuckDuckGo"/>
+        </td>
+        <td>
         <button type="submit">Search</button>
+        </td>
+        </table>
     </form>
 
     <p>(I know I can turn off the Google logo in the search, but I've
