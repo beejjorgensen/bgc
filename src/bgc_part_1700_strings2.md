@@ -233,8 +233,8 @@ digit count.
 |--|------------|
 |[i[`\123` octal value]]`\123`|Embed the byte with octal value `123`, 3 digits exactly.|
 |[i[`\x12` hexadecimal value]]`\x4D`|Embed the byte with hex value `4D`, 2 digits.|
-|[i[`\u1234` Unicode character]]`\u2620`|Embed the Unicode character at code point with hex value `2620`, 4 digits.|
-|[i[`\U12345678` Unicode character]]`\U0001243F`|Embed the Unicode character at code point with hex value `1243F`, 8 digits.|
+|[i[`\u` Unicode escape]]`\u2620`|Embed the Unicode character at code point with hex value `2620`, 4 digits.|
+|[i[`\U` Unicode escape]]`\U0001243F`|Embed the Unicode character at code point with hex value `1243F`, 8 digits.|
 
 Here's an example of the less-commonly used octal notation to represent
 the letter `B` in between `A` and `C`. Normally this would be used for
@@ -278,8 +278,8 @@ garbage if you're not):
 [i[`\x12` hexadecimal value]>]
 
 
-[i[`\u1234` Unicode character]<]
-[i[`\U12345678` Unicode character]<]
+[i[`\u` Unicode escape]<]
+[i[`\U` Unicode escape]<]
 
 But that's a crummy way to do Unicode. You can use the escapes `\u`
 (16-bit) or `\U` (32-bit) to just refer to Unicode by code point number.
@@ -303,7 +303,7 @@ For example, that bullet could be done with `\U` and four leading zeros:
 printf("\U00002022 Bullet 1\n");
 ```
 
-[i[`\U12345678` Unicode character]>]
+[i[`\U` Unicode escape]>]
 
 But who has time to be that verbose?
 

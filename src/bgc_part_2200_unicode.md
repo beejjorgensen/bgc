@@ -5,6 +5,8 @@
 
 # Unicode, Wide Characters, and All That
 
+[i[Unicode]<]
+
 Before we begin, note that this is an active area of language
 development in C as it works to get past some, erm, _growing pains_.
 When C2x comes out, updates here are probable.
@@ -48,6 +50,8 @@ added all the time!
 
 ## Code Points
 
+[i[Unicode-->code points]<]
+
 I want to talk about two concepts here. It's confusing because they're
 both numbers... different numbers for the same thing. But bear with me.
 
@@ -67,11 +71,15 @@ Unicode, the future!
 So that's one thing: there's a number that represents each character. In
 Unicode, these numbers run from 0 to over 1 million.
 
+[i[Unicode-->code points]>]
+
 Got it?
 
 Because we're about to flip the table a little.
 
 ## Encoding
+
+[i[Unicode-->encoding]<]
 
 If you recall, an 8-bit byte can hold values from 0-255, inclusive.
 That's great for "B" which is 66---that fits in a byte. But "π" is 960,
@@ -92,6 +100,10 @@ you want^[For example, we could store the code point in a big-endian
 not; that's what UTF-32BE encoding is. Oh well---back to the grind!].
 But we're going to look at some really common encodings that are in use
 with Unicode.
+
+[i[Unicode-->UTF-8]<]
+[i[Unicode-->UTF-16]<]
+[i[Unicode-->UTF-32]<]
 
 |Encoding|Description|
 |:-----------------:|:--------------------------------------------------------------|
@@ -123,12 +135,19 @@ to see how things are arranged in memory.
 |`π`|3C0|03C0|000003C0|C003|C0030000|CF80|
 |`€`|20AC|20AC|000020AC|AC20|AC200000|E282AC|
 
+[i[Unicode-->endianess]<]
+
 Look in there for the patterns. Note that UTF-16BE and UTF-32BE are
 simply the code point represented directly as 16- and 32-bit
 values^[Again, this is only true in UTF-16 for characters that fit in
 two bytes.].
 
+[i[Unicode-->UTF-16]>]
+[i[Unicode-->UTF-32]>]
+
 Little-endian is the same, except the bytes are in little-endian order.
+
+[i[Unicode-->endianess]>]
 
 Then we have UTF-8 at the end. First you might notice that the
 single-byte code points are represented as a single byte. That's nice.
@@ -155,21 +174,29 @@ around, obviously.)
 It's probably that last point more than any other that is driving UTF-8
 to take over the world.
 
+[i[Unicode-->UTF-8]>]
+[i[Unicode-->encoding]>]
+
 ## Source and Execution Character Sets {#src-exec-charset}
+
+[i[Character sets]<]
 
 When programming in C, there are (at least) three character sets that
 are in play:
 
 * The one that your code exists on disk as.
-* The one the compiler translates that into just as compilation begins
-  (the _source character set_). This might be the same as the one on
-  disk, or it might not.
-* The one the compiler translates the source character set into for
-  execution (the _execution character set_). This might be the same as
-  the source character set, or it might not.
+* [i[Character sets-->source]]The one the compiler translates that into
+  just as compilation begins (the _source character set_). This might be
+  the same as the one on disk, or it might not.
+* [i[Character sets-->execution]]The one the compiler translates the
+  source character set into for execution (the _execution character
+  set_). This might be the same as the source character set, or it might
+  not.
 
 Your compiler probably has options to select these character sets at
 build-time.
+
+[i[Character sets-->basic]<]
 
 The basic character set for both source and execution will contain
 the following characters:
@@ -200,6 +227,9 @@ even allow for `@`, `$`, or `` ` ``!
 Notably, it's a pain (though possible with escape sequences) to enter
 Unicode characters using only the basic character set.
 
+[i[Character sets-->basic]>]
+[i[Character sets]>]
+
 ## Unicode in C {#unicode-in-c}
 
 Before I get into encoding in C, let's talk about Unicode from a code
@@ -215,6 +245,7 @@ How about the euro symbol, code point 0x20AC. (I've written it in hex
 because both ways of representing it in C require hex.) How can we put
 that in our C code?
 
+[i[`\u` Unicode escape]<]
 Use the `\u` escape to put it in a string, e.g. `"\u20AC"` (case for the
 hex doesn't matter). You must put **exactly four** hex digits after the
 `\u`, padding with leading zeros if necessary.
@@ -226,6 +257,8 @@ char *s = "\u20AC1.23";
 
 printf("%s\n", s);  // €1.23
 ```
+
+[i[`\U` Unicode escape]<]
 
 So `\u` works for 16-bit Unicode code points, but what about ones bigger
 than 16 bits? For that, we need capitals: `\U`.
@@ -246,11 +279,14 @@ equivalent:
 \U000003C0
 ```
 
-Again, these are translated into the execution character set during
-compilation. They represent Unicode code points, not any specific
-encoding. Furthermore, if a Unicode code point is not representable in
-the execution character set, the compiler can do whatever it wants with
-it.
+[i[`\u` Unicode escape]>]
+[i[`\U` Unicode escape]>]
+
+Again, these are translated into the [i[Character
+sets-->execution]]execution character set during compilation. They
+represent Unicode code points, not any specific encoding. Furthermore,
+if a Unicode code point is not representable in the execution character
+set, the compiler can do whatever it wants with it.
 
 Now, you might wonder why you can't just do this:
 
@@ -260,17 +296,24 @@ char *s = "€1.23";
 printf("%s\n", s);  // €1.23
 ```
 
-And you probably can, given a modern compiler. The source character set
-will be translated for you into the execution character set by the
-compiler. But compilers are free to puke out if they find any characters
-that aren't included in their extended character set, and the € symbol
-certainly isn't in the basic character set.
+And you probably can, given a modern compiler. The [i[Character
+sets-->source]]source character set will be translated for you into the
+[i[Character sets-->execution]]execution character set by the compiler.
+But compilers are free to puke out if they find any characters that
+aren't included in their extended character set, and the € symbol
+certainly isn't in the [i[Character sets-->basic]]basic character set.
+
+[i[`\u` Unicode escape]<]
+[i[`\U` Unicode escape]<]
 
 Caveat from the spec: you can't use `\u` or `\U` to encode any code
 points below 0xA0 except for 0x24 (`$`), 0x40 (`@`), and 0x60 (`` `
 ``)---yes, those are precisely the trio of common punctuation marks
 missing from the basic character set. Apparently this restriction is
 relaxed in the upcoming version of the spec.
+
+[i[`\u` Unicode escape]>]
+[i[`\U` Unicode escape]>]
 
 Finally, you can also use these in identifiers in your code, with some
 restrictions. But I don't want to get into that here. We're all about
@@ -279,6 +322,8 @@ string handling in this chapter.
 And that's about it for Unicode in C (except encoding).
 
 ## A Quick Note on UTF-8 Before We Swerve into the Weeds {#utf8-quick}
+
+[i[Unicode-->UTF-8]<]
 
 It could be that your source file on disk, the extended source
 characters, and the extended execution characters are all in UTF-8
@@ -297,27 +342,35 @@ tradeoff that's worth it to you.
 There are some caveats, however:
 
 * Things like `strlen()` report the number of bytes in a string, not the
-  number of characters, necessarily. (Use `mbstowcs()` with a `NULL`
-  first argument to get the number of characters in a multibyte string.)
+  number of characters, necessarily. (The [i[`mbstowcs()`-->with
+  UTF-8]]`mbstowcs()` returns the number of characters in a string when
+  you convert it to wide characters. POSIX extends this so you can pass
+  `NULL` for the first argument if you just want the character count.)
 
 * The following won't work properly with characters of more than one
-  byte: `strtok()`, `strchr()` (use `strstr()` instead), `strspn()`-type
-  functions, `toupper()`, `tolower()`, `isalpha()`-type functions, and
-  probably more. Beware anything that operates on bytes.
+  byte: [i[`strtok()`-->with UTF-8]]`strtok()`, [i[`strchr()`-->with
+  UTF-8]]`strchr()` (use [i[`strstr()`-->with UTF-8]]`strstr()`
+  instead), `strspn()`-type functions, [i[`toupper()`-->with
+  UTF-8]]`toupper()`, [i[`tolower()`-->with UTF-8]]`tolower()`,
+  [i[`isalpha()`-->with UTF-8]]`isalpha()`-type functions, and probably
+  more. Beware anything that operates on bytes.
 
-* `printf()` variants allow for a way to only print so many bytes of a
-  string^[With a format specifier like `"%s.12"`, for example.]. You
-  want to make certain you print the correct number of bytes to end on a
-  character boundary.
+* [i[`printf()`-->with UTF-8]]`printf()` variants allow for a way to
+  only print so many bytes of a string^[With a format specifier like
+  `"%s.12"`, for example.]. You want to make certain you print the
+  correct number of bytes to end on a character boundary.
 
-* If you want to `malloc()` space for a string, or declare an array of
-  `char`s for one, be aware that the maximum size could be more than you
-  were expecting. Each character could take up to `MB_LEN_MAX` bytes
-  (from `<limits.h>`)---except characters in the basic character set
-  which are guaranteed to be one byte.
+* [i[`malloc()`-->with UTF-8]]If you want to `malloc()` space for a
+  string, or declare an array of `char`s for one, be aware that the
+  maximum size could be more than you were expecting. Each character
+  could take up to [i[`MB_LEN_MAX`]]`MB_LEN_MAX` bytes (from
+  `<limits.h>`)---except characters in the basic character set which are
+  guaranteed to be one byte.
 
 And probably others I haven't discovered. Let me know what pitfalls
 there are out there...
+
+[i[Unicode-->UTF-8]>]
 
 ## Different Character Types
 
@@ -327,15 +380,18 @@ But that's too easy. Let's make things a lot more difficult! Yay!
 
 ### Multibyte Characters
 
+[i[Multibyte characters]<]
+
 First of all, I want to potentially change your thinking about what a
 string (array of `char`s) is. These are _multibyte strings_ made up of
 _multibyte characters_.
 
 That's right---your run-of-the-mill string of characters is multibyte.
+When someone says "C string", they mean "C multibyte string".
 
 Even if a particular character in the string is only a single byte, or
 if a string is made up of only single characters, it's known as
-multibyte.
+a multibyte string.
 
 For example:
 
@@ -345,8 +401,8 @@ char c[128] = "Hello, world!";  // Multibyte string
 
 What we're saying here is that a particular character that's not in the
 basic character set could be composed of multiple bytes. Up to
-`MB_LEN_MAX` of them (from `<limits.h>`). Sure, it only looks like one
-character on the screen, but it could be multiple bytes.
+[i[`MB_LEN_MAX`]]`MB_LEN_MAX` of them (from `<limits.h>`). Sure, it only
+looks like one character on the screen, but it could be multiple bytes.
 
 You can throw Unicode values in there, as well, as we saw earlier:
 
@@ -357,6 +413,8 @@ printf("%s\n", s);  // €1.23
 ```
 
 But here we're getting into some weirdness, because check this out:
+
+[i[`strlen()`-->with UTF-8]<]
 
 ``` {.c}
 char *s = "\u20AC1.23";  // €1.23
@@ -369,9 +427,11 @@ Remember that `strlen()` returns the number of bytes in the string, not
 the number of characters. (When we get to "wide characters", coming up,
 we'll see a way to get the number of characters in the string.)
 
-Note that while C allows individual multibyte `char` constants, the
-behavior of these varies by implementation and your compiler might warn
-on it.
+[i[`strlen()`-->with UTF-8]>]
+
+Note that while C allows individual multibyte `char` constants (as
+opposed to `char*`), the behavior of these varies by implementation and
+your compiler might warn on it.
 
 GCC, for example, warns of multi-character character constants for the
 following two lines (and, on my system, prints out the UTF-8 encoding):
@@ -381,7 +441,11 @@ printf("%x\n", '€');
 printf("%x\n", '\u20ac');
 ```
 
+[i[Multibyte characters]>]
+
 ### Wide Characters {#wide-characters}
+
+[i[Wide characters]<]
 
 If you're not a multibyte character, then you're a _wide character_.
 
@@ -395,8 +459,11 @@ on a character-by-character basis rather than a byte-by-byte basis (the
 latter of which gets all messy when characters start taking up variable
 numbers of bytes).
 
+[i[`wchar_t`]<]
+
 Wide characters can be represented by a number of types, but the big
-standout one is `wchar_t`. It's the main one.
+standout one is `wchar_t`. It's the main one. It's like `char`, except
+wide.
 
 You might be wondering if you can't tell if it's Unicode or not, how
 does that allow you much flexibility in terms of writing code? `wchar_t`
@@ -423,6 +490,8 @@ the characters in the current locale.
 This can cause grief with Unicode on platforms with 16-bit `wchar_t`s
 (ahem---Windows). But that's out of scope for this guide.
 
+[i[`L` wide character prefix]<]
+
 You can declare a string or character of this type with the `L` prefix,
 and you can print them with the `%ls` ("ell ess") format specifier. Or
 print an individual `wchar_t` with `%lc`.
@@ -434,10 +503,12 @@ wchar_t c = L'B';
 printf("%ls %lc\n", s, c);
 ```
 
+[i[`L` wide character prefix]>]
+
 Now---are those characters stored as Unicode code points, or not?
 Depends on the implementation. But you can test if they are with the
-macro `__STDC_ISO_10646__`. If this is defined, the answer is, "It's
-Unicode!"
+macro [i[`__STDC_ISO_10646__` macro]] `__STDC_ISO_10646__`. If this is
+defined, the answer is, "It's Unicode!"
 
 More detailedly, the value in that macro is an integer in the form
 `yyyymm` that lets you know what Unicode standard you can rely
@@ -462,16 +533,23 @@ First, some naming conventions you'll see in these functions:
 So if we want to convert a multibyte string to a wide character string,
 we can call the `mbstowcs()`. And the other way around: `wcstombs()`.
 
+
+
+
+
+
 |Conversion Function|Description|
 |-|-|
-|`mbtowc()`|Convert a multibyte character to a wide character.|
-|`wctomb()`|Convert a wide character to a multibyte character.|
-|`mbstowcs()`|Convert a multibyte string to a wide string.|
-|`wcstombs()`|Convert a wide string to a multibyte string.|
+|[i[`mbtowc()`]]`mbtowc()`|Convert a multibyte character to a wide character.|
+|[i[`wctomb()`]]`wctomb()`|Convert a wide character to a multibyte character.|
+|[i[`mbstowcs()`]]`mbstowcs()`|Convert a multibyte string to a wide string.|
+|[i[`wcstombs()`]]`wcstombs()`|Convert a wide string to a multibyte string.|
 
 Let's do a quick demo where we convert a multibyte string to a wide
 character string, and compare the string lengths of the two using their
 respective functions.
+
+[i[`mbstowcs()`]<]
 
 ``` {.c .numberLines}
 #include <stdio.h>
@@ -500,6 +578,8 @@ int main(void)
     printf("wide char: \"%ls\" (%zu characters)\n", wc_string, wc_len);
 }
 ```
+
+[i[`wchar_t`]>]
 
 On my system, this outputs:
 
@@ -531,9 +611,12 @@ size_t len_in_chars = mbstowcs(NULL, "§¶°±π€•", 0);
 printf("%zu", len_in_chars);  // 7
 ```
 
+[i[`mbstowcs()`]>]
+
 Again, that's a non-portable POSIX extension.
 
-And, of course, if you want to convert the other way, it's `wcstombs()`.
+And, of course, if you want to convert the other way, it's
+[i[`wcstombs()`]] `wcstombs()`.
 
 ## Wide Character Functionality
 
@@ -541,10 +624,12 @@ Once we're in wide character land, we have all kinds of functionality at
 our disposal. I'm just going to summarize a bunch of the functions here,
 but basically what we have here are the wide character versions of the
 multibyte string functions that we're use to. (For example, we know
-`strlen()` for multibyte strings; there's an `wcslen()` for wide
-character strings.)
+`strlen()` for multibyte strings; there's a [i[`wcslen()`]] `wcslen()`
+for wide character strings.)
 
 ### `wint_t`
+
+[i[`wint_t`]<]
 
 A lot of these functions use a `wint_t` to hold single characters,
 whether they are passed in or returned.
@@ -553,10 +638,14 @@ It is related to `wchar_t` in nature. A `wint_t` is an integer that can
 represent all values in the extended character set, and also a special
 end-of-file character, `WEOF`.
 
+[i[`wint_t`]>]
+
 This is used by a number of single-character-oriented wide character
 functions.
 
 ### I/O Stream Orientation {#io-stream-orientation}
+
+[i[I/O stream orientation]<]
 
 The tl;dr here is to not mix and match byte-oriented functions (like
 `fprintf()`) with wide-oriented functions (like `fwprintf()`). Decide if
@@ -574,11 +663,13 @@ If you first use a byte operation (like `fprintf()`) it will orient the
 stream by bytes.
 
 You can manually set an unoriented stream one way or the other with a
-call to `fwide()`. You can use that same function to get the orientation
-of a stream.
+call to [i[`fwide()`]] `fwide()`. You can use that same function to get
+the orientation of a stream.
 
 If you need to change the orientation mid-flight, you can do it with
 `freopen()`.
+
+[i[I/O stream orientation]>]
 
 ### I/O Functions
 
@@ -586,26 +677,26 @@ Typically include `<stdio.h>` and `<wchar.h>` for these.
 
 |I/O Function|Description|
 |-|-|
-|`wprintf()`|Formatted console output.|
-|`wscanf()`|Formatted console input.|
-|`getwchar()`|Character-based console input.|
-|`putwchar()`|Character-based console output.|
-|`fwprintf()`|Formatted file output.|
-|`fwscanf()`|Formatted file input.|
-|`fgetwc()`|Character-based file input.|
-|`fputwc()`|Character-based file output.|
-|`fgetws()`|String-based file input.|
-|`fputws()`|String-based file output.|
-|`swprintf()`|Formatted string output.|
-|`swscanf()`|Formatted string input.|
-|`vfwprintf()`|Variadic formatted file output.|
-|`vfwscanf()`|Variadic formatted file input.|
-|`vswprintf()`|Variadic formatted string output.|
-|`vswscanf()`|Variadic formatted string input.|
-|`vwprintf()`|Variadic formatted console output.|
-|`vwscanf()`|Variadic formatted console input.|
-|`ungetwc()`|Push a wide character back on an output stream.|
-|`fwide()`|Get or set stream multibyte/wide orientation.|
+|[i[`wprintf()`]]`wprintf()`|Formatted console output.|
+|[i[`wscanf()`]]`wscanf()`|Formatted console input.|
+|[i[`getwchar()`]]`getwchar()`|Character-based console input.|
+|[i[`putwchar()`]]`putwchar()`|Character-based console output.|
+|[i[`fwprintf()`]]`fwprintf()`|Formatted file output.|
+|[i[`fwscanf()`]]`fwscanf()`|Formatted file input.|
+|[i[`fgetwc()`]]`fgetwc()`|Character-based file input.|
+|[i[`fputwc()`]]`fputwc()`|Character-based file output.|
+|[i[`fgetws()`]]`fgetws()`|String-based file input.|
+|[i[`fputws()`]]`fputws()`|String-based file output.|
+|[i[`swprintf()`]]`swprintf()`|Formatted string output.|
+|[i[`swscanf()`]]`swscanf()`|Formatted string input.|
+|[i[`vfwprintf()`]]`vfwprintf()`|Variadic formatted file output.|
+|[i[`vfwscanf()`]]`vfwscanf()`|Variadic formatted file input.|
+|[i[`vswprintf()`]]`vswprintf()`|Variadic formatted string output.|
+|[i[`vswscanf()`]]`vswscanf()`|Variadic formatted string input.|
+|[i[`vwprintf()`]]`vwprintf()`|Variadic formatted console output.|
+|[i[`vwscanf()`]]`vwscanf()`|Variadic formatted console input.|
+|[i[`ungetwc()`]]`ungetwc()`|Push a wide character back on an output stream.|
+|[i[`fwide()`]]`fwide()`|Get or set stream multibyte/wide orientation.|
 
 ### Type Conversion Functions
 
@@ -613,13 +704,13 @@ Typically include `<wchar.h>` for these.
 
 |Conversion Function|Description|
 |-|-|
-|`wcstod()`|Convert string to `double`.|
-|`wcstof()`|Convert string to `float`.|
-|`wcstold()`|Convert string to `long double`.|
-|`wcstol()`|Convert string to `long`.|
-|`wcstoll()`|Convert string to `long long`.|
-|`wcstoul()`|Convert string to `unsigned long`.|
-|`wcstoull()`|Convert string to `unsigned long long`.|
+|[i[`wcstod()`]]`wcstod()`|Convert string to `double`.|
+|[i[`wcstof()`]]`wcstof()`|Convert string to `float`.|
+|[i[`wcstold()`]]`wcstold()`|Convert string to `long double`.|
+|[i[`wcstol()`]]`wcstol()`|Convert string to `long`.|
+|[i[`wcstoll()`]]`wcstoll()`|Convert string to `long long`.|
+|[i[`wcstoul()`]]`wcstoul()`|Convert string to `unsigned long`.|
+|[i[`wcstoull()`]]`wcstoull()`|Convert string to `unsigned long long`.|
 
 ### String and Memory Copying Functions
 
@@ -627,12 +718,12 @@ Typically include `<wchar.h>` for these.
 
 |Copying Function|Description|
 |----|----------------------------------------------|
-|`wcscpy()`|Copy string.|
-|`wcsncpy()`|Copy string, length-limited.|
-|`wmemcpy()`|Copy memory.|
-|`wmemmove()`|Copy potentially-overlapping memory.|
-|`wcscat()`|Concatenate strings.|
-|`wcsncat()`|Concatenate strings, length-limited.|
+|[i[`wcscpy()`]]`wcscpy()`|Copy string.|
+|[i[`wcsncpy()`]]`wcsncpy()`|Copy string, length-limited.|
+|[i[`wmemcpy()`]]`wmemcpy()`|Copy memory.|
+|[i[`wmemmove()`]]`wmemmove()`|Copy potentially-overlapping memory.|
+|[i[`wcscat()`]]`wcscat()`|Concatenate strings.|
+|[i[`wcsncat()`]]`wcsncat()`|Concatenate strings, length-limited.|
 
 ### String and Memory Comparing Functions
 
@@ -640,11 +731,11 @@ Typically include `<wchar.h>` for these.
 
 |Comparing Function|Description|
 |-------------------|---------------------------------------------------------------|
-|`wcscmp()`|Compare strings lexicographically.|
-|`wcsncmp()`|Compare strings lexicographically, length-limited.|
-|`wcscoll()`|Compare strings in dictionary order by locale.|
-|`wmemcmp()`|Compare memory lexicographically.|
-|`wcsxfrm()`|Transform strings into versions such that `wcscmp()` behaves like `wcscoll()`[^97d0].|
+|[i[`wcscmp()`]]`wcscmp()`|Compare strings lexicographically.|
+|[i[`wcsncmp()`]]`wcsncmp()`|Compare strings lexicographically, length-limited.|
+|[i[`wcscoll()`]]`wcscoll()`|Compare strings in dictionary order by locale.|
+|[i[`wmemcmp()`]]`wmemcmp()`|Compare memory lexicographically.|
+|[i[`wcsxfrm()`]]`wcsxfrm()`|Transform strings into versions such that `wcscmp()` behaves like `wcscoll()`[^97d0].|
 
 [^97d0]: `wcscoll()` is the same as `wcsxfrm()` followed by `wcscmp()`.
 
@@ -654,14 +745,14 @@ Typically include `<wchar.h>` for these.
 
 |Searching Function|Description|
 |-|-|
-|`wcschr()`|Find a character in a string.|
-|`wcsrchr()`|Find a character in a string from the back.|
-|`wmemchr()`|Find a character in memory.|
-|`wcsstr()`|Find a substring in a string.|
-|`wcspbrk()`|Find any of a set of characters in a string.|
-|`wcsspn()`|Find length of substring including any of a set of characters.|
-|`wcscspn()`|Find length of substring before any of a set of characters.|
-|`wcstok()`|Find tokens in a string.|
+|[i[`wcschr()`]]`wcschr()`|Find a character in a string.|
+|[i[`wcsrchr()`]]`wcsrchr()`|Find a character in a string from the back.|
+|[i[`wmemchr()`]]`wmemchr()`|Find a character in memory.|
+|[i[`wcsstr()`]]`wcsstr()`|Find a substring in a string.|
+|[i[`wcspbrk()`]]`wcspbrk()`|Find any of a set of characters in a string.|
+|[i[`wcsspn()`]]`wcsspn()`|Find length of substring including any of a set of characters.|
+|[i[`wcscspn()`]]`wcscspn()`|Find length of substring before any of a set of characters.|
+|[i[`wcstok()`]]`wcstok()`|Find tokens in a string.|
 
 ### Length/Miscellaneous Functions
 
@@ -669,9 +760,9 @@ Typically include `<wchar.h>` for these.
 
 |Length/Misc Function|Description|
 |-|-|
-|`wcslen()`|Return the length of the string.|
-|`wmemset()`|Set characters in memory.|
-|`wcsftime()`|Formatted date and time output.|
+|[i[`wcslen()`]]`wcslen()`|Return the length of the string.|
+|[i[`wmemset()`]]`wmemset()`|Set characters in memory.|
+|[i[`wcsftime()`]]`wcsftime()`|Formatted date and time output.|
 
 ### Character Classification Functions
 
@@ -679,22 +770,24 @@ Include `<wctype.h>` for these.
 
 |Length/Misc Function|Description|
 |-|-|
-|`iswalnum()`|True if the character is alphanumeric.|
-|`iswalpha()`|True if the character is alphabetic.|
-|`iswblank()`|True if the character is blank (space-ish, but not a newline).|
-|`iswcntrl()`|True if the character is a control character.|
-|`iswdigit()`|True if the character is a digit.|
-|`iswgraph()`|True if the character is printable (except space).|
-|`iswlower()`|True if the character is lowercase.|
-|`iswprint()`|True if the character is printable (including space).|
-|`iswpunct()`|True if the character is punctuation.|
-|`iswspace()`|True if the character is whitespace.|
-|`iswupper()`|True if the character is uppercase.|
-|`iswxdigit()`|True if the character is a hex digit.|
-|`towlower()`|Convert character to lowercase.|
-|`towupper()`|Convert character to uppercase.|
+|[i[`iswalnum()`]]`iswalnum()`|True if the character is alphanumeric.|
+|[i[`iswalpha()`]]`iswalpha()`|True if the character is alphabetic.|
+|[i[`iswblank()`]]`iswblank()`|True if the character is blank (space-ish, but not a newline).|
+|[i[`iswcntrl()`]]`iswcntrl()`|True if the character is a control character.|
+|[i[`iswdigit()`]]`iswdigit()`|True if the character is a digit.|
+|[i[`iswgraph()`]]`iswgraph()`|True if the character is printable (except space).|
+|[i[`iswlower()`]]`iswlower()`|True if the character is lowercase.|
+|[i[`iswprint()`]]`iswprint()`|True if the character is printable (including space).|
+|[i[`iswpunct()`]]`iswpunct()`|True if the character is punctuation.|
+|[i[`iswspace()`]]`iswspace()`|True if the character is whitespace.|
+|[i[`iswupper()`]]`iswupper()`|True if the character is uppercase.|
+|[i[`iswxdigit()`]]`iswxdigit()`|True if the character is a hex digit.|
+|[i[`towlower()`]]`towlower()`|Convert character to lowercase.|
+|[i[`towupper()`]]`towupper()`|Convert character to uppercase.|
 
 ## Parse State, Restartable Functions
+
+[i[Multibyte characters-->parse state]<]
 
 We're going to get a little bit into the guts of multibyte conversion,
 but this is a good thing to understand, conceptually.
@@ -818,6 +911,9 @@ Finally, these restartable conversion functions do actually have their
 own internal state if you pass in `NULL` for the `mbstate_t` parameter.
 This makes them behave more like their non-restartable counterparts.
 
+[i[Multibyte characters-->parse state]>]
+[i[Wide characters]>]
+
 ## Unicode Encodings and C
 
 In this section, we'll see what C can (and can't) do when it comes to
@@ -825,12 +921,16 @@ three specific Unicode encodings: UTF-8, UTF-16, and UTF-32.
 
 ### UTF-8
 
+[i[Unicode-->UTF-8]<]
+
 To refresh before this section, read the [UTF-8 quick note,
 above](#utf8-quick).
 
 Aside from that, what are C's UTF-8 capabilities?
 
 Well, not much, unfortunately.
+
+[i[`u8` UTF-8 prefix]<]
 
 You can tell C that you specifically want a string literal to be UTF-8
 encoded, and it'll do it for you. You can prefix a string with `u8`:
@@ -847,6 +947,8 @@ Now, can you put Unicode characters in there?
 char *s = u8"€123";
 ```
 
+[i[`u8` UTF-8 prefix]>]
+
 Sure! If the extended source character set supports it. (gcc does.)
 
 What if it doesn't? You can specify a Unicode code point with your
@@ -857,6 +959,8 @@ take arbirary input and turn it into UTF-8 unless your locale is UTF-8.
 Or to parse UTF-8 unless your locale is UTF-8.
 
 So if you want to do it, either be in a UTF-8 locale and:
+
+[i[`setlocale()`]<]
 
 ``` {.c}
 setlocale(LC_ALL, "");
@@ -869,9 +973,18 @@ explicitly like so:
 setlocale(LC_ALL, "en_US.UTF-8");  // Non-portable name
 ```
 
+[i[`setlocale()`]>]
+
 Or use a [third-party library](#utf-3rd-party).
 
+[i[Unicode-->UTF-8]>]
+
 ### UTF-16, UTF-32, `char16_t`, and `char32_t`
+
+[i[Unicode-->UTF-16]<]
+[i[Unicode-->UTF-32]<]
+[i[`char16_t`]<]
+[i[`char32_t`]<]
 
 `char16_t` and `char32_t` are a couple other potentially wide character
 types with sizes of 16 bits and 32 bits, respectively. Not necessarily
@@ -896,6 +1009,9 @@ typedef int_least32_t char32_t;
 
 But if you also want the functions, that's all on you.
 
+[i[`u` Unicode prefix]<]
+[i[`U` Unicode prefix]<]
+
 Assuming you're still good to go, you can declare a string or character
 of these types with the `u` and `U` prefixes:
 
@@ -907,10 +1023,15 @@ char32_t *t = U"Hello, world!";
 char32_t d = U'B';
 ```
 
+[i[`char32_t`]>]
+[i[`u` Unicode prefix]>]
+[i[`U` Unicode prefix]>]
+
 Now---are values in these stored in UTF-16 or UTF-32? Depends on the
 implementation.
 
-But you can test to see if they are. If the macros `__STDC_UTF_16__` or
+But you can test to see if they are. If the macros [i[`__STDC_UTF_16__`
+macro]] `__STDC_UTF_16__` or [i[`__STDC_UTF_32__ macro`]]
 `__STDC_UTF_32__` are defined (to `1`) it means the types hold UTF-16 or
 UTF-32, respectively.
 
@@ -928,6 +1049,10 @@ pi == 0x3C0;  // Probably not true
 #endif
 ```
 
+[i[`char16_t`]>]
+[i[Unicode-->UTF-16]>]
+[i[Unicode-->UTF-32]>]
+
 ### Multibyte Conversions
 
 You can convert from your multibyte encoding to `char16_t` or `char32_t`
@@ -943,16 +1068,16 @@ encodings.].
 
 |Conversion Function|Description|
 |-|-|
-|`mbrtoc16()`|Convert a multibyte character to a `char16_t` character.|
-|`mbrtoc32()`|Convert a multibyte character to a `char32_t` character.|
-|`c16rtomb()`|Convert a `char16_t` character to a multibyte character.|
-|`c32rtomb()`|Convert a `char32_t` character to a multibyte character.|
+|[i[`mbrtoc16()`]]`mbrtoc16()`|Convert a multibyte character to a `char16_t` character.|
+|[i[`mbrtoc32()`]]`mbrtoc32()`|Convert a multibyte character to a `char32_t` character.|
+|[i[`c16rtomb()`]]`c16rtomb()`|Convert a `char16_t` character to a multibyte character.|
+|[i[`c32rtomb()`]]`c32rtomb()`|Convert a `char32_t` character to a multibyte character.|
 
 ### Third-Party Libraries {#utf-3rd-party}
 
-For heavy-duty conversion between different specific encodings, there are a
-couple mature libraries worth checking out. Note that I haven't used
-either of these.
+For heavy-duty conversion between different specific encodings, there
+are a couple mature libraries worth checking out. Note that I haven't
+used either of these.
 
 * [flw[iconv|Iconv]]---Internationalization Conversion, a common
   POSIX-standard API available on the major platforms.
@@ -960,3 +1085,5 @@ either of these.
   Unicode. At least one blogger found this easy to use.
 
 If you have more noteworthy libraries, let me know.
+
+[i[Unicode]>]
