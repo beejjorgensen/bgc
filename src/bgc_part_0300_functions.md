@@ -63,7 +63,7 @@ int main(void)
 > error. There is a more proper way to do the above code with _function
 > prototypes_, but we'll talk about that later.
 
-Also notice that `main()`[i[`main()`]] is a function!
+Also notice that `main()`[i[`main()` function]] is a function!
 
 It returns an `int`.
 

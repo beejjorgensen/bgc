@@ -77,9 +77,9 @@ arguments themselves follow directly.
 
 Source:
 
-[i[`argc`]<]
-[i[`argv`]<]
-[i[`main()`-->command line options]<]
+[i[`argc` parameter]<]
+[i[`argv` parameter]<]
+[i[`main()` function-->command line options]<]
 
 ``` {.c .numberLines}
 #include <stdio.h>
@@ -150,8 +150,8 @@ int main(int argc, char **argv)
 }
 ```
 
-[i[`main()`-->command line options]>]
-[i[`argc`]>]
+[i[`main()` function-->command line options]>]
+[i[`argc` parameter]>]
 
 Sample runs:
 
@@ -258,7 +258,7 @@ style floating around, as well.
 
 ### Fun Facts
 
-[i[`argc`]<]
+[i[`argc` parameter]<]
 
 Just a few more things about `argc` and `argv`.
 
@@ -301,8 +301,8 @@ Just a few more things about `argc` and `argv`.
 
   This behavior is not in the spec and is highly system-dependent.
 
-[i[`argc`]>]
-[i[`argv`]>]
+[i[`argc` parameter]>]
+[i[`argv` parameter]>]
 [i[Command line arguments]>]
 
 ## Exit Status {#exit-status}
@@ -319,13 +319,13 @@ Now, there are a number of ways a program can exit in C, including
 
 All of these methods accept an `int` as an argument.
 
-[i[`main()`-->returning from]<]
+[i[`main()` function-->returning from]<]
 Side note: did you see that in basically all my examples, even though
 `main()` is supposed to return an `int`, I don't actually `return`
 anything? In any other function, this would be illegal, but there's a
 special case in C: if execution reaches the end of `main()` without
 finding a `return`, it automatically does a `return 0`.
-[i[`main()`-->returning from]>]
+[i[`main()` function-->returning from]>]
 
 But what does the `0` mean? What other numbers can we put there? And how
 are they used?
@@ -363,8 +363,8 @@ status.
 Now, the C spec allows for two different status values, which have macro
 names defined in `<stdlib.h>`:
 
-[i[`EXIT_SUCCESS`]<]
-[i[`EXIT_FAILURE`]<]
+[i[`EXIT_SUCCESS` macro]<]
+[i[`EXIT_FAILURE` macro]<]
 
 |Status|Description|
 |-|-|
@@ -392,8 +392,8 @@ int main(int argc, char **argv)
 }
 ```
 
-[i[`EXIT_SUCCESS`]>]
-[i[`EXIT_FAILURE`]>]
+[i[`EXIT_SUCCESS` macro]>]
+[i[`EXIT_FAILURE` macro]>]
 
 Now if we try to run this, we get the expected effect until we specify
 exactly the right number of command-line arguments:
@@ -438,9 +438,9 @@ $ echo $?
 
 [i[Exit status-->obtaining from shell]>]
 
-Interesting! We see that on my system, [i[`EXIT_FAILURE`]]`EXIT_FAILURE`
-is `1`. The spec doesn't spell this out, so it could be any number. But
-try it; it's probably `1` on your system, too.
+Interesting! We see that on my system, [i[`EXIT_FAILURE`
+macro]]`EXIT_FAILURE` is `1`. The spec doesn't spell this out, so it
+could be any number. But try it; it's probably `1` on your system, too.
 
 ### Other Exit Status Values
 
@@ -499,7 +499,7 @@ convert the string with something like `atoi()` or `strtol()`.].
 So, _anyway_! Long story short, it's possible to get these values from
 inside your C program.
 
-[i[`getenv()`]<]
+[i[`getenv()` function]<]
 
 Let's write a program that uses the standard `getenv()` function to look
 up a value that you set in the shell.
@@ -525,7 +525,7 @@ int main(void)
 }
 ```
 
-[i[`getenv()`]>]
+[i[`getenv()` function]>]
 
 If I run this directly, I get this:
 
@@ -558,10 +558,10 @@ get it in your C code and modify your behavior accordingly.
 This isn't standard, but a lot of systems provide ways to set
 environment variables.
 
-If on a Unix-like, look up the documentation for
-[i[`putenv()`]]`putenv()`, [i[`setenv()`]]`setenv()`, and
-[i[`unsetenv()`]]`unsetenv()`. On Windows, see
-[i[`_putenv()`]]`_putenv()`.
+If on a Unix-like, look up the documentation for [i[`putenv()`
+function]]`putenv()`, [i[`setenv()`]]`setenv()`, and [i[`unsetenv()`
+function]]`unsetenv()`. On Windows, see [i[`_putenv()`
+function]]`_putenv()`.
 
 ### Unix-like Alternative Environment Variables
 

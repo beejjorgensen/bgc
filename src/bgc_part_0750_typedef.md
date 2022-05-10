@@ -5,7 +5,7 @@
 
 # `typedef`: Making New Types
 
-[i[`typedef`]<]
+[i[`typedef` keyword]<]
 Well, not so much making _new_ types as getting new names for existing
 types. Sounds kinda pointless on the surface, but we can really use this
 to make our code cleaner.
@@ -38,7 +38,7 @@ this in a moment.
 
 ### Scoping
 
-[i[`typedef`-->scoping rules]<]
+[i[`typedef` keyword-->scoping rules]<]
 `typedef` follows regular [scoping rules](#scope).
 
 For this reason, it's quite common to find `typedef` at file scope
@@ -51,7 +51,7 @@ So renaming `int` to something else isn't that exciting. Let's see where
 
 ### `typedef` and `struct`s {#typedef-struct}
 
-[i[`typedef`-->with `struct`s]<]
+[i[`typedef` keyword-->with `struct`s]<]
 Sometimes a `struct` will be `typedef`'d to a new name so you don't have
 to type the word `struct` over and over.
 
@@ -95,7 +95,7 @@ animal z;         // This also works because "animal" is an alias
 
 That's exactly the same as the previous example, just more concise.
 
-[i[`typedef`-->with anonymous `struct`s]<]
+[i[`typedef` keyword-->with anonymous `struct`s]<]
 But that's not all! There's another common shortcut that you might see
 in code using what are called _anonymous structures_^[We'll talk more
 about these later.]. It turns out you don't actually need to name the
@@ -128,9 +128,9 @@ point p = {.x=20, .y=40};
 
 printf("%d, %d\n", p.x, p.y);  // 20, 40
 ```
-[i[`typedef`-->with anonymous `struct`s]>]
-[i[`typedef`-->with `struct`s]>]
-[i[`typedef`-->scoping rules]>]
+[i[`typedef` keyword-->with anonymous `struct`s]>]
+[i[`typedef` keyword-->with `struct`s]>]
+[i[`typedef` keyword-->scoping rules]>]
 
 ### `typedef` and Other Types
 
@@ -167,7 +167,7 @@ app_float f1, f2, f3;  // Now these are all long doubles
 
 ### `typedef` and Pointers
 
-[i[`typedef`-->with pointers]<]
+[i[`typedef` keyword-->with pointers]<]
 You can make a type that is a pointer.
 
 ``` {.c}
@@ -185,7 +185,7 @@ type so that other devs can clearly see it and don't mistake `x` for
 having a non-pointer type.
 
 But at last count, say, 832,007 people had a different opinion.
-[i[`typedef`-->with pointers]>]
+[i[`typedef` keyword-->with pointers]>]
 
 ### `typedef` and Capitalization
 
@@ -220,7 +220,7 @@ and stick with it.
 
 ## Arrays and `typedef`
 
-[i[`typedef`-->with arrays]<]
+[i[`typedef` keyword-->with arrays]<]
 The syntax is a little weird, and this is rarely seen in my experience,
 but you can `typedef` an array of some number of items.
 
@@ -233,5 +233,5 @@ five_ints x = {11, 22, 33, 44, 55};
 
 I don't like it because it hides the array nature of the variable, but
 it's possible to do.
-[i[`typedef`-->with arrays]>]
-[i[`typedef`]>]
+[i[`typedef` keyword-->with arrays]>]
+[i[`typedef` keyword]>]

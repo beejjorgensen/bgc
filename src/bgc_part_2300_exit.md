@@ -5,6 +5,8 @@
 
 # Exiting a Program
 
+[i[Exiting]<]
+
 Turns out there are a lot of ways to do this, and even ways to set up
 "hooks" so that a function runs when a program exits.
 
@@ -28,6 +30,8 @@ time unless you have reasons to do otherwise.
 
 ### Returning From `main()`
 
+[i[Exiting-->return from `main()`]<]
+
 If you've noticed, `main()` has a return type of `int`... and yet I've
 rarely, if ever, been `return`ing anything from `main()` at all.
 
@@ -48,7 +52,11 @@ So... here are the `return` rules for `main()`:
 * If you don't explicitly `return` and just fall off the end of
   `main()`, it's just as if you'd returned `0` or `EXIT_SUCCESS`.
 
+[i[Exiting-->return from `main()`]>]
+
 ### `exit()`
+
+[i[Exiting-->return from `main()`]>]
 
 This one has also made an appearance a few times. If you call `exit()`
 from anywhere in your program, it will exit at that point.
@@ -56,6 +64,8 @@ from anywhere in your program, it will exit at that point.
 The argument you pass to `exit()` is the exit status.
 
 ### Setting Up Exit Handlers with `atexit()`
+
+[i[`atexit()` function]<]
 
 You can register functions to be called when a program exits whether by
 returning from `main()` or calling the `exit()` function.
@@ -97,7 +107,11 @@ Exit handler 2 called!
 Exit handler 1 called!
 ```
 
+[i[`atexit()` function]>]
+
 ## Quicker Exits with `quick_exit()`
+
+[i[`quick_exit()` function]<]
 
 This is similar to a normal exit, except:
 
@@ -151,7 +165,11 @@ Quick exit handler 1 called!
 It works just like `exit()`/`atexit()`, except for the fact that file
 flushing and cleanup might not be done.
 
+[i[`quick_exit()` function]>]
+
 ## Nuke it from Orbit: `_Exit()`
+
+[i[`_Exit()` function]<]
 
 Calling `_Exit()` exits immediately, period. No on-exit callback
 functions are executed. Files won't be flushed. Temp files won't be
@@ -194,8 +212,11 @@ This isn't very user-friendly, so it's only used for things the user
 will never see. And often people [write their own assert macros that can
 more easily be turned off](#my-assert).
 
+[i[`_Exit()` function]>]
 
 ## Abnormal Exit: `abort()`
+
+[i[`abort()` function]<]
 
 You can use this if something has gone horribly wrong and you want to
 indicate as much to the outside environment. This also won't necessarily
@@ -204,7 +225,10 @@ clean up any open files, etc.
 I've rarely seen this used.
 
 Some foreshadowing about _signals_: this actually works by raising a
-`SIGABRT` which will end the process. 
+[i[`SIGABRT` signal]] `SIGABRT` which will end the process. 
 
 What happens after that is up to the system, but on Unix-likes, it was
 common to [flw[dump core|Core_dump]] as the program terminated.
+
+[i[`abort()` function]>]
+[i[Exiting]>]

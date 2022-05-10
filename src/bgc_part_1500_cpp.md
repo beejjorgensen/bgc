@@ -23,7 +23,7 @@ macros that take arguments!
 
 ## `#include`
 
-[i[`#include`]<]
+[i[`#include` directive]<]
 
 Let's start with the one we've already seen a bunch. This is, of course,
 a way to include other sources in your source. Very commonly used with
@@ -45,7 +45,7 @@ can include with angle brackets:
 The angle brackets tell C, "Hey, don't look in the current directory for
 this header file---look in the system-wide include directory instead."
 
-[i[`#include`-->local files]<]
+[i[`#include` directive-->local files]<]
 
 Which, of course, implies that there must be a way to include local
 files from the current directory. And there is: with double quotes:
@@ -68,8 +68,8 @@ It's undefined behavior! Use forward slash (`/`) only, even on Windows.
 In summary, used angle brackets (`<` and `>`) for the system includes,
 and use double quotes (`"`) for your personal includes.
 
-[i[`#include`-->local files]>]
-[i[`#include`]>]
+[i[`#include` directive-->local files]>]
+[i[`#include` directive]>]
 
 ## Simple Macros
 
@@ -80,7 +80,7 @@ before the compiler even sees it. Think of it like a placeholder---when
 the preprocessor sees one of those identifiers, it replaces it with
 another value that you've defined.
 
-[i[`#define`]<]
+[i[`#define` directive]<]
 
 We do this with `#define` (often read "pound define"). Here's an
 example:
@@ -135,7 +135,7 @@ nothing. We'll see a use for this later.
 It's conventional to write macro names in `ALL_CAPS` even though that's
 not technically required.
 
-[i[`#define`-->versus `const`]<]
+[i[`#define` directive-->versus `const`]<]
 
 Overall, this gives you a way to define constant values that are
 effectively global and can be used _any_ place. Even in those places
@@ -148,8 +148,8 @@ better than `#define` macro in the general case.
 It can also be used to replace or modify keywords, a concept completely
 foreign to `const`, though this practice should be used sparingly.
 
-[i[`#define`-->versus `const`]>]
-[i[`#define`]>]
+[i[`#define` directive-->versus `const`]>]
+[i[`#define` directive]>]
 [i[Preprocessor-->macros]>]
 
 ## Conditional Compilation
@@ -168,8 +168,8 @@ similar to `if`-`else` statements.
 First of all, let's try to compile specific code depending on whether or
 not a macro is even defined.
 
-[i[`#ifdef`]<]
-[i[`#endif`]<]
+[i[`#ifdef` directive]<]
+[i[`#endif` directive]<]
 
 ``` {.c .numberLines}
 #include <stdio.h>
@@ -192,8 +192,8 @@ defined), then on line 8 we check to see if it is defined with an
 `#ifdef` directive. If it is defined, the subsequent code will be
 included up until the `#endif`.
 
-[i[`#ifdef`]>]
-[i[`#endif`]>]
+[i[`#ifdef` directive]>]
+[i[`#endif` directive]>]
 
 So because it is defined, the code will be included for compilation and
 the output will be:
@@ -227,8 +227,8 @@ There's also the negative sense of "if defined": "if not defined", or
 `#ifndef`. We could change the previous example to read to output
 different things based on whether or not something was defined:
 
-[i[`#ifndef`]<]
-[i[`#endif`]<]
+[i[`#ifndef` directive]<]
+[i[`#endif` directive]<]
 
 ``` {.c .numberLines startFrom="8"}
 #ifdef EXTRA_HAPPY
@@ -255,8 +255,8 @@ int x = 12;
 #endif  // Last line of myheader.h
 ```
 
-[i[`#ifndef`]>]
-[i[`#endif`]>]
+[i[`#ifndef` directive]>]
+[i[`#endif` directive]>]
 
 This demonstrates how a macro persists across files and multiple
 `#include`s. If it's not yet defined, let's define it and compile the
@@ -269,13 +269,13 @@ removed.
 
 ### `#else`
 
-[i[`#else`]<]
+[i[`#else` directive]<]
 
 But that's not all we can do! There's also an `#else` that we can throw
 in the mix.
 
-[i[`#ifdef`]<]
-[i[`#endif`]<]
+[i[`#ifdef` directive]<]
+[i[`#endif` directive]<]
 
 Let's mod the previous example:
 
@@ -287,9 +287,9 @@ Let's mod the previous example:
 #endif
 ```
 
-[i[`#ifdef`]>]
-[i[`#else`]>]
-[i[`#endif`]>]
+[i[`#ifdef` directive]>]
+[i[`#else` directive]>]
+[i[`#endif` directive]>]
 
 Now if `EXTRA_HAPPY` is not defined, it'll hit the `#else` clause and
 print:
@@ -300,8 +300,8 @@ I'm just regular
 
 ### General Conditional: `#if`, `#elif`
 
-[i[`#if`]<]
-[i[`#elif`]<]
+[i[`#if` directive]<]
+[i[`#elif` directive]<]
 
 This works very much like the `#ifdef` and `#ifndef` directives in that
 you can also have an `#else` and the whole thing wraps up with `#endif`.
@@ -331,7 +331,7 @@ int main(void)
 }
 ```
 
-[i[`#elif`]>]
+[i[`#elif` directive]>]
 
 Again, for the unmatched `#if` clauses, the compiler won't even see
 those lines. For the above code, after the preprocessor gets finished
@@ -353,7 +353,7 @@ One hackish thing this is used for is to comment out large numbers of
 lines quickly^[You can't always just wrap the code in `/*` `*/` comments
 because those won't nest.].
 
-[i[`#if 0`]<]
+[i[`#if 0` directive]<]
 
 If you put an `#if 0` ("if false") at the front of the block to be
 commented out and an `#endif` at the end, you can get this effect:
@@ -365,7 +365,7 @@ commented out and an `#endif` at the end, you can get this effect:
 #endif
 ```
 
-[i[`#if 0`]>]
+[i[`#if 0` directive]>]
 
 You might have noticed that there's no `#elifdef` or `#elifndef`
 directives. How can we get the same effect with `#if`? That is, what if
@@ -386,7 +386,7 @@ use with an `#if` statement.
 
 These are equivalent:
 
-[i[`#if defined`]<]
+[i[`#if defined` directive]<]
 ``` {.c}
 #ifdef FOO
 #if defined FOO
@@ -426,13 +426,13 @@ can be replaced with:
 #endif
 ```
 
-[i[`#if defined`]>]
-[i[`#if`]>]
+[i[`#if defined` directive]>]
+[i[`#if` directive]>]
 [i[Conditional compilation]>]
 
 ### Losing a Macro: `#undef`
 
-[i[`#undef`]<]
+[i[`#undef` directive]<]
 
 If you've defined something but you don't need it any longer, you can
 undefine it with `#undef`.
@@ -456,7 +456,7 @@ int main(void)
 }
 ```
 
-[i[`#undef`]>]
+[i[`#undef` directive]>]
 
 ## Built-in Macros
 
@@ -589,7 +589,7 @@ platform. You can define different keywords for one platform or another.
 
 Let's start with a simple one that squares a number:
 
-[i[`#define`]<]
+[i[`#define` directive]<]
 
 ``` {.c .numberLines}
 #include <stdio.h>
@@ -784,7 +784,7 @@ You can also "stringify" `__VA_ARGS__` by putting a `#` in front of it:
 printf("%s\n", X(1,2,3));  // Prints "1, 2, 3"
 ```
 
-[i[`#define`]>]
+[i[`#define` directive]>]
 [i[Preprocessor-->macros with variable arguments]>]
 [i[Preprocessor-->macros with arguments]>]
 

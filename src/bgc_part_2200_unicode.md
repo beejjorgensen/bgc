@@ -342,28 +342,29 @@ tradeoff that's worth it to you.
 There are some caveats, however:
 
 * Things like `strlen()` report the number of bytes in a string, not the
-  number of characters, necessarily. (The [i[`mbstowcs()`-->with
+  number of characters, necessarily. (The [i[`mbstowcs()` function-->with
   UTF-8]]`mbstowcs()` returns the number of characters in a string when
   you convert it to wide characters. POSIX extends this so you can pass
   `NULL` for the first argument if you just want the character count.)
 
 * The following won't work properly with characters of more than one
-  byte: [i[`strtok()`-->with UTF-8]]`strtok()`, [i[`strchr()`-->with
-  UTF-8]]`strchr()` (use [i[`strstr()`-->with UTF-8]]`strstr()`
-  instead), `strspn()`-type functions, [i[`toupper()`-->with
-  UTF-8]]`toupper()`, [i[`tolower()`-->with UTF-8]]`tolower()`,
-  [i[`isalpha()`-->with UTF-8]]`isalpha()`-type functions, and probably
-  more. Beware anything that operates on bytes.
+  byte: [i[`strtok()` function-->with UTF-8]]`strtok()`, [i[`strchr()`
+  function-->with UTF-8]]`strchr()` (use [i[`strstr()` function-->with
+  UTF-8]]`strstr()` instead), `strspn()`-type functions, [i[`toupper()`
+  function-->with UTF-8]]`toupper()`, [i[`tolower()` function-->with
+  UTF-8]]`tolower()`, [i[`isalpha()` function-->with
+  UTF-8]]`isalpha()`-type functions, and probably more. Beware anything
+  that operates on bytes.
 
-* [i[`printf()`-->with UTF-8]]`printf()` variants allow for a way to
-  only print so many bytes of a string^[With a format specifier like
-  `"%s.12"`, for example.]. You want to make certain you print the
+* [i[`printf()` function-->with UTF-8]]`printf()` variants allow for a
+  way to only print so many bytes of a string^[With a format specifier
+  like `"%s.12"`, for example.]. You want to make certain you print the
   correct number of bytes to end on a character boundary.
 
-* [i[`malloc()`-->with UTF-8]]If you want to `malloc()` space for a
-  string, or declare an array of `char`s for one, be aware that the
-  maximum size could be more than you were expecting. Each character
-  could take up to [i[`MB_LEN_MAX`]]`MB_LEN_MAX` bytes (from
+* [i[`malloc()` function-->with UTF-8]]If you want to `malloc()` space
+  for a string, or declare an array of `char`s for one, be aware that
+  the maximum size could be more than you were expecting. Each character
+  could take up to [i[`MB_LEN_MAX` macro]]`MB_LEN_MAX` bytes (from
   `<limits.h>`)---except characters in the basic character set which are
   guaranteed to be one byte.
 
@@ -401,8 +402,9 @@ char c[128] = "Hello, world!";  // Multibyte string
 
 What we're saying here is that a particular character that's not in the
 basic character set could be composed of multiple bytes. Up to
-[i[`MB_LEN_MAX`]]`MB_LEN_MAX` of them (from `<limits.h>`). Sure, it only
-looks like one character on the screen, but it could be multiple bytes.
+[i[`MB_LEN_MAX` macro]]`MB_LEN_MAX` of them (from `<limits.h>`). Sure,
+it only looks like one character on the screen, but it could be multiple
+bytes.
 
 You can throw Unicode values in there, as well, as we saw earlier:
 
@@ -414,7 +416,7 @@ printf("%s\n", s);  // €1.23
 
 But here we're getting into some weirdness, because check this out:
 
-[i[`strlen()`-->with UTF-8]<]
+[i[`strlen()` function-->with UTF-8]<]
 
 ``` {.c}
 char *s = "\u20AC1.23";  // €1.23
@@ -427,7 +429,7 @@ Remember that `strlen()` returns the number of bytes in the string, not
 the number of characters. (When we get to "wide characters", coming up,
 we'll see a way to get the number of characters in the string.)
 
-[i[`strlen()`-->with UTF-8]>]
+[i[`strlen()` function-->with UTF-8]>]
 
 Note that while C allows individual multibyte `char` constants (as
 opposed to `char*`), the behavior of these varies by implementation and
@@ -459,7 +461,7 @@ on a character-by-character basis rather than a byte-by-byte basis (the
 latter of which gets all messy when characters start taking up variable
 numbers of bytes).
 
-[i[`wchar_t`]<]
+[i[`wchar_t` type]<]
 
 Wide characters can be represented by a number of types, but the big
 standout one is `wchar_t`. It's the main one. It's like `char`, except
@@ -540,16 +542,16 @@ we can call the `mbstowcs()`. And the other way around: `wcstombs()`.
 
 |Conversion Function|Description|
 |-|-|
-|[i[`mbtowc()`]]`mbtowc()`|Convert a multibyte character to a wide character.|
-|[i[`wctomb()`]]`wctomb()`|Convert a wide character to a multibyte character.|
-|[i[`mbstowcs()`]]`mbstowcs()`|Convert a multibyte string to a wide string.|
-|[i[`wcstombs()`]]`wcstombs()`|Convert a wide string to a multibyte string.|
+|[i[`mbtowc()` function]]`mbtowc()`|Convert a multibyte character to a wide character.|
+|[i[`wctomb()` function]]`wctomb()`|Convert a wide character to a multibyte character.|
+|[i[`mbstowcs()` function]]`mbstowcs()`|Convert a multibyte string to a wide string.|
+|[i[`wcstombs()` function]]`wcstombs()`|Convert a wide string to a multibyte string.|
 
 Let's do a quick demo where we convert a multibyte string to a wide
 character string, and compare the string lengths of the two using their
 respective functions.
 
-[i[`mbstowcs()`]<]
+[i[`mbstowcs()` function]<]
 
 ``` {.c .numberLines}
 #include <stdio.h>
@@ -579,7 +581,7 @@ int main(void)
 }
 ```
 
-[i[`wchar_t`]>]
+[i[`wchar_t` type]>]
 
 On my system, this outputs:
 
@@ -611,12 +613,12 @@ size_t len_in_chars = mbstowcs(NULL, "§¶°±π€•", 0);
 printf("%zu", len_in_chars);  // 7
 ```
 
-[i[`mbstowcs()`]>]
+[i[`mbstowcs()` function]>]
 
 Again, that's a non-portable POSIX extension.
 
 And, of course, if you want to convert the other way, it's
-[i[`wcstombs()`]] `wcstombs()`.
+[i[`wcstombs()` function]] `wcstombs()`.
 
 ## Wide Character Functionality
 
@@ -624,12 +626,12 @@ Once we're in wide character land, we have all kinds of functionality at
 our disposal. I'm just going to summarize a bunch of the functions here,
 but basically what we have here are the wide character versions of the
 multibyte string functions that we're use to. (For example, we know
-`strlen()` for multibyte strings; there's a [i[`wcslen()`]] `wcslen()`
-for wide character strings.)
+`strlen()` for multibyte strings; there's a [i[`wcslen()` function]]
+`wcslen()` for wide character strings.)
 
 ### `wint_t`
 
-[i[`wint_t`]<]
+[i[`wint_t` type]<]
 
 A lot of these functions use a `wint_t` to hold single characters,
 whether they are passed in or returned.
@@ -638,7 +640,7 @@ It is related to `wchar_t` in nature. A `wint_t` is an integer that can
 represent all values in the extended character set, and also a special
 end-of-file character, `WEOF`.
 
-[i[`wint_t`]>]
+[i[`wint_t` type]>]
 
 This is used by a number of single-character-oriented wide character
 functions.
@@ -663,8 +665,8 @@ If you first use a byte operation (like `fprintf()`) it will orient the
 stream by bytes.
 
 You can manually set an unoriented stream one way or the other with a
-call to [i[`fwide()`]] `fwide()`. You can use that same function to get
-the orientation of a stream.
+call to [i[`fwide()` function]] `fwide()`. You can use that same
+function to get the orientation of a stream.
 
 If you need to change the orientation mid-flight, you can do it with
 `freopen()`.
@@ -677,26 +679,26 @@ Typically include `<stdio.h>` and `<wchar.h>` for these.
 
 |I/O Function|Description|
 |-|-|
-|[i[`wprintf()`]]`wprintf()`|Formatted console output.|
-|[i[`wscanf()`]]`wscanf()`|Formatted console input.|
-|[i[`getwchar()`]]`getwchar()`|Character-based console input.|
-|[i[`putwchar()`]]`putwchar()`|Character-based console output.|
-|[i[`fwprintf()`]]`fwprintf()`|Formatted file output.|
-|[i[`fwscanf()`]]`fwscanf()`|Formatted file input.|
-|[i[`fgetwc()`]]`fgetwc()`|Character-based file input.|
-|[i[`fputwc()`]]`fputwc()`|Character-based file output.|
-|[i[`fgetws()`]]`fgetws()`|String-based file input.|
-|[i[`fputws()`]]`fputws()`|String-based file output.|
-|[i[`swprintf()`]]`swprintf()`|Formatted string output.|
-|[i[`swscanf()`]]`swscanf()`|Formatted string input.|
-|[i[`vfwprintf()`]]`vfwprintf()`|Variadic formatted file output.|
-|[i[`vfwscanf()`]]`vfwscanf()`|Variadic formatted file input.|
-|[i[`vswprintf()`]]`vswprintf()`|Variadic formatted string output.|
-|[i[`vswscanf()`]]`vswscanf()`|Variadic formatted string input.|
-|[i[`vwprintf()`]]`vwprintf()`|Variadic formatted console output.|
-|[i[`vwscanf()`]]`vwscanf()`|Variadic formatted console input.|
-|[i[`ungetwc()`]]`ungetwc()`|Push a wide character back on an output stream.|
-|[i[`fwide()`]]`fwide()`|Get or set stream multibyte/wide orientation.|
+|[i[`wprintf()` function]]`wprintf()`|Formatted console output.|
+|[i[`wscanf()` function]]`wscanf()`|Formatted console input.|
+|[i[`getwchar()` function]]`getwchar()`|Character-based console input.|
+|[i[`putwchar()` function]]`putwchar()`|Character-based console output.|
+|[i[`fwprintf()` function]]`fwprintf()`|Formatted file output.|
+|[i[`fwscanf()` function]]`fwscanf()`|Formatted file input.|
+|[i[`fgetwc()` function]]`fgetwc()`|Character-based file input.|
+|[i[`fputwc()` function]]`fputwc()`|Character-based file output.|
+|[i[`fgetws()` function]]`fgetws()`|String-based file input.|
+|[i[`fputws()` function]]`fputws()`|String-based file output.|
+|[i[`swprintf()` function]]`swprintf()`|Formatted string output.|
+|[i[`swscanf()` function]]`swscanf()`|Formatted string input.|
+|[i[`vfwprintf()` function]]`vfwprintf()`|Variadic formatted file output.|
+|[i[`vfwscanf()` function]]`vfwscanf()`|Variadic formatted file input.|
+|[i[`vswprintf()` function]]`vswprintf()`|Variadic formatted string output.|
+|[i[`vswscanf()` function]]`vswscanf()`|Variadic formatted string input.|
+|[i[`vwprintf()` function]]`vwprintf()`|Variadic formatted console output.|
+|[i[`vwscanf()` function]]`vwscanf()`|Variadic formatted console input.|
+|[i[`ungetwc()` function]]`ungetwc()`|Push a wide character back on an output stream.|
+|[i[`fwide()` function]]`fwide()`|Get or set stream multibyte/wide orientation.|
 
 ### Type Conversion Functions
 
@@ -704,13 +706,13 @@ Typically include `<wchar.h>` for these.
 
 |Conversion Function|Description|
 |-|-|
-|[i[`wcstod()`]]`wcstod()`|Convert string to `double`.|
-|[i[`wcstof()`]]`wcstof()`|Convert string to `float`.|
-|[i[`wcstold()`]]`wcstold()`|Convert string to `long double`.|
-|[i[`wcstol()`]]`wcstol()`|Convert string to `long`.|
-|[i[`wcstoll()`]]`wcstoll()`|Convert string to `long long`.|
-|[i[`wcstoul()`]]`wcstoul()`|Convert string to `unsigned long`.|
-|[i[`wcstoull()`]]`wcstoull()`|Convert string to `unsigned long long`.|
+|[i[`wcstod()` function]]`wcstod()`|Convert string to `double`.|
+|[i[`wcstof()` function]]`wcstof()`|Convert string to `float`.|
+|[i[`wcstold()` function]]`wcstold()`|Convert string to `long double`.|
+|[i[`wcstol()` function]]`wcstol()`|Convert string to `long`.|
+|[i[`wcstoll()` function]]`wcstoll()`|Convert string to `long long`.|
+|[i[`wcstoul()` function]]`wcstoul()`|Convert string to `unsigned long`.|
+|[i[`wcstoull()` function]]`wcstoull()`|Convert string to `unsigned long long`.|
 
 ### String and Memory Copying Functions
 
@@ -718,12 +720,12 @@ Typically include `<wchar.h>` for these.
 
 |Copying Function|Description|
 |----|----------------------------------------------|
-|[i[`wcscpy()`]]`wcscpy()`|Copy string.|
-|[i[`wcsncpy()`]]`wcsncpy()`|Copy string, length-limited.|
-|[i[`wmemcpy()`]]`wmemcpy()`|Copy memory.|
-|[i[`wmemmove()`]]`wmemmove()`|Copy potentially-overlapping memory.|
-|[i[`wcscat()`]]`wcscat()`|Concatenate strings.|
-|[i[`wcsncat()`]]`wcsncat()`|Concatenate strings, length-limited.|
+|[i[`wcscpy()` function]]`wcscpy()`|Copy string.|
+|[i[`wcsncpy()` function]]`wcsncpy()`|Copy string, length-limited.|
+|[i[`wmemcpy()` function]]`wmemcpy()`|Copy memory.|
+|[i[`wmemmove()` function]]`wmemmove()`|Copy potentially-overlapping memory.|
+|[i[`wcscat()` function]]`wcscat()`|Concatenate strings.|
+|[i[`wcsncat()` function]]`wcsncat()`|Concatenate strings, length-limited.|
 
 ### String and Memory Comparing Functions
 
@@ -731,11 +733,11 @@ Typically include `<wchar.h>` for these.
 
 |Comparing Function|Description|
 |-------------------|---------------------------------------------------------------|
-|[i[`wcscmp()`]]`wcscmp()`|Compare strings lexicographically.|
-|[i[`wcsncmp()`]]`wcsncmp()`|Compare strings lexicographically, length-limited.|
-|[i[`wcscoll()`]]`wcscoll()`|Compare strings in dictionary order by locale.|
-|[i[`wmemcmp()`]]`wmemcmp()`|Compare memory lexicographically.|
-|[i[`wcsxfrm()`]]`wcsxfrm()`|Transform strings into versions such that `wcscmp()` behaves like `wcscoll()`[^97d0].|
+|[i[`wcscmp()` function]]`wcscmp()`|Compare strings lexicographically.|
+|[i[`wcsncmp()` function]]`wcsncmp()`|Compare strings lexicographically, length-limited.|
+|[i[`wcscoll()` function]]`wcscoll()`|Compare strings in dictionary order by locale.|
+|[i[`wmemcmp()` function]]`wmemcmp()`|Compare memory lexicographically.|
+|[i[`wcsxfrm()` function]]`wcsxfrm()`|Transform strings into versions such that `wcscmp()` behaves like `wcscoll()`[^97d0].|
 
 [^97d0]: `wcscoll()` is the same as `wcsxfrm()` followed by `wcscmp()`.
 
@@ -745,14 +747,14 @@ Typically include `<wchar.h>` for these.
 
 |Searching Function|Description|
 |-|-|
-|[i[`wcschr()`]]`wcschr()`|Find a character in a string.|
-|[i[`wcsrchr()`]]`wcsrchr()`|Find a character in a string from the back.|
-|[i[`wmemchr()`]]`wmemchr()`|Find a character in memory.|
-|[i[`wcsstr()`]]`wcsstr()`|Find a substring in a string.|
-|[i[`wcspbrk()`]]`wcspbrk()`|Find any of a set of characters in a string.|
-|[i[`wcsspn()`]]`wcsspn()`|Find length of substring including any of a set of characters.|
-|[i[`wcscspn()`]]`wcscspn()`|Find length of substring before any of a set of characters.|
-|[i[`wcstok()`]]`wcstok()`|Find tokens in a string.|
+|[i[`wcschr()` function]]`wcschr()`|Find a character in a string.|
+|[i[`wcsrchr()` function]]`wcsrchr()`|Find a character in a string from the back.|
+|[i[`wmemchr()` function]]`wmemchr()`|Find a character in memory.|
+|[i[`wcsstr()` function]]`wcsstr()`|Find a substring in a string.|
+|[i[`wcspbrk()` function]]`wcspbrk()`|Find any of a set of characters in a string.|
+|[i[`wcsspn()` function]]`wcsspn()`|Find length of substring including any of a set of characters.|
+|[i[`wcscspn()` function]]`wcscspn()`|Find length of substring before any of a set of characters.|
+|[i[`wcstok()` function]]`wcstok()`|Find tokens in a string.|
 
 ### Length/Miscellaneous Functions
 
@@ -760,9 +762,9 @@ Typically include `<wchar.h>` for these.
 
 |Length/Misc Function|Description|
 |-|-|
-|[i[`wcslen()`]]`wcslen()`|Return the length of the string.|
-|[i[`wmemset()`]]`wmemset()`|Set characters in memory.|
-|[i[`wcsftime()`]]`wcsftime()`|Formatted date and time output.|
+|[i[`wcslen()` function]]`wcslen()`|Return the length of the string.|
+|[i[`wmemset()` function]]`wmemset()`|Set characters in memory.|
+|[i[`wcsftime()` function]]`wcsftime()`|Formatted date and time output.|
 
 ### Character Classification Functions
 
@@ -770,20 +772,20 @@ Include `<wctype.h>` for these.
 
 |Length/Misc Function|Description|
 |-|-|
-|[i[`iswalnum()`]]`iswalnum()`|True if the character is alphanumeric.|
-|[i[`iswalpha()`]]`iswalpha()`|True if the character is alphabetic.|
-|[i[`iswblank()`]]`iswblank()`|True if the character is blank (space-ish, but not a newline).|
-|[i[`iswcntrl()`]]`iswcntrl()`|True if the character is a control character.|
-|[i[`iswdigit()`]]`iswdigit()`|True if the character is a digit.|
-|[i[`iswgraph()`]]`iswgraph()`|True if the character is printable (except space).|
-|[i[`iswlower()`]]`iswlower()`|True if the character is lowercase.|
-|[i[`iswprint()`]]`iswprint()`|True if the character is printable (including space).|
-|[i[`iswpunct()`]]`iswpunct()`|True if the character is punctuation.|
-|[i[`iswspace()`]]`iswspace()`|True if the character is whitespace.|
-|[i[`iswupper()`]]`iswupper()`|True if the character is uppercase.|
-|[i[`iswxdigit()`]]`iswxdigit()`|True if the character is a hex digit.|
-|[i[`towlower()`]]`towlower()`|Convert character to lowercase.|
-|[i[`towupper()`]]`towupper()`|Convert character to uppercase.|
+|[i[`iswalnum()` function]]`iswalnum()`|True if the character is alphanumeric.|
+|[i[`iswalpha()` function]]`iswalpha()`|True if the character is alphabetic.|
+|[i[`iswblank()` function]]`iswblank()`|True if the character is blank (space-ish, but not a newline).|
+|[i[`iswcntrl()` function]]`iswcntrl()`|True if the character is a control character.|
+|[i[`iswdigit()` function]]`iswdigit()`|True if the character is a digit.|
+|[i[`iswgraph()` function]]`iswgraph()`|True if the character is printable (except space).|
+|[i[`iswlower()` function]]`iswlower()`|True if the character is lowercase.|
+|[i[`iswprint()` function]]`iswprint()`|True if the character is printable (including space).|
+|[i[`iswpunct()` function]]`iswpunct()`|True if the character is punctuation.|
+|[i[`iswspace()` function]]`iswspace()`|True if the character is whitespace.|
+|[i[`iswupper()` function]]`iswupper()`|True if the character is uppercase.|
+|[i[`iswxdigit()` function]]`iswxdigit()`|True if the character is a hex digit.|
+|[i[`towlower()` function]]`towlower()`|Convert character to lowercase.|
+|[i[`towupper()` function]]`towupper()`|Convert character to uppercase.|
 
 ## Parse State, Restartable Functions
 
@@ -960,7 +962,7 @@ Or to parse UTF-8 unless your locale is UTF-8.
 
 So if you want to do it, either be in a UTF-8 locale and:
 
-[i[`setlocale()`]<]
+[i[`setlocale()` function]<]
 
 ``` {.c}
 setlocale(LC_ALL, "");
@@ -973,7 +975,7 @@ explicitly like so:
 setlocale(LC_ALL, "en_US.UTF-8");  // Non-portable name
 ```
 
-[i[`setlocale()`]>]
+[i[`setlocale()` function]>]
 
 Or use a [third-party library](#utf-3rd-party).
 
@@ -983,8 +985,8 @@ Or use a [third-party library](#utf-3rd-party).
 
 [i[Unicode-->UTF-16]<]
 [i[Unicode-->UTF-32]<]
-[i[`char16_t`]<]
-[i[`char32_t`]<]
+[i[`char16_t` type]<]
+[i[`char32_t` type]<]
 
 `char16_t` and `char32_t` are a couple other potentially wide character
 types with sizes of 16 bits and 32 bits, respectively. Not necessarily
@@ -1023,7 +1025,7 @@ char32_t *t = U"Hello, world!";
 char32_t d = U'B';
 ```
 
-[i[`char32_t`]>]
+[i[`char32_t` type]>]
 [i[`u` Unicode prefix]>]
 [i[`U` Unicode prefix]>]
 
@@ -1049,7 +1051,7 @@ pi == 0x3C0;  // Probably not true
 #endif
 ```
 
-[i[`char16_t`]>]
+[i[`char16_t` type]>]
 [i[Unicode-->UTF-16]>]
 [i[Unicode-->UTF-32]>]
 
@@ -1068,10 +1070,10 @@ encodings.].
 
 |Conversion Function|Description|
 |-|-|
-|[i[`mbrtoc16()`]]`mbrtoc16()`|Convert a multibyte character to a `char16_t` character.|
-|[i[`mbrtoc32()`]]`mbrtoc32()`|Convert a multibyte character to a `char32_t` character.|
-|[i[`c16rtomb()`]]`c16rtomb()`|Convert a `char16_t` character to a multibyte character.|
-|[i[`c32rtomb()`]]`c32rtomb()`|Convert a `char32_t` character to a multibyte character.|
+|[i[`mbrtoc16()` function]]`mbrtoc16()`|Convert a multibyte character to a `char16_t` character.|
+|[i[`mbrtoc32()` function]]`mbrtoc32()`|Convert a multibyte character to a `char32_t` character.|
+|[i[`c16rtomb()` function]]`c16rtomb()`|Convert a `char16_t` character to a multibyte character.|
+|[i[`c32rtomb()` function]]`c32rtomb()`|Convert a `char32_t` character to a multibyte character.|
 
 ### Third-Party Libraries {#utf-3rd-party}
 

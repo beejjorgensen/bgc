@@ -77,7 +77,7 @@ picky about them, so we should do a refresher.
 
 Some example types, some of the most basic:
 
-[i[`int`]][i[`float`]][i[`char`]][i[`char *`]]
+[i[`int` type]][i[`float` type]][i[`char` type]][i[`char *` type]]
 |Type|Example|C Type|
 |:---|------:|:-----|
 |Integer|`3490`|`int`|
@@ -148,7 +148,7 @@ int main(void)
 
 Killer. We've stored a value. Let's print it.
 
-[i[`printf()`]<]We're going to do that by passing _two_ amazing
+[i[`printf()` function]<]We're going to do that by passing _two_ amazing
 arguments to the `printf()` function. The first argument is a string
 that describes what to print and how to print it (called the _format
 string_), and the second is the value to print, namely whatever is in
@@ -183,7 +183,7 @@ Hello, world!  i = 2 and f = 3.14!
 
 In this way, `printf()` might be similar to various types of format
 strings or parameterized strings in other languages you're familiar
-with.  [i[`printf()`]>]
+with.  [i[`printf()` function]>]
 
 ### Boolean Types
 
@@ -208,10 +208,10 @@ if (x) {
 }
 ```
 
-If you `#include <stdbool.h>`[i[`stdbool.h`]], you also get access to
-some symbolic names that might make things look more familiar, namely a
-`bool`[i[`bool`]] type and `true`[i[`true`]] and `false`[i[`false`]]
-values:
+If you `#include <stdbool.h>`[i[`stdbool.h` header file]], you also get
+access to some symbolic names that might make things look more familiar,
+namely a `bool`[i[`bool` type]] type and `true`[i[`true` value]] and
+`false`[i[`false` value]] values:
 
 ``` {.c .numberLines}
 #include <stdio.h>
@@ -305,7 +305,7 @@ Compare those two until you see each of the components of the ternary
 operator.
 
 Or, another example that prints if a number stored in `x` is odd or
-even[i[`?:` ternary operator]]:
+even:
 
 ``` {.c}
 printf("The number %d is %s.\n", x, x % 2 == 0? "even": "odd")
@@ -512,8 +512,8 @@ More particularly, it tells you the size (in bytes) that the _type of a
 particular expression_ (which might be just a single variable) uses in
 memory.
 
-This can be different on different systems, except for `char`[i[`char`]]
-and its variants (which are always 1 byte).
+This can be different on different systems, except for `char`[i[`char`
+type]] and its variants (which are always 1 byte).
 
 And this might not seem very useful now, but we'll be making references
 to it here and there, so it's worth covering.
@@ -522,7 +522,7 @@ Since this computes the number of bytes needed to store a type, you
 might think it would return an `int`. Or... since the size can't be
 negative, maybe an `unsigned`?
 
-[i[`size_t`]<]
+[i[`size_t` type]<]
 But it turns out C has a special type to represent the return value from
 `sizeof`. It's `size_t`, pronounced "_size tee_"^[The `_t` is short for
 `type`.]. All we know is that it's an unsigned integer type that can
@@ -530,7 +530,7 @@ hold the size in bytes of anything you can give to `sizeof`.
 
 `size_t` shows up a lot of different places where counts of things are
 passed or returned. Think of it as a value that represents a count.
-[i[`size_t`]>]
+[i[`size_t` type]>]
 
 You can take the `sizeof` a variable or expression:
 
@@ -1044,9 +1044,7 @@ switch (c) {
 }
 ```
 
-Finally, you can use [i[`enum` keyword]]`enum`s[i[`enum` type]] in
-`switch` since they are also integer types. But more on that in the
-`enum` chapter.
-[i[`switch` statement]>]
-[i[`break` statement]>]
-[i[Flow Control]>]
+Finally, you can use [i[`enum` keyword]]`enum`s in `switch` since they
+are also integer types. But more on that in the `enum` chapter.
+
+[i[`switch` statement]>] [i[`break` statement]>] [i[Flow Control]>]

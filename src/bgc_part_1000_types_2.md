@@ -65,7 +65,7 @@ there.
 ## Character Types
 
 [i[Types-->character]<]
-[i[`char`]<]
+[i[`char` type]<]
 Remember `char`? The type we can use to hold a single character?
 
 ``` {.c}
@@ -104,8 +104,8 @@ this flexibility.
 But assuming your bytes in C are 8 bits, like they are for virtually all
 machines in the world that you'll ever see, the range of a `char` is...
 
-[i[`unsigned char`]<]
-[i[`signed char`]<]
+[i[`unsigned char` type]<]
+[i[`signed char` type]<]
 ---So before I can tell you, it turns out that `char`s might be signed
 or unsigned depending on your compiler. Unless you explicitly specify.
 
@@ -133,8 +133,8 @@ So, assuming those constraints, we can finally figure our ranges:
 |`unsigned char`|`0`|`255`|
 
 And the ranges for `char` are implementation-defined.
-[i[`unsigned char`]>]
-[i[`signed char`]>]
+[i[`unsigned char` type]>]
+[i[`signed char` type]>]
 
 Let me get this straight. `char` is actually a number, so can we do math
 on it?
@@ -184,7 +184,7 @@ popular character sets today is [flw[Unicode|Unicode]] (which is a
 superset of ASCII), so for your basic 0-9, A-Z, a-z and punctuation,
 you'll almost certainly get the ASCII values out of them.
 [i[`'` single quote]>]
-[i[`char`]>]
+[i[`char` type]>]
 [i[Types-->character]>]
 
 ## More Integer Types: `short`, `long`, `long long`
@@ -207,9 +207,9 @@ different. The header file `<limits.h>` defines macros that hold the
 minimum and maximum integer values; rely on that to be sure, and _never
 hardcode or assume these values_.
 
-[i[`short`]<]
-[i[`long`]<]
-[i[`long long`]<]
+[i[`short` type]<]
+[i[`long` type]<]
+[i[`long long` type]<]
 These additional types are `short int`, `long int`, and `long long int`.
 Commonly, when using these types, C developers leave the `int` part off
 (e.g. `long long`), and the compiler is perfectly happy.
@@ -293,9 +293,9 @@ unsigned.
 
 Also notice there's no minimum macro for the `unsigned`
 variants---they're just `0`.
-[i[`short`]>]
-[i[`long`]>]
-[i[`long long`]>]
+[i[`short` type]>]
+[i[`long` type]>]
+[i[`long long` type]>]
 
 ## More Float: `double` and `long double`
 
@@ -367,8 +367,8 @@ more precision we have `double`. And for even more precision, we have
 The spec doesn't go into how many bytes of storage each type should
 take, but on my system, we can see the relative size increases:
 
-[i[`double`]<]
-[i[`long double`]<]
+[i[`double` type]<]
+[i[`long double` type]<]
 |Type|`sizeof`|
 |:-|-:|
 |`float`|4|
@@ -387,8 +387,8 @@ figure that out.
 It gets a little wonky if you are using a base-2 (binary) system for
 storing the numbers (which is virtually everyone on the planet, probably
 including you), but bear with me while we figure it out.
-[i[`double`]>]
-[i[`long double`]>]
+[i[`double` type]>]
+[i[`long double` type]>]
 
 ### How Many Decimal Digits?
 
@@ -401,9 +401,9 @@ The number of decimal digits you can store in a floating point type and
 surely get the same number back out when you print it is given by these
 macros:
 
-[i[`FLT_DIG`]<]
-[i[`DBL_DIG`]<]
-[i[`LDBL_DIG`]<]
+[i[`FLT_DIG` macro]<]
+[i[`DBL_DIG` macro]<]
+[i[`LDBL_DIG` macro]<]
 
 |Type|Decimal Digits You Can Store|Minimum|My System|
 |:-|-:|-:|
@@ -411,8 +411,8 @@ macros:
 |`double`|`DBL_DIG`|10|15|
 |`long double`|`LDBL_DIG`|10|18|
 
-[i[`DBL_DIG`]>]
-[i[`LDBL_DIG`]>]
+[i[`DBL_DIG` macro]>]
+[i[`LDBL_DIG` macro]>]
 
 On my system, `FLT_DIG` is 6, so I can be sure that if I print out a 6
 digit `float`, I'll get the same thing back. (It could be more
@@ -478,7 +478,7 @@ them back correctly.
 
 So that's the story. `FLT_DIG`. The End.
 
-[i[`FLT_DIG`]>]
+[i[`FLT_DIG` macro]>]
 
 ...Or is it?
 
@@ -509,10 +509,10 @@ Sometimes it might only be a few. But to be sure, you'll want to convert
 to decimal with a certain safe number of decimal places. That number is
 encoded in the following macros:
 
-[i[`FLT_DECMIAL_DIG`]<]
-[i[`DBL_DECMIAL_DIG`]<]
-[i[`LDBL_DECMIAL_DIG`]<]
-[i[`DECMIAL_DIG`]<]
+[i[`FLT_DECMIAL_DIG` macro]<]
+[i[`DBL_DECMIAL_DIG` macro]<]
+[i[`LDBL_DECMIAL_DIG` macro]<]
+[i[`DECMIAL_DIG` macro]<]
 
 |Macro|Description|
 |-|-|
@@ -521,8 +521,8 @@ encoded in the following macros:
 |`LDBL_DECIMAL_DIG`|Number of decimal digits encoded in a `long double`.|
 |`DECIMAL_DIG`|Same as the widest encoding, `LDBL_DECIMAL_DIG`.|
 
-[i[`LDBL_DECMIAL_DIG`]>]
-[i[`DECMIAL_DIG`]>]
+[i[`LDBL_DECMIAL_DIG` macro]>]
+[i[`DECMIAL_DIG` macro]>]
 
 Let's see an example where `DBL_DIG` is 15 (so that's all we can have in
 a constant), but `DBL_DECIMAL_DIG` is 17 (so we have to convert to 17
@@ -559,18 +559,17 @@ If we'd truncated `z` down to 15 digits, it wouldn't have been the same
 number. That's why to preserve all the bits of a `double`, we need
 `DBL_DECIMAL_DIG` and not just the lesser `DBL_DIG`.
 
-[i[`DBL_DECMIAL_DIG`]>]
+[i[`DBL_DECMIAL_DIG` macro]>]
 
 All that being said, it's clear that when we're messing with decimal
-numbers in general, it's not safe to print more than
-[i[`FLT_DIG`]]`FLT_DIG`, [i[`DBL_DIG`]]`DBL_DIG`, or
-[i[`LDBL_DIG`]]`LDBL_DIG` digits to be sensible in relation to the
-original base 10 numbers and any subsequent math.
+numbers in general, it's not safe to print more than [i[`FLT_DIG`
+macro]]`FLT_DIG`, [i[`DBL_DIG` macro]]`DBL_DIG`, or [i[`LDBL_DIG`
+macro]]`LDBL_DIG` digits to be sensible in relation to the original base
+10 numbers and any subsequent math.
 
 But when converting from `float` to a decimal representation and _back_
 to `float`, definitely use `FLT_DECIMAL_DIG` to do that so that all the
-bits are preserved exactly.
-[i[`FLT_DECMIAL_DIG`]>]
+bits are preserved exactly. [i[`FLT_DECMIAL_DIG` macro]>]
 
 [i[Significant digits]>]
 

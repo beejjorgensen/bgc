@@ -13,7 +13,7 @@ But we'll push those concepts a little farther this chapter.
 
 ## The `FILE*` Data Type
 
-[i[`FILE*` data type]<]
+[i[`FILE*` type]<]
 When we do any kind of I/O in C, we do so through a piece of data that
 you get in the form of a `FILE*` type. This `FILE*` holds all the
 information needed to communicate with the I/O subsystem about which
@@ -70,7 +70,7 @@ instead of `stdout`.
 [i[`stderr` standard error]>]
 
 More on how to do that later.
-[i[`FILE*` data type]<]
+[i[`FILE*` type]<]
 
 ## Reading Text Files
 
@@ -102,9 +102,9 @@ Hello, world!
 And let's write a program to open the file, read a character out of it,
 and then close the file when we're done. That's the game plan!
 
-[i[`fopen()`]<]
-[i[`fgetc()`]<]
-[i[`fclose()`]<]
+[i[`fopen()` function]<]
+[i[`fgetc()` function]<]
+[i[`fclose()` function]<]
 ``` {.c .numberLines}
 #include <stdio.h>
 
@@ -131,19 +131,19 @@ check it!)
 Also notice the `"r"` that we passed in---this means "open a text stream
 for reading". (There are various strings we can pass to `fopen()` with
 additional meaning, like writing, or appending, and so on.)
-[i[`fopen()`]>]
+[i[`fopen()` function]>]
 
 After that, we used the `fgetc()` function to get a character from the
 stream. You might be wondering why I've made `c` an `int` instead of a
 `char`---hold that thought!
-[i[`fgetc()`]>]
+[i[`fgetc()` function]>]
 
 Finally, we close the stream when we're done with it. All streams are
 automatically closed when the program exits, but it's good form and good
 housekeeping to explicitly close any files yourself when done with them.
-[i[`fclose()`]>]
+[i[`fclose()` function]>]
 
-The [i[`FILE*` data type]]`FILE*` keeps track of our position in the
+The [i[`FILE*` type]]`FILE*` keeps track of our position in the
 file. So subsequent calls to `fgetc()` would get the next character in
 the file, and then the next, until the end.
 
@@ -168,9 +168,9 @@ range of `char`. Since `fgetc()` needs to be able to return any byte
 All right! Back to reality! We can use this to read the whole file in a
 loop.
 
-[i[`fopen()`]<]
-[i[`fgetc()`]<]
-[i[`fclose()`]<]
+[i[`fopen()` function]<]
+[i[`fgetc()` function]<]
+[i[`fclose()` function]<]
 ``` {.c .numberLines}
 #include <stdio.h>
 
@@ -187,15 +187,15 @@ int main(void)
     fclose(fp);
 }
 ```
-[i[`fopen()`]>]
-[i[`fclose()`]>]
+[i[`fopen()` function]>]
+[i[`fclose()` function]>]
 
 (If line 10 is too weird, just break it down starting with the
 innermost-nested parens. The first thing we do is assign the result of
 `fgetc()` into `c`, and _then_ we compare _that_ against `EOF`. We've
 just crammed it into a single line. This might look hard to read, but
 study it---it's idiomatic C.)
-[i[`fgetc()`]>]
+[i[`fgetc()` function]>]
 
 And running this, we see:
 
@@ -210,14 +210,14 @@ make more sense at the line level. Let's switch to that.
 ### Reading a Line at a Time
 
 [i[File I/O-->line by line]<]
-So how can we get an entire line at once? [i[`fgets()`]<]`fgets()` to
-the rescue! For arguments, it takes a pointer to a `char` buffer to hold
-bytes, a maximum number of bytes to read, and a `FILE*` to read from. It
-returns `NULL` on end-of-file or error. `fgets()` is even nice enough to
-NUL-terminate the string when its done^[If the buffer's not big enough
-to read in an entire line, it'll just stop reading mid-line, and the
-next call to `fgets()` will continue reading the rest of the
-line.].[i[`fgets()`]>]
+So how can we get an entire line at once? [i[`fgets()`
+function]<]`fgets()` to the rescue! For arguments, it takes a pointer to
+a `char` buffer to hold bytes, a maximum number of bytes to read, and a
+`FILE*` to read from. It returns `NULL` on end-of-file or error.
+`fgets()` is even nice enough to NUL-terminate the string when its
+done^[If the buffer's not big enough to read in an entire line, it'll
+just stop reading mid-line, and the next call to `fgets()` will continue
+reading the rest of the line.].[i[`fgets()` function]>]
 
 Let's do a similar loop as before, except let's have a multiline file
 and read it in a line at a time.
@@ -234,7 +234,7 @@ can learn from a wise answer.
 And here's some code that reads that file a line at a time and prints
 out a line number before each one:
 
-[i[`fgets()`]<]
+[i[`fgets()` function]<]
 ``` {.c .numberLines}
 #include <stdio.h>
 
@@ -252,7 +252,7 @@ int main(void)
     fclose(fp);
 }
 ```
-[i[`fgets()`]>]
+[i[`fgets()` function]>]
 
 Which gives the output:
 
@@ -270,7 +270,7 @@ Which gives the output:
 You know how you can get formatted output with `printf()` (and, thus,
 `fprintf()` like we'll see, below)?
 
-[i[`fscanf()`]<]
+[i[`fscanf()` function]<]
 You can do the same thing with `fscanf()`.
 
 Let's have a file with a series of data records in it. In this case,
@@ -283,7 +283,7 @@ gray 14.9 41
 humpback 16.0 30
 ```
 
-Yes, we could read these with [i[`fgets()`]]`fgets()` and then parse the
+Yes, we could read these with [i[`fgets()` function]]`fgets()` and then parse the
 string with `sscanf()` (and in some ways that's more resilient against
 corrupted files), but in this case, let's just use `fscanf()` and pull
 it in directly.
@@ -309,7 +309,7 @@ int main(void)
     fclose(fp);
 }
 ```
-[i[`fscanf()`]>]
+[i[`fscanf()` function]>]
 
 Which gives the result:
 
@@ -324,9 +324,9 @@ humpback whale, 30 tonnes, 16.0 meters
 ## Writing Text Files
 
 [i[File I/O-->text files, writing]<]
-[i[`fputc()`]<]
-[i[`fputs()`]<]
-[i[`fprintf()`]<]
+[i[`fputc()` function]<]
+[i[`fputs()` function]<]
+[i[`fprintf()` function]<]
 In much the same way we can use `fgetc()`, `fgets()`, and `fscanf()` to
 read text streams, we can use `fputc()`, `fputs()`, and `fprintf()` to
 write text streams.
@@ -356,9 +356,9 @@ int main(void)
     fclose(fp);
 }
 ```
-[i[`fputc()`]>]
-[i[`fputs()`]>]
-[i[`fprintf()`]>]
+[i[`fputc()` function]>]
+[i[`fputs()` function]>]
+[i[`fprintf()` function]>]
 
 And this produces a file, `output.txt`, with these contents:
 
@@ -397,10 +397,10 @@ characters, and the NUL character is the end-of-string marker in C, it's
 rare that people use the `fprintf()`-and-friends functions to operate on
 binary files.
 
-[i[`fwrite()`]<]
-Instead the most common functions are [i[`fread()`]]`fread()` and
-`fwrite()`. The functions read and write a specified number of bytes to
-the stream.
+[i[`fwrite()` function]<]
+Instead the most common functions are [i[`fread()` function]]`fread()`
+and `fwrite()`. The functions read and write a specified number of bytes
+to the stream.
 
 To demo, we'll write a couple programs. One will write a sequence of
 byte values to disk all at once. And the second program will read a byte
@@ -430,7 +430,7 @@ int main(void)
     fclose(fp);
 }
 ```
-[i[`fwrite()`]>]
+[i[`fwrite()` function]>]
 
 Those two middle arguments to `fwrite()` are pretty odd. But basically
 what we want to tell the function is, "We have items that are _this_
@@ -460,7 +460,7 @@ But now let's try to read them back in with a different program. This
 one will open the file for binary reading (`"rb"` mode) and will read
 the bytes one at a time in a loop.
 
-[i[`fread()`]<]
+[i[`fread()` function]<]
 `fread()` has the neat feature where it returns the number of bytes
 read, or `0` on EOF. So we can loop until we see that, printing numbers
 as we go.
@@ -479,7 +479,7 @@ int main(void)
         printf("%d\n", c);
 }
 ```
-[i[`fread()`]>]
+[i[`fread()` function]>]
 
 And, running it, we see our original numbers!
 

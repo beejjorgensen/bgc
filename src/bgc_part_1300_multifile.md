@@ -236,10 +236,10 @@ time, no matter how many places try to `#include` it.
 
 ## `static` and `extern`
 
-[i[`static`]<]
-[i[`extern`]<]
-[i[Multifile projects-->`static`]<]
-[i[Multifile projects-->`extern`]<]
+[i[`static` storage class]<]
+[i[`extern` storage class]<]
+[i[Multifile projects-->`static` storage class]<]
+[i[Multifile projects-->`extern` storage class]<]
 
 When it comes to multifile projects, you can make sure file-scope
 variables and functions are _not_ visible from other source files with
@@ -250,10 +250,10 @@ And you can refer to objects in other files with `extern`.
 For more info, check out the sections in the book on the
 [`static`](#static) and [`extern`](#extern) storage-class specifiers.
 
-[i[`static`]>]
-[i[`extern`]>]
-[i[Multifile projects-->`static`]>]
-[i[Multifile projects-->`extern`]>]
+[i[`static` storage class]>]
+[i[`extern` storage class]>]
+[i[Multifile projects-->`static` storage class]>]
+[i[Multifile projects-->`extern` storage class]>]
 
 ## Compiling with Object Files
 
@@ -268,7 +268,7 @@ into an executable yet.
 Object files in Windows have a `.OBJ` extension; in Unix-likes, they're
 `.o`.
 
-[i[`gcc`]<]
+[i[`gcc` compiler]<]
 
 In gcc, we can build some like this, with the `-c` (compile only!) flag:
 
@@ -293,7 +293,7 @@ gcc -o foo foo.c bar.c
 
 and kill two [flw[boids|Boids]] with one stone?
 
-[i[`gcc`]>]
+[i[`gcc` compiler]>]
 
 For little programs, that's fine. I do it all the time.
 

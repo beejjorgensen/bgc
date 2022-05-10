@@ -62,7 +62,7 @@ All functions we're going to learn in this chapter can be found in
 
 ## Allocating and Deallocating, `malloc()` and `free()`
 
-[i[`malloc()`]<]
+[i[`malloc()` function]<]
 The `malloc()` function accepts a number of bytes to allocate, and
 returns a void pointer to that block of newly-allocated memory.
 
@@ -76,7 +76,7 @@ that. If we want to allocate enough room for a single `int`, we can use
 `sizeof(int)` and pass that to `malloc()`.
 [i[`sizeof` operator-->with `malloc()`]>]
 
-[i[`free()`]<]
+[i[`free()` function]<]
 After we're done with some allocated memory, we can call `free()` to
 indicate we're done with that memory and it can be used for something
 else. As an argument, you pass the same pointer you got from `malloc()`
@@ -99,7 +99,7 @@ free(p);  // All done with that memory
 
 //*p = 3490;  // ERROR: undefined behavior! Use after free()!
 ```
-[i[`free()`]>]
+[i[`free()` function]>]
 
 Now, in that contrived example, there's really no benefit to it. We
 could have just used an automatic `int` and it would have worked. But
@@ -116,11 +116,11 @@ that. Here's an example of that, just like the previous one:
 int *p = malloc(sizeof *p);  // *p is an int, so same as sizeof(int)
 ```
 [i[`sizeof` operator-->with `malloc()`]>]
-[i[`malloc()`]>]
+[i[`malloc()` function]>]
 
 ## Error Checking
 
-[i[`malloc()`-->error checking]<]
+[i[`malloc()` function-->error checking]<]
 All the allocation functions return a pointer to the newly-allocated
 stretch of memory, or `NULL` if the memory cannot be allocated for some
 reason.
@@ -151,11 +151,11 @@ if ((x = malloc(sizeof(int) * 10)) == NULL)
     // do something here to handle it
 }
 ```
-[i[`malloc()`-->error checking]>]
+[i[`malloc()` function-->error checking]>]
 
 ## Allocating Space for an Array
 
-[i[`malloc()`-->and arrays]<]
+[i[`malloc()` function-->and arrays]<]
 We've seen how to allocate space for a single thing; now what about for
 a bunch of them in an array?
 
@@ -214,11 +214,11 @@ sizeof(int) * 10
 And this trick works for every type. Just pass it to `sizeof` and
 multiply by the size of the array.
 [i[`sizeof` operator-->with `malloc()`]>]
-[i[`malloc()`-->and arrays]>]
+[i[`malloc()` function-->and arrays]>]
 
 ## An Alternative: `calloc()`
 
-[i[`calloc()`]<]
+[i[`calloc()` function]<]
 This is another allocation function that works similarly to `malloc()`,
 with two key differences:
 
@@ -242,11 +242,11 @@ memset(q, 0, sizeof(int) * 10);   // set to 0
 
 Again, the result is the same for both except `malloc()` doesn't zero
 the memory by default.
-[i[`calloc()`]>]
+[i[`calloc()` function]>]
 
 ## Changing Allocated Size with `realloc()`
 
-[i[`realloc()`]<]
+[i[`realloc()` function]<]
 If you've already allocated 10 `int`s, but later you decide you need 20,
 what can you do?
 
@@ -329,7 +329,7 @@ Also if line 7 is looking weird, with that `sizeof *p` in there,
 remember that `sizeof` works on the size of the type of the expression.
 And the type of `*p` is `float`, so that line is equivalent to
 `sizeof(float)`.
-[i[`realloc()`]>]
+[i[`realloc()` function]>]
 
 
 ### Reading in Lines of Arbitrary Length
@@ -443,7 +443,7 @@ Finally you might note that `readline()` returns a pointer to a
 
 ### `realloc()` with `NULL`
 
-[i[`realloc()`-->with `NULL` argument]<]
+[i[`realloc()` function-->with `NULL` argument]<]
 Trivia time! These two lines are equivalent:
 
 ``` {.c}
@@ -470,7 +470,7 @@ while (!done) {
 
 In that example, we didn't need an initial `malloc()` since `p` was
 `NULL` to start.
-[i[`realloc()`-->with `NULL` argument]>]
+[i[`realloc()` function-->with `NULL` argument]>]
 
 ## Aligned Allocations
 
@@ -498,7 +498,7 @@ But there might be times that you know that some data can be aligned at
 a smaller boundary, or must be aligned at a larger one for some reason.
 I imagine this is more common with embedded systems programming.
 
-[i[`aligned_alloc()`]<]
+[i[`aligned_alloc()` function]<]
 In those cases, you can specify an alignment with `aligned_alloc()`.
 
 The alignment is an integer power of two greater than zero, so `2`, `4`,
@@ -535,7 +535,7 @@ I want to throw a note here about `realloc()` and `aligned_alloc()`.
 `realloc()` doesn't have any alignment guarantees, so if you need to get
 some aligned reallocated space, you'll have to do it the hard way with
 `memcpy()`.
-[i[`aligned_alloc()`]>]
+[i[`aligned_alloc()` function]>]
 
 Here's a non-standard `aligned_realloc()` function, if you need it:
 

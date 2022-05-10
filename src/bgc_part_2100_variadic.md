@@ -100,8 +100,8 @@ Here's where the fun begins!
 
 ## Getting the Extra Arguments
 
-You're going to want to include [i[`<stdarg.h>`]] `<stdarg.h>` to make
-any of this work.
+You're going to want to include [i[`stdarg.h` header file]] `<stdarg.h>`
+to make any of this work.
 
 [i[`va_list` type]<]
 

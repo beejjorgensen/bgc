@@ -137,15 +137,15 @@ the data. Ampersand.
 
 So for a quick example, we'll introduce a new _format specifier_ for
 `printf()` so you can print a pointer. You know already how `%d` prints
-a decimal integer, yes? Well, `%p`[i[`printf()`-->with pointers]] prints
-a pointer. Now, this pointer is going to look like a garbage number (and
-it might be printed in hexadecimal^[That is, base 16 with digits 0, 1,
-2, 3, 4, 5, 6, 7, 8, 9, A, B, C, D, E, and F.] instead of decimal), but
-it is merely the index into memory the data is stored in. (Or the index
-into memory that the first byte of data is stored in, if the data is
-multi-byte.)  In virtually all circumstances, including this one, the
-actual value of the number printed is unimportant to you, and I show it
-here only for demonstration of the `address-of` operator.
+a decimal integer, yes? Well, `%p`[i[`printf()` function-->with
+pointers]] prints a pointer. Now, this pointer is going to look like a
+garbage number (and it might be printed in hexadecimal^[That is, base 16
+with digits 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, A, B, C, D, E, and F.] instead
+of decimal), but it is merely the index into memory the data is stored
+in. (Or the index into memory that the first byte of data is stored in,
+if the data is multi-byte.)  In virtually all circumstances, including
+this one, the actual value of the number printed is unimportant to you,
+and I show it here only for demonstration of the `address-of` operator.
 
 ``` {.c .numberLines}
 #include <stdio.h>
@@ -411,7 +411,7 @@ pesky ampersand in there![i[Pointers-->as arguments]>]
 
 ## The `NULL` Pointer
 
-[i[`NULL` pointer](b]Any pointer variable of any pointer type can be set
+[i[`NULL` pointer]<b]Any pointer variable of any pointer type can be set
 to a special value called `NULL`. This indicates that this pointer
 doesn't point to anything.
 
@@ -437,7 +437,7 @@ pointer hasn't yet been initialized.
 
 (Of course, like other variables, the pointer points to garbage unless
 you explicitly assign it to point to an address or `NULL`.)
-[i[`NULL` pointer])b]
+[i[`NULL` pointer]>b]
 
 ## A Note on Declaring Pointers
 
