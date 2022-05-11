@@ -5,11 +5,14 @@
 
 # Signal Handling
 
+[i[Signal handling]<]
+
 Before we start, I'm just going to advise you to generally ignore this
 entire chapter and use your OS's (very likely) superior signal handling
-functions. Unix-likes have the `sigaction()` family of functions, and
-Windows has... whatever it does^[Apparently it doesn't do Unix-style
-signals at all deep down, and they're simulated for console apps.].
+functions. Unix-likes have the [i[`sigaction()` function]] `sigaction()`
+family of functions, and Windows has... whatever it does^[Apparently it
+doesn't do Unix-style signals at all deep down, and they're simulated
+for console apps.].
 
 With that out of the way, what are signals?
 
@@ -27,17 +30,19 @@ but in the C spec there are just a few:
 
 |Signal|Description|
 |-|-|
-|`SIGABRT`|Abnormal termination---what happens when `abort()` is called.|
-|`SIGFPE`|Floating point exception.|
-|`SIGILL`|Illegal instruction.|
-|`SIGINT`|Interrupt---usually the result of `CTRL-C` being hit.|
-|`SIGSEGV`|"Segmentation Violation": invalid memory access.|
-|`SIGTERM`|Termination requested.|
+|[i[`SIGABRT` signal]]`SIGABRT`|Abnormal termination---what happens when `abort()` is called.|
+|[i[`SIGFPE` signal]]`SIGFPE`|Floating point exception.|
+|[i[`SIGILL` signal]]`SIGILL`|Illegal instruction.|
+|[i[`SIGINT` signal]]`SIGINT`|Interrupt---usually the result of `CTRL-C` being hit.|
+|[i[`SIGSEGV` signal]]`SIGSEGV`|"Segmentation Violation": invalid memory access.|
+|[i[`SIGTERM` signal]]`SIGTERM`|Termination requested.|
 
 You can set up your program to ignore, handle, or allow the default
 action for each of these by using the `signal()` function.
 
 ## Handling Signals with `signal()`
+
+[i[`signal()` function]<]
 
 The `signal()` call takes two parameters: the signal in question, and an
 action to take when that signal is raised.
@@ -45,11 +50,13 @@ action to take when that signal is raised.
 The action can be one of three things:
 
 * A pointer to a handler function.
-* `SIG_IGN` to ignore the signal.
-* `SIG_DFL` to restore the default handler for the signal.
+* [i[`SIG_IGN` macro]<]`SIG_IGN` to ignore the signal.
+* [i[`SIG_DFL` macro]]`SIG_DFL` to restore the default handler for the signal.
 
 Let's write a program that you can't `CTRL-C` out of. (Don't fret---in
 the following program, you can also hit `RETURN` and it'll exit.)
+
+[i[`SIGINT` signal]<]
 
 ``` {.c .numberLines}
 #include <stdio.h>
@@ -73,6 +80,9 @@ signal that's raised when `CTRL-C` is hit. No matter how much you hit
 it, the signal remains ignored. If you comment out line 8, you'll see
 you can `CTRL-C` with impunity and quit the program on the spot.
 
+[i[`SIGINT` signal]>]
+[i[`SIG_IGN` macro]>]
+
 ## Writing Signal Handlers
 
 I mentioned you could also write a handler function that gets called
@@ -80,6 +90,8 @@ with the signal is raised.
 
 These are pretty straightforward, are also very capability-limited when
 it comes to the spec.
+
+[i[`signal()` function]<]
 
 Before we start, let's look at the function prototype for the `signal()`
 call:
@@ -104,6 +116,8 @@ and takes an `int` as an argument), highlighted below:
 void (*signal(int sig, void (*func)(int)))(int);
 ```
 
+[i[`signal()` function]>]
+
 Basically, we're going to pass in the signal number we're interesting in
 catching, and we're going to pass a pointer to a function of the form:
 
@@ -127,7 +141,7 @@ void        pointer to function          takes an int
 void       (*signal(int sig, void (*func)(int)))(int);
 ```
 
-Also, it can return `SIG_ERR` in case of an error.
+Also, it can return [i[`SIG_ERR` macro]] `SIG_ERR` in case of an error.
 
 Let's do an example where we make it so you have to hit `CTRL-C` twice
 to exit.
@@ -135,6 +149,9 @@ to exit.
 I want to be clear that this program engages in undefined behavior in a
 couple ways. But it'll probably work for you, and it's hard to come up
 with portable non-trivial demos.
+
+[i[`signal()` function]<]
+[i[`SIG_INT` signal]<]
 
 ``` {.c .numberLines}
 #include <stdio.h>
@@ -149,7 +166,7 @@ void sigint_handler(int signum)
     //
     //   signal(signum, SIG_DFL)
     //
-    // when the handler is first called. So we reset the handler here:
+    // when the handler is called. So we reset the handler here:
     signal(SIGINT, sigint_handler);
 
     (void)signum;   // Get rid of unused variable warning
@@ -173,11 +190,13 @@ int main(void)
 }
 ```
 
+[i[`SIG_INT` signal]>]
+
 One of the things you'll notice is that on line 14 we reset the signal
 handler. This is because C has the option of resetting the signal
-handler to its `SIG_DFL` behavior before running your custom handler. In
-other words, it could be a one-off. So we reset it first thing so that
-we handle it again for the next one.
+handler to its [i[`SIG_DFL` macro]] `SIG_DFL` behavior before running
+your custom handler. In other words, it could be a one-off. So we reset
+it first thing so that we handle it again for the next one.
 
 We're ignoring the return value from `signal()` in this case. If we'd
 set it to a different handler earlier, it would return a pointer to that
@@ -191,6 +210,8 @@ void (*old_handler)(int);
 
 old_handler = signal(SIGINT, sigint_handler);
 ```
+
+[i[`signal()` function]>]
 
 That said, I'm not sure of a common use case for this. But if you need
 the old handler for some reason, you can get it that way.
@@ -207,12 +228,14 @@ places. More on that in the next section.
 Turns out we're pretty limited in what we can and can't do in our signal
 handlers. This is one of the reasons why I say you shouldn't even bother
 with this and instead use your OS's signal handling instead (e.g.
-`sigaction()` for Unix-like systems).
+[i[`sigaction()` function]] `sigaction()` for Unix-like systems).
 
 Wikipedia goes so far as to say the only really portable thing you can
 do is call `signal()` with `SIG_IGN` or `SIG_DFL` and that's it.
 
 Here's what we **can't** portably do:
+
+[i[Signal handling--->limitations]<]
 
 * Call any standard library function.
   * Like `printf()`, for example.
@@ -222,6 +245,8 @@ Here's what we **can't** portably do:
   variable.
   * Unless it's a lock-free atomic object or...
   * You're assigning into a variable of type `volatile sig_atomic_t`.
+
+[i[`sig_atomic_t` type]<]
 
 That last bit--`sig_atomic_t`--is your ticket to getting data out of a
 signal handler. (Unless you want to use lock-free atomic objects, which
@@ -248,6 +273,8 @@ But can you read from it? I honestly don't see why not, except that the
 spec is very pointed about mentioning assigning into. But if you have to
 read it and make any kind of decision based on it, you might be opening
 up room for some kind of race conditions.
+
+[i[Signal handling--->limitations]>]
 
 With that in mind, we can rewrite our "hit `CTRL-C` twice to exit"
 code to be a little more portable, albeit less verbose on the output.
@@ -284,6 +311,8 @@ int main(void)
 }
 ```
 
+[i[`sig_atomic_t` type]>]
+
 Undefined behavior again? It's my read that this is, because we have to
 read the value in order to increment and store it.
 
@@ -293,6 +322,8 @@ require some ridiculous function chaining.
 
 What we'll do is handle it once, and the handler will reset the signal
 to its default behavior (that is, to exit):
+
+[i[`SIG_DFL` macro]<]
 
 ``` {.c .numberLines}
 #include <stdio.h>
@@ -314,6 +345,8 @@ int main(void)
 }
 ```
 
+[i[`SIG_DFL` macro]>]
+
 Later when we look at lock-free atomic variables, we'll see a way to fix
 the `count` version (assuming lock-free atomic variables are available
 on your particular system).
@@ -327,3 +360,6 @@ Again, use your OS's built-in signal handling or the equivalent. It's
 not in the spec, not as portable, but probably is far more capable. Plus
 your OS probably has a number of signals defined that aren't in the C
 spec. And it's difficult to write portable code using `signal()` anyway.
+
+[i[`signal()` function]>]
+[i[Signal handling]>]
