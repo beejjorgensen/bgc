@@ -822,8 +822,8 @@ notation", so these are equivalent:
 
 |Scientific Notation|E notation|
 |:-|:-|
-|$1.2345\times10^{-3}=12.345$|`1.2345e-3`|
-|$1.2345\times10^4=123450000$|`1.2345e+4`|
+|$1.2345\times10^{-3}=0.0012345$|`1.2345e-3`|
+|$1.2345\times10^8=123450000$|`1.2345e+8`|
 
 You can print a number in this notation with `%e`:
 
