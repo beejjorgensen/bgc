@@ -5,6 +5,8 @@
 
 # Variable-Length Arrays (VLAs)
 
+[i[Variable-length array]<]
+
 C provides a way for you to declare an array whose size is determined at
 runtime. This gives you the benefits of dynamic runtime sizing like you
 get with `malloc()`, but without needing to worry about `free()`ing the
@@ -13,6 +15,8 @@ memory after.
 Now, a lot of people don't like VLAs. They've been banned from the Linux
 kernel, for example. We'll dig into more of that rationale
 [later](#vla-general-issues).
+
+[i[`__STDC_NO_VLA__` macro]<]
 
 This is an optional feature of the language. The macro `__STDC_NO_VLA__`
 is set to `1` if VLAs are _not_ present. (They were mandatory in C99,
@@ -24,6 +28,11 @@ and then became optional in C11.)
 #endif
 ```
 
+[i[`__STDC_NO_VLA__` macro]>]
+
+But since neither GCC nor Clang bother to define this macro, you may get
+limited mileage from this.
+
 Let's dive in first with an example, and then we'll look for the devil
 in the details.
 
@@ -34,6 +43,8 @@ A normal array is declared with a constant size, like this:
 ``` {.c}
 int v[10];
 ```
+
+[i[Variable-length array-->defining]<]
 
 But with VLAs, we can use a size determined at runtime to set the array,
 like this:
@@ -95,7 +106,11 @@ Some restrictions:
 Also, entering a negative value for the size of the array invokes
 undefined behavior---in this universe, anyway.
 
+[i[Variable-length array-->defining]>]
+
 ## `sizeof` and VLAs
+
+[i[Variable-length array-->and `sizeof()`]<]
 
 We're used to `sizeof` giving us the size in bytes of any particular
 object, including arrays. And VLAs are no exception.
@@ -144,7 +159,11 @@ int x = 12;
 printf("%zu\n", sizeof(int [x]));  // Prints 48 on my system
 ```
 
+[i[Variable-length array-->and `sizeof()`]>]
+
 ## Multidimensional VLAs
+
+[i[Variable-length array-->multidimensional]<]
 
 You can go ahead and make all kinds of VLAs with one or more dimensions
 set to a variable
@@ -160,7 +179,11 @@ int z[10][w][20];
 
 Again, you can navigate these just like you would a regular array.
 
+[i[Variable-length array-->multidimensional]>]
+
 ## Passing One-Dimensional VLAs to Functions
+
+[i[Variable-length array-->passing to functions]<]
 
 Passing single-dimensional VLAs into a function can be no different than
 passing a regular array in. You just go for it.
@@ -204,6 +227,9 @@ int sum(int count, int v[count])
 }
 ```
 
+[i[Variable-length array-->in function prototypes]<]
+[i[`*` for VLA function prototypes]<]
+
 Incidentally, there are a couple ways of listing a prototype for the
 above function; one of them involves an `*` if you don't want to
 specifically name the value in the VLA. It just indicates that the type
@@ -218,6 +244,9 @@ void do_something(int, int v[*]);            // Without names
 
 Again, that `*` thing only works with the prototype---in the function
 itself, you'll have to put the explicit size.
+
+[i[`*` for VLA function prototypes]>]
+[i[Variable-length array-->in function prototypes]>]
 
 Now---_let's get multidimensional_! This is where the fun begins.
 
@@ -289,7 +318,11 @@ int main(void)
 }
 ```
 
+[i[Variable-length array-->passing to functions]>]
+
 ## Compatibility with Regular Arrays
+
+[i[Variable-length array-->with regular arrays]<]
 
 Because VLAs are just like regular arrays in memory, it's perfectly
 permissible to pass them interchangeably... as long as the dimensions
@@ -325,7 +358,11 @@ foo(3, 5, matrix);   // OK!
 Beware, though: if your dimensions mismatch, you're going to have some
 undefined behavior going on, likely.
 
+[i[Variable-length array-->with regular arrays]>]
+
 ## `typedef` and VLAs
+
+[i[Variable-length array-->with `typedef`]<]
 
 You can `typedef` a VLA, but the behavior might not be as you expect.
 
@@ -368,17 +405,29 @@ So it acts like an array of fixed size.
 
 But you still can't use an initializer list on it.
 
+[i[Variable-length array-->with `typedef`]>]
+
 ## Jumping Pitfalls
+
+[i[Variable-length array-->with `goto`]<]
 
 You have to watch out when using `goto` near VLAs because a lot of
 things aren't legal.
 
+[i[Variable-length array-->with `goto`]>]
+[i[Variable-length array-->with `longjmp()`]<]
+
 And when you're using `longjmp()` there's a case where you could leak
 memory with VLAs.
 
+[i[Variable-length array-->with `longjmp()`]>]
+
 But both of these things we'll cover in their respective chapters.
 
+
 ## General Issues {#vla-general-issues}
+
+[i[Variable-length array-->controversy]<]
 
 VLAs have been banned from the Linux kernel for a few reasons:
 
@@ -396,3 +445,6 @@ likely just crash. While fixed-size arrays also have the same issue,
 it's far more likely that someone accidentally make a _VLA Of Unusual
 Size_ than somehow accidentally declare a fixed-size, say, 30 megabyte
 array.
+
+[i[Variable-length array-->controversy]>]
+[i[Variable-length array]>]
