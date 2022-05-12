@@ -11,7 +11,7 @@ These are the _type qualifiers_ and _storage-class specifiers_.
 
 ## Type Qualifiers
 
-[i[Type Qualifiers]<]
+[i[Type qualifiers]<]
 
 These are going to allow you to declare constant values, and also to
 give the compiler optimization hints that it can use.
@@ -297,7 +297,7 @@ This is an optional C feature that we'll talk about in [the Atomics
 chapter](#chapter-atomics).
 
 [i[`volatile` type qualifier]>]
-[i[Type Qualifiers]>]
+[i[Type qualifiers]>]
 
 ## Storage-Class Specifiers
 
