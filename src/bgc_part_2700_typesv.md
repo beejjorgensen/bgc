@@ -16,6 +16,8 @@ own chapters. So I crammed them in here like a rebel!
 
 ## Compound Literals
 
+[i[Compound literals]<]
+
 This is a neat feature of the language that allows you to create an
 object of some type on the fly without ever assigning it to a variable.
 You can make simple types, arrays, `struct`s, you name it.
@@ -56,6 +58,8 @@ So let's take a look at a more useful example.
 
 ### Passing Unnamed Objects to Functions
 
+[i[Compound literals-->passing to functions]<]
+
 Let's say we have a function to sum an array of `int`s:
 
 ``` {.c}
@@ -92,7 +96,12 @@ int s = sum((int []){1, 2, 3, 4}, 4);
 
 Pretty slick!
 
+[i[Compound literals-->passing to functions]>]
+
 ### Unnamed `struct`s
+
+[i[Compound literals-->with `struct`]<]
+[i[`struct` keyword-->compound literals]<]
 
 We can do something similar with `struct`s.
 
@@ -137,7 +146,12 @@ We'll just take `t` out of there and replace it with an unnamed
 
 Still works!
 
+[i[`struct` keyword-->compound literals]>]
+[i[Compound literals-->with `struct`]>]
+
 ### Pointers to Unnamed Objects
+
+[i[Compound literals-->pointers to]<]
 
 You might have noticed in the last example that even through we were
 using a `struct`, we were passing a copy of the `struct` to
@@ -183,7 +197,11 @@ foo(&(int){3490});
 
 Easy as that.
 
+[i[Compound literals-->pointers to]>]
+
 ### Unnamed Objects and Scope
+
+[i[Compound literals-->scope]<]
 
 The lifetime of an unnamed object ends at the end of its scope. The
 biggest way this could bite you is if you make a new unnamed object, get
@@ -223,6 +241,8 @@ int main(void)
 Just think of their scope like that of an ordinary local variable. You
 can't return a pointer to a local variable, either.
 
+[i[Compound literals-->scope]>]
+
 ### Silly Unnamed Object Example
 
 You can put any type in there and make an unnamed object.
@@ -242,7 +262,11 @@ one on the line before.
 
 But hopefully that provides a little more clarity on the syntax.
 
+[i[Compound literals]>]
+
 ## Generic Selections {#type-generics}
+
+[i[Generic selections]<]
 
 This is an expression that allows you to select different pieces of code
 depending on the _type_ of the first argument to the expression.
@@ -250,6 +274,8 @@ depending on the _type_ of the first argument to the expression.
 We'll look at an example in just a second, but it's important to know
 this is processed at compile time, _not at runtime_. There's no
 runtime analysis going on here.
+
+[i[`_Generic` keyword]<]
 
 The expression begins with `_Generic`, works kinda like a `switch`, and
 it takes at least two arguments.
@@ -415,6 +441,8 @@ int main(void)
 }
 ```
 
+[i[`_Generic` keyword]>]
+
 for the output:
 
 ``` {.default}
@@ -425,3 +453,5 @@ s = Hello, world!
 
 We could have crammed that all in one big macro, but I broke it into two
 to prevent eye bleeding.
+
+[i[Generic selections]>]
