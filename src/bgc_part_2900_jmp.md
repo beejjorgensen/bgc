@@ -5,6 +5,8 @@
 
 # Long Jumps with `setjmp`, `longjmp` {#setjmp-longjmp}
 
+[i[Long jumps]<]
+
 We've already seen `goto`, which jumps in function scope. But
 `longjmp()` allows you to jump back to an earlier point in execution,
 back to a function that called this one.
@@ -16,6 +18,9 @@ earlier state.
 In my experience, this is very rarely-used functionality.
 
 ## Using `setjmp` and `longjmp`
+
+[i[`setjmp()` function]<]
+[i[`longjmp()` function]<]
 
 The dance we're going to do here is to basically put a bookmark in
 execution with `setjmp()`. Later on, we'll call `longjmp()` and it'll
@@ -101,6 +106,9 @@ _stores_ the state in the `env` variable and returns `0`.  Later when we
 call `longjmp()` with that same `env`, it restores the state and
 `setjmp()` returns the value `longjmp()` was passed.
 
+[i[`setjmp()` function]>]
+[i[`longjmp()` function]>]
+
 ## Pitfalls
 
 Under the hood, this is pretty straightforward. Typically the _stack
@@ -112,18 +120,20 @@ implementation, and are not part of the spec.].
 
 So if we want to jump back to an earlier function, it's basically only a
 matter of restoring the stack pointer and program counter to the values
-kept in the `jmp_buf` variable, and making sure the return value is set
-correctly. And then execution will resume there.
+kept in the [i[`jmp_buf` type]] `jmp_buf` variable, and making sure the
+return value is set correctly. And then execution will resume there.
 
 But a variety of factors confound this, making a significant number of
 undefined behavior traps.
 
 ### The Values of Local Variables
 
+[i[`setjmp()` function]<]
+
 If you want the values of automatic (non-`static` and non-`extern`)
 local variables to persist in the function that called `setjmp()` after
-a `longjmp()` happens, you must declare those variables to be
-`volatile`.
+a [i[`longjmp()`]] `longjmp()` happens, you must declare those variables
+to be [i[`volatile` type qualifier-->with `setjmp()`]<] `volatile`.
 
 Technically, they only have to be `volatile` if they change between the
 time `setjmp()` is called and `longjmp()` is called^[The rationale here
@@ -155,17 +165,28 @@ if (setjmp(env) == 0) {
 }
 ```
 
-Now the value will be the correct `30` after a `longjmp()` returns us to
-this point.
+[i[`setjmp()` function]>]
+
+[i[`volatile` type qualifier-->with `setjmp()`]>]
+
+Now the value will be the correct `30` after a [i[`longjmp()`]]
+`longjmp()` returns us to this point.
 
 ### How Much State is Saved?
+
+[i[`setjmp()` function]<]
+[i[`longjmp()` function]<]
 
 When you `longjmp()`, execution resumes at the point of the
 corresponding `setjmp()`. And that's it.
 
+[i[`setjmp()` function]>]
+
 The spec points out that it's just as if you'd jumped back into the function
 at that point with local variables set to whatever values they had when
 the `longjmp()` call was made.
+
+[i[`longjmp()` function]>]
 
 Things that aren't restored include, paraphrasing the spec:
 
@@ -181,6 +202,8 @@ You can't have any `extern` identifiers with the name `setjmp`. Or, if
 Both are undefined behavior.
 
 ### You Can't `setjmp()` in a Larger Expression
+
+[i[`setjmp()`-->in an expression]<]
 
 That is, you can't do something like this:
 
@@ -229,7 +252,11 @@ So there are limits on the complexity of that expression.
   (void)setjmp(env);
   ```
 
+[i[`setjmp()`-->in an expression]>]
+
 ### When Can't You `longjmp()`?
+
+[i[`lonjmp()`]<]
 
 It's undefined behavior if:
 
@@ -265,3 +292,6 @@ that had VLAs still in scope.
 This is one thing that really bugged me able VLAs---that you could write
 perfectly legitimate C code that squandered memory. But, hey---I'm not
 in charge of the spec.
+
+[i[`lonjmp()`]>]
+[i[Long jumps]>]
