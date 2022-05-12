@@ -5,6 +5,8 @@
 
 # `goto`
 
+[i[`goto` statement]<]
+
 The `goto` statement is universally revered and can be here presented
 without contest.
 
@@ -23,6 +25,8 @@ loops intead. It's just that some people think `goto` produces the
 _best_ code in those circumstances.].
 
 ## A Simple Example
+
+[i[Labels]<]
 
 In this example, we're going to use `goto` to skip a line of code and
 jump to a _label_. The label is the identifier that can be a `goto`
@@ -92,7 +96,11 @@ as the `goto` itself. Labels in other functions are out of scope from
 `goto`'s perspective. And it means you can use the same label name in
 two functions---just not the same label name in the same function.
 
+[i[Labels]>]
+
 ## Labeled `continue`
+
+[i[`goto` statement-->as labeled `continue`]<]
 
 In some languages, you can actually specify a label for a `continue`
 statement. C doesn't allow it, but you can easily use `goto` instead.
@@ -161,7 +169,11 @@ We have a `;` at the end there---that's because you can't have a label
 pointing to the plain end of a compound statement (or before a variable
 declaration).
 
+[i[`goto` statement-->as labeled `continue`]>]
+
 ## Bailing Out
+
+[i[`goto` statement-->for bailing out]<]
 
 When you're super nested in the middle of some code, you can use `goto`
 to get out of it in a manner that's often cleaner than nesting more
@@ -189,7 +201,11 @@ bail:
 Without `goto`, you'd have to check an error condition flag in all of
 the loops to get all the way out.
 
+[i[`goto` statement-->for bailing out]>]
+
 ## Labeled `break`
+
+[i[`goto` statement-->as labeled `break`]<]
 
 This is a very similar situation to how `continue` only continues the
 innermost loop. `break` also only breaks out of the innermost loop.
@@ -220,7 +236,11 @@ break_i:
     printf("Done!\n");
 ```
 
+[i[`goto` statement-->as labeled `break`]>]
+
 ## Multi-level Cleanup
+
+[i[`goto` statement-->multilevel cleanup]<]
 
 If you're calling multiple functions to initialize multiple systems and
 one of them fails, you should only de-initialize the ones that you've
@@ -265,7 +285,12 @@ Note that we're shutting down in the reverse order that we initialized
 the subsystems. So if subsystem 4 fails to start up, it will shut down
 3, 2, then 1 in that order.
 
+[i[`goto` statement-->multilevel cleanup]>]
+
 ## Tail Call Optimization
+
+[i[`goto` statement-->tail call optimzation]<]
+[i[Tail call optimzation-->with `goto`]<]
 
 Kinda. For recursive functions only.
 
@@ -365,8 +390,12 @@ That's Bad because that's not how it works when you call recursively.
 Using the temporary variables avoids this problem even if you're not
 looking out for it. And the compiler likely optimizes them out, anyway.
 
+[i[`goto` statement-->tail call optimzation]>]
+[i[Tail call optimzation-->with `goto`]>]
 
 ## Restarting Interrupted System Calls
+
+[i[`goto` statement-->restarting system calls]<]
 
 This is outside the spec, but commonly seen in Unix-like systems.
 
@@ -397,7 +426,11 @@ Again, this is Unix-specific and is outside the C standard.
 That said, it's possible to use a similar technique any time any
 function should be restarted.
 
+[i[`goto` statement-->restarting system calls]>]
+
 ## `goto` and Variable Scope 
+
+[i[`goto` statement-->variable scope]<]
 
 We've already seen that labels have function scope, but weird things can
 happen if we jump past some variable initialization.
@@ -469,7 +502,11 @@ indeterminate (since it hasn't been reinitialized).
 On my machine, it prints `10` again (to infinity), but that's just luck.
 It could print any value after the `goto` since `x` is uninitialized.
 
+[i[`goto` statement-->variable scope]>]
+
 ## `goto` and Variable-Length Arrays
+
+[i[`goto` statement-->with variable-length arrays]<]
 
 When it comes to VLAs and `goto`, there's one rule: you can't jump from
 outside the scope of a VLA into the scope of that VLA.
@@ -513,3 +550,6 @@ label:  ;
 
 Because that way the VLA gets allocated properly before its inevitable
 deallocation once it falls out of scope.
+
+[i[`goto` statement-->with variable-length arrays]>]
+[i[`goto` statement]>]
