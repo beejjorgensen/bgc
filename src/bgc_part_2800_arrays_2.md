@@ -17,6 +17,9 @@ part of the newer spec.
 
 ## Type Qualifiers for Arrays in Parameter Lists
 
+[i[Type qualifiers-->arrays in parameter lists]<]
+[i[Arrays-->type qualifiers in parameter lists]<]
+
 If you recall from earlier, these two things are equivalent in function
 parameter lists:
 
@@ -50,7 +53,12 @@ int func(int p[const volatile 10]) {...}
 If you have a multidimensional array, you need to put the type
 qualifiers in the first set of brackets.
 
+[i[Type qualifiers-->arrays in parameter lists]>]
+[i[Arrays-->type qualifiers in parameter lists]>]
+
 ## `static` for Arrays in Parameter Lists
+
+[i[Arrays-->`static` in parameter lists]<]
 
 Similarly, you can use the keyword static in the array in a parameter
 list.
@@ -96,7 +104,11 @@ says, "Yeah, fine," and trusts you to not do it.
 And then the compiler can make certain code optimizations, safe in the
 knowledge that you, the programmer, will always do the right thing.
 
+[i[Arrays-->`static` in parameter lists]>]
+
 ## Equivalent Initializers
+
+[i[Arrays-->multidimensional initializers]<]
 
 C is a little bit, shall we say, _flexible_ when it comes to array
 initializers.
@@ -245,3 +257,6 @@ But my recommendation is if you have a 2D array, use a 2D initializer.
 It just makes the code more readable. (Except for initializing the whole
 array with `0`, in which case it's idiomatic to use `{0}` no matter the
 dimension of the array.)
+
+[i[Arrays-->multidimensional initializers]>]
+
