@@ -5,6 +5,8 @@
 
 # Incomplete Types
 
+[i[Incomplete types]<]
+
 It might surprise you to learn that this builds without error:
 
 ``` {.c}
@@ -35,6 +37,8 @@ it or use pointer arithmetic on it. And you can't `sizeof` it.
 So what can you do with it?
 
 ## Use Case: Self-Referential Structures
+
+[i[Incomplete types-->self-referential `struct`s]<]
 
 I only know of one real use case: forward references to `struct`s or
 `union`s with self-referential or co-dependent structures. (I'm going to
@@ -92,6 +96,8 @@ struct b {
 
 We'd never be able to make that pair of structures without the relaxed
 rules for incomplete types.
+
+[i[Incomplete types-->self-referential `struct`s]>]
 
 ## Incomplete Type Error Messages
 
@@ -215,3 +221,5 @@ printf("%d\n", *p);  // Error: dereference incomplete type
 ```
 
 The more you know...
+
+[i[Incomplete types]<]
