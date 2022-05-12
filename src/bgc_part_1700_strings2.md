@@ -295,7 +295,7 @@ printf("\u2022 Bullet 3\n");
 Be sure to pad `\u` with enough leading zeros to get to four characters,
 and `\U` with enough to get to eight.
 
-[i[`\u1234` Unicode character]>]
+[i[`\u` Unicode escape]>]
 
 For example, that bullet could be done with `\U` and four leading zeros:
 
