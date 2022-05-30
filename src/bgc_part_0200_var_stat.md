@@ -78,6 +78,7 @@ picky about them, so we should do a refresher.
 Some example types, some of the most basic:
 
 [i[`int` type]][i[`float` type]][i[`char` type]][i[`char *` type]]
+
 |Type|Example|C Type|
 |:---|------:|:-----|
 |Integer|`3490`|`int`|
