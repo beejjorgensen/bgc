@@ -89,6 +89,18 @@ some honest entertainment for your reading pleasure. The only thing I
 can reasonably promise is that this guide won't end on a cliffhanger...
 or _will_ it?
 
+## How to Read This Book
+
+The book is in two parts: the tutorial part and the reference part.
+
+If you're new, go through the tutorial part in order, generally. The
+higher you get in chapters, the less important it is to go in order.
+
+And no matter your skill level, the reference part is there with
+complete examples of the standard library function calls to help refresh
+your memory whenever needed. Good for reading over a bowl of cereal or
+other time.
+
 ## Platform and Compiler
 
 I'll try to stick to Plain Ol'-Fashioned [flw[ISO-standard C|ANSI_C]].
