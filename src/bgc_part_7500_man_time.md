@@ -24,7 +24,7 @@ When it comes to time and C, there are two main types to look for:
 * **`time_t`** holds a _calendar time_. This is an potentially opaque
   numeric type that represents an absolute time that can be converted to
   UTC^[When you say GMT, unless you're talking specifically about the
-  timezone and not the time, you probably mean "UTC".] or local time.
+  time zone and not the time, you probably mean "UTC".] or local time.
 
 * **`struct tm`** holds a _broken-down time_. This has things like the
   day of the week, the day of the month, the hour, the minute, the
@@ -936,7 +936,7 @@ int main(void)
 
     // %F: ISO 8601 yyyy-mm-dd
     // %T: ISO 8601 hh:mm:ss
-    // %z: ISO 8601 timezone offset
+    // %z: ISO 8601 time zone offset
     strftime(s, sizeof s, "ISO 8601: %FT%T%z", localtime(&now));
     puts(s);   // ISO 8601: 2021-02-28T22:29:00-0800
 }

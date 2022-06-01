@@ -1859,7 +1859,7 @@ int main(void)
 
     // %F: ISO 8601 yyyy-mm-dd
     // %T: ISO 8601 hh:mm:ss
-    // %z: ISO 8601 timezone offset
+    // %z: ISO 8601 time zone offset
     wcsftime(s, BUFSIZE, L"ISO 8601: %FT%T%z", localtime(&now));
     wprintf(L"%ls\n", s);   // ISO 8601: 2021-02-28T22:29:00-0800
 }
