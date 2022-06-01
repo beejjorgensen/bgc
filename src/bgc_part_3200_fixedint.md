@@ -5,6 +5,8 @@
 
 # Fixed Width Integer Types
 
+[i[Fixed width integers]<]
+
 C has all those small, bigger, and biggest integer types like `int` and
 `long` and all that. And you can look in [the section on
 limits](#limits-macros) to see what the largest int is with `INT_MAX`
@@ -18,7 +20,7 @@ was exactly 32 bits (4 bytes) or at least 16 bits or somesuch?
 
 How can we declare a type that's a certain size?
 
-The header `<stdint.h>` gives us a way.
+The header [i[`stdint.h` header file]] `<stdint.h>` gives us a way.
 
 ## The Bit-Sized Types
 
@@ -50,6 +52,13 @@ Finally, these unsigned number types have a leading `u` to differentiate
 them.
 
 For example, these types have the corresponding listed meaning:
+
+[i[`int_leastN_t` types]<]
+[i[`uint_leastN_t` types]<]
+[i[`int_fastN_t` types]<]
+[i[`uint_fastN_t` types]<]
+[i[`intN_t` types]<]
+[i[`uintN_t` types]<]
 
 ``` {.c}
 int32_t w;        // x is exactly 32 bits, signed
@@ -95,15 +104,28 @@ int64_t     uint64_t
 Other variants with different widths might be defined, but they're
 optional.
 
+[i[`int_leastN_t` types]>]
+[i[`uint_leastN_t` types]>]
+[i[`int_fastN_t` types]>]
+[i[`uint_fastN_t` types]>]
+[i[`intN_t` types]>]
+[i[`uintN_t` types]>]
+
 ## Maximum Integer Size Type
 
 There's a type you can use that holds the largest representable integers
 available on the system, both signed and unsigned:
 
+[i[`intmax_t` type]<]
+[i[`uintmax_t` type]<]
+
 ``` {.c}
 intmax_t
 uintmax_t
 ```
+
+[i[`intmax_t` type]>]
+[i[`uintmax_t` type]>]
 
 Use these types when you want to go as big as possible.
 
@@ -116,6 +138,11 @@ If you have a constant that you want to have fit in a certain number of
 bits, you can use these macros to automatically append the proper suffix
 onto the number (e.g. `22L` or `3490ULL`).
 
+[i[`INTn_C()` macros]<]
+[i[`UINTn_C()` macros]<]
+[i[`INTMAX_C()` macro]<]
+[i[`UINTMAX_C()` macro]<]
+
 ``` {.c}
 INT8_C(x)     UINT8_C(x)
 INT16_C(x)    UINT16_C(x)
@@ -123,6 +150,9 @@ INT32_C(x)    UINT32_C(x)
 INT64_C(x)    UINT64_C(x)
 INTMAX_C(x)   UINTMAX_C(x)
 ```
+
+[i[`INTn_C()` macros]>]
+[i[`UINTMAX_C()` macro]>]
 
 Again, these work only with constant integer values.
 
@@ -133,10 +163,26 @@ uint16_t x = UINT16_C(12);
 intmax_t y = INTMAX_C(3490);
 ```
 
+[i[`UINTn_C()` macros]>]
+[i[`INTMAX_C()` macro]>]
+
 ## Limits of Fixed Size Integers
 
 We also have some limits defined so you can get the maximum and minimum
 values for these types:
+
+[i[`INTn_MAX` macros]<]
+[i[`INTn_MIN` macros]<]
+[i[`UINTn_MAX` macros]<]
+[i[`INT_LEASTn_MAX` macros]<]
+[i[`INT_LEASTn_MIN` macros]<]
+[i[`UINT_LEASTn_MAX` macros]<]
+[i[`INT_FASTn_MAX` macros]<]
+[i[`INT_FASTn_MIN` macros]<]
+[i[`UINT_FASTn_MAX` macros]<]
+[i[`INTMAX_MAX` macro]<]
+[i[`INTMAX_MIN` macro]<]
+[i[`UINTMAX_MAX` macro]<]
 
 ``` {.c}
 INT8_MAX           INT8_MIN           UINT8_MAX
@@ -157,14 +203,28 @@ INT_FAST64_MAX     INT_FAST64_MIN     UINT_FAST64_MAX
 INTMAX_MAX         INTMAX_MIN         UINTMAX_MAX
 ```
 
-Note the MIN for all the unsigned types is `0`, so, as such, there's no
-macro for it.
+[i[`INTn_MAX` macros]>]
+[i[`UINTn_MAX` macros]>]
+[i[`INT_LEASTn_MAX` macros]>]
+[i[`UINT_LEASTn_MAX` macros]>]
+[i[`INT_FASTn_MAX` macros]>]
+[i[`UINT_FASTn_MAX` macros]>]
+[i[`INTMAX_MAX` macro]>]
+[i[`UINTMAX_MAX` macro]>]
+
+Note the `MIN` for all the unsigned types is `0`, so, as such, there's
+no macro for it.
+
+[i[`INTn_MIN` macros]>]
+[i[`INT_LEASTn_MIN` macros]>]
+[i[`INT_FASTn_MIN` macros]>]
+[i[`INTMAX_MIN` macro]>]
 
 ## Format Specifiers
 
 In order to print these types, you need to send the right format
-specifier to `printf()`. (And the same issue for getting input with
-`scanf()`.)
+specifier to [i[`printf()` function]] `printf()`. (And the same issue
+for getting input with [i[`scanf()` function]] `scanf()`.)
 
 But how are you going to know what size the types are under the hood?
 Luckily, once again, C provides some macros to help with this.
@@ -177,6 +237,15 @@ letter `n` in the place where you should put `8`, `16`, `32`, or `64`
 depending on your needs.
 
 Let's look at the macros for printing signed integers:
+
+[i[`PRIdn` macros]<]
+[i[`PRIin` macros]<]
+[i[`PRIdLEASTn` macros]<]
+[i[`PRIiLEASTn` macros]<]
+[i[`PRIdFASTn` macros]<]
+[i[`PRIiFASTn` macros]<]
+[i[`PRIdMAX` macro]<]
+[i[`PRIiMAX` macro]<]
 
 ``` {.c}
 PRIdn    PRIdLEASTn    PRIdFASTn    PRIdMAX
@@ -230,7 +299,33 @@ int main(void)
 }
 ```
 
+[i[`PRIdn` macros]>]
+[i[`PRIin` macros]>]
+[i[`PRIdLEASTn` macros]>]
+[i[`PRIiLEASTn` macros]>]
+[i[`PRIdFASTn` macros]>]
+[i[`PRIiFASTn` macros]>]
+[i[`PRIdMAX` macro]>]
+[i[`PRIiMAX` macro]>]
+
 We also have a pile of macros for printing unsigned types:
+
+[i[`PRIon` macros]<]
+[i[`PRIun` macros]<]
+[i[`PRIxn` macros]<]
+[i[`PRIXn` macros]<]
+[i[`PRIoLEASTn` macros]<]
+[i[`PRIuLEASTn` macros]<]
+[i[`PRIxLEASTn` macros]<]
+[i[`PRIXLEASTn` macros]<]
+[i[`PRIoFASTn` macros]<]
+[i[`PRIuFASTn` macros]<]
+[i[`PRIxFASTn` macros]<]
+[i[`PRIXFASTn` macros]<]
+[i[`PRIoMAX` macros]<]
+[i[`PRIuMAX` macros]<]
+[i[`PRIxMAX` macros]<]
+[i[`PRIXMAX` macros]<]
 
 ``` {.c}
 PRIon    PRIoLEASTn    PRIoFASTn    PRIoMAX
@@ -245,8 +340,47 @@ specifiers in `printf()`.
 And, as before, the lowercase `n` should be substituted with `8`, `16`,
 `32`, or `64`.
 
+[i[`PRIon` macros]>]
+[i[`PRIun` macros]>]
+[i[`PRIxn` macros]>]
+[i[`PRIXn` macros]>]
+[i[`PRIoLEASTn` macros]>]
+[i[`PRIuLEASTn` macros]>]
+[i[`PRIxLEASTn` macros]>]
+[i[`PRIXLEASTn` macros]>]
+[i[`PRIoFASTn` macros]>]
+[i[`PRIuFASTn` macros]>]
+[i[`PRIxFASTn` macros]>]
+[i[`PRIXFASTn` macros]>]
+[i[`PRIoMAX` macros]>]
+[i[`PRIuMAX` macros]>]
+[i[`PRIxMAX` macros]>]
+[i[`PRIXMAX` macros]>]
+
 But just when you think you had enough of the macros, it turns out we
-have a complete complementary set of them for `scanf()`!
+have a complete complementary set of them for [i[`scanf()` function]]
+`scanf()`!
+
+[i[`SCNdn` macros]<]
+[i[`SCNin` macros]<]
+[i[`SCNon` macros]<]
+[i[`SCNun` macros]<]
+[i[`SCNxn` macros]<]
+[i[`SCNdLEASTn` macros]<]
+[i[`SCNiLEASTn` macros]<]
+[i[`SCNoLEASTn` macros]<]
+[i[`SCNuLEASTn` macros]<]
+[i[`SCNxLEASTn` macros]<]
+[i[`SCNdFASTn` macros]<]
+[i[`SCNiFASTn` macros]<]
+[i[`SCNoFASTn` macros]<]
+[i[`SCNuFASTn` macros]<]
+[i[`SCNxFASTn` macros]<]
+[i[`SCNdMAX` macros]<]
+[i[`SCNiMAX` macros]<]
+[i[`SCNoMAX` macros]<]
+[i[`SCNuMAX` macros]<]
+[i[`SCNxMAX` macros]<]
 
 ``` {.c}
 SCNdn    SCNdLEASTn    SCNdFASTn    SCNdMAX
@@ -256,6 +390,29 @@ SCNun    SCNuLEASTn    SCNuFASTn    SCNuMAX
 SCNxn    SCNxLEASTn    SCNxFASTn    SCNxMAX
 ```
 
+[i[`SCNdn` macros]>]
+[i[`SCNin` macros]>]
+[i[`SCNon` macros]>]
+[i[`SCNun` macros]>]
+[i[`SCNxn` macros]>]
+[i[`SCNdLEASTn` macros]>]
+[i[`SCNiLEASTn` macros]>]
+[i[`SCNoLEASTn` macros]>]
+[i[`SCNuLEASTn` macros]>]
+[i[`SCNxLEASTn` macros]>]
+[i[`SCNdFASTn` macros]>]
+[i[`SCNiFASTn` macros]>]
+[i[`SCNoFASTn` macros]>]
+[i[`SCNuFASTn` macros]>]
+[i[`SCNxFASTn` macros]>]
+[i[`SCNdMAX` macros]>]
+[i[`SCNiMAX` macros]>]
+[i[`SCNoMAX` macros]>]
+[i[`SCNuMAX` macros]>]
+[i[`SCNxMAX` macros]>]
+
 Remember: when you want to print out a fixed size integer type with
 `printf()` or `scanf()`, grab the correct corresponding format specifer
 from `<inttypes.h>`.
+
+[i[Fixed width integers]>]
