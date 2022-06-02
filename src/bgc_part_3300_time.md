@@ -8,6 +8,8 @@
 > "Time is an illusion. Lunchtime doubly so." \
 > ---Ford Prefect, The Hitchhikers Guide to the Galaxy
 
+[i[Date and time]<]
+
 This isn't too complex, but it can be a little intimidating at first,
 both with the different types available and the way we can convert
 between them.
@@ -27,34 +29,43 @@ time library, so put that in your budget.
 
 Just a couple quick terms in case you don't have them down.
 
-* **UTC**: Coordinated Universal Time is a universally^[On Earth,
-  anyway. Who know what crazy systems they use _out there_...] agreed
-  upon, absolute time. Everyone on the planet thinks it's the same time
-  right now in UTC... even though they have different local times.
+* [i[Universal Coordinated Time]] **UTC**: Coordinated Universal Time is
+  a universally^[On Earth, anyway. Who know what crazy systems they use
+  _out there_...] agreed upon, absolute time. Everyone on the planet
+  thinks it's the same time right now in UTC... even though they have
+  different local times.
 
-* **GMT**: Greenwich Mean Time, effectively the same as UTC^[OK, don't
-  murder me! GMT is technically a timezone while UTC is a global time
-  system. Also some countries might adjust GMT for daylight saving time,
-  whereas UTC is never adjusted for daylight saving time.]. You probably
-  want to say UTC, or "universal time". If you're talking specifically
-  about the GMT timezone, say GMT. Confusingly, many of C's UTC
-  functions predate UTC and still refer to Greenwich Mean Time. When you
-  see that, know the C means UTC.
+* [i[Greenwich Mean time]] **GMT**: Greenwich Mean Time, effectively the
+  same as UTC^[OK, don't murder me! GMT is technically a time zone while
+  UTC is a global time system. Also some countries might adjust GMT for
+  daylight saving time, whereas UTC is never adjusted for daylight
+  saving time.]. You probably want to say UTC, or "universal time". If
+  you're talking specifically about the GMT time zone, say GMT.
+  Confusingly, many of C's UTC functions predate UTC and still refer to
+  Greenwich Mean Time. When you see that, know that C means UTC.
 
-* **Local time**: what time it is where the computer running the program
-  is located. This is described as an offset from UTC. Although there
-  are many timezones in the world, most computers do work in either
-  local time or UTC.
+* [i[Local time]] **Local time**: what time it is where the computer
+  running the program is located. This is described as an offset from
+  UTC. Although there are many time zones in the world, most computers
+  do work in either local time or UTC.
 
-If you are describing an event that happens one time, like a log entry,
-or a rocket launch, or when pointers finally clicked for you, use UTC.
+[i[Universal Coordinated Time]<]
+
+As a general rule, if you are describing an event that happens one time,
+like a log entry, or a rocket launch, or when pointers finally clicked
+for you, use UTC.
+
+[i[Local time]<]
 
 On the other hand, if it's something that happens the same time _in
-every timezone_, like New Year's Eve or dinner time, use local time.
+every time zone_, like New Year's Eve or dinner time, use local time.
 
 Since a lot of languages are only good at converting between UTC and
 local time, you can cause yourself a lot of pain by choosing to store
 your dates in the wrong form. (Ask me how I know.)
+
+[i[Local time]>]
+[i[Universal Coordinated Time]>]
 
 
 ## Date Types
@@ -64,20 +75,25 @@ when it comes to dates: `time_t` and `struct tm`.
 
 The spec doesn't actually say much about them:
 
-* `time_t`: a real type capable of holding a time. So by the spec, this
-  could be a floating type or integer type. In POSIX (Unix-likes), it's
-  an integer. This holds _calendar time_. Which you can think of as UTC
-  time.
+* [i[`time_t` type]] `time_t`: a real type capable of holding a time. So
+  by the spec, this could be a floating type or integer type. In POSIX
+  (Unix-likes), it's an integer. This holds _calendar time_. Which you
+  can think of as UTC time.
 
-* `struct tm`: holds the components of a calendar time. This is a
-  _broken-down time_, i.e. the components of the time, like hour,
-  minute, second, day, month, year, etc.
+* [i[`struct tm` type]] `struct tm`: holds the components of a calendar
+  time. This is a _broken-down time_, i.e. the components of the time,
+  like hour, minute, second, day, month, year, etc.
+
+[i[`time_t` type]<]
 
 On a lot of systems, `time_t` represents the number of seconds since
 [flw[_Epoch_|Unix_time]]. Epoch is in some ways the start of time from
 the computer's perspective, which is commonly January 1, 1970 UTC.  `time_t`
 can go negative to represent times before Epoch. Windows behaves the
 same way as Unix from what I can tell.
+
+[i[`time_t` type]>]
+[i[`struct tm` type]<]
 
 And what's in a `struct tm`? The following fields:
 
@@ -101,10 +117,14 @@ It's important to know that you can put any values in these types you
 want. There are functions to help get the time _now_, but the types hold
 _a_ time, not _the_ time.
 
+[i[`struct tm` type]>]
+
 So the question becomes: "How do you initialize data of these types, and
 how do you convert between them?"
 
 ## Initialization and Conversion Between Types
+
+[i[`time()` function]<]
 
 First, you can get the current time and store it in a `time_t` with the
 `time()` function.
@@ -118,6 +138,9 @@ time(&now);        // ...or this. Same as the previous line.
 ```
 
 Great! You have a variable that gets you the time now.
+
+[i[`time()` function]>]
+[i[`ctime()` function]<]
 
 Amusingly, there's only one portable way to print out what's in a
 `time_t`, and that's the rarely-used `ctime()` function that prints the
@@ -136,18 +159,28 @@ at the end:
 Sun Feb 28 18:47:25 2021
 ```
 
+[i[`ctime()` function]>]
+
 So that's kind of inflexible. If you want more control, you should
 convert that `time_t` into a `struct tm`.
 
 ### Converting `time_t` to `struct tm`
 
+[i[`time_t` type-->conversion to `struct tm`]<]
+
 There are two amazing ways to do this conversion:
+
+[i[`localtime()` function]<]
 
 * `localtime()`: this function converts a `time_t` to a `struct tm` in
   local time.
 
+[i[`gmtime()` function]<]
+
 * `gmtime()`: this function converts a `time_t` to a `struct tm` in
   UTC. (See ye olde GMT creeping into that function name?)
+
+[i[`asctime()` function]<]
 
 Let's see what time it is now by printing out a `struct tm` with the
 `asctime()` function:
@@ -157,7 +190,11 @@ printf("Local: %s", asctime(localtime(&now)));
 printf("  UTC: %s", asctime(gmtime(&now)));
 ```
 
-Output (I'm in Pacific Standard Time, out of daylight ):
+[i[`asctime()` function]>]
+[i[`localtime()` function]>]
+[i[`gmtime()` function]>]
+
+Output (I'm in the Pacific Standard Time zone):
 
 ``` {.default}
 Local: Sun Feb 28 20:15:27 2021
@@ -170,7 +207,12 @@ day of the week a date is, and so on. Or convert it back into a `time_t`.
 
 More on that soon!
 
+[i[`time_t` type-->conversion to `struct tm`]>]
+
 ### Converting `struct tm` to `time_t`
+
+[i[`struct tm` type-->conversion to `time_t`]<]
+[i[`mktime()` function]<]
 
 If you want to go the other way, you can use `mktime()` to get that
 information.
@@ -211,10 +253,15 @@ When you manually load a `struct tm` like that, it should be in local
 time.  `mktime()` will convert that local time into a `time_t` calendar
 time.
 
+[i[`mktime()` function]>]
+
 Weirdly, however, the standard doesn't give us a way to load up a
 `struct tm` with a UTC time and convert that to a `time_t`. If you want
-to do that with Unix-likes, try the non-standard `timegm()`. On Windows,
+to do that with Unix-likes, try the non-standard [i[`timegm()` Unix
+function]] `timegm()`. On Windows, [i[`_mkgmtime()` Windows function]]
 `_mkgmtime()`.
+
+[i[`struct tm` type-->conversion to `time_t`]>]
 
 ## Formatted Date Output
 
@@ -234,6 +281,8 @@ printf("UTC       : %s", asctime(utc));    // UTC with a struct tm
 
 But what if I told you, dear reader, that there's a way to have much
 more control over how the date was printed?
+
+[i[`strftime()` function]<]
 
 Sure, we could fish individual fields out of the `struct tm`, but 
 there's a great function called `strftime()` that will do a lot of the
@@ -278,7 +327,7 @@ int main(void)
 
     // %F: ISO 8601 yyyy-mm-dd
     // %T: ISO 8601 hh:mm:ss
-    // %z: ISO 8601 timezone offset
+    // %z: ISO 8601 time zone offset
     strftime(s, sizeof s, "ISO 8601: %FT%T%z", localtime(&now));
     puts(s);   // ISO 8601: 2021-02-28T22:29:00-0800
 }
@@ -288,8 +337,11 @@ There are a _ton_ of date printing format specifiers for `strftime()`,
 so be sure to check them out in the [`strftime()` reference
 page](#man-strftime).
 
+[i[`strftime()` function]>]
 
 ## More Resolution with `timespec_get()`
+
+[i[`timespec_get()` function]<]
 
 You can get the number of seconds and nanoseconds since Epoch with
 `timespec_get()`.
@@ -299,6 +351,8 @@ Maybe.
 Implementations might not have nanosecond resolution (that's one
 billionth of a second) so who knows how many significant places you'll
 get, but give it a shot and see.
+
+[i[`struct timespec` type]<]
 
 `timespec_get()` takes two arguments. One is a pointer to a `struct
 timespec` to hold the time information. And the other is the `base`,
@@ -339,13 +393,20 @@ Example output:
 `struct timespec` also makes an appearance in a number of the threading
 functions that need to be able to specify time with that resolution.
 
+[i[`struct timespec` type]>]
+[i[`timespec_get()` function]>]
+
 ## Differences Between Times
+
+[i[Date and time-->differences]<]
 
 One quick note about getting the difference between two `time_t`s: since
 the spec doesn't dictate how that type represents a time, you might not
 be able to simply subtract two `time_t`s and get anything sensible^[You
 will on POSIX, where `time_t` is definitely an integer. Unfortunately
 the entire world isn't POSIX, so there we are.].
+
+[i[`difftime()` function]<]
 
 Luckily you can use `difftime()` to compute the difference in seconds
 between two dates.
@@ -399,3 +460,7 @@ Output:
 And there you have it! Remember to use `difftime()` to take the time
 difference. Even though you can just subtract on a POSIX system, might
 as well stay portable.
+
+[i[`difftime()` function]>]
+[i[Date and time-->differences]<>
+[i[Date and time]>]
