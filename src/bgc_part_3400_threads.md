@@ -5,6 +5,8 @@
 
 # Multithreading
 
+[i[Multithreading]<]
+
 C11 introduced, formally, multithreading to the C language. It's very
 eerily similar to [flw[POSIX threads|POSIX_Threads]], if you've ever
 used those.
@@ -16,6 +18,8 @@ multithreading how-to^[I'm more a fan of shared-nothing, myself, and my
 skills with classic multithreading constructs are rusty, to say the
 least.]; you'll have to pick up a different very thick book for that,
 specifically. Sorry!
+
+[i[`__STDC_NO_THREADS__` macro]<]
 
 Threading is an optional feature. If a C11+ compiler defines
 `__STDC_NO_THREADS__`, threads will **not** be present in the library.
@@ -30,6 +34,10 @@ You can test for it like this:
 #endif
 ```
 
+[i[`__STDC_NO_THREADS__` macro]>]
+
+[i[`gcc` compiler-->with threads]<]
+
 Also, you might need to specify certain linker options when building. In
 the case of Unix-likes, try appending a `-lpthreads` to the end of the
 command line to link the `pthreads` library^[Yes, `pthreads` with a
@@ -39,6 +47,8 @@ liberally from for its threads implementation.]:
 ``` {.zsh}
 gcc -std=c11 -o foo foo.c -lpthreads
 ```
+
+[i[`gcc` compiler-->with threads]>]
 
 If you're getting linker errors on your system, it could be because the
 appropriate library wasn't included.
@@ -84,6 +94,8 @@ now.
 
 ## Data Races and the Standard Library
 
+[i[Multithreading-->and the standard library]<]
+
 Some of the functions in the standard library (e.g. `asctime()` and
 `strtok()`) return or use `static` data elements that aren't threadsafe.
 But in general unless it's said otherwise, the standard library makes
@@ -92,6 +104,8 @@ an effort to be so^[Per §7.1.4¶5.].
 But keep an eye out. If a standard library function is maintaining state
 between calls in a variable you don't own, or if a function is returning
 a pointer to a thing that you didn't pass in, it's not threadsafe.
+
+[i[Multithreading-->and the standard library]>]
 
 ## Creating and Waiting for Threads
 
@@ -102,8 +116,8 @@ We'll make some threads (create) and wait for them to complete (join).
 We have a tiny bit to understand first, though.
 
 Every single thread is identified by an opaque variable of type
-`thrd_t`. It's a unique identifier per thread in your program. When you
-create a thread, it's given a new ID.
+[i[`thrd_t` type]] `thrd_t`. It's a unique identifier per thread in your
+program. When you create a thread, it's given a new ID.
 
 Also when you make the thread, you have to give it a pointer to a
 function to run, and a pointer to an argument to pass to it (or `NULL`
@@ -119,20 +133,27 @@ So the basic idea is:
 1. Write a function to act as the thread's "`main`". It's not
    `main()`-proper, but analogous to it. The thread will start running
    there.
-2. From the main thread, launch a new thread with `thrd_create()`, and
-   pass it a pointer to the function to run.
+2. From the main thread, launch a new thread with [i[`thrd_create()`
+   function]]`thrd_create()`, and pass it a pointer to the function to
+   run.
 3. In that function, have the thread do whatever it has to do.
 4. Meantimes, the main thread can continue doing whatever _it_ has to
    do.
 5. When the main thread decides to, it can wait for the child thread to
-   complete by calling `thrd_join()`. Generally you **must**
-   `thrd_join()` the thread to clean up after it or else you'll leak
-   memory^[Unless you `thrd_detach()`. More on this later.]
+   complete by calling [i[`thrd_join()` function]] `thrd_join()`.
+   Generally you **must** `thrd_join()` the thread to clean up after it
+   or else you'll leak memory^[Unless you `thrd_detach()`. More on this
+   later.]
+
+[i[`thrd_create()` function]<]
+[i[`thrd_start_t` type]<]
 
 `thrd_create()` takes a pointer to the function to run, and it's of type
 `thrd_start_t`, which is `int (*)(void *)`. That's Greek for "a pointer
 to a function that takes an `void*` as an argument, and returns an
 `int`."
+
+[i[`thrd_join()` function]<]
 
 Let's make a thread!  We'll launch it from the main thread with
 `thrd_create()` to run a function, do some other things, then wait for
@@ -187,9 +208,14 @@ int main(void)
 }
 ```
 
+[i[`thrd_start_t` type]>]
+
 See how we did the `thrd_create()` there to call the `run()` function?
 Then we did other things in `main()` and then stopped and waited for the
 thread to complete with `thrd_join()`.
+
+[i[`thrd_create()` function]>]
+[i[`thrd_join()` function]>]
 
 Sample output (yours might vary):
 
@@ -208,6 +234,9 @@ use it.
 
 Let's look at an example that launches 5 threads. One thing to note here
 is how we use an array of `thrd_t`s to keep track of all the thread IDs.
+
+[i[`thrd_create()` function]<]
+[i[`thrd_join()` function]<]
 
 ``` {.c .numberLines}
 #include <stdio.h>
@@ -254,9 +283,13 @@ int main(void)
 }
 ```
 
+[i[`thrd_join()` function]>]
+
 When I run the threads, I count `i` up from 0 to 4. And pass a pointer
 to it to `thrd_create()`. This pointer ends up in the `run()` routine
 where we make a copy of it.
+
+[i[`thrd_create()` function]>]
 
 Simple enough? Here's the output:
 
@@ -281,10 +314,10 @@ Whaaa---? Where's `THREAD 0`? And why do we have a `THREAD 5` when
 clearly `i` is never more than `4` when we call `thrd_create()`? And two
 `THREAD 2`s? Madness!
 
-This is getting into the fun land of _race conditions_. The main thread
-is modifying `i` before the thread has a chance to copy it. Indeed, `i`
-makes it all the way to  `5` and ends the loop before the last thread
-gets a chance to copy it.
+This is getting into the fun land of [i[Multithreading-->race
+conditions]] _race conditions_. The main thread is modifying `i` before
+the thread has a chance to copy it. Indeed, `i` makes it all the way to
+`5` and ends the loop before the last thread gets a chance to copy it.
 
 We've got to have a per-thread variable that we can refer to so we can
 pass it in as the `arg`.
@@ -377,6 +410,8 @@ to clean up nicely on their own, this is the way to go.
 
 Basically we're going to do this:
 
+[i[`thrd_detach()` function]<]
+
 ``` {.c}
 thrd_create(&t, run, NULL);
 thrd_detach(t);
@@ -416,6 +451,8 @@ int main(void)
 }
 ```
 
+[i[`thrd_detach()` function]>]
+
 Note that in this code, we put the main thread to sleep for 1 second
 with `thrd_sleep()`---more on that later.
 
@@ -432,6 +469,8 @@ threads completed their run before other threads were launched.
 
 ## Thread Local Data
 
+[i[Thread local data]<]
+
 Threads are interesting because they don't have their own memory beyond
 local variables. If you want a `static` variable or file scope variable,
 all threads will see that same variable.
@@ -442,7 +481,7 @@ happening.
 Check out this example. We have a `static` variable `foo` in block scope
 in `run()`. This variable will be visible to all threads that pass
 through the `run()` function. And the various threads can effectively
-step on each other's toes.
+step on each others toes.
 
 Each thread copies `foo` into a local variable `x` (which is not shared
 between threads---all the threads have their own call stacks). So they
@@ -533,6 +572,8 @@ you'll have to read on to the [mutex](#mutex) section.)
 
 ### `_Thread_local` Storage-Class {#thread-local}
 
+[i[`_Thread_local` storage class]<]
+
 First things first, let's just look at the easy way around this: the
 `_Thread_local` storage-class.
 
@@ -541,8 +582,11 @@ Basically we're just going to slap this on the front of our block scope
 should have its own version of this variable, so none of them step on
 each other's toes.
 
-The `<threads.h>` header defines `thread_local` as an alias to `_Thread_local`
-so your code doesn't have to look so ugly.
+[i[`thread_local` storage class]<]
+
+The [i[`threads.h` header file]] `<threads.h>` header defines
+`thread_local` as an alias to `_Thread_local` so your code doesn't have
+to look so ugly.
 
 Let's take the previous example and make `foo` into a `thread_local`
 variable so that we don't share that data.
@@ -577,7 +621,13 @@ non-`static` variables.)
 A bit of a lie there: block scope `thread_local` variables can also be
 `extern`.
 
+[i[`thread_local` storage class]>]
+[i[`_Thread_local` storage class]>]
+[i[Thread local data]>]
+
 ### Another Option: Thread-Specific Storage
+
+[i[Thread-specific storage]<]
 
 Thread-specific storage (TSS) is another way of getting per-thread data.
 
@@ -587,25 +637,26 @@ deleted. Commonly this destructor is `free()` to automatically clean up
 `malloc()`d per-thread data. Or `NULL` if you don't need to destroy
 anything.
 
-The destructor is type `tss_dtor_t` which is a pointer to a function
-that returns `void` and takes a `void*` as an argument (the `void*`
-points to the data stored in the variable). In other words, it's a `void
-(*)(void*)`, if that clears it up. Which I admit it probably doesn't.
-Check out the example, below.
+The destructor is type [i[`tss_dtor_t` type]] `tss_dtor_t` which is a
+pointer to a function that returns `void` and takes a `void*` as an
+argument (the `void*` points to the data stored in the variable). In
+other words, it's a `void (*)(void*)`, if that clears it up. Which I
+admit it probably doesn't. Check out the example, below.
 
 Generally, `thread_local` is probably your go-to, but if you like the
 destructor idea, then you can make use of that.
 
-The usage is a bit weird in that we need a variable of type `tss_t` to
-be alive to represent the value on a per thread basis. Then we
-initialize it with `tss_create()`. Eventually we get rid of it with
+The usage is a bit weird in that we need a variable of type [i[`tss_t`
+type]] `tss_t` to be alive to represent the value on a per thread basis.
+Then we initialize it with [i[`tss_create()` function]] `tss_create()`.
+Eventually we get rid of it with [i[`tss_delete()` function]<]
 `tss_delete()`. Note that calling `tss_delete()` doesn't run all the
 destructors---it's `thrd_exit()` (or returning from the run function)
 that does that. `tss_delete()` just releases any memory allocated by
-`tss_create()`.
+`tss_create()`. [i[`tss_delete()` function]>]
 
-In the middle, threads can call `tss_set()` and `tss_get()` to set and
-get the value.
+In the middle, threads can call [i[`tss_set()` function]] `tss_set()`
+and [i[`tss_get()` function]] `tss_get()` to set and get the value.
 
 In the following code, we set up the TSS variable before creating the
 threads, then clean up after the threads.
@@ -615,6 +666,12 @@ and store that pointer in the TSS variable.
 
 When the thread exits, the destructor function (`free()` in this case)
 is called for _all_ the threads.
+
+[i[`tss_t` type]<]
+[i[`tss_get()` function]<]
+[i[`tss_set()` function]<]
+[i[`tss_create()` function]<]
+[i[`tss_delete()` function]<]
 
 ``` {.c .numberLines}
 #include <stdio.h>
@@ -674,11 +731,21 @@ int main(void)
 }
 ```
 
+[i[`tss_t` type]>]
+[i[`tss_get()` function]>]
+[i[`tss_set()` function]>]
+[i[`tss_create()` function]>]
+[i[`tss_delete()` function]>]
+
 Again, this is kind of a painful way of doing things compared to
 `thread_local`, so unless you really need that destructor functionality,
 I'd use that instead.
 
+[i[Thread-specific storage]>]
+
 ## Mutexes {#mutex}
+
+[i[Mutexes]<]
 
 If you want to only allow a single thread into a critical section of
 code at a time, you can protect that section with a mutex^[Short for
@@ -699,13 +766,17 @@ of them will be chosen to run (at random, from our perspective), and the
 others will continue to sleep.
 
 The gameplan is that first we'll initialize a mutex variable to make it
-ready to use with `mtx_init()`.
+ready to use with [i[`mtx_init()` function]] `mtx_init()`.
 
-Then subsequent threads can call `mtx_lock()` and `mtx_unlock()` to get
-and release the mutex.
+Then subsequent threads can call [i[`mtx_lock()` function]] `mtx_lock()`
+and [i[`mtx_unlock` function]] `mtx_unlock()` to get and release the
+mutex.
 
 When we're completely done with the mutex, we can destroy it with
-`mtx_destroy()`, the logical opposite of `mtx_init()`.
+[i[`mtx_destroy()` function]] `mtx_destroy()`, the logical opposite of
+[i[`mtx_init()` function]] `mtx_init()`.
+
+[i[Multithreading-->race conditions]<]
 
 First, let's look at some code that does _not_ use a mutex, and
 endeavors to print out a shared (`static`) serial number and then
@@ -764,12 +835,19 @@ Thread running! 9
 Clearly multiple threads are getting in there and running the `printf()`
 before anyone gets a change to update the `serial` variable.
 
+[i[Multithreading-->race conditions]>]
+
 What we want to do is wrap the getting of the variable and setting of it
 into a single mutex-protected stretch of code.
 
-We'll add a new variable to represent the mutex of type `mtx_t` in file
-scope, initialize it, and then the threads can lock and unlock it in the
-`run()` function.
+We'll add a new variable to represent the mutex of type [i[`mtx_t`
+type]] `mtx_t` in file scope, initialize it, and then the threads can
+lock and unlock it in the `run()` function.
+
+[i[`mtx_lock()` function]<]
+[i[`mtx_unlock()` function]<]
+[i[`mtx_init()` function]<]
+[i[`mtx_destroy()` function]<]
 
 ``` {.c .numberLines}
 #include <stdio.h>
@@ -828,12 +906,18 @@ int main(void)
 See how on lines 38 and 50 of `main()` we initialize and destroy the
 mutex.
 
+[i[`mtx_init()` function]>]
+[i[`mtx_destroy()` function]>]
+
 But each individual thread acquires the mutex on line 15 and releases it
 on line 24.
 
 In between the `mtx_lock()` and `mtx_unlock()` is the _critical
 section_, the area of code where we don't want multiple threads mucking
 about at the same time.
+
+[i[`mtx_lock()` function]>]
+[i[`mtx_unlock()` function]>]
 
 And now we get proper output!
 
@@ -853,21 +937,25 @@ Thread running! 9
 If you need multiple mutexes, no problem: just have multiple mutex
 variables.
 
-And always remember the Number One Rule of Multiple Mutexes: _Unlock mutexes in
-the opposite order in which you lock them!_
+And always remember the Number One Rule of Multiple Mutexes: _Unlock
+mutexes in the opposite order in which you lock them!_
 
 ### Different Mutex Types
+
+[i[Mutexes-->types]<]
 
 As hinted earlier, we have a few mutex types that you can create with
 `mtx_init()`. (Some of these types are the result of a bitwise-OR
 operation, as noted in the table.)
 
+[i[Mutexes-->timeouts]<]
+
 |Type|Description|
 |-|-|
-|`mtx_plain`|Regular ol' mutex|
-|`mtx_timed`|Mutex that supports timeouts|
-|`mtx_plain|mtx_recursive`|Recursive mutex|
-|`mtx_timed|mtx_recursive`|Recursive mutex that supports timeouts|
+|[i[`mtx_plain` macro]]`mtx_plain`|Regular ol' mutex|
+|[i[`mtx_timed` macro]]`mtx_timed`|Mutex that supports timeouts|
+|[i[`mtx_plain` macro]][i[`mtx_recursive` macro]]`mtx_plain|mtx_recursive`|Recursive mutex|
+|[i[`mtx_timed` macro]][i[`mtx_recursive` macro]]`mtx_timed|mtx_recursive`|Recursive mutex that supports timeouts|
 
 "Recursive" means that the holder of a lock can call `mtx_lock()`
 multiple times on the same lock. (They have to unlock it an equal number
@@ -878,15 +966,21 @@ the mutex when you already hold the mutex.
 And the timeout gives a thread a chance to _try_ to get the lock for a
 while, but then bail out if it can't get it in that timeframe.
 
+[i[`mtx_timed` macro]<]
+
 For a timeout mutex, be sure to create it with `mtx_timed`:
 
 ``` {.c}
 mtx_init(&serial_mtx, mtx_timed);
 ```
 
+[i[`mtx_timed` macro]>]
+
 And then when you wait for it, you have to specify a time in UTC when it
 will unlock^[You might have expected it to be "time from now", but you'd
 just like to think that, wouldn't you!].
+
+[i[`timespec_get()` function]<]
 
 The function `timespec_get()` from `<time.h>` can be of assistance here.
 It'll get you the current time in UTC in a `struct timespec` which is
@@ -898,6 +992,8 @@ and `tv_nsec` has the nanoseconds (billionths of a second) as the
 
 So you can load that up with the current time, and then add to it to get
 a specific timeout.
+
+[i[`mtx_timedlock()` function]<]
 
 Then call `mtx_timedlock()` instead of `mtx_lock()`. If it returns the
 value `thrd_timedout`, it timed out.
@@ -915,9 +1011,18 @@ if (result == thrd_timedout) {
 }
 ```
 
+[i[`mtx_timedlock()` function]>]
+[i[`timespec_get()` function]>]
+
 Other than that, timed locks are the same as regular locks.
 
+[i[Mutexes-->timeouts]>]
+[i[Mutexes-->types]>]
+[i[Mutexes]>]
+
 ## Condition Variables
+
+[i[Condition variables]<]
 
 Condition Variables are the last piece of the puzzle we need to make
 performant multithreaded applications and to compose more complex
@@ -959,8 +1064,19 @@ And when it wakes up, it needs to be holding that mutex. And it will!
 When a thread waits on a condition variable, it also acquires a mutex
 when it wakes up.
 
-How's that work? Let's look at the outline of what the child thread will
-do:
+All this takes place around an additional variable of type [i[`cnd_t`
+type]] `cnd_t` that is the _condition variable_. We create this variable
+with the [i[`cnd_init()` function]] `cnd_init()` function and destroy it
+when we're done with it with the [i[`cnd_destroy()` function]]
+`cnd_destroy()` function.
+
+But how's this all work? Let's look at the outline of what the child
+thread will do:
+
+[i[`mtx_lock()` function]<]
+[i[`mtx_unlock()` function]<]
+[i[`cnd_wait()` function]<]
+[i[`cnd_signal()` function]<]
 
 1. Lock the mutex with `mtx_lock()`
 2. If we haven't entered all the numbers, wait on the condition variable
@@ -975,6 +1091,9 @@ Meanwhile the main thread will be doing this:
 3. If the array is full, signal the child to wake up with `cnd_signal()`
 4. Unlock the mutex with `mtx_unlock()`
 
+[i[`mtx_lock()` function]>]
+[i[`mtx_unlock()` function]>]
+
 If you didn't skim that too hard (it's OK---I'm not offended), you might
 notice something weird: how can the main thread hold the mutex lock and
 signal the child, if the child has to hold the mutex lock to wait for
@@ -986,8 +1105,10 @@ you specify and the thread goes to sleep. And when someone signals that
 thread to wake up, it reacquires the lock as if nothing had happened.
 
 It's a little different on the `cnd_signal()` side of things. This
-doesn't do anything with the mutex. The signalling thread still must
+doesn't do anything with the mutex. The signaling thread still must
 manually release the mutex before the waiting threads can wake up.
+
+[i[`cnd_signal()` function]>]
 
 One more thing on the `cnd_wait()`. You'll probably be calling
 `cnd_wait()` if some condition^[And that's why they're called _condition
@@ -995,13 +1116,16 @@ variables_!] is not yet met (e.g. in this case, if not all the numbers
 have yet been entered). Here's the deal: this condition should be in a
 `while` loop, not an `if` statement. Why?
 
-It's because of a mysterious phenomenon called a _spurious wakeup_.
-Sometimes, in some implementations, a thread can be woken up out of a
-`cnd_wait()` sleep for seemingly _no reason_. _[X-Files music]_^[I'm not
-saying it's aliens... but it's aliens. OK, really more likely another
-thread might have been woken up and gotten to the work first.]. And so
-we have to check to see that the condition we need is still actually met
-when we wake up. And if it's not, back to sleep with us!
+It's because of a mysterious phenomenon called a [i[Condition
+variables-->spurious wakeup]] _spurious wakeup_. Sometimes, in some
+implementations, a thread can be woken up out of a `cnd_wait()` sleep
+for seemingly _no reason_. _[X-Files music]_^[I'm not saying it's
+aliens... but it's aliens. OK, really more likely another thread might
+have been woken up and gotten to the work first.]. And so we have to
+check to see that the condition we need is still actually met when we
+wake up. And if it's not, back to sleep with us!
+
+[i[`cnd_wait()` function]>]
 
 So let's do this thing! Starting with the main thread:
 
@@ -1026,7 +1150,7 @@ Meanwhile, the child thread has been up to its own shenanigans:
 
 * While the condition is not met (i.e. while the shared array doesn't
   yet have 5 numbers in it), the child thread sleeps by waiting on the
-  condition variable. When it waits, it unlocks the mutex.
+  condition variable. When it waits, it implicitly unlocks the mutex.
 
 * Once the main thread signals the child thread to wake up, it wakes up
   to do the work and gets the mutex lock back.
@@ -1038,6 +1162,16 @@ Meanwhile, the child thread has been up to its own shenanigans:
 
 And here's the code! Give it some study so you can see where all the
 above pieces are being handled:
+
+[i[`mtx_lock()` function]<]
+[i[`mtx_unlock()` function]<]
+[i[`mtx_init()` function]<]
+[i[`mtx_destroy()` function]<]
+[i[`cnd_init()` function]<]
+[i[`cnd_destroy()` function]<]
+[i[`cnd_wait()` function]<]
+[i[`cnd_signal()` function]<]
+[i[`cnd_t` type]<]
 
 ``` {.c .numberLines}
 #include <stdio.h>
@@ -1121,6 +1255,16 @@ int main(void)
 }
 ```
 
+[i[`mtx_lock()` function]>]
+[i[`mtx_unlock()` function]>]
+[i[`mtx_init()` function]>]
+[i[`mtx_destroy()` function]>]
+[i[`cnd_init()` function]>]
+[i[`cnd_destroy()` function]>]
+[i[`cnd_wait()` function]>]
+[i[`cnd_signal()` function]>]
+[i[`cnd_t` type]>]
+
 And here's some sample output (individual numbers on lines are my
 input):
 
@@ -1153,6 +1297,8 @@ which is a big waste of CPU.
 
 ### Timed Condition Wait
 
+[i[Condition variables-->timeouts]<]
+
 There's a variant of `cnd_wait()` that allows you to specify a timeout
 so you can stop waiting.
 
@@ -1163,12 +1309,17 @@ you still must wait for any other threads to release the mutex.
 But it does mean that you won't be waiting until the `cnd_signal()`
 happens.
 
-To make this work, call `cnd_timedwait()` instead of `cnd_wait()`. If it
-returns the value `thrd_timedout`, it timed out.
+To make this work, call [i[`cnd_timedwait()` function]]
+`cnd_timedwait()` instead of `cnd_wait()`. If it returns the value
+[i[`thrd_timedout` macro]] `thrd_timedout`, it timed out.
 
 The timestamp is an absolute time in UTC, not a time-from-now.
-Thankfully the `timespec_get()` function in `<time.h>` seems custom-made
-for exactly this case.
+Thankfully the [i[`timespec_get()` function]] `timespec_get()` function
+in `<time.h>` seems custom-made for exactly this case.
+
+[i[`timespec_get()` function]<]
+[i[`cnd_timedwait()` function]<]
+[i[`thrd_timedout()` macro]<]
 
 ``` {.c}
 struct timespec timeout;
@@ -1183,11 +1334,19 @@ if (result == thrd_timedout) {
 }
 ```
 
+[i[`timespec_get()` function]>]
+[i[`cnd_timedwait()` function]>]
+[i[`thrd_timedout()` macro]>]
+[i[Condition variables-->timeouts]>]
+
 ### Broadcast: Wake Up All Waiting Threads
 
-`cnd_signal()` only wakes up one thread to continue working. Depending
-on how you have your logic done, it might make sense to wake up more
-than one thread to continue once the condition is met.
+[i[Condition variables-->broadcasting]<]
+
+`cnd_signal()` function]] `cnd_signal()` only wakes up one thread to
+continue working. Depending on how you have your logic done, it might
+make sense to wake up more than one thread to continue once the
+condition is met.
 
 Of course only one of them can grab the mutex, but if you have a
 situation where:
@@ -1203,22 +1362,35 @@ one of the threads out of that loop to launch the next one.
 
 How, you ask?
 
+[i[`cnd_broadcast()` function]<]
+
 Simply use `cnd_broadcast()` instead of `cnd_signal()`. Exact same
 usage, except `cnd_broadcast()` wakes up **all** the sleeping threads
 that were waiting on that condition variable.
 
+[i[`cnd_broadcast()` function]>]
+[i[Condition variables-->broadcasting]>]
+[i[Condition variables]>]
+
 ## Running a Function One Time
+
+[i[Multithreading-->one-time functions]<]
 
 Let's say you have a function that _could_ be run by many threads, but
 you don't know when, and it's not work trying to write all that logic.
 
-There's a way around it: use `call_once()`. Tons of threads could try to
-run the function, but only the first one counts^[Survival of the
-fittest! Right? I admit it's actually nothing like that.]
+There's a way around it: use [i[`call_once()` function]] `call_once()`.
+Tons of threads could try to run the function, but only the first one
+counts^[Survival of the fittest! Right? I admit it's actually nothing
+like that.]
 
 To work with this, you need a special flag variable you declare to keep
 track of whether or not the thing's been run. And you need a function to
 run, which takes no parameters and returns no value.
+
+[i[`once_flag` type]<]
+[i[`ONCE_FLAG_INIT` macro]<]
+[i[`call_once()` function]<]
 
 ``` {.c}
 once_flag of = ONCE_FLAG_INIT;  // Initialize it like this
@@ -1237,5 +1409,12 @@ int run(void *arg)
     // ...
 ```
 
+[i[`once_flag` type]>]
+[i[`ONCE_FLAG_INIT` macro]>]
+[i[`call_once()` function]>]
+
 In this example, no matter how many threads get to the `run()`
 function, the `run_once_function()` will only be called a single time.
+
+[i[Multithreading-->one-time functions]>]
+[i[Multithreading]>]
