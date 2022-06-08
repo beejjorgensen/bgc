@@ -92,6 +92,10 @@ split/index.html: $(GUIDE_ID).html
 split-wide/index.html: $(GUIDE_ID)-wide.html
 	$(SPLIT) $< split-wide
 
+$(GUIDE_ID).epub: $(GUIDE_MD)
+	$(PREPROC) $^ $(PREPROC_MD)
+	pandoc $(COMMON_OPTS) --webtex --metadata author=$(AUTHOR) --metadata title=$(TITLE) -o $@ $(PREPROC_MD)
+
 $(GUIDE_ID)_quick.pdf: $(GUIDE_MD)
 	$(PREPROC) $^ $(PREPROC_MD)
 	pandoc $(PDF_OPTS) $(USLETTER) $(ONESIDE) $(COLOR) $(PREPROC_MD)
