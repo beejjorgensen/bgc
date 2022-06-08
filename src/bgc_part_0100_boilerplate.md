@@ -36,7 +36,7 @@
 \index{Subtraction|see {\texttt{-} subtraction operator}}
 \index{Multiplication|see {\texttt{*} multiplication operator}}
 \index{Division|see {\texttt{/} division operator}}
-\index{Modulus|see {\texttt{%} modulus operator}}
+<!-- \index{Modulus|see {\texttt{%} modulus operator}} -->
 
 # Foreword
 
