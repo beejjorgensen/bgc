@@ -683,7 +683,7 @@ $ax^2+bx+c=0$
 
 you can solve for $x$ with the quadratic formula:
 
-$x=\cfrac{-b\pm\sqrt{b^2-4ac}}{2a}$
+$x=\displaystyle\frac{-b\pm\sqrt{b^2-4ac}}{2a}$
 
 Which is crazy. Also notice the plus-or-minus ($\pm$) in there,
 indicating that there are actually two solutions.
