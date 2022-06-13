@@ -10,6 +10,8 @@
 >
 > ---Paul Atreides and The Reverend Mother Gaius Helen Mohiam, _Dune_
 
+[i[Atomic variables]<]
+
 This is one of the more challenging aspects of multithreading with C.
 But we'll try to take it easy.
 
@@ -25,6 +27,8 @@ But there are some weird things out here even in the basics. So buckle
 your seatbelts, everyone, 'cause Kansas is goin' bye-bye.
 
 ## Testing for Atomic Support
+
+[i[`__STDC_NO_ATOMICS__` macro]<]
 
 Atomics are an optional feature. There's a macro `__STDC_NO_ATOMICS__`
 that's `1` if you _don't_ have atomics.
@@ -42,12 +46,18 @@ exist in early C89, so if you're worried about that, check it with
 #endif
 ```
 
+[i[`__STDC_NO_ATOMICS__` macro]>]
+
+[i[Atomic variables-->compiling with]<]
+
 If those tests pass, then you can safely include `<stdatomic.h>`, the
 header on which the rest of this chapter is based. But if there is no
 atomic support, that header might not even exist.
 
 On some systems, you might need to add `-latomic` to the end of your
 compilation command line to use any functions in the header file.
+
+[i[Atomic variables-->compiling with]>]
 
 ## Atomic Variables
 
@@ -75,7 +85,9 @@ That's only part of the story. But it's the part we'll start with.
 
 Before we go further, how do you declare a variable to be atomic?
 
-First, include `<stdatomic.h>`.
+First, include [i[`stdatomic.h` header]] `<stdatomic.h>`.
+
+[i[`atomic_int` type]<]
 
 This gives us types such as `atomic_int`.
 
@@ -134,6 +146,8 @@ int main(void)
 }
 ```
 
+[i[`atomic_int` type]>]
+
 The second thread spins in place, looking at the flag and waiting for it
 to get set to the value `3490`. And the first one does that.
 
@@ -168,6 +182,8 @@ require more brain power and has to do with something called
 _synchronization_.
 
 ## Synchronization
+
+[i[Atomic variables-->synchronization]<]
 
 The next part of our story is all about when certain memory writes in
 one thread become visible to those in another thread.
@@ -296,7 +312,12 @@ we have to for a particular application.
 
 So that's the basics. Let's look deeper.
 
+[i[Atomic variables-->synchronization]<]
+
 ## Acquire and Release
+
+[i[Atomic variables-->acquire]<]
+[i[Atomic variables-->release]<]
 
 More terminology! It'll pay off to learn this now.
 
@@ -407,7 +428,12 @@ An important note: releasing one atomic variable has no effect on
 acquires of different atomic variables. Each variable is isolated from
 the others.
 
+[i[Atomic variables-->acquire]>]
+[i[Atomic variables-->release]>]
+
 ## Sequential Consistency
+
+[i[Atomic variables-->sequential consistency]<]
 
 You hanging in there? We're through the meat of the simpler usage of
 atomics. And since we're not even going to talk about the more complex
@@ -452,7 +478,11 @@ needed the speed boost. _Here be armies of dragons..._
 
 More on that later, but for now, let's stick to the safe and practical.
 
+[i[Atomic variables-->sequential consistency]>]
+
 ## Atomic Assignments and Operators
+
+[i[Atomic variables-->assignments and operators]<]
 
 Certain operators on atomic variables are atomic. And others aren't.
 
@@ -493,7 +523,11 @@ a += b    a -= b    a *= b    a /= b    a %= b
 a &= b    a |= b    a ^= b    a >>= b   a <<= b
 ```
 
+[i[Atomic variables-->assignments and operators]>]
+
 ## Library Functions that Automatically Synchronize
+
+[i[Atomic variables-->synchronized library functions]<]
 
 So far we've talked about how you can synchronize with atomic variables,
 but it turns out there are a few library functions that do some limited
@@ -539,53 +573,59 @@ the deallocation can wipe the region if it chooses, and we want to be
 sure that a subsequent allocation doesn't see the non-wiped data.
 Someone let me know if there's more to it.
 
+[i[Atomic variables-->synchronized library functions]>]
+
 ## Atomic Type Specifier, Qualifier
 
 Let's take it down a notch and see what types we have available, and how
 we can even make new atomic types.
+
+[i[`_Atomic` type qualifier]<]
 
 First things first, let's look at the built-in atomic types and what
 they are `typedef`'d to. (Spoiler: `_Atomic` is a type qualifier!)
 
 |Atomic type|Longhand equivalent|
 |-|-|
-|`atomic_bool`|`_Atomic _Bool`|
-|`atomic_char`|`_Atomic char`|
-|`atomic_schar`|`_Atomic signed char`|
-|`atomic_uchar`|`_Atomic unsigned char`|
-|`atomic_short`|`_Atomic short`|
-|`atomic_ushort`|`_Atomic unsigned short`|
-|`atomic_int`|`_Atomic int`|
-|`atomic_uint`|`_Atomic unsigned int`|
-|`atomic_long`|`_Atomic long`|
-|`atomic_ulong`|`_Atomic unsigned long`|
-|`atomic_llong`|`_Atomic long long`|
-|`atomic_ullong`|`_Atomic unsigned long long`|
-|`atomic_char16_t`|`_Atomic char16_t`|
-|`atomic_char32_t`|`_Atomic char32_t`|
-|`atomic_wchar_t`|`_Atomic wchar_t`|
-|`atomic_int_least8_t`|`_Atomic int_least8_t`|
-|`atomic_uint_least8_t`|`_Atomic uint_least8_t`|
-|`atomic_int_least16_t`|`_Atomic int_least16_t`|
-|`atomic_uint_least16_t`|`_Atomic uint_least16_t`|
-|`atomic_int_least32_t`|`_Atomic int_least32_t`|
-|`atomic_uint_least32_t`|`_Atomic uint_least32_t`|
-|`atomic_int_least64_t`|`_Atomic int_least64_t`|
-|`atomic_uint_least64_t`|`_Atomic uint_least64_t`|
-|`atomic_int_fast8_t`|`_Atomic int_fast8_t`|
-|`atomic_uint_fast8_t`|`_Atomic uint_fast8_t`|
-|`atomic_int_fast16_t`|`_Atomic int_fast16_t`|
-|`atomic_uint_fast16_t`|`_Atomic uint_fast16_t`|
-|`atomic_int_fast32_t`|`_Atomic int_fast32_t`|
-|`atomic_uint_fast32_t`|`_Atomic uint_fast32_t`|
-|`atomic_int_fast64_t`|`_Atomic int_fast64_t`|
-|`atomic_uint_fast64_t`|`_Atomic uint_fast64_t`|
-|`atomic_intptr_t`|`_Atomic intptr_t`|
-|`atomic_uintptr_t`|`_Atomic uintptr_t`|
-|`atomic_size_t`|`_Atomic size_t`|
-|`atomic_ptrdiff_t`|`_Atomic ptrdiff_t`|
-|`atomic_intmax_t`|`_Atomic intmax_t`|
-|`atomic_uintmax_t`|`_Atomic uintmax_t`|
+|[i[`atomic_bool` type]]`atomic_bool`|`_Atomic _Bool`|
+|[i[`atomic_char` type]]`atomic_char`|`_Atomic char`|
+|[i[`atomic_schar` type]]`atomic_schar`|`_Atomic signed char`|
+|[i[`atomic_uchar` type]]`atomic_uchar`|`_Atomic unsigned char`|
+|[i[`atomic_short` type]]`atomic_short`|`_Atomic short`|
+|[i[`atomic_ushort` type]]`atomic_ushort`|`_Atomic unsigned short`|
+|[i[`atomic_int` type]]`atomic_int`|`_Atomic int`|
+|[i[`atomic_uint` type]]`atomic_uint`|`_Atomic unsigned int`|
+|[i[`atomic_long` type]]`atomic_long`|`_Atomic long`|
+|[i[`atomic_ulong` type]]`atomic_ulong`|`_Atomic unsigned long`|
+|[i[`atomic_llong` type]]`atomic_llong`|`_Atomic long long`|
+|[i[`atomic_ullong` type]]`atomic_ullong`|`_Atomic unsigned long long`|
+|[i[`atomic_char16_t` type]]`atomic_char16_t`|`_Atomic char16_t`|
+|[i[`atomic_char32_t` type]]`atomic_char32_t`|`_Atomic char32_t`|
+|[i[`atomic_wchar_t` type]]`atomic_wchar_t`|`_Atomic wchar_t`|
+|[i[`atomic_int_least8_t` type]]`atomic_int_least8_t`|`_Atomic int_least8_t`|
+|[i[`atomic_uint_least8_t` type]]`atomic_uint_least8_t`|`_Atomic uint_least8_t`|
+|[i[`atomic_int_least16_t` type]]`atomic_int_least16_t`|`_Atomic int_least16_t`|
+|[i[`atomic_uint_least16_t` type]]`atomic_uint_least16_t`|`_Atomic uint_least16_t`|
+|[i[`atomic_int_least32_t` type]]`atomic_int_least32_t`|`_Atomic int_least32_t`|
+|[i[`atomic_uint_least32_t` type]]`atomic_uint_least32_t`|`_Atomic uint_least32_t`|
+|[i[`atomic_int_least64_t` type]]`atomic_int_least64_t`|`_Atomic int_least64_t`|
+|[i[`atomic_uint_least64_t` type]]`atomic_uint_least64_t`|`_Atomic uint_least64_t`|
+|[i[`atomic_int_fast8_t` type]]`atomic_int_fast8_t`|`_Atomic int_fast8_t`|
+|[i[`atomic_uint_fast8_t` type]]`atomic_uint_fast8_t`|`_Atomic uint_fast8_t`|
+|[i[`atomic_int_fast16_t` type]]`atomic_int_fast16_t`|`_Atomic int_fast16_t`|
+|[i[`atomic_uint_fast16_t` type]]`atomic_uint_fast16_t`|`_Atomic uint_fast16_t`|
+|[i[`atomic_int_fast32_t` type]]`atomic_int_fast32_t`|`_Atomic int_fast32_t`|
+|[i[`atomic_uint_fast32_t` type]]`atomic_uint_fast32_t`|`_Atomic uint_fast32_t`|
+|[i[`atomic_int_fast64_t` type]]`atomic_int_fast64_t`|`_Atomic int_fast64_t`|
+|[i[`atomic_uint_fast64_t` type]]`atomic_uint_fast64_t`|`_Atomic uint_fast64_t`|
+|[i[`atomic_intptr_t` type]]`atomic_intptr_t`|`_Atomic intptr_t`|
+|[i[`atomic_uintptr_t` type]]`atomic_uintptr_t`|`_Atomic uintptr_t`|
+|[i[`atomic_size_t` type]]`atomic_size_t`|`_Atomic size_t`|
+|[i[`atomic_ptrdiff_t` type]]`atomic_ptrdiff_t`|`_Atomic ptrdiff_t`|
+|[i[`atomic_intmax_t` type]]`atomic_intmax_t`|`_Atomic intmax_t`|
+|[i[`atomic_uintmax_t` type]]`atomic_uintmax_t`|`_Atomic uintmax_t`|
+
+[i[`_Atomic` type qualifier]>]
 
 Use those at will! They're consistent with the atomic aliases found in
 C++, if that helps.
@@ -593,6 +633,8 @@ C++, if that helps.
 But what if you want more?
 
 You can do it either with a type qualifier or type specifier.
+
+[i[`_Atomic` type specifier]<]
 
 First, specifier! It's the keyword `_Atomic` with a type in parens
 after^[Apparently C++23 is adding this as a macro.]---suitable for use
@@ -606,6 +648,9 @@ atomic_double f;
 
 Restrictions on the specifier: the type you're making atomic can't be of
 type array or function, nor can it be atomic or otherwise qualified.
+
+[i[`_Atomic` type specifier]>]
+[i[`_Atomic` type qualifier]<]
 
 Next, qualifier! It's the keyword `_Atomic` _without_ a type in parens.
 
@@ -626,7 +671,11 @@ _Atomic volatile int k;   // qualified atomic variable
 Restrictions on the qualifier: the type you're making atomic can't be of
 type array or function.
 
+[i[`_Atomic` type qualifier]>]
+
 ## Lock-Free Atomic Variables {#lock-free-atomic}
+
+[i[Atomic variables-->lock-free]<]
 
 Hardware architectures are limited in the amount of data they can
 atomically read and write. It depends on how it's wired together. And it
@@ -651,16 +700,16 @@ First of all, some macros---you can use these at compile time with
 
 |Atomic Type|Lock Free Macro|
 |-|-|
-|`atomic_bool`|`ATOMIC_BOOL_LOCK_FREE`|
-|`atomic_char`|`ATOMIC_CHAR_LOCK_FREE`|
-|`atomic_char16_t`|`ATOMIC_CHAR16_T_LOCK_FREE`|
-|`atomic_char32_t`|`ATOMIC_CHAR32_T_LOCK_FREE`|
-|`atomic_wchar_t`|`ATOMIC_WCHAR_T_LOCK_FREE`|
-|`atomic_short`|`ATOMIC_SHORT_LOCK_FREE`|
-|`atomic_int`|`ATOMIC_INT_LOCK_FREE`|
-|`atomic_long`|`ATOMIC_LONG_LOCK_FREE`|
-|`atomic_llong`|`ATOMIC_LLONG_LOCK_FREE`|
-|`atomic_intptr_t`|`ATOMIC_POINTER_LOCK_FREE`|
+|`atomic_bool`|[i[`ATOMIC_BOOL_LOCK_FREE` macro]]`ATOMIC_BOOL_LOCK_FREE`|
+|`atomic_char`|[i[`ATOMIC_CHAR_LOCK_FREE` macro]]`ATOMIC_CHAR_LOCK_FREE`|
+|`atomic_char16_t`|[i[`ATOMIC_CHAR16_T_LOCK_FREE` macro]]`ATOMIC_CHAR16_T_LOCK_FREE`|
+|`atomic_char32_t`|[i[`ATOMIC_CHAR32_T_LOCK_FREE` macro]]`ATOMIC_CHAR32_T_LOCK_FREE`|
+|`atomic_wchar_t`|[i[`ATOMIC_WCHAR_T_LOCK_FREE` macro]]`ATOMIC_WCHAR_T_LOCK_FREE`|
+|`atomic_short`|[i[`ATOMIC_SHORT_LOCK_FREE` macro]]`ATOMIC_SHORT_LOCK_FREE`|
+|`atomic_int`|[i[`ATOMIC_INT_LOCK_FREE` macro]]`ATOMIC_INT_LOCK_FREE`|
+|`atomic_long`|[i[`ATOMIC_LONG_LOCK_FREE` macro]]`ATOMIC_LONG_LOCK_FREE`|
+|`atomic_llong`|[i[`ATOMIC_LLONG_LOCK_FREE` macro]]`ATOMIC_LLONG_LOCK_FREE`|
+|`atomic_intptr_t`|[i[`ATOMIC_POINTER_LOCK_FREE` macro]]`ATOMIC_POINTER_LOCK_FREE`|
 
 These macros can interestingly have _three_ different values:
 
@@ -677,9 +726,9 @@ code on Genuine Intel or AMD, or something like that^[I just pulled that
 example out of nowhere. Maybe it doesn't matter on Intel/AMD, but it
 could matter somewhere, dangit!].
 
-But you can always test at runtime with the `atomic_is_lock_free()`
-function. This function returns true or false if the particular type is
-atomic right now.
+But you can always test at runtime with the [i[`atomic_is_lock_free()`
+function]] `atomic_is_lock_free()` function. This function returns true
+or false if the particular type is atomic right now.
 
 So why do we care?
 
@@ -687,7 +736,12 @@ Lock-free is faster, so maybe there's a speed concern that you'd code
 around another way. Or maybe you need to use an atomic variable in a
 signal handler.
 
+[i[Atomic variables-->lock-free]>]
+
 ### Signal Handlers and Lock-Free Atomics
+
+[i[Signal handlers-->with lock-free atomics]<]
+[i[Atomic variables-->with signal handlers]<]
 
 If you read or write a shared variable (static storage duration or
 `_Thread_Local`) in a signal handler, it's undefined behavior [gasp!]...
@@ -704,11 +758,17 @@ The spec is a bit vague, in my read, about the memory order when it
 comes to acquiring or releasing atomic variables in the signal handler.
 C++ says, and it makes sense, that such accesses are unsequenced with
 respect to the rest of the program^[C++ elaborates that if the signal is
-the result of a call to `raise()`, it is sequenced _after_ the
-`raise()`.]. The signal can be raised, after all, at any time. So I'm
-assuming C's behavior is similar.
+the result of a call to [i[`raise()` function]] `raise()`, it is
+sequenced _after_ the `raise()`.]. The signal can be raised, after all,
+at any time. So I'm assuming C's behavior is similar.
+
+[i[Signal handlers-->with lock-free atomics]>]
+[i[Atomic variables-->with signal handlers]>]
 
 ## Atomic Flags {#atomic-flags}
+
+[i[Atomic variables-->atomic flags]<]
+[i[`atomic_flag` type]<]
 
 There's only one type the standard guarantees will be a lock-free
 atomic: `atomic_flag`. This is an opaque type for
@@ -716,13 +776,21 @@ atomic: `atomic_flag`. This is an opaque type for
 
 It can be either _set_ or _clear_. You can initialize it to clear with:
 
+[i[`ATOMIC_FLAG_INIT` macro]<]
+
 ``` {.c}
 atomic_flag f = ATOMIC_FLAG_INIT;
 ```
 
+[i[`ATOMIC_FLAG_INIT` macro]>]
+
+[i[`atomic_flag_test_and_set()` function]<]
+
 You can set the flag atomically with `atomic_flag_test_and_set()`, which
 will set the flag and return its previous status as a `_Bool` (true for
 set).
+
+[i[`atomic_flag_clear()` function]<]
 
 You can clear the flag atomically with `atomic_flag_clear()`.
 
@@ -750,7 +818,14 @@ int main(void)
 }
 ```
 
+[i[`atomic_flag_clear()` function]>]
+[i[`atomic_flag_test_and_set()` function]>]
+[i[Atomic variables-->atomic flags]>]
+[i[`atomic_flag` type]>]
+
 ## Atomic `struct`s and `union`s
+
+[i[Atomic variables-->`struct` and `union`]<]
 
 Using the `_Atomic` qualifier or specifier, you can make atomic
 `struct`s or `union`s! Pretty astounding.
@@ -803,10 +878,14 @@ int main(void)
 }
 ```
 
-You can also declare a `struct` where individual fields are atomic.  It
+You can also declare a `struct` where individual fields are atomic. It
 is implementation defined if atomic types are allowed on bitfields.
 
+[i[Atomic variables-->`struct` and `union`]>]
+
 ## Atomic Pointers
+
+[i[Atomic variables-->pointers]<]
 
 Just a note here about placement of `_Atomic` when it comes to pointers.
 
@@ -840,19 +919,24 @@ _Atomic int * _Atomic p;  // p is an atomic pointer to an atomic int
 p = &x;  // OK!
 ```
 
+[i[Atomic variables-->pointers]>]
+
 ## Memory Order
+
+[i[Atomic variables-->memory order]<]
+[i[Memory order]<]
 
 We've already talked about sequential consistency, which is the sensible
 one of the bunch. But there are a number of other ones:
 
 |`memory_order`|Description|
 |-|-|
-|`memory_order_seq_cst`|Sequential Consistency|
-|`memory_order_acq_rel`|Acquire/Release|
-|`memory_order_release`|Release|
-|`memory_order_acquire`|Acquire|
-|`memory_order_consume`|Consume|
-|`memory_order_relaxed`|Relaxed|
+|[i[`memory_order_seq_cst` macro]]`memory_order_seq_cst`|Sequential Consistency|
+|[i[`memory_order_acq_rel` macro]]`memory_order_acq_rel`|Acquire/Release|
+|[i[`memory_order_release` macro]]`memory_order_release`|Release|
+|[i[`memory_order_acquire` macro]]`memory_order_acquire`|Acquire|
+|[i[`memory_order_consume` macro]]`memory_order_consume`|Consume|
+|[i[`memory_order_relaxed` macro]]`memory_order_relaxed`|Relaxed|
 
 You can specify other ones with certain library functions. For example,
 you can add a value to an atomic variable like this:
@@ -863,15 +947,20 @@ atomic_int x = 0;
 x += 5;  // Sequential consistency, the default
 ```
 
-or you can do the same with this library function:
+Or you can do the same with this library function:
+
+[i[`atomic_fetch_add()` function]<]
 
 ``` {.c}
 atomic_int x = 0;
 
 atomic_fetch_add(&x, 5);  // Sequential consistency, the default
 ```
+[i[`atomic_fetch_add()` function]>]
 
-or you can do the same thing with an explicit memory ordering:
+Or you can do the same thing with an explicit memory ordering:
+
+[i[`atomic_fetch_add_explicit()` function]<]
 
 ``` {.c}
 atomic_int x = 0;
@@ -888,12 +977,17 @@ atomic_int x = 0;
 atomic_fetch_add_explicit(&x, 5, memory_order_acq_rel);
 ```
 
+[i[`atomic_fetch_add_explicit()` function]>]
+
 We'll do a breakdown of the different memory orders, below. Don't mess
 with anything other than sequential consistency unless you know what
 you're doing. It's really easy to make mistakes that will cause rare,
 hard-to-repro failures.
 
 ### Sequential Consistency
+
+[i[Atomic variables-->sequential consistency]<]
+[i[Memory order-->sequential consistency]<]
 
 * Load operations acquire (see below).
 * Store operations release (see below).
@@ -904,7 +998,13 @@ acquires or releases will be reordered with respect to each other. (The
 acquire/release rules do not forbid reordering a release followed by an
 acquire. But the sequentially consistent rules do.)
 
+[i[Memory order-->sequential consistency]>]
+[i[Atomic variables-->sequential consistency]>]
+
 ### Acquire
+
+[i[Atomic variables-->acquire]<]
+[i[Memory order-->acquire]<]
 
 This is what happens on a load/read operation on an atomic variable.
 
@@ -914,7 +1014,13 @@ This is what happens on a load/read operation on an atomic variable.
 * Memory accesses in this thread that happen after this load can't be
   reordered before it.
 
+[i[Memory order-->acquire]>]
+[i[Atomic variables-->acquire]>]
+
 ### Release
+
+[i[Atomic variables-->release]<]
+[i[Memory order-->acquire]<]
 
 This is what happens on a store/write of an atomic variable.
 
@@ -925,7 +1031,13 @@ This is what happens on a store/write of an atomic variable.
 * Memory accesses in this thread that happen before the release can't
   be reordered after it.
 
+[i[Atomic variables-->release]>]
+[i[Memory order-->release]>]
+
 ### Consume
+
+[i[Atomic variables-->consume]<]
+[i[Memory order-->consume]<]
 
 This is an odd one, similar to a less-strict version of acquire. It
 affects memory accesses that are _data dependent_ on the atomic
@@ -947,7 +1059,13 @@ reordered _before_ the consume. With acquire, you couldn't reorder
 anything before it. With consume, you can't reorder anything that
 depends on the loaded atomic value before it.
 
+[i[Atomic variables-->consume]>]
+[i[Memory order-->consume]>]
+
 ### Acquire/Release
+
+[i[Atomic variables-->acquire/release]<]
+[i[Memory order-->acquire/release]<]
 
 This only applies to read-modify-write operations. It's an acquire and
 release bundled into one.
@@ -955,7 +1073,13 @@ release bundled into one.
 * An acquire happens for the read.
 * A release happens for the write.
 
+[i[Atomic variables-->acquire/release]>]
+[i[Memory order-->acquire/release]>]
+
 ### Relaxed
+
+[i[Atomic variables-->relaxed]<]
+[i[Memory order-->relaxed]<]
 
 No rules; it's anarchy! Everyone can reorder everything everywhere!
 Dogs and cats living together---mass hysteria!
@@ -970,7 +1094,14 @@ a tiny bit of searching, e.g. simple counters.
 And you can use a fence to force synchronization after a bunch of
 relaxed writes.
 
+[i[Atomic variables-->relaxed]>]
+[i[Memory order-->relaxed]>]
+[i[Memory order]>]
+[i[Atomic variables-->memory order]>]
+
 ## Fences
+
+[i[Atomic variables-->fences]<]
 
 You know how the releases and acquires of atomic variables occur as you
 read and write them?
@@ -989,9 +1120,14 @@ fence.], `memory_order_consume` is treated as an acquire.
 
 You can put up a fence with any specified order:
 
+[i[`atomic_thread_fence()` function]<]
+
 ``` {.c}
 atomic_thread_fence(memory_order_release);
 ```
+
+[i[`atomic_thread_fence()` function]>]
+[i[`atomic_signal_fence()` function]<]
 
 There's also a light version of a fence for use with signal handlers,
 called `atomic_signal_fence()`.
@@ -1011,6 +1147,9 @@ The idea is that the signal handler is executing in _this_ thread, not
 another, so this is a lighter-weight way of making sure changes outside
 the signal handler are visible within it (i.e. they haven't been
 reordered).
+
+[i[`atomic_signal_fence()` function]>]
+[i[Atomic variables-->fences]>]
 
 ## References
 
@@ -1036,3 +1175,5 @@ that helped me plow through it:
 * Bruce Dawson's [fl[Lockless Programming Considerations|https://docs.microsoft.com/en-us/windows/win32/dxtecharts/lockless-programming]]
 
 * The helpful and knowledgeable folks on [fl[r/C_Programming|https://www.reddit.com/r/C_Programming/]]
+
+[i[Atomic variables]>]
