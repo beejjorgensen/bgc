@@ -5,6 +5,8 @@
 
 # `<iso646.h>` Alternative Operator Spellings {#iso646}
 
+[i[`iso646.h` header file]i]
+
 ISO-646 is a character encoding standard that's very similar to ASCII.
 But it's missing a few notable characters, like `|`, `^`, and `~`.
 
@@ -15,17 +17,17 @@ spellings.)
 
 |Operator|`<iso646.h>` equivalent|
 |-|-|
-|`&&`|`and`|
-|`&=`|`and_eq`|
-|`&`|`bitand`|
-|`|`|`bitor`|
-|`~`|`compl`|
-|`!`|`not`|
-|`!=`|`not_eq`|
-|`||`|`or`|
-|`|=`|`or_eq`|
-|`^`|`xor`|
-|`^=`|`xor_eq`|
+|`&&`|[i[`and` macro]i]`and`|
+|`&=`|[i[`and_eq` macro]i]`and_eq`|
+|`&`|[i[`bitand` macro]i]`bitand`|
+|`|`|[i[`bitor` macro]i]`bitor`|
+|`~`|[i[`compl` macro]i]`compl`|
+|`!`|[i[`not` macro]i]`not`|
+|`!=`|[i[`not_eq` macro]i]`not_eq`|
+|`||`|[i[`or` macro]i]`or`|
+|`|=`|[i[`or_eq` macro]i]`or_eq`|
+|`^`|[i[`xor` macro]i]`xor`|
+|`^=`|[i[`xor_eq` macro]i]`xor_eq`|
 
 Interestingly, there is no `eq` for `==`, and `&` and `!` are included
 despite being in ISO-646.

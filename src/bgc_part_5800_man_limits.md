@@ -5,31 +5,33 @@
 
 # `<limits.h>` Numeric Limits {#limits}
 
+[i[`limits.h` header file]i]
+
 Important note: the "minimum magnitude" in the table below is the
 minimum allowed by the spec. It's very likely that the values on your
 bad-ass system exceed those, below.
 
 |Macro|Minimum Magnitude|Description|
 |-----|----------|-----------------------|
-|`CHAR_BIT`|`8`|Number of bits in a byte|
-|`SCHAR_MIN`|`-127`|Minimum value of a `signed char`|
-|`SCHAR_MAX`|`127`|Maximum value of a `signed char`|
-|`UCHAR_MAX`|`255`|Maximum value of an `unsigned char`^[The minimum value of an `unsigned char` is `0`. Same fo an `unsigned short` and `unsigned long`. Or any unsigned type, for that matter.]|
-|`CHAR_MIN`|`0` or `SCHAR_MIN`|More detail below|
-|`CHAR_MAX`|`SCHAR_MAX` or `UCHAR_MAX`|More detail below|
-|`MB_LEN_MAX`|`1`|Maximum number of bytes in a multibyte character on any locale|
-|`SHRT_MIN`|`-32767`|Minimum value of a `short`|
-|`SHRT_MAX`|`32767`|Maximum value of a `short`|
-|`USHRT_MAX`|`65535`|Maximum value of an `unsigned short`|
-|`INT_MIN`|`-32767`|Minimum vale of an `int`|
-|`INT_MAX`|`32767`|Maximum value of an `int`|
-|`UINT_MAX`|`65535`|Maximum value of an `unsigned int`|
-|`LONG_MIN`|`-2147483647`|Minimum value of a `long`|
-|`LONG_MAX`|`2147483647`|Maximum value of a `long`|
-|`ULONG_MAX`|`4294967295`|Maximum value of an `unsigned long`|
-|`LLONG_MIN`|`-9223372036854775807`|Minimum value of a `long long`|
-|`LLONG_MAX`|`9223372036854775807`|Maximum value of a `long long`|
-|`ULLONG_MAX`|`18446744073709551615`|Maximum value of an `unsigned long long`|
+|[i[`CHAR_BIT` macro]i]`CHAR_BIT`|`8`|Number of bits in a byte|
+|[i[`SCHAR_MIN` macro]i]`SCHAR_MIN`|`-127`|Minimum value of a `signed char`|
+|[i[`SCHAR_MAX` macro]i]`SCHAR_MAX`|`127`|Maximum value of a `signed char`|
+|[i[`UCHAR_MAX` macro]i]`UCHAR_MAX`|`255`|Maximum value of an `unsigned char`^[The minimum value of an `unsigned char` is `0`. Same fo an `unsigned short` and `unsigned long`. Or any unsigned type, for that matter.]|
+|[i[`CHAR_MIN` macro]i]`CHAR_MIN`|`0` or `SCHAR_MIN`|More detail below|
+|[i[`CHAR_MAX` macro]i]`CHAR_MAX`|`SCHAR_MAX` or `UCHAR_MAX`|More detail below|
+|[i[`MB_LEN_MAX` macro]i]`MB_LEN_MAX`|`1`|Maximum number of bytes in a multibyte character on any locale|
+|[i[`SHRT_MIN` macro]i]`SHRT_MIN`|`-32767`|Minimum value of a `short`|
+|[i[`SHRT_MAX` macro]i]`SHRT_MAX`|`32767`|Maximum value of a `short`|
+|[i[`USHRT_MAX` macro]i]`USHRT_MAX`|`65535`|Maximum value of an `unsigned short`|
+|[i[`INT_MIN` macro]i]`INT_MIN`|`-32767`|Minimum vale of an `int`|
+|[i[`INT_MAX` macro]i]`INT_MAX`|`32767`|Maximum value of an `int`|
+|[i[`UINT_MAX` macro]i]`UINT_MAX`|`65535`|Maximum value of an `unsigned int`|
+|[i[`LONG_MIN` macro]i]`LONG_MIN`|`-2147483647`|Minimum value of a `long`|
+|[i[`LONG_MAX` macro]i]`LONG_MAX`|`2147483647`|Maximum value of a `long`|
+|[i[`ULONG_MAX` macro]i]`ULONG_MAX`|`4294967295`|Maximum value of an `unsigned long`|
+|[i[`LLONG_MIN` macro]i]`LLONG_MIN`|`-9223372036854775807`|Minimum value of a `long long`|
+|[i[`LLONG_MAX` macro]i]`LLONG_MAX`|`9223372036854775807`|Maximum value of a `long long`|
+|[i[`ULLONG_MAX` macro]i]`ULLONG_MAX`|`18446744073709551615`|Maximum value of an `unsigned long long`|
 
 ## `CHAR_MIN` and `CHAR_MAX`
 

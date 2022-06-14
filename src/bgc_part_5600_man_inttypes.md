@@ -5,6 +5,8 @@
 
 # `<inttypes.h>` More Integer Conversions {#inttypes}
 
+[i[`inttypes.h` header file]i]
+
 |Function|Description|
 |--------|----------------------|
 |[`imaxabs()`](#man-imaxabs)|Compute the absolute value of an `intmax_t`|
@@ -78,6 +80,13 @@ Here's a table of all the macros you can use for `printf()` format
 specifiers... substitute the number of bits for _N_, usually 8, 16, 32,
 or 64.
 
+[i[`PRIdn` macros]i] [i[`PRIdLEASTn` macros]i] [i[`PRIdFASTn` macros]i] [i[`PRIdMAX` macro]i] [i[`PRIdPTR` macro]i]
+[i[`PRIin` macros]i] [i[`PRIiLEASTn` macros]i] [i[`PRIiFASTn` macros]i] [i[`PRIiMAX` macro]i] [i[`PRIiPTR` macro]i]
+[i[`PRIon` macros]i] [i[`PRIoLEASTn` macros]i] [i[`PRIoFASTn` macros]i] [i[`PRIoMAX` macro]i] [i[`PRIoPTR` macro]i]
+[i[`PRIun` macros]i] [i[`PRIuLEASTn` macros]i] [i[`PRIuFASTn` macros]i] [i[`PRIuMAX` macro]i] [i[`PRIuPTR` macro]i]
+[i[`PRIxn` macros]i] [i[`PRIxLEASTn` macros]i] [i[`PRIxFASTn` macros]i] [i[`PRIxMAX` macro]i] [i[`PRIxPTR` macro]i]
+[i[`PRIXn` macros]i] [i[`PRIXLEASTn` macros]i] [i[`PRIXFASTn` macros]i] [i[`PRIXMAX` macro]i] [i[`PRIXPTR` macro]i]
+
 --------- -------------- ------------- --------- ---------
 `PRId`_N_ `PRIdLEAST`_N_ `PRIdFAST`_N_ `PRIdMAX` `PRIdPTR`
 `PRIi`_N_ `PRIiLEAST`_N_ `PRIiFAST`_N_ `PRIiMAX` `PRIiPTR`
@@ -93,6 +102,12 @@ specifiers you'd pass to `printf()`: `d`, `i`, `o`, `u`, `x`, and `X`.
 And we have a similar set of macros for `scanf()` for reading in these
 various types:
 
+[i[`SCNdn` macros]i] [i[`SCNdLEASTn` macros]i] [i[`SCNdFASTn` macros]i] [i[`SCNdMAX` macro]i] [i[`SCNdPTR` macro]i]
+[i[`SCNin` macros]i] [i[`SCNiLEASTn` macros]i] [i[`SCNiFASTn` macros]i] [i[`SCNiMAX` macro]i] [i[`SCNiPTR` macro]i]
+[i[`SCNon` macros]i] [i[`SCNoLEASTn` macros]i] [i[`SCNoFASTn` macros]i] [i[`SCNoMAX` macro]i] [i[`SCNoPTR` macro]i]
+[i[`SCNun` macros]i] [i[`SCNuLEASTn` macros]i] [i[`SCNuFASTn` macros]i] [i[`SCNuMAX` macro]i] [i[`SCNuPTR` macro]i]
+[i[`SCNxn` macros]i] [i[`SCNxLEASTn` macros]i] [i[`SCNxFASTn` macros]i] [i[`SCNxMAX` macro]i] [i[`SCNxPTR` macro]i]
+
 --------- -------------- ------------- --------- ---------
 `SCNd`_N_ `SCNdLEAST`_N_ `SCNdFAST`_N_ `SCNdMAX` `SCNdPTR`
 `SCNi`_N_ `SCNiLEAST`_N_ `SCNiFAST`_N_ `SCNiMAX` `SCNiPTR`
@@ -106,6 +121,8 @@ corresponding `printf()` and `scanf()` macros defined here.
 
 [[manbreak]]
 ## `imaxabs()` {#man-imaxabs}
+
+[i[`imaxabs()` function]i]
 
 Compute the absolute value of an `intmax_t`
 
@@ -152,6 +169,8 @@ int main(void)
 
 [[manbreak]]
 ## `imaxdiv()` {#man-imaxdiv}
+
+[i[`imaxdiv()` function]i]
 
 Compute the quotient and remainder of `intmax_t`s
 
@@ -208,6 +227,9 @@ Quotient: 205, remainder: 5
 
 [[manbreak]]
 ## `strtoimax()` `strtoumax()` {#man-strtoimax}
+
+[i[`strtoimax()` function]i]
+[i[`strtoumax()` function]i]
 
 Convert strings to types `intmax_t` and `uintmax_t`
 
@@ -285,6 +307,9 @@ Invalid digit: 2
 
 [[manbreak]]
 ## `wcstoimax()` `wcstoumax()` {#man-wcstoimax}
+
+[i[`wcstoimax()` function]i]
+[i[`wcstoumax()` function]i]
 
 Convert wide strings to types `intmax_t` and `uintmax_t`
 

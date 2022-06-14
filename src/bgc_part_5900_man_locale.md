@@ -5,6 +5,8 @@
 
 # `<locale.h>` locale handling {#locale}
 
+[i[`locale.h.` header file]i]
+
 |Function|Description|
 |--------|----------------------|
 |[`setlocale()`](#man-setlocale)|Set the locale|
@@ -25,6 +27,8 @@ proper locale.
 
 [[manbreak]]
 ## `setlocale()` {#man-setlocale}
+
+[i[`setlocale()` function]i]
 
 Set the locale
 
@@ -137,6 +141,8 @@ But again, your system might have different locales defined.
 
 [[manbreak]]
 ## `localeconv()` {#man-localeconv}
+
+[i[`localeconv()` function]i]
 
 Get information about the current locale
 

@@ -5,6 +5,8 @@
 
 # `<assert.h>` Runtime and Compile-time Diagnostics {#assert}
 
+[i[`assert.h` header file]i]
+
 |Macro|Description|
 |--------|----------------------|
 |`assert()`|Runtime assertion|
@@ -21,6 +23,8 @@ will bomb out either at compile-time or runtime.
 
 ## Macros
 
+[i[`NDEBUG` macro]i<]
+
 If you define the macro `NDEBUG` **before** you include `<assert.h>`,
 then the `assert()` macro will have no effect. You can define `NDEBUG`
 to be anything, but `1` seems like a good value.
@@ -31,8 +35,12 @@ causes `assert()` to be ignored.
 
 `NDEBUG` has no effect on `static_assert()`.
 
+[i[`NDEBUG` macro]i>]
+
 [[manbreak]]
 ## `assert()` {#man-assert}
+
+[i[`assert()` macro]i]
 
 Bomb out at runtime if a condition fails
 
@@ -118,6 +126,8 @@ assert: assert.c:10: divide_goat_herd_by: Assertion `amount != 0' failed.
 
 [[manbreak]]
 ## `static_assert()` {#man-static_assert}
+
+[i[`static_assert()` macro]i]
 
 Bomb out at compile-time if a condition fails
 

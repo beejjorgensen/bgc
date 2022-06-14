@@ -5,6 +5,8 @@
 
 # `<complex.h>` Complex Number Functionality {#complex}
 
+[i[`complex.h` header file]i]
+
 The complex functions in this reference section come in three flavors
 each: `double complex`, `float complex`, and `long double complex`.
 
@@ -45,14 +47,18 @@ The table below only lists the `double complex` version for brevity.
 |[`ctanh()`](#man-ctanh)|Compute the complex hyperbolic tangent|
 
 You can test for complex number support by looking at the
-`__STDC_NO_COMPLEX__` macro. If it's defined, complex numbers aren't
-available.
+[i[`__STDC_NO_COMPLEX__`]i] `__STDC_NO_COMPLEX__` macro. If it's
+defined, complex numbers aren't available.
 
 There are possibly two types of numbers defined: _complex_ and
 _imaginary_. No system I'm currently aware of implements imaginary
 types.
 
 The complex types, which are a real value plus a multiple of $i$, are:
+
+[i[`float complex` type]i]
+[i[`double complex` type]i]
+[i[`long double complex` type]i]
 
 ``` {.c}
 float complex
@@ -62,17 +68,25 @@ long double complex
 
 The imaginary types, which hold a multiple of $i$, are:
 
+[i[`float imaginary` type]i]
+[i[`double imaginary` type]i]
+[i[`long double imaginary` type]i]
+
 ``` {.c}
 float imaginary
 double imaginary
 long double imaginary
 ```
 
-The mathematical value $i=\sqrt{-1}$ is represented by the symbol
-`_Complex_I` or `_Imaginary_I`, if it exists.
 
-The The macro `I` will be preferentially set to `_Imaginary_I` (if it
-exists), or to `_Complex_I` otherwise.
+The mathematical value $i=\sqrt{-1}$ is represented by the symbol
+[i[`_Complex_I` macro]i] `_Complex_I` or [i[`_Imaginary_I`
+macro]i]`_Imaginary_I`, if it exists.
+
+<!-- __ hackishly turn off the italic syntax highlighting -->
+
+The The macro [i[`I` macro]i] `I` will be preferentially set to
+`_Imaginary_I` (if it exists), or to `_Complex_I` otherwise.
 
 You can write imaginary literals (if supported) using this notation:
 
@@ -116,8 +130,9 @@ you're on by the sign. And you can't if you don't. The spec elaborates:
 > negative real axis approaches the cut from above, so the cut maps to
 > the positive imaginary axis.
 
-Finally, there's a pragma called `CX_LIMITED_RANGE` that can be turned
-on and off (default is off). You can turn it on with:
+Finally, there's a pragma called [i[`CX_LIMITED_RANGE` macro]i]
+`CX_LIMITED_RANGE` that can be turned on and off (default is off). You
+can turn it on with:
 
 ``` {.c}
 #pragma STDC CX_LIMITED_RANGE ON
@@ -144,7 +159,11 @@ The spec also elaborates here:
 
 
 [[manbreak]]
-## `cacos()` `cacosf()` `cacosl()` {#man-cacos}
+## `cacos()`, `cacosf()`, `cacosl()` {#man-cacos}
+
+[i[`cacos()` function]i]
+[i[`cacosf()` function]i]
+[i[`cacosl()` function]i]
 
 Compute the complex arc-cosine
 
@@ -202,7 +221,11 @@ Result: 0.195321 + -2.788006i
 [`catan()`](#man-catan)
 
 [[manbreak]]
-## `casin()` `casinf()` `casinl()` {#man-casin}
+## `casin()`, `casinf()`, `casinl()` {#man-casin}
+
+[i[`casin()` function]i]
+[i[`casinf()` function]i]
+[i[`casinl()` function]i]
 
 Compute the complex arc-sine
 
@@ -261,7 +284,11 @@ Result: 1.375476 + 2.788006i
 
 
 [[manbreak]]
-## `catan()` `catanf()` `catanl()` {#man-catan}
+## `catan()`, `catanf()`, `catanl()` {#man-catan}
+
+[i[`catan()` function]i]
+[i[`catanf()` function]i]
+[i[`catanl()` function]i]
 
 Compute the complex arc-tangent
 
@@ -323,7 +350,11 @@ Result: 1.450947 + 0.023299i
 [`casin()`](#man-casin)
 
 [[manbreak]]
-## `ccos()` `ccosf()` `ccosl()` {#man-ccos}
+## `ccos()`, `ccosf()`, `ccosl()` {#man-ccos}
+
+[i[`ccos()` function]i]
+[i[`ccosf()` function]i]
+[i[`ccosl()` function]i]
 
 Compute the complex cosine
 
@@ -376,7 +407,11 @@ Result: -0.365087 + -2.276818i
 [`cacos()`](#man-cacos)
 
 [[manbreak]]
-## `csin()` `csinf()` `csinl()` {#man-csin}
+## `csin()`, `csinf()`, `csinl()` {#man-csin}
+
+[i[`csin()` function]i]
+[i[`csinf()` function]i]
+[i[`csinl()` function]i]
 
 Compute the complex sine
 
@@ -430,7 +465,11 @@ Result: 2.482485 + -0.334840i
 
 
 [[manbreak]]
-## `ctan()` `ctanf()` `ctanl()` {#man-ctan}
+## `ctan()`, `ctanf()`, `ctanl()` {#man-ctan}
+
+[i[`ctan()` function]i]
+[i[`ctanf()` function]i]
+[i[`ctanl()` function]i]
 
 Compute the complex tangent
 
@@ -484,7 +523,11 @@ Result: -0.027073 + 1.085990i
 
 
 [[manbreak]]
-## `cacosh()` `cacoshf()` `cacoshl()` {#man-cacosh}
+## `cacosh()`, `cacoshf()`, `cacoshl()` {#man-cacosh}
+
+[i[`cacosh()` function]i]
+[i[`cacoshf()` function]i]
+[i[`cacoshl()` function]i]
 
 Compute the complex arc hyperbolic cosine
 
@@ -542,7 +585,11 @@ Result: 2.788006 + 0.195321i
 [`acosh()`](#man-acosh)
 
 [[manbreak]]
-## `casinh()` `casinhf()` `casinhl()` {#man-casinh}
+## `casinh()`, `casinhf()`, `casinhl()` {#man-casinh}
+
+[i[`casinh()` function]i]
+[i[`casinhf()` function]i]
+[i[`casinhl()` function]i]
 
 Compute the complex arc hyperbolic sine
 
@@ -600,7 +647,11 @@ Result: 2.794970 + 0.192476i
 [`asinh()`](#man-asinh)
 
 [[manbreak]]
-## `catanh()` `catanhf()` `catanhl()` {#man-catanh}
+## `catanh()`, `catanhf()`, `catanhl()` {#man-catanh}
+
+[i[`catanh()` function]i]
+[i[`catanhf()` function]i]
+[i[`catanhl()` function]i]
 
 Compute the complex arc hyperbolic tangent
 
@@ -658,7 +709,11 @@ Result: 0.120877 + 1.546821i
 [`atanh()`](#man-atanh)
 
 [[manbreak]]
-## `ccosh()` `ccoshf()` `ccoshl()` {#man-ccosh}
+## `ccosh()`, `ccoshf()`, `ccoshl()` {#man-ccosh}
+
+[i[`ccosh()` function]i]
+[i[`ccoshf()` function]i]
+[i[`ccoshl()` function]i]
 
 Compute the complex hyperbolic cosine
 
@@ -711,7 +766,11 @@ Result: -0.005475 + 1490.478826i
 [`ccos()`](#man-ccos)
 
 [[manbreak]]
-## `csinh()` `csinhf()` `csinhl()` {#man-csinh}
+## `csinh()`, `csinhf()`, `csinhl()` {#man-csinh}
+
+[i[`csinh()` function]i]
+[i[`csinhf()` function]i]
+[i[`csinhl()` function]i]
 
 Compute the complex hyperbolic sine
 
@@ -765,7 +824,11 @@ Result: -0.005475 + 1490.479161i
 
 
 [[manbreak]]
-## `ctanh()` `ctanhf()` `ctanhl()` {#man-ctanh}
+## `ctanh()`, `ctanhf()`, `ctanhl()` {#man-ctanh}
+
+[i[`ctanh()` function]i]
+[i[`ctanhf()` function]i]
+[i[`ctanhl()` function]i]
 
 Compute the complex hyperbolic tangent
 
@@ -818,7 +881,11 @@ Result: 1.000000 + -0.000000i
 [`ctan()`](#man-ctan)
 
 [[manbreak]]
-## `cexp()` `cexpf()` `cexpl()` {#man-cexp}
+## `cexp()`, `cexpf()`, `cexpl()` {#man-cexp}
+
+[i[`cexp()` function]i]
+[i[`cexpf()` function]i]
+[i[`cexpl()` function]i]
 
 Compute the complex base-$e$ exponential
 
@@ -871,7 +938,11 @@ Result: -1.131204 + 2.471727i
 [`exp()`](#man-exp)
 
 [[manbreak]]
-## `clog()` `clogf()` `clogl()` {#man-clog}
+## `clog()`, `clogf()`, `clogl()` {#man-clog}
+
+[i[`clog()` function]i]
+[i[`clogf()` function]i]
+[i[`clogl()` function]i]
 
 Compute the complex logarithm
 
@@ -927,7 +998,11 @@ Result: 0.804719 + 1.107149i
 [`log()`](#man-log)
 
 [[manbreak]]
-## `cabs()` `cabsf()` `cabsl()` {#man-cabs}
+## `cabs()`, `cabsf()`, `cabsl()` {#man-cabs}
+
+[i[`cabs()` function]i]
+[i[`cabsf()` function]i]
+[i[`cabsl()` function]i]
 
 Compute the complex absolute value
 
@@ -979,7 +1054,11 @@ Result: 2.236068 + 0.000000i
 [`abs()`](#man-abs)
 
 [[manbreak]]
-## `cpow()` `cpowf()` `cpowl()` {#man-cpow}
+## `cpow()`, `cpowf()`, `cpowl()` {#man-cpow}
+
+[i[`cpow()` function]i]
+[i[`cpowf()` function]i]
+[i[`cpowl()` function]i]
 
 Compute complex power
 
@@ -1035,7 +1114,11 @@ Result: 0.129010 + 0.000000i
 [`cexp()`](#man-cexp)
 
 [[manbreak]]
-## `csqrt()` `csqrtf()` `csqrtl()` {#man-csqrt}
+## `csqrt()`, `csqrtf()`, `csqrtl()` {#man-csqrt}
+
+[i[`csqrt()` function]i]
+[i[`csqrtf()` function]i]
+[i[`csqrtl()` function]i]
 
 Compute the complex square root
 
@@ -1092,7 +1175,11 @@ Result: 1.272020 + 0.786151i
 [`sqrt()`](#man-sqrt)
 
 [[manbreak]]
-## `carg()` `cargf()` `cargl()` {#man-carg}
+## `carg()`, `cargf()`, `cargl()` {#man-carg}
+
+[i[`carg()` function]i]
+[i[`cargf()` function]i]
+[i[`cargl()` function]i]
 
 Compute the complex argument
 
@@ -1149,7 +1236,11 @@ Result: 1.107149
 -->
 
 [[manbreak]]
-## `cimag()` `cimagf()` `cimagl()` {#man-cimag}
+## `cimag()`, `cimagf()`, `cimagl()` {#man-cimag}
+
+[i[`cimag()` function]i]
+[i[`cimagf()` function]i]
+[i[`cimagl()` function]i]
 
 Returns the imaginary part of a complex number
 
@@ -1207,7 +1298,11 @@ Result: 2.000000
 [`creal()`](#man-creal)
 
 [[manbreak]]
-## `CMPLX()` `CMPLXF()` `CMPLXL()` {#man-CMPLX}
+## `CMPLX()`, `CMPLXF()`, `CMPLXL()` {#man-CMPLX}
+
+[i[`CMPLX()` macro]i]
+[i[`CMPLXF()` macro]i]
+[i[`CMPLXL()` macro]i]
 
 Build a complex value from real and imaginary types
 
@@ -1290,7 +1385,11 @@ Result: 1.000000 + 2.000000i
 [`cimag()`](#man-cimag)
 
 [[manbreak]]
-## `conj()` `conjf()` `conjl()` {#man-conj}
+## `conj()`, `conjf()`, `conjl()` {#man-conj}
+
+[i[`conj()` function]i]
+[i[`conjf()` function]i]
+[i[`conjl()` function]i]
 
 Compute the conjugate of a complex number
 
@@ -1345,7 +1444,11 @@ Result: 1.000000 + -2.000000i
 -->
 
 [[manbreak]]
-## `cproj()` `cproj()` `cproj()` {#man-cproj}
+## `cproj()`, `cproj()`, `cproj()` {#man-cproj}
+
+[i[`cproj()` function]i]
+[i[`cprojf()` function]i]
+[i[`cprojl()` function]i]
 
 Compute the projection of a complex number
 
@@ -1422,7 +1525,11 @@ Result: inf + 0.000000i
 -->
 
 [[manbreak]]
-## `creal()` `crealf()` `creall()` {#man-creal}
+## `creal()`, `crealf()`, `creall()` {#man-creal}
+
+[i[`creal()` function]i]
+[i[`crealf()` function]i]
+[i[`creall()` function]i]
 
 Returns the real part of a complex number
 

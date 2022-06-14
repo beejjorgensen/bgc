@@ -4,6 +4,9 @@
 -->
 
 # `<errno.h>` Error Information {#errno}
+
+[i[`errno.h` header file]i]
+
 |Variable|Description|
 |-|-|
 |[`errno`](#man-errno)|Holds the error status of the last call|
@@ -35,6 +38,8 @@ Windows|https://docs.microsoft.com/en-us/cpp/c-runtime-library/errno-constants?v
 
 [[manbreak]]
 ## `errno` {#man-errno}
+
+[i[`errno` variable]i]
 
 Holds the error status of the last call
 

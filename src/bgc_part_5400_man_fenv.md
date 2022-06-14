@@ -5,6 +5,8 @@
 
 # `<fenv.h>` Floating Point Exceptions and Environment {#fenv}
 
+[i[`fenv.h` header file]i]
+
 |Function|Description|
 |--------|----------------------|
 |[`feclearexcept()`](#man-feclearexcept)|Clear floating point exceptions|
@@ -25,8 +27,8 @@ There are two types defined in this header:
 
 |Type|Description|
 |--------|----------------------|
-|`fenv_t`|The entire floating point environment|
-|`fexcept_t`|A set of floating point exceptions
+|[i[`fenv_t` type]i]`fenv_t`|The entire floating point environment|
+|[i[`fexcept_t` type]i]`fexcept_t`|A set of floating point exceptions|
 
 The "environment" can be thought of as the status at this moment of the
 floating point processing system: this includes the exceptions,
@@ -39,12 +41,12 @@ exceptions:
 
 |Macro|Description|
 |--------|----------------------|
-|`FE_DIVBYZERO`|Division by zero|
-|`FE_INEXACT`|Result was not exact, was rounded|
-|`FE_INVALID`|Domain error|
-|`FE_OVERFLOW`|Numeric overflow|
-|`FE_UNDERFLOW`|Numeric underflow|
-|`FE_ALL_EXCEPT`|All of the above combined|
+|[i[`FE_DIVBYZERO` macro]i]`FE_DIVBYZERO`|Division by zero|
+|[i[`FE_INEXACT` macro]i]`FE_INEXACT`|Result was not exact, was rounded|
+|[i[`FE_INVALID` macro]i]`FE_INVALID`|Domain error|
+|[i[`FE_OVERFLOW` macro]i]`FE_OVERFLOW`|Numeric overflow|
+|[i[`FE_UNDERFLOW` macro]i]`FE_UNDERFLOW`|Numeric underflow|
+|[i[`FE_ALL_EXCEPT` macro]i]`FE_ALL_EXCEPT`|All of the above combined|
 
 The idea is that you can bitwise-OR these together to represent multiple
 exceptions, e.g. `FE_INVALID|FE_OVERFLOW`.
@@ -60,6 +62,8 @@ when.
 Normally C is free to optimize all kinds of stuff that might cause the
 flags to not look like you might expect. So if you're going to use this
 stuff, be sure to set this pragma:
+
+[i[`FENV_ACCESS` pragma]i]
 
 ``` {.c}
 #pragma STDC FENV_ACCESS ON
@@ -82,6 +86,8 @@ code, below, it's not particularly well-tested.
 
 [[manbreak]]
 ## `feclearexcept()` {#man-feclearexcept}
+
+[i[`feclearexcept()` function]i]
 
 Clear floating point exceptions
 
@@ -131,6 +137,9 @@ int main(void)
 
 [[manbreak]]
 ## `fegetexceptflag()` `fesetexceptflag()` {#man-fegetexceptflag}
+
+[i[`fegetexceptflag()` function]i]
+[i[`fesetexceptflag()` function]i]
 
 Save or restore the floating point exception flags
 
@@ -211,6 +220,8 @@ int main(void)
 [[manbreak]]
 ## `feraiseexcept()` {#man-feraiseexcept}
 
+[i[`feraiseexcept()` function]i]
+
 Raise a floating point exception through software
 
 ### Synopsis {.unnumbered .unlisted}
@@ -273,6 +284,8 @@ int main(void)
 [[manbreak]]
 ## `fetestexcept()` {#man-fetestexcept}
 
+[i[`fetestexcept()` function]i]
+
 Test to see if an exception has occurred
 
 ### Synopsis {.unnumbered .unlisted}
@@ -322,6 +335,9 @@ int main(void)
 
 [[manbreak]]
 ## `fegetround()` `fesetround()` {#man-fegetround}
+
+[i[`fegetround()` function]i]
+[i[`fesetround()` function]i]
 
 Get or set the rounding direction
 
@@ -434,6 +450,9 @@ FE_TOWARDZERO
 [[manbreak]]
 ## `fegetenv()` `fesetenv()` {#man-fegetenv}
 
+[i[`fegetenv()` function]i]
+[i[`fesetenv()` function]i]
+
 Save or restore the entire floating point environment
 
 ### Synopsis {.unnumbered .unlisted}
@@ -515,6 +534,8 @@ FE_DIVBYZERO is set: 0
 [[manbreak]]
 ## `feholdexcept()` {#man-feholdexcept}
 
+[i[`feholdexcept()` function]i]
+
 Save floating point state and install non-stop mode
 
 ### Synopsis {.unnumbered .unlisted}
@@ -586,6 +607,8 @@ int main(void)
 
 [[manbreak]]
 ## `feupdateenv()` {#man-feupdateenv}
+
+[i[`feupdateenv()` function]i]
 
 Restore floating point environment and apply recent exceptions
 

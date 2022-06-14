@@ -5,6 +5,8 @@
 
 # `<ctype.h>` Character Classification and Conversion {#ctype}
 
+[i[`ctype.h` header file]i]
+
 |Function|Description|
 |--------|----------------------|
 |[`isalnum()`](#man-isalnum)|Tests if a character is alphabetic or is a digit|
@@ -50,6 +52,8 @@ functions, so don't try to use these on `wchar_t`s. Or _else_!
 
 [[manbreak]]
 ## `isalnum()` {#man-isalnum}
+
+[i[`isalnum()` function]i]
 
 Tests if a character is alphabetic or is a digit
 
@@ -102,6 +106,8 @@ int main(void)
 
 [[manbreak]]
 ## `isalpha()` {#man-isalpha}
+
+[i[`isalpha()` function]i]
 
 Returns true if a character is alphabetic
 
@@ -167,6 +173,8 @@ int main(void)
 [[manbreak]]
 ## `isblank()` {#man-isblank}
 
+[i[`isblank()` function]i]
+
 Tests if a character is word-separating whitespace
 
 ### Synopsis {.unnumbered .unlisted}
@@ -214,6 +222,8 @@ int main(void)
 
 [[manbreak]]
 ## `iscntrl()` {#man-iscntrl}
+
+[i[`iscntrl()` function]i]
 
 Test if a character is a control character
 
@@ -268,6 +278,8 @@ int main(void)
 [[manbreak]]
 ## `isdigit()` {#man-isdigit}
 
+[i[`isdigit()` function]i]
+
 Tests if a character is a digit
 
 ### Synopsis {.unnumbered .unlisted}
@@ -311,6 +323,8 @@ int main(void)
 
 [[manbreak]]
 ## `isgraph()` {#man-isgraph}
+
+[i[`isgraph()` function]i]
 
 Tests if the character is printable and not a space
 
@@ -357,6 +371,8 @@ int main(void)
 
 [[manbreak]]
 ## `islower()` {#man-islower}
+
+[i[`islower()` function]i]
 
 Tests if a character is lowercase
 
@@ -411,6 +427,8 @@ int main(void)
 [[manbreak]]
 ## `isprint()` {#man-isprint}
 
+[i[`isprint()` function]i]
+
 Tests if a character is printable
 
 ### Synopsis {.unnumbered .unlisted}
@@ -454,6 +472,8 @@ int main(void)
 
 [[manbreak]]
 ## `ispunct()` {#man-ispunct}
+
+[i[`ispunct()` function]i]
 
 Test if a character is punctuation
 
@@ -509,6 +529,8 @@ int main(void)
 [[manbreak]]
 ## `isspace()` {#man-isspace}
 
+[i[`isspace()` function]i]
+
 Test if a character is whitespace
 
 ### Synopsis {.unnumbered .unlisted}
@@ -563,6 +585,8 @@ int main(void)
 [[manbreak]]
 ## `isupper()` {#man-isupper}
 
+[i[`isupper()` function]i]
+
 Tests if a character is uppercase
 
 ### Synopsis {.unnumbered .unlisted}
@@ -616,6 +640,8 @@ int main(void)
 [[manbreak]]
 ## `isxdigit()` {#man-isxdigit}
 
+[i[`isxdigit()` function]i]
+
 Tests if a character is a hexadecimal digit
 
 ### Synopsis {.unnumbered .unlisted}
@@ -659,6 +685,8 @@ int main(void)
 
 [[manbreak]]
 ## `tolower()` {#man-tolower}
+
+[i[`tolower()` function]i]
 
 Convert a letter to lowercase
 
@@ -706,6 +734,8 @@ int main(void)
 
 [[manbreak]]
 ## `toupper()` {#man-toupper}
+
+[i[`toupper()` function]i]
 
 Convert a letter to uppercase
 
