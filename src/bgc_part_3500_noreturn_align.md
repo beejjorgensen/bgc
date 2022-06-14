@@ -10,11 +10,15 @@ cover them here for the sake of completeness.
 
 ## Function Specifiers
 
+[i[Function specifiers]<]
+
 When you declare a function, you can give the compiler a couple tips
 about how the functions could or will be used. This enables or encourages
 the compiler to make certain optimizations.
 
 ### `inline` for Speed---Maybe
+
+[i[`inline` function specifier]<]
 
 You can declare a function to be inline like this:
 
@@ -209,7 +213,12 @@ bar.c: bar's function
 In short, the rules are surprisingly complex. I give myself a good 30%
 chance of having described them correctly.
 
+[i[`inline` function specifier]>]
+
 ### `noreturn` and `_Noreturn` {#noreturn}
+
+[i[`noreturn` function specifier]<]
+[i[`_Noreturn` function specifier]<]
 
 This indicates to the compiler that a particular function will not ever
 return to its caller, i.e. the program will exit by some mechanism
@@ -269,7 +278,13 @@ gets me a warning:
 foo.c:7:1: warning: function declared 'noreturn' should not return
 ```
 
+[i[`noreturn` function specifier]>]
+[i[`_Noreturn` function specifier]>]
+[i[Function specifiers]>]
+
 ## Alignment Specifiers and Operators
+
+[i[Alignment]<]
 
 [flw[_Alignment_|Data_structure_alignment]] is all about multiples of
 addresses on which objects can be stored. Can you store this at any
@@ -281,6 +296,9 @@ interfaces with your OS, you might need to consider this. Most devs go
 their careers without using this functionality in C.
 
 ### `alignas` and `_Alignas`
+
+[i[`alignas` alignment specifier]<]
+[i[`_Alignas` alignment specifier]<]
 
 This isn't a function. Rather, it's an _alignment specifier_ that you
 can use with a variable declaration.
@@ -315,7 +333,13 @@ You could potentially _over-align_ by specifying an alignment more than
 that of `max_align_t`, but whether or not such things are allowed is
 system dependent.
 
+[i[`alignas` alignment specifier]>]
+[i[`_Alignas` alignment specifier]>]
+
 ### `alignof` and `_Alignof`
+
+[i[`alignof` operator]<]
+[i[`_Alignof` operator]<]
 
 This operator will return the address multiple a particular type uses
 for alignment on this system. For example, maybe `char`s are aligned
@@ -369,3 +393,7 @@ max_align_t: 16
 ```
 
 And there you have it. Alignment!
+
+[i[`alignof` operator]>]
+[i[`_Alignof` operator]>]
+[i[Alignment]>]
