@@ -411,7 +411,7 @@ pesky ampersand in there![i[Pointers-->as arguments]>]
 
 ## The `NULL` Pointer
 
-[i[`NULL` pointer]<b]Any pointer variable of any pointer type can be set
+[i[`NULL` pointer]<]Any pointer variable of any pointer type can be set
 to a special value called `NULL`. This indicates that this pointer
 doesn't point to anything.
 
@@ -437,7 +437,7 @@ pointer hasn't yet been initialized.
 
 (Of course, like other variables, the pointer points to garbage unless
 you explicitly assign it to point to an address or `NULL`.)
-[i[`NULL` pointer]>b]
+[i[`NULL` pointer]>]
 
 ## A Note on Declaring Pointers
 
