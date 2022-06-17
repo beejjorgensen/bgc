@@ -109,7 +109,8 @@ with open(infile_name) as fp:
             chapter_list_index = 0
 
         # Check for footnotes page
-        elif line_equal(line, '<section class="footnotes footnotes-end-of-document" role="doc-endnotes">'):
+        elif line_equal(line, '<section class="footnotes footnotes-end-of-document"'):
+            next(fp)  # throw away role="doc-endnotes"> line
             new_filename = "footnotes.html"
             chapter_list_index = None
 
@@ -193,9 +194,9 @@ with open(infile_name) as fp:
                 # Otherwise go to the subsection
                 href = f"{filename}#{target_id}"
 
-            return f'<a href="{href}"'
+            return f'href="{href}"'
 
-        line = re.sub(r'<a href="#(.+?)"', anchor_sub, line);
+        line = re.sub(r'href="#(.+?)"', anchor_sub, line);
 
         # Output
         if outfile is not None:
