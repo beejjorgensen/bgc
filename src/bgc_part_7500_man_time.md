@@ -5,6 +5,8 @@
 
 # `<time.h>` Date and Time Functions {#time}
 
+[i[`time.h` header file]i]
+
 |Function|Description|
 |--------|----------------------|
 |[`clock()`](#man-clock)|How much processor time has been used by this process|
@@ -21,14 +23,15 @@
 
 When it comes to time and C, there are two main types to look for:
 
-* **`time_t`** holds a _calendar time_. This is an potentially opaque
-  numeric type that represents an absolute time that can be converted to
-  UTC^[When you say GMT, unless you're talking specifically about the
-  time zone and not the time, you probably mean "UTC".] or local time.
+* [i[`time_t` type]i] **`time_t`** holds a _calendar time_. This is an
+  potentially opaque numeric type that represents an absolute time that
+  can be converted to UTC^[When you say GMT, unless you're talking
+  specifically about the time zone and not the time, you probably mean
+  "UTC".] or local time.
 
-* **`struct tm`** holds a _broken-down time_. This has things like the
-  day of the week, the day of the month, the hour, the minute, the
-  second, etc.
+* [i[`struct tm` type]i] **`struct tm`** holds a _broken-down time_.
+  This has things like the day of the week, the day of the month, the
+  hour, the minute, the second, etc.
 
 On POSIX systems and Windows, `time_t` is an integer and represents the
 number of seconds that have elapsed since January 1, 1970 at 00:00 UTC.
@@ -72,6 +75,8 @@ you need both results at once, copy the `struct` to another.
 
 [[manbreak]]
 ## `clock()` {#man-clock}
+
+[i[`clock()` function]i]
 
 How much processor time has been used by this process
 
@@ -149,6 +154,8 @@ CPU time: 1.863078
 [[manbreak]]
 ## `difftime()` {#man-difftime}
 
+[i[`difftime()` function]i]
+
 Compute the difference between two times
 
 ### Synopsis {.unnumbered .unlisted}
@@ -217,6 +224,8 @@ Output:
 
 [[manbreak]]
 ## `mktime()` {#man-mktime}
+
+[i[`mktime()` function]i]
 
 Convert a `struct tm` into a `time_t`
 
@@ -312,6 +321,8 @@ UTC        : Mon Apr 12 12:00:04 1982
 [[manbreak]]
 ## `time()` {#man-time}
 
+[i[`time()` function]i]
+
 Get the current calendar time
 
 ### Synopsis {.unnumbered .unlisted}
@@ -368,6 +379,8 @@ The local time is Mon Mar  1 18:45:14 2021
 
 [[manbreak]]
 ## `timespec_get()` {#man-timespec_get}
+
+[i[`timespec_get()` function]i]
 
 Get a higher resolution time, probably now
 
@@ -499,6 +512,8 @@ struct timespec ld_to_timespec(long double t)
 [[manbreak]]
 ## `asctime()` {#man-asctime}
 
+[i[`asctime()` function]i]
+
 Return a human-readable version of a `struct tm`
 
 ### Synopsis {.unnumbered .unlisted}
@@ -570,6 +585,8 @@ UTC  : Tue Mar  2 05:17:34 2021
 [[manbreak]]
 ## `ctime()` {#man-ctime}
 
+[i[`ctime()` function]i]
+
 Return a human-readable version of a `time_t`
 
 ### Synopsis {.unnumbered .unlisted}
@@ -630,6 +647,8 @@ Local: Mon Mar  1 21:32:23 2021
 
 [[manbreak]]
 ## `gmtime()` {#man-gmtime}
+
+[i[`gmtime()` function]i]
 
 Convert a calendar time into a UTC broken-down time
 
@@ -694,6 +713,8 @@ Local: Mon Mar  1 21:40:05 2021
 [[manbreak]]
 ## `localtime()` {#man-localtime}
 
+[i[`localtime()` function]i]
+
 Convert a calendar time into a broken-down local time
 
 ### Synopsis {.unnumbered .unlisted}
@@ -755,6 +776,8 @@ UTC  : Tue Mar  2 05:40:05 2021
 
 [[manbreak]]
 ## `strftime()` {#man-strftime}
+
+[i[`strftime()` function]i]
 
 Formatted date and time output
 

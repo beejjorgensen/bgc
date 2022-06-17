@@ -5,8 +5,10 @@
 
 # `<stdnoreturn.h>` Macros for Non-Returning Functions {#stdnoreturn}
 
-This header provides a macro `noreturn` that is a handy alias for
-[`_Noreturn`](#noreturn).
+[i[`stdnoreturn.h` header file]i]
+
+This header provides a macro [i[`noreturn` macro]i] `noreturn` that is a
+handy alias for [`_Noreturn`](#noreturn).
 
 Use this macro to indicate to the compiler that a function will never
 return to the caller. It's undefined behavior if the so-marked function

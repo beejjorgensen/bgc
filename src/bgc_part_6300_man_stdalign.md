@@ -5,6 +5,8 @@
 
 # `<stdalign.h>` Macros for Alignment {#stdalign}
 
+[i[`stdalign.h` header file]i]
+
 If you're coding up something low-level like a memory allocator that
 interfaces with your OS, you might need this header file. But most C
 devs go their careers without using it.
@@ -21,6 +23,9 @@ Or 16?
 
 These two additional macros are defined to be `1`:
 
+[i[`__alignas_is_defined` macro]i]
+[i[`__alignof_is_defined` macro]i]
+
 ``` {.c}
 __alignas_is_defined
 __alignof_is_defined
@@ -31,6 +36,9 @@ _overalignments_ and are implementation-defined.
 
 
 ## `alignas()` `_Alignas()` {#man-alignas}
+
+[i[`alignas()` alignment specifier]i]
+[i[`_Alignas()` alignment specifier]i]
 
 Force a variable to have a certain alignment
 
@@ -134,6 +142,9 @@ f: 0x7ffee7dfb4a6
 
 [[manbreak]]
 ## `alignof()` `_Alignof()` {#man-alignof}
+
+[i[`alignof()` operator]i]
+[i[`_Alignof()` operator]i]
 
 Get the alignment of a type
 

@@ -5,6 +5,8 @@
 
 # `<signal.h>` signal handling {#signal}
 
+[i[`signal.h` header file]i]
+
 |Function|Description|
 |--------|----------------------|
 |[`signal()`](#man-signal)|Set a signal handler for a given signal|
@@ -25,6 +27,8 @@ than the C standard library. Check out
 
 [[manbreak]]
 ## `signal()` {#man-signal}
+
+[i[`signal()` function]i]
 
 Set a signal handler for a given signal
 
@@ -254,6 +258,8 @@ int main(void)
 
 [[manbreak]]
 ## `raise()` {#man-raise}
+
+[i[`raise()` function]i]
 
 Cause a signal to be raised
 

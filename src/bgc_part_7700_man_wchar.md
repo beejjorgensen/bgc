@@ -5,6 +5,8 @@
 
 # `<wchar.h>` Wide Character Handling {#wchar}
 
+[i[`wchar.h` header file]i]
+
 |Function|Description|
 |------|-------------------------|
 |[`btowc()`](#man-btowc)|Convert a single byte character to a wide character|
@@ -100,11 +102,16 @@ that is shared between function calls. The problem is if you're writing
 multithreaded code, this state might get trampled by other threads.
 
 To avoid this, each thread needs to maintain its own state in a variable
-of the opaque type `mbstate_t`. And the "restartable" functions allow
-you to pass in this state so that each thread can use their own.
+of the opaque type [i[`mbstate_t` type]i] `mbstate_t`. And the
+"restartable" functions allow you to pass in this state so that each
+thread can use their own.
 
 [[manbreak]]
 ## `wprintf()`, `fwprintf()`, `swprintf()` {#man-wprintf}
+
+[i[`wprintf()` function]i]
+[i[`fwprintf()` function]i]
+[i[`swprintf()` function]i]
 
 Formatted output with a wide string
 
@@ -177,6 +184,10 @@ pi = 3.141593
 [[manbreak]]
 ## `wscanf()` `fwscanf()` `swscanf()` {#man-wscanf}
 
+[i[`wscanf()` function]i]
+[i[`fwscanf()` function]i]
+[i[`swscanf()` function]i]
+
 Scan a wide stream or wide string for formatted input
 
 ### Synopsis {.unnumbered .unlisted}
@@ -239,6 +250,10 @@ You entered: 12 apples
 
 [[manbreak]]
 ## `vwprintf()` `vfwprintf()` `vswprintf()` {#man-vwprintf}
+
+[i[`vwprintf()` function]i]
+[i[`vfwprintf()` function]i]
+[i[`vswprintf()` function]i]
 
 `wprintf()` variants using variable argument lists (`va_list`)
 
@@ -326,6 +341,10 @@ Output:
 [[manbreak]]
 ## `vwscanf()`, `vfwscanf()`, `vswscanf()` {#man-vwscanf}
 
+[i[`vwscanf()` function]i]
+[i[`vfwscanf()` function]i]
+[i[`vswscanf()` function]i]
+
 `wscanf()` variants using variable argument lists (`va_list`)
 
 ### Synopsis {.unnumbered .unlisted}
@@ -399,6 +418,10 @@ int main(void)
 [[manbreak]]
 ## `getwc()` `fgetwc()` `getwchar()` {#man-getwc}
 
+[i[`getwc()` function]i]
+[i[`fgetwc()` function]i]
+[i[`getwchar()` function]i]
+
 Get a wide character from an input stream
 
 ### Synopsis {.unnumbered .unlisted}
@@ -471,6 +494,8 @@ int main(void)
 [[manbreak]]
 ## `fgetws()` {#man-fgetws}
 
+[i[`fgetws()` function]i]
+
 Read a wide string from a file
 
 ### Synopsis {.unnumbered .unlisted}
@@ -537,6 +562,10 @@ prepended numbers):
 
 [[manbreak]]
 ## `putwchar()` `putwc()` `fputwc()` {#man-putwc}
+
+[i[`putwchar()` function]i]
+[i[`putwc()` function]i]
+[i[`fputwc()` function]i]
 
 Write a single wide character to the console or to a file
 
@@ -611,6 +640,8 @@ int main(void)
 [[manbreak]]
 ## `fputws()` {#man-fputws}
 
+[i[`fputws()` function]i]
+
 Write a wide string to a file
 
 ### Synopsis {.unnumbered .unlisted}
@@ -651,6 +682,8 @@ int main(void)
 
 [[manbreak]]
 ## `fwide()` {#man-fwide}
+
+[i[`fwide()` function]i]
 
 Get or set the orientation of the stream
 
@@ -765,6 +798,8 @@ Stream is wide-oriented
 [[manbreak]]
 ## `ungetwc()` {#man-ungetwc}
 
+[i[`ungetwc()` function]i]
+
 Pushes a wide character back into the input stream
 
 ### Synopsis {.unnumbered .unlisted}
@@ -862,6 +897,10 @@ Sample output:
 [[manbreak]]
 ## `wcstod()` `wcstof()` `wcstold()` {#man-wcstod}
 
+[i[`wcstod()` function]i]
+[i[`wcstof()` function]i]
+[i[`wcstold()` function]i]
+
 Convert a wide string to a floating point number
 
 ### Synopsis {.unnumbered .unlisted}
@@ -939,6 +978,11 @@ No bad chars: 11.223300
 
 [[manbreak]]
 ## `wcstol()` `wcstoll()` `wcstoul()` `wcstoull()` {#man-wcstol}
+
+[i[`wcstol()` function]i]
+[i[`wcstoll()` function]i]
+[i[`wcstoul()` function]i]
+[i[`wcstoull()` function]i]
 
 Convert a wide string to an integer value
 
@@ -1027,6 +1071,9 @@ Bad chars at "beej"
 [[manbreak]]
 ## `wcscpy()` `wcsncpy()` {#man-wcscpy}
 
+[i[`wcscpy()` function]i]
+[i[`wcsncpy()` function]i]
+
 Copy a wide string
 
 ### Synopsis {.unnumbered .unlisted}
@@ -1086,6 +1133,9 @@ int main(void)
 
 [[manbreak]]
 ## `wmemcpy()` `wmemmove()` {#man-wmemcpy}
+
+[i[`wmemcpy()` function]i]
+[i[`wmemmove()` function]i]
 
 Copy wide characters
 
@@ -1150,6 +1200,9 @@ t is "Goats"
 [[manbreak]]
 ## `wcscat()` `wcsncat()` {#man-wcscat}
 
+[i[`wcscat()` function]i]
+[i[`wcsncat()` function]i]
+
 Concatenate wide strings
 
 ### Synopsis {.unnumbered .unlisted}
@@ -1208,6 +1261,10 @@ int main(void)
 
 [[manbreak]]
 ## `wcscmp()`, `wcsncmp()`, `wmemcmp()` {#man-wcscmp}
+
+[i[`wcscmp()` function]i]
+[i[`wcsncmp()` function]i]
+[i[`wmemcmp()` function]i]
 
 Compare wide strings or memory
 
@@ -1303,6 +1360,8 @@ The first 6 characters of s1 and s2 are the same
 [[manbreak]]
 ## `wcscoll()` {#man-wcscoll}
 
+[i[`wcscoll()` function]i]
+
 Compare two wide strings accounting for locale
 
 ### Synopsis {.unnumbered .unlisted}
@@ -1358,6 +1417,8 @@ int main(void)
 
 [[manbreak]]
 ## `wcsxfrm()` {#man-wcsxfrm}
+
+[i[`wcsxfrm()` function]i]
 
 Transform a wide string for comparing based on locale
 
@@ -1447,6 +1508,9 @@ Output:
 [[manbreak]]
 ## `wcschr()` `wcsrchr()` {#man-wcschr}
 
+[i[`wcschr()` function]i]
+[i[`wcsrchr()` function]i]
+
 Find a wide character in a wide string
 
 ### Synopsis {.unnumbered .unlisted}
@@ -1522,6 +1586,9 @@ Found a 'B' here: BEEJ
 [[manbreak]]
 ## `wcsspn()` `wcscspn()` {#man-wcsspn}
 
+[i[`wcsspn()` function]i]
+[i[`wcscspn()` function]i]
+
 Return the length of a wide string consisting entirely of a set of wide
 characters, or of not a set of wide characters
 
@@ -1585,6 +1652,8 @@ int main(void)
 [[manbreak]]
 ## `wcspbrk()` {#man-wcspbrk}
 
+[i[`wcspbrk()` function]i]
+
 Search a wide string for one of a set of wide characters
 
 ### Synopsis {.unnumbered .unlisted}
@@ -1635,6 +1704,8 @@ int main(void)
 
 [[manbreak]]
 ## `wcsstr()` {#man-wcsstr}
+
+[i[`wcsstr()` function]i]
 
 Find a wide string in another wide string
 
@@ -1687,6 +1758,8 @@ int main(void)
 
 [[manbreak]]
 ## `wcstok()` {#man-wcstok}
+
+[i[`wcstok()` function]i]
 
 Tokenize a wide string
 
@@ -1759,6 +1832,8 @@ Word: "dude"
 [[manbreak]]
 ## `wcslen()` {#man-wcslen}
 
+[i[`wcslen()` function]i]
+
 Returns the length of a wide string
 
 ### Synopsis {.unnumbered .unlisted}
@@ -1798,6 +1873,8 @@ int main(void)
 
 [[manbreak]]
 ## `wcsftime()` {#man-wcsftime}
+
+[i[`wcsftime()` function]i]
 
 Formatted date and time output
 
@@ -1872,6 +1949,9 @@ int main(void)
 [[manbreak]]
 ## `btowc()` `wctob()` {#man-btowc}
 
+[i[`btowc()` function]i]
+[i[`wctob()` function]i]
+
 Convert a single byte character to a wide character
 
 ### Synopsis {.unnumbered .unlisted}
@@ -1939,6 +2019,8 @@ Single-byte character: B
 
 [[manbreak]]
 ## `mbsinit()` {#man-mbsinit}
+
+[i[`mbsinit()` function]i]
 
 Test if an `mbstate_t` is in the initial conversion state
 
@@ -2010,6 +2092,8 @@ int main(void)
 
 [[manbreak]]
 ## `mbrlen()` {#man-mbrlen}
+
+[i[`mbrlen()` function]i]
 
 Compute the number of bytes in a multibyte character, restartably
 
@@ -2086,6 +2170,8 @@ Length of '€' is 3 byte(s)
 
 [[manbreak]]
 ## `mbrtowc()` {#man-mbrtowc}
+
+[i[`mbrtowc()` function]i]
 
 Convert multibyte to wide characters restartably
 
@@ -2185,6 +2271,8 @@ L'€' takes 3 bytes as multibyte char '€'
 [[manbreak]]
 ## `wcrtomb()` {#man-wcrtomb}
 
+[i[`wcrtomb()` function]i]
+
 Convert wide to multibyte characters restartably
 
 ### Synopsis {.unnumbered .unlisted}
@@ -2278,6 +2366,8 @@ int main(void)
 
 [[manbreak]]
 ## `mbsrtowcs()` {#man-mbsrtowcs}
+
+[i[`mbsrtowcs()` function]i]
 
 Convert a multibyte string to a wide character string restartably
 
@@ -2412,6 +2502,8 @@ but it's 10 bytes!
 
 [[manbreak]]
 ## `wcsrtombs()` {#man-wcsrtombs}
+
+[i[`wcsrtombs()` function]i]
 
 Convert a wide character string to a multibyte string restartably
 

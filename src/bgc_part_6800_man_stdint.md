@@ -5,6 +5,8 @@
 
 # `<stdint.h>` More Integer Types {#stdint}
 
+[i[`stdint.h` header file]i]
+
 This header gives us access to (potentially) types of a fixed number of
 bits, or, at the very least, types that are at least that many bits.
 
@@ -25,6 +27,9 @@ multiples of 8, e.g. `uint16_t`.
 
 The following types are guaranteed to be defined:
 
+[i[`int_leastN_t` types]i]
+[i[`int_fastN_t` types]i]
+
 ``` {.c}
 int_least8_t      uint_least8_t
 int_least16_t     uint_least16_t
@@ -42,6 +47,8 @@ following, which are required when a system has integers of these sizes
 with no padding and two's-complement representation... which is the case
 for Macs and PCs and a lot of other systems. In short, you very likely
 have these:
+
+[i[`intN_t` types]i]
 
 ``` {.c}
 int8_t      uint8_t
@@ -71,6 +78,9 @@ int main(void)
 There are a couple optional types that are integers capable of holding
 pointer types.
 
+[i[`intptr_t` type]i]
+[i[`uintptr_t` type]i]
+
 ``` {.c}
 intptr_t
 uintptr_t
@@ -84,6 +94,9 @@ for some reason.
 
 Also, there are a couple types that are just there to be the biggest
 possible integers your system supports:
+
+[i[`intmax_t` type]i]
+[i[`uintmax_t` type]i]
 
 ``` {.c}
 intmax_t
@@ -100,6 +113,22 @@ can use to print any of the types mentioned, above.
 
 The following macros define the minimum and maximum values for these
 types:
+
+[i[`INTn_MAX` macros]i]
+[i[`INTn_MIN` macros]i]
+[i[`UINTn_MAX` macros]i]
+[i[`INT_LEASTn_MAX` macros]i]
+[i[`INT_LEASTn_MIN` macros]i]
+[i[`UINT_LEASTn_MAX` macros]i]
+[i[`INT_FASTn_MAX` macros]i]
+[i[`INT_FASTn_MIN` macros]i]
+[i[`UINT_FASTn_MAX` macros]i]
+[i[`INTMAX_MAX` macros]i]
+[i[`INTMAX_MIN` macros]i]
+[i[`UINTMAX_MAX` macros]i]
+[i[`INTPTR_MAX` macros]i]
+[i[`INTPTR_MIN` macros]i]
+[i[`UINTPTR_MAX` macros]i]
 
 ``` {.c}
 INT8_MAX           INT8_MIN           UINT8_MAX
@@ -145,15 +174,15 @@ limits defined here. (`<inttypes.h>` includes `<stdint.h>`.)
 
 |Macro|Description|
 |-|-|
-|`PTRDIFF_MIN`|Minimum `ptrdiff_t` value|
-|`PTRDIFF_MAX`|Maximum `ptrdiff_t` value|
-|`SIG_ATOMIC_MIN`|Minimum `sig_atomic_t` value|
-|`SIG_ATOMIC_MAX`|Maximum `sig_atomic_t` value|
-|`SIZE_MAX`|Maximum `size_t` value|
-|`WCHAR_MIN`|Minimum `wchar_t` value|
-|`WCHAR_MAX`|Maximum `wchar_t` value|
-|`WINT_MIN`|Minimum `wint_t` value|
-|`WINT_MAX`|Maximum `wint_t` value|
+|[i[`PTRDIFF_MIN` macro]i]`PTRDIFF_MIN`|Minimum `ptrdiff_t` value|
+|[i[`PTRDIFF_MAX` macro]i]`PTRDIFF_MAX`|Maximum `ptrdiff_t` value|
+|[i[`SIG_ATOMIC_MIN` macro]i]`SIG_ATOMIC_MIN`|Minimum `sig_atomic_t` value|
+|[i[`SIG_ATOMIC_MAX` macro]i]`SIG_ATOMIC_MAX`|Maximum `sig_atomic_t` value|
+|[i[`SIZE_MAX` macro]i]`SIZE_MAX`|Maximum `size_t` value|
+|[i[`WCHAR_MIN` macro]i]`WCHAR_MIN`|Minimum `wchar_t` value|
+|[i[`WCHAR_MAX` macro]i]`WCHAR_MAX`|Maximum `wchar_t` value|
+|[i[`WINT_MIN` macro]i]`WINT_MIN`|Minimum `wint_t` value|
+|[i[`WINT_MAX` macro]i]`WINT_MAX`|Maximum `wint_t` value|
 
 The spec says that `PTRDIFF_MIN` will be at least -65535 in magnitude.
 And `PTRDIFF_MAX` and `SIZE_MAX` will be at least 65535.
@@ -179,6 +208,8 @@ unsigned long long int z = 12ULL;
 You can use the macros `INT`_N_`_C()` and `UINT`_N_`()` where _N_ is
 `8`, `16`, `32` or `64`.
 
+[i[`INTn_C()` macros]i]
+
 ``` {.c}
 uint_least16_t x = INT16_C(3490);
 uint_least64_t y = INT64_C(1122334455);
@@ -186,6 +217,9 @@ uint_least64_t y = INT64_C(1122334455);
 
 A variant on these is `INTMAX_C()` and `UINTMAX_C()`. They will make a
 constant suitable for storing in an `intmax_t` or `uintmax_t`.
+
+[i[`INTMAX_C()` macro]i]
+[i[`UINTMAX_C()` macro]i]
 
 ``` {.c}
 intmax_t x = INTMAX_C(3490);

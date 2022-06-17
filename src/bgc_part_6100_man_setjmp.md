@@ -5,6 +5,8 @@
 
 # `<setjmp.h>` Non-local Goto {#setjmp}
 
+[i[`setjmp.h` header file]i]
+
 These functions enable you to rewind the call stack to an earlier point,
 with a bunch of gotchas. See the [chapter on
 `setjmp()`/`longjmp()`](#setjmp-longjmp) for more info.
@@ -22,6 +24,8 @@ If you want your automatic local variables to be correct after a call to
 
 [[manbreak]]
 ## `setjmp()` {#man-setjmp}
+
+[i[`setjmp()` function]i]
 
 Save this location as one to return to later
 
@@ -170,6 +174,8 @@ over by `longjmp()`!
 
 [[manbreak]]
 ## `longjmp()` {#man-longjmp}
+
+[i[`longjmp()` function]i]
 
 Return to the previous `setjmp()` location
 

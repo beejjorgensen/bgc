@@ -5,6 +5,8 @@
 
 # `<wctype.h>` Wide Character Classification and Transformation {#wctype}
 
+[i[`wctype.h` header file]i]
+
 |Function|Description|
 |--------|----------------------|
 |[`iswalnum()`](#man-iswalnum)|Test if a wide character is alphanumeric.|
@@ -34,6 +36,8 @@ this character to lowercase").
 
 [[manbreak]]
 ## `iswalnum()` {#man-iswalnum}
+
+[i[`iswalnum()` function]i]
 
 Test if a wide character is alphanumeric.
 
@@ -81,6 +85,8 @@ int main(void)
 
 [[manbreak]]
 ## `iswalpha()` {#man-iswalpha}
+
+[i[`iswalpha()` function]i]
 
 Tests if a wide character is alphabetic
 
@@ -131,6 +137,8 @@ int main(void)
 [[manbreak]]
 ## `iswblank()` {#man-iswblank}
 
+[i[`iswblank()` function]i]
+
 Tests if this is a wide blank character
 
 ### Synopsis {.unnumbered .unlisted}
@@ -178,6 +186,8 @@ int main(void)
 
 [[manbreak]]
 ## `iswcntrl()` {#man-iswcntrl}
+
+[i[`iswcntrl()` function]i]
 
 Tests if this is a wide control character.
 
@@ -235,6 +245,8 @@ int main(void)
 [[manbreak]]
 ## `iswdigit()` {#man-iswdigit}
 
+[i[`iswdigit()` function]i]
+
 Test if this wide character is a digit
 
 ### Synopsis {.unnumbered .unlisted}
@@ -278,6 +290,8 @@ int main(void)
 
 [[manbreak]]
 ## `iswgraph()` {#man-iswgraph}
+
+[i[`iswgraph()` function]i]
 
 Test to see if a wide character is a printable non-space
 
@@ -327,6 +341,8 @@ int main(void)
 
 [[manbreak]]
 ## `iswlower()` {#man-iswlower}
+
+[i[`iswlower()` function]i]
 
 Tests if a wide character is lowercase
 
@@ -382,6 +398,8 @@ int main(void)
 [[manbreak]]
 ## `iswprint()` {#man-iswprint}
 
+[i[`iswprint()` function]i]
+
 Tests if a wide character is printable
 
 ### Synopsis {.unnumbered .unlisted}
@@ -426,6 +444,8 @@ int main(void)
 
 [[manbreak]]
 ## `iswpunct()` {#man-iswpunct}
+
+[i[`iswpunct()` function]i]
 
 Test if a wide character is punctuation
 
@@ -480,6 +500,8 @@ int main(void)
 
 [[manbreak]]
 ## `iswspace()` {#man-iswspace}
+
+[i[`iswspace()` function]i]
 
 Test if a wide character is whitespace
 
@@ -539,6 +561,8 @@ int main(void)
 [[manbreak]]
 ## `iswupper()` {#man-iswupper}
 
+[i[`iswupper()` function]i]
+
 Tests if a wide character is uppercase
 
 ### Synopsis {.unnumbered .unlisted}
@@ -592,6 +616,8 @@ int main(void)
 [[manbreak]]
 ## `iswxdigit()` {#man-iswxdigit}
 
+[i[`iswxdigit()` function]i]
+
 Tests if a wide character is a hexadecimal digit
 
 ### Synopsis {.unnumbered .unlisted}
@@ -636,6 +662,8 @@ int main(void)
 
 [[manbreak]]
 ## `iswctype()` {#man-iswctype}
+
+[i[`iswctype()` function]i]
 
 Determine wide character classification
 
@@ -753,6 +781,8 @@ Yes! 'x' is alnum!
 [[manbreak]]
 ## `wctype()` {#man-wctype}
 
+[i[`wctype()` function]i]
+
 Helper function for `iswctype()`
 
 ### Synopsis {.unnumbered .unlisted}
@@ -848,6 +878,8 @@ Yes! 'x' is alnum!
 [[manbreak]]
 ## `towlower()` {#man-towlower}
 
+[i[`towlower()` function]i]
+
 Convert an uppercase wide character to lowercase
 
 ### Synopsis {.unnumbered .unlisted}
@@ -898,6 +930,8 @@ int main(void)
 [[manbreak]]
 ## `towupper()` {#man-towupper}
 
+[i[`towupper()` function]i]
+
 Convert a lowercase wide character to uppercase
 
 ### Synopsis {.unnumbered .unlisted}
@@ -947,6 +981,8 @@ int main(void)
 
 [[manbreak]]
 ## `towctrans()` {#man-towctrans}
+
+[i[`towctrans()` function]i]
 
 Convert wide characters to upper or lowercase
 
@@ -1053,6 +1089,8 @@ Enter a character and conversion type: ! toupper
 
 [[manbreak]]
 ## `wctrans()` {#man-wctrans}
+
+[i[`wctrans()` function]i]
 
 Helper function for `towctrans()`
 

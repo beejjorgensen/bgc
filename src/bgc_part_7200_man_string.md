@@ -4,6 +4,8 @@
 -->
 # `<string.h>` String Manipulation {#stringref}
 
+[i[`string.h` header file]i]
+
 |Function|Description|
 |-|-|
 |[`memchr()`](#man-strchr)|Find the first occurrence of a character in memory.|
@@ -47,6 +49,9 @@ and so forth and so on.
 
 [[manbreak]]
 ## `memcpy()`, `memmove()` {#man-memcpy}
+
+[i[`memcpy()` function]i]
+[i[`memmove()` function]i]
 
 Copy bytes of memory from one location to another
 
@@ -103,6 +108,9 @@ int main(void)
 
 [[manbreak]]
 ## `strcpy()`, `strncpy()` {#man-strcpy}
+
+[i[`strcpy()` function]i]
+[i[`strncpy()` function]i]
 
 Copy a string
 
@@ -184,6 +192,9 @@ int main(void)
 [[manbreak]]
 ## `strcat()`, `strncat()` {#man-strcat}
 
+[i[`strcat()` function]i]
+[i[`strncat()` function]i]
+
 Concatenate two strings into a single string
 
 ### Synopsis {.unnumbered .unlisted}
@@ -255,6 +266,10 @@ and `numbers`; this is just fine with string functions.
 
 [[manbreak]]
 ## `strcmp()`, `strncmp()`, `memcmp()` {#man-strcmp}
+
+[i[`strcmp()` function]i]
+[i[`strncmp()` function]i]
+[i[`memcmp()` function]i]
 
 Compare two strings or memory regions and return a difference
 
@@ -349,6 +364,8 @@ int main(void)
 [[manbreak]]
 ## `strcoll()` {#man-strcoll}
 
+[i[`strcoll()` function]i]
+
 Compare two strings accounting for locale
 
 ### Synopsis {.unnumbered .unlisted}
@@ -407,6 +424,8 @@ int main(void)
 
 [[manbreak]]
 ## `strxfrm()` {#man-strxfrm}
+
+[i[`strxfrm()` function]i]
 
 Transform a string for comparing based on locale
 
@@ -547,6 +566,10 @@ int main(void)
 [[manbreak]]
 ## `strchr()`, `strrchr()`, `memchr()` {#man-strchr}
 
+[i[`strchr()` function]i]
+[i[`strrchr()` function]i]
+[i[`memchr()` function]i]
+
 Find a character in a string
 
 ### Synopsis {.unnumbered .unlisted}
@@ -631,6 +654,9 @@ Found a 'B' here: BEEJ
 [[manbreak]]
 ## `strspn()`, `strcspn()` {#man-strspn}
 
+[i[`strspn()` function]i]
+[i[`strcspn()` function]i]
+
 Return the length of a string consisting entirely of a set of
 characters, or of not a set of characters
 
@@ -698,6 +724,8 @@ int main(void)
 [[manbreak]]
 ## `strpbrk()` {#man-strpbrk}
 
+[i[`strpbrk()` function]i]
+
 Search a string for one of a set of characters
 
 ### Synopsis {.unnumbered .unlisted}
@@ -750,6 +778,8 @@ int main(void)
 [[manbreak]]
 ## `strstr()` {#man-strstr}
 
+[i[`strstr()` function]i]
+
 Find a string in another string
 
 ### Synopsis {.unnumbered .unlisted}
@@ -801,6 +831,8 @@ int main(void)
 
 [[manbreak]]
 ## `strtok()` {#man-strtok}
+
+[i[`strtok()` function]i]
 
 Tokenize a string
 
@@ -888,6 +920,8 @@ Word: "dude"
 [[manbreak]]
 ## `memset()` {#man-memset}
 
+[i[`memset()` function]i]
+
 Set a region of memory to a certain value
 
 ### Synopsis {.unnumbered .unlisted}
@@ -939,6 +973,8 @@ int main(void)
 
 [[manbreak]]
 ## `strerror()` {#man-strerror}
+
+[i[`strerror()` function]i]
 
 Get a string version of an error number
 
@@ -1005,6 +1041,8 @@ Error 2 opening file: No such file or directory
 
 [[manbreak]]
 ## `strlen()` {#man-strlen}
+
+[i[`strlen()` function]i]
 
 Returns the length of a string
 

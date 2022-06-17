@@ -5,14 +5,16 @@
 
 # `<stdbool.h>` Boolean Types {#stdbool}
 
+[i[`stdbool.h` header file]i]
+
 This is a small header file that defines a number of convenient Boolean
 macros. If you really need that kind of thing.
 
 |Macro  |Description                         |
 |-------|------------------------------------|
-|`bool` |Type for Boolean, expands to `_Bool`|
-|`true` |True value, expands to `1`          |
-|`false`|False value, expands to `0`         |
+|[i[`bool` macro]i]`bool` |Type for Boolean, expands to `_Bool`|
+|[i[`true` macro]i]`true` |True value, expands to `1`          |
+|[i[`false` macro]i]`false`|False value, expands to `0`         |
 
 There's on more macro that I'm not putting in the table because it's
 such a long name it'll blow up the table alignment:

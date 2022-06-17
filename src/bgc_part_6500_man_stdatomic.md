@@ -5,6 +5,8 @@
 
 # `<stdatomic.h>` Atomic-Related Functions {#stdatomic}
 
+[i[`stdatomic.h` header file]i]
+
 |Function|Description|
 |-|-|
 |[`atomic_compare_exchange_strong_explicit()`](#man-atomic_compare_exchange)|Atomic compare and exchange, strong, explicit|
@@ -47,52 +49,52 @@ A bunch of types are predefined by this header:
 
 |Atomic type|Longhand equivalent|
 |-|-|
-|`atomic_bool`|`_Atomic _Bool`|
-|`atomic_char`|`_Atomic char`|
-|`atomic_schar`|`_Atomic signed char`|
-|`atomic_uchar`|`_Atomic unsigned char`|
-|`atomic_short`|`_Atomic short`|
-|`atomic_ushort`|`_Atomic unsigned short`|
-|`atomic_int`|`_Atomic int`|
-|`atomic_uint`|`_Atomic unsigned int`|
-|`atomic_long`|`_Atomic long`|
-|`atomic_ulong`|`_Atomic unsigned long`|
-|`atomic_llong`|`_Atomic long long`|
-|`atomic_ullong`|`_Atomic unsigned long long`|
-|`atomic_char16_t`|`_Atomic char16_t`|
-|`atomic_char32_t`|`_Atomic char32_t`|
-|`atomic_wchar_t`|`_Atomic wchar_t`|
-|`atomic_int_least8_t`|`_Atomic int_least8_t`|
-|`atomic_uint_least8_t`|`_Atomic uint_least8_t`|
-|`atomic_int_least16_t`|`_Atomic int_least16_t`|
-|`atomic_uint_least16_t`|`_Atomic uint_least16_t`|
-|`atomic_int_least32_t`|`_Atomic int_least32_t`|
-|`atomic_uint_least32_t`|`_Atomic uint_least32_t`|
-|`atomic_int_least64_t`|`_Atomic int_least64_t`|
-|`atomic_uint_least64_t`|`_Atomic uint_least64_t`|
-|`atomic_int_fast8_t`|`_Atomic int_fast8_t`|
-|`atomic_uint_fast8_t`|`_Atomic uint_fast8_t`|
-|`atomic_int_fast16_t`|`_Atomic int_fast16_t`|
-|`atomic_uint_fast16_t`|`_Atomic uint_fast16_t`|
-|`atomic_int_fast32_t`|`_Atomic int_fast32_t`|
-|`atomic_uint_fast32_t`|`_Atomic uint_fast32_t`|
-|`atomic_int_fast64_t`|`_Atomic int_fast64_t`|
-|`atomic_uint_fast64_t`|`_Atomic uint_fast64_t`|
-|`atomic_intptr_t`|`_Atomic intptr_t`|
-|`atomic_uintptr_t`|`_Atomic uintptr_t`|
-|`atomic_size_t`|`_Atomic size_t`|
-|`atomic_ptrdiff_t`|`_Atomic ptrdiff_t`|
-|`atomic_intmax_t`|`_Atomic intmax_t`|
-|`atomic_uintmax_t`|`_Atomic uintmax_t`|
+|[i[`atomic_bool` type]i]`atomic_bool`|`_Atomic _Bool`|
+|[i[`atomic_char` type]i]`atomic_char`|`_Atomic char`|
+|[i[`atomic_schar` type]i]`atomic_schar`|`_Atomic signed char`|
+|[i[`atomic_uchar` type]i]`atomic_uchar`|`_Atomic unsigned char`|
+|[i[`atomic_short` type]i]`atomic_short`|`_Atomic short`|
+|[i[`atomic_ushort` type]i]`atomic_ushort`|`_Atomic unsigned short`|
+|[i[`atomic_int` type]i]`atomic_int`|`_Atomic int`|
+|[i[`atomic_uint` type]i]`atomic_uint`|`_Atomic unsigned int`|
+|[i[`atomic_long` type]i]`atomic_long`|`_Atomic long`|
+|[i[`atomic_ulong` type]i]`atomic_ulong`|`_Atomic unsigned long`|
+|[i[`atomic_llong` type]i]`atomic_llong`|`_Atomic long long`|
+|[i[`atomic_ullong` type]i]`atomic_ullong`|`_Atomic unsigned long long`|
+|[i[`atomic_char16_t` type]i]`atomic_char16_t`|`_Atomic char16_t`|
+|[i[`atomic_char32_t` type]i]`atomic_char32_t`|`_Atomic char32_t`|
+|[i[`atomic_wchar_t` type]i]`atomic_wchar_t`|`_Atomic wchar_t`|
+|[i[`atomic_int_least8_t` type]i]`atomic_int_least8_t`|`_Atomic int_least8_t`|
+|[i[`atomic_uint_least8_t` type]i]`atomic_uint_least8_t`|`_Atomic uint_least8_t`|
+|[i[`atomic_int_least16_t` type]i]`atomic_int_least16_t`|`_Atomic int_least16_t`|
+|[i[`atomic_uint_least16_t` type]i]`atomic_uint_least16_t`|`_Atomic uint_least16_t`|
+|[i[`atomic_int_least32_t` type]i]`atomic_int_least32_t`|`_Atomic int_least32_t`|
+|[i[`atomic_uint_least32_t` type]i]`atomic_uint_least32_t`|`_Atomic uint_least32_t`|
+|[i[`atomic_int_least64_t` type]i]`atomic_int_least64_t`|`_Atomic int_least64_t`|
+|[i[`atomic_uint_least64_t` type]i]`atomic_uint_least64_t`|`_Atomic uint_least64_t`|
+|[i[`atomic_int_fast8_t` type]i]`atomic_int_fast8_t`|`_Atomic int_fast8_t`|
+|[i[`atomic_uint_fast8_t` type]i]`atomic_uint_fast8_t`|`_Atomic uint_fast8_t`|
+|[i[`atomic_int_fast16_t` type]i]`atomic_int_fast16_t`|`_Atomic int_fast16_t`|
+|[i[`atomic_uint_fast16_t` type]i]`atomic_uint_fast16_t`|`_Atomic uint_fast16_t`|
+|[i[`atomic_int_fast32_t` type]i]`atomic_int_fast32_t`|`_Atomic int_fast32_t`|
+|[i[`atomic_uint_fast32_t` type]i]`atomic_uint_fast32_t`|`_Atomic uint_fast32_t`|
+|[i[`atomic_int_fast64_t` type]i]`atomic_int_fast64_t`|`_Atomic int_fast64_t`|
+|[i[`atomic_uint_fast64_t` type]i]`atomic_uint_fast64_t`|`_Atomic uint_fast64_t`|
+|[i[`atomic_intptr_t` type]i]`atomic_intptr_t`|`_Atomic intptr_t`|
+|[i[`atomic_uintptr_t` type]i]`atomic_uintptr_t`|`_Atomic uintptr_t`|
+|[i[`atomic_size_t` type]i]`atomic_size_t`|`_Atomic size_t`|
+|[i[`atomic_ptrdiff_t` type]i]`atomic_ptrdiff_t`|`_Atomic ptrdiff_t`|
+|[i[`atomic_intmax_t` type]i]`atomic_intmax_t`|`_Atomic intmax_t`|
+|[i[`atomic_uintmax_t` type]i]`atomic_uintmax_t`|`_Atomic uintmax_t`|
 
-You can make your own additional types with the `_Atomic` type
-qualifier:
+You can make your own additional types with the [i[`_Atomic` type
+qualifier]i] `_Atomic` type qualifier:
 
 ``` {.c}
 _Atomic double x;
 ```
 
-or the `_Atomic()` type specifier:
+or the [i[`_Atomic()` type specifier]i] `_Atomic()` type specifier:
 
 ``` {.c}
 _Atomic(double) x;
@@ -107,16 +109,16 @@ and unsigned types.
 
 |Atomic Type|Lock Free Macro|
 |-|-|
-|`atomic_bool`|`ATOMIC_BOOL_LOCK_FREE`|
-|`atomic_char`|`ATOMIC_CHAR_LOCK_FREE`|
-|`atomic_char16_t`|`ATOMIC_CHAR16_T_LOCK_FREE`|
-|`atomic_char32_t`|`ATOMIC_CHAR32_T_LOCK_FREE`|
-|`atomic_wchar_t`|`ATOMIC_WCHAR_T_LOCK_FREE`|
-|`atomic_short`|`ATOMIC_SHORT_LOCK_FREE`|
-|`atomic_int`|`ATOMIC_INT_LOCK_FREE`|
-|`atomic_long`|`ATOMIC_LONG_LOCK_FREE`|
-|`atomic_llong`|`ATOMIC_LLONG_LOCK_FREE`|
-|`atomic_intptr_t`|`ATOMIC_POINTER_LOCK_FREE`|
+|`atomic_bool`|[i[`ATOMIC_BOOL_LOCK_FREE` macro]i]`ATOMIC_BOOL_LOCK_FREE`|
+|`atomic_char`|[i[`ATOMIC_CHAR_LOCK_FREE` macro]i]`ATOMIC_CHAR_LOCK_FREE`|
+|`atomic_char16_t`|[i[`ATOMIC_CHAR16_T_LOCK_FREE` macro]i]`ATOMIC_CHAR16_T_LOCK_FREE`|
+|`atomic_char32_t`|[i[`ATOMIC_CHAR32_T_LOCK_FREE` macro]i]`ATOMIC_CHAR32_T_LOCK_FREE`|
+|`atomic_wchar_t`|[i[`ATOMIC_WCHAR_T_LOCK_FREE` macro]i]`ATOMIC_WCHAR_T_LOCK_FREE`|
+|`atomic_short`|[i[`ATOMIC_SHORT_LOCK_FREE` macro]i]`ATOMIC_SHORT_LOCK_FREE`|
+|`atomic_int`|[i[`ATOMIC_INT_LOCK_FREE` macro]i]`ATOMIC_INT_LOCK_FREE`|
+|`atomic_long`|[i[`ATOMIC_LONG_LOCK_FREE` macro]i]`ATOMIC_LONG_LOCK_FREE`|
+|`atomic_llong`|[i[`ATOMIC_LLONG_LOCK_FREE` macro]i]`ATOMIC_LLONG_LOCK_FREE`|
+|`atomic_intptr_t`|[i[`ATOMIC_POINTER_LOCK_FREE` macro]i]`ATOMIC_POINTER_LOCK_FREE`|
 
 These macros can interestingly have _three_ different values:
 
@@ -131,8 +133,9 @@ at compile-time.
 
 ## Atomic Flag
 
-The `atomic_flag` opaque type is the only time guaranteed to be
-lock-free. Though your PC implementation probably does a lot more.
+The [i[`atomic_flag` type]i] `atomic_flag` opaque type is the only time
+guaranteed to be lock-free. Though your PC implementation probably does
+a lot more.
 
 It is accessed through the
 [`atomic_flag_test_and_set()`](#man-atomic_flag_test_and_set) and
@@ -152,12 +155,12 @@ sequential consistency.
 
 |`memory_order`|Description|
 |-|-|
-|`memory_order_seq_cst`|Sequential Consistency|
-|`memory_order_acq_rel`|Acquire/Release|
-|`memory_order_release`|Release|
-|`memory_order_acquire`|Acquire|
-|`memory_order_consume`|Consume|
-|`memory_order_relaxed`|Relaxed|
+|[i[`memory_order_seq_cst` enumerated type]i]`memory_order_seq_cst`|Sequential Consistency|
+|[i[`memory_order_acq_rel` enumerated type]i]`memory_order_acq_rel`|Acquire/Release|
+|[i[`memory_order_release` enumerated type]i]`memory_order_release`|Release|
+|[i[`memory_order_acquire` enumerated type]i]`memory_order_acquire`|Acquire|
+|[i[`memory_order_consume` enumerated type]i]`memory_order_consume`|Consume|
+|[i[`memory_order_relaxed` enumerated type]i]`memory_order_relaxed`|Relaxed|
 
 You can feed these into atomic functions with the `_explicit` suffix.
 
@@ -166,6 +169,8 @@ called the `_explicit` counterpart with `memory_order_seq_cst`.
 
 [[manbreak]]
 ## `ATOMIC_VAR_INIT()` {#man-ATOMIC_VAR_INIT}
+
+[i[`ATOMIC_VAR_INIT()` macro]i]
 
 Create an initializer for an atomic variable
 
@@ -220,6 +225,8 @@ int main(void)
 [[manbreak]]
 ## `atomic_init()` {#man-atomic_init}
 
+[i[`atomic_init()` function]i]
+
 Initialize an atomic variable
 
 ### Synopsis {.unnumbered .unlisted}
@@ -272,6 +279,8 @@ int main(void)
 
 [[manbreak]]
 ## `kill_dependency()` {#man-kill_dependency}
+
+[i[`kill_dependency()` function]i]
 
 End a dependency chain
 
@@ -327,6 +336,8 @@ int main(void)
 
 [[manbreak]]
 ## `atomic_thread_fence()` {#man-atomic_thread_fence}
+
+[i[`atomic_thread_fence()` function]i]
 
 Set up a fence
 
@@ -422,6 +433,8 @@ int main(void)
 [[manbreak]]
 ## `atomic_signal_fence()` {#man-atomic_signal_fence}
 
+[i[`atomic_signal_fence()` function]i]
+
 Fence for intra-thread signal handlers
 
 ### Synopsis {.unnumbered .unlisted}
@@ -491,6 +504,8 @@ int main(void)
 
 [[manbreak]]
 ## `atomic_is_lock_free()` {#man-atomic_is_lock_free}
+
+[i[`atomic_is_lock_free()` function]i]
 
 Determine if an atomic type is lock free
 
@@ -563,6 +578,8 @@ c is lock-free: 0
 
 [[manbreak]]
 ## `atomic_store()` {#man-atomic_store}
+
+[i[`atomic_store()` function]i]
 
 Store a value in an atomic variable
 
@@ -641,6 +658,8 @@ int main(void)
 [[manbreak]]
 ## `atomic_load()` {#man-atomic_load}
 
+[i[`atomic_load()` function]i]
+
 Return a value from an atomic variable
 
 ### Synopsis {.unnumbered .unlisted}
@@ -694,6 +713,8 @@ int main(void)
 
 [[manbreak]]
 ## `atomic_exchange()` {#man-atomic_exchange}
+
+[i[`atomic_exchange()` function]i]
 
 Replace a value in an atomic object
 
@@ -761,6 +782,8 @@ x was 10
 
 [[manbreak]]
 ## `atomic_compare_exchange_*()` {#man-atomic_compare_exchange}
+
+[i[`atomic_compare_exchange_*()` function]i]
 
 Atomic compare and exchange
 
@@ -903,6 +926,8 @@ Just replacing this with `value = value + 2` causes data trampling.
 [[manbreak]]
 ## `atomic_fetch_*()` {#man-atomic_fetch}
 
+[i[`atomic_fetch_*()` function]i]
+
 Atomically modify atomic variables
 
 ### Synopsis {.unnumbered .unlisted}
@@ -1011,6 +1036,8 @@ int main(void)
 [[manbreak]]
 ## `atomic_flag_test_and_set()` {#man-atomic_flag_test_and_set}
 
+[i[`atomic_flag_test_and_set()` function]i]
+
 Test and set an atomic flag
 
 ### Synopsis {.unnumbered .unlisted}
@@ -1108,6 +1135,8 @@ Thread 1: releasing lock...
 
 [[manbreak]]
 ## `atomic_flag_clear()` {#man-atomic_flag_clear}
+
+[i[`atomic_flag_clear()` function]i]
 
 Clear an atomic flag
 

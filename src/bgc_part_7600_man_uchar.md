@@ -23,10 +23,10 @@ This header file defines four types.
 
 |Type|Description|
 |------|----------------------|
-|`char16_t`|Type to hold 16-bit characters|
-|`char32_t`|Type to hold 32-bit characters|
-|`mbstate_t`|Holds the conversion state for restartable funcitons (also defined in [`<wchar.h>`](#wchar))|
-|`size_t`|To hold various counts (also defined in [`<stddef.h>`](#stddef))|
+|[i[`char16_t` type]i]`char16_t`|Type to hold 16-bit characters|
+|[i[`char32_t` type]i]`char32_t`|Type to hold 32-bit characters|
+|[i[`mbstate_t` type]i]`mbstate_t`|Holds the conversion state for restartable funcitons (also defined in [`<wchar.h>`](#wchar))|
+|[i[`size_t` type]i]`size_t`|To hold various counts (also defined in [`<stddef.h>`](#stddef))|
 
 String literals for the character types are `u` for `char16_t` and `U`
 for `char32_t`.
@@ -61,6 +61,9 @@ But if you also want the functions, that's all on you.
 
 [[manbreak]]
 ## `mbrtoc16()` `mbrtoc32()` {#man-mbrtoc16}
+
+[i[`mbrtoc16()` function]i]
+[i[`mbrtoc32()` function]i]
 
 Convert a multibyte character to a `char16_t` or `char32_t` restartably
 
@@ -243,6 +246,9 @@ the pair `(0xd83e, 0xdfc5)` and the second character is represented by
 
 [[manbreak]]
 ## `c16rtomb()` `c32rtomb()` {#man-c16rtomb}
+
+[i[`c16rtomb()` function]i]
+[i[`c32rtomb()` function]i]
 
 Convert a `char16_t` or `char32_t` to a multibyte character restartably
 

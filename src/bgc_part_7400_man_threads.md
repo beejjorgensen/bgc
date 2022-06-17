@@ -6,6 +6,8 @@
 
 # `<threads.h>` Multithreading Functions {#threads}
 
+[i[`threads.h` header file]i]
+
 |Function|Description|
 |-|-|
 |[`call_once()`](#man-call_once)|Call a function one time no matter how many threads try|
@@ -45,6 +47,8 @@ Enjoy!
 
 [[manbreak]]
 ## `call_once()` {#man-call_once}
+
+[i[`call_once()` function]i]
 
 Call a function one time no matter how many threads try
 
@@ -135,6 +139,8 @@ Thread running!
 
 [[manbreak]]
 ## `cnd_broadcast()` {#man-cnd_broadcast}
+
+[i[`cnd_broadcast()` function]i]
 
 Wake up all threads waiting on a condition variable
 
@@ -308,6 +314,8 @@ the next thread to run.
 [[manbreak]]
 ## `cnd_destroy()` {#man-cnd_destroy}
 
+[i[`cnd_destroy()` function]i]
+
 Free up resources from a condition variable
 
 ### Synopsis {.unnumbered .unlisted}
@@ -394,6 +402,8 @@ Thread: running again!
 
 [[manbreak]]
 ## `cnd_init()` {#man-cnd_init}
+
+[i[`cnd_init()` function]i]
 
 Initialize a condition variable to make it ready for use
 
@@ -485,6 +495,8 @@ Thread: running again!
 
 [[manbreak]]
 ## `cnd_signal()` {#man-cnd_signal}
+
+[i[`cnd_signal()` function]i]
 
 Wake up a thread waiting on a condition variable
 
@@ -578,6 +590,8 @@ Thread: running again!
 
 [[manbreak]]
 ## `cnd_timedwait()` {#man-cnd_timedwait}
+
+[i[`cnd_timedwait()` function]i]
 
 Wait on a condition variable with a timeout
 
@@ -707,6 +721,8 @@ Thread: timed out!
 [[manbreak]]
 ## `cnd_wait()` {#man-cnd_wait}
 
+[i[`cnd_wait()` function]i]
+
 Wait for a signal on a condition variable
 
 ### Synopsis {.unnumbered .unlisted}
@@ -796,6 +812,8 @@ Thread: running again!
 [[manbreak]]
 ## `mtx_destroy()` {#man-mtx_destroy}
 
+[i[`mtx_destroy()` function]i]
+
 Cleanup a mutex when done with it
 
 ### Synopsis {.unnumbered .unlisted}
@@ -879,6 +897,8 @@ Thread: I got 4!
 
 [[manbreak]]
 ## `mtx_init()` {#man-mtx_init}
+
+[i[`mtx_init()` function]i]
 
 Initialize a mutex for use
 
@@ -987,6 +1007,8 @@ Thread: I got 4!
 [[manbreak]]
 ## `mtx_lock()` {#man-mtx_lock}
 
+[i[`mtx_lock()` function]i]
+
 Acquire a lock on a mutex
 
 ### Synopsis {.unnumbered .unlisted}
@@ -1077,6 +1099,8 @@ Thread: I got 4!
 
 [[manbreak]]
 ## `mtx_timedlock()` {#man-mtx_timedlock}
+
+[i[`mtx_timedlock()` function]i]
 
 Lock a mutex allowing for timeout
 
@@ -1200,6 +1224,8 @@ Thread: timed out!
 [[manbreak]]
 ## `mtx_trylock()` {#man-mtx_trylock}
 
+[i[`mtx_trylock()` function]i]
+
 Try to lock a mutex, returning if not possible
 
 ### Synopsis {.unnumbered .unlisted}
@@ -1300,6 +1326,8 @@ Thread 2: lock already taken :(
 [[manbreak]]
 ## `mtx_unlock()` {#man-mtx_unlock}
 
+[i[`mtx_unlock()` function]i]
+
 Free a mutex when you're done with the critical section
 
 ### Synopsis {.unnumbered .unlisted}
@@ -1385,6 +1413,8 @@ Thread: I got 4!
 
 [[manbreak]]
 ## `thrd_create()` {#man-thrd_create}
+
+[i[`thrd_create()` function]i]
 
 Create a new thread of execution
 
@@ -1496,6 +1526,8 @@ Main: thread 4 exited with code 4
 [[manbreak]]
 ## `thrd_current()` {#man-thrd_current}
 
+[i[`thrd_current()` function]i]
+
 Get the ID of the calling thread
 
 ### Synopsis {.unnumbered .unlisted}
@@ -1598,6 +1630,8 @@ I'm not the first!
 [[manbreak]]
 ## `thrd_detach()` {#man-thrd_detach}
 
+[i[`thrd_detach()` function]i]
+
 Automatically clean up threads when they exit
 
 ### Synopsis {.unnumbered .unlisted}
@@ -1666,6 +1700,8 @@ int main(void)
 
 [[manbreak]]
 ## `thrd_equal()` {#man-thrd_equal}
+
+[i[`thrd_equal()` function]i]
 
 Compare two thread descriptors for equality
 
@@ -1741,6 +1777,8 @@ I'm not the first!
 
 [[manbreak]]
 ## `thrd_exit()` {#man-thrd_exit}
+
+[i[`thrd_exit()` function]i]
 
 Stop and exit this thread
 
@@ -1834,6 +1872,8 @@ Thread 4 exited with code 0
 
 [[manbreak]]
 ## `thrd_join()` {#man-thrd_join}
+
+[i[`thrd_join()` function]i]
 
 Wait for a thread to exit
 
@@ -1974,6 +2014,8 @@ int main(void)
 [[manbreak]]
 ## `thrd_yield()` {#man-thrd_yield}
 
+[i[`thrd_yield()` function]i]
+
 Stop running that other threads might run
 
 ### Synopsis {.unnumbered .unlisted}
@@ -2078,6 +2120,8 @@ Other thread running!
 
 [[manbreak]]
 ## `tss_create()` {#man-tss_create}
+
+[i[`tss_create()` function]i]
 
 Create new thread-specific storage
 
@@ -2214,6 +2258,8 @@ TSS string: thread 14! :)
 [[manbreak]]
 ## `tss_delete()` {#man-tss_delete}
 
+[i[`tss_delete()` function]i]
+
 Clean up a thread-specific storage variable
 
 ### Synopsis {.unnumbered .unlisted}
@@ -2330,6 +2376,8 @@ TSS string: thread 14! :)
 [[manbreak]]
 ## `tss_get()` {#man-tss_get}
 
+[i[`tss_get()` function]i]
+
 Get thread-specific data
 
 ### Synopsis {.unnumbered .unlisted}
@@ -2442,6 +2490,8 @@ TSS string: thread 14! :)
 
 [[manbreak]]
 ## `tss_set()` {#man-tss_set}
+
+[i[`tss_set()` function]i]
 
 Set thread-specific data
 

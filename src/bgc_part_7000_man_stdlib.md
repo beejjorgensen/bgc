@@ -5,6 +5,8 @@
 
 # `<stdlib.h>` Standard Library Functions {#stdlib}
 
+[i[`stdlib.h` header file]i]
+
 Some of the following functions have variants that handle different
 types: `atoi()`, `strtod()`, `strtol()`, `abs()`, and `div()`. Only a
 single one is listed here for brevity.
@@ -63,21 +65,21 @@ also be defined elsewhere:
 
 |Type|Description|
 |-|-|
-|`size_t`|Returned from `sizeof` and used elsewhere
-|`wchar_t`|For wide character operations
-|`div_t`|For the `div()` function|
-|`ldiv_t`|For the `ldiv()` function|
-|`lldiv_t`|for the `lldiv()` function|
+|[i[`size_t` type]i]`size_t`|Returned from `sizeof` and used elsewhere
+|[i[`wchar_t` type]i]`wchar_t`|For wide character operations
+|[i[`div_t` type]i]`div_t`|For the `div()` function|
+|[i[`ldiv_t` type]i]`ldiv_t`|For the `ldiv()` function|
+|[i[`lldiv_t` type]i]`lldiv_t`|for the `lldiv()` function|
 
 And some macros:
 
 |Type|Description|
 |-|-|
-|`NULL`|Our good pointer friend|
-|`EXIT_SUCCESS`|Good exit status when things go well|
-|`EXIT_FAILURE`|Good exit status when things go poorly|
-|`RAND_MAX`|The maximum value that can be returned by the `rand()` function|
-|`MB_CUR_MAX`|Maximum number of bytes in a multibyte character in the current locale|
+|[i[`NULL` macro]i]`NULL`|Our good pointer friend|
+|[i[`EXIT_SUCCESS` macro]i]`EXIT_SUCCESS`|Good exit status when things go well|
+|[i[`EXIT_FAILURE` macro]i]`EXIT_FAILURE`|Good exit status when things go poorly|
+|[i[`RAND_MAX` macro]i]`RAND_MAX`|The maximum value that can be returned by the `rand()` function|
+|[i[`MB_CUR_MAX` macro]i]`MB_CUR_MAX`|Maximum number of bytes in a multibyte character in the current locale|
 
 And there you have it. Just a lot of fun, useful functions in here.
 Let's check 'em out!
@@ -85,6 +87,8 @@ Let's check 'em out!
 
 [[manbreak]]
 ## `atof()` {#man-atof}
+
+[i[`atof()` function]i]
 
 Convert a string to a floating point value
 
@@ -144,6 +148,10 @@ int main(void)
 
 [[manbreak]]
 ## `atoi()`, `atol()`, `atoll()` {#man-atoi}
+
+[i[`atoi()` function]i]
+[i[`atol()` function]i]
+[i[`atoll()` function]i]
 
 Convert an integer in a string into a integer type
 
@@ -213,6 +221,10 @@ int main(void)
 
 [[manbreak]]
 ## `strtod()`, `strtof()`, `strtold()` {#man-strtod}
+
+[i[`strtod()` function]i]
+[i[`strtof()` function]i]
+[i[`strtold()` function]i]
 
 Convert a string to a floating point number
 
@@ -346,6 +358,11 @@ No bad chars: 11.223300
 [[manbreak]]
 ## `strtol()`, `strtoll()`, `strtoul()`, `strtoull()` {#man-strtol}
 
+[i[`strtol()` function]i]
+[i[`strtoll()` function]i]
+[i[`strtoul()` function]i]
+[i[`strtoull()` function]i]
+
 Convert a string to an integer
 
 ### Synopsis {.unnumbered .unlisted}
@@ -470,6 +487,8 @@ Bad chars at "beej"
 [[manbreak]]
 ## `rand()` {#man-rand}
 
+[i[`rand()` function]i]
+
 Return a pseudorandom number
 
 ### Synopsis {.unnumbered .unlisted}
@@ -584,6 +603,8 @@ int main(void)
 [[manbreak]]
 ## `srand()` {#man-srand}
 
+[i[`srand()` function]i]
+
 Seed the built-in pseudorandom number generator
 
 ### Synopsis {.unnumbered .unlisted}
@@ -684,6 +705,8 @@ Output from a subsequent run:
 [[manbreak]]
 ## `aligned_alloc()` {#man-aligned_alloc}
 
+[i[`aligned_alloc()` function]i]
+
 Allocate specifically-aligned memory
 
 ### Synopsis {.unnumbered .unlisted}
@@ -755,6 +778,9 @@ int main(void)
 
 [[manbreak]]
 ## `calloc()`, `malloc()` {#man-malloc}
+
+[i[`calloc()` function]i]
+[i[`malloc()` function]i]
 
 Allocate memory for arbitrary use
 
@@ -838,6 +864,8 @@ int main(void)
 [[manbreak]]
 ## `free()` {#man-free}
 
+[i[`free()` function]i]
+
 Free a memory region
 
 ### Synopsis {.unnumbered .unlisted}
@@ -896,6 +924,8 @@ int main(void)
 
 [[manbreak]]
 ## `realloc()` {#man-realloc}
+
+[i[`realloc()` function]i]
 
 Resize a previously allocated stretch of memory
 
@@ -972,6 +1002,8 @@ int main(void)
 [[manbreak]]
 ## `abort()` {#man-abort}
 
+[i[`abort()` function]i]
+
 Abruptly end program execution
 
 ### Synopsis {.unnumbered .unlisted}
@@ -1036,6 +1068,9 @@ zsh: abort (core dumped)  ./foo
 
 [[manbreak]]
 ## `atexit()`, `at_quick_exit()` {#man-atexit}
+
+[i[`atexit()` function]i]
+[i[`at_quick_exit()` function]i]
 
 Set up handlers to run when the program exits
 
@@ -1150,6 +1185,10 @@ int main(void)
 [[manbreak]]
 ## `exit()`, `quick_exit()`, `_Exit()` {#man-exit}
 
+[i[`exit()` function]i]
+[i[`quick_exit()` function]i]
+[i[`_Exit()` function]i]
+
 Exit the currently-running program
 
 ### Synopsis {.unnumbered .unlisted}
@@ -1233,6 +1272,8 @@ int main(void)
 [[manbreak]]
 ## `getenv()` {#man-getenv}
 
+[i[`getenv()` function]i]
+
 Get the value of an environment variable
 
 ### Synopsis {.unnumbered .unlisted}
@@ -1289,6 +1330,8 @@ PATH is /usr/bin:/usr/local/bin:/usr/sbin:/home/beej/.cargo/bin [...]
 
 [[manbreak]]
 ## `system()` {#man-system}
+
+[i[`system()` function]i]
 
 Run an external program
 
@@ -1368,6 +1411,8 @@ All done!
 
 [[manbreak]]
 ## `bsearch()` {#man-bsearch}
+
+[i[`bsearch()` function]i]
 
 Binary Search (maybe) an array of objects
 
@@ -1474,6 +1519,8 @@ Found 32
 
 [[manbreak]]
 ## `qsort()` {#man-qsort}
+
+[i[`qsort()` function]i]
 
 Quicksort (maybe) some data
 
@@ -1582,6 +1629,10 @@ Found 17!
 [[manbreak]]
 ## `abs()`, `labs()`, `llabs()` {#man-abs}
 
+[i[`abs()` function]i]
+[i[`labs()` function]i]
+[i[`llabs()` function]i]
+
 Compute the absolute value of an integer
 
 ### Synopsis {.unnumbered .unlisted}
@@ -1638,6 +1689,10 @@ Output:
 
 [[manbreak]]
 ## `div()`, `ldiv()`, `lldiv()` {#man-div}
+
+[i[`div()` function]i]
+[i[`ldiv()` function]i]
+[i[`lldiv()` function]i]
 
 Compute the quotient and remainder of two numbers
  
@@ -1746,6 +1801,8 @@ Output:
 [[manbreak]]
 ## `mblen()` {#man-mblen}
 
+[i[`mblen()` function]i]
+
 Return the number of bytes in a multibyte character
 
 ### Synopsis {.unnumbered .unlisted}
@@ -1816,6 +1873,8 @@ Bytes for &: 1
 
 [[manbreak]]
 ## `mbtowc()` {#man-mbtowc}
+
+[i[`mbtowc()` function]i]
 
 Convert a multibyte character to a wide character
 
@@ -1890,6 +1949,8 @@ L'€' takes 3 bytes as multibyte char '€'
 
 [[manbreak]]
 ## `wctomb()` {#man-wctomb}
+
+[i[`wctomb()` function]i]
 
 Convert a wide character to a multibyte character
 
@@ -1968,6 +2029,8 @@ L'€' takes 3 bytes as multibyte char '€'
 
 [[manbreak]]
 ## `mbstowcs()` {#man-mbstowcs}
+
+[i[`mbstowcs()` function]i]
 
 Convert a multibyte string to a wide character string
 
@@ -2069,6 +2132,8 @@ Byte count   : 16
 
 [[manbreak]]
 ## `wcstombs()` {#man-wcstombs}
+
+[i[`wcstombs()` function]i]
 
 Convert a wide character string to a multibyte string
 

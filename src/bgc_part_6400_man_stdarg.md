@@ -5,6 +5,8 @@
 
 # `<stdarg.h>` Variable Arguments {#stdarg}
 
+[i[`stdarg.h` header file]i]
+
 |Macro|Description|
 |--------|----------------------|
 |[`va_arg()`](#man-va_arg)|Get the next variable argument|
@@ -16,15 +18,17 @@ This header file is what allows you to write functions that take a
 variable number of arguments.
 
 In addition to the macros, you get a new type that helps C keep track of
-where it is in the variable-number-of-arguments-processing: `va_list`.
-This type is opaque, and you'll be passing it around to the various
-macros to help get at the arguments.
+where it is in the variable-number-of-arguments-processing: [i[`va_list`
+type]i] `va_list`. This type is opaque, and you'll be passing it around
+to the various macros to help get at the arguments.
 
 Note that every variadic function requires at least one non-variable
 parameter. You need this to kick off processing with `va_start()`.
 
 [[manbreak]]
 ## `va_arg()` {#man-va_arg}
+
+[i[`va_arg()` macro]i]
 
 Get the next variable argument
 
@@ -93,6 +97,8 @@ int main(void)
 
 [[manbreak]]
 ## `va_copy()` {#man-va_copy}
+
+[i[`va_copy()` macro]i]
 
 Copy a `va_list` and the work done so far
 
@@ -214,6 +220,8 @@ int main(void)
 [[manbreak]]
 ## `va_end()` {#man-va_end}
 
+[i[`va_end()` macro]i]
+
 Signify we're done processing variable arguments
 
 ### Synopsis {.unnumbered .unlisted}
@@ -283,6 +291,8 @@ int main(void)
 
 [[manbreak]]
 ## `va_start()` {#man-va_start}
+
+[i[`va_start()` macro]i]
 
 Initialize a `va_list` to start variable argument processing
 

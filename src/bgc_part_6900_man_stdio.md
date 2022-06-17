@@ -5,6 +5,8 @@
 
 # `<stdio.h>` Standard I/O Library {#stdio}
 
+[i[`stdio.h` header file]i]
+
 |Function|Description|
 |-|-|
 |[`clearerr()`](#man-feof)|Clear the `feof` and `ferror` status flags|
@@ -73,9 +75,9 @@ Anyway, so we can do all kinds of cool stuff in terms of file I/O. LIE
 DETECTED. Ok, ok. We can do all kinds of stuff in terms of file I/O.
 Basically, the strategy is this:
 
-1. Use `fopen()` to get a pointer to a file structure of type `FILE*`.
-   This pointer is what you'll be passing to many of the other file I/O
-   calls.
+1. Use `fopen()` to get a pointer to a file structure of type [i[`FILE*`
+   type]i] `FILE*`. This pointer is what you'll be passing to many of
+   the other file I/O calls.
 
 2. Use some of the other file calls, like `fscanf()`, `fgets()`,
    `fprintf()`, or etc. using the `FILE*` returned from `fopen()`.
@@ -117,9 +119,9 @@ That's jumping the gun a bit---let's just look at them:
 
 |Stream|Description|
 |-|-|
-|`stdin`|Input from the console.|
-|`stdout`|Output to the console.|
-|`stderr`|Output to the console on the error file stream.|
+|[i[`stdin` standard input]i]`stdin`|Input from the console.|
+|[i[`stdout` standard output]i]`stdout`|Output to the console.|
+|[i[`stderr` standard error]i]`stderr`|Output to the console on the error file stream.|
 
 So standard input (`stdin`) is by default just what you type at the
 keyboard. You can use that in `fscanf()` if you want, just like this:
@@ -157,6 +159,8 @@ get `EOF` as a return value, you can safely store the result in a
 [[manbreak]]
 
 ## `remove()` {#man-remove}
+
+[i[`remove()` function]i]
 
 Delete a file
 
@@ -197,6 +201,8 @@ int main(void)
 
 [[manbreak]]
 ## `rename()` {#man-rename}
+
+[i[`rename()` function]i]
 
 Renames a file and optionally moves it to a new location
 
@@ -245,6 +251,8 @@ int main(void)
 [[manbreak]]
 
 ## `tmpfile()` {#man-tmpfile}
+
+[i[`tmpfile()` function]i]
 
 Create a temporary file
 
@@ -307,6 +315,8 @@ int main(void)
 [[manbreak]]
 
 ## `tmpnam()` {#man-tmpnam}
+
+[i[`tmpnam()` function]i]
 
 Generate a unique name for a temporary file
 
@@ -415,6 +425,8 @@ And we didn't error check it because we're too lazy!
 
 ## `fclose()` {#man-fclose}
 
+[i[`fclose()` function]i]
+
 The opposite of `fopen()`---closes a file when you're done with it so
 that it frees system resources
 
@@ -475,6 +487,8 @@ int main(void)
 [[manbreak]]
 
 ## `fflush()` {#man-fflush}
+
+[i[`fflush()` function]i]
 
 Process all buffered I/O for a stream right now
 
@@ -568,6 +582,8 @@ int main(void)
 
 ## `fopen()` {#man-fopen}
 
+[i[`fopen()` function]i]
+
 Opens a file for reading or writing
 
 ### Synopsis {.unnumbered .unlisted}
@@ -649,6 +665,8 @@ int main(void)
 
 ## `freopen()` {#man-freopen}
 
+[i[`freopen()` function]i]
+
 Reopen an existing `FILE*`, associating it with a new path
 
 ### Synopsis {.unnumbered .unlisted}
@@ -722,6 +740,8 @@ int main(void)
 [[manbreak]]
 
 ## `setbuf()`, `setvbuf()` {#man-setbuf}
+
+[i[`setbuf()` function]i]
 
 Configure buffering for standard I/O operations
 
@@ -832,6 +852,11 @@ int main(void)
 [[manbreak]]
 
 ## `printf()`, `fprintf()`, `sprintf()`, `snprintf()` {#man-printf}
+
+[i[`printf()` function]i]
+[i[`fprintf()` function]i]
+[i[`sprintf()` function]i]
+[i[`snprintf()` function]i]
 
 Print a formatted string to the console or to a file
 
@@ -1276,6 +1301,10 @@ int main(void)
 
 ## `scanf()`, `fscanf()`, `sscanf()` {#man-scanf}
 
+[i[`scanf()` function]i]
+[i[`fscanf()` function]i]
+[i[`sscanf()` function]i]
+
 Read formatted string, character, or numeric data from the
 console or from a file
 
@@ -1612,6 +1641,11 @@ int main(void)
 [[manbreak]]
 ## `vprintf()`, `vfprintf()`, `vsprintf()`, `vsnprintf()` {#man-vprintf}
 
+[i[`vprintf()` function]i]
+[i[`vfprintf()` function]i]
+[i[`vsprintf()` function]i]
+[i[`vsnprintf()` function]i]
+
 `printf()` variants using variable argument lists (`va_list`)
 
 ### Synopsis {.unnumbered .unlisted}
@@ -1727,6 +1761,10 @@ Output:
 [[manbreak]]
 ## `vscanf()`, `vfscanf()`, `vsscanf()` {#man-vscanf}
 
+[i[`vscanf()` function]i]
+[i[`vfscanf()` function]i]
+[i[`vsscanf()` function]i]
+
 `scanf()` variants using variable argument lists (`va_list`)
 
 ### Synopsis {.unnumbered .unlisted}
@@ -1808,6 +1846,10 @@ int main(void)
 [[manbreak]]
 ## `getc()`, `fgetc()`, `getchar()` {#man-getc}
 
+[i[`getc()` function]i]
+[i[`fgetc()` function]i]
+[i[`getchar()` function]i]
+
 Get a single character from the console or from a file
 
 ### Synopsis {.unnumbered .unlisted}
@@ -1884,6 +1926,9 @@ int main(void)
 
 [[manbreak]]
 ## `gets()`, `fgets()` {#man-gets}
+
+[i[`gets()` function]i]
+[i[`fgets()` function]i]
 
 Read a string from console or file
 
@@ -2004,6 +2049,10 @@ int main(void)
 [[manbreak]]
 ## `putc()`, `fputc()`, `putchar()` {#man-putc}
 
+[i[`putc()` function]i]
+[i[`fputc()` function]i]
+[i[`putchar()` function]i]
+
 Write a single character to the console or to a file
 
 ### Synopsis {.unnumbered .unlisted}
@@ -2058,6 +2107,8 @@ int main(void)
 [[manbreak]]
 ## `puts()`, `fputs()` {#man-puts}
 
+[i[`puts()` function]i]
+
 Write a string to the console or to a file
 
 ### Synopsis {.unnumbered .unlisted}
@@ -2105,6 +2156,8 @@ int main(void)
 
 [[manbreak]]
 ## `ungetc()` {#man-ungetc}
+
+[i[`ungetc()` function]i]
 
 Pushes a character back into the input stream
 
@@ -2205,6 +2258,8 @@ Sample output:
 [[manbreak]]
 ## `fread()` {#man-fread}
 
+[i[`fread()` function]i]
+
 Read binary data from a file
 
 ### Synopsis {.unnumbered .unlisted}
@@ -2285,6 +2340,8 @@ int main(void)
 [[manbreak]]
 ## `fwrite()` {#man-fwrite}
 
+[i[`fwrite()` function]i]
+
 Write binary data to a file
 
 ### Synopsis {.unnumbered .unlisted}
@@ -2341,6 +2398,9 @@ int main(void)
 
 [[manbreak]]
 ## `fgetpos()`, `fsetpos()` {#man-fgetpos}
+
+[i[`fgetpos()` function]i]
+[i[`fsetpos()` function]i]
 
 Get the current position in a file, or set the current position in a
 file. Just like `ftell()` and `fseek()` for most systems
@@ -2414,6 +2474,9 @@ int main(void)
 
 [[manbreak]]
 ## `fseek()`, `rewind()` {#man-fseek}
+
+[i[`fseek()` function]i]
+[i[`rewind()` function]i]
 
 Position the file pointer in anticipition of the next read or write
 
@@ -2510,6 +2573,8 @@ int main(void)
 [[manbreak]]
 ## `ftell()` {#man-ftell}
 
+[i[`ftell()` function]i]
+
 Tells you where a particular file is about to read from or write to
 
 ### Synopsis {.unnumbered .unlisted}
@@ -2582,6 +2647,10 @@ int main(void)
 [[manbreak]]
 ## `feof()`, `ferror()`, `clearerr()` {#man-feof}
 
+[i[`feof()` function]i]
+[i[`ferror()` function]i]
+[i[`clearerr()` function]i]
+
 Determine if a file has reached end-of-file or if an error has occurred
 
 ### Synopsis {.unnumbered .unlisted}
@@ -2651,6 +2720,8 @@ int main(void)
 
 [[manbreak]]
 ## `perror()` {#man-perror}
+
+[i[`perror()` function]i]
 
 Print the last error message to `stderr`
 

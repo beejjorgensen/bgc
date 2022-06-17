@@ -5,6 +5,8 @@
 
 # `<stddef.h>` A Few Standard Definitions {#stddef}
 
+[i[`stddef.h` header file]i]
+
 Despite its name, I've haven't seen this frequently included.
 
 It includes several types and macros.
@@ -19,6 +21,8 @@ It includes several types and macros.
 |[`offsetof`](#man-offsetof)|Get the byte offsets of `struct` or `union` fields|
 
 ## `ptrdiff_t` {#man-ptrdiff_t}
+
+[i[`ptrdiff_t` type]i]
 
 This holds the different between two pointers. You could store this in
 another type, but the result of a pointer subtraction is an
@@ -49,6 +53,8 @@ And you can print it by prefixing the integer format specifier with `t`:
 ```
 
 ## `size_t` {#man-size_t}
+
+[i[`size_t` type]i]
 
 This is the type returned by `sizeof` and used in a few other places.
 It's an unsigned integer.
@@ -88,6 +94,8 @@ negative values, you can do it with `%zd`:
 
 ## `max_align_t` {#man-max_align_t}
 
+[i[`max_align_t` type]i]
+
 As far as I can tell, this exists to allow the runtime computation of
 the maximum fundamental [flw[alignment|Data_structure_alignment]] on the
 current platform. Someone please mail me if there's another use.
@@ -118,6 +126,8 @@ See also [`alignas`](#man-alignas), [`alignof`](#man-alignof).
 
 ## `wchar_t` {#man-wchar_t}
 
+[i[`wchar_t` type]i]
+
 This is analogous to `char`, except it's for [wide
 characters](#wide-characters).
 
@@ -131,6 +141,8 @@ set](#src-exec-charset) will be the same as their corresponding
 `wchar_t` values... unless `__STDC_MB_MIGHT_NEQ_WC__` is defined.
 
 ## `offsetof` {#man-offsetof}
+
+[i[`offsetof` operator]i]
 
 If you have a `struct` or `union`, you can use this to get the byte
 offset of fields within that type.

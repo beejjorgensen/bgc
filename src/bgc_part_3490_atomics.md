@@ -931,12 +931,12 @@ one of the bunch. But there are a number of other ones:
 
 |`memory_order`|Description|
 |-|-|
-|[i[`memory_order_seq_cst` macro]]`memory_order_seq_cst`|Sequential Consistency|
-|[i[`memory_order_acq_rel` macro]]`memory_order_acq_rel`|Acquire/Release|
-|[i[`memory_order_release` macro]]`memory_order_release`|Release|
-|[i[`memory_order_acquire` macro]]`memory_order_acquire`|Acquire|
-|[i[`memory_order_consume` macro]]`memory_order_consume`|Consume|
-|[i[`memory_order_relaxed` macro]]`memory_order_relaxed`|Relaxed|
+|[i[`memory_order_seq_cst` enumerated type]]`memory_order_seq_cst`|Sequential Consistency|
+|[i[`memory_order_acq_rel` enumerated type]]`memory_order_acq_rel`|Acquire/Release|
+|[i[`memory_order_release` enumerated type]]`memory_order_release`|Release|
+|[i[`memory_order_acquire` enumerated type]]`memory_order_acquire`|Acquire|
+|[i[`memory_order_consume` enumerated type]]`memory_order_consume`|Consume|
+|[i[`memory_order_relaxed` enumerated type]]`memory_order_relaxed`|Relaxed|
 
 You can specify other ones with certain library functions. For example,
 you can add a value to an atomic variable like this:

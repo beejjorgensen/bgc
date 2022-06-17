@@ -5,6 +5,8 @@
 
 # `<tgmath.h>` Type-Generic Math Functions {#tgmath}
 
+[i[`tgmath.h` header file]i]
+
 These are type-generic macros that are wrappers around the math
 functions in [`<math.h>`](#math) and [`<complex.h>`](#complex). This
 header includes both of those.
@@ -22,66 +24,66 @@ Real and Complex columns. None of the generic macros have type suffixes.
 
 |Real Function|Complex Function|Generic Macro|
 |-|-|-|
-|`acos`|`cacos`|`acos`|
-|`asin`|`casin`|`asin`|
-|`atan`|`catan`|`atan`|
-|`acosh`|`cacosh`|`acosh`|
-|`asinh`|`casinh`|`asinh`|
-|`atanh`|`catanh`|`atanh`|
-|`cos`|`ccos`|`cos`|
-|`sin`|`csin`|`sin`|
-|`tan`|`ctan`|`tan`|
-|`cosh`|`ccosh`|`cosh`|
-|`sinh`|`csinh`|`sinh`|
-|`tanh`|`ctanh`|`tanh`|
-|`exp`|`cexp`|`exp`|
-|`log`|`clog`|`log`|
-|`pow`|`cpow`|`pow`|
-|`sqrt`|`csqrt`|`sqrt`|
-|`fabs`|`cabs`|`fabs`|
-|`atan2`|---|`atan2`|
-|`fdim`|---|`fdim`|
-|`cbrt`|---|`cbrt`|
-|`floor`|---|`floor`|
-|`ceil`|---|`ceil`|
-|`fma`|---|`fma`|
-|`copysign`|---|`copysign`|
-|`fmax`|---|`fmax`|
-|`erf`|---|`erf`|
-|`fmin`|---|`fmin`|
-|`erfc`|---|`erfc`|
-|`fmod`|---|`fmod`|
-|`exp2`|---|`exp2`|
-|`frexp`|---|`frexp`|
-|`expm1`|---|`expm1`|
-|`hypot`|---|`hypot`|
-|`ilogb`|---|`ilogb`|
-|`ldexp`|---|`ldexp`|
-|`lgamma`|---|`lgamma`|
-|`llrint`|---|`llrint`|
-|`llround`|---|`llround`|
-|`log10`|---|`log10`|
-|`log1p`|---|`log1p`|
-|`log2`|---|`log2`|
-|`logb`|---|`logb`|
-|`lrint`|---|`lrint`|
-|`lround`|---|`lround`|
-|`nearbyint`|---|`nearbyint`|
-|`nextafter`|---|`nextafter`|
-|`nexttoward`|---|`nexttoward`|
-|`remainder`|---|`remainder`|
-|`remquo`|---|`remquo`|
-|`rint`|---|`rint`|
-|`round`|---|`round`|
-|`scalbn`|---|`scalbn`|
-|`scalbln`|---|`scalbln`|
-|`tgamma`|---|`tgamma`|
-|`trunc`|---|`trunc`|
-|---|`carg`|`carg`|
-|---|`cimag`|`cimag`|
-|---|`conj`|`conj`|
-|---|`cproj`|`cproj`|
-|---|`creal`|`creal`|
+|`acos`|`cacos`|[i[`acos()` function]i]`acos`|
+|`asin`|`casin`|[i[`asin()` function]i]`asin`|
+|`atan`|`catan`|[i[`atan()` function]i]`atan`|
+|`acosh`|`cacosh`|[i[`acosh()` function]i]`acosh`|
+|`asinh`|`casinh`|[i[`asinh()` function]i]`asinh`|
+|`atanh`|`catanh`|[i[`atanh()` function]i]`atanh`|
+|`cos`|`ccos`|[i[`cos()` function]i]`cos`|
+|`sin`|`csin`|[i[`sin()` function]i]`sin`|
+|`tan`|`ctan`|[i[`tan()` function]i]`tan`|
+|`cosh`|`ccosh`|[i[`cosh()` function]i]`cosh`|
+|`sinh`|`csinh`|[i[`sinh()` function]i]`sinh`|
+|`tanh`|`ctanh`|[i[`tanh()` function]i]`tanh`|
+|`exp`|`cexp`|[i[`exp()` function]i]`exp`|
+|`log`|`clog`|[i[`log()` function]i]`log`|
+|`pow`|`cpow`|[i[`pow()` function]i]`pow`|
+|`sqrt`|`csqrt`|[i[`sqrt()` function]i]`sqrt`|
+|`fabs`|`cabs`|[i[`fabs()` function]i]`fabs`|
+|`atan2`|---|[i[`atan2()` function]i]`atan2`|
+|`fdim`|---|[i[`fdim()` function]i]`fdim`|
+|`cbrt`|---|[i[`cbrt()` function]i]`cbrt`|
+|`floor`|---|[i[`floor()` function]i]`floor`|
+|`ceil`|---|[i[`ceil()` function]i]`ceil`|
+|`fma`|---|[i[`fma()` function]i]`fma`|
+|`copysign`|---|[i[`copysign()` function]i]`copysign`|
+|`fmax`|---|[i[`fmax()` function]i]`fmax`|
+|`erf`|---|[i[`erf()` function]i]`erf`|
+|`fmin`|---|[i[`fmin()` function]i]`fmin`|
+|`erfc`|---|[i[`erfc()` function]i]`erfc`|
+|`fmod`|---|[i[`fmod()` function]i]`fmod`|
+|`exp2`|---|[i[`exp2()` function]i]`exp2`|
+|`frexp`|---|[i[`frexp()` function]i]`frexp`|
+|`expm1`|---|[i[`expm1()` function]i]`expm1`|
+|`hypot`|---|[i[`hypot()` function]i]`hypot`|
+|`ilogb`|---|[i[`ilogb()` function]i]`ilogb`|
+|`ldexp`|---|[i[`ldexp()` function]i]`ldexp`|
+|`lgamma`|---|[i[`lgamma()` function]i]`lgamma`|
+|`llrint`|---|[i[`llrint()` function]i]`llrint`|
+|`llround`|---|[i[`llround()` function]i]`llround`|
+|`log10`|---|[i[`log10()` function]i]`log10`|
+|`log1p`|---|[i[`log1p()` function]i]`log1p`|
+|`log2`|---|[i[`log2()` function]i]`log2`|
+|`logb`|---|[i[`logb()` function]i]`logb`|
+|`lrint`|---|[i[`lrint()` function]i]`lrint`|
+|`lround`|---|[i[`lround()` function]i]`lround`|
+|`nearbyint`|---|[i[`nearbyint()` function]i]`nearbyint`|
+|`nextafter`|---|[i[`nextafter()` function]i]`nextafter`|
+|`nexttoward`|---|[i[`nexttoward()` function]i]`nexttoward`|
+|`remainder`|---|[i[`remainder()` function]i]`remainder`|
+|`remquo`|---|[i[`remquo()` function]i]`remquo`|
+|`rint`|---|[i[`rint()` function]i]`rint`|
+|`round`|---|[i[`round()` function]i]`round`|
+|`scalbn`|---|[i[`scalbn()` function]i]`scalbn`|
+|`scalbln`|---|[i[`scalbln()` function]i]`scalbln`|
+|`tgamma`|---|[i[`tgamma()` function]i]`tgamma`|
+|`trunc`|---|[i[`trunc()` function]i]`trunc`|
+|---|`carg`|[i[`carg()` function]i]`carg`|
+|---|`cimag`|[i[`cimag()` function]i]`cimag`|
+|---|`conj`|[i[`conj()` function]i]`conj`|
+|---|`cproj`|[i[`cproj()` function]i]`cproj`|
+|---|`creal`|[i[`creal()` function]i]`creal`|
 
 ## Example
 
