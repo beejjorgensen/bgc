@@ -30,6 +30,8 @@ flr = footnote link to redirect https://beej.us/guide/url/id
 flags for page number: i: italic, b: bold, <: open range >: close range
 flags for replacement: T: typewriter, I: italic, B: bold, or a combination.
 
+[is[Foobar==>see `foo`]]   Index see-also
+
 Backticks can delimit typewriter text:
 
 [i[`\n` newline]]
@@ -75,61 +77,81 @@ except AttributeError:
 
 filedata = '\n'.join(filedata)
 
+def escape(s):
+    s = re.sub(r'\\', r'{\\backslash}', s)
+    s = re.sub(r'(\^)', r'\\^{}', s)
+    s = re.sub(r'([&_#%])', r'\\\1', s)
+    s = re.sub(r'([!@])', r'"\1', s)
+    s = re.sub(r'\|', r'\\textbar{}', s)
+
+    return s
+
+def code_replace(s):
+    """ Replace ` code delimiters """
+    result = ""
+    opener = True
+
+    for c in s:
+        if c == '`':
+            if opener:
+                result += '\\texttt{'
+            else:
+                result += '}'
+            opener = not opener
+        else:
+            result += c
+
+    if not opener:
+        raise Exception("unmatched '`' in index entry: " + s)
+
+    return result
+
+def get_entry_repl(entry, flags=''):
+    entry = escape(entry)
+
+    if 'T' in flags or 'I' in flags or 'B' in flags or '`' in entry:
+        repl = entry
+    else:
+        repl = ''
+
+    entry = re.sub(r'`', '', entry)
+    repl = code_replace(repl)
+
+    if repl != '':
+        if 'T' in flags:
+            repl = '\\texttt{' + repl + '}'
+        if 'I' in flags:
+            repl = '\\textsl{' + repl + '}'
+        if 'B' in flags:
+            repl = '\\textbf{' + repl + '}'
+
+        repl = '@' + repl
+
+    return (entry, repl)
+
+def is_replace(m):
+    """Index [is[]] tag replacer."""
+
+    entryfull = m.group('entry')
+
+    key, value = entryfull.split('==>')
+
+    key = "".join(get_entry_repl(key))
+
+    values = value.split()
+    first_word = values[0]
+    value = " ".join(values[1:])
+
+    value = escape(value)
+    value = code_replace(value)
+
+    result = '\\index{' + key + '|' + first_word + ' {' + value + '}}'
+
+    return result
+
 def i_replace(m):
 
     #print(f">>>> {m.groups()}")
-
-    def escape(s):
-        s = re.sub(r'\\', r'{\\backslash}', s)
-        s = re.sub(r'(\^)', r'\\^{}', s)
-        s = re.sub(r'([&_#%])', r'\\\1', s)
-        s = re.sub(r'([!@])', r'"\1', s)
-        s = re.sub(r'\|', r'\\textbar{}', s)
-
-        return s
-
-    def code_replace(s):
-        """ Replace ` code delimiters """
-        result = ""
-        opener = True
-
-        for c in s:
-            if c == '`':
-                if opener:
-                    result += '\\texttt{'
-                else:
-                    result += '}'
-                opener = not opener
-            else:
-                result += c
-
-        if not opener:
-            raise Exception("unmatched '`' in index entry: " + s)
-
-        return result
-
-    def get_entry_repl(entry, flags):
-        entry = escape(entry)
-
-        if 'T' in flags or 'I' in flags or 'B' in flags or '`' in entry:
-            repl = entry
-        else:
-            repl = ''
-
-        entry = re.sub(r'`', '', entry)
-        repl = code_replace(repl)
-
-        if repl != '':
-            if 'T' in flags:
-                repl = '\\texttt{' + repl + '}'
-            if 'I' in flags:
-                repl = '\\textsl{' + repl + '}'
-            if 'B' in flags:
-                repl = '\\textbf{' + repl + '}'
-
-            repl = '@' + repl
-
-        return (entry, repl)
 
 
     """Index [i[]] tag replacer."""
@@ -159,6 +181,8 @@ def i_replace(m):
 
     result += '}'
 
+    result = result.replace("==>", "|")  # for [is[
+
     return result
 
 filedata = re.sub(r'\t', "    ", filedata, flags=re.DOTALL)
@@ -177,6 +201,7 @@ filedata = re.sub(r'\[flsol\[(.+?)\]\]', r'([Solution.](' + preproc_config.EXERC
 filedata = re.sub(r'\[flr\[(.+?)\|(.+?)\]\]', r'[\1](https://beej.us/guide/url/\2)^[https://beej.us/guide/url/\2]', filedata, flags=re.DOTALL)
 filedata = re.sub(r'\[flrfc\[(.+?)\|(.+?)\]\]', r'[\1](https://tools.ietf.org/html/rfc\2)^[https://tools.ietf.org/html/rfc\2]', filedata, flags=re.DOTALL)
 filedata = re.sub(r'\[i\[(?P<entry>.+?)\](?P<flags>.*?)\]', i_replace, filedata, flags=re.DOTALL)
+filedata = re.sub(r'\[is\[(?P<entry>.+?)\]\]', is_replace, filedata, flags=re.DOTALL)
 
 fout = open(outfile, "w")
 in_fence = False
