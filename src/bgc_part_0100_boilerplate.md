@@ -29,14 +29,21 @@
 [nh[llroundl]]
 
 <!-- Index see alsos -->
-\index{String|see {\texttt{char *}}}
-\index{Newline|see {\texttt{{\backslash}n} newline}}
-\index{Ternary Operator|see {\texttt{?:} ternary operator}}
-\index{Addition|see {\texttt{+} addition operator}}
-\index{Subtraction|see {\texttt{-} subtraction operator}}
-\index{Multiplication|see {\texttt{*} multiplication operator}}
-\index{Division|see {\texttt{/} division operator}}
-<!-- \index{Modulus|see {\texttt{%} modulus operator}} -->
+[is[String==>see `char *`]]
+[is[New line==>see `\n` newline]]
+[is[Ternary operator==>see `?:` ternary operator]]
+[is[Addition operator==>see `+` addition operator]]
+[is[Subtraction operator==>see `-` subtraction operator]]
+[is[Multiplication operator==>see `*` multiplication operator]]
+[is[Division operator==>see `/` division operator]]
+[is[Modulus operator==>see `%` modulus operator]]
+[is[Boolean NOT==>see `!` operator]]
+[is[Boolean AND==>see `&&` operator]]
+[is[Boolean OR==>see `||` operator]]
+[is[Bell==>see `\a` operator]]
+[is[Tab (is better)==>see `\t` operator]]
+[is[Carriage return==>see `\r` operator]]
+[is[Hexadecimal==>see `0x` hexadecimal]]
 
 # Foreword
 
@@ -100,6 +107,9 @@ And no matter your skill level, the reference part is there with
 complete examples of the standard library function calls to help refresh
 your memory whenever needed. Good for reading over a bowl of cereal or
 other time.
+
+Finally, glancing at the index (if you're reading the print version),
+the reference section entries are italicized.
 
 ## Platform and Compiler
 
