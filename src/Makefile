@@ -33,7 +33,8 @@ COMMON_OPTS= \
 	--variable author:$(AUTHOR) \
 	--variable date:$(VERSION_DATE) \
 	--number-sections \
-	--toc
+	--toc \
+	--wrap=none
 
 PDF_OPTS= \
 	-H latex/header_index.latex \

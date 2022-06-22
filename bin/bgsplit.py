@@ -109,8 +109,7 @@ with open(infile_name) as fp:
             chapter_list_index = 0
 
         # Check for footnotes page
-        elif line_equal(line, '<section class="footnotes footnotes-end-of-document"'):
-            next(fp)  # throw away role="doc-endnotes"> line
+        elif line_equal(line, '<section class="footnotes footnotes-end-of-document" role="doc-endnotes">'):
             new_filename = "footnotes.html"
             chapter_list_index = None
 
