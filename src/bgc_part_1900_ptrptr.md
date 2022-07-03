@@ -449,6 +449,11 @@ TWO! Two safe pointer conversions.
 
 THREE! Three safe conversions!
 
+4. Converting to and from a pointer to a `struct` and a pointer to its
+   first member, and vice-versa.
+
+FOUR! Four safe conversions!
+
 If you cast to a pointer of another type and then access the object it
 points to, the behavior is undefined due to something called _strict
 aliasing_.
@@ -457,7 +462,7 @@ Plain old _aliasing_ refers to the ability to have more than one way to
 access the same object. The access points are aliases for each other.
 
 _Strict aliasing_ says you are only allowed to access an object via
-pointers to _compatible types_.
+pointers to _compatible types_ to that object.
 
 For example, this is definitely allowed:
 
@@ -480,7 +485,9 @@ float *p = (float *)&a;
 Here's a demo program that does some aliasing. It takes a variable `v`
 of type `int32_t` and aliases it to a pointer to a `struct words`. That
 `struct` has two `int16_t`s in it. These types are incompatible, so
-we're in violation of strict aliasing rules.
+we're in violation of strict aliasing rules. The compiler will assume
+that these two pointers never point to the same object... but we're
+making it so they do. Which is naughty of us.
 
 Let's see if we can break something.
 
@@ -560,64 +567,6 @@ depends on how someone decides to compile it. And that's a bummer since
 that's beyond your control. Unless you're some kind of omnipotent deity.
 
 Unlikely, sorry.
-
-Speaking of no fun, these rules also break an age-old tradition in C of
-"subclassing" `structs` that have a common initial sequence. Folks used
-to do this with abandon:
-
-``` {.c}
-struct base_class {
-    int a, b;    // Common elements
-};
-
-struct subclass_a {
-    struct base_class super;  // inheritance
-
-    int x, y, z; // specialization
-};
-
-struct subclass_b {
-    struct base_class super;  // inheritance
-
-    float f, g, h; // specialization
-};
-```
-
-And if you had some of these subclasses like this:
-
-``` {.c}
-struct subclass_a sa = {.super.a=1, .super.b=2};
-struct subclass_b sb = {.super.a=3, .super.b=4};
-```
-
-And a function like this, taking a `void*` argument:
-
-``` {.c}
-void print_info(void *vp)
-{
-    struct base_class *p = vp;
-
-    printf("%d %d\n", p->a, p->b);
-}
-```
-
-We know the `struct`s would have the same initial memory layout as the
-base class `structs`, owing to that mix-in being the first member
-declared.
-
-People then felt empowered to call `print_info()` with pointers to
-either subclass `struct` type.
-
-``` {.c}
-print_info(&sa);
-print_info(&sb);
-```
-
-But this breaks the strict aliasing rules since `p` in `print_info()` is
-a pointer to a different type than the actual objects.
-
-So don't do this unless you're OK being non-portable and are sure your
-compiler isn't relying on the strict aliasing rules.
 
 GCC can be forced to not use the strict aliasing rules with
 `-fno-strict-aliasing`. Compiling the demo program, above, with `-O3`

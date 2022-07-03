@@ -473,8 +473,25 @@ bytes long. Presumably this will run faster on my CPU.
 
 [i[`offsetof()` macro]>]
 
-<!-- removed because of strict aliasing rules
-## Fake OOP
+<!--
+
+6.7.2.1
+
+15 Within a structure object, the non-bit-field members and the units in which bit-fields reside have addresses that increase in the order in which they are declared. A pointer to a structure object, suitably converted, points to its initial member (or if that member is a bit-field, then to the unit in which it resides), and vice versa. There may be unnamed padding within a structure object, but not at its beginning.
+
+6.2.7 Compatible type and composite type
+
+1 Two types have compatible type if their types are the same.
+
+6.5
+
+7 An object shall have its stored value accessed only by an lvalue expression that has one of the following types:
+
+- a type compatible with the effective type of the object
+
+-->
+
+## Fake OOP {#fake-oop}
 
 There's a slightly abusive thing that's sort of OOP-like that you can do
 with `struct`s.
@@ -554,7 +571,21 @@ a `struct parent`.
 
 Again, this works because a pointer to a `struct` has the same value as
 a pointer to the first field in that `struct`.
--->
+
+This all hinges on this part of the spec:
+
+> **§6.7.2.1¶15** [...] A pointer to a structure object, suitably
+> converted, points to its initial member [...], and vice versa.
+
+and
+
+> §6.5¶7 An object shall have its stored value accessed only by an
+> lvalue expression that has one of the following types:
+>
+> * a type compatible with the effective type of the object
+
+and my assumption that "suitably converted" means "cast to the
+effective type of the initial member".
 
 ## Bit-Fields
 
