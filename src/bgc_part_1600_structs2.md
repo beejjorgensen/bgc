@@ -579,7 +579,7 @@ This all hinges on this part of the spec:
 
 and
 
-> §6.5¶7 An object shall have its stored value accessed only by an
+> **§6.5¶7** An object shall have its stored value accessed only by an
 > lvalue expression that has one of the following types:
 >
 > * a type compatible with the effective type of the object
