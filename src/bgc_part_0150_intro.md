@@ -291,8 +291,13 @@ source files, object files, and all kinds of fun stuff.[i[Compilation]>]
 
 ## Building with `clang`
 
-On Macs, the compiler isn't `gcc`---it's `clang`[t[clang]T]. But a
-wrapper is also installed so you can run `gcc` and have it still work.
+On Macs, the stock compiler isn't `gcc`---it's `clang`[i[`clang`
+compiler]]. But a wrapper is also installed so you can run `gcc` and
+have it still work.
+
+You can also install the `gcc`[i[`gcc` compiler]] compiler proper
+through [fl[Homebrew|https://formulae.brew.sh/formula/gcc]] or some
+other means.
 
 ## Building from IDEs
 
@@ -302,8 +307,8 @@ the command line.
 
 With Visual Studio, `CTRL-F7` will build, and `CTRL-F5` will run.
 
-With VS Code, things are more complex, but you can hit `F5` to run via
-the debugger. (You'll have to install the C/C++ Extension.)
+With VS Code, you can hit `F5` to run via the debugger. (You'll have to
+install the C/C++ Extension.)
 
 With XCode, you can build with `COMMAND-B` and run with `COMMAND-R`. To
 get the command line tools, Google for "XCode command line tools" and
