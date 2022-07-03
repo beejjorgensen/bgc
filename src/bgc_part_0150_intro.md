@@ -14,7 +14,7 @@
 
 C is a low-level language.
 
-It didn't used to be. Back in the day when people carved punch cards out
+It didn't use to be. Back in the day when people carved punch cards out
 of granite, C was an incredible way to be free of the drudgery of
 lower-level languages like [flw[assembly|Assembly_language]].
 
