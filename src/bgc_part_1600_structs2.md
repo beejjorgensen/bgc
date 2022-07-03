@@ -583,6 +583,7 @@ and
 > lvalue expression that has one of the following types:
 >
 > * a type compatible with the effective type of the object
+> * [...]
 
 and my assumption that "suitably converted" means "cast to the
 effective type of the initial member".
