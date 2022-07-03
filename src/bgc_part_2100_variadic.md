@@ -160,8 +160,9 @@ int main(void)
 [i[`va_start()` macro]>]
 [i[`va_end()` macro]>]
 
-When `printf()` is called, it uses the number of `%d`s (or whatever) in
-the format string to know how many more arguments there are!
+(Note that when `printf()` is called, it uses the number of `%d`s (or
+whatever) in the format string to know how many more arguments there
+are!)
 
 If the syntax of `va_arg()` is looking strange to you (because of that
 loose type name floating around in there), you're not alone. These are
