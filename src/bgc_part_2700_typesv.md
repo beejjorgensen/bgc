@@ -311,7 +311,7 @@ int main(void)
 
 Check out the `_Generic` expression starting on line 9.
 
-When the compiler sees it, it look at the type of the first argument.
+When the compiler sees it, it looks at the type of the first argument.
 (In this example, the type of the variable `i`.) It then looks through
 the cases for something of that type. And then it substitutes the
 argument in place of the entire `_Generic` expression. 
