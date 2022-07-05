@@ -65,7 +65,8 @@ Somewhat confusingly, these two things are equivalent:
 
 ``` {.c}
 const int *p;  // Can't modify what p points to
-int const *p;  // Can't modify what p points to, just like the previous line ```
+int const *p;  // Can't modify what p points to, just like the previous line
+```
 
 Great, so we can't change the thing the pointer points to, but we can
 change the pointer itself. What if we want the other way around? We want
