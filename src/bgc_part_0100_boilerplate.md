@@ -74,7 +74,7 @@ going to be that way for long.
 
 What we'll try to do over the course of this guide is lead you from
 complete and utter sheer lost confusion on to the sort of enlightened
-bliss that can only be obtained though pure C programming. Right on.
+bliss that can only be obtained through pure C programming. Right on.
 
 ## Audience
 
