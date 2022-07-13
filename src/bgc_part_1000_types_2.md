@@ -238,7 +238,7 @@ order, grouped by signedness.
 |`unsigned char`|1|0|255|
 |`unsigned short`|2|0|65535|
 |`unsigned int`|2|0|65535|
-|`unsigned long`|4|0|44294967295|
+|`unsigned long`|4|0|4294967295|
 |`unsigned long long`|8|0|9223372036854775807|
 
 There is no `long long long` type. You can't just keep adding `long`s
