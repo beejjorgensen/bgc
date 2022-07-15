@@ -140,7 +140,7 @@ int *p = &a[0];  // p points to the 11
 And we also have `p` pointing to the element at index `0` of `a`, namely
 `11`, just like before.
 
-Now---let's starting _incrementing_ `p` so that it points at subsequent
+Now---let's start _incrementing_ `p` so that it points at subsequent
 elements of the array. We'll do this until `p` points to the `999`; that
 is, we'll do it until `*p == 999`:
 
