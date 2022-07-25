@@ -2934,7 +2934,7 @@ The functions are grouped by return type:
 * `lround()`---returns a `long int`
 * `llround()`---returns a `long long int`
 
-If the rounded value can't find in the return time, a domain or range
+If the rounded value can't fit in the return type, a domain or range
 error can occur.
 
 ### Return Value {.unnumbered .unlisted}
