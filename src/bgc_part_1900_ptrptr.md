@@ -535,7 +535,7 @@ should be updated to the same value.
 
 So let's run it and get this, with the 32-bit value on the left and the
 two 16-bit portions on the right. It should match^[I'm printing out the
-16-bit values reversed since I'm on a little-endian machine at it makes
+16-bit values reversed since I'm on a little-endian machine and it makes
 it easier to read here.]:
 
 ``` {.default}

@@ -542,7 +542,7 @@ aligned_alloc()
 
 [**`call_once()`**](#man-call_once): synchronizes with all subsequent calls
 to `call_once()` for a particular flag. This way subsequent calls can
-rest assured that in another thread set the flag, they will see it.
+rest assured that if another thread sets the flag, they will see it.
 
 [**`thrd_create()`**](#man-thrd_create): synchronizes with the beginning
 of the new thread. The new thread can be sure it will see all shared
@@ -852,7 +852,7 @@ int main(void)
 
 Here's the catch: you can't access fields of an atomic `struct` or
 `union`... so what's the point? Well, you can atomically _copy_ the entire `struct`
-into a non-atomic variable and then used it. You can atomically copy the
+into a non-atomic variable and then use it. You can atomically copy the
 other way, too.
 
 ``` {.c .numberLines}

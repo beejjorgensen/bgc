@@ -21,7 +21,7 @@ sometimes this might be `goto`!
 In this chapter, we'll see how `goto` works in C, and then check out
 some of the common cases where it is used^[I'd like to point out that
 using `goto` in all these cases is avoidable. You can use variables and
-loops intead. It's just that some people think `goto` produces the
+loops instead. It's just that some people think `goto` produces the
 _best_ code in those circumstances.].
 
 ## A Simple Example

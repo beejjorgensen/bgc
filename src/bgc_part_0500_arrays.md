@@ -306,7 +306,7 @@ These are stored in memory in [flw[row-major
 order|Row-_and_column-major_order]]. This means with a 2D array, the
 first index listed indicates the row, and the second the column.
 
-You an also use initializers on multidimensional arrays by nesting them:
+You can also use initializers on multidimensional arrays by nesting them:
 
 ``` {.c .numberLines}
 #include <stdio.h>

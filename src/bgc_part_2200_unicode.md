@@ -358,7 +358,7 @@ There are some caveats, however:
 
 * [i[`printf()` function-->with UTF-8]]`printf()` variants allow for a
   way to only print so many bytes of a string^[With a format specifier
-  like `"%s.12"`, for example.]. You want to make certain you print the
+  like `"%.12s"`, for example.]. You want to make certain you print the
   correct number of bytes to end on a character boundary.
 
 * [i[`malloc()` function-->with UTF-8]]If you want to `malloc()` space

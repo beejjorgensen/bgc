@@ -11,7 +11,7 @@ C11 introduced, formally, multithreading to the C language. It's very
 eerily similar to [flw[POSIX threads|POSIX_Threads]], if you've ever
 used those.
 
-And if you're not, no worries. We'll talk it through.
+And if you've not, no worries. We'll talk it through.
 
 Do note, however, that I'm not intending this to be a full-blown classic
 multithreading how-to^[I'm more a fan of shared-nothing, myself, and my
