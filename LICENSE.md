@@ -21,4 +21,4 @@ public domain, and is completely free of any license restriction.
 Educators are freely encouraged to recommend or supply copies of this
 guide to their students.
 
-Contact [`beej@beej.us`](beej@beej.us) for more information.
+Contact <beej@beej.us> for more information.
