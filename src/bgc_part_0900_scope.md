@@ -78,7 +78,7 @@ the block, but this is no longer the case in the C99 standard.
 
 [i[Variable hiding]<]
 If you have a variable named the same thing at an inner scope as one at
-an outer scope, the one at the inner scope takes precedence at long as
+an outer scope, the one at the inner scope takes precedence as long as
 you're running in the inner scope. That is, it _hides_ the one at outer
 scope for the duration of its lifetime.
 

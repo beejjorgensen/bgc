@@ -233,7 +233,7 @@ ever code one up in new code. Always use `void`[i[`void` type]] to
 indicate that a function takes no parameters. There's never^[Never say
 "never".] a reason to do this in modern code.
 
-If you're good just remembering to put `void` in for empty parameter
+If you're good at just remembering to put `void` in for empty parameter
 lists in functions and prototypes, you can skip the rest of this
 section.
 

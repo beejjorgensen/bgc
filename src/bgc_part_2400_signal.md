@@ -86,7 +86,7 @@ you can `CTRL-C` with impunity and quit the program on the spot.
 ## Writing Signal Handlers
 
 I mentioned you could also write a handler function that gets called
-with the signal is raised.
+when the signal is raised.
 
 These are pretty straightforward, are also very capability-limited when
 it comes to the spec.
@@ -118,7 +118,7 @@ void (*signal(int sig, void (*func)(int)))(int);
 
 [i[`signal()` function]>]
 
-Basically, we're going to pass in the signal number we're interesting in
+Basically, we're going to pass in the signal number we're interested in
 catching, and we're going to pass a pointer to a function of the form:
 
 ``` {.c}

@@ -576,7 +576,7 @@ bits are preserved exactly. [i[`FLT_DECMIAL_DIG` macro]>]
 ## Constant Numeric Types
 
 When you write down a constant number, like `1234`, it has a type. But
-what type is it? Let's look at the how C decides what type the constant
+what type is it? Let's look at how C decides what type the constant
 is, and how to force it to choose a specific type.
 
 ### Hexadecimal and Octal
