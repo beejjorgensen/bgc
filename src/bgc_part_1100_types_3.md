@@ -144,7 +144,7 @@ int main(void)
 }
 ```
 
-Notice a couple things there. Even though we didn't design to capture any
+Notice a couple things there. Even though we didn't deign to capture any
 information about error characters in the string, `strtoul()` won't give
 us undefined behavior; it will just return `0`.
 
