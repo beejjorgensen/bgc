@@ -79,7 +79,7 @@ int main(void)
 }
 ```
 
-We're going to don our long-sleeved heavy-duty rubber gloves, grab a
+We're going to do our long-sleeved heavy-duty rubber gloves, grab a
 scalpel, and rip into this thing to see what makes it tick. So, scrub
 up, because here we go. Cutting very gently...
 
