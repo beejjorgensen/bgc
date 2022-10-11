@@ -16,7 +16,7 @@ macros. If you really need that kind of thing.
 |[i[`true` macro]i]`true` |True value, expands to `1`          |
 |[i[`false` macro]i]`false`|False value, expands to `0`         |
 
-There's on more macro that I'm not putting in the table because it's
+There's one more macro that I'm not putting in the table because it's
 such a long name it'll blow up the table alignment:
 
 ``` {.c}
