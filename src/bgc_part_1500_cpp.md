@@ -217,7 +217,7 @@ OK!
 ```
 
 It's important to remember that these decisions happen at compile time!
-The code actually get compiled or removed depending on the condition.
+The code actually gets compiled or removed depending on the condition.
 This is in contrast to a standard `if` statement that gets evaluated
 while the program is running.
 
