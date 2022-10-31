@@ -203,7 +203,7 @@ written to. It's all about optimizations surrounding writes to memory.)
 
 Let's write a function to swap two variables, and we'll use the
 `restrict` keyword to assure C that we'll never pass in pointers to the
-same thing. And then let's blow it an try passing in pointers to the
+same thing. And then let's blow it and try passing in pointers to the
 same thing.
 
 ``` {.c .numberLines}
