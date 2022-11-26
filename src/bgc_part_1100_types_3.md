@@ -54,8 +54,7 @@ int main(void)
 }
 ```
 
-If we wanted to convert a `double`, we'd use `%lf`. Or a `long double`,
-`%Lf`.
+So you can use `%d` or `%u` like you're used to for integers.
 
 ### String to Numeric Value
 
