@@ -368,7 +368,7 @@ With read/load/acquire of a particular atomic variable:
 
 * The acquire acts as a one-way barrier when it comes to code
   reordering; reads and writes in the current thread can be moved down
-  from _before the release to _after_ it. But, more importantly for
+  from _before_ the acquire to _after_ it. But, more importantly for
   synchronization, nothing can move up from _after_ the acquire to
   _before_ it.
 
