@@ -56,14 +56,18 @@ printf("an int uses %zu bytes of memory\n", sizeof(int));
 // That prints "4" for me, but can vary by system.
 ```
 
-> **Memory Fun Facts**: When you have a data type that uses more than a
-> byte of memory, the bytes that make up the data are always adjacent to
-> one another in memory. Sometimes they're in order, and sometimes
-> they're not^[The order that bytes come in is referred to as the
-> _endianness_ of the number. Common ones are _big endian_ and _little
-> endian_. This usually isn't something you need to worry about.], but
-> that's platform-dependent, and often taken care of for you without you
-> needing to worry about pesky byte orderings.
+> **Memory Fun Facts**: When you have a data type (like your typical
+> `int`) that uses more than a byte of memory, the bytes that make up
+> the data are always adjacent to one another in memory. Sometimes
+> they're in the order that you expect, and sometimes they're not^[The
+> order that bytes come in is referred to as the _endianness_ of the
+> number. The usual suspects are _big-endian_ (with the most significant
+> byte first) and _little-endian_ (with the most-significant byte last),
+> or, uncommonly now, _mixed-endian_ (with the most-significant bytes
+> somewhere else).]. While C doesn't guarantee any particular memory
+> order (it's platform-dependent), it's still generally possible to
+> write code in a way that's platform-independent where you don't have
+> to even consider these pesky byte orderings.
 
 So _anyway_, if we can get on with it and get a drum roll and some
 foreboding music playing for the definition of a pointer, _a pointer is a
