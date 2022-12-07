@@ -462,5 +462,5 @@ difference. Even though you can just subtract on a POSIX system, might
 as well stay portable.
 
 [i[`difftime()` function]>]
-[i[Date and time-->differences]<>
+[i[Date and time-->differences]>]
 [i[Date and time]>]
