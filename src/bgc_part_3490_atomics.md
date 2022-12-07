@@ -368,8 +368,8 @@ With read/load/acquire of a particular atomic variable:
 
 * The acquire acts as a one-way barrier when it comes to code
   reordering; reads and writes in the current thread can be moved down
-  from _after_ the release to _before_ it. But, more importantly for
-  synchronization, nothing can move down from _after_ the acquire to
+  from _before the release to _after_ it. But, more importantly for
+  synchronization, nothing can move up from _after_ the acquire to
   _before_ it.
 
 With write/store/release of a particular atomic variable:
@@ -1157,8 +1157,8 @@ If you want to learn more about this stuff, here are some of the things
 that helped me plow through it:
 
 * Herb Sutter's _`atomic<>` Weapons_ talk:
-  * [fl[Part 1|https://channel9.msdn.com/Shows/Going+Deep/Cpp-and-Beyond-2012-Herb-Sutter-atomic-Weapons-1-of-2]]
-  * [fl[part 2|https://channel9.msdn.com/Shows/Going+Deep/Cpp-and-Beyond-2012-Herb-Sutter-atomic-Weapons-2-of-2]]
+  * [fl[Part 1|https://www.youtube.com/watch?v=A8eCGOqgvH4]]
+  * [fl[part 2|https://www.youtube.com/watch?v=KeLBd2EJLOU]]
 
 * [fl[Jeff Preshing's materials|https://preshing.com/archives/]], in particular:
   * [fl[An Introduction to Lock-Free Programming|https://preshing.com/20120612/an-introduction-to-lock-free-programming/]]
