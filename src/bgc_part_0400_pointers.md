@@ -512,11 +512,17 @@ Recall that `sizeof` operates on the _type_ of the expression.
 ``` {.c}
 int *p;
 
-sizeof(int); // Returns size of an `int`
-sizeof p     // p is type int*, so returns size of `int*`
-sizeof *p    // *p is type int, so returns size of `int`
+// Prints size of an 'int'
+printf("%zu\n", sizeof(int));
+
+// p is type 'int *', so prints size of 'int*'
+printf("%zu\n", sizeof p);
+
+// *p is type 'int', so prints size of 'int'
+printf("%zu\n", sizeof *p);
 ```
 
-You might see code with that last `sizeof` in there. Just remember that
-`sizeof` is all about the type of the expression, not the variables in
-the expression themselves.[i[Pointers-->with `sizeof`]>][i[Pointers]>]
+You might see code in the wild with that last `sizeof` in there. Just
+remember that `sizeof` is all about the type of the expression, not the
+variables in the expression themselves.[i[Pointers-->with
+`sizeof`]>][i[Pointers]>]
