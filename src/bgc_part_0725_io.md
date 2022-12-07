@@ -32,6 +32,7 @@ already open for you and ready for use.
 [i[`stdin` standard input]<]
 [i[`stdout` standard output]<]
 [i[`stderr` standard error]<]
+
 |`FILE*` name|Description|
 |-|-|
 |`stdin`|Standard Input, generally the keyboard by default|
