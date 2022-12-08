@@ -413,7 +413,7 @@ With the comma operator, the value of the comma expression is the value
 of the rightmost expression:
 
 ``` {.c}
-x = 1, 2, 3;
+x = (1, 2, 3);
 
 printf("x is %d\n", x);  // Prints 3, because 3 is rightmost in the comma list
 ```
