@@ -504,7 +504,7 @@ visible out in the caller.
 
 void double_array(int *a, int len)
 {
-    // Multiple each element by 2
+    // Multiply each element by 2
     //
     // This doubles the values in x in main() since x and a both point
     // to the same array in memory!
