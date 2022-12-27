@@ -239,7 +239,7 @@ order, grouped by signedness.
 |`unsigned short`|2|0|65535|
 |`unsigned int`|2|0|65535|
 |`unsigned long`|4|0|4294967295|
-|`unsigned long long`|8|0|9223372036854775807|
+|`unsigned long long`|8|0|18446744073709551615|
 
 There is no `long long long` type. You can't just keep adding `long`s
 like that. Don't be silly.
