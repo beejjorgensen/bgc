@@ -369,6 +369,7 @@ take, but on my system, we can see the relative size increases:
 
 [i[`double` type]<]
 [i[`long double` type]<]
+
 |Type|`sizeof`|
 |:-|-:|
 |`float`|4|
