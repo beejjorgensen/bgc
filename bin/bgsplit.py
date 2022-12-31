@@ -203,14 +203,16 @@ class SplitHTMLParser(HTMLParser):
     the anchor tag targets to point to the proper files.
     """
 
-    def __init__(self, out_directory, inv):
+    def __init__(self, in_file_name, out_directory, inv):
         self.header = inv.header
         self.section_id_to_info = inv.section_id_to_info
         self.id_to_section_id = inv.id_to_section_id
         self.out_directory = out_directory
         self.out_file = None
+        self.in_file_name = in_file_name
         self.current_section_id = None
         self.page_nav = ""
+        self.warnings = False
 
         super().__init__(convert_charrefs=False)
 
@@ -222,15 +224,25 @@ class SplitHTMLParser(HTMLParser):
             return
         
         old_id = old_href[1:]   # Strip hash
-        section_id = self.id_to_section_id[old_id]
 
-        section_file_name = file_name_for_section(section_id)
+        try:
+            section_id = self.id_to_section_id[old_id]
 
-        new_href = f"{section_file_name}{old_href}"
+            section_file_name = file_name_for_section(section_id)
 
-        new_attr = attr_replace(attrs, "href", new_href)
+            new_href = f"{section_file_name}{old_href}"
 
-        assert new_attr is not None, "href replace failed"
+            new_attr = attr_replace(attrs, "href", new_href)
+
+            assert new_attr is not None, "href replace failed"
+
+        except KeyError:
+            line, _ = self.getpos()
+            print(f'{self.in_file_name}: ' \
+                  f'line {line}: ' \
+                  f'unknown link target: "#{old_id}"', \
+                  file=sys.stderr)
+            self.warnings = True
 
     def get_nav(self):
         info = self.section_id_to_info[self.current_section_id]
@@ -356,9 +368,13 @@ def inventory_file(file_name):
 
 def split_file(file_name, out_directory, inv):
     with open(file_name) as fp:
-        parser = SplitHTMLParser(out_directory, inv)
+        parser = SplitHTMLParser(file_name, out_directory, inv)
+
         data = fp.read()
         parser.feed(data)
+
+        if parser.warnings:
+            sys.exit(1)
 
 def usage():
     print("usage: bgsplit.py infile.html outdirectory", file=sys.stderr)
