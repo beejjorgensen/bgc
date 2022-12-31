@@ -47,6 +47,10 @@
 
 # Foreword
 
+> _C is not a big language, and it is not well served by a big book._
+>
+> --Brian W. Kernighan, Dennis M. Ritchie
+
 No point in wasting words here, folks, let's jump straight into the C
 code:
 
@@ -76,6 +80,16 @@ What we'll try to do over the course of this guide is lead you from
 complete and utter sheer lost confusion on to the sort of enlightened
 bliss that can only be obtained through pure C programming. Right on.
 
+In the old days, C was a simpler language. A good number of the features
+contained in this book and a _lot_ of the features in the Library
+Reference volume didn't exist when K&R wrote the famous second edition
+of their book in 1988. Nevertheless, the language remains small at its
+core, and I hope I've presented it here in a way that starts with that
+simple core and builds outward.
+
+And that's my excuse for writing such a hilariously large book for such
+a small, concise language.
+
 ## Audience
 
 This guide assumes that you've already got some programming knowledge
@@ -98,7 +112,11 @@ or _will_ it?
 
 ## How to Read This Book
 
-The book is in two parts: the tutorial part and the reference part.
+The guide is in two volumes, and this is the first: the tutorial volume!
+
+The second volume is the [fl[library
+reference|https://beej.us/guide/bgclr/]], and it's far more reference
+than tutorial.
 
 If you're new, go through the tutorial part in order, generally. The
 higher you get in chapters, the less important it is to go in order.

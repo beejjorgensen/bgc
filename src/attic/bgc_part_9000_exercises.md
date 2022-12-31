@@ -139,8 +139,7 @@ giving up and looking at the answer.
    same pointer that was passed in. [flsol[strings/reverse.c]]
 
 1. Write a function that returns true if a string is entirely uppercase.
-   Hint: see the [`isupper()`](#man-isupper) function.
-   [flsol[strings/str_isupper.c]]
+   Hint: see the `isupper()` function. [flsol[strings/str_isupper.c]]
 
 1. Write a function that returns a pointer to the first occurrence of a
    letter in a string. If the character doesn't appear in the string,
@@ -207,13 +206,13 @@ giving up and looking at the answer.
 ## Pointers II
 
 1. Write `my_strchr()`, a function that returns a pointer to the first
-   instance of a character in a string, like [`strchr()`](#man-strchr).
-   Use pointer arithmetic to implement this.
+   instance of a character in a string, like `strchr()`. Use pointer
+   arithmetic to implement this.
    [flsol[pointers2/my_strchr.c]]
 
 1. Write `my_strrchr()`, a function that returns a pointer to the last
-   instance of a character in a string, like [`strrchr()`](#man-strchr).
-   Use pointer arithmetic to implement this.
+   instance of a character in a string, like `strrchr()`. Use pointer
+   arithmetic to implement this.
    [flsol[pointers2/my_strrchr.c]]
 
 1. Write a function `object_sum()` that computes the sum of the bytes of
@@ -246,7 +245,7 @@ giving up and looking at the answer.
 
 1. Write a program that reads a file of arbitrary size into memory and
    returns a pointer to the data without knowing the file size in
-   advance. The [`fread()`](#man-fread) function might help here.
+   advance. The `fread()` function might help here.
    [flsol[manmem/readfile.c]]
 
 ## Scope
@@ -362,10 +361,9 @@ giving up and looking at the answer.
 
    For bonus points:
 
-   * Make it skip leading whitespace---see the
-     [`isspace()`](#man-isspace) function
+   * Make it skip leading whitespace---see the `isspace()` function
    * Make it stop on the first non-numeric character---see the
-     [`isdigit()`](#man-isdigit) function
+     `isdigit()` function
    * Make it handle negative numbers
 
    [flsol[types3/my_atoi.c]]
@@ -458,7 +456,7 @@ giving up and looking at the answer.
    (`HOME`, `LANG`, and `PATH` are variables commonly-set by the shell,
    so it's likely they're already there for you.)
 
-   You'll want to use [`getenv()`](#man-getenv) for this one.
+   You'll want to use `getenv()` for this one.
 
    [flsol[env/printenv.c]]
 

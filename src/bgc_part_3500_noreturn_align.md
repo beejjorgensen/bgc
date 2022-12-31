@@ -231,7 +231,10 @@ It also allows you to indicate to other devs that some program logic
 depends on a function _not_ returning.
 
 You'll likely never need to use this, but you'll see it on some library
-calls like [`exit()`](#man-exit) and [`abort()`](#man-abort).
+calls like
+[fl[`exit()`|https://beej.us/guide/bgclr/html/split/stdlib.html#man-exit]]
+and
+[fl[`abort()`|https://beej.us/guide/bgclr/html/split/stdlib.html#man-abort]].
 
 The built-in keyword is `_Noreturn`, but if it doesn't break your
 existing code, everyone would recommend including `<stdnoreturn.h>` and

@@ -540,30 +540,28 @@ malloc()         calloc()            realloc()
 aligned_alloc()
 ```
 
-[**`call_once()`**](#man-call_once): synchronizes with all subsequent calls
-to `call_once()` for a particular flag. This way subsequent calls can
-rest assured that if another thread sets the flag, they will see it.
+**`call_once()`**---Synchronizes with all subsequent calls to
+`call_once()` for a particular flag. This way subsequent calls can rest
+assured that if another thread sets the flag, they will see it.
 
-[**`thrd_create()`**](#man-thrd_create): synchronizes with the beginning
-of the new thread. The new thread can be sure it will see all shared
-memory writes from the parent thread from before the `thrd_create()`
-call.
+**`thrd_create()`**---Synchronizes with the beginning of the new thread.
+The new thread can be sure it will see all shared memory writes from the
+parent thread from before the `thrd_create()` call.
 
-[**`thrd_join()`**](#man-thrd_join): when a thread dies, it synchronizes
-with this function. The thread that has called `thrd_join()` can be
-assured that it can see all the late thread's shared writes.
+**`thrd_join()`**---When a thread dies, it synchronizes with this
+function. The thread that has called `thrd_join()` can be assured that
+it can see all the late thread's shared writes.
 
-[**`mtx_lock()`**](#man-mtx_lock): earlier calls to `mtx_unlock()` on
-the same mutex synchronize on this call. This is the case that most
-mirrors the acquire/release process we've already talked about.
-`mtx_unlock()` performs a release on the mutex variable, assuring any
-subsequent thread that makes an acquire with `mtx_lock()` can see all
-the shared memory changes in the critical section.
+**`mtx_lock()`**---Earlier calls to `mtx_unlock()` on the same mutex
+synchronize on this call. This is the case that most mirrors the
+acquire/release process we've already talked about. `mtx_unlock()`
+performs a release on the mutex variable, assuring any subsequent thread
+that makes an acquire with `mtx_lock()` can see all the shared memory
+changes in the critical section.
 
-[**`mtx_timedlock()`**](#man-mtx_timedlock) and
-[**`mtx_trylock()`**](#man-mtx_trylock): similar to the situation with
-`mtx_lock()`, if this call succeeds, earlier calls to `mtx_unlock()`
-synchronize with this one.
+**`mtx_timedlock()`** and **`mtx_trylock()`**---Similar to the situation
+with `mtx_lock()`, if this call succeeds, earlier calls to
+`mtx_unlock()` synchronize with this one.
 
 **Dynamic Memory Functions**: if you allocate memory, it synchronizes
 with the previous deallocation of that same memory. And allocations and

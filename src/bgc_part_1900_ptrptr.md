@@ -292,8 +292,9 @@ object representation in memory are equal.
 If you want to iterate over the object representation, you should do it
 with pointers to `unsigned char`.
 
-Let's make our own version of [`memcpy()`](#man-memcpy) that does
-exactly this:
+Let's make our own version of
+[fl[`memcpy()`|https://beej.us/guide/bgclr/html/split/stringref.html#man-memcpy]]
+that does exactly this:
 
 ``` {.c}
 void *my_memcpy(void *dest, const void *src, size_t n)

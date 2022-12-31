@@ -333,7 +333,10 @@ There are basically two use cases for this.
    and it's passing you data. You know the type of the data, but the
    function calling you doesn't. So it passes you `void*`s---'cause it
    doesn't know the type---and you convert those to the type you need.
-   The built-in [`qsort()`](#man-qsort) and [`bsearch()`](#man-bsearch)
+   The built-in
+   [fl[`qsort()`|https://beej.us/guide/bgclr/html/split/stdlib.html#man-qsort]]
+   and
+   [fl[`bsearch()`|https://beej.us/guide/bgclr/html/split/stdlib.html#man-bsearch]]
    use this technique.
 
 Let's look at an example, the built-in `memcpy()` function:

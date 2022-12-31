@@ -557,9 +557,10 @@ unsigned char *c = (unsigned char *)p;
 ```
 
 A third place it's often required is with the character conversion
-functions in [`<ctype.h>`](#ctype) where you should cast
-questionably-signed values to `unsigned char` to avoid undefined
-behavior.
+functions in
+[fl[`<ctype.h>`|https://beej.us/guide/bgclr/html/split/ctype.html]]
+where you should cast questionably-signed values to `unsigned char` to
+avoid undefined behavior.
 
 Again, casting is rarely _needed_ in practice. If you find yourself
 casting, there might be another way to do the same thing, or maybe

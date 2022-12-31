@@ -334,8 +334,8 @@ int main(void)
 ```
 
 There are a _ton_ of date printing format specifiers for `strftime()`,
-so be sure to check them out in the [`strftime()` reference
-page](#man-strftime).
+so be sure to check them out in the [fl[`strftime()` reference
+page|https://beej.us/guide/bgclr/html/split/time.html#man-strftime]].
 
 [i[`strftime()` function]>]
 

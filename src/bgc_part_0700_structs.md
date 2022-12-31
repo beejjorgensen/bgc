@@ -255,13 +255,14 @@ including pointers to things.
 [i[`struct` keyword-->comparing]<]
 There's only one safe way to do it: compare each field one at a time.
 
-You might think you could use [`memcmp()`](#man-strcmp), but that
-doesn't handle the case of the possible [padding
+You might think you could use
+[fl[`memcmp()`|https://beej.us/guide/bgclr/html/split/stringref.html#man-strcmp]],
+but that doesn't handle the case of the possible [padding
 bytes](#struct-padding-bytes) that might be in there.
 
-If you clear the `struct` to zero first with [`memset()`](#man-memset),
+If you clear the `struct` to zero first with
+[fl[`memset()`|https://beej.us/guide/bgclr/html/split/stringref.html#man-memset]],
 then it _might_ work, though there could be weird elements that
 [fl[might not compare as you
 expect|https://stackoverflow.com/questions/141720/how-do-you-compare-structs-for-equality-in-c]].
-[i[`struct` keyword-->comparing]>]
-[i[`struct` keyword]>]
+[i[`struct` keyword-->comparing]>] [i[`struct` keyword]>]

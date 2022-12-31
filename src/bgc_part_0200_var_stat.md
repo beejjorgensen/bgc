@@ -821,8 +821,9 @@ Side note: did you run that more than once? If you did, did you notice
 the same sequence of numbers came up again. And again. And again? This
 is because `rand()` is a pseudorandom number generator that must be
 _seeded_ with a different number in order to generate a different
-sequence. Look up the [`srand()`](#man-srand) function for more details.
-[i[`do`-`while` statement]>]
+sequence. Look up the
+[fl[`srand()`|https://beej.us/guide/bgclr/html/split/stdlib.html#man-srand]]
+function for more details. [i[`do`-`while` statement]>]
 
 ### The `for` statement {#forstat}
 
