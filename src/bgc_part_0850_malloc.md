@@ -233,11 +233,11 @@ Here's a comparison of `calloc()` and `malloc()`.
 
 ``` {.c}
 // Allocate space for 10 ints with calloc(), initialized to 0:
-int *p = calloc(sizeof(int), 10);
+int *p = calloc(10, sizeof(int));
 
 // Allocate space for 10 ints with malloc(), initialized to 0:
-int *q = malloc(sizeof(int) * 10);
-memset(q, 0, sizeof(int) * 10);   // set to 0
+int *q = malloc(10 * sizeof(int));
+memset(q, 0, 10 * sizeof(int));   // set to 0
 ```
 
 Again, the result is the same for both except `malloc()` doesn't zero
