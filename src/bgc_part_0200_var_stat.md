@@ -82,7 +82,7 @@ Some example types, some of the most basic:
 |Type|Example|C Type|
 |:---|------:|:-----|
 |Integer|`3490`|`int`|
-|Floating point|`3.14159`|`float`|
+|Floating point|`3.14159`|`float`^[I'm lying here a little. Technically `3.14159` is of type `double`, but we're not there yet and I want you to associate `float` with "Floating Point", and C will happily coerce that type into a `float`. In short, don't worry about it until later.]|
 |Character (single)|`'c'`|`char`|
 |String|`"Hello, world!"`|`char *`^[Read this as "pointer to a char" or "char pointer". "Char" for character. Though I can't find a study, it seems anecdotally most people pronounce this as "char", a minority say "car", and a handful say "care". We'll talk more about pointers later.]|
 
