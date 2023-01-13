@@ -130,11 +130,10 @@ header file that you will grow to know and love. It gives us access to a
 bunch of I/O functionality^[Technically, it contains preprocessor
 directives and function prototypes (more on that later) for common input
 and output needs.]. For our demo program, we're outputting the string
-"Hello, World!", so we in particular need access to the
-`printf()`[i[printf()]T] function to do this. The `<stdio.h>` file gives
-us this access. Basically, if we tried to use [i[`printf()` function]<]
-without `#include <stdio.h>`, the compiler would have complained to us
-about it.
+"Hello, World!", so we in particular need access to the [i[`printf()`
+function]<] `printf()` function to do this. The `<stdio.h>` file gives
+us this access. Basically, if we tried to use `printf()` without
+`#include <stdio.h>`, the compiler would have complained to us about it.
 
 How did I know I needed to `#include <stdio.h>` for
 `printf()`?[i[`printf()` function]>] Answer: it's in the documentation.
@@ -188,10 +187,10 @@ newline]<]What's that crazy `\n` at the end of the string? Well, most
 characters in the string will print out just like they are stored. But
 there are certain characters that you can't print on screen well that
 are embedded as two-character backslash codes. One of the most popular
-is `\n` (read "backslash-N") that corresponds to the _newline_
-character. This is the character that causes further printing to
-continue at the beginning of the next line instead of the current.  It's
-like hitting return at the end of the line.[i[`\n` newline]>]
+is `\n` (read "backslash-N" or simply "newline") that corresponds to the
+_newline_ character. This is the character that causes further printing
+to continue at the beginning of the next line instead of the current.
+It's like hitting return at the end of the line.[i[`\n` newline]>]
 
 So copy that code into a file called `hello.c` and build it. On a
 Unix-like platform (e.g. Linux, BSD, Mac, or WSL), from the command line
