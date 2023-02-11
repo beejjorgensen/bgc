@@ -66,7 +66,7 @@ have to consider any copyright issues when merging changes.
 
 ## TODO
 
-* Copy code out
-* Exercises
-* Index
+* Projects
+* More info on reserved identifiers
+* Digraphs/Trigraphs
 * C23
