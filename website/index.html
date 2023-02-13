@@ -75,9 +75,28 @@
 			<p><a href="errata.html">Errata</a> (mistakes?  What?)</p>
 			-->
 
-            Search the HTML guide: <span class="small">[<a
-            href="whynoddg.html">Why I don't use Bing (or
-            DuckDuckGo)</a>]</span>
+            <p>Search the HTML guide on DuckDuckGo:
+
+            <p><form method="get" id="ddgSearch" action="https://duckduckgo.com/">
+                <input type="hidden" name="sites" value="https://beej.us/guide/bgc/"/>
+                <input type="hidden" name="k7" value="#ffffff"/>
+                <input type="hidden" name="k8" value="#222222"/>
+                <input type="hidden" name="k9" value="#00278e"/>
+                <input type="hidden" name="kx" value="#20692b"/>
+                <input type="hidden" name="kj" value="#fafafa"/>
+                <input type="hidden" name="kt" value="p"/>
+                <table style="margin:0 1em">
+                <tr>
+                <td style="width:100%">
+                <input style="width:calc(100% - 1em)" type="text" name="q" placeholder="Search Beej's Guide to C..." aria-label="Search Beej's Guide to C on DuckDuckGo"/>
+                </td>
+                <td>
+                <button type="submit">Search</button>
+                </td>
+                </table>
+            </form>
+
+            Search the HTML guide on Google:
 
             <script async src="https://cse.google.com/cse.js?cx=ae3393718e443f40f">
             </script>
