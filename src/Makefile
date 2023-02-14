@@ -47,6 +47,7 @@ PDF_OPTS= \
 	-V documentclass=book \
 	-o $(GUIDE_ID)_temp.tex \
 	$(COMMON_OPTS)
+	# -H latex/header_codebox.latex \
 	#-V indent \
 
 HTML_OPTS=$(COMMON_OPTS) \
@@ -122,7 +123,7 @@ $(GUIDE_ID)_usl_c_2.pdf: $(GUIDE_MD)
 	xelatex $(GUIDE_ID)_temp.tex
 	xelatex $(GUIDE_ID)_temp.tex
 	mv $(GUIDE_ID)_temp.pdf $@
-	rm -f $(GUIDE_ID)_temp*
+	#rm -f $(GUIDE_ID)_temp*
 
 $(GUIDE_ID)_a4_c_1.pdf: $(GUIDE_MD)
 	$(PREPROC) $^ $(PREPROC_MD)
