@@ -123,7 +123,7 @@ $(GUIDE_ID)_usl_c_2.pdf: $(GUIDE_MD)
 	xelatex $(GUIDE_ID)_temp.tex
 	xelatex $(GUIDE_ID)_temp.tex
 	mv $(GUIDE_ID)_temp.pdf $@
-	#rm -f $(GUIDE_ID)_temp*
+	rm -f $(GUIDE_ID)_temp*
 
 $(GUIDE_ID)_a4_c_1.pdf: $(GUIDE_MD)
 	$(PREPROC) $^ $(PREPROC_MD)
