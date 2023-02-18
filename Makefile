@@ -61,7 +61,7 @@ fastupload: all stage
 	rsync -rv -e ssh --delete $(STAGEDIR)/* $(STAGEDIR)/.htaccess $(UPLOADDIR)
 
 pristine: clean
-	rm -rf $(STAGEDIR)  # AAA
+	rm -rf $(STAGEDIR)
 
 clean:
 	$(MAKE) -C src $@
