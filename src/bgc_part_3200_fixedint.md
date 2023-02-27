@@ -265,7 +265,7 @@ int_least16_t x = 3490;
 ```
 
 I can print that with the equivalent format specifier for `%d` by
-using `PRId16`.
+using `PRIdLEAST16`.
 
 But how? How do we use that macro?
 
