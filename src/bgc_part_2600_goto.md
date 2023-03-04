@@ -428,6 +428,41 @@ function should be restarted.
 
 [i[`goto` statement-->restarting system calls]>]
 
+## `goto` and Thread Preemption
+
+[i[`goto` statement-->thread preemption]<]
+
+This example is ripped directly from [_Operating Systems: Three Easy
+Pieces_](http://www.ostep.org/), another excellent book from like-minded
+authors who also feel that quality books should be free to download. Not
+that I'm opinionated, or anything.
+
+``` {.c}
+retry:
+
+    pthread_mutex_lock(L1);
+
+    if (pthread_mutex_trylock(L2) != 0) {
+        pthread_mutex_unlock(L1);
+        goto retry;
+    }
+
+    save_the_day();
+
+    pthread_mutex_unlock(L2);
+    pthread_mutex_unlock(L1);
+```
+
+There the thread happily acquires the mutex `L1`, but then potentially
+fails to get the second resource guarded by mutex `L2` (if some other
+uncooperative thread holds it, say). If our thread can't get the `L2`
+lock, it unlocks `L1` and then uses `goto` to cleanly retry.
+
+We hope our heroic thread eventually manages to acquire both mutexes and
+save the day, all while avoiding evil deadlock.
+
+[i[`goto` statement-->thread preemption]>]
+
 ## `goto` and Variable Scope 
 
 [i[`goto` statement-->variable scope]<]
