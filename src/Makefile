@@ -1,7 +1,7 @@
 TITLE="Beej's Guide to C Programming"
 SUBTITLE=""
 AUTHOR='Brian “Beej Jorgensen” Hall'
-VERSION_DATE="v0.9.12, Copyright © February 13, 2023"
+VERSION_DATE="v0.9.13, Copyright © March 29, 2023"
 
 GUIDE_ID=bgc
 
