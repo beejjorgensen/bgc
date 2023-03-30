@@ -236,14 +236,13 @@ warning: initialization discards ‘const’ qualifier from pointer target type
       |               ^
 ```
 
-What's going on? The 
+What's going on? The compiler is telling us here that we had a variable
+that was `const`, and we're assigning its value into another
+variable that is not `const` in the same way. The "`const`ness" is
+discarded, which probably isn't what we wanted to do.
 
-That is, we're saying that q is type `int **`, and if you dereference
-that, the rightmost `*` in the type goes away. So after the dereference,
-we have type `int *`.
-
-And we're assigning `&p` into it which is _a pointer to_ an `int
-*const`, or, in other words, `int *const *`.
+The type of `p` is `int *const p`, and so `&p` is type `int *const *`.
+And we try to assign that into `q`.
 
 But `q` is `int **`! A type with different `const`ness on the first
 `*`! So we get a warning that the `const` in `p`'s `int *const *` is
