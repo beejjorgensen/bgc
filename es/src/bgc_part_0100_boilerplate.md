@@ -4,20 +4,46 @@
 -->
 
 <!-- No hyphenation -->
-
-[nh[scalbn]] [nh[scalbnf]] [nh[scalbnl]] [nh[scalbln]] [nh[scalblnf]] [nh[scalblnl]]
-
+[nh[scalbn]]
+[nh[scalbnf]]
+[nh[scalbnl]]
+[nh[scalbln]]
+[nh[scalblnf]]
+[nh[scalblnl]]
 <!-- Can't do things that aren't letters
 [nh[atan2]]
 [nh[atan2f]]
 [nh[atan2l]]
 -->
-
-[nh[lrint]] [nh[lrintf]] [nh[lrintl]] [nh[llrint]] [nh[llrintf]] [nh[llrintl]] [nh[lround]] [nh[lroundf]] [nh[lroundl]] [nh[llround]] [nh[llroundf]] [nh[llroundl]]
+[nh[lrint]]
+[nh[lrintf]]
+[nh[lrintl]]
+[nh[llrint]]
+[nh[llrintf]]
+[nh[llrintl]]
+[nh[lround]]
+[nh[lroundf]]
+[nh[lroundl]]
+[nh[llround]]
+[nh[llroundf]]
+[nh[llroundl]]
 
 <!-- Index see alsos -->
-
-[is[String==&gt;see `char *`]] [is[New line==&gt;see `\n` newline]] [is[Ternary operator==&gt;see `?:` ternary operator]] [is[Addition operator==&gt;see `+` addition operator]] [is[Subtraction operator==&gt;see `-` subtraction operator]] [is[Multiplication operator==&gt;see `*` multiplication operator]] [is[Division operator==&gt;see `/` division operator]] [is[Modulus operator==&gt;see `%` modulus operator]] [is[Boolean NOT==&gt;see `!` operator]] [is[Boolean AND==&gt;see `&&` operator]] [is[Boolean OR==&gt;see `||` operator]] [is[Bell==&gt;see `\a` operator]] [is[Tab (is better)==&gt;see `\t` operator]] [is[Carriage return==&gt;see `\r` operator]] [is[Hexadecimal==&gt;see `0x` hexadecimal]]
+[is[String==>see `char *`]]
+[is[New line==>see `\n` newline]]
+[is[Ternary operator==>see `?:` ternary operator]]
+[is[Addition operator==>see `+` addition operator]]
+[is[Subtraction operator==>see `-` subtraction operator]]
+[is[Multiplication operator==>see `*` multiplication operator]]
+[is[Division operator==>see `/` division operator]]
+[is[Modulus operator==>see `%` modulus operator]]
+[is[Boolean NOT==>see `!` operator]]
+[is[Boolean AND==>see `&&` operator]]
+[is[Boolean OR==>see `||` operator]]
+[is[Bell==>see `\a` operator]]
+[is[Tab (is better)==>see `\t` operator]]
+[is[Carriage return==>see `\r` operator]]
+[is[Hexadecimal==>see `0x` hexadecimal]]
 
 # Prefacio
 
