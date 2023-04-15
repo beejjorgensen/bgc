@@ -4,7 +4,7 @@ Esta es la fuente (traducida al español) de la Guía de Beej para C.
 
 Si únicamente deseas leer la guía, visite el sitio web [Beej's Guide to C.](https://beej.us/guide/bgc/)
 
-Esto está aquí para que Beej tenga todo en un repositorio y para que los traductores puedan clonarlo fácilmente.
+Esto está aquí para que Beej tenga todo (lo referente a la guía) en un sólo repositorio y para que los traductores puedan clonarlo fácilmente.
 
 ## Instrucciones de construcción
 
