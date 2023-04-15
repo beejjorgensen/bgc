@@ -55,7 +55,7 @@ El objetivo `upload` en el `Makefile` raíz demuestra los pasos de compilación 
 
 Por favor, manténgalos en la escala de correcciones de errores y errores tipográficos. De esa manera, no tengo que considerar ningún problema de derechos de autor al fusionar cambios.
 
-## Poe hacer
+## Por hacer
 
 - Proyectos
 - Más información sobre identificadores reservados
