@@ -395,8 +395,55 @@ struct t   : 16
 max_align_t: 16
 ```
 
-And there you have it. Alignment!
-
 [i[`alignof` operator]>]
 [i[`_Alignof` operator]>]
+
+## `memalignment()` Function
+
+[i[`memalignment()` function]<]
+
+New in C23!
+
+(Caveat: none of my compilers support this function yet, so the code is
+largely untested.)
+
+`alignof` is great if you know the type of your data. But what if you're
+_woefully ignorant_ of the type, and only have a pointer to the data?
+
+How could that even happen?
+
+Well, with our good friend the `void*`, of course. We can't pass that to
+`alignof`, but what if we need to know the alignment of the thing it
+points to?
+
+We might want to know this if we're about to use the memory for
+something that has significant alignment needs. For example, atomic and
+floating types often behave badly if misaligned.
+
+So with this function we can check the alignment of some data as long as
+we have a pointer to that data, even if it's a `void*`.
+
+Let's do a quick test to see if a void pointer is well-aligned for use
+as an atomic type, and, if so, let's get a variable to use it as that
+type:
+
+``` {.c}
+void foo(void *p)
+{
+    if (memalignment(p) >= alignof(atomic int)) {
+        atomic int *i = p;
+        do_things(i);
+    } else
+        puts("This pointer is no good as an atomic int\n");
+
+...
+```
+
+I suspect you will rarely (to the point of never, likely) need to use
+this function unless you're doing some low-level stuff.
+
+[i[`memalignment()` function]>]
+
+And there you have it. Alignment!
+
 [i[Alignment]>]
