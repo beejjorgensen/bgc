@@ -11,8 +11,10 @@
 
 * add strdup() and strndup() functions in <string.h> to allocate a copy
   of a string – similar to POSIX and SVID C extensions.[8]
+
 * add memalignment() function in <stdlib.h> to determine the byte
   alignment of a pointer.[9]
+
 * add bit utility functions / macros / types in new header <stdbit.h> to
   examine many integer types. All start with stdc_ to minimize conflict
   with legacy code and 3rd party libraries.[10]
@@ -153,3 +155,7 @@
   narrow multibyte character representation respectively.[54]
 * allow storage class specifiers to appear in compound literal
   definition.[55]
+
+## Misc
+
+* Update C version references
