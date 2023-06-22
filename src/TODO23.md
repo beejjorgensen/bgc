@@ -38,6 +38,9 @@
     that is not less than value.[10]
   * add stdc_bit_width*() to determine number of bits to represent a
     value.[10]
+
+BOOKMARK
+
 * add timegm() function in <time.h> to convert time structure into
   calendar time value - similar to function in glibc and musl
   libraries.[11]
