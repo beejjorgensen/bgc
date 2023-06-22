@@ -309,7 +309,7 @@ Or, another example that prints if a number stored in `x` is odd or
 even:
 
 ``` {.c}
-printf("The number %d is %s.\n", x, x % 2 == 0? "even": "odd")
+printf("The number %d is %s.\n", x, x % 2 == 0? "even": "odd");
 ```
 
 The `%s` format specifier in `printf()`[i[printf()]T] means print a
