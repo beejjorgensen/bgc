@@ -724,7 +724,7 @@ Let's do one!
 //   i is now 8!
 //   i is now 9!
 
-i = 0;
+int i = 0;
 
 while (i < 10) {
     printf("i is now %d!\n", i);
