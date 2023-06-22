@@ -437,7 +437,7 @@ For Boolean values, we have a raft of standard operators:
 [i[Comparison operators]] [i[`==` equality operator]]
 [i[`!=` inequality operator]] [i[`<` less than operator]]
 [i[`>` greater than operator]] [i[`<=` less or equal operator]]
-[i[`>=` less or equal operator]]
+[i[`>=` greater or equal operator]]
 
 ``` {.c}
 a == b;  // True if a is equivalent to b
