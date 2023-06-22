@@ -445,7 +445,7 @@ There's only one safe pointer conversion:
 
 TWO! Two safe pointer conversions.
 
-3. Converting to and from `char*`.
+3. Converting to and from `char*` (or `signed char*`/`unsigned char*`).
 
 THREE! Three safe conversions!
 

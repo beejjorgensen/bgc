@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Guía de programación en C de Beej</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="Description" content="Beej's Guide to C Programming">
+    <meta name="Keywords" content="c programming clang">
+    <link rel="icon" type="image/gif" href="/guide/favicon.gif">
+    <link rel="stylesheet" type="text/css" href="index.css">
+</head>
+
+<body>
+
+<div class="center">
+	<div class="ib800">
+		<div class="center">
+			<div class="hr w100p"></div>
+			<div id="suggestive-sell">¿Te gusta la guía? ¡Manos a la obra!</div>
+			<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+			<input type="hidden" name="cmd" value="_s-xclick">
+			<input type="image" src="https://www.paypal.com/en_US/i/btn/x-click-but04.gif" border="0" name="submit" alt="Make payments with PayPal - it's fast, free and secure!">
+			<input type="hidden" name="encrypted" value="-----BEGIN PKCS7-----MIIHuQYJKoZIhvcNAQcEoIIHqjCCB6YCAQExggEwMIIBLAIBADCBlDCBjjELMAkGA1UEBhMCVVMxCzAJBgNVBAgTAkNBMRYwFAYDVQQHEw1Nb3VudGFpbiBWaWV3MRQwEgYDVQQKEwtQYXlQYWwgSW5jLjETMBEGA1UECxQKbGl2ZV9jZXJ0czERMA8GA1UEAxQIbGl2ZV9hcGkxHDAaBgkqhkiG9w0BCQEWDXJlQHBheXBhbC5jb20CAQAwDQYJKoZIhvcNAQEBBQAEgYACzGjNdeobbyuFFRxWN4B7AyR3lFBKybAKc+HnQG4tBtRTx1BVzQuUTJRF2yLAT9CgaWQu/SLrAR1tNrysrFvqlXGkRe/0IUNp9wLE2flrpoRwf7Af3pRTNJdgy/JCiSti0Kaz9nR9jB8V8A8CU5gt+5fYZ5dpB0MhgUtYEeRICDELMAkGBSsOAwIaBQAwggE1BgkqhkiG9w0BBwEwFAYIKoZIhvcNAwcECDF+UJbmZdzHgIIBED/Kdg64miQoNja+JN1dLojdjTZocgYDS4ykmfBa3hmBkby3kMJWB/8oKkXN3nF8x8ZAjycNrAKejnIsq4oLYBt8/kD6KfeZmysyenw94CZhpkipGKmlvgzuJhygOw5k0wYXE/rV6k9/BVysJduTziLQJ3Yk/ye3KDV17Y8/drLAT0ueiL/sk7eWbEN6Drc1eEVL4FtfaayTWPCDF/McC6AuPLzv+RaoVX/QlOLsjuoibWrVk9P1Sq/76/bR8x5op//ZRDtHnQdy/EH86D0p6XD7EAMg2W1R01+zJ+cdYs6FyCeCFO5OH4d3Kfm1ihJ75JELAKSaomQweP0i4z68p/uoEFS1LMnDzRcwshxo3lmkoIIDhzCCA4MwggLsoAMCAQICAQAwDQYJKoZIhvcNAQEFBQAwgY4xCzAJBgNVBAYTAlVTMQswCQYDVQQIEwJDQTEWMBQGA1UEBxMNTW91bnRhaW4gVmlldzEUMBIGA1UEChMLUGF5UGFsIEluYy4xEzARBgNVBAsUCmxpdmVfY2VydHMxETAPBgNVBAMUCGxpdmVfYXBpMRwwGgYJKoZIhvcNAQkBFg1yZUBwYXlwYWwuY29tMB4XDTA0MDIxMzEwMTMxNVoXDTM1MDIxMzEwMTMxNVowgY4xCzAJBgNVBAYTAlVTMQswCQYDVQQIEwJDQTEWMBQGA1UEBxMNTW91bnRhaW4gVmlldzEUMBIGA1UEChMLUGF5UGFsIEluYy4xEzARBgNVBAsUCmxpdmVfY2VydHMxETAPBgNVBAMUCGxpdmVfYXBpMRwwGgYJKoZIhvcNAQkBFg1yZUBwYXlwYWwuY29tMIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDBR07d/ETMS1ycjtkpkvjXZe9k+6CieLuLsPumsJ7QC1odNz3sJiCbs2wC0nLE0uLGaEtXynIgRqIddYCHx88pb5HTXv4SZeuv0Rqq4+axW9PLAAATU8w04qqjaSXgbGLP3NmohqM6bV9kZZwZLR/klDaQGo1u9uDb9lr4Yn+rBQIDAQABo4HuMIHrMB0GA1UdDgQWBBSWn3y7xm8XvVk/UtcKG+wQ1mSUazCBuwYDVR0jBIGzMIGwgBSWn3y7xm8XvVk/UtcKG+wQ1mSUa6GBlKSBkTCBjjELMAkGA1UEBhMCVVMxCzAJBgNVBAgTAkNBMRYwFAYDVQQHEw1Nb3VudGFpbiBWaWV3MRQwEgYDVQQKEwtQYXlQYWwgSW5jLjETMBEGA1UECxQKbGl2ZV9jZXJ0czERMA8GA1UEAxQIbGl2ZV9hcGkxHDAaBgkqhkiG9w0BCQEWDXJlQHBheXBhbC5jb22CAQAwDAYDVR0TBAUwAwEB/zANBgkqhkiG9w0BAQUFAAOBgQCBXzpWmoBa5e9fo6ujionW1hUhPkOBakTr3YCDjbYfvJEiv/2P+IobhOGJr85+XHhN0v4gUkEDI8r2/rNk1m0GA8HKddvTjyGw/XqXa+LSTlDYkqI8OwR8GEYj4efEtcRpRYBxV8KxAW93YDWzFGvruKnnLbDAF6VR5w/cCMn5hzGCAZowggGWAgEBMIGUMIGOMQswCQYDVQQGEwJVUzELMAkGA1UECBMCQ0ExFjAUBgNVBAcTDU1vdW50YWluIFZpZXcxFDASBgNVBAoTC1BheVBhbCBJbmMuMRMwEQYDVQQLFApsaXZlX2NlcnRzMREwDwYDVQQDFAhsaXZlX2FwaTEcMBoGCSqGSIb3DQEJARYNcmVAcGF5cGFsLmNvbQIBADAJBgUrDgMCGgUAoF0wGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcNMDUxMDEzMjE1OTQ3WjAjBgkqhkiG9w0BCQQxFgQUi4sL42exjNSpMdBUve7Ce9pPAYcwDQYJKoZIhvcNAQEBBQAEgYCM72UuR8Nn4fKimzHPU3DjjWAwlSzm5YuhFmbX/gvpZBGoVOZ4INSEtParcwwQrTzmtbKmrcxyogEI6aRbjd/RU6aPPlkxSpga+Ds0hajH8AHqNFR2Tmbd0e5NHmGh6av/nV9ai7xcLPIlxD5GOMTBGThzd6fkCQQkslYSxU8shg==-----END PKCS7-----">
+			</form>
+			<div class="hr w100p"></div>
+		</div>
+
+		<p>
+
+		<!--
+		<div class="center">
+			<div class="w100p ilb">
+				<div class="float-left mb2ex">
+					<a target="_blank" href="http://beej.us/guide/url/bgbuy">
+						<img border="0" src="bgccover.png" alt="book cover image"/>
+					</a>
+				</div>
+
+				<div style="margin-top: 4ex;">
+					<a target="_blank" href="http://beej.us/guide/url/bgbuy">
+						<b><span class="bigfont">Buy the Guide as a Real Life
+						Perfect-Bound BOOK right now!</span></b>
+						<p>
+						<b><i>Holy Moly!</i></b>
+					</a>
+				</div>
+
+				<div class="clear-both"></div>
+
+			</div>
+		</div>
+		-->
+
+		</p>
+<div class="left">
+<h>Guía de programación en C de Beej</h><br><p> Este es el <b>primer volúmen</b> de La Guía de Programación en C de Beej (Beej's Guide to C), el tutorial. <a href="/guide/bgclr/">Haga clic aquí para ver el<br>segundo volumen, la Biblioteca de Referencia</a> .</p>
+<br><p> Ten en cuenta<b><i>que este es un documento de calidad beta</i></b> . Si tienes correcciones, me encantaría escucharlas, pero te ruego comprendas que es posible que aún <i>yo mismo</i> no haya leído esa parte de la guía. Si, ¡Hay errores flagrantes! Además, es posible que a veces no sepa de lo que estoy hablando cuando se trata de algo. ¡Así que <a href="mailto:beej@beej.us">escríbeme un correo electrónico</a> !</p>
+<br><p> ( <a href="http://beej.us/guide/">Haz  clic aquí para otras guías!</a> )</p>
+<br><h> Qué hay aquí para los lectores:</h><br><comment data-md-type="comment"></comment><br><p> Búsqueda en la guía HTML con DuckDuckGo:</p>
+<br><p></p>
+<br><form method="get" id="ddgSearch" action="https://duckduckgo.com/">
+<input type="hidden" name="sites" value="https://beej.us/guide/bgc/"><input type="hidden" name="k7" value="#ffffff"><input type="hidden" name="k8" value="#222222"><input type="hidden" name="k9" value="#00278e"><input type="hidden" name="kx" value="#20692b"><input type="hidden" name="kj" value="#fafafa"><input type="hidden" name="kt" value="p"><table style="margin:0 1em"><tr>
+<td style="width:100%"></td>
+<input type="hidden" name="k7" value="#ffffff"><td>
+<br><button type="submit">Buscar usando DDG</button>
+</td>
+</tr></table>
+</form>
+<br><p style="margin-bottom:0"> Búsqueda en la guía HTML con Google:</p>
+<script async="" src="https://cse.google.com/cse.js?cx=ae3393718e443f40f"></script><br><div class="gcse-search"></div>
+<b class="subsecttitle">HTML:</b><br><ul>
+<li><a href="html/split/">HTML</a></li>
+<br><li> <a href="html/split-wide/">HTML, pantalla ancha</a>
+</li>
+<p></p>
+<br><li> <a href="html/">HTML, página única</a>
+</li>
+<br><li><a href="html/index-wide.html">HTML, página única, pantalla ancha</a></li>
+<p></p>
+<br><li><a href="html/bgc.zip">HTML (en archivo ZIP) </a></li>
+<br><li><a href="html/bgc-wide.zip">HTML pantalla ancha(en archivo ZIP)  </a></li>
+</ul>
+<br><br><p> <b class="subsecttitle">PDF:</b></p>
+<br><ul>
+<br><li> <a href="pdf/bgc_usl_c_1.pdf">Tamaño Carta U.S., una cara, Sintaxis resaltada</a>
+</li>
+<br><li> <a href="pdf/bgc_usl_c_2.pdf">Tamaño Carta de U.S., dos caras, Sintaxis resaltada</a>
+</li>
+<br><li> <a href="html/">Tamaño DIN A4, una cara, Sintaxis resaltada</a>
+</li>
+<br><li> <a href="pdf/bgc_a4_c_2.pdf">Tamaño DIN A4, dos caras, Sintaxis resaltada</a>
+</li>
+<br><li> <a href="pdf/bgc_usl_bw_1.pdf">Carta de U.S., una cara, en blanco y negro</a>
+</li>
+<br><li> <a href="pdf/bgc_usl_bw_2.pdf">Carta de U.S., dos caras, en blanco y negro</a>
+</li>
+<br><li> <a href="html/bgc.zip">A4, una cara, blanco y negro</a>
+</li>
+<br><li><a href="pdf/bgc_a4_bw_2.pdf">A4, dos caras, blanco y negro</a></li>
+</ul>
+<br><br><b class="subsecttitle">Ejemplos:</b><br><p></p>
+<br><ul>
+<br><li> <a href="source/">Descargas sueltas de ejemplo en<br>C</a> <i>(correr <tt>make</tt> para compilar).</i>
+</li>
+<li>
+<br><a href="source/bgc_source.zip">archivo<br>zip</a>
+</li>
+</ul>
+<comment data-md-type="comment"></comment><comment data-md-type="comment"><h> Qué<br>hay aquí para traductores y escritores:</h><p> Clone todo desde<br><a href="https://github.com/beejjorgensen/bgc">GitHub</a> y siga el <tt>LÉAME</tt> .</p>
+<hr class="singleline"> Póngase en contacto<br>con Beej: <tt class="email"><a href="mailto:beej@beej.us">beej@beej.us</a></tt></comment>
+</div>
+	</div>
+</div>
+
+</body>
+</html>
