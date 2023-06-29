@@ -39,8 +39,6 @@
   * add stdc_bit_width*() to determine number of bits to represent a
     value.[10]
 
-BOOKMARK
-
 * add timegm() function in <time.h> to convert time structure into
   calendar time value - similar to function in glibc and musl
   libraries.[11]
@@ -52,6 +50,9 @@ BOOKMARK
   Implementations that previously didn't use %B as their own extension
   are encouraged to implement and prepend non-zero values with 0B,
   similar to how %X works.[12]
+
+BOOKMARK
+
 * add %b binary conversion specifier to scanf() function family.[12]
 * add 0b and 0B binary conversion support to strtol() and wcstol()
   function families.[12]
