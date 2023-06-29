@@ -51,11 +51,13 @@
   are encouraged to implement and prepend non-zero values with 0B,
   similar to how %X works.[12]
 
-BOOKMARK
-
 * add %b binary conversion specifier to scanf() function family.[12]
+
 * add 0b and 0B binary conversion support to strtol() and wcstol()
   function families.[12]
+
+BOOKMARK
+
 * make the functions bsearch(), bsearch_s(), memchr(), strchr(),
   strpbrk(), strrchr(), strstr(), and their wide counterparts wmemchr(),
   wcschr(), wcspbrk(), wcsrchr(), wcsstr() return a const qualified
@@ -163,3 +165,5 @@ BOOKMARK
 ## Misc
 
 * Update C version references
+* strfrom functions in stdlib.h
+* Verify other library functions
