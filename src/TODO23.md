@@ -1,3 +1,6 @@
+Currently pass 1: BGC and man pages
+Pass 2: bgclr_part_0150
+
 # C23 Stuff
 
 ## Standard Library (new functions)
@@ -56,8 +59,6 @@
 * add 0b and 0B binary conversion support to strtol() and wcstol()
   function families.[12]
 
-BOOKMARK
-
 * make the functions bsearch(), bsearch_s(), memchr(), strchr(),
   strpbrk(), strrchr(), strstr(), and their wide counterparts wmemchr(),
   wcschr(), wcspbrk(), wcsrchr(), wcsstr() return a const qualified
@@ -68,6 +69,9 @@ BOOKMARK
 * add #elifdef and #elifndef directives[14] are essentially equivalent
   to #elif defined and #elif !defined. Both directives were added to
   C++23 standard and GCC 12 compiler too.[15]
+
+BOOKMARK
+
 * add #embed directive for binary resource inclusion.[16]
 * add #warning directive for diagnostics.[17]
 * add __has_include allowing the availability of a header to be checked
