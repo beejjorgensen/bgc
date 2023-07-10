@@ -298,6 +298,37 @@ print:
 I'm just regular
 ```
 
+### Else-If: `#elifdef`, `#elifndef`
+
+[i[`#elifdef` directive]<]
+[i[`#elifndef` directive]<]
+
+This feature is new in C23!
+
+What if you want something more complex, though? Perhaps you need an
+if-else cascade structure to get your code built right?
+
+Luckily we have these directives at our disposal. We can use `#elifdef`
+for "else if defined":
+
+``` {.c}
+#ifdef MODE_1
+    printf("This is mode 1\n");
+#elifdef MODE_2
+    printf("This is mode 2\n");
+#elifdef MODE_3
+    printf("This is mode 3\n");
+#else
+    printf("This is some other mode\n");
+#endif
+```
+
+[i[`#elifdef` directive]>]
+
+On the flipside, you can use `#elifndef` for "else if not defined".
+
+[i[`#elifndef` directive]>]
+
 ### General Conditional: `#if`, `#elif`
 
 [i[`#if` directive]<]
@@ -367,14 +398,14 @@ commented out and an `#endif` at the end, you can get this effect:
 
 [i[`#if 0` directive]>]
 
-You might have noticed that there's no `#elifdef` or `#elifndef`
-directives. How can we get the same effect with `#if`? That is, what if
-I wanted this:
+What if you're on a pre-C23 compiler and you don't have `#elifdef` or
+`#elifndef` directive support? How can we get the same effect with
+`#if`? That is, what if I wanted this:
 
 ``` {.c}
 #ifdef FOO
     x = 2;
-#elifdef BAR  // ERROR: Not supported by standard C
+#elifdef BAR  // POTENTIAL ERROR: Not supported before C23
     x = 3;
 #endif
 ```
@@ -411,7 +442,7 @@ This broken code:
 ``` {.c}
 #ifdef FOO
     x = 2;
-#elifdef BAR  // ERROR: Not supported by standard C
+#elifdef BAR  // POTENTIAL ERROR: Not supported before C23
     x = 3;
 #endif
 ```
