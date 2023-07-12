@@ -69,17 +69,17 @@ Pass 2: bgclr_part_0150
 * add #elifdef and #elifndef directives[14] are essentially equivalent
   to #elif defined and #elif !defined. Both directives were added to
   C++23 standard and GCC 12 compiler too.[15]
+* add `#embed` directive for binary resource inclusion.[16]
 
 BOOKMARK
 
-* add #embed directive for binary resource inclusion.[16]
-* add #warning directive for diagnostics.[17]
-* add __has_include allowing the availability of a header to be checked
+* add `#warning` directive for diagnostics.[17]
+* add `__has_include` allowing the availability of a header to be checked
   by preprocessor directives.[18]
-* add __has_c_attribute allowing the availability of an attribute to be
+* add `__has_c_attribute` allowing the availability of an attribute to be
   checked by preprocessor directives.[19] (see "C++ compatibility" group
   for new attribute feature)
-* add __VA_OPT__ functional macro for variadic macros which expands to
+* add `__VA_OPT__` functional macro for variadic macros which expands to
   its argument only if a variadic argument has been passed to the
   containing macro.[20]
 
