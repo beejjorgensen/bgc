@@ -91,7 +91,7 @@ But let's say you're doing a build where the compiler _is_ inlining the
 function. In that case, you can just use a plain `inline` in the
 definition. However, there are now additional restrictions.
 
-You can't refer to any `static` globals:
+You can't refer to any `static` globals or call any `static` functions:
 
 ``` {.c}
 static int b = 13;
