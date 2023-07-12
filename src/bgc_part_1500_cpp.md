@@ -1100,6 +1100,351 @@ the C11 spec.
 
 [i[`#warning` directive]>]
 
+## The `#embed` Directive
+
+[i[`#embed` directive]<]
+
+<!-- Godbolt demo: https://godbolt.org/z/Kb3ejE7q5 -->
+
+New in C23!
+
+And currently not yet working with any of my compilers, so take this
+section with a grain of salt!
+
+The gist of this is that you can include bytes of a file as integer
+constants as if you'd typed them in.
+
+For example, if you have a binary file named `foo.bin` that contains
+four bytes with decimal values 11, 22, 33, and 44, and you do this:
+
+``` {.c}
+int a[] = {
+#embed "foo.bin"
+};
+```
+
+It'll be just as if you'd typed this:
+
+``` {.c}
+int a[] = {11,22,33,44};
+```
+
+This is a really powerful way to initialize an array with binary data
+without needing to convert it all to code first---the preprocessor does
+it for you!
+
+A more typical use case might be a file containing a small image to be
+displayed that you don't want to load at runtime.
+
+Here's another example:
+
+``` {.c}
+int a[] = {
+#embed <foo.bin>
+};
+```
+
+If you use angle brackets, the preprocessor looks in a series of
+implementation-defined places to locate the file, just like `#include`
+would do. If you use double quotes and the resource is not found, the
+compiler will try it as if you'd used angle brackets in a last desperate
+attempt to find the file.
+
+`#embed` works like `#include` in that it effectively pastes values in
+before the compiler sees them. This means you can use it in all kinds of
+places:
+
+```
+return
+#embed "somevalue.dat"
+;
+```
+
+or
+
+```
+int x =
+#embed "xvalue.dat"
+;
+```
+
+Now---are these always bytes? Meaning they'll have values from 0 to 255,
+inclusive? The answer is definitely by default "yes", except when it is
+"no".
+
+Technically, the elements will be `CHAR_BIT` bits wide. And this is very
+likely 8 on your system, so you'd get that 0-255 range in your values.
+(They'll always be non-negative.)
+
+Also, it's possible that an implementation might allow this to be
+overridden in some way, e.g. on the command line or with parameters.
+
+The size of the file in bits must be a multiple of the element size.
+That is, if each element is 8 bits, the file size (in bits) must be a
+multiple of 8. In regular everyday usage, this is a confusing way of
+saying that each file needs to be an integer number of bytes... which of
+course it is. Honestly, I'm not even sure why I bothered with this
+paragraph. Read the spec if you're really that curious.
+
+### `#embed` Parameters
+
+There are all kinds of parameters you can specify to the `#embed`
+directive. Here's an example with the yet-unintroduced `limit()`
+parameter:
+
+``` {.c}
+int a[] = {
+#embed "/dev/random" limit(5)
+};
+```
+
+But what if you already have `limit` defined somewhere else? Luckily you
+can put `__` around the keyword and it will work the same way:
+
+``` {.c}
+int a[] = {
+#embed "/dev/random" __limit__(5)
+};
+```
+
+Now... what's this `limit` thing?
+
+### The `limit()` Parameter
+
+You can specify a limit on the number of elements to embed with this
+parameter.
+
+This is a maximum value, not an absolute value. If the file that's
+embedded is shorter than the specified limit, only that many bytes will
+be imported.
+
+The `/dev/random` example above is an example of the motivation for
+this---in Unix, that's a _character device file_ that will return an
+infinite stream of pretty-random numbers.
+
+Embedding an infinite number of bytes is hard on your RAM, so the
+`limit` parameter gives you a way to stop after a certain number.
+
+Finally, you are allowed to use `#define` macros in your `limit`, in
+case you were curious.
+
+### The `if_empty` Parameter
+
+[i[`if_empty()` embed parameter]<]
+
+This parameter defines what the embed result should be if the file
+exists but contains no data. Let's say that the file `foo.dat` contains
+a single byte with the value 123. If we do this:
+
+``` {.c}
+int x = 
+#embed "foo.dat" if_empty(999)
+;
+```
+
+we'll get:
+
+``` {.c}
+int x = 123;   // When foo.dat contains a 123 byte
+```
+
+But what if the file `foo.dat` is zero bytes long (i.e. contains no
+data and is empty)? If that's the case, it would expand to:
+
+``` {.c}
+int x = 999;   // When foo.dat is empty
+```
+
+Notably if the `limit` is set to `0`, then the `if_empty` will always be
+substituted. That is, a zero limit effectively means the file is empty.
+
+This will always emit `x = 999` no matter what's in `foo.dat`:
+
+``` {.c}
+int x = 
+#embed "foo.dat" limit(0) if_empty(999)
+;
+```
+
+[i[`if_empty()` embed parameter]>]
+
+### The `prefix()` and `suffix()` Parameters
+
+[i[`prefix()` embed parameter]<]
+[i[`suffix()` embed parameter]<]
+
+This is a way to prepend some data on the embed.
+
+Note that these only affect non-empty data! If the file is empty,
+neither `prefix` nor `suffix` has any effect.
+
+Here's an example where we embed three random numbers, but prefix the
+numbers with `11,` and suffix them with `,99`:
+
+``` {.c}
+int x[] = {
+#embed "/dev/urandom" limit(3) prefix(11,) suffix(,99)
+};
+```
+
+Example result:
+
+``` {.c}
+int x[] = {11,135,116,220,99};
+```
+
+There's no requirement that you use both `prefix` and `suffix`. You can
+use both, one, the other, or neither.
+
+We can make use of the characteristic that these are only applied to
+non-empty files to neat effect, as shown in the following example
+shamelessly stolen from the spec.
+
+Let's say we have a file `foo.dat` that has some data it in. And we want
+to use this to initialize an array, and then we want a suffix on the
+array that is a zero element.
+
+No problem, right?
+
+``` {.c}
+int x[] = {
+#embed "foo.dat" suffix(,0)
+};
+```
+
+If `foo.dat` has 11, 22, and 33 in it, we'd get:
+
+``` {.c}
+int x[] = {11,22,33,0};
+```
+
+But wait! What if `foo.dat` is empty? Then we get:
+
+``` {.c}
+int x[] = {};
+```
+
+and that's not good.
+
+But we can fix it like this:
+
+``` {.c}
+int x[] = {
+#embed "foo.dat" suffix(,)
+    0
+};
+```
+
+Since the `suffix` parameter is omitted if the file is empty, this would
+just turn into:
+
+``` {.c}
+int x[] = {0};
+```
+
+which is fine.
+
+[i[`prefix()` embed parameter]>]
+[i[`suffix()` embed parameter]>]
+
+### The `__has_embed()` Identifier
+
+[i[`__has_embed()` identifier]<]
+
+This is a great way to test to see if a particular file is available to
+be embedded, and also whether or not it's empty.
+
+You use it with the `#if` directive.
+
+Here's a chunk of code that will get 5 random numbers from the random
+number generator character device. If that doesn't exist, it tries to
+get them from a file `myrandoms.dat`. If that doesn't exist, it uses
+some hard-coded values:
+
+``` {.c}
+    int random_nums[] = {
+#if __has_embed("/dev/urandom")
+    #embed "/dev/urandom" limit(5)
+#elif __has_embed("myrandoms.dat")
+    #embed "myrandoms.dat" limit(5)
+#else
+    140,178,92,167,120
+#endif
+    };
+```
+
+Technically, the `__has_embed()` identifier resolves to one of three
+values:
+
+|`__has_embed()` Result|Description|
+|-|-|
+|`__STDC_EMBED_NOT_FOUND__`|If the file isn't found.|
+|`__STDC_EMBED_FOUND__`|If the file is found and is not empty.|
+|`__STDC_EMBED_EMPTY`|If the file is found and is empty.|
+
+I have good reason to believe that `__STDC_EMBED_NOT_FOUND__` is `0` and
+the others aren't zero (because it's implied in the proposal and it
+makes logical sense), but I'm having trouble finding that in this
+version of the draft spec.
+
+[i[`__has_embed()` identifier]>]
+
+TODO
+
+### Other Parameters
+
+A compiler implementation can define other embed parameters all it
+wants---look for these non-standard parameters in your compiler's
+documentation.
+
+For instance:
+
+``` {.c}
+#embed "foo.bin" limit(12) frotz(lamp)
+```
+
+These might commonly have a prefix on them to help with namespacing:
+
+``` {.c}
+#embed "foo.bin" limit(12) fmc::frotz(lamp)
+```
+
+It might be sensible to try to detect if these are available before you
+use them, and luckily we can use `__has_embed` to help us here.
+
+Normally, `__has_embed()` will just tell us if the file is there or not.
+But---and here's the fun bit---it will also return false if any
+additional parameters are also not supported!
+
+So if we give it a file that we _know_ exists as well as a parameter
+that we want to test for the existence of, it will effectively tell us
+if that parameter is supported.
+
+What file _always_ exists, though? Turns out we can use the `__FILE__`
+macro, which expands to the name of the source file that references it!
+That file _must_ exist, or something is seriously wrong in the
+chicken-and-egg department.
+
+Let's test that `frotz` parameter to see if we can use it:
+
+``` {.c}
+#if __has_embed(__FILE__ fmc::frotz(lamp))
+    puts("fmc::frotz(lamp) is supported!");
+#else
+    puts("fmc::frotz(lamp) is NOT supported!");
+#endif
+```
+
+### Embedding Multi-Byte Values
+
+What about getting some `int`s in there instead of individual bytes?
+What about multi-byte values in the embedded file?
+
+This is not something supported by the C23 standard, but there could be
+implementation extensions defined for it in the future.
+
+[i[`#embed` directive]>]
+
 ## The `#pragma` Directive {#pragma}
 
 [i[`#pragma` directive]<]
