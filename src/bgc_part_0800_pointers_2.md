@@ -345,8 +345,8 @@ Let's look at an example, the built-in `memcpy()` function:
 void *memcpy(void *s1, void *s2, size_t n);
 ```
 
-This function copies `n` bytes of memory starting from address `s1` into
-the memory starting at address `s2`.
+This function copies `n` bytes of memory starting from address `s2` into
+the memory starting at address `s1`.
 
 But look! `s1` and `s2` are `void*`s! Why? What does it mean? Let's run
 more examples to see.
