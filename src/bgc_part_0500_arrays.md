@@ -146,9 +146,6 @@ int main(void)
 }
 ```
 
-Catch: initializer values must be constant terms. Can't throw variables
-in there. Sorry, Illinois!
-
 You should never have more items in your initializer than there is room
 for in the array, or the compiler will get cranky:
 
