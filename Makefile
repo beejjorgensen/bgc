@@ -1,5 +1,5 @@
 PACKAGE=bgc
-UPLOADDIR=beej71@alfalfa.dreamhost.com:~/beej.us/guide/$(PACKAGE)
+UPLOADDIR=beej71@pdx1-shared-a1-06.dreamhost.com:~/beej.us/guide/$(PACKAGE)
 STAGEDIR=./stage
 BUILDTMP=./build_tmp
 
