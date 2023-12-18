@@ -231,7 +231,7 @@ legit, officer![i[Function prototypes]>]
 You might see these from time to time in older code, but you shouldn't
 ever code one up in new code. Always use `void`[i[`void` type]] to
 indicate that a function takes no parameters. There's never^[Never say
-"never".] a reason to do this in modern code.
+"never".] a reason to skip this in modern code.
 
 If you're good at just remembering to put `void` in for empty parameter
 lists in functions and prototypes, you can skip the rest of this
