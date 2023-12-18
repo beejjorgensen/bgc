@@ -409,7 +409,7 @@ is abusive---we should just use `=` for that):
 
 ``` {.c}
 struct antelope my_antelope;
-struct antelopy my_clone_antelope;
+struct antelope my_clone_antelope;
 
 // ...
 
