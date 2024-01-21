@@ -575,7 +575,7 @@ void print_2D_array(int a[][3])
 The compiler really only needs the second dimension so it can figure out
 how far in memory to skip for each increment of the first dimension. In
 general, it needs to know all the dimensions except the first one. If you'd
-like a little challenge, try to predict how the output will change (if at all),
+like a little challenge, try to predict how the output will change, if at all,
 should we modify only the function signature, like so:
 ```
 void print_2D_array(int a[3][2])
