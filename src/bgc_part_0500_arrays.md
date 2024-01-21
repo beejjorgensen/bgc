@@ -527,8 +527,8 @@ Whaaaat. This is totally allowed.
 
 Later when we talk about the equivalence between arrays and pointers,
 we'll see how this makes a lot more sense. For now, it's enough to know
-that functions can make changes to arrays that are visible out in the
-caller.
+that functions can make changes to arrays that were instantiated out in the
+caller. In other words, functions can modify variables which are outside of their scope!
 [i[Arrays-->modifying within functions]>]
 
 ### Passing Multidimensional Arrays to Functions
