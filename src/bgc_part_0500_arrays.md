@@ -574,7 +574,13 @@ void print_2D_array(int a[][3])
 
 The compiler really only needs the second dimension so it can figure out
 how far in memory to skip for each increment of the first dimension. In
-general, it needs to know all the dimensions except the first one.
+general, it needs to know all the dimensions except the first one. If you'd
+like a little challenge, try to predict how the output will change if we modify
+only the function signature, like so:
+```
+void print_2D_array(int a[3][2])
+```
+Run it yourself to be sure!
 
 Also, remember that the compiler does minimal compile-time bounds
 checking (if you're lucky), and C does zero runtime checking of bounds.
