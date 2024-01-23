@@ -142,8 +142,8 @@ s[0] = 'z';  // BAD NEWS: tried to mutate a string literal!
 The behavior is undefined. Probably, depending on your system, a crash
 will result.
 
-But declaring it as an array is different. The compiler doesn't stow those bytes in another part of town, they're right down the street. Specifically, this one is a mutable _copy_
-of the string that we can change at will:
+But declaring it as an array is different. The compiler doesn't stow those bytes in another part of town, they're right down the street. This one is a mutable _copy_
+of the string -- one we can change at will:
 
 ``` {.c}
 char t[] = "Hello, again!";  // t is an array copy of the string 
