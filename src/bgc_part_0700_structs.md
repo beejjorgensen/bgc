@@ -190,7 +190,7 @@ void set_price(struct car *c, float new_price) {
 That won't work because the dot operator only works on `struct`s... it
 doesn't work on _pointers_ to `struct`s.
 
-Ok, so we can dereference the `struct` to de-pointer it to get to the
+Ok, so we can dereference the variable `c` to de-pointer it to get to the
 `struct` itself. Dereferencing a `struct car*` results in the `struct
 car` that the pointer points to, which we should be able to use the dot
 operator on:
