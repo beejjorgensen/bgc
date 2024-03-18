@@ -910,18 +910,15 @@ Basically, it evaluates an expression to an integer value, jumps to the
 resumes from that point. If a `break`[i[`break` statement]<] statement is
 encountered, then execution jumps out of the `switch`.
 
-Let's do an example where the user enters a number of goats and we print
-out a gut-feel of how many goats that is.
+Here's an example where, for a given number of goats, we print out a
+gut-feel of how many goats that is.
 
 ``` {.c .numberLines}
 #include <stdio.h>
 
 int main(void)
 {
-    int goat_count;
-
-    printf("Enter a goat count: ");
-    scanf("%d", &goat_count);       // Read an integer from the keyboard
+    int goat_count = 2;
 
     switch (goat_count) {
         case 0:
@@ -943,9 +940,9 @@ int main(void)
 }
 ```
 
-In that example, if the user enters, say, `2`, the `switch` will jump to
-the `case 2` and execute from there. When (if) it hits a `break`, it
-jumps out of the `switch`. [i[`break` statement]>]
+In that example, the `switch` will jump to the `case 2` and execute from
+there. When (if) it hits a `break`, it jumps out of the `switch`.
+[i[`break` statement]>]
 
 Also, you might see that `default`[i[`default` label]] label there at
 the bottom. This is what happens when no cases match.

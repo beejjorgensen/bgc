@@ -67,9 +67,11 @@ index-times-10 in each of those array elements:
 int main(void)
 {
     int n;
+    char buf[32];
 
     printf("Enter a number: "); fflush(stdout);
-    scanf(" %d", &n);
+    fgets(buf, sizeof buf, stdin);
+    n = strtoul(buf, NULL, 10);
 
     int v[n];
 

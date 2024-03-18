@@ -274,6 +274,14 @@ You know how you can get formatted output with `printf()` (and, thus,
 [i[`fscanf()` function]<]
 You can do the same thing with `fscanf()`.
 
+> Before we start, you should be advised that using `scanf()`-style
+> functions can be hazardous with untrusted input. If you don't specify
+> field widths with your `%s`, you could overflow the buffer. Worse,
+> invalid numeric conversion result in undefined behavior. The safe
+> thing to do with untrusted input is to use `%s` with a field width,
+> then use functions like [i[`strtol` function]] `strtol()` or
+> [i[`strtod` function]] `strtod()` to do the conversions.
+
 Let's have a file with a series of data records in it. In this case,
 whales, with name, length in meters, and weight in tonnes. `whales.txt`:
 
