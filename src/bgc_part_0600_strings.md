@@ -123,16 +123,15 @@ char *s = "Hello, world!";
 char t[] = "Hello, again!";
 ```
 
-But these two are subtly different.
+But these two initializations are subtly different. A string literal, similar to an integer literal, has it's memory automatically managed by the compiler for you! With an integer, i.e. a fixed size piece of data, the compiler can pretty easily manage it. But strings are a variable-byte beast which the compiler tames by tossing into a chunk of memory, and giving you a pointer to it.
 
-This one is a pointer to a string literal (i.e. a pointer to the first
-character in a string):
+This form points to wherever that string was placed. Typically, that place is in a land faraway from the rest of your program's memory -- read-only memory -- for reasons related to performance & safety.
 
 ``` {.c}
 char *s = "Hello, world!";
 ```
 
-If you try to mutate that string with this:
+So, if you try to mutate that string with this:
 
 ``` {.c}
 char *s = "Hello, world!";
@@ -143,8 +142,8 @@ s[0] = 'z';  // BAD NEWS: tried to mutate a string literal!
 The behavior is undefined. Probably, depending on your system, a crash
 will result.
 
-But declaring it as an array is different. This one is a mutable _copy_
-of the string that we can change at will:
+But declaring it as an array is different. The compiler doesn't stow those bytes in another part of town, they're right down the street. This one is a mutable _copy_
+of the string -- one we can change at will:
 
 ``` {.c}
 char t[] = "Hello, again!";  // t is an array copy of the string 
