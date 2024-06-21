@@ -394,24 +394,9 @@ increment(&i);
 printf("i is %d\n", i);  // prints "11"!
 ```
 
-Pointer enthusiasts will recall from early on in the guide, we used a
-function to read from the keyboard, `scanf()`... and, although you might
-not have recognized it at the time, we used the `address-of` to pass a
-pointer to a value to `scanf()`. We had to pass a pointer, see, because
-`scanf()` reads from the keyboard (typically) and stores the result in a
-variable. The only way it can see that variable out in the calling
-function's scope is if we pass a pointer to that variable:
-
-``` {.c}
-int i = 0;
-
-scanf("%d", &i);         // pretend you typed "12"
-printf("i is %d\n", i);  // prints "i is 12"
-```
-
-See, `scanf()` dereferences the pointer we pass it in order to modify
-the variable it points to. And now you know why you have to put that
-pesky ampersand in there![i[Pointers-->as arguments]>]
+As a general rule, if you want the function to modify the thing that
+you're passing in such that you see the result, you'll have to pass a
+pointer to that thing.
 
 ## The `NULL` Pointer
 
