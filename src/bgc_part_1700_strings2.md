@@ -102,10 +102,10 @@ But there are more escapes! You just don't see these as often.
 
 A use case for `\b` or `\r` is to show status updates that appear on the
 same line on the screen and don't cause the display to scroll. Here's an
-example that does a countdown from 10. (Note this makes use of the
-non-standard POSIX function `sleep()` from `<unistd.h>`---if you're not
-on a Unix-like, search for your platform and `sleep` for the
-equivalent.)
+example that does a countdown from 10. (If your compiler doesn't support
+threading, you can use the non-standard POSIX function `sleep()` from
+`<unistd.h>`---if you're not on a Unix-like, search for your platform
+and `sleep` for the equivalent.)
 
 ``` {.c .numberLines}
 #include <stdio.h>
