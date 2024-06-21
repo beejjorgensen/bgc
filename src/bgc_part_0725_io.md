@@ -6,8 +6,8 @@
 # File Input/Output
 
 [i[File I/O]<]
-We've already seen a couple examples of I/O with `scanf()` and
-`printf()` for doing I/O at the console (screen/keyboard).
+We've already seen a some examples of I/O with `printf()` for doing I/O
+at the console.
 
 But we'll push those concepts a little farther this chapter.
 
@@ -292,8 +292,8 @@ gray 14.9 41
 humpback 16.0 30
 ```
 
-Yes, we could read these with [i[`fgets()` function]]`fgets()` and then parse the
-string with `sscanf()` (and in some ways that's more resilient against
+Yes, we could read these with [i[`fgets()` function]]`fgets()` and then
+parse the string with `sscanf()` (and in that's more resilient against
 corrupted files), but in this case, let's just use `fscanf()` and pull
 it in directly.
 
