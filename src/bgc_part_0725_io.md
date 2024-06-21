@@ -486,6 +486,8 @@ int main(void)
 
     while (fread(&c, sizeof(char), 1, fp) > 0)
         printf("%d\n", c);
+
+    fclose(fp);
 }
 ```
 [i[`fread()` function]>]
