@@ -289,7 +289,7 @@ program ends with no way to free it.].
 Same thing happens if you `longjmp()` back over any earlier functions
 that had VLAs still in scope.
 
-This is one thing that really bugged me able VLAs---that you could write
+This is one thing that really bugged me about VLAs---that you could write
 perfectly legitimate C code that squandered memory. But, hey---I'm not
 in charge of the spec.
 
