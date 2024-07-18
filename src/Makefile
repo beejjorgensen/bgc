@@ -6,6 +6,6 @@ VERSION_DATE="v0.9.16, Copyright © March 18, 2024"
 GUIDE_ID=bgc
 BGBSPD_BUILD_DIR?=../../bgbspd
 
-WEB_IMAGES=$(wildcard img_*.svg)
+#WEB_IMAGES=$(wildcard img_*.svg)
 
 include $(BGBSPD_BUILD_DIR)/source.make
