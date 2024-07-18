@@ -160,11 +160,14 @@ int main(void)
 
     printf("The value of i is %d\n", i);
     printf("And its address is %p\n", (void *)&i);
-
-    // %p expects the argument to be a pointer to void
-    // so we cast it to make the compiler happy.
 }
 ```
+
+> **The above code contains a _cast_** where we coerce the type of the
+> expression `&i` to be type `void*`. This is to keep the compiler from
+> throwing a warning here. This is all stuff we haven't covered yet, so
+> just ignore the `(void*)` in the code above for now and pretend it's
+> not there.
 
 On my computer, this prints:
 
