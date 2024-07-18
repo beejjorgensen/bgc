@@ -22,22 +22,31 @@ conversions](#usual-arithmetic-conversions) take place on the operands
 (which in this case must be an integer type), and then the appropriate
 bitwise operation is performed.
 
+[i[`&` bitwise AND]]
+[i[`|` bitwise OR]]
+[i[`^` bitwise XOR]]
+[i[`~` bitwise NOT]]
+
 |Operation|Operator|Example|
 |-|:-:|-|
-|[i[`&` bitwise AND]]AND|`&`|`a = b & c`|
-|[i[`|` bitwise OR]]OR|`|`|`a = b | c`|
-|[i[`^` bitwise XOR]]XOR|`^`|`a = b ^ c`|
-|[i[`~` bitwise NOT]]NOT|`~`|`a = ~c`|
+|AND|`&`|`a = b & c`|
+|OR|`|`|`a = b | c`|
+|XOR|`^`|`a = b ^ c`|
+|NOT|`~`|`a = ~c`|
 
 Note how they're similar to the Boolean operators `&&` and `||`.
 
 These have assignment shorthand variants similar to `+=` and `-=`:
 
+[i[`&=` assignment]]
+[i[`|=` assignment]]
+[i[`^=` assignment]]
+
 |Operator|Example|Longhand equivalent|
 |-|-|-|
-|[i[`&=` assignment]]`&=`|`a &= c`|`a = a & c`|
-|[i[`|=` assignment]]`|=`|`a |= c`|`a = a | c`|
-|[i[`^=` assignment]]`^=`|`a ^= c`|`a = a ^ c`|
+|`&=`|`a &= c`|`a = a & c`|
+|`|=`|`a |= c`|`a = a | c`|
+|`^=`|`a ^= c`|`a = a ^ c`|
 
 ## Bitwise Shift
 
@@ -49,17 +58,23 @@ of the result is the type of the promoted left operand.
 New bits are filled with zeros, with a possible exception noted in the
 implementation-defined behavior, below.
 
+[i[`<<` shift left]]
+[i[`>>` shift right]]
+
 |Operation|Operator|Example|
 |-|:-:|-|
-|[i[`<<` shift left]]Shift left|`<<`|`a = b << c`|
-|[i[`>>` shift right]]Shift right|`>>`|`a = b >> c`|
+|Shift left|`<<`|`a = b << c`|
+|Shift right|`>>`|`a = b >> c`|
 
 There's also the same similar shorthand for shifting:
 
+[i[`>>=` assignment]]
+[i[`<<=` assignment]]
+
 |Operator|Example|Longhand equivalent|
 |-|-|-|
-|[i[`>>=` assignment]]`>>=`|`a >>= c`|`a = a >> c`|
-|[i[`<<=` assignment]]`<<=`|`a <<= c`|`a = a << c`|
+|`>>=`|`a >>= c`|`a = a >> c`|
+|`<<=`|`a <<= c`|`a = a << c`|
 
 Watch for undefined behavior: no negative shifts, and no shifts that are
 larger than the size of the promoted left operand.

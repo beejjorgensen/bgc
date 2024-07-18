@@ -535,17 +535,17 @@ First, some naming conventions you'll see in these functions:
 So if we want to convert a multibyte string to a wide character string,
 we can call the `mbstowcs()`. And the other way around: `wcstombs()`.
 
-
-
-
-
+[i[`mbtowc()` function]]
+[i[`wctomb()` function]]
+[i[`mbstowcs()` function]]
+[i[`wcstombs()` function]]
 
 |Conversion Function|Description|
-|-|-|
-|[i[`mbtowc()` function]]`mbtowc()`|Convert a multibyte character to a wide character.|
-|[i[`wctomb()` function]]`wctomb()`|Convert a wide character to a multibyte character.|
-|[i[`mbstowcs()` function]]`mbstowcs()`|Convert a multibyte string to a wide string.|
-|[i[`wcstombs()` function]]`wcstombs()`|Convert a wide string to a multibyte string.|
+|------------|---------------------------------------------------|
+|`mbtowc()`|Convert a multibyte character to a wide character.|
+|`wctomb()`|Convert a wide character to a multibyte character.|
+|`mbstowcs()`|Convert a multibyte string to a wide string.|
+|`wcstombs()`|Convert a wide string to a multibyte string.|
 
 Let's do a quick demo where we convert a multibyte string to a wide
 character string, and compare the string lengths of the two using their
@@ -677,67 +677,109 @@ If you need to change the orientation mid-flight, you can do it with
 
 Typically include `<stdio.h>` and `<wchar.h>` for these.
 
+[i[`wprintf()` function]]
+[i[`wscanf()` function]]
+[i[`getwchar()` function]]
+[i[`putwchar()` function]]
+[i[`fwprintf()` function]]
+[i[`fwscanf()` function]]
+[i[`fgetwc()` function]]
+[i[`fputwc()` function]]
+[i[`fgetws()` function]]
+[i[`fputws()` function]]
+[i[`swprintf()` function]]
+[i[`swscanf()` function]]
+[i[`vfwprintf()` function]]
+[i[`vfwscanf()` function]]
+[i[`vswprintf()` function]]
+[i[`vswscanf()` function]]
+[i[`vwprintf()` function]]
+[i[`vwscanf()` function]]
+[i[`ungetwc()` function]]
+[i[`fwide()` function]]
+
 |I/O Function|Description|
-|-|-|
-|[i[`wprintf()` function]]`wprintf()`|Formatted console output.|
-|[i[`wscanf()` function]]`wscanf()`|Formatted console input.|
-|[i[`getwchar()` function]]`getwchar()`|Character-based console input.|
-|[i[`putwchar()` function]]`putwchar()`|Character-based console output.|
-|[i[`fwprintf()` function]]`fwprintf()`|Formatted file output.|
-|[i[`fwscanf()` function]]`fwscanf()`|Formatted file input.|
-|[i[`fgetwc()` function]]`fgetwc()`|Character-based file input.|
-|[i[`fputwc()` function]]`fputwc()`|Character-based file output.|
-|[i[`fgetws()` function]]`fgetws()`|String-based file input.|
-|[i[`fputws()` function]]`fputws()`|String-based file output.|
-|[i[`swprintf()` function]]`swprintf()`|Formatted string output.|
-|[i[`swscanf()` function]]`swscanf()`|Formatted string input.|
-|[i[`vfwprintf()` function]]`vfwprintf()`|Variadic formatted file output.|
-|[i[`vfwscanf()` function]]`vfwscanf()`|Variadic formatted file input.|
-|[i[`vswprintf()` function]]`vswprintf()`|Variadic formatted string output.|
-|[i[`vswscanf()` function]]`vswscanf()`|Variadic formatted string input.|
-|[i[`vwprintf()` function]]`vwprintf()`|Variadic formatted console output.|
-|[i[`vwscanf()` function]]`vwscanf()`|Variadic formatted console input.|
-|[i[`ungetwc()` function]]`ungetwc()`|Push a wide character back on an output stream.|
-|[i[`fwide()` function]]`fwide()`|Get or set stream multibyte/wide orientation.|
+|------------|---------------------------------------------------|
+|`wprintf()`|Formatted console output.|
+|`wscanf()`|Formatted console input.|
+|`getwchar()`|Character-based console input.|
+|`putwchar()`|Character-based console output.|
+|`fwprintf()`|Formatted file output.|
+|`fwscanf()`|Formatted file input.|
+|`fgetwc()`|Character-based file input.|
+|`fputwc()`|Character-based file output.|
+|`fgetws()`|String-based file input.|
+|`fputws()`|String-based file output.|
+|`swprintf()`|Formatted string output.|
+|`swscanf()`|Formatted string input.|
+|`vfwprintf()`|Variadic formatted file output.|
+|`vfwscanf()`|Variadic formatted file input.|
+|`vswprintf()`|Variadic formatted string output.|
+|`vswscanf()`|Variadic formatted string input.|
+|`vwprintf()`|Variadic formatted console output.|
+|`vwscanf()`|Variadic formatted console input.|
+|`ungetwc()`|Push a wide character back on an output stream.|
+|`fwide()`|Get or set stream multibyte/wide orientation.|
 
 ### Type Conversion Functions
 
 Typically include `<wchar.h>` for these.
 
+[i[`wcstod()` function]]
+[i[`wcstof()` function]]
+[i[`wcstold()` function]]
+[i[`wcstol()` function]]
+[i[`wcstoll()` function]]
+[i[`wcstoul()` function]]
+[i[`wcstoull()` function]]
+
 |Conversion Function|Description|
-|-|-|
-|[i[`wcstod()` function]]`wcstod()`|Convert string to `double`.|
-|[i[`wcstof()` function]]`wcstof()`|Convert string to `float`.|
-|[i[`wcstold()` function]]`wcstold()`|Convert string to `long double`.|
-|[i[`wcstol()` function]]`wcstol()`|Convert string to `long`.|
-|[i[`wcstoll()` function]]`wcstoll()`|Convert string to `long long`.|
-|[i[`wcstoul()` function]]`wcstoul()`|Convert string to `unsigned long`.|
-|[i[`wcstoull()` function]]`wcstoull()`|Convert string to `unsigned long long`.|
+|------------|---------------------------------------------------|
+|`wcstod()`|Convert string to `double`.|
+|`wcstof()`|Convert string to `float`.|
+|`wcstold()`|Convert string to `long double`.|
+|`wcstol()`|Convert string to `long`.|
+|`wcstoll()`|Convert string to `long long`.|
+|`wcstoul()`|Convert string to `unsigned long`.|
+|`wcstoull()`|Convert string to `unsigned long long`.|
 
 ### String and Memory Copying Functions
 
 Typically include `<wchar.h>` for these.
 
+[i[`wcscpy()` function]]
+[i[`wcsncpy()` function]]
+[i[`wmemcpy()` function]]
+[i[`wmemmove()` function]]
+[i[`wcscat()` function]]
+[i[`wcsncat()` function]]
+
 |Copying Function|Description|
 |----|----------------------------------------------|
-|[i[`wcscpy()` function]]`wcscpy()`|Copy string.|
-|[i[`wcsncpy()` function]]`wcsncpy()`|Copy string, length-limited.|
-|[i[`wmemcpy()` function]]`wmemcpy()`|Copy memory.|
-|[i[`wmemmove()` function]]`wmemmove()`|Copy potentially-overlapping memory.|
-|[i[`wcscat()` function]]`wcscat()`|Concatenate strings.|
-|[i[`wcsncat()` function]]`wcsncat()`|Concatenate strings, length-limited.|
+|`wcscpy()`|Copy string.|
+|`wcsncpy()`|Copy string, length-limited.|
+|`wmemcpy()`|Copy memory.|
+|`wmemmove()`|Copy potentially-overlapping memory.|
+|`wcscat()`|Concatenate strings.|
+|`wcsncat()`|Concatenate strings, length-limited.|
 
 ### String and Memory Comparing Functions
 
 Typically include `<wchar.h>` for these.
 
+[i[`wcscmp()` function]]
+[i[`wcsncmp()` function]]
+[i[`wcscoll()` function]]
+[i[`wmemcmp()` function]]
+[i[`wcsxfrm()` function]]
+
 |Comparing Function|Description|
 |-------------------|---------------------------------------------------------------|
-|[i[`wcscmp()` function]]`wcscmp()`|Compare strings lexicographically.|
-|[i[`wcsncmp()` function]]`wcsncmp()`|Compare strings lexicographically, length-limited.|
-|[i[`wcscoll()` function]]`wcscoll()`|Compare strings in dictionary order by locale.|
-|[i[`wmemcmp()` function]]`wmemcmp()`|Compare memory lexicographically.|
-|[i[`wcsxfrm()` function]]`wcsxfrm()`|Transform strings into versions such that `wcscmp()` behaves like `wcscoll()`[^97d0].|
+|`wcscmp()`|Compare strings lexicographically.|
+|`wcsncmp()`|Compare strings lexicographically, length-limited.|
+|`wcscoll()`|Compare strings in dictionary order by locale.|
+|`wmemcmp()`|Compare memory lexicographically.|
+|`wcsxfrm()`|Transform strings into versions such that `wcscmp()` behaves like `wcscoll()`[^97d0].|
 
 [^97d0]: `wcscoll()` is the same as `wcsxfrm()` followed by `wcscmp()`.
 
@@ -745,47 +787,75 @@ Typically include `<wchar.h>` for these.
 
 Typically include `<wchar.h>` for these.
 
+[i[`wcschr()` function]]
+[i[`wcsrchr()` function]]
+[i[`wmemchr()` function]]
+[i[`wcsstr()` function]]
+[i[`wcspbrk()` function]]
+[i[`wcsspn()` function]]
+[i[`wcscspn()` function]]
+[i[`wcstok()` function]]
+
 |Searching Function|Description|
 |-|-|
-|[i[`wcschr()` function]]`wcschr()`|Find a character in a string.|
-|[i[`wcsrchr()` function]]`wcsrchr()`|Find a character in a string from the back.|
-|[i[`wmemchr()` function]]`wmemchr()`|Find a character in memory.|
-|[i[`wcsstr()` function]]`wcsstr()`|Find a substring in a string.|
-|[i[`wcspbrk()` function]]`wcspbrk()`|Find any of a set of characters in a string.|
-|[i[`wcsspn()` function]]`wcsspn()`|Find length of substring including any of a set of characters.|
-|[i[`wcscspn()` function]]`wcscspn()`|Find length of substring before any of a set of characters.|
-|[i[`wcstok()` function]]`wcstok()`|Find tokens in a string.|
+|`wcschr()`|Find a character in a string.|
+|`wcsrchr()`|Find a character in a string from the back.|
+|`wmemchr()`|Find a character in memory.|
+|`wcsstr()`|Find a substring in a string.|
+|`wcspbrk()`|Find any of a set of characters in a string.|
+|`wcsspn()`|Find length of substring including any of a set of characters.|
+|`wcscspn()`|Find length of substring before any of a set of characters.|
+|`wcstok()`|Find tokens in a string.|
 
 ### Length/Miscellaneous Functions
 
 Typically include `<wchar.h>` for these.
 
+[i[`wcslen()` function]]
+[i[`wmemset()` function]]
+[i[`wcsftime()` function]]
+
 |Length/Misc Function|Description|
 |-|-|
-|[i[`wcslen()` function]]`wcslen()`|Return the length of the string.|
-|[i[`wmemset()` function]]`wmemset()`|Set characters in memory.|
-|[i[`wcsftime()` function]]`wcsftime()`|Formatted date and time output.|
+|`wcslen()`|Return the length of the string.|
+|`wmemset()`|Set characters in memory.|
+|`wcsftime()`|Formatted date and time output.|
 
 ### Character Classification Functions
 
 Include `<wctype.h>` for these.
 
+[i[`iswalnum()` function]]
+[i[`iswalpha()` function]]
+[i[`iswblank()` function]]
+[i[`iswcntrl()` function]]
+[i[`iswdigit()` function]]
+[i[`iswgraph()` function]]
+[i[`iswlower()` function]]
+[i[`iswprint()` function]]
+[i[`iswpunct()` function]]
+[i[`iswspace()` function]]
+[i[`iswupper()` function]]
+[i[`iswxdigit()` function]]
+[i[`towlower()` function]]
+[i[`towupper()` function]]
+
 |Length/Misc Function|Description|
-|-|-|
-|[i[`iswalnum()` function]]`iswalnum()`|True if the character is alphanumeric.|
-|[i[`iswalpha()` function]]`iswalpha()`|True if the character is alphabetic.|
-|[i[`iswblank()` function]]`iswblank()`|True if the character is blank (space-ish, but not a newline).|
-|[i[`iswcntrl()` function]]`iswcntrl()`|True if the character is a control character.|
-|[i[`iswdigit()` function]]`iswdigit()`|True if the character is a digit.|
-|[i[`iswgraph()` function]]`iswgraph()`|True if the character is printable (except space).|
-|[i[`iswlower()` function]]`iswlower()`|True if the character is lowercase.|
-|[i[`iswprint()` function]]`iswprint()`|True if the character is printable (including space).|
-|[i[`iswpunct()` function]]`iswpunct()`|True if the character is punctuation.|
-|[i[`iswspace()` function]]`iswspace()`|True if the character is whitespace.|
-|[i[`iswupper()` function]]`iswupper()`|True if the character is uppercase.|
-|[i[`iswxdigit()` function]]`iswxdigit()`|True if the character is a hex digit.|
-|[i[`towlower()` function]]`towlower()`|Convert character to lowercase.|
-|[i[`towupper()` function]]`towupper()`|Convert character to uppercase.|
+|------------|---------------------------------------------------|
+|`iswalnum()`|True if the character is alphanumeric.|
+|`iswalpha()`|True if the character is alphabetic.|
+|`iswblank()`|True if the character is blank (space-ish, but not a newline).|
+|`iswcntrl()`|True if the character is a control character.|
+|`iswdigit()`|True if the character is a digit.|
+|`iswgraph()`|True if the character is printable (except space).|
+|`iswlower()`|True if the character is lowercase.|
+|`iswprint()`|True if the character is printable (including space).|
+|`iswpunct()`|True if the character is punctuation.|
+|`iswspace()`|True if the character is whitespace.|
+|`iswupper()`|True if the character is uppercase.|
+|`iswxdigit()`|True if the character is a hex digit.|
+|`towlower()`|Convert character to lowercase.|
+|`towupper()`|Convert character to uppercase.|
 
 ## Parse State, Restartable Functions
 
@@ -1068,12 +1138,17 @@ All of these functions are restartable (i.e. you pass in your own
 character^[Ish---things get funky with multi-`char16_t` UTF-16
 encodings.].
 
+[i[`mbrtoc16()` function]]
+[i[`mbrtoc32()` function]]
+[i[`c16rtomb()` function]]
+[i[`c32rtomb()` function]]
+
 |Conversion Function|Description|
 |-|-|
-|[i[`mbrtoc16()` function]]`mbrtoc16()`|Convert a multibyte character to a `char16_t` character.|
-|[i[`mbrtoc32()` function]]`mbrtoc32()`|Convert a multibyte character to a `char32_t` character.|
-|[i[`c16rtomb()` function]]`c16rtomb()`|Convert a `char16_t` character to a multibyte character.|
-|[i[`c32rtomb()` function]]`c32rtomb()`|Convert a `char32_t` character to a multibyte character.|
+|`mbrtoc16()`|Convert a multibyte character to a `char16_t` character.|
+|`mbrtoc32()`|Convert a multibyte character to a `char32_t` character.|
+|`c16rtomb()`|Convert a `char16_t` character to a multibyte character.|
+|`c32rtomb()`|Convert a `char32_t` character to a multibyte character.|
 
 ### Third-Party Libraries {#utf-3rd-party}
 

@@ -66,12 +66,17 @@ code.
 In my humble opinion, these escape characters make up 99.2%^[I just made
 up that number, but it's probably not far off] of all escapes.
 
+[i[`\n` newline]]
+[i[`\'` single quote]]
+[i[`\"` double quote]]
+[i[`\\` backslash]]
+
 |Code|Description|
 |--|------------|
-|[i[`\n` newline]]`\n`|Newline character---when printing, continue subsequent output on the next line|
-|[i[`\'` single quote]]`\'`|Single quote---used for a single quote character constant|
-|[i[`\"` double quote]]`\"`|Double quote---used for a double quote in a string literal|
-|[i[`\\` backslash]]`\\`|Backslash---used for a literal `\` in a string or character|
+|`\n`|Newline character---when printing, continue subsequent output on the next line|
+|`\'`|Single quote---used for a single quote character constant|
+|`\"`|Double quote---used for a double quote in a string literal|
+|`\\`|Backslash---used for a literal `\` in a string or character|
 
 Here are some examples of the escapes and what they output when printed.
 
@@ -85,15 +90,23 @@ printf("%c\n", '\'');             // '
 
 But there are more escapes! You just don't see these as often.
 
+[i[`\a` alert]]
+[i[`\b` backspace]]
+[i[`\f` formfeed]]
+[i[`\r` carriage return]]
+[i[`\t` tab]]
+[i[`\v` vertical tab]]
+[i[`\?` question mark]]
+
 |Code|Description|
-|--|------------|
-|[i[`\a` alert]]`\a`|Alert. This makes the terminal make a sound or flash, or both!|
-|[i[`\b` backspace]]`\b`|Backspace. Moves the cursor back a character. Doesn't delete the character.|
-|[i[`\f` formfeed]]`\f`|Formfeed. This moves to the next "page", but that doesn't have much modern meaning. On my system, this behaves like `\v`.|
-|[i[`\r` carriage return]]`\r`|Return. Move to the beginning of the same line.|
-|[i[`\t` tab]]`\t`|Horizontal tab. Moves to the next horizontal tab stop. On my machine, this lines up on columns that are multiples of 8, but YMMV.|
-|[i[`\v` vertical tab]]`\v`|Vertical tab. Moves to the next vertical tab stop. On my machine, this moves to the same column on the next line.|
-|[i[`\?` question mark]]`\?`|Literal question mark. Sometimes you need this to avoid trigraphs, as shown below.|
+|--|--------------------|
+|`\a`|Alert. This makes the terminal make a sound or flash, or both!|
+|`\b`|Backspace. Moves the cursor back a character. Doesn't delete the character.|
+|`\f`|Formfeed. This moves to the next "page", but that doesn't have much modern meaning. On my system, this behaves like `\v`.|
+|`\r`|Return. Move to the beginning of the same line.|
+|`\t`|Horizontal tab. Moves to the next horizontal tab stop. On my machine, this lines up on columns that are multiples of 8, but YMMV.|
+|`\v`|Vertical tab. Moves to the next vertical tab stop. On my machine, this moves to the same column on the next line.|
+|`\?`|Literal question mark. Sometimes you need this to avoid trigraphs, as shown below.|
 
 #### Single Line Status Updates
 
@@ -229,12 +242,17 @@ The following table has example numbers, but any hex or octal numbers
 may be used. Pad with leading zeros if necessary to read the proper
 digit count.
 
+[i[`\123` octal value]]
+[i[`\x12` hexadecimal value]]
+[i[`\u` Unicode escape]]
+[i[`\U` Unicode escape]]
+
 |Code|Description|
 |--|------------|
-|[i[`\123` octal value]]`\123`|Embed the byte with octal value `123`, 3 digits exactly.|
-|[i[`\x12` hexadecimal value]]`\x4D`|Embed the byte with hex value `4D`, 2 digits.|
-|[i[`\u` Unicode escape]]`\u2620`|Embed the Unicode character at code point with hex value `2620`, 4 digits.|
-|[i[`\U` Unicode escape]]`\U0001243F`|Embed the Unicode character at code point with hex value `1243F`, 8 digits.|
+|`\123`|Embed the byte with octal value `123`, 3 digits exactly.|
+|`\x4D`|Embed the byte with hex value `4D`, 2 digits.|
+|`\u2620`|Embed the Unicode character at code point with hex value `2620`, 4 digits.|
+|`\U0001243F`|Embed the Unicode character at code point with hex value `1243F`, 8 digits.|
 
 Here's an example of the less-commonly used octal notation to represent
 the letter `B` in between `A` and `C`. Normally this would be used for

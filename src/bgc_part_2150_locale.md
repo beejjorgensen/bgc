@@ -290,16 +290,21 @@ precise about which _parts_ of the locale you're setting.
 
 Let's take a look at the values you can see for these:
 
-
+[i[`setlocale()` function-->`LC_ALL` macro]]
+[i[`setlocale()` function-->`LC_COLLATE` macro]]
+[i[`setlocale()` function-->`LC_CTYPE` macro]]
+[i[`setlocale()` function-->`LC_MONETARY` macro]]
+[i[`setlocale()` function-->`LC_NUMERIC` macro]]
+[i[`setlocale()` function-->`LC_TIME` macro]]
 
 |Macro|Description|
 |----|--------------|
-|[i[`setlocale()` function-->`LC_ALL` macro]]`LC_ALL`|Set all of the following to the given locale.|
-|[i[`setlocale()` function-->`LC_COLLATE` macro]]`LC_COLLATE`|Controls the behavior of the `strcoll()` and `strxfrm()` functions.|
-|[i[`setlocale()` function-->`LC_CTYPE` macro]]`LC_CTYPE`|Controls the behavior of the character-handling functions^[Except for `isdigit()` and `isxdigit()`.].|
-|[i[`setlocale()` function-->`LC_MONETARY` macro]]`LC_MONETARY`|Controls the values returned by `localeconv()`.|
-|[i[`setlocale()` function-->`LC_NUMERIC` macro]]`LC_NUMERIC`|Controls the decimal point for the `printf()` family of functions.|
-|[i[`setlocale()` function-->`LC_TIME` macro]]`LC_TIME`|Controls time formatting of the `strftime()` and `wcsftime()` time and date printing functions.|
+|`LC_ALL`|Set all of the following to the given locale.|
+|`LC_COLLATE`|Controls the behavior of the `strcoll()` and `strxfrm()` functions.|
+|`LC_CTYPE`|Controls the behavior of the character-handling functions^[Except for `isdigit()` and `isxdigit()`.].|
+|`LC_MONETARY`|Controls the values returned by `localeconv()`.|
+|`LC_NUMERIC`|Controls the decimal point for the `printf()` family of functions.|
+|`LC_TIME`|Controls time formatting of the `strftime()` and `wcsftime()` time and date printing functions.|
 
 It's pretty common to see [i[`setlocale()` function-->`LC_ALL` macro]]
 `LC_ALL` being set, but, hey, at least you have options.

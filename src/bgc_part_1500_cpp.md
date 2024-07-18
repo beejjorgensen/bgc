@@ -508,15 +508,18 @@ These are all defined:
 [i[`__func__` identifier]<]
 [i[`__STDC_VERSION__` macro]<]
 
+[i[`__STDC__` macro]]
+[i[`__STDC_HOSTED__` macro]]
+
 |Macro|Description|
-|-|-|
+|-----------|----------------------------------------------------|
 |`__DATE__`|The date of compilation---like when you're compiling this file---in `Mmm dd yyyy` format|
 |`__TIME__`|The time of compilation in `hh:mm:ss` format|
 |`__FILE__`|A string containing this file's name|
 |`__LINE__`|The line number of the file this macro appears on|
 |`__func__`|The name of the function this appears in, as a string^[This isn't really a macro---it's technically an identifier. But it's the only predefined identifier and it feels very macro-like, so I'm including it here. Like a rebel.]|
-|[i[`__STDC__` macro]]`__STDC__`|Defined with `1` if this is a standard C compiler|
-|[i[`__STDC_HOSTED__` macro]]`__STDC_HOSTED__`|This will be `1` if the compiler is a _hosted implementation_^[A hosted implementation basically means you're running the full C standard, probably on an operating system of some kind. Which you probably are. If you're running on bare metal in some kind of embedded system, you're probably on a _standalone implementation_.], otherwise `0`|
+|`__STDC__`|Defined with `1` if this is a standard C compiler|
+|`__STDC_HOSTED__`|This will be `1` if the compiler is a _hosted implementation_^[A hosted implementation basically means you're running the full C standard, probably on an operating system of some kind. Which you probably are. If you're running on bare metal in some kind of embedded system, you're probably on a _standalone implementation_.], otherwise `0`|
 |`__STDC_VERSION__`|This version of C, a constant `long int` in the form `yyyymmL`, e.g. `201710L`|
 
 Let's put these together.
@@ -586,20 +589,33 @@ increase, so you could always check for, say, "at least C99" with:
 
 Your implementation might define these, as well. Or it might not.
 
+[i[`__STDC_ISO_10646__` macro]]
+[i[`__STDC_MB_MIGHT_NEQ_WC__` macro]]
+[i[`__STDC_UTF_16__` macro]]
+[i[`__STDC_UTF_32__` macro]]
+[i[`__STDC_ANALYZABLE__` macro]]
+[i[`__STDC_IEC_559__` macro]]
+[i[`__STDC_IEC_559_COMPLEX__` macro]]
+[i[`__STDC_LIB_EXT1__` macro]]
+[i[`__STDC_NO_ATOMICS__` macro]]
+[i[`__STDC_NO_COMPLEX__` macro]]
+[i[`__STDC_NO_THREADS__` macro]]
+[i[`__STDC_NO_VLA__` macro]]
+
 |Macro|Description|
-|-|-|
-|[i[`__STDC_ISO_10646__` macro]]`__STDC_ISO_10646__`|If defined, `wchar_t` holds Unicode values, otherwise something else|
-|[i[`__STDC_MB_MIGHT_NEQ_WC__` macro]]`__STDC_MB_MIGHT_NEQ_WC__`|A `1` indicates that the values in multibyte characters might not map equally to values in wide characters|
-|[i[`__STDC_UTF_16__` macro]]`__STDC_UTF_16__`|A `1` indicates that the system uses UTF-16 encoding in type `char16_t`|
-|[i[`__STDC_UTF_32__` macro]]`__STDC_UTF_32__`|A `1` indicates that the system uses UTF-32 encoding in type `char32_t`|
-|[i[`__STDC_ANALYZABLE__` macro]]`__STDC_ANALYZABLE__`|A `1` indicates the code is analyzable^[OK, I know that was a cop-out answer. Basically there's an optional extension compilers can implement wherein they agree to limit certain types of undefined behavior so that the C code is more amenable to static code analysis. It is unlikely you'll need to use this.]|
-|[i[`__STDC_IEC_559__` macro]]`__STDC_IEC_559__`|`1` if IEEE-754 (aka IEC 60559) floating point is supported|
-|[i[`__STDC_IEC_559_COMPLEX__` macro]]`__STDC_IEC_559_COMPLEX__`|`1` if IEC 60559 complex floating point is supported|
-|[i[`__STDC_LIB_EXT1__` macro]]`__STDC_LIB_EXT1__`|`1` if this implementation supports a variety of "safe" alternate standard library functions (they have `_s` suffixes on the name)|
-|[i[`__STDC_NO_ATOMICS__` macro]]`__STDC_NO_ATOMICS__`|`1` if this implementation does **not** support `_Atomic` or `<stdatomic.h>`|
-|[i[`__STDC_NO_COMPLEX__` macro]]`__STDC_NO_COMPLEX__`|`1` if this implementation does **not** support complex types or `<complex.h>`|
-|[i[`__STDC_NO_THREADS__` macro]]`__STDC_NO_THREADS__`|`1` if this implementation does **not** support `<threads.h>`|
-|[i[`__STDC_NO_VLA__` macro]]`__STDC_NO_VLA__`|`1` if this implementation does **not** support variable-length arrays|
+|----------------|--------------------------------------------------|
+|`__STDC_ISO_10646__`|If defined, `wchar_t` holds Unicode values, otherwise something else|
+|`__STDC_MB_MIGHT_NEQ_WC__`|A `1` indicates that the values in multibyte characters might not map equally to values in wide characters|
+|`__STDC_UTF_16__`|A `1` indicates that the system uses UTF-16 encoding in type `char16_t`|
+|`__STDC_UTF_32__`|A `1` indicates that the system uses UTF-32 encoding in type `char32_t`|
+|`__STDC_ANALYZABLE__`|A `1` indicates the code is analyzable^[OK, I know that was a cop-out answer. Basically there's an optional extension compilers can implement wherein they agree to limit certain types of undefined behavior so that the C code is more amenable to static code analysis. It is unlikely you'll need to use this.]|
+|`__STDC_IEC_559__`|`1` if IEEE-754 (aka IEC 60559) floating point is supported|
+|`__STDC_IEC_559_COMPLEX__`|`1` if IEC 60559 complex floating point is supported|
+|`__STDC_LIB_EXT1__`|`1` if this implementation supports a variety of "safe" alternate standard library functions (they have `_s` suffixes on the name)|
+|`__STDC_NO_ATOMICS__`|`1` if this implementation does **not** support `_Atomic` or `<stdatomic.h>`|
+|`__STDC_NO_COMPLEX__`|`1` if this implementation does **not** support complex types or `<complex.h>`|
+|`__STDC_NO_THREADS__`|`1` if this implementation does **not** support `<threads.h>`|
+|`__STDC_NO_VLA__`|`1` if this implementation does **not** support variable-length arrays|
 
 [i[Preprocessor-->predefined macros]>]
 
@@ -1491,10 +1507,12 @@ And the `pragma_name` can be one of these:
 [i[`FP_CONTRACT` pragma]<]
 [i[`CX_LIMITED_RANGE` pragma]<]
 
+[i[`FENV_ACCESS` pragma]]
+
 |Pragma Name|Description|
-|-|-|
+|-------------|--------------------------------------------------|
 |`FP_CONTRACT`|Allow floating point expressions to be contracted into a single operation to avoid rounding errors that might occur from multiple operations.|
-|[i[`FENV_ACCESS` pragma]]`FENV_ACCESS`|Set to `ON` if you plan to access the floating point status flags. If `OFF`, the compiler might perform optimizations that cause the values in the flags to be inconsistent or invalid.|
+|`FENV_ACCESS`|Set to `ON` if you plan to access the floating point status flags. If `OFF`, the compiler might perform optimizations that cause the values in the flags to be inconsistent or invalid.|
 |`CX_LIMITED_RANGE`|Set to `ON` to allow the compiler to skip overflow checks when performing complex arithmetic. Defaults to `OFF`.|
 
 For example:

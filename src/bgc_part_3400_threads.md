@@ -950,12 +950,18 @@ operation, as noted in the table.)
 
 [i[Mutexes-->timeouts]<]
 
+[i[`mtx_plain` macro]]
+[i[`mtx_timed` macro]]
+[i[`mtx_plain` macro]]
+[i[`mtx_timed` macro]]
+[i[`mtx_recursive` macro]]
+
 |Type|Description|
 |-|-|
-|[i[`mtx_plain` macro]]`mtx_plain`|Regular ol' mutex|
-|[i[`mtx_timed` macro]]`mtx_timed`|Mutex that supports timeouts|
-|[i[`mtx_plain` macro]][i[`mtx_recursive` macro]]`mtx_plain|mtx_recursive`|Recursive mutex|
-|[i[`mtx_timed` macro]][i[`mtx_recursive` macro]]`mtx_timed|mtx_recursive`|Recursive mutex that supports timeouts|
+|`mtx_plain`|Regular ol' mutex|
+|`mtx_timed`|Mutex that supports timeouts|
+|`mtx_plain|mtx_recursive`|Recursive mutex|
+|`mtx_timed|mtx_recursive`|Recursive mutex that supports timeouts|
 
 "Recursive" means that the holder of a lock can call `mtx_lock()`
 multiple times on the same lock. (They have to unlock it an equal number

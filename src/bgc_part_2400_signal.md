@@ -28,14 +28,21 @@ these external events occurs.
 What are these events? On your system, there are probably a lot of them,
 but in the C spec there are just a few:
 
+[i[`SIGABRT` signal]]
+[i[`SIGFPE` signal]]
+[i[`SIGILL` signal]]
+[i[`SIGINT` signal]]
+[i[`SIGSEGV` signal]]
+[i[`SIGTERM` signal]]
+
 |Signal|Description|
-|-|-|
-|[i[`SIGABRT` signal]]`SIGABRT`|Abnormal termination---what happens when `abort()` is called.|
-|[i[`SIGFPE` signal]]`SIGFPE`|Floating point exception.|
-|[i[`SIGILL` signal]]`SIGILL`|Illegal instruction.|
-|[i[`SIGINT` signal]]`SIGINT`|Interrupt---usually the result of `CTRL-C` being hit.|
-|[i[`SIGSEGV` signal]]`SIGSEGV`|"Segmentation Violation": invalid memory access.|
-|[i[`SIGTERM` signal]]`SIGTERM`|Termination requested.|
+|-------|--------------------------------------------------------|
+|`SIGABRT`|Abnormal termination---what happens when `abort()` is called.|
+|`SIGFPE`|Floating point exception.|
+|`SIGILL`|Illegal instruction.|
+|`SIGINT`|Interrupt---usually the result of `CTRL-C` being hit.|
+|`SIGSEGV`|"Segmentation Violation": invalid memory access.|
+|`SIGTERM`|Termination requested.|
 
 You can set up your program to ignore, handle, or allow the default
 action for each of these by using the `signal()` function.

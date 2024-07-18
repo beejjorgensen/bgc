@@ -348,46 +348,73 @@ them for brevity.
 
 ### Trigonometry Functions
 
+[i[`ccos()` function]]
+[i[`csin()` function]]
+[i[`ctan()` function]]
+[i[`cacos()` function]]
+[i[`casin()` function]]
+[i[`catan()` function]]
+[i[`ccosh()` function]]
+[i[`csinh()` function]]
+[i[`ctanh()` function]]
+[i[`cacosh()` function]]
+[i[`casinh()` function]]
+[i[`catanh()` function]]
+
 |Function|Description|
 |-|-|
-|[i[`ccos()` function]]`ccos()`|Cosine|
-|[i[`csin()` function]]`csin()`|Sine|
-|[i[`ctan()` function]]`ctan()`|Tangent|
-|[i[`cacos()` function]]`cacos()`|Arc cosine|
-|[i[`casin()` function]]`casin()`|Arc sine|
-|[i[`catan()` function]]`catan()`|Play _Settlers of Catan_|
-|[i[`ccosh()` function]]`ccosh()`|Hyperbolic cosine|
-|[i[`csinh()` function]]`csinh()`|Hyperbolic sine|
-|[i[`ctanh()` function]]`ctanh()`|Hyperbolic tangent|
-|[i[`cacosh()` function]]`cacosh()`|Arc hyperbolic cosine|
-|[i[`casinh()` function]]`casinh()`|Arc hyperbolic sine|
-|[i[`catanh()` function]]`catanh()`|Arc hyperbolic tangent|
+|`ccos()`|Cosine|
+|`csin()`|Sine|
+|`ctan()`|Tangent|
+|`cacos()`|Arc cosine|
+|`casin()`|Arc sine|
+|`catan()`|Play _Settlers of Catan_|
+|`ccosh()`|Hyperbolic cosine|
+|`csinh()`|Hyperbolic sine|
+|`ctanh()`|Hyperbolic tangent|
+|`cacosh()`|Arc hyperbolic cosine|
+|`casinh()`|Arc hyperbolic sine|
+|`catanh()`|Arc hyperbolic tangent|
 
 ### Exponential and Logarithmic Functions
 
+[i[`cexp()` function]]
+[i[`clog()` function]]
+
 |Function|Description|
 |-|-|
-|[i[`cexp()` function]]`cexp()`|Base-$e$ exponential|
-|[i[`clog()` function]]`clog()`|Natural (base-$e$) logarithm|
+|`cexp()`|Base-$e$ exponential|
+|`clog()`|Natural (base-$e$) logarithm|
 
 ### Power and Absolute Value Functions
 
+[i[`cabs()` function]]
+[i[`cpow()` function]]
+[i[`csqrt()` function]]
+
 |Function|Description|
 |-|-|
-|[i[`cabs()` function]]`cabs()`|Absolute value|
-|[i[`cpow()` function]]`cpow()`|Power|
-|[i[`csqrt()` function]]`csqrt()`|Square root|
+|`cabs()`|Absolute value|
+|`cpow()`|Power|
+|`csqrt()`|Square root|
 
 ### Manipulation Functions
 
+[i[`creal()` function]]
+[i[`cimag()` function]]
+[i[`CMPLX()` macro]]
+[i[`carg()` function]]
+[i[`conj()` function]]
+[i[`cproj()` function]]
+
 |Function|Description|
 |-|-|
-|[i[`creal()` function]]`creal()`|Return real part|
-|[i[`cimag()` function]]`cimag()`|Return imaginary part|
-|[i[`CMPLX()` macro]]`CMPLX()`|Construct a complex number|
-|[i[`carg()` function]]`carg()`|Argument/phase angle|
-|[i[`conj()` function]]`conj()`|Conjugate[^4a34]|
-|[i[`cproj()` function]]`cproj()`|Projection on Riemann sphere|
+|`creal()`|Return real part|
+|`cimag()`|Return imaginary part|
+|`CMPLX()`|Construct a complex number|
+|`carg()`|Argument/phase angle|
+|`conj()`|Conjugate[^4a34]|
+|`cproj()`|Projection on Riemann sphere|
 
 [^4a34]: This is the only one that doesn't begin with an extra leading
 `c`, strangely.
