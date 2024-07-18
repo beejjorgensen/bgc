@@ -36,16 +36,18 @@ setting up the function call and tearing it down at the expense of
 larger code size as the function was copied all over the place instead
 of being reused.
 
-That would seem to be the end of the story, but it's not. `inline` comes
-with a whole pile of rules that make for _interesting times_. I'm not
-sure I even understand them all, and behavior seems to vary from
-compiler to compiler.
+The quick-and-dirty things to remember are:
 
-The short answer is define the `inline` function as `static` in the
-file that you need it. And then use it in that one file. And you never
-have to worry about the rest of it.
+1. You probably don't need to use `inline` for speed. Modern compilers
+   know what's best.
 
-But if you're wondering, here are more fun times.
+2. If you do use it for speed, use it with file scope, i.e. `static
+   inline`. This avoids the messy rules of external linkage and inline
+   functions.
+
+Stop reading this section now.
+
+Glutton for punishment, eh?
 
 Let's try leaving the `static` off.
 
@@ -63,155 +65,19 @@ int main(void)
 }
 ```
 
-`gcc` gives a linker error on `add()`... unless you compile with
-optimizations on (probably)!
+`gcc` gives a linker error on `add()`^[Unless you compile with
+optimizations on (probably)! But I think when it does this, it's not
+behaving to spec.]. The spec requires that if you have a non-`extern`
+inline function you must also provide a version with external linkage.
 
-See, a compiler can choose to inline or not, but if it chooses not to,
-you're left with no function at all. `gcc` doesn't inline unless you're
-doing an optimized build.
+So you'd have to have an `extern` version somewhere else for this to
+work. If the compiler has both an `inline` function in the current file
+and an external version of the same function elsewhere, it gets to
+choose which one to call. So I highly recommend they be the same.
 
-One way around this is to define a non-`inline` external linkage version
-of the function elsewhere, and that one will be used when the `inline`
-one isn't. But you as the programmer can't determine which, portably. If
-both are available, it's unspecified which one the compiler chooses.
-With `gcc` the inline function will be used if you're compiling with
-optimizations, and the non-inline one will be used otherwise. Even if
-the bodies of these functions are completely different. Zany!
-
-Another way is to declare the function as `extern inline`. This will attempt to
-inline in this file, but will also create a version with external
-linkage. And so `gcc` will use one or the other depending on
-optimizations, but at least they're the same function.
-
-Unless, of course, you have another source file with an `inline`
-function of the same name; it will use its `inline` function or the one
-with external linkage depending on optimizations.
-
-But let's say you're doing a build where the compiler _is_ inlining the
-function. In that case, you can just use a plain `inline` in the
-definition. However, there are now additional restrictions.
-
-You can't refer to any `static` globals or call any `static` functions:
-
-``` {.c}
-static int b = 13;
-
-inline int add(int x, int y)
-{
-    return x + y + b;  // BAD -- can't refer to b
-}
-```
-
-And you can't define any non-`const` `static` local variables:
-
-``` {.c}
-inline int add(int x, int y)
-{
-    static int b = 13;  // BAD -- can't define static
-
-    return x + y + b;
-}
-```
-
-But making it `const` is OK:
-
-``` {.c}
-inline int add(int x, int y)
-{
-    static const int b = 13;  // OK -- static const
-
-    return x + y + b;
-}
-```
-
-Now, you know the functions are `extern` by default, so we should be
-able to call `add()` from another file. You'd like to think that,
-wouldn't you!
-
-But you can't! If it's just a plain `inline`, it's similar to `static`:
-it's only visible in that file.
-
-Okay, so what if you throw an `extern` on there? Now we're coming full
-circle to when we discussed having `inline` mixed with functions with
-external linkage.
-
-If both are visible, the compiler can choose which to use. 
-
-Let's do a demo of this behavior. We'll have two files, `foo.c` and
-`bar.c`. They'll both call `func()` which is `inline` in `foo.c` and
-external linkage in `bar.c`.
-
-Here's `foo.c` with the `inline`.
-
-``` {.c .numberLines}
-// foo.c
-
-#include <stdio.h>
-
-inline char *func(void)
-{
-    return "foo's function";
-}
-
-int main(void)
-{
-    printf("foo.c: %s\n", func());
-
-    void bar(void);
-    bar();
-}
-```
-
-Recall that unless we're doing an optimized build with `gcc`. `func()`
-will vanish and we'll get a linker error. Unless, or course, we have a
-version with external linkage defined elsewhere.
-
-And we do. In `bar.c`.
-
-``` {.c .numberLines}
-// bar.c
-
-#include <stdio.h>
-
-char *func(void)
-{
-    return "bar's function";
-}
-
-void bar(void)
-{
-    printf("bar.c: %s\n", func());
-}
-
-```
-
-So the question is, what is the output?
-
-Seems like when we call `func()` from `foo.c`, it should print "`foo's function`". And
-from `bar.c`, that `func()` should print "`bar's function`".
-
-And if I compile with `gcc` with optimizations^[You can do this with
-`-O` on the command line.] it will use inline functions, and we'll get
-the expected:
-
-``` {.default}
-foo.c: foo's function
-bar.c: bar's function
-```
-
-Great!
-
-But if we compile in `gcc` without optimizations, it ignores the inline
-function and uses the external linkage `func()` from `bar.c`! And we get
-this:
-
-``` {.default}
-foo.c: bar's function
-bar.c: bar's function
-```
-
-In short, the rules are surprisingly complex. I give myself a good 30%
-chance of having described them correctly.
+Another thing you can do is to declare the function as `extern inline`.
+This will attempt to inline in the same file (for speed), but will also
+create a version with external linkage.
 
 [i[`inline` function specifier]>]
 
