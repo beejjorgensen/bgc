@@ -516,7 +516,7 @@ encoded in the following macros:
 [i[`DECMIAL_DIG` macro]<]
 
 |Macro|Description|
-|-|-|
+|-----------|---------------------------------------------------|
 |`FLT_DECIMAL_DIG`|Number of decimal digits encoded in a `float`.|
 |`DBL_DECIMAL_DIG`|Number of decimal digits encoded in a `double`.|
 |`LDBL_DECIMAL_DIG`|Number of decimal digits encoded in a `long double`.|
