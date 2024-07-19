@@ -35,6 +35,26 @@ You might have to add something like this to your path to find `xelatex`:
 PATH=$PATH:/usr/local/texlive/2021/bin/universal-darwin
 ```
 
+### Dependency: Build System
+
+This depends on an external repo to build: [Beej's Guide Build System
+for Pandoc](https://github.com/beejjorgensen/bgbspd).
+
+You'll want to clone that repo as a sibling to this one:
+
+```
+mystuff-->bggit
+      \-->bgbspd
+```
+
+The Makefiles here will look for the build system there.
+
+You can override the `bgbspd` directory before running `make` like this:
+
+```
+export BGBSPD_BUILD_DIR=/some/path/to/bgbspd
+```
+
 ### Build
 
 1. Type `make` from the top-level directory.
