@@ -199,7 +199,7 @@ types. And we learned that `char` was secretly a small `int` in
 disguise. So we know the `int`s can come in multiple bit sizes.
 
 But there are a couple more integer types we should look at, and the
-_minimum_ minimum and maximum values they can hold.
+_minimum_ and maximum values they can hold.
 
 Yes, I said "minimum" twice. The spec says that these types will hold
 numbers of _at least_ these sizes, so your implementation might be
