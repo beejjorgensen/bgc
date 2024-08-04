@@ -100,7 +100,7 @@ And the array index into memory has a few names:
 * Address
 * _Pointer!_
 
-So a point is an index into memory, somewhere.
+So a pointer is an index into memory, somewhere.
 
 For a random example, say that a number 3490 was stored at address
 ("index") 23,237,489,202. If we have an `int` pointer to that 3490, that
