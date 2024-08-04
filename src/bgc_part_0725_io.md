@@ -6,8 +6,8 @@
 # File Input/Output
 
 [i[File I/O]<]
-We've already seen a some examples of I/O with `printf()` for doing I/O
-at the console.
+We've already seen some examples of I/O with `printf()` for doing I/O at
+the console.
 
 But we'll push those concepts a little farther this chapter.
 
