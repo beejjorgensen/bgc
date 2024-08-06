@@ -1349,7 +1349,7 @@ if (result == thrd_timedout) {
 
 [i[Condition variables-->broadcasting]<]
 
-`cnd_signal()` function]] `cnd_signal()` only wakes up one thread to
+[i[`cnd_signal()` function]>] `cnd_signal()` only wakes up one thread to
 continue working. Depending on how you have your logic done, it might
 make sense to wake up more than one thread to continue once the
 condition is met.
