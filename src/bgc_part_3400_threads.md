@@ -257,8 +257,6 @@ int main(void)
 {
     thrd_t t[THREAD_COUNT];
 
-    int i;
-
     printf("Launching threads...\n");
     for (i = 0; i < THREAD_COUNT; i++)
 
