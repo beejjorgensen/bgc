@@ -448,7 +448,7 @@ a <= b;  // True if a is less than or equal to b
 a >= b;  // True if a is greater than or equal to b
 ```
 
-Don't mix up assignment `=` with comparison `==`! Use two equals to
+Don't mix up assignment `=` with comparison `==` — use two equals to
 compare, one to assign.
 
 We can use the comparison expressions with `if` statements:
