@@ -61,8 +61,8 @@ For example, these types have the corresponding listed meaning:
 [i[`uintN_t` types]<]
 
 ``` {.c}
-int32_t w;        // x is exactly 32 bits, signed
-uint16_t x;       // y is exactly 16 bits, unsigned
+int32_t w;        // w is exactly 32 bits, signed
+uint16_t x;       // x is exactly 16 bits, unsigned
 
 int_least8_t y;   // y is at least 8 bits, signed
 
