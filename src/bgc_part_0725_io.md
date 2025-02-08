@@ -462,6 +462,27 @@ output as bytes:
 05 25 00 58 ff 0c
 ```
 
+> Many Unix systems ship with a program called `hexdump` to do this. You
+> can use it like this with the `-C` ("canonical") switch to get nice
+> output:
+>
+> ``` {.default}
+> $ hexdump -C output.bin
+> 00000000  05 25 00 58 ff 0c                              |.%.X..|
+> ```
+>
+> <!-- ` -->
+>
+> The `00000000` is the offset within the file that this line of output
+> starts on. The `05 25 00 58 ff 0c` are the byte values (and this would
+> be longer (up to 16 bytes per line) if there were more bytes in the
+> file). And on the right between the pipe (`|`) symbols is `hexdump`'s
+> best attempt to print out the characters that correspond to those
+> bytes. It prints a period if the character is unprintable. In this
+> case, since we're just printing random binary data, this part of the
+> output is just garbage. But if we'd printed an ASCII string to the
+> file, we'd see that in there.
+
 And those values in hex do match up to the values (in decimal) that we
 wrote out.
 
