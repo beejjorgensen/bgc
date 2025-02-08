@@ -131,7 +131,7 @@ in the given locale.
 |`char p_sep_by_space`|Determines the separation of the `currency symbol` from the value for non-negative amounts (see below).|
 |`char n_sep_by_space`|Determines the separation of the `currency symbol` from the value for negative amounts (see below).|
 |`char p_sign_posn`|Determines the `positive_sign` position for non-negative values.|
-|`char p_sign_posn`|Determines the `positive_sign` position for negative values.|
+|`char n_sign_posn`|Determines the `positive_sign` position for negative values.|
 |`char *int_curr_symbol`|International currency symbol, e.g. `"USD "`.|
 |`char int_frac_digits`|International value for `frac_digits`.|
 |`char int_p_cs_precedes`|International value for `p_cs_precedes`.|
