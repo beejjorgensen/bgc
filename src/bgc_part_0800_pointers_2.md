@@ -6,6 +6,7 @@
 # Pointers II: Arithmetic {#pointers2}
 
 [i[Pointers-->arithmetic]<]
+
 Time to get more into it with a number of new pointer topics! If you're
 not up to speed with pointers, [check out the first section in the guide
 on the matter](#pointers).
@@ -310,6 +311,7 @@ int my_strlen(char s[])   // Works, too!
 ## `void` Pointers
 
 [i[`void*` void pointer]<]
+
 You've already seen the `void` keyword used with functions, but this is
 an entirely separate, unrelated animal.
 
@@ -321,6 +323,7 @@ I know. Bear with me just a second.
 There are basically two use cases for this.
 
 [i[`memcpy()` function]<]
+
 1. A function is going to operate on something byte-by-byte. For
    example, `memcpy()` copies bytes of memory from one pointer to
    another, but those pointers can point to any type. `memcpy()` takes
@@ -422,6 +425,7 @@ want to copy, you can copy _any type of data_.
 
 Imagine if we didn't have `void*`. We'd have to write specialized
 `memcpy()` functions for each type:
+
 [i[`memcpy()` function]>]
 
 ``` {.c}
@@ -444,6 +448,7 @@ But with great power comes great responsibility. Maybe not _that_ great
 in this case, but there are some limits.
 
 [i[`void*` void pointer-->caveats]<]
+
 1. You cannot do pointer arithmetic on a `void*`.
 2. You cannot dereference a `void*`.
 3. You cannot use the arrow operator on a `void*`, since it's also a
@@ -457,6 +462,7 @@ And if you think about it, these rules make sense. All those operations
 rely on knowing the `sizeof` the type of data pointed to, and with
 `void*`, we don't know the size of the data being pointed to---it could
 be anything!
+
 [i[`void*` void pointer-->caveats]>]
 
 But wait---if you can't dereference a `void*` what good can it ever do

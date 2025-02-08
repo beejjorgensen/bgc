@@ -83,22 +83,29 @@ We're going to don our long-sleeved heavy-duty rubber gloves, grab a
 scalpel, and rip into this thing to see what makes it tick. So, scrub
 up, because here we go. Cutting very gently...
 
-[i[Comments]<]Let's get the easy thing out of the way: anything between
+[i[Comments]<]
+
+Let's get the easy thing out of the way: anything between
 the digraphs `/*` and `*/` is a comment and will be completely ignored
 by the compiler. Same goes for anything on a line after a `//`. This
 allows you to leave messages to yourself and others, so that when you
 come back and read your code in the distant future, you'll know what the
 heck it was you were trying to do. Believe me, you will forget; it
-happens.[i[Comments]>]
+happens.
 
-[i[C Preprocessor]<][i[`#include` directive]<]Now, what is this
-`#include`? GROSS! Well, it tells the C Preprocessor to pull the
-contents of another file and insert it into the code right _there_.
+[i[Comments]>]
+
+[i[C Preprocessor]<]
+[i[`#include` directive]<]
+
+Now, what is this `#include`? GROSS! Well, it tells the C Preprocessor
+to pull the contents of another file and insert it into the code right
+_there_.
 
 Wait---what's a C Preprocessor? Good question. There are two
 stages^[Well, technically there are more than two, but hey, let's
 pretend there are two---ignorance is bliss, right?] to compilation: the
-preprocessor and the compiler. [i[Octothorpe]<]Anything that starts with
+preprocessor and the compiler. [i[Octothorpe]]Anything that starts with
 pound sign, or "octothorpe", (`#`) is something the
 preprocessor[i[Preprocessor]] operates on before the compiler even gets
 started. Common _preprocessor directives_, as they're called, are
@@ -109,7 +116,7 @@ Before we go on, why would I even begin to bother pointing out that a
 pound sign is called an octothorpe? The answer is simple: I think the
 word octothorpe is so excellently funny, I have to gratuitously spread
 its name around whenever I get the opportunity.  Octothorpe. Octothorpe,
-octothorpe, octothorpe.[i[Octothorpe]>]
+octothorpe, octothorpe.
 
 So _anyway_. After the C preprocessor has finished preprocessing
 everything, the results are ready for the compiler to take them and
