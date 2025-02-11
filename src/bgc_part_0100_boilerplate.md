@@ -1,5 +1,5 @@
+# Foreword
 <!-- Beej's guide to C
-
 # vim: ts=4:sw=4:nosi:et:tw=72
 -->
 
@@ -44,8 +44,6 @@
 [is[Tab (is better)==>see `\t` operator]]
 [is[Carriage return==>see `\r` operator]]
 [is[Hexadecimal==>see `0x` hexadecimal]]
-
-# Foreword
 
 > _C is not a big language, and it is not well served by a big book._
 >
