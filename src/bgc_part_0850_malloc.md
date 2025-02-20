@@ -84,7 +84,7 @@ else. As an argument, you pass the same pointer you got from `malloc()`
 you `free()` it.
 
 Let's try. We'll allocate enough memory for an `int`, and then store
-something there, and the print it.
+something there, and then print it.
 
 ``` {.c}
 // Allocate space for a single int (sizeof(int) bytes-worth):
