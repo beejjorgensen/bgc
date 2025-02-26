@@ -86,7 +86,7 @@ enum {
   C=4,  // 4, manually set
   D,    // 5
   E,    // 6
-  F=3   // 3, manually set
+  F=3,  // 3, manually set
   G,    // 4
   H     // 5
 }
