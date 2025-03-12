@@ -123,7 +123,7 @@ char *s = "Hello, world!";
 char t[] = "Hello, again!";
 ```
 
-But these two initializations are subtly different. A string literal, similar to an integer literal, has it's memory automatically managed by the compiler for you! With an integer, i.e. a fixed size piece of data, the compiler can pretty easily manage it. But strings are a variable-byte beast which the compiler tames by tossing into a chunk of memory, and giving you a pointer to it.
+But these two initializations are subtly different. A string literal, similar to an integer literal, has its memory automatically managed by the compiler for you! With an integer, i.e. a fixed size piece of data, the compiler can pretty easily manage it. But strings are a variable-byte beast which the compiler tames by tossing into a chunk of memory, and giving you a pointer to it.
 
 This form points to wherever that string was placed. Typically, that place is in a land faraway from the rest of your program's memory -- read-only memory -- for reasons related to performance & safety.
 
