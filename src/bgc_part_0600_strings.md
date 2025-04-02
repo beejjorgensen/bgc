@@ -125,7 +125,7 @@ char *s = "Hello, world!";
 char t[] = "Hello, again!";
 ```
 
-But these two initializations are subtly different. A string literal, similar to an integer literal, has its memory automatically managed by the compiler for you! With an integer, i.e. a fixed size piece of data, the compiler can pretty easily manage it. But strings are a variable-byte beast which the compiler tames by tossing into a chunk of memory, and giving you a pointer to it.
+But these two initialization s are subtly different. A string literal, similar to an integer literal, has its memory automatically managed by the compiler for you! With an integer, i.e. a fixed size piece of data, the compiler can pretty easily manage it. But strings are a variable-byte beast which the compiler tames by tossing into a chunk of memory, and giving you a pointer to it.
 
 This form points to wherever that string was placed. Typically, that place is in a land faraway from the rest of your program's memory -- read-only memory -- for reasons related to performance & safety.
 
@@ -290,7 +290,9 @@ int main(void)
 ```
 
 If you want to make a copy of a string, you have to copy it a byte at a
-time---but this is made easier with the `strcpy()` function^[There's a
+time—this means that you're going to take the individual bytes of the
+string from one place in memory and duplicate them somewhere else in
+memory. This is made easier with the `strcpy()` function^[There's a
 safer function called `strncpy()` that you should probably use instead,
 but we'll get to that later.].
 
