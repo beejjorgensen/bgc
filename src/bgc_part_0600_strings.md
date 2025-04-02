@@ -84,7 +84,8 @@ int main(void)
     char s[] = "Hello, world!";
 
     for (int i = 0; i < 13; i++)
-        printf("%c\n", s[i]);
+        printf("%c", s[i]);
+    printf("\n");
 }
 ```
 
@@ -102,7 +103,8 @@ int main(void)
     char *s = "Hello, world!";   // char* here
 
     for (int i = 0; i < 13; i++)
-        printf("%c\n", s[i]);    // But still use arrays here...?
+        printf("%c", s[i]);    // But still use arrays here...?
+    printf("\n");
 }
 ```
 
