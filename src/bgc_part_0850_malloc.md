@@ -329,6 +329,14 @@ Also if line 7 is looking weird, with that `sizeof *p` in there,
 remember that `sizeof` works on the size of the type of the expression.
 And the type of `*p` is `float`, so that line is equivalent to
 `sizeof(float)`.
+
+Finally, it might be a little weird that I don't have a `free(new_p)` in
+there anywhere, even though that was the pointer returned by
+`realloc()`. The reason is that we copy `new_p` into `p` on line 23, so
+they both have the same value; that is, they both point to the same
+chunk of memory, and there's only the one chunk. So when I `free()`, I
+could actually free either of them for the same effect.
+
 [i[`realloc()` function]>]
 
 
