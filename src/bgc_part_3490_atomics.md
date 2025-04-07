@@ -846,7 +846,7 @@ clear it again.
 
 ``` {.c}
 #include <stdio.h>
-#include <stdbool.h>
+#include <stdbool.h>   // Not needed in C23
 #include <stdatomic.h>
 
 atomic_flag f = ATOMIC_FLAG_INIT;

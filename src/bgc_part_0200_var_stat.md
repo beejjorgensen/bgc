@@ -209,14 +209,13 @@ if (x) {
 }
 ```
 
-If you `#include <stdbool.h>`[i[`stdbool.h` header file]], you also get
-access to some symbolic names that might make things look more familiar,
-namely a `bool`[i[`bool` type]] type and `true`[i[`true` value]] and
-`false`[i[`false` value]] values:
+In C23, you get actual `bool`, `true`, and `false`. Before that, if you
+have a modern-enough version of C, you can `#include
+<stdbool.h>`[i[`stdbool.h` header file]] to get the same thing.
 
 ``` {.c .numberLines}
 #include <stdio.h>
-#include <stdbool.h>
+#include <stdbool.h>  // not needed in C23
 
 int main(void) {
     bool x = true;
@@ -227,8 +226,27 @@ int main(void) {
 }
 ```
 
-But these are identical to using integer values for true and false.
-They're just a facade to make things look nice.[i[Boolean types]>]
+While technically you should be setting a `bool` variable to `true`,
+`false`, or the result of some expression the evaluates to true or
+false, you can actually convert all kinds of things to `bool`. There are
+some specific rules, but zero-ish things tend to evaluate to `false`,
+and non-zero-ish things to true.
+
+But be careful if you mix and match since the numeric value of `true` is
+`1`, probably[^B1CA], and if you're relying on some other positive value
+to be true, you might get a mismatch. For example:
+
+``` {.c .numberLines}
+printf("%d\n", true == 12);  // Prints "0", false!
+```
+
+[^B1CA]: Technically just one bit of a `char` is used to represent the
+    `bool`, so it can either be zero or one. Except that what goes in
+    the remaining (padding) bits of the `char` is unspecified. For
+    `false`, it must surely be all zero. But for `true`, I'm uncertain
+    that it must all be zero.
+
+[i[Boolean types]>]
 
 ## Operators and Expressions {#operators}
 
