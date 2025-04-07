@@ -8,8 +8,8 @@
 [i[Unicode]<]
 
 Before we begin, note that this is an active area of language
-development in C as it works to get past some, erm, _growing pains_.
-When C2x comes out, updates here are probable.
+development in C as it works to get past some, erm, _growing pains_. Now
+that C23 has come out, updates here are probable.
 
 Most people are basically interested in the deceptively simple question,
 "How do I use such-and-such character set in C?" We'll get to that. But
