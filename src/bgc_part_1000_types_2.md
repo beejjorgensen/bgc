@@ -121,7 +121,7 @@ unsigned char c;  // Definitely unsigned
 
 OK, now, finally, we can figure out the range of numbers if we assume
 that a `char` is 8 bits and your system uses the virtually universal
-two's complement representation for signed and unsigned^[In general, f
+two's complement representation for signed and unsigned^[In general, if
 you have an $n$ bit two's complement number, the signed range is
 $-2^{n-1}$ to $2^{n-1}-1$. And the unsigned range is $0$ to $2^n-1$.].
 
