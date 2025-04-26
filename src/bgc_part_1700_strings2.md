@@ -153,7 +153,7 @@ sits at the exact end of the line in an aesthetically-pleasing way.
 
 [i[`\b` backspace]>]
 
-Note that line 14 also has a lot of spaces at the end to overwrite the
+Note that line 15 also has a lot of spaces at the end to overwrite the
 characters that were already there from the countdown.
 
 Finally, we have a weird `fflush(stdout)` in there, whatever that means.
