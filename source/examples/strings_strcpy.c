@@ -4,7 +4,7 @@
 int main(void)
 {
     char s[] = "Hello, world!";
-    char t[100];  // Each char is one byte, so plenty of room
+    char t[strlen(s)];  // Just enough memory to store the copied string
 
     // This makes a copy of the string!
     strcpy(t, s);
