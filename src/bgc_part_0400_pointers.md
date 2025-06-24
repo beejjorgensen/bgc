@@ -214,8 +214,10 @@ pointers are good for.
 Excellent question, and we'll get to that right after these messages
 from our sponsor.
 
-> `ACME ROBOTIC HOUSING UNIT CLEANING SERVICES. YOUR HOMESTEAD WILL BE
-> DRAMATICALLY IMPROVED OR YOU WILL BE TERMINATED. MESSAGE ENDS.`
+```
+ACME ROBOTIC HOUSING UNIT CLEANING SERVICES. YOUR HOMESTEAD WILL BE
+DRAMATICALLY IMPROVED OR YOU WILL BE TERMINATED. MESSAGE ENDS.
+```
 
 Welcome back to another installment of Beej's Guide. When we met last we
 were talking about how to make use of pointers. Well, what we're going
