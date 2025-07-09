@@ -292,9 +292,15 @@ int main(void)
 If you want to make a copy of a string, you have to copy it a byte at a
 time—this means that you're going to take the individual bytes of the
 string from one place in memory and duplicate them somewhere else in
-memory. This is made easier with the `strcpy()` function^[There's a
-safer function called `strncpy()` that you should probably use instead,
-but we'll get to that later.].
+memory. This is made easier with the `strcpy()` function.[^440b]
+
+[^440b]: There's another function called `strncpy()` that limits the
+    number of bytes copied. Some people say that you should always use
+    `strncpy()` because of the buffer overrun protection. Other people
+    say you should never use `strncpy()` because it won't necessarily
+    terminate your strings, another grotesque footgun. If you want to be
+    really safe, you can write your own version of `strncpy()` that
+    always terminates the string.
 
 Before you copy the string, make sure you have room to copy it into,
 i.e. the destination array that's going to hold the characters needs to
