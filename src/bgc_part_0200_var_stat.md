@@ -227,7 +227,7 @@ int main(void) {
 ```
 
 While technically you should be setting a `bool` variable to `true`,
-`false`, or the result of some expression the evaluates to true or
+`false`, or the result of some expression that evaluates to true or
 false, you can actually convert all kinds of things to `bool`. There are
 some specific rules, but zero-ish things tend to evaluate to `false`,
 and non-zero-ish things to true.
