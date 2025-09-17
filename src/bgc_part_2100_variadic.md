@@ -267,13 +267,14 @@ except it takes an extra argument up front.
 int my_printf(int serial, const char *format, ...)
 {
     va_list va;
+    int rv;
 
     // Do my custom work
     printf("The serial number is: %d\n", serial);
 
     // Then pass the rest off to vprintf()
     va_start(va, format);
-    int rv = vprintf(format, va);
+    rv = vprintf(format, va);
     va_end(va);
 
     return rv;
@@ -300,4 +301,29 @@ forget that!
 
 [i[`va_list` type-->passing to functions]>]
 [i[`va_list` type]>]
+
+## Variadic Macro Gotchas
+
+Like I've mentioned, `va_start()` and `va_end()` could be macros. One of
+the consequences of this might be that they could potentially introduce
+a new local scope. (That is, if `va_start()` has `{` and `va_end()`
+contains `}`.)
+
+[i[`va_start()` macro-->scoping issues]>]
+
+So we need to watch out for potential scoping issues. Take the following
+example:
+
+``` {.c}
+va_start(va, format);          // may contain {
+int rv = vprintf(format, va);
+va_end(va);                    // may contain }
+
+return rv;
+```
+
+If `va_start()` opens a new scope, `rv` will be local to that scope and
+then the `return` statement will fail. But this will insidiously only
+happen on compilers that happen to do that with the `va` macros.
+
 [i[Variadic functions]>]
