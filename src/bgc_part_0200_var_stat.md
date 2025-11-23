@@ -31,7 +31,7 @@ You can think of memory as a big array of bytes^[A "byte" is typically
 an 8-bit binary number. Think of it as an integer that can only hold the
 values from 0 to 255, inclusive. Technically, C allows bytes to be any
 number of bits and if you want to unambiguously refer to an 8-bit
-number, you should use the term _octet_. But programmers are going
+number, you should use the term _octet_. But programmers are going to
 assume you mean 8-bits when you say "byte" unless you specify
 otherwise.]. Data is stored in this "array"^[I'm seriously
 oversimplifying how modern memory works, here. But the mental model
