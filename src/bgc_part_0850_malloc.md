@@ -277,8 +277,8 @@ np = realloc(p, num_floats * sizeof(float));  // Better!
 Let's allocate an array of 20 `float`s, and then change our mind and
 make it an array of 40.
 
-We're going to assign the return value of `realloc()` into another
-pointer just to make sure it's not `NULL`. If it's not, then we can
+We're going to assign the return value of realloc() into another 
+pointer so we can check if it's NULL. If it's not, then we can
 reassign it into our original pointer. (If we just assigned the return
 value directly into the original pointer, we'd lose that pointer if the
 function returned `NULL` and we'd have no way to get it back.)
