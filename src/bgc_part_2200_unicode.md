@@ -625,7 +625,7 @@ And, of course, if you want to convert the other way, it's
 Once we're in wide character land, we have all kinds of functionality at
 our disposal. I'm just going to summarize a bunch of the functions here,
 but basically what we have here are the wide character versions of the
-multibyte string functions that we're use to. (For example, we know
+multibyte string functions that we're used to. (For example, we know
 `strlen()` for multibyte strings; there's a [i[`wcslen()` function]]
 `wcslen()` for wide character strings.)
 
