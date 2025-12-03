@@ -203,7 +203,7 @@ _minimum_ maximum (and _maximum_ minimum) values they can hold.
 
 Yes, I said "minimum maximum". The spec says that these
 types will hold numbers of _at least_ (and _at most_) these sizes, so
-your implementation might be more capable or accommodating. The header
+your implementation might be more capable (but not less!). The header
 file `<limits.h>`defines macros that hold the minimum and maximum integer
 values; rely on that to be sure, and _never hardcode or assume these values_.
 
