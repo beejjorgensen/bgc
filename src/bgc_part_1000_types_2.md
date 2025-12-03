@@ -199,13 +199,13 @@ types. And we learned that `char` was secretly a small `int` in
 disguise. So we know the `int`s can come in multiple bit sizes.
 
 But there are a couple more integer types we should look at, and the
-_minimum_ minimum and maximum values they can hold.
+_minimum_ maximum (and _maximum_ minimum) values they can hold.
 
-Yes, I said "minimum" twice. The spec says that these types will hold
-numbers of _at least_ these sizes, so your implementation might be
-different. The header file `<limits.h>` defines macros that hold the
-minimum and maximum integer values; rely on that to be sure, and _never
-hardcode or assume these values_.
+Yes, I said "minimum maximum". The spec says that these
+types will hold numbers of _at least_ (and _at most_) these sizes, so
+your implementation might be different. The header file `<limits.h>`
+defines macros that hold the minimum and maximum integer values;
+rely on that to be sure, and _never hardcode or assume these values_.
 
 [i[`short` type]<]
 [i[`long` type]<]
