@@ -90,7 +90,7 @@ int *const p = &x;
 *p = 20;   // Set "x" to 20, no problem
 ```
 
-You can also do make both things `const`:
+You can also make both things `const`:
 
 ``` {.c}
 const int *const p;  // Can't modify p or *p!
