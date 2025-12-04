@@ -82,8 +82,8 @@ another value that you've defined.
 
 [i[`#define` directive]<]
 
-We do this with `#define` (often read "pound define"). Here's an
-example:
+We do this with `#define` (often read "pound define", or perhaps "hash
+define", but rarely, if ever, "octothorpe define"). Here's an example:
 
 ``` {.c .numberLines}
 #include <stdio.h>

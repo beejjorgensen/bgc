@@ -106,7 +106,7 @@ Wait---what's a C Preprocessor? Good question. There are two
 stages^[Well, technically there are more than two, but hey, let's
 pretend there are two---ignorance is bliss, right?] to compilation: the
 preprocessor and the compiler. [i[Octothorpe]]Anything that starts with
-pound sign, or "octothorpe", (`#`) is something the
+pound sign, hash symbol, or "octothorpe", (`#`) is something the
 preprocessor[i[Preprocessor]] operates on before the compiler even gets
 started. Common _preprocessor directives_, as they're called, are
 `#include` and `#define`.[i[`#define` directive]] More on that
