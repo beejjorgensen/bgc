@@ -410,6 +410,27 @@ as `a[0]`? Yessss. You're starting to get a glimpse of how arrays and
 pointers are related in C.
 [i[Arrays-->as pointers]>]
 
+Now, one final note. Arrays and pointers are very similar, but not identical!
+They are distinct types. While we could assign the pointer directly
+to the array, we can't assign an array to an array.
+
+``` {.c .numberLines}
+int main(void){
+    int a[3] = {1,2,3};
+    int b[3];
+
+    // error: array type 'int[3]' is not assignable
+    b = a;
+}
+```
+
+Recall, C made the assignment operator ("=") simple: copy the
+bytes from the thing on the right to the thing on the left.
+Copying every element of an array (rather than just a single pointer)
+is expensive. So, C said: "you can't do that!". Well, you can, and there 
+are other more explicit ways to copy entire arrays, but this is C trying
+to make it hard to be accidentally wasteful.
+
 ### Passing Single Dimensional Arrays to Functions {#passing1darrays}
 
 [i[Arrays-->passing to functions]<]
