@@ -29,7 +29,7 @@ ls *.txt
 
 (or `dir` instead of `ls` on a Windows system).
 
-In this case, the command is `ls`, but it arguments are all all files
+In this case, the command is `ls`, but its arguments are all files
 that end with `.txt`^[Historially, MS-DOS and Windows programs would do
 this differently than Unix. In Unix, the shell would _expand_ the
 wildcard into all matching files before your program saw it, whereas the
