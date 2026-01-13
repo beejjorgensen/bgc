@@ -25,9 +25,6 @@ one file, and you want to call them from another.
 This actually works out of the box with a warning... let's first try it
 and then look at the right way to fix the warning.
 
-For these examples, we'll put the filename as the first comment in the
-source.
-
 To compile them, you'll need to specify all the sources on the command
 line:
 
@@ -38,10 +35,11 @@ line:
 gcc -o foo foo.c bar.c
 ```
 
-In that examples, `foo.c` and `bar.c` get built into the executable
+In that example, `foo.c` and `bar.c` get built into the executable
 named `foo`.
 
-So let's take a look at the source file `bar.c`:
+For these examples, we'll put the filename as the first comment in the
+source. Let's take a look at the source file `bar.c`:
 
 ``` {.c .numberLines}
 // File bar.c
@@ -116,8 +114,7 @@ But that's a pain---needing to type in the prototype every time you want
 to use a function. I mean, we used `printf()` right there and didn't
 need to type in a prototype; what gives?
 
-If you remember from what back with `hello.c` at the beginning of the
-book, _we actually did include the prototype for `printf()`_! It's in
+_We actually did include the prototype for `printf()`_! It's in
 the file `stdio.h`! And we included that with `#include`!
 
 Can we do the same with our `add()` function? Make a prototype for it
@@ -125,7 +122,7 @@ and put it in a header file?
 
 Sure!
 
-Header files in C have a `.h` extension by default. And they often, but
+Header files in C have a `.h` extension by convention. And they often, but
 not always, have the same name as their corresponding `.c` file. So
 let's make a `bar.h` file for our `bar.c` file, and we'll stick the
 prototype in it:
@@ -195,6 +192,8 @@ Trying to build such a thing gives an error:
 error: #include nested depth 200 exceeds maximum of 200
 ```
 
+Maybe it would have resolved the cycle on the 201st step...
+
 What we need to do is make it so that if a file gets included once,
 subsequent `#include`s for that file are ignored.
 
@@ -241,11 +240,9 @@ time, no matter how many places try to `#include` it.
 [i[Multifile projects-->`static` storage class]<]
 [i[Multifile projects-->`extern` storage class]<]
 
-When it comes to multifile projects, you can make sure file-scope
-variables and functions are _not_ visible from other source files with
-the `static` keyword.
+You can refer to objects in other files with `extern`.
 
-And you can refer to objects in other files with `extern`.
+You can make sure file-scope variables and functions are _not_ visible from other source files (even if `extern` is used) with the `static` keyword.
 
 For more info, check out the sections in the book on the
 [`static`](#static) and [`extern`](#extern) storage-class specifiers.
@@ -262,8 +259,7 @@ For more info, check out the sections in the book on the
 This isn't part of the spec, but it's 99.999% common in the C world.
 
 You can compile C files into an intermediate representation called
-_object files_. These are compiled machine code that hasn't been put
-into an executable yet.
+_object files_. These are machine code (that is, 1's and 0's) that hasn't been put into an executable yet. And, well, you could say everything is 1's and 0's, and you'd be right. This sequence of 1's and 0's are only meaningful to your CPU as instructions (hence machine code), unlike the sequence of 1's and 0's that constitute your program which are meaningful when interpreted with a text encoding (such as ASCII).
 
 Object files in Windows have a `.OBJ` extension; in Unix-likes, they're
 `.o`.
