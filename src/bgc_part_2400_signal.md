@@ -321,7 +321,10 @@ int main(void)
 [i[`sig_atomic_t` type]>]
 
 Undefined behavior again? It's my read that this is, because we have to
-read the value in order to increment and store it.
+read the value in order to increment and store it. Another thread might
+mess with `count` and make us mad. But in this simple case, there is no
+other thread doing that, so we can excuse the transgression and happily
+enjoy the demo.
 
 If we only want to postpone the exit by one hitting of `CTRL-C`, we can
 do that without too much trouble. But any more postponement would
