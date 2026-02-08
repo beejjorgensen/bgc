@@ -186,6 +186,14 @@ In this way, `printf()` might be similar to various types of format
 strings or parameterized strings in other languages you're familiar
 with.  [i[`printf()` function]>]
 
+***NOTE:*** In the following sections, I just assume that you've
+declared the variables ahead of time. If the example uses integers `i`
+and `j`, just assume somewhere above the example I had:
+
+``` {.c}
+int i, j;
+```
+
 ### Boolean Types
 
 [i[Boolean types]<]C has Boolean types, true or false?
@@ -904,6 +912,7 @@ condition starts off false.
 > }
 > ```
 
+<!-- ` -->
 An empty `for` will run forever:
 
 ``` {.c}
