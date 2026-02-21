@@ -199,7 +199,7 @@ In C, `0` means "false", and non-zero means "true".
 
 So `1` is true. And `-37` is true. And `0` is false.
 
-You can just declare Boolean types as `int`s:
+You can just declare Boolean types as `int`x:
 
 ``` {.c}
 int x = 1;
