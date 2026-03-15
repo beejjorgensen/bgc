@@ -380,7 +380,7 @@ int main(void)
     int *j = &i;  // note the address-of; turns it into a pointer to i
 
     printf("i is %d\n", i);        // prints "10"
-    printf("i is also %d\n", *j);  // prints "10"
+    printf("j is also %d\n", *j);  // prints "10"
 
     increment(j);                  // j is an int*--to i
 
