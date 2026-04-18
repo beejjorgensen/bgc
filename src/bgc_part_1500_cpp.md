@@ -1396,7 +1396,7 @@ values:
 |-|-|
 |`__STDC_EMBED_NOT_FOUND__`|If the file isn't found.|
 |`__STDC_EMBED_FOUND__`|If the file is found and is not empty.|
-|`__STDC_EMBED_EMPTY`|If the file is found and is empty.|
+|`__STDC_EMBED_EMPTY__`|If the file is found and is empty.|
 
 I have good reason to believe that `__STDC_EMBED_NOT_FOUND__` is `0` and
 the others aren't zero (because it's implied in the proposal and it
