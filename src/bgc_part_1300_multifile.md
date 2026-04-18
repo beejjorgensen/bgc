@@ -258,8 +258,9 @@ For more info, check out the sections in the book on the
 
 This isn't part of the spec, but it's 99.999% common in the C world.
 
-You can compile C files into an intermediate representation called
-_object files_. These are machine code (that is, 1's and 0's) that hasn't been put into an executable yet. And, well, you could say everything is 1's and 0's, and you'd be right. This sequence of 1's and 0's is only meaningful to your CPU as instructions (hence machine code), unlike the sequence of 1's and 0's that constitute your program which are meaningful when interpreted with a text encoding (such as ASCII).
+You can compile C files into intermediate representations called _object
+files_. These hold the machine code (that is, 1s and 0s of the actual
+instructions) that haven't been built into an executable yet. 
 
 Object files in Windows have a `.OBJ` extension; in Unix-likes, they're
 `.o`.
