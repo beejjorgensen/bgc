@@ -285,7 +285,7 @@ struct len_string {
 ```
 
 But that has `8` hardcoded as the maximum length of a string, and that's
-not much. What if we did something _clever_ and just `malloc()` some
+not much. What if we did something _clever_ and just `malloc()`d some
 extra space at the end after the struct, and then let the data overflow
 into that space?
 
