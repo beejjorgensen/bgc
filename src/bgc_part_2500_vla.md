@@ -83,7 +83,7 @@ int main(void)
 }
 ```
 
-(On line 7, I have an `fflush()` that should force the line to output
+(On line 8, I have an `fflush()` that should force the line to output
 even though I don't have a newline at the end.)
 
 Line 12 is where we declare the VLA---once execution gets past that
