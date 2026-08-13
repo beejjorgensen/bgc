@@ -137,7 +137,7 @@ There are basically two cases when you'd want to pass a pointer to the
    8 bytes on a 64-bit system.].
 
 For those two reasons, it's far more common to pass a pointer to a
-`struct` to a function, though its by no means illegal to pass the
+`struct` to a function, though it's by no means illegal to pass the
 `struct` itself.
 
 Let's try passing in a pointer, making a function that will allow you to
