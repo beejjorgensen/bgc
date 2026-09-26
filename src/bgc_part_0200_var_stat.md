@@ -1035,17 +1035,46 @@ normal.
 
 Not having a `break` is called _fall through_.
 
-ProTip: _ALWAYS_ put a comment in the code where you intend to fall
+If you're pre-C23, _ALWAYS_ put a comment in the code where you intend to fall
 through, like I did above. It will save other programmers from wondering
-if you meant to do that.
-[i[Fall through]>]
+if you meant to do that. GCC will recognize the comments and suppress
+warnings. 
 
-In fact, this is one of the common places to introduce bugs in C
+Or you could use a non-standard GCC attribute, which I never liked
+because it's ugly and non-standard, but both GCC and Clang recognize
+it:
+
+``` {.c}
+switch (x) {
+    case 1:
+        printf("1\n");
+        __attribute__((fallthrough));
+    case 2:
+        ...
+```
+
+But now, finally, in C23, we have a standard way of doing this with
+attributes:
+
+``` {.c}
+switch (x) {
+    case 1:
+        printf("1\n");
+        [[fallthrough]];
+    case 2:
+        ...
+```
+
+But remember, this is one of the common places to introduce bugs in C
 programs: forgetting to put a `break` in your `case`. You gotta do it if
-you don't want to just roll into the next case^[This was considered
-such a hazard that the designers of the Go Programming Language made
-`break` the default; you have to explicitly use Go's `fallthrough`
-statement if you want to fall into the next case.].
+you don't want to just roll into the next case[^19a1].
+
+[^19a1]: This was considered such a hazard that the designers of the Go
+    Programming Language made `break` the default; you have to
+    explicitly use Go's `fallthrough` statement if you want to fall into
+    the next case.
+
+[i[Fall through]>]
 [i[`break` statement]>]
 
 Earlier I said that `switch` works with integer types---keep it that
