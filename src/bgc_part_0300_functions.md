@@ -228,16 +228,26 @@ legit, officer![i[Function prototypes]>]
 ## Empty Parameter Lists
 
 [i[Empty parameter lists]]
-You might see these from time to time in older code, but you shouldn't
-ever code one up in new code. Always use `void`[i[`void` type]] to
-indicate that a function takes no parameters. There's never^[Never say
-"never".] a reason to skip this in modern code.
+In C23, an empty parameter list in a function definition or prototype
+means exactly the same thing as if you'd typed `void`[i[`void` type]] in
+there.
 
-If you're good at just remembering to put `void` in for empty parameter
-lists in functions and prototypes, you can skip the rest of this
-section.
+``` {.c}
+void foo();
+void foo(void); // Same in C23
+```
 
-There are two contexts for this:
+That said, C code these days still seems to prefer the explicit
+`void`[i[`void` type]] in the parameter list, mostly because pre-C23,
+the behavior of an empty parameter list is notably different. And not in
+a good way.
+
+We'll dig into this now, but the short of it is this: if the code will
+ever be built with a pre-C23 compiler, **always** use `void`[i[`void`
+type]] to represent an empty parameter list in all function
+declarations.
+
+There are two contexts we need to consider.
 
 * Omitting all parameters where the function is defined
 * Omitting all parameters in a prototype
@@ -251,11 +261,12 @@ void foo()  // Should really have a `void` in there
 }
 ```
 
-While the spec spells out that the behavior in this instance is _as-if_
-you'd indicated `void` (C11 §6.7.6.3¶14), the `void` type is there for a
-reason. Use it.
+While the spec says that this indicates the function `foo()` takes no
+parameters, compilers are free to not warn you if you mistakenly pass an
+argument in. And it's undefined behavior if you do. To avoid all that,
+just put `void`[i[`void` type]] in there.
 
-But in the case of a function prototype, there is a _significant_
+In the case of a function prototype, there is a _significant_
 difference between using `void`[i[`void` type-->in function prototypes]]
 and not:
 
@@ -266,9 +277,14 @@ void foo(void);  // Not the same!
 
 Leaving `void` out of the prototype indicates to the compiler that there
 is no additional information about the parameters to the function. It
-effectively turns off all that type checking.
+effectively turns off all that type checking, making `void foo();` not
+a "prototype" at all, really. It's just a forward declaration.
 
-With a prototype **definitely** use `void` when you have an empty
+So, with a prototype **definitely** use `void` when you have an empty
 parameter list.
+
+And, you know, it's just good practice in all cases anyway. Maybe
+someday when all the pre-C23 compilers fall out of use, then we can
+leave it behind.
 
 [i[Functions]>]
