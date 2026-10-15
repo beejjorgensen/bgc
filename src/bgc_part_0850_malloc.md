@@ -255,7 +255,7 @@ over... but it turns out that sometimes you don't need to move anything.
 And there's one function that's just smart enough to do the right thing
 in all the right circumstances: `realloc()`.
 
-It takes a pointer to some previously-allocted memory (by `malloc()` or
+It takes a pointer to some previously-allocated memory (by `malloc()` or
 `calloc()`) and a new size for the memory region to be.
 
 It then grows or shrinks that memory, and returns a pointer to it.
