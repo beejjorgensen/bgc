@@ -489,7 +489,9 @@ frequently-used, and should be made as fast as possible to access. The
 compiler is under no obligation to agree to it.
 
 Now, modern C compiler optimizers are pretty effective at figuring this
-out themselves, so it's rare to see these days.
+out themselves, so it's rare to see these days. There are a few
+arguments for its use, which I've listed below. However, I can honestly
+say I've never used this in any C code I've ever written.
 
 But if you must:
 
@@ -513,33 +515,19 @@ register int a;
 int *p = &a;    // COMPILER ERROR! Can't take address of a register
 ```
 
-The same applies to any part of an array:
+The same applies to any part of an array, since it's undefined behavior
+to treat a `register` array as a pointer. You're allowed to take the
+`sizeof()` one. But that's not exactly a win. Which means `register`
+arrays are basically useless.
+
+GCC and Clang both error on all of the following (except GCC doesn't
+error on `a[2]`, peculiarly, only warning if you specify `-pedantic`):
 
 ``` {.c}
 register int a[] = {11, 22, 33, 44, 55};
-int *p = a;  // COMPILER ERROR! Can't take address of a[0]
-```
-
-Or dereferencing part of an array:
-
-``` {.c}
-register int a[] = {11, 22, 33, 44, 55};
-
-int a = *(a + 2);  // COMPILER ERROR! Address of a[0] taken
-```
-
-Interestingly, for the equivalent with array notation, gcc only warns:
-
-``` {.c}
-register int a[] = {11, 22, 33, 44, 55};
-
-int a = a[2];  // COMPILER WARNING!
-```
-
-with:
-
-``` {.default}
-warning: ISO C forbids subscripting ‘register’ array
+int *p = a;       // Undefined behavior!
+int b = *(a + 2); // Undefined behavior!
+int c = a[2];     // Undefined behavior!
 ```
 
 The fact that you can't take the address of a register variable frees
