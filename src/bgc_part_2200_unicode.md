@@ -342,10 +342,11 @@ tradeoff that's worth it to you.
 There are some caveats, however:
 
 * Things like `strlen()` report the number of bytes in a string, not the
-  number of characters, necessarily. (The [i[`mbstowcs()` function-->with
-  UTF-8]]`mbstowcs()` returns the number of characters in a string when
-  you convert it to wide characters. POSIX extends this so you can pass
-  `NULL` for the first argument if you just want the character count.)
+  number of characters, necessarily. (The [i[`mbstowcs()`
+  function-->with UTF-8]]`mbstowcs()` function returns the number of
+  characters in a string when you convert it to wide characters. POSIX
+  extends this so you can pass `NULL` for the first argument if you just
+  want the character count.)
 
 * The following won't work properly with characters of more than one
   byte: [i[`strtok()` function-->with UTF-8]]`strtok()`, [i[`strchr()`
