@@ -242,7 +242,7 @@ That said, C code these days still seems to prefer the explicit
 the behavior of an empty parameter list is notably different. And not in
 a good way.
 
-We'll dig into this now, but the short of it is this: if the code will
+We'll not dig into this now, but the short of it is this: if the code will
 ever be built with a pre-C23 compiler, **always** use `void`[i[`void`
 type]] to represent an empty parameter list in all function
 declarations.
