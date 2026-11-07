@@ -493,7 +493,7 @@ int x = 10;
 long int y = (long int)x + 12;
 ```
 
-In that example, even those `x` was type `int` before, the expression
+In that example, even though `x` was type `int` before, the expression
 `(long int)x` has type `long int`. We say, "We cast `x` to `long int`."
 
 More commonly, you might see a cast being used to convert a `void*`
