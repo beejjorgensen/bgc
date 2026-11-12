@@ -197,7 +197,7 @@ int main(void)
 {
     int i;
     
-    // We can call foo() here before it's definition because the
+    // We can call foo() here before its definition because the
     // prototype has already been declared, above!
 
     i = foo();
