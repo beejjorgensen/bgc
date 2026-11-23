@@ -226,6 +226,8 @@ guide to their students.
 
 Contact [`beej@beej.us`](beej@beej.us) for more information.
 
+Cover font is Lazenby Computer by Andrew Young.
+
 ## Dedication
 
 The hardest things about writing these guides are:
