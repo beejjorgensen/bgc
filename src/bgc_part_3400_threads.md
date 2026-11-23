@@ -178,7 +178,7 @@ int run(void *arg)
 
     printf("THREAD: Running thread with arg %d\n", *a);
 
-    return 12;  // Value to be picked up by thrd_join() (chose 12 at random)
+    return 12;  // Value to be picked up by thrd_join() (chose 12 randomly)
 }
 
 int main(void)

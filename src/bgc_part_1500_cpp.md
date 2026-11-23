@@ -738,8 +738,8 @@ indicating that there are actually two solutions.
 So let's make macros for both:
 
 ``` {.c}
-#define QUADP(a, b, c) ((-(b) + sqrt((b) * (b) - 4 * (a) * (c))) / (2 * (a)))
-#define QUADM(a, b, c) ((-(b) - sqrt((b) * (b) - 4 * (a) * (c))) / (2 * (a)))
+#define QUADP(a, b, c) ((-(b) + sqrt((b)*(b) - 4 * (a) * (c))) / (2 * (a)))
+#define QUADM(a, b, c) ((-(b) - sqrt((b)*(b) - 4 * (a) * (c))) / (2 * (a)))
 ```
 
 So that gets us some math. But let's define one more that we can use as

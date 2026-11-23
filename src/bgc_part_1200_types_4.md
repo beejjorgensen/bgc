@@ -65,7 +65,7 @@ Somewhat confusingly, these two things are equivalent:
 
 ``` {.c}
 const int *p;  // Can't modify what p points to
-int const *p;  // Can't modify what p points to, just like the previous line
+int const *p;  // Can't modify what p points to, just like above
 ```
 
 Great, so we can't change the thing the pointer points to, but we can
@@ -222,7 +222,7 @@ int main(void)
 
     swap(&x, &y);  // OK! "a" and "b", above, point to different things
 
-    swap(&x, &x);  // Undefined behavior! "a" and "b" point to the same thing
+    swap(&x, &x);  // Undefined behavior! "a" and "b" are the same!
 }
 ```
 
